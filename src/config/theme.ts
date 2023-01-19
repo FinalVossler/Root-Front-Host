@@ -4,6 +4,7 @@ export type Theme = {
   subtleColor: string;
   errorColor: string;
   linkColor: string;
+  borderColor: string;
 };
 
 const theme: Theme = {
@@ -12,6 +13,7 @@ const theme: Theme = {
   subtleColor: "#b8b9b8",
   errorColor: "red",
   linkColor: "blue",
+  borderColor: "#e0e0e0",
 };
 
 export default theme;

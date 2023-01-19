@@ -45,7 +45,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
             </a>
           </li>
           <li className={styles.option}>
-            <a className={styles.optionATag} href="/">
+            <a className={styles.optionATag} href="/submission">
               Typing
             </a>
           </li>

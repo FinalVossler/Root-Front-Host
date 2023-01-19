@@ -5,16 +5,16 @@ import { Theme } from "../../config/theme";
 
 import useStyles from "./button.styles";
 
-interface IInput extends React.PropsWithChildren {
-  onClick?: () => void;
-}
-const Input: React.FunctionComponent<IInput> = (props: IInput) => {
+interface IButton
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    React.PropsWithChildren {}
+const Input: React.FunctionComponent<IButton> = (props: IButton) => {
   const theme: Theme = useTheme();
 
   const styles = useStyles({ theme });
 
   return (
-    <button className={styles.buttonContainer} onClick={props.onClick}>
+    <button className={styles.buttonContainer} {...props}>
       {props.children}
     </button>
   );

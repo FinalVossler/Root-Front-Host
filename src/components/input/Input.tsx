@@ -9,7 +9,7 @@ import useStyles from "./input.styles";
 interface IInput {
   placeholder: string;
   Icon: any;
-  inputProps?: any;
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
   name: string;
   formik: FormikProps<any>;
 }

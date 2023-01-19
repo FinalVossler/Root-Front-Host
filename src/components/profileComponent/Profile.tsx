@@ -9,7 +9,7 @@ import Button from "../button/Button";
 
 import { Theme } from "../../config/theme";
 
-import useStyles from "./Profile.styles";
+import useStyles from "./profile.styles";
 import { IUser, userSlice } from "../../store/slices/userSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import axios from "axios";
@@ -76,7 +76,7 @@ const Profile: React.FunctionComponent<IProfile> = (props: IProfile) => {
     dispatch(userSlice.actions.logout());
   };
   return (
-    <form onSubmit={handleSubmit} className={styles.ProfileContainer}>
+    <form onSubmit={handleSubmit} className={styles.profileContainer}>
       <h2 className={styles.profileTitle}>Profile:</h2>
       <Input
         placeholder="Enter your first name"
