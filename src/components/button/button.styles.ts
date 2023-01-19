@@ -1,0 +1,23 @@
+import { createUseStyles } from "react-jss";
+
+import { Theme } from "../../config/theme";
+
+const useStyles = createUseStyles((theme: Theme) => ({
+  buttonContainer: {
+    display: "flex",
+    backgroundColor: theme.primary,
+    color: "white",
+    border: "none",
+    textAlign: "center",
+    justifyContent: "center",
+    paddingTop: 10,
+    paddingBottom: 10,
+    borderRadius: 5,
+    fontWeight: 600,
+    fontSize: 20,
+    cursor: "pointer",
+  },
+  "@media (max-width: 800px)": {},
+}));
+
+export default useStyles;
