@@ -7,11 +7,13 @@ import { loadStripe } from "@stripe/stripe-js";
 
 import HomePage from "./pages/homePage";
 import ProfilePage from "./pages/profilePage";
+import ChatPage from "./pages/chatPage";
 
-import theme from "./config/theme";
 import useGetAndSetTokenFromLocalStorage from "./hooks/useGetAndSetTokenFromLocalStorage";
 import useGetAndSetUser from "./hooks/useGetAndSetUser";
 import PaymentPage from "./pages/paymentPage";
+
+import theme from "./config/theme";
 
 const stripePromise = loadStripe(
   // @ts-ignore
@@ -40,11 +42,16 @@ function App() {
       path: "/submission",
       element: <PaymentPage />,
     },
+
+    {
+      path: "/chat",
+      element: <ChatPage />,
+    },
   ]);
   return (
     <Elements stripe={stripePromise} options={stripeOptions}>
       <ThemeProvider theme={theme}>
-        <ToastContainer hideProgressBar />
+        <ToastContainer hideProgressBar position="bottom-right" />
 
         <RouterProvider router={router}></RouterProvider>
       </ThemeProvider>

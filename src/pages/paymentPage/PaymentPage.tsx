@@ -19,7 +19,7 @@ const PaymentPage: React.FunctionComponent<IPaymentPage> = (
 
   return (
     <div className={styles.paymentPageContainer}>
-      <Banner />
+      <Banner hideTitle hideDescription />
 
       <br />
       <br />

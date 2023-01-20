@@ -36,9 +36,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: "white",
     textAlign: "center",
     lineHeight: 2,
-    fontWeight: 100,
+    fontWeight: 400,
     opacity: 0.9,
-    maxWidth: 400,
+    maxWidth: theme.formMaxWidth,
     margin: 5,
   },
   cardImage: {

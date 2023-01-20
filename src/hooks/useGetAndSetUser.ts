@@ -17,7 +17,7 @@ const useGetAndSetUser = () => {
 
     axios
       .request<SuccessResponseDto<IUser>>({
-        url: "/users",
+        url: "/users/me",
         method: "GET",
         headers: {
           Authorization: "Bearer " + token,

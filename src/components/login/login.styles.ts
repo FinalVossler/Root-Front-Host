@@ -7,7 +7,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
     margin: "auto",
-    maxWidth: 500,
+    maxWidth: theme.formMaxWidth,
     width: "70%",
     borderRadius: 20,
     padding: 40,

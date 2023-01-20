@@ -3,12 +3,17 @@ import { createUseStyles } from "react-jss";
 import { Theme } from "../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
-  container: {
+  unauthorizedContainer: {
     display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
+    width: "100%",
     flexDirection: "column",
-    minHeight: "100vh",
+    alignItems: "center",
+    marginBottom: 100,
+    justifyContent: "center",
+  },
+  title: {
+    fontSize: 40,
+    marginTop: 100,
   },
 }));
 

@@ -8,10 +8,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
     alignItems: "center",
     width: "100%",
     background: "transparent",
-    height: 350,
     position: "relative",
     flexDirection: "column",
     justifyContent: "center",
+    minHeight: 100,
   },
   bannerImage: {
     backgroundImage: 'url("assets/images/banner.jpeg")',
@@ -37,7 +37,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: "white",
     zIndex: 1,
     margin: 0,
-    marginTop: 50,
+    marginTop: 140,
     textAlign: "center",
   },
   bannerDescription: {
@@ -45,6 +45,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: "white",
     zIndex: 1,
     textAlign: "center",
+    marginBottom: 100,
   },
   "@media (max-width: 800px)": {
     bannerTitle: {

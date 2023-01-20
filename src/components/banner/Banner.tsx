@@ -3,7 +3,12 @@ import { Theme } from "../../config/theme";
 
 import useStyles from "./banner.styles";
 
-interface IBanner {}
+interface IBanner {
+  title?: string;
+  description?: string;
+  hideTitle?: boolean;
+  hideDescription?: boolean;
+}
 const Banner: React.FunctionComponent<IBanner> = (props: IBanner) => {
   const theme: Theme = useTheme();
 
@@ -12,11 +17,17 @@ const Banner: React.FunctionComponent<IBanner> = (props: IBanner) => {
     <div className={styles.bannerContainer}>
       <div className={styles.bannerImage}></div>
       <div className={styles.bannerLayer}></div>
-      <h2 className={styles.bannerTitle}>Socionic type assessment</h2>
-      <p className={styles.bannerDescription}>
-        Socionics. Online personality type test. The official socionics test of
-        Viktor Gulenko.
-      </p>
+      {!props.hideTitle && (
+        <h2 className={styles.bannerTitle}>
+          {props.title ?? "Socionic type assessment"}
+        </h2>
+      )}
+      {!props.hideDescription && (
+        <p className={styles.bannerDescription}>
+          {props.description ??
+            "Socionics. Online personality type test. The official socionics test of Viktor Gulenko"}
+        </p>
+      )}
     </div>
   );
 };

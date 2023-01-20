@@ -50,8 +50,8 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
             </a>
           </li>
           <li className={styles.option}>
-            <a className={styles.optionATag} href="/">
-              Contact
+            <a className={styles.optionATag} href="/chat">
+              Chat
             </a>
           </li>
 

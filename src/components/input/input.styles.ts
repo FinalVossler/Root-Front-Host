@@ -36,6 +36,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   inputError: {
     color: theme.errorColor,
+    marginTop: 5,
   },
   "@media (max-width: 800px)": {},
 }));

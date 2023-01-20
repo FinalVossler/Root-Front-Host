@@ -17,7 +17,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   headerIcon: {
     fontSize: 26,
-    top: 2,
+    top: 0,
     position: "relative",
   },
   headerContainerScrolled: {
@@ -32,7 +32,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   headerTitle: {
     color: theme.primary,
-    fontWeight: 100,
+    fontWeight: 600,
   },
   left: {
     display: "flex",
