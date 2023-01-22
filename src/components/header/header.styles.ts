@@ -22,16 +22,20 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   headerContainerScrolled: {
     extend: "headerContainer",
-    backgroundColor: "white",
+    backgroundColor: theme.lightTextColor,
     boxShadow: "1px 2px 20px 0.1px black",
 
     height: 60,
     "& a": {
       color: "black!important",
     },
+
+    "& h2": {
+      color: "black!important",
+    },
   },
   headerTitle: {
-    color: theme.primary,
+    color: theme.lightTextColor,
     fontWeight: 600,
   },
   left: {
@@ -50,14 +54,14 @@ const useStyles = createUseStyles((theme: Theme) => ({
     listStyle: "none",
   },
   option: {
-    color: "white",
+    color: theme.lightTextColor,
     margin: "20px",
     textDecoration: "none",
     whiteSpace: "nowrap",
 
     "& a": {
       textDecoration: "none",
-      color: "white",
+      color: theme.lightTextColor,
       padding: 10,
       borderRadius: 10,
 

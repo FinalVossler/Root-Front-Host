@@ -9,7 +9,6 @@ import HomePage from "./pages/homePage";
 import ProfilePage from "./pages/profilePage";
 import ChatPage from "./pages/chatPage";
 
-import useGetAndSetTokenFromLocalStorage from "./hooks/useGetAndSetTokenFromLocalStorage";
 import useGetAndSetUser from "./hooks/useGetAndSetUser";
 import PaymentPage from "./pages/paymentPage";
 
@@ -21,7 +20,6 @@ const stripePromise = loadStripe(
 );
 
 function App() {
-  useGetAndSetTokenFromLocalStorage();
   useGetAndSetUser();
 
   const stripeOptions = {

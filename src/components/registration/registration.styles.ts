@@ -17,7 +17,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   registrationTitle: {
     fontSize: 30,
-    color: theme.textColor,
+    color: theme.darkTextColor,
   },
   "@media (max-width: 800px)": {},
 }));

@@ -17,6 +17,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     height: "90%",
     backgroundColor: theme.chatContentBackground,
     display: "flex",
+    position: "relative",
   },
   chatWelcome: {
     display: "flex",
@@ -30,7 +31,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     height: 320,
   },
   welcomeText: {
-    color: "white",
+    color: theme.lightTextColor,
     fontSize: 30,
     marginBottom: 10,
     letterSpacing: 0.1,
@@ -39,9 +40,23 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.chatImportantText,
   },
   chatDirectionText: {
-    color: "white",
+    color: theme.lightTextColor,
     fontSize: 20,
     letterSpacing: 1,
+  },
+  chatButtons: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    position: "absolute",
+    top: "0px",
+    right: 0,
+  },
+  chatButton: {
+    margin: 20,
+    color: theme.chatButtonColor,
+    cursor: "pointer",
+    fontSize: 30,
   },
 }));
 

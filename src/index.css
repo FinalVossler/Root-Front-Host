@@ -11,3 +11,8 @@ body {
 #root {
   min-height: 100vh;
 }
+
+.EmojiPickerReact {
+  position: absolute !important;
+  bottom: 95px;
+}

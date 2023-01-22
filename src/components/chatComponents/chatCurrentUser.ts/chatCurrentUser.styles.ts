@@ -12,6 +12,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     paddingBottom: 20,
     paddingTop: 20,
     backgroundColor: theme.chatCurrentUserColor,
+    cursor: "pointer",
   },
   currentUserAvatar: {
     width: 80,
@@ -22,7 +23,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   currentUserName: {
     fontSize: 20,
-    color: "white",
+    color: theme.lightTextColor,
   },
   "@media (max-width: 800px)": {},
 }));

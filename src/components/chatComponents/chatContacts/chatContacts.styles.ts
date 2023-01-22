@@ -19,7 +19,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     paddingTop: 20,
     paddingBottom: 20,
     fontSize: 20,
-    color: "white",
+    color: theme.lightTextColor,
     textAlign: "center",
   },
   chatContactsListContainer: {

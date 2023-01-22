@@ -34,7 +34,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   bannerTitle: {
     fontSize: 40,
-    color: "white",
+    color: theme.lightTextColor,
     zIndex: 1,
     margin: 0,
     marginTop: 140,
@@ -42,7 +42,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   bannerDescription: {
     fontSize: 20,
-    color: "white",
+    color: theme.lightTextColor,
     zIndex: 1,
     textAlign: "center",
     marginBottom: 100,

@@ -1,6 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IUser } from "./userSlice";
 
+export interface IMessage {
+  _id: string;
+  from: string;
+  to: string[];
+  message: string;
+}
+
 interface IChatState {
   contacts: IUser[];
   selectedContactId?: string;
@@ -19,7 +26,7 @@ export const chatSlice = createSlice({
     },
     setSelectedContactID: (
       state: IChatState,
-      action: PayloadAction<string>
+      action: PayloadAction<string | undefined>
     ) => {
       state.selectedContactId = action.payload;
     },

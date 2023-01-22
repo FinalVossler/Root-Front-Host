@@ -5,6 +5,7 @@ import {
   LOCAL_STORAGE_TOKEN_ITEM_NAME,
   TIME_FORMAT,
 } from "../../config/constants";
+import { toast } from "react-toastify";
 
 export interface IUser {
   _id: string;
@@ -13,7 +14,7 @@ export interface IUser {
   email: string;
 }
 
-export type TokenInformation = null | {
+export type TokenInformation = {
   value: string;
   expiresIn: string;
   lastTokenUpdate: string;
@@ -24,6 +25,29 @@ export interface IUserState {
   tokenInformation: TokenInformation;
 }
 
+// Initializing the token from local storage
+let tokenInformationInStorage: TokenInformation = {
+  expiresIn: "",
+  lastTokenUpdate: "",
+  value: "",
+};
+
+let tokenInformationInStorageAsString = localStorage.getItem(
+  LOCAL_STORAGE_TOKEN_ITEM_NAME
+);
+
+// If we have something stored in the local storage, then we update the state
+if (tokenInformationInStorageAsString) {
+  try {
+    tokenInformationInStorage = JSON.parse(tokenInformationInStorageAsString);
+  } catch (e) {
+    // Oh somebody messed with the our local storage manually (HACKER!)
+    toast.error(
+      "Failed getting a stored token in local storage. Someone messed with your local storage!"
+    );
+  }
+}
+
 const initialState: IUserState = {
   user: {
     _id: "",
@@ -31,11 +55,7 @@ const initialState: IUserState = {
     lastName: "",
     email: "",
   },
-  tokenInformation: {
-    expiresIn: "",
-    lastTokenUpdate: "",
-    value: "",
-  },
+  tokenInformation: tokenInformationInStorage,
 };
 
 export const userSlice = createSlice({

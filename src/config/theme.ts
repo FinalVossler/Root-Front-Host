@@ -1,7 +1,8 @@
 export type Theme = {
+  darkTextColor: string;
+  lightTextColor: string;
   primary: string;
   secondary: string;
-  textColor: string;
   subtleColor: string;
   errorColor: string;
   linkColor: string;
@@ -16,12 +17,17 @@ export type Theme = {
   chatContactsColor: string;
   chatSelectContactBoxColor: string;
   chatCurrentUserColor: string;
+  chatInputBackgroundColor: string;
+  chatOwnMessageColor: string;
+  chatOtherMessageColor: string;
 };
 
 const theme: Theme = {
+  darkTextColor: "#4c4c4d",
+  lightTextColor: "white",
+
   primary: "#e68a91",
   secondary: "#c4656c",
-  textColor: "#4c4c4d",
   subtleColor: "#b8b9b8",
   errorColor: "red",
   linkColor: "blue",
@@ -37,6 +43,9 @@ const theme: Theme = {
   chatContactsColor: "#08041e",
   chatSelectContactBoxColor: "#9086ee",
   chatCurrentUserColor: "#080925",
+  chatInputBackgroundColor: "#3f3c51",
+  chatOwnMessageColor: "#100b30",
+  chatOtherMessageColor: "#1a092f",
 };
 
 export default theme;

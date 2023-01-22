@@ -8,7 +8,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "column",
     width: "100%",
     backgroundColor: "#1d1d1d",
-    color: "white",
+    color: theme.lightTextColor,
     justifyContent: "flex-start",
   },
   top: {
@@ -22,7 +22,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     margin: 30,
   },
   socialMediaTitle: {
-    color: "white",
+    color: theme.lightTextColor,
     fontSize: 20,
     marginBottom: 10,
   },

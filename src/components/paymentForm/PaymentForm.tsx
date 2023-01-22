@@ -54,7 +54,7 @@ const Profile: React.FunctionComponent<IPaymentForm> = (
   const options = {
     style: {
       base: {
-        color: theme.textColor,
+        color: theme.darkTextColor,
         fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
         fontSmoothing: "antialiased",
         fontSize: "16px",

@@ -29,7 +29,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginRight: 20,
   },
   contactName: {
-    color: "white",
+    color: theme.lightTextColor,
     fontSize: 15,
   },
   "@media (max-width: 800px)": {},

@@ -1,7 +1,9 @@
 import React from "react";
 import { useTheme } from "react-jss";
+import { AiFillHome } from "react-icons/ai";
 
 import ChatContacts from "../../components/chatComponents/chatContacts";
+import ChatBox from "../../components/chatComponents/chatBox";
 
 import { Theme } from "../../config/theme";
 import SuccessResponseDto from "../../globalTypes/SuccessResponseDto";
@@ -26,8 +28,6 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    if (!axios) return;
-
     axios
       .request<SuccessResponseDto<IUser[]>>({
         url: "/users",
@@ -37,10 +37,21 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
         dispatch(chatSlice.actions.setContacts(res.data.data));
       });
   }, [axios]);
+
   return (
     <div className={styles.chatPageContainer}>
       <div className={styles.chatPageContent}>
         <ChatContacts />
+
+        <div className={styles.chatButtons}>
+          <a href="/">
+            <AiFillHome className={styles.chatButton} />
+          </a>
+        </div>
+
+        {selectedContactId && (
+          <ChatBox selectedContacts={[selectedContactId, user._id]} />
+        )}
 
         {!selectedContactId && (
           <div className={styles.chatWelcome}>

@@ -26,6 +26,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     paddingLeft: 35,
     fontSize: 17,
     transition: "all .2s ease-int-out",
+    color: theme.darkTextColor,
   },
   inputIcon: {
     position: "absolute",

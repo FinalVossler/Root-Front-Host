@@ -6,7 +6,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   buttonContainer: {
     display: "flex",
     backgroundColor: theme.primary,
-    color: "white",
+    color: theme.lightTextColor,
     border: "none",
     textAlign: "center",
     justifyContent: "center",
