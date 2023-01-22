@@ -21,6 +21,12 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   const theme: Theme = useTheme();
   const styles = useStyles({ theme });
   const axios = useAuthorizedAxios();
+  const scrollToDiv = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    scrollToDiv.current?.scrollIntoView();
+    console.log("scrollToDiv", scrollToDiv);
+  }, [props.selectedContacts, messages]);
 
   React.useEffect(() => {
     axios
@@ -37,6 +43,7 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
       })
       .then((res) => {
         setMessages(res.data.data);
+        scrollToDiv.current?.scrollIntoView();
       });
   }, [props.selectedContacts]);
 
@@ -46,8 +53,9 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
         {messages.map((message) => {
           return <Message message={message} key={message._id} />;
         })}
+        <div ref={scrollToDiv}></div>
       </div>
-      <ChatInput />
+      <ChatInput selectedContacts={props.selectedContacts} />
     </div>
   );
 };

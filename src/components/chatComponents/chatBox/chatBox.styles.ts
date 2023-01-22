@@ -13,6 +13,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flex: 1,
     color: theme.lightTextColor,
     marginTop: 60,
+    display: "flex",
+    flexDirection: "column",
+    overflow: "scroll",
+    alignItems: "flex-start",
   },
   "@media (max-width: 800px)": {},
 }));
