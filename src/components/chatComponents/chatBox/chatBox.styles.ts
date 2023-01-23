@@ -12,7 +12,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   chatMessagesBox: {
     flex: 1,
     color: theme.lightTextColor,
-    marginTop: 60,
+    marginTop: 70,
     display: "flex",
     flexDirection: "column",
     overflow: "scroll",

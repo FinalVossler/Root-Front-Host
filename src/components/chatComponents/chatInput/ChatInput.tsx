@@ -3,6 +3,8 @@ import { useTheme } from "react-jss";
 import EmojiPicker from "emoji-picker-react";
 import { AiOutlineSend } from "react-icons/ai";
 import { HiEmojiHappy } from "react-icons/hi";
+import { socketConnect } from "socket.io-react";
+import { Socket } from "socket.io-client";
 
 import { Theme } from "../../../config/theme";
 
@@ -10,9 +12,14 @@ import useStyles from "./chatInput.styles";
 import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
 import { IUser } from "../../../store/slices/userSlice";
 import { useAppSelector } from "../../../store/hooks";
+import ChatMessagesEnum from "../../../globalTypes/ChatMessagesEnum";
+import { IMessage, MessageSendCommand } from "../../../store/slices/chatSlice";
+import SuccessResponseDto from "../../../globalTypes/SuccessResponseDto";
 
 interface IChatInput {
-  selectedContacts: string[];
+  conversationalists: string[];
+  socket: Socket;
+  handleAddMessage: (message: IMessage) => void;
 }
 
 const ChatBox: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
@@ -34,18 +41,25 @@ const ChatBox: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
   const handleSendMessage = (e) => {
     e.preventDefault();
 
+    if (message.trim() === "") return;
+
+    const messageCommand: MessageSendCommand = {
+      from: user._id,
+      to: props.conversationalists,
+      message,
+    };
+
     axios
-      .request({
+      .request<SuccessResponseDto<IMessage>>({
         method: "POST",
         url: "/messages",
-        data: {
-          from: user._id,
-          to: props.selectedContacts,
-          message,
-        },
+        data: messageCommand,
       })
-      .then(() => {
+      .then((res) => {
         setMessage("");
+        console.log("message", res.data.data);
+        props.handleAddMessage(res.data.data);
+        props.socket.emit(ChatMessagesEnum.Send, res.data.data);
       });
   };
 
@@ -77,4 +91,4 @@ const ChatBox: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
   );
 };
 
-export default React.memo(ChatBox);
+export default React.memo(socketConnect(ChatBox));

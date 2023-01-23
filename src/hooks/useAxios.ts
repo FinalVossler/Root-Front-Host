@@ -24,6 +24,7 @@ const useAxios = () => {
         // If unauthorized, then we logout the user
         if (message == "Unauthorized") {
           dispatch(userSlice.actions.logout());
+          toast.error("Unauthorized");
         } else {
           toast.error(message);
         }

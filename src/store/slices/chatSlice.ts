@@ -8,14 +8,28 @@ export interface IMessage {
   message: string;
 }
 
+export type MessageSendCommand = {
+  from: IMessage["from"];
+  to: IMessage["to"];
+  message: IMessage["message"];
+};
+
+export type Conversation = {
+  // The id of a conversation is the joined state of the sorter array of the conversationalist's ids
+  id: string;
+  messages: IMessage[];
+};
+
 interface IChatState {
   contacts: IUser[];
   selectedContactId?: string;
+  conversations: Conversation[];
 }
 
 const initialState: IChatState = {
   contacts: [],
   selectedContactId: undefined,
+  conversations: [],
 };
 
 export const chatSlice = createSlice({
@@ -29,6 +43,28 @@ export const chatSlice = createSlice({
       action: PayloadAction<string | undefined>
     ) => {
       state.selectedContactId = action.payload;
+    },
+    addMessages: (state: IChatState, action: PayloadAction<IMessage[]>) => {
+      const messages: IMessage[] = action.payload;
+      const conversationId: string = messages[0].to.sort().join();
+      const conversation: Conversation | undefined = state.conversations.find(
+        (el) => el.id === conversationId
+      );
+
+      if (conversation) {
+        // only add new messages
+        messages.forEach((message) => {
+          if (!conversation.messages.some((el) => el._id === message._id)) {
+            conversation.messages.push(message);
+          }
+        });
+      } else {
+        const newConversation: Conversation = {
+          id: conversationId,
+          messages,
+        };
+        state.conversations.push(newConversation);
+      }
     },
   },
   initialState,

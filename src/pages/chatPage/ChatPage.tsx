@@ -1,6 +1,8 @@
 import React from "react";
 import { useTheme } from "react-jss";
 import { AiFillHome } from "react-icons/ai";
+import { socketConnect } from "socket.io-react";
+import { Socket } from "socket.io-client";
 
 import ChatContacts from "../../components/chatComponents/chatContacts";
 import ChatBox from "../../components/chatComponents/chatBox";
@@ -10,12 +12,16 @@ import SuccessResponseDto from "../../globalTypes/SuccessResponseDto";
 import withProtection from "../../hoc/protection";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { chatSlice } from "../../store/slices/chatSlice";
+import { chatSlice, IMessage } from "../../store/slices/chatSlice";
 import { IUser } from "../../store/slices/userSlice";
 
 import useStyles from "./chatPage.styles";
+import ChatMessagesEnum from "../../globalTypes/ChatMessagesEnum";
 
-interface IChat {}
+interface IChat {
+  socket: Socket;
+}
+
 const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
   const user: IUser = useAppSelector((state) => state.user.user);
   const selectedContactId: string | undefined = useAppSelector(
@@ -27,6 +33,7 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
+  // Get the list of contacts
   React.useEffect(() => {
     axios
       .request<SuccessResponseDto<IUser[]>>({
@@ -37,6 +44,15 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
         dispatch(chatSlice.actions.setContacts(res.data.data));
       });
   }, [axios]);
+
+  // Listening to incoming messages
+  React.useEffect(() => {
+    if (!props.socket.on) return;
+
+    props.socket.on(ChatMessagesEnum.Receive, (message: IMessage) => {
+      dispatch(chatSlice.actions.addMessages([message]));
+    });
+  }, [props.socket]);
 
   return (
     <div className={styles.chatPageContainer}>
@@ -50,7 +66,7 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
         </div>
 
         {selectedContactId && (
-          <ChatBox selectedContacts={[selectedContactId, user._id]} />
+          <ChatBox conversationalists={[selectedContactId, user._id]} />
         )}
 
         {!selectedContactId && (
@@ -73,4 +89,4 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
   );
 };
 
-export default withProtection(Chat);
+export default withProtection(socketConnect(Chat));

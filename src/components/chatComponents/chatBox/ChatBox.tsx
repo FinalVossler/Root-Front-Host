@@ -4,17 +4,26 @@ import { useTheme } from "react-jss";
 import { Theme } from "../../../config/theme";
 import SuccessResponseDto from "../../../globalTypes/SuccessResponseDto";
 import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
-import { IMessage } from "../../../store/slices/chatSlice";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { chatSlice, IMessage } from "../../../store/slices/chatSlice";
 import ChatInput from "../chatInput";
 import Message from "../message/Message";
 
 import useStyles from "./chatBox.styles";
 
 interface IChatBox {
-  selectedContacts: string[];
+  conversationalists: string[];
 }
+
 const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
-  const [messages, setMessages] = React.useState<IMessage[]>([]);
+  const messages =
+    useAppSelector(
+      (state) =>
+        state.chat.conversations.find(
+          (el) => el.id === props.conversationalists.sort().join()
+        )?.messages
+    ) || [];
+
   const [page, setPage] = React.useState<number>(1);
   const [limit, setLimit] = React.useState<number>(10);
 
@@ -22,19 +31,21 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   const styles = useStyles({ theme });
   const axios = useAuthorizedAxios();
   const scrollToDiv = React.useRef<HTMLDivElement>(null);
+  const dispatch = useAppDispatch();
 
+  // Scrolling to the bottom of the chat
   React.useEffect(() => {
     scrollToDiv.current?.scrollIntoView();
-    console.log("scrollToDiv", scrollToDiv);
-  }, [props.selectedContacts, messages]);
+  }, [props.conversationalists, messages]);
 
+  // Getting messages
   React.useEffect(() => {
     axios
       .request<SuccessResponseDto<IMessage[]>>({
         method: "POST",
         url: "/messages/get",
         data: {
-          usersIds: props.selectedContacts,
+          usersIds: props.conversationalists,
           paginationCommand: {
             page,
             limit,
@@ -42,10 +53,18 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
         },
       })
       .then((res) => {
-        setMessages(res.data.data);
+        dispatch(chatSlice.actions.addMessages(res.data.data));
+
         scrollToDiv.current?.scrollIntoView();
       });
-  }, [props.selectedContacts]);
+  }, [props.conversationalists]);
+
+  const handleAddMessage = React.useCallback(
+    (message: IMessage) => {
+      dispatch(chatSlice.actions.addMessages([message]));
+    },
+    [messages, dispatch]
+  );
 
   return (
     <div className={styles.chatBoxContainer}>
@@ -55,7 +74,10 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
         })}
         <div ref={scrollToDiv}></div>
       </div>
-      <ChatInput selectedContacts={props.selectedContacts} />
+      <ChatInput
+        conversationalists={props.conversationalists}
+        handleAddMessage={handleAddMessage}
+      />
     </div>
   );
 };

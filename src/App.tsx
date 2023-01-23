@@ -4,6 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import SocketProvider from "./providers/SocketProvider";
 
 import HomePage from "./pages/homePage";
 import ProfilePage from "./pages/profilePage";
@@ -48,11 +49,13 @@ function App() {
   ]);
   return (
     <Elements stripe={stripePromise} options={stripeOptions}>
-      <ThemeProvider theme={theme}>
-        <ToastContainer hideProgressBar position="bottom-right" />
+      <SocketProvider>
+        <ThemeProvider theme={theme}>
+          <ToastContainer hideProgressBar position="bottom-right" />
 
-        <RouterProvider router={router}></RouterProvider>
-      </ThemeProvider>
+          <RouterProvider router={router}></RouterProvider>
+        </ThemeProvider>
+      </SocketProvider>
     </Elements>
   );
 }

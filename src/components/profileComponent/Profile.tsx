@@ -41,6 +41,7 @@ const Profile: React.FunctionComponent<IProfile> = (props: IProfile) => {
       lastName: Yup.string().required("Lastname is required"),
     }),
     onSubmit: (values: IProfileForm) => {
+      setLoading(true);
       axios
         .request<SuccessResponseDto<IUser>>({
           url: process.env.REACT_APP_BACKEND_URL + "/users",
@@ -54,6 +55,9 @@ const Profile: React.FunctionComponent<IProfile> = (props: IProfile) => {
         .then((res) => {
           toast.success("Profile information updated");
           dispatch(userSlice.actions.setUser(res.data.data));
+        })
+        .finally(() => {
+          setLoading(false);
         });
     },
   });
@@ -72,9 +76,6 @@ const Profile: React.FunctionComponent<IProfile> = (props: IProfile) => {
     formik.handleSubmit();
   };
 
-  const handleLogout = () => {
-    dispatch(userSlice.actions.logout());
-  };
   return (
     <form onSubmit={handleSubmit} className={styles.profileContainer}>
       <h2 className={styles.profileTitle}>Profile:</h2>
@@ -92,11 +93,9 @@ const Profile: React.FunctionComponent<IProfile> = (props: IProfile) => {
         formik={formik}
       />
 
-      <Button>Update Profile Information</Button>
+      <Button disabled={loading}>Update Profile Information</Button>
 
       <br />
-
-      <Button onClick={handleLogout}>Logout</Button>
     </form>
   );
 };
