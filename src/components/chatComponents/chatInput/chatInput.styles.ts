@@ -13,7 +13,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   inputAndSendContainer: {
     backgroundColor: theme.chatContentBoxColor,
     display: "flex",
-    alignItems: "flex-end",
+    alignItems: "strech",
     flex: 1,
     marginTop: 10,
     marginBottom: 10,
@@ -46,7 +46,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     cursor: "pointer",
     backgroundColor: theme.chatButtonColor,
     borderRadius: 40,
-    height: 35,
   },
   sendButtonIcon: {
     color: theme.lightTextColor,
