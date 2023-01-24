@@ -44,8 +44,15 @@ export const chatSlice = createSlice({
     ) => {
       state.selectedContactId = action.payload;
     },
-    addMessages: (state: IChatState, action: PayloadAction<IMessage[]>) => {
-      const messages: IMessage[] = action.payload;
+    addMessages: (
+      state: IChatState,
+      action: PayloadAction<{ messages: IMessage[]; new: boolean }>
+    ) => {
+      const messages: IMessage[] = action.payload.messages;
+      if (messages.length === 0) return;
+
+      const fetchingNew: boolean = action.payload.new;
+
       const conversationId: string = messages[0].to.sort().join();
       const conversation: Conversation | undefined = state.conversations.find(
         (el) => el.id === conversationId
@@ -55,7 +62,11 @@ export const chatSlice = createSlice({
         // only add new messages
         messages.forEach((message) => {
           if (!conversation.messages.some((el) => el._id === message._id)) {
-            conversation.messages.push(message);
+            if (fetchingNew) {
+              conversation.messages.push(message);
+            } else {
+              conversation.messages.unshift(message);
+            }
           }
         });
       } else {

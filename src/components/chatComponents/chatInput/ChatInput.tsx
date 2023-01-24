@@ -22,26 +22,54 @@ interface IChatInput {
   handleAddMessage: (message: IMessage) => void;
 }
 
-const ChatBox: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
+const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
   const user: IUser = useAppSelector((state) => state.user.user);
 
-  const [message, setMessage] = React.useState("");
   const [showEmojiPicker, setShowEmojiPicker] = React.useState(false);
 
   const theme: Theme = useTheme();
   const styles = useStyles({ theme });
   const axios = useAuthorizedAxios();
+  const messageRef: React.MutableRefObject<HTMLDivElement | undefined> =
+    React.useRef<HTMLDivElement>();
 
-  const handleMessageChange = (e) => setMessage(e.target.value);
+  // Autofocus the textarea and add the enter event listener logic
+  React.useEffect(() => {
+    messageRef?.current?.focus();
+
+    const enterEvent = (e: any) => {
+      // If we press Enter without shift, then we send the message and prevent the default return to line behavior
+      if (e.which === 13 && !e.shiftKey) {
+        e.preventDefault();
+        handleSendMessage();
+      }
+    };
+
+    messageRef.current?.addEventListener("keypress", enterEvent);
+
+    return () => {
+      messageRef.current?.removeEventListener("keypress", enterEvent);
+    };
+  }, [messageRef.current, props.conversationalists]);
+
+  //#region Listeners
   const handleShowEmojiPicker = () => setShowEmojiPicker(!showEmojiPicker);
+
   const handleEmojiClick = (e) => {
     if (e.emoji === "🫠" || e.emoji === undefined) return;
-    setMessage(message + e.emoji);
+    if (messageRef.current?.innerHTML !== undefined) {
+      messageRef.current.innerHTML = messageRef.current.innerHTML + e.emoji;
+    }
   };
-  const handleSendMessage = (e) => {
-    e.preventDefault();
 
-    if (message.trim() === "") return;
+  const handleSendMessage = (
+    e: React.FormEvent<HTMLFormElement> | null = null
+  ) => {
+    e?.preventDefault();
+
+    const message: string | undefined = messageRef?.current?.innerHTML;
+
+    if (!message || message.trim() === "") return;
 
     const messageCommand: MessageSendCommand = {
       from: user._id,
@@ -56,12 +84,15 @@ const ChatBox: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
         data: messageCommand,
       })
       .then((res) => {
-        setMessage("");
-        console.log("message", res.data.data);
-        props.handleAddMessage(res.data.data);
-        props.socket.emit(ChatMessagesEnum.Send, res.data.data);
+        const message: IMessage = res.data.data;
+        props.handleAddMessage(message);
+        props.socket.emit(ChatMessagesEnum.Send, message);
+        if (messageRef.current?.innerHTML) {
+          messageRef.current.innerHTML = "";
+        }
       });
   };
+  //#endregion Listeners
 
   return (
     <div className={styles.chatInputContainer}>
@@ -78,11 +109,12 @@ const ChatBox: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
         onSubmit={handleSendMessage}
         className={styles.inputAndSendContainer}
       >
-        <input
-          onChange={handleMessageChange}
-          value={message}
+        <div
+          ref={messageRef as React.RefObject<HTMLDivElement>}
           className={styles.chatInput}
-        />
+          contentEditable
+          suppressContentEditableWarning={true}
+        ></div>
         <button className={styles.sendButton}>
           <AiOutlineSend className={styles.sendButtonIcon} />
         </button>
@@ -91,4 +123,4 @@ const ChatBox: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
   );
 };
 
-export default React.memo(socketConnect(ChatBox));
+export default React.memo(socketConnect(ChatInput));

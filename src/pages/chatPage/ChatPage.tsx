@@ -50,7 +50,9 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
     if (!props.socket.on) return;
 
     props.socket.on(ChatMessagesEnum.Receive, (message: IMessage) => {
-      dispatch(chatSlice.actions.addMessages([message]));
+      dispatch(
+        chatSlice.actions.addMessages({ messages: [message], new: true })
+      );
     });
   }, [props.socket]);
 

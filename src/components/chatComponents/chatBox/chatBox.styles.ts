@@ -18,6 +18,24 @@ const useStyles = createUseStyles((theme: Theme) => ({
     overflow: "scroll",
     alignItems: "flex-start",
   },
+  loadMoreButtonContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+  },
+  loadMoreButton: {
+    backgroundColor: theme.chatButtonColor,
+    border: "none",
+
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+    color: theme.lightTextColor,
+    width: 60,
+    borderRadius: 10,
+  },
   "@media (max-width: 800px)": {},
 }));
 
