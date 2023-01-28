@@ -8,12 +8,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
     alignItems: "center",
     justifyContent: "space-around",
     width: "100%",
-    background: "transparent",
+    backgroundColor: theme.transparentBackground,
+
     position: "fixed",
     top: "0%",
     zIndex: 2,
     transition: "all .2s ease-in-out",
-    height: 100,
+    height: 80,
   },
   headerIcon: {
     fontSize: 26,
@@ -22,16 +23,17 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   headerContainerScrolled: {
     extend: "headerContainer",
-    backgroundColor: theme.lightTextColor,
+    backgroundColor: theme.backgroundColor,
+
     boxShadow: "1px 2px 20px 0.1px black",
 
     height: 60,
     "& a": {
-      color: "black!important",
+      color: theme.lightTextColor,
     },
 
     "& h2": {
-      color: "black!important",
+      color: theme.lightTextColor,
     },
   },
   headerTitle: {

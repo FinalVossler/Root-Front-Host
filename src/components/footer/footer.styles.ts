@@ -7,7 +7,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
     width: "100%",
-    backgroundColor: "#1d1d1d",
+    backgroundColor: theme.contentBackgroundColor,
     color: theme.lightTextColor,
     justifyContent: "flex-start",
   },

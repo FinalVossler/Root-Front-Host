@@ -5,13 +5,13 @@ import { Theme } from "../../../config/theme";
 const useStyles = createUseStyles((theme: Theme) => ({
   chatCurrentUserContainer: {
     display: "flex",
-    height: 100,
+    height: 120,
     width: "100%",
     alignItems: "center",
     boxSizing: "border-box",
     paddingBottom: 20,
     paddingTop: 20,
-    backgroundColor: theme.chatCurrentUserColor,
+    backgroundColor: theme.backgroundColor,
     cursor: "pointer",
   },
   currentUserAvatar: {
@@ -23,7 +23,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   defaultAvatar: {
     extend: "currentUserAvatar",
-    color: theme.chatButtonColor,
+    color: theme.primary,
   },
   currentUserName: {
     fontSize: 20,

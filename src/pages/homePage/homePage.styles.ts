@@ -8,7 +8,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "100%",
     flexDirection: "column",
     alignItems: "center",
-    marginBottom: 100,
+    paddingBottom: 100,
+    backgroundColor: theme.backgroundColor,
   },
   content: {
     maxWidth: 1100,

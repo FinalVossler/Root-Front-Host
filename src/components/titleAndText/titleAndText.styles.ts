@@ -14,7 +14,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   title: {
     fontSize: 30,
-    color: theme.darkTextColor,
+    color: theme.primary,
   },
   decorationContainer: {
     display: "flex",
@@ -36,7 +36,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     fontSize: 20,
     textAlign: "center",
     maxWidth: "70%",
-    color: theme.darkTextColor,
+    color: theme.lightTextColor,
   },
 }));
 

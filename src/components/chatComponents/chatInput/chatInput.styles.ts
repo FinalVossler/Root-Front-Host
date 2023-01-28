@@ -11,7 +11,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     boxSizing: "border-box",
   },
   inputAndSendContainer: {
-    backgroundColor: theme.chatContentBoxColor,
+    backgroundColor: theme.boxColor,
     display: "flex",
     alignItems: "strech",
     flex: 1,
@@ -47,7 +47,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     alignItems: "center",
     justifyContent: "center",
     cursor: "pointer",
-    backgroundColor: theme.chatButtonColor,
+    backgroundColor: theme.primary,
     borderRadius: 40,
     position: "sticky",
     top: "0px",
@@ -61,7 +61,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     position: "absolute",
   },
   emojiButton: {
-    color: theme.chatButtonColor,
+    color: theme.primary,
     fontSize: 35,
     cursor: "pointer",
     margin: 10,

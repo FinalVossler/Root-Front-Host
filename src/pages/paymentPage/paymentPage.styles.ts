@@ -7,6 +7,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
     width: "100%",
+    backgroundColor: theme.backgroundColor,
+    flex: 1,
   },
 }));
 

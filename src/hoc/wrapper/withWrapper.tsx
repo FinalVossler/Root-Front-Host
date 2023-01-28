@@ -7,7 +7,7 @@ import Footer from "../../components/footer";
 import useStyles from "./withWrapper.styles";
 
 const withWrapper =
-  (Component: any): React.FunctionComponent<any> =>
+  (Component: any, withFooter: boolean = true): React.FunctionComponent<any> =>
   (props: any) => {
     const theme: Theme = useTheme();
 
@@ -16,7 +16,7 @@ const withWrapper =
       <div className={styles.container}>
         <Header />
         <Component {...props} />
-        <Footer />
+        {withFooter && <Footer />}
       </div>
     );
   };

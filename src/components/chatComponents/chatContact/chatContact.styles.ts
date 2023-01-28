@@ -7,7 +7,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "row",
     position: "relative",
-    backgroundColor: theme.chatContentBoxColor,
+    backgroundColor: theme.boxColor,
     height: 80,
     alignItems: "center",
     padding: 10,
@@ -20,7 +20,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   chatSelectedContactContainer: {
     extend: "chatContactContainer",
-    backgroundColor: theme.chatSelectContactBoxColor,
+    backgroundColor: theme.primary,
   },
   chatAvatar: {
     width: 50,
@@ -30,7 +30,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   defaultAvatar: {
     extend: "chatAvatar",
-    color: theme.chatButtonColor,
+    color: theme.primary,
   },
   contactName: {
     color: theme.lightTextColor,
@@ -43,8 +43,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   notificationIcon: {
     position: "absolute",
-    color: theme.chatButtonColor,
-    backgroundColor: theme.chatBackground,
+    color: theme.primary,
+    backgroundColor: theme.backgroundColor,
     borderRadius: 10,
     padding: 5,
   },

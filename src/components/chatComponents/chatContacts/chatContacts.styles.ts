@@ -8,7 +8,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "column",
     justifyContent: "space-between",
     position: "relative",
-    backgroundColor: theme.chatContactsColor,
+    backgroundColor: theme.subContentBackgroundColor,
     height: "100%",
     width: 350,
   },

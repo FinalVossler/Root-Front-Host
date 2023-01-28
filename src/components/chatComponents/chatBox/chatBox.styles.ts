@@ -25,7 +25,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "100%",
   },
   loadMoreButton: {
-    backgroundColor: theme.chatButtonColor,
+    backgroundColor: theme.primary,
     border: "none",
 
     display: "flex",

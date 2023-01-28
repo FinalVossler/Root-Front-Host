@@ -12,7 +12,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderRadius: 20,
     padding: 40,
     paddingTop: 10,
-    boxShadow: "0.1px 0.01px 30px 0.3px #e4e4e4",
+    backgroundColor: theme.contentBackgroundColor,
     paddingBottom: 40,
   },
   paymentFormTitle: {
@@ -22,8 +22,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   productName: {
     margin: "0px",
-    color: theme.subtleColor,
-    fontSize: 15,
+    color: theme.primary,
+    fontSize: 17,
   },
   inputsContainer: {
     margin: "20px 0px",
@@ -38,6 +38,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flex: 1,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
+    backgroundColor: theme.boxColor,
+    color: theme.lightTextColor,
+
+    "&::placeholder": {
+      color: theme.lightTextColor,
+    },
   },
   cardInput: {
     extend: "nameInput",

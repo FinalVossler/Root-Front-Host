@@ -7,18 +7,22 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
     width: "100%",
+    backgroundColor: theme.backgroundColor,
   },
   switchFormContainer: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    color: theme.lightTextColor,
   },
   switchFormButton: {
-    color: theme.linkColor,
+    color: theme.primary,
     border: "none",
     backgroundColor: "transparent",
     cursor: "pointer",
+    fontWeight: "bold",
+    fontSize: 20,
   },
 }));
 

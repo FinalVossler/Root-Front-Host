@@ -17,6 +17,8 @@ import { IUser } from "../../store/slices/userSlice";
 
 import useStyles from "./chatPage.styles";
 import ChatMessagesEnum from "../../globalTypes/ChatMessagesEnum";
+import withWrapper from "../../hoc/wrapper";
+import Banner from "../../components/banner";
 
 interface IChat {
   socket: Socket;
@@ -101,4 +103,4 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
   );
 };
 
-export default withProtection(socketConnect(Chat));
+export default withWrapper(withProtection(socketConnect(Chat)), false);

@@ -20,6 +20,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     transition: "all .2s ease-in-out",
     borderRadius: 10,
     overflow: "hidden",
+    zIndex: 1,
 
     "&:hover": {
       boxShadow: "1px 2px 20px 15px black",

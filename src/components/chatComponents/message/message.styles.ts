@@ -7,7 +7,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    backgroundColor: theme.chatOwnMessageColor,
+    backgroundColor: theme.secondary,
     padding: 20,
     marginBottom: 10,
     borderRadius: 10,
@@ -15,7 +15,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   otherMessageContainer: {
     extend: "messageContainer",
-    backgroundColor: theme.chatOtherMessageColor,
+    backgroundColor: theme.primary,
     alignSelf: "flex-end",
     marginRight: 20,
   },

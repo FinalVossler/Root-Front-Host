@@ -8,12 +8,14 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "100%",
     flexDirection: "column",
     alignItems: "center",
-    marginBottom: 100,
     justifyContent: "center",
+    flex: 1,
+    backgroundColor: theme.backgroundColor,
   },
   title: {
     fontSize: 40,
     marginTop: 100,
+    color: theme.lightTextColor,
   },
 }));
 

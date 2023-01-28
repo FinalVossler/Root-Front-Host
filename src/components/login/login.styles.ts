@@ -12,12 +12,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderRadius: 20,
     padding: 40,
     paddingTop: 10,
-    boxShadow: "0.1px 0.01px 30px 0.3px #e4e4e4",
     paddingBottom: 40,
+    backgroundColor: theme.contentBackgroundColor,
   },
   loginTitle: {
     fontSize: 30,
-    color: theme.darkTextColor,
+    color: theme.primary,
   },
   "@media (max-width: 800px)": {},
 }));

@@ -83,6 +83,8 @@ const Profile: React.FunctionComponent<IProfile> = (props: IProfile) => {
 
       <ProfilePictureUpload />
 
+      <br />
+
       <form onSubmit={handleSubmit}>
         <Input
           placeholder="Enter your first name"
