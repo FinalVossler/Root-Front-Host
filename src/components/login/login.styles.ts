@@ -14,6 +14,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     paddingTop: 10,
     paddingBottom: 40,
     backgroundColor: theme.contentBackgroundColor,
+    marginBottom: 0,
+    marginTop: 50,
   },
   loginTitle: {
     fontSize: 30,

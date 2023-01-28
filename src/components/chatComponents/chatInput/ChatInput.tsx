@@ -5,6 +5,13 @@ import { AiOutlineSend } from "react-icons/ai";
 import { HiEmojiHappy } from "react-icons/hi";
 import { socketConnect } from "socket.io-react";
 import { Socket } from "socket.io-client";
+import {
+  AiFillFileAdd,
+  AiFillFilePdf,
+  AiFillFileImage,
+  AiFillProfile,
+} from "react-icons/ai";
+import { ImCross } from "react-icons/im";
 
 import { Theme } from "../../../config/theme";
 
@@ -30,12 +37,15 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
   const user: IUser = useAppSelector((state) => state.user.user);
 
   const [showEmojiPicker, setShowEmojiPicker] = React.useState(false);
+  const [files, setFiles] = React.useState<File[]>([]);
 
   const theme: Theme = useTheme();
   const styles = useStyles({ theme });
   const axios = useAuthorizedAxios();
   const messageRef: React.MutableRefObject<HTMLDivElement | undefined> =
     React.useRef<HTMLDivElement>();
+  const fileRef: React.MutableRefObject<HTMLInputElement | undefined> =
+    React.useRef<HTMLInputElement>();
 
   // Autofocus the textarea and add the enter event listener logic
   React.useEffect(() => {
@@ -98,10 +108,40 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
         }
       });
   };
+
+  const handleFileClick = () => {
+    if (fileRef.current) {
+      fileRef.current.click();
+    }
+  };
+
+  const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files?.length > 0) {
+      const newFiles: File[] = Array.from(event.target.files);
+
+      setFiles(files.concat(newFiles));
+    }
+  };
+
+  const handleRemoveFile = (index) => {
+    if (files.length > index) {
+      const newFiles: File[] = [...files];
+      newFiles.splice(index, 1);
+      setFiles(newFiles);
+    }
+  };
   //#endregion Listeners
 
   return (
     <div className={styles.chatInputContainer}>
+      <AiFillFileAdd onClick={handleFileClick} className={styles.filesButton} />
+      <input
+        type="file"
+        hidden
+        ref={fileRef as React.RefObject<HTMLInputElement>}
+        onChange={onFileChange}
+        multiple
+      />
       <HiEmojiHappy
         onClick={handleShowEmojiPicker}
         className={styles.emojiButton}
@@ -115,6 +155,31 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
         onSubmit={handleSendMessage}
         className={styles.inputAndSendContainer}
       >
+        {files.length > 0 && (
+          <div className={styles.filesContainer}>
+            {files.map((file, index) => {
+              return (
+                <div key={index} className={styles.singleFileContainer}>
+                  {file.type.indexOf("pdf") !== -1 && (
+                    <AiFillFilePdf className={styles.fileIcon} />
+                  )}
+                  {file.type.indexOf("image") !== -1 && (
+                    <AiFillFileImage className={styles.fileIcon} />
+                  )}
+                  {file.type.indexOf("image") !== -1 &&
+                    file.type.indexOf("pdf") !== -1 && (
+                      <AiFillProfile className={styles.fileIcon} />
+                    )}
+
+                  <ImCross
+                    onClick={() => handleRemoveFile(index)}
+                    className={styles.fileDeleteButton}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        )}
         <div
           ref={messageRef as React.RefObject<HTMLDivElement>}
           className={styles.chatInput}

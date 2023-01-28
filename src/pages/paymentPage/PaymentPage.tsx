@@ -1,7 +1,6 @@
 import React from "react";
 import { useTheme } from "react-jss";
 
-import Banner from "../../components/banner";
 import PaymentForm from "../../components/paymentForm";
 
 import { Theme } from "../../config/theme";
@@ -19,8 +18,6 @@ const PaymentPage: React.FunctionComponent<IPaymentPage> = (
 
   return (
     <div className={styles.paymentPageContainer}>
-      <Banner hideTitle hideDescription />
-
       <br />
       <br />
 

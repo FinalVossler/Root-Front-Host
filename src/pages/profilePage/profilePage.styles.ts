@@ -8,6 +8,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "column",
     width: "100%",
     backgroundColor: theme.backgroundColor,
+    flex: 1,
   },
   switchFormContainer: {
     display: "flex",

@@ -73,6 +73,40 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "100%",
     height: "100%",
   },
+  filesButton: {
+    extend: "emojiButton",
+    marginRight: -2,
+  },
+  filesContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    overflow: "scroll",
+    paddingLeft: 20,
+    maxWidth: "15%",
+    flexWrap: "wrap",
+  },
+  singleFileContainer: {
+    height: 40,
+    width: 30,
+    margin: 5,
+    display: "flex",
+    alignItems: "center",
+    position: "relative",
+  },
+  fileIcon: {
+    height: "auto",
+    width: "100%",
+    color: theme.primary,
+  },
+  fileDeleteButton: {
+    position: "absolute",
+    color: theme.secondary,
+    right: -5,
+    top: -2,
+    fontSize: 13,
+    cursor: "pointer",
+  },
   "@media (max-width: 800px)": {},
 }));
 

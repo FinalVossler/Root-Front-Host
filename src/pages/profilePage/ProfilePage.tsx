@@ -4,7 +4,6 @@ import { useTheme } from "react-jss";
 import Registration from "../../components/registration";
 import Login from "../../components/login";
 import ProfileComponent from "../../components/profileComponent";
-import Banner from "../../components/banner";
 
 import { Theme } from "../../config/theme";
 
@@ -40,8 +39,11 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
 
   return (
     <div className={styles.profilePageContainer}>
-      <Banner />
-
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <br />
       <br />
 
