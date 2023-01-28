@@ -14,6 +14,7 @@ import useGetAndSetUser from "./hooks/useGetAndSetUser";
 import PaymentPage from "./pages/paymentPage";
 
 import theme from "./config/theme";
+import useNotifications from "./hooks/useNotifications";
 
 const stripePromise = loadStripe(
   // @ts-ignore
@@ -22,6 +23,7 @@ const stripePromise = loadStripe(
 
 function App() {
   useGetAndSetUser();
+  useNotifications();
 
   const stripeOptions = {
     // @ts-ignore

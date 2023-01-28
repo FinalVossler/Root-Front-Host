@@ -1,0 +1,129 @@
+import React from "react";
+import { useTheme } from "react-jss";
+import { UploadcareFile, UploadClient } from "@uploadcare/upload-client";
+import { CgProfile } from "react-icons/cg";
+import ReactLoading from "react-loading";
+
+import Button from "../button";
+import { Theme } from "../../config/theme";
+
+import useStyles from "./profilePictureUpload.styles";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
+import SuccessResponseDto from "../../globalTypes/SuccessResponseDto";
+import { IUser, userSlice } from "../../store/slices/userSlice";
+import { toast } from "react-toastify";
+import Picture from "../../globalTypes/Picture";
+
+interface IProfilePictureUpload {}
+const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
+  props: IProfilePictureUpload
+) => {
+  const profilePicture: Picture | undefined = useAppSelector<
+    Picture | undefined
+  >((state) => state.user.user.profilePicture);
+
+  const [file, setFile] = React.useState<File | null>(null);
+  const [fileAsBase64, setFileAsBase64] = React.useState<string | null>(null);
+  const [loading, setLoading] = React.useState(false);
+
+  const theme: Theme = useTheme();
+  const inputRef = React.useRef<HTMLInputElement>();
+  const axios = useAuthorizedAxios();
+  const dispatch = useAppDispatch();
+
+  const styles = useStyles({ theme });
+
+  const handleTriggerInput = () => {
+    inputRef.current?.click();
+  };
+
+  const handleUpload = async () => {
+    if (file === null) return toast.error("Upload a new picture first");
+
+    const client = new UploadClient({
+      //@ts-ignore
+      publicKey: process.env.REACT_APP_UPLOAD_CARE_PUBLIC_KEY,
+    });
+
+    setLoading(true);
+
+    const uploadResult: UploadcareFile = await client.uploadFile(file);
+    if (uploadResult.cdnUrl) {
+      const newProfilePicture: Picture = {
+        url: uploadResult.cdnUrl,
+        uuid: uploadResult.uuid,
+      };
+
+      axios
+        .request<SuccessResponseDto<IUser>>({
+          method: "PUT",
+          url: "/users/updateProfilePicture",
+          data: newProfilePicture,
+        })
+        .then((res) => {
+          const newUser: IUser = res.data.data;
+          dispatch(userSlice.actions.setUser(newUser));
+        })
+        .finally(() => {
+          setLoading(false);
+          setFile(null);
+          setFileAsBase64(null);
+        });
+    } else {
+      setLoading(false);
+    }
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files?.length > 0) {
+      const file: File = event.target.files[0];
+      setFile(file);
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          setFileAsBase64(event.target.result as string);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  return (
+    <div className={styles.profilePictureUploadContainer}>
+      {(profilePicture?.url || fileAsBase64) && !loading && (
+        <img
+          className={styles.profilePicture}
+          onClick={handleTriggerInput}
+          src={fileAsBase64 ? fileAsBase64 : profilePicture?.url}
+        />
+      )}
+      {!profilePicture?.url && !fileAsBase64 && !loading && (
+        <CgProfile
+          onClick={handleTriggerInput}
+          className={styles.defaultIcon}
+        />
+      )}
+      {loading && (
+        <ReactLoading
+          className={styles.loading}
+          type={"spin"}
+          color={theme.primary}
+          width={150}
+          height={150}
+        />
+      )}
+
+      <input
+        hidden
+        ref={inputRef as React.RefObject<HTMLInputElement>}
+        type="file"
+        onChange={handleFileChange}
+      />
+      <Button onClick={handleUpload}>Upload</Button>
+    </div>
+  );
+};
+
+export default React.memo(ImageUpload);

@@ -21,6 +21,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginLeft: 0,
     marginRight: 20,
     minHeight: 35,
+    maxHeight: "50vh",
+    overflow: "scroll",
+    position: "relative",
   },
   chatInput: {
     flex: 1,
@@ -46,6 +49,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     cursor: "pointer",
     backgroundColor: theme.chatButtonColor,
     borderRadius: 40,
+    position: "sticky",
+    top: "0px",
+    right: "0px",
   },
   sendButtonIcon: {
     color: theme.lightTextColor,

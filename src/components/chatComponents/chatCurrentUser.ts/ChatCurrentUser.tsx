@@ -1,5 +1,6 @@
 import React from "react";
 import { useTheme } from "react-jss";
+import { CgProfile } from "react-icons/cg";
 
 import { Theme } from "../../../config/theme";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
@@ -19,7 +20,7 @@ const ChatContact: React.FunctionComponent<IChatCurrentUser> = (
   const dispatch = useAppDispatch();
 
   const handleCurrentUserClick = () => {
-    dispatch(chatSlice.actions.setSelectedContactID(undefined));
+    dispatch(chatSlice.actions.setSelectedConversationId(undefined));
   };
 
   return (
@@ -27,7 +28,17 @@ const ChatContact: React.FunctionComponent<IChatCurrentUser> = (
       onClick={handleCurrentUserClick}
       className={styles.chatCurrentUserContainer}
     >
-      <img src="/logo512.png" className={styles.currentUserAvatar} />
+      {user.profilePicture?.url && (
+        <img
+          src={user.profilePicture?.url}
+          className={styles.currentUserAvatar}
+        />
+      )}
+
+      {!user.profilePicture?.url && (
+        <CgProfile className={styles.defaultAvatar} />
+      )}
+
       <span className={styles.currentUserName}>
         {user.firstName} {user.lastName}
       </span>

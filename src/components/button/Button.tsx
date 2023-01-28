@@ -8,7 +8,7 @@ import useStyles from "./button.styles";
 interface IButton
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     React.PropsWithChildren {}
-const Input: React.FunctionComponent<IButton> = (props: IButton) => {
+const Button: React.FunctionComponent<IButton> = (props: IButton) => {
   const theme: Theme = useTheme();
 
   const styles = useStyles({ theme });
@@ -20,4 +20,4 @@ const Input: React.FunctionComponent<IButton> = (props: IButton) => {
   );
 };
 
-export default Input;
+export default Button;

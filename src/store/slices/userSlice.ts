@@ -7,11 +7,14 @@ import {
 } from "../../config/constants";
 import { toast } from "react-toastify";
 
+import Picture from "../../globalTypes/Picture";
+
 export interface IUser {
   _id: string;
   firstName: string;
   lastName: string;
   email: string;
+  profilePicture?: Picture;
 }
 
 export type TokenInformation = {
@@ -54,6 +57,10 @@ const initialState: IUserState = {
     firstName: "",
     lastName: "",
     email: "",
+    profilePicture: {
+      url: "",
+      uuid: "",
+    },
   },
   tokenInformation: tokenInformationInStorage,
 };
@@ -91,7 +98,11 @@ export const userSlice = createSlice({
       );
     },
     logout: (state: IUserState) => {
-      state.tokenInformation = initialState.tokenInformation;
+      state.tokenInformation = {
+        expiresIn: "",
+        lastTokenUpdate: "",
+        value: "",
+      };
       state.user = initialState.user;
 
       localStorage.removeItem(LOCAL_STORAGE_TOKEN_ITEM_NAME);

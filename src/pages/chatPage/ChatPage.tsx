@@ -24,8 +24,8 @@ interface IChat {
 
 const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
   const user: IUser = useAppSelector((state) => state.user.user);
-  const selectedContactId: string | undefined = useAppSelector(
-    (state) => state.chat.selectedContactId
+  const selectedConversationId: string | undefined = useAppSelector(
+    (state) => state.chat.selectedConversationId
   );
 
   const theme: Theme = useTheme();
@@ -51,7 +51,17 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
 
     props.socket.on(ChatMessagesEnum.Receive, (message: IMessage) => {
       dispatch(
-        chatSlice.actions.addMessages({ messages: [message], new: true })
+        chatSlice.actions.addMessages({
+          messages: [message],
+          currentUser: user,
+        })
+      );
+
+      dispatch(
+        chatSlice.actions.incrementConversationTotalUnreadMessages({
+          usersIds: [...message.to],
+          by: 1,
+        })
       );
     });
   }, [props.socket]);
@@ -67,11 +77,11 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
           </a>
         </div>
 
-        {selectedContactId && (
-          <ChatBox conversationalists={[selectedContactId, user._id]} />
+        {selectedConversationId && (
+          <ChatBox conversationId={selectedConversationId} />
         )}
 
-        {!selectedContactId && (
+        {!selectedConversationId && (
           <div className={styles.chatWelcome}>
             <img className={styles.chatRobot} src="/robot.gif" />
             <span className={styles.welcomeText}>

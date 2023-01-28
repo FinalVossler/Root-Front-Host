@@ -6,6 +6,9 @@ export interface IMessage {
   from: string;
   to: string[];
   message: string;
+  read: string[];
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type MessageSendCommand = {
@@ -18,17 +21,18 @@ export type Conversation = {
   // The id of a conversation is the joined state of the sorter array of the conversationalist's ids
   id: string;
   messages: IMessage[];
+  totalUnreadMessages: number;
 };
 
 interface IChatState {
   contacts: IUser[];
-  selectedContactId?: string;
+  selectedConversationId?: string;
   conversations: Conversation[];
 }
 
 const initialState: IChatState = {
   contacts: [],
-  selectedContactId: undefined,
+  selectedConversationId: undefined,
   conversations: [],
 };
 
@@ -38,41 +42,104 @@ export const chatSlice = createSlice({
     setContacts: (state: IChatState, action: PayloadAction<IUser[]>) => {
       state.contacts = action.payload;
     },
-    setSelectedContactID: (
+    setSelectedConversationId: (
       state: IChatState,
       action: PayloadAction<string | undefined>
     ) => {
-      state.selectedContactId = action.payload;
+      state.selectedConversationId = action.payload;
+      if (action.payload) {
+        const conversation: Conversation | undefined = state.conversations.find(
+          (el) => el.id === action.payload
+        );
+        if (conversation) {
+          conversation.totalUnreadMessages = 0;
+        } else {
+          const newConversation: Conversation = {
+            id: action.payload,
+            messages: [],
+            totalUnreadMessages: 0,
+          };
+          state.conversations.push(newConversation);
+        }
+      }
+    },
+    addConversation: (
+      state: IChatState,
+      action: PayloadAction<Conversation>
+    ) => {
+      state.conversations.push(action.payload);
+    },
+    setConversationTotalUnreadMessages: (
+      state: IChatState,
+      action: PayloadAction<{ usersIds: string[]; totalUnreadMessages: number }>
+    ) => {
+      const conversationId: string = getConversationId([
+        ...action.payload.usersIds,
+      ]);
+      let conversation: Conversation | undefined = state.conversations.find(
+        (el) => el.id === conversationId
+      );
+      if (conversation) {
+        conversation.totalUnreadMessages = action.payload.totalUnreadMessages;
+      } else {
+        conversation = {
+          id: conversationId,
+          messages: [],
+          totalUnreadMessages: action.payload.totalUnreadMessages,
+        };
+      }
+    },
+    incrementConversationTotalUnreadMessages: (
+      state: IChatState,
+      action: PayloadAction<{ usersIds: string[]; by: number }>
+    ) => {
+      const conversationId: string = getConversationId([
+        ...action.payload.usersIds,
+      ]);
+
+      // No need to increment when we already have the conversation selected
+      if (conversationId === state.selectedConversationId) return;
+
+      let conversation: Conversation | undefined = state.conversations.find(
+        (el) => el.id === conversationId
+      );
+      if (conversation) {
+        conversation.totalUnreadMessages += action.payload.by;
+      } else {
+        conversation = {
+          id: conversationId,
+          messages: [],
+          totalUnreadMessages: action.payload.by,
+        };
+      }
     },
     addMessages: (
       state: IChatState,
-      action: PayloadAction<{ messages: IMessage[]; new: boolean }>
+      action: PayloadAction<{
+        messages: IMessage[];
+        currentUser: IUser;
+      }>
     ) => {
       const messages: IMessage[] = action.payload.messages;
       if (messages.length === 0) return;
 
-      const fetchingNew: boolean = action.payload.new;
-
-      const conversationId: string = messages[0].to.sort().join();
+      const conversationId: string = getConversationId([...messages[0].to]);
       const conversation: Conversation | undefined = state.conversations.find(
         (el) => el.id === conversationId
       );
 
       if (conversation) {
-        // only add new messages
         messages.forEach((message) => {
           if (!conversation.messages.some((el) => el._id === message._id)) {
-            if (fetchingNew) {
-              conversation.messages.push(message);
-            } else {
-              conversation.messages.unshift(message);
-            }
+            conversation.messages.push(message);
           }
+          conversation.messages.sort(compare);
         });
       } else {
         const newConversation: Conversation = {
           id: conversationId,
           messages,
+          totalUnreadMessages: 0,
         };
         state.conversations.push(newConversation);
       }
@@ -80,5 +147,28 @@ export const chatSlice = createSlice({
   },
   initialState,
 });
+
+export const getConversationId = (
+  conversationalists: (string | undefined)[]
+) => {
+  return conversationalists.sort().join(";;");
+};
+
+export const getConversationConversationalistsFromConversationId = (
+  conversationId: string
+) => {
+  return conversationId.split(";;");
+};
+
+const compare = (a: IMessage, b: IMessage) => {
+  if (a.createdAt < b.createdAt) {
+    return -1;
+  }
+  if (a.createdAt > b.createdAt) {
+    return 1;
+  }
+
+  return 0;
+};
 
 export default chatSlice.reducer;

@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import axios from "axios";
 import { toast } from "react-toastify";
 import SuccessResponseDto from "../../globalTypes/SuccessResponseDto";
+import ProfilePictureUpload from "../profilePictureUpload";
 
 type IProfileForm = {
   firstName: string;
@@ -77,26 +78,31 @@ const Profile: React.FunctionComponent<IProfile> = (props: IProfile) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.profileContainer}>
+    <div className={styles.profileContainer}>
       <h2 className={styles.profileTitle}>Profile:</h2>
-      <Input
-        placeholder="Enter your first name"
-        Icon={CgProfile}
-        name="firstName"
-        formik={formik}
-      />
-      <Input
-        placeholder="Enter your last name"
-        Icon={CgProfile}
-        inputProps={{}}
-        name="lastName"
-        formik={formik}
-      />
 
-      <Button disabled={loading}>Update Profile Information</Button>
+      <ProfilePictureUpload />
 
-      <br />
-    </form>
+      <form onSubmit={handleSubmit}>
+        <Input
+          placeholder="Enter your first name"
+          Icon={CgProfile}
+          name="firstName"
+          formik={formik}
+        />
+        <Input
+          placeholder="Enter your last name"
+          Icon={CgProfile}
+          inputProps={{}}
+          name="lastName"
+          formik={formik}
+        />
+
+        <Button disabled={loading}>Update Profile Information</Button>
+
+        <br />
+      </form>
+    </div>
   );
 };
 

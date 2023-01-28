@@ -6,7 +6,11 @@ import PaginationResponse from "../../../globalTypes/PaginationResponse";
 import SuccessResponseDto from "../../../globalTypes/SuccessResponseDto";
 import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { chatSlice, IMessage } from "../../../store/slices/chatSlice";
+import {
+  chatSlice,
+  getConversationConversationalistsFromConversationId,
+  IMessage,
+} from "../../../store/slices/chatSlice";
 import { IUser } from "../../../store/slices/userSlice";
 import Button from "../../button";
 import ChatInput from "../chatInput";
@@ -15,26 +19,26 @@ import Message from "../message/Message";
 import useStyles from "./chatBox.styles";
 
 interface IChatBox {
-  conversationalists: string[];
+  conversationId: string;
 }
 
+let lastMessageId: string | null = null;
 const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   const user: IUser = useAppSelector((state) => state.user.user);
   const messages =
     useAppSelector(
       (state) =>
-        state.chat.conversations.find(
-          (el) => el.id === props.conversationalists.sort().join()
-        )?.messages
+        state.chat.conversations.find((el) => el.id === props.conversationId)
+          ?.messages
     ) || [];
 
-  const [page, setPage] = React.useState<number>(1);
-  const [limit, setLimit] = React.useState<number>(20);
+  const [limit, setLimit] = React.useState<number>(9);
   const [total, setTotal] = React.useState(0);
   // We keep track of the last message in the list to know when to force scrolling down
-  const [lastMessage, setLastMessage] = React.useState<IMessage | null>(null);
-  const [previousConversationlists, setPreviousConversationalists] =
-    React.useState<string[]>();
+  const [previousConversationId, setPreviousConversationId] =
+    React.useState<string>();
+  const [loadingMessages, setLoadingMessages] = React.useState<boolean>(false);
+  const [page, setPage] = React.useState<number>(1);
 
   const theme: Theme = useTheme();
   const styles = useStyles({ theme });
@@ -42,62 +46,56 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   const scrollToDiv = React.useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
 
+  //#region Effects
   // Getting messages
   React.useEffect(() => {
-    handleLoadMessages({ fetchingNew: true, page: 1 });
-  }, [props.conversationalists]);
+    setPage(1);
+    handleLoadMessages(1);
+  }, [props.conversationId]);
 
-  // Only scroll to the bottom when the conversationalists change, and when we have fetched the messages
   React.useEffect(() => {
+    lastMessageId = null;
+  }, [props.conversationId]);
+
+  React.useEffect(() => {
+    // Only scroll to the bottom when we received a new message, when the current user sends a message
+    // and when the conversation changes.
+    // We shouldn't scroll to the bottom when we eceive a new message from another user and we are still in the same
+    // conversation
     if (
-      previousConversationlists !== props.conversationalists &&
-      messages.length > 0
+      messages.length > 0 &&
+      (lastMessageId === null ||
+        // Last message isn't the same as the previous one
+        (lastMessageId !== messages[messages.length - 1]._id &&
+          // and the last message's sender is the current user
+          messages[messages.length - 1].from === user._id))
     ) {
       scrollToDiv.current?.scrollIntoView();
-      setPreviousConversationalists(props.conversationalists);
     }
-  }, [props.conversationalists, messages]);
-
-  // Force Div scrolling down when the current user sends a message
-  React.useEffect(() => {
-    if (!user?._id || lastMessage === null) return;
-
-    if (lastMessage._id) {
-      let foundMessage = false;
-      let index = 0;
-      while (index < messages.length && foundMessage === false) {
-        if (messages[index]._id === lastMessage._id) {
-          foundMessage = true;
-          if (
-            // If this isn't the last message
-            index !== messages.length - 1 &&
-            // And the next message was sent by the current user,
-            messages[index + 1].from === user._id
-          ) {
-            // This means we have messages that come after our last message and that are sent by the current user,
-            // and that we need to scroll down
-            scrollToDiv.current?.scrollIntoView();
-            setLastMessage(messages[messages.length - 1]);
-          }
-        }
-        index++;
-      }
+    if (messages.length > 0) {
+      lastMessageId = messages[messages.length - 1]._id;
     }
-  }, [messages, user, lastMessage]);
+
+    if (props.conversationId !== previousConversationId) {
+      scrollToDiv.current?.scrollIntoView();
+      setPreviousConversationId(props.conversationId);
+    }
+  }, [props.conversationId, messages]);
 
   //#region Listeners
-  const handleLoadMessages = (command: {
-    fetchingNew: boolean;
-    page: number;
-  }) => {
+  const handleLoadMessages = (whichPage: number) => {
+    setLoadingMessages(true);
+
     axios
       .request<SuccessResponseDto<PaginationResponse<IMessage>>>({
         method: "POST",
         url: "/messages/get",
         data: {
-          usersIds: props.conversationalists,
+          usersIds: getConversationConversationalistsFromConversationId(
+            props.conversationId
+          ),
           paginationCommand: {
-            page: command.page,
+            page: whichPage,
             limit,
           },
         },
@@ -107,24 +105,25 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
         dispatch(
           chatSlice.actions.addMessages({
             // If we are receiving old messages in the pagination, then we reverse the result
-            messages: command.fetchingNew ? messages : messages.reverse(),
-            new: command.fetchingNew,
+            messages,
+            currentUser: user,
           })
         );
+
         setTotal(res.data.data.total);
-        setPage(command.page);
         setLimit(limit);
-        // We update the last received message
-        if (command.fetchingNew && messages.length > 0) {
-          setLastMessage(messages[messages.length - 1]);
-        }
-      });
+        setPage(whichPage + 1);
+      })
+      .finally(() => setLoadingMessages(false));
   };
 
   const handleAddMessage = React.useCallback(
     (message: IMessage) => {
       dispatch(
-        chatSlice.actions.addMessages({ messages: [message], new: true })
+        chatSlice.actions.addMessages({
+          messages: [message],
+          currentUser: user,
+        })
       );
     },
 
@@ -133,7 +132,7 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
 
   const handleLoadMore = () => {
     if (total > messages.length) {
-      handleLoadMessages({ fetchingNew: false, page: page + 1 });
+      handleLoadMessages(page);
     }
   };
   //#endregion Listeners
@@ -141,7 +140,7 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   return (
     <div className={styles.chatBoxContainer}>
       <div className={styles.chatMessagesBox}>
-        {total > messages.length && (
+        {total > messages.length && !loadingMessages && (
           <div className={styles.loadMoreButtonContainer}>
             <Button className={styles.loadMoreButton} onClick={handleLoadMore}>
               ...
@@ -149,13 +148,17 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
           </div>
         )}
 
-        {messages.map((message) => {
-          return <Message message={message} key={message._id} />;
+        {messages.map((message, index) => {
+          return (
+            <React.Fragment key={index}>
+              <Message message={message} key={message._id} />
+            </React.Fragment>
+          );
         })}
         <div ref={scrollToDiv}></div>
       </div>
       <ChatInput
-        conversationalists={props.conversationalists}
+        conversationId={props.conversationId}
         handleAddMessage={handleAddMessage}
       />
     </div>

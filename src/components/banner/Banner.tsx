@@ -1,4 +1,6 @@
+import React from "react";
 import { useTheme } from "react-jss";
+
 import { Theme } from "../../config/theme";
 
 import useStyles from "./banner.styles";
@@ -32,4 +34,4 @@ const Banner: React.FunctionComponent<IBanner> = (props: IBanner) => {
   );
 };
 
-export default Banner;
+export default React.memo(Banner);

@@ -25,6 +25,7 @@ const Message: React.FunctionComponent<IMessageComponent> = (
 
   return (
     <div
+      id={"message" + props.message._id}
       dangerouslySetInnerHTML={{ __html: props.message.message }}
       className={
         ownMessage ? styles.messageContainer : styles.otherMessageContainer

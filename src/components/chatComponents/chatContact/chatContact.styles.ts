@@ -28,9 +28,33 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderRadius: "50%",
     marginRight: 20,
   },
+  defaultAvatar: {
+    extend: "chatAvatar",
+    color: theme.chatButtonColor,
+  },
   contactName: {
     color: theme.lightTextColor,
     fontSize: 15,
+  },
+  notificationContainer: {
+    position: "absolute",
+    top: "10px",
+    left: "3px",
+  },
+  notificationIcon: {
+    position: "absolute",
+    color: theme.chatButtonColor,
+    backgroundColor: theme.chatBackground,
+    borderRadius: 10,
+    padding: 5,
+  },
+  notificationNumber: {
+    position: "absolute",
+    color: "white",
+    fontSize: "20px",
+    left: "15px",
+    top: "-5px",
+    fontWeight: 900,
   },
   "@media (max-width: 800px)": {},
 }));

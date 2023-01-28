@@ -21,6 +21,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderRadius: "50%",
     marginRight: 30,
   },
+  defaultAvatar: {
+    extend: "currentUserAvatar",
+    color: theme.chatButtonColor,
+  },
   currentUserName: {
     fontSize: 20,
     color: theme.lightTextColor,

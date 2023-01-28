@@ -13,11 +13,15 @@ import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
 import { IUser } from "../../../store/slices/userSlice";
 import { useAppSelector } from "../../../store/hooks";
 import ChatMessagesEnum from "../../../globalTypes/ChatMessagesEnum";
-import { IMessage, MessageSendCommand } from "../../../store/slices/chatSlice";
+import {
+  getConversationConversationalistsFromConversationId,
+  IMessage,
+  MessageSendCommand,
+} from "../../../store/slices/chatSlice";
 import SuccessResponseDto from "../../../globalTypes/SuccessResponseDto";
 
 interface IChatInput {
-  conversationalists: string[];
+  conversationId: string;
   socket: Socket;
   handleAddMessage: (message: IMessage) => void;
 }
@@ -50,7 +54,7 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
     return () => {
       messageRef.current?.removeEventListener("keypress", enterEvent);
     };
-  }, [messageRef.current, props.conversationalists]);
+  }, [messageRef.current, props.conversationId]);
 
   //#region Listeners
   const handleShowEmojiPicker = () => setShowEmojiPicker(!showEmojiPicker);
@@ -73,7 +77,9 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
 
     const messageCommand: MessageSendCommand = {
       from: user._id,
-      to: props.conversationalists,
+      to: getConversationConversationalistsFromConversationId(
+        props.conversationId
+      ),
       message,
     };
 
