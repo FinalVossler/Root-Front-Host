@@ -12,7 +12,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   chatMessagesBox: {
     flex: 1,
     color: theme.lightTextColor,
-    marginTop: 70,
+    marginTop: 10,
     display: "flex",
     flexDirection: "column",
     overflow: "scroll",
@@ -36,7 +36,14 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: 60,
     borderRadius: 10,
   },
-  "@media (max-width: 800px)": {},
+  noConversationSelectedChatBoxContainer: {
+    extend: "chatBoxContainer",
+  },
+  "@media (max-width: 850px)": {
+    noConversationSelectedChatBoxContainer: {
+      display: "none",
+    },
+  },
 }));
 
 export default useStyles;

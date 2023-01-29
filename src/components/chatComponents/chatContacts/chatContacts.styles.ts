@@ -28,7 +28,21 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
   },
-  "@media (max-width: 800px)": {},
+  chatContactsContainerConversationSelected: {
+    extend: "chatContactsContainer",
+  },
+  noConversationSelectedChatContactsContainer: {
+    extend: "chatContactsContainer",
+  },
+  "@media (max-width: 850px)": {
+    chatContactsContainerConversationSelected: {
+      display: "none",
+    },
+    noConversationSelectedChatContactsContainer: {
+      width: "100%",
+      display: "flex",
+    },
+  },
 }));
 
 export default useStyles;

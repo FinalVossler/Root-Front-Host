@@ -13,6 +13,7 @@ import {
 } from "../../../store/slices/chatSlice";
 import { IUser } from "../../../store/slices/userSlice";
 import Button from "../../button";
+import ChatBoxParticipants from "../chatBoxParticipants/ChatBoxParticipants";
 import ChatInput from "../chatInput";
 import Message from "../message/Message";
 
@@ -25,7 +26,7 @@ interface IChatBox {
 let lastMessageId: string | null = null;
 const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   const user: IUser = useAppSelector((state) => state.user.user);
-  const messages =
+  const messages: IMessage[] =
     useAppSelector(
       (state) =>
         state.chat.conversations.find((el) => el.id === props.conversationId)
@@ -138,7 +139,15 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   //#endregion Listeners
 
   return (
-    <div className={styles.chatBoxContainer}>
+    <div
+      className={
+        props.conversationId
+          ? styles.chatBoxContainer
+          : styles.noConversationSelectedChatBoxContainer
+      }
+    >
+      <ChatBoxParticipants conversationId={props.conversationId} />
+
       <div className={styles.chatMessagesBox}>
         {total > messages.length && !loadingMessages && (
           <div className={styles.loadMoreButtonContainer}>

@@ -9,7 +9,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     justifyContent: "space-between",
     flexDirection: "column",
     minHeight: "100vh",
-    minWidth: "100vh",
   },
 }));
 

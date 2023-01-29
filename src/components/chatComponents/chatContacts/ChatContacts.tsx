@@ -14,13 +14,22 @@ const ChatContacts: React.FunctionComponent<IChatContacts> = (
   props: IChatContacts
 ) => {
   const contacts: IUser[] = useAppSelector((state) => state.chat.contacts);
+  const selectedConversationId: string | undefined = useAppSelector(
+    (state) => state.chat.selectedConversationId
+  );
 
   const theme: Theme = useTheme();
 
   const styles = useStyles({ theme });
 
   return (
-    <div className={styles.chatContactsContainer}>
+    <div
+      className={
+        selectedConversationId
+          ? styles.chatContactsContainerConversationSelected
+          : styles.noConversationSelectedChatContactsContainer
+      }
+    >
       <div className={styles.top}>
         <div className={styles.contactsTitle}>Chat</div>
 

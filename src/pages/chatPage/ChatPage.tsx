@@ -73,12 +73,6 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
       <div className={styles.chatPageContent}>
         <ChatContacts />
 
-        <div className={styles.chatButtons}>
-          <a href="/">
-            <AiFillHome className={styles.chatButton} />
-          </a>
-        </div>
-
         {selectedConversationId && (
           <ChatBox conversationId={selectedConversationId} />
         )}

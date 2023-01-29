@@ -111,7 +111,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: 50,
     height: 50,
   },
-  "@media (max-width: 800px)": {},
+  "@media (max-width: 850px)": {
+    sendButton: {
+      width: 50,
+    },
+  },
 }));
 
 export default useStyles;

@@ -26,7 +26,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     alignItems: "center",
     flexWrap: "wrap",
     marginTop: 20,
-    justifyContent: "space-between",
   },
   singleFileContainer: {
     margin: 5,

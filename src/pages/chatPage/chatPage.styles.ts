@@ -61,6 +61,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     cursor: "pointer",
     fontSize: 30,
   },
+  "@media (max-width: 850px)": {
+    chatWelcome: {
+      display: "none",
+    },
+  },
 }));
 
 export default useStyles;
