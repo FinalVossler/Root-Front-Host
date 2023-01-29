@@ -1,8 +1,8 @@
 import React from "react";
 import { useTheme } from "react-jss";
-import { UploadcareFile, UploadClient } from "@uploadcare/upload-client";
 import { CgProfile } from "react-icons/cg";
 import ReactLoading from "react-loading";
+import { toast } from "react-toastify";
 
 import Button from "../button";
 import { Theme } from "../../config/theme";
@@ -12,16 +12,16 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
 import SuccessResponseDto from "../../globalTypes/SuccessResponseDto";
 import { IUser, userSlice } from "../../store/slices/userSlice";
-import { toast } from "react-toastify";
-import Picture from "../../globalTypes/Picture";
+import IFile from "../../globalTypes/IFile";
+import uploadFile from "../../utils/uploadFile";
 
 interface IProfilePictureUpload {}
 const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
   props: IProfilePictureUpload
 ) => {
-  const profilePicture: Picture | undefined = useAppSelector<
-    Picture | undefined
-  >((state) => state.user.user.profilePicture);
+  const profilePicture: IFile | undefined = useAppSelector<IFile | undefined>(
+    (state) => state.user.user.profilePicture
+  );
 
   const [file, setFile] = React.useState<File | null>(null);
   const [fileAsBase64, setFileAsBase64] = React.useState<string | null>(null);
@@ -41,20 +41,10 @@ const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
   const handleUpload = async () => {
     if (file === null) return toast.error("Upload a new picture first");
 
-    const client = new UploadClient({
-      //@ts-ignore
-      publicKey: process.env.REACT_APP_UPLOAD_CARE_PUBLIC_KEY,
-    });
-
     setLoading(true);
 
-    const uploadResult: UploadcareFile = await client.uploadFile(file);
-    if (uploadResult.cdnUrl) {
-      const newProfilePicture: Picture = {
-        url: uploadResult.cdnUrl,
-        uuid: uploadResult.uuid,
-      };
-
+    const newProfilePicture: IFile | null = await uploadFile(file);
+    if (newProfilePicture) {
       axios
         .request<SuccessResponseDto<IUser>>({
           method: "PUT",
@@ -121,7 +111,9 @@ const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
         type="file"
         onChange={handleFileChange}
       />
-      <Button onClick={handleUpload}>Upload</Button>
+      <Button disabled={loading} onClick={handleUpload}>
+        Upload
+      </Button>
     </div>
   );
 };

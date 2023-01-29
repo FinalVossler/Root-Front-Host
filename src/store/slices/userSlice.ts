@@ -7,14 +7,14 @@ import {
 } from "../../config/constants";
 import { toast } from "react-toastify";
 
-import Picture from "../../globalTypes/Picture";
+import IFile from "../../globalTypes/IFile";
 
 export interface IUser {
   _id: string;
   firstName: string;
   lastName: string;
   email: string;
-  profilePicture?: Picture;
+  profilePicture?: IFile;
 }
 
 export type TokenInformation = {
@@ -60,6 +60,7 @@ const initialState: IUserState = {
     profilePicture: {
       url: "",
       uuid: "",
+      isImage: true,
     },
   },
   tokenInformation: tokenInformationInStorage,

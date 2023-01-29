@@ -1,4 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+import IFile from "../../globalTypes/IFile";
 import { IUser } from "./userSlice";
 
 export interface IMessage {
@@ -7,6 +9,8 @@ export interface IMessage {
   to: string[];
   message: string;
   read: string[];
+  files: IFile[];
+
   createdAt: string;
   updatedAt: string;
 }
@@ -15,6 +19,7 @@ export type MessageSendCommand = {
   from: IMessage["from"];
   to: IMessage["to"];
   message: IMessage["message"];
+  files: IMessage["files"];
 };
 
 export type Conversation = {

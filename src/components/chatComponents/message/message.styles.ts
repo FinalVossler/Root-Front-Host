@@ -19,6 +19,21 @@ const useStyles = createUseStyles((theme: Theme) => ({
     alignSelf: "flex-end",
     marginRight: 20,
   },
+  filesContainer: {
+    display: "flex",
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    flexWrap: "wrap",
+    marginTop: 20,
+    justifyContent: "space-between",
+  },
+  singleFileContainer: {
+    margin: 5,
+  },
+  file: {
+    width: "100%",
+  },
   "@media (max-width: 800px)": {},
 }));
 

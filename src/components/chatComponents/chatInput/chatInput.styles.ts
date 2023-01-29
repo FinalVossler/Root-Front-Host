@@ -107,6 +107,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
     fontSize: 13,
     cursor: "pointer",
   },
+  loading: {
+    width: 50,
+    height: 50,
+  },
   "@media (max-width: 800px)": {},
 }));
 

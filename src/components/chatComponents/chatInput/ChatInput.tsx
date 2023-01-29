@@ -12,9 +12,9 @@ import {
   AiFillProfile,
 } from "react-icons/ai";
 import { ImCross } from "react-icons/im";
+import ReactLoading from "react-loading";
 
 import { Theme } from "../../../config/theme";
-
 import useStyles from "./chatInput.styles";
 import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
 import { IUser } from "../../../store/slices/userSlice";
@@ -26,6 +26,8 @@ import {
   MessageSendCommand,
 } from "../../../store/slices/chatSlice";
 import SuccessResponseDto from "../../../globalTypes/SuccessResponseDto";
+import IFile from "../../../globalTypes/IFile";
+import uploadFile from "../../../utils/uploadFile";
 
 interface IChatInput {
   conversationId: string;
@@ -38,6 +40,7 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
 
   const [showEmojiPicker, setShowEmojiPicker] = React.useState(false);
   const [files, setFiles] = React.useState<File[]>([]);
+  const [loading, setLoading] = React.useState(false);
 
   const theme: Theme = useTheme();
   const styles = useStyles({ theme });
@@ -76,21 +79,37 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
     }
   };
 
-  const handleSendMessage = (
+  const handleSendMessage = async (
     e: React.FormEvent<HTMLFormElement> | null = null
   ) => {
     e?.preventDefault();
 
     const message: string | undefined = messageRef?.current?.innerHTML;
 
-    if (!message || message.trim() === "") return;
+    if ((!message || message.trim() === "") && files.length === 0) return;
+
+    setLoading(true);
+
+    const filesToSend: IFile[] = [];
+    const promises = files.map((file) => {
+      return uploadFile(file);
+    });
+
+    if (promises.length > 0) {
+      await Promise.all(promises).then((files: (IFile | null)[]) => {
+        files.forEach((file) => {
+          if (file?.url) filesToSend.push(file);
+        });
+      });
+    }
 
     const messageCommand: MessageSendCommand = {
       from: user._id,
       to: getConversationConversationalistsFromConversationId(
         props.conversationId
       ),
-      message,
+      message: message ?? "",
+      files: filesToSend,
     };
 
     axios
@@ -106,7 +125,9 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
         if (messageRef.current?.innerHTML) {
           messageRef.current.innerHTML = "";
         }
-      });
+        setFiles([]);
+      })
+      .finally(() => setLoading(false));
   };
 
   const handleFileClick = () => {
@@ -186,9 +207,21 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
           contentEditable
           suppressContentEditableWarning={true}
         ></div>
-        <button className={styles.sendButton}>
-          <AiOutlineSend className={styles.sendButtonIcon} />
-        </button>
+        {loading && (
+          <ReactLoading
+            className={styles.loading}
+            type={"spin"}
+            color={theme.primary}
+            width={150}
+            height={150}
+          />
+        )}
+
+        {!loading && (
+          <button className={styles.sendButton}>
+            <AiOutlineSend className={styles.sendButtonIcon} />
+          </button>
+        )}
       </form>
     </div>
   );

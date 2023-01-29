@@ -16,3 +16,7 @@ body {
   position: absolute !important;
   bottom: 95px;
 }
+
+embed img {
+  width: 100%;
+}

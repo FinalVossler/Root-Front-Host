@@ -26,11 +26,31 @@ const Message: React.FunctionComponent<IMessageComponent> = (
   return (
     <div
       id={"message" + props.message._id}
-      dangerouslySetInnerHTML={{ __html: props.message.message }}
       className={
         ownMessage ? styles.messageContainer : styles.otherMessageContainer
       }
-    ></div>
+    >
+      <div dangerouslySetInnerHTML={{ __html: props.message.message }}></div>
+      {props.message.files.length > 0 && (
+        <div className={styles.filesContainer}>
+          {props.message.files.map((file) => {
+            return (
+              <div key={file._id} className={styles.singleFileContainer}>
+                {file.isImage && (
+                  <img
+                    width="100%"
+                    height="100%"
+                    className={styles.file}
+                    src={file.url}
+                  />
+                )}
+                {!file.isImage && <iframe src={file.url} />}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
   );
 };
 
