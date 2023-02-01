@@ -28,7 +28,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     padding: "20px",
     paddingBottom: "5px",
     backgroundColor: theme.secondary,
-    boxShadow: "0px 10px 40px " + theme.shadowColor,
+    boxShadow: theme.boxShadow,
     borderRadius: "40px",
     zIndex: 4,
     overflow: "auto",

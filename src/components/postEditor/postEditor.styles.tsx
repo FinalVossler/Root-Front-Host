@@ -1,4 +1,4 @@
-import { createUseStyles } from "react-jss";
+import { createUseStyles, ThemeProvider } from "react-jss";
 
 import { Theme } from "../../config/theme";
 
@@ -38,7 +38,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderRadius: 10,
   },
   button: {
-    marginTop: 10,
+    marginTop: 20,
     display: "flex",
     justifyContent: "center",
     backgroundColor: theme.primary,
@@ -48,6 +48,19 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderRadius: 5,
     cursor: "pointer",
     fontWeight: "bold",
+  },
+  titleInput: {
+    marginBottom: 20,
+    marginTop: 10,
+    backgroundColor: theme.lightTextColor,
+    border: "none",
+    placeholder: "title",
+    borderRadius: 20,
+    padding: 5,
+    height: 30,
+    textAlign: "center",
+    color: theme.darkTextColor,
+    fontSize: 26,
   },
   "@media (max-width: 850px)": {
     connectedUserProfileContainer: {

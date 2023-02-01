@@ -28,6 +28,7 @@ import {
 import SuccessResponseDto from "../../../globalTypes/SuccessResponseDto";
 import IFile from "../../../globalTypes/IFile";
 import uploadFile from "../../../utils/uploadFile";
+import uploadFiles from "../../../utils/uploadFiles";
 
 interface IChatInput {
   conversationId: string;
@@ -90,7 +91,8 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
 
     setLoading(true);
 
-    const filesToSend: IFile[] = [];
+    const filesToSend: IFile[] = await uploadFiles(files);
+
     const promises = files.map((file) => {
       return uploadFile(file);
     });

@@ -2,11 +2,13 @@ import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 
 import userReducer from "./slices/userSlice";
 import chatReducer from "./slices/chatSlice";
+import postReducer from "./slices/postSlice";
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     chat: chatReducer,
+    post: postReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

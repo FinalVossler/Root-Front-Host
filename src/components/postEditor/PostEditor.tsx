@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import SunEditor from "suneditor-react";
 import "suneditor/dist/css/suneditor.min.css";
 import SunEditorCore from "suneditor/src/lib/core";
-
 import { ImCross } from "react-icons/im";
 
 import useStyles from "./postEditor.styles";
@@ -12,18 +11,32 @@ import WritePostButton from "../write-post-button";
 import Modal from "../modal";
 import { Theme } from "../../config/theme";
 import Button from "../button";
+import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
+import SuccessResponseDto from "../../globalTypes/SuccessResponseDto";
+import IFile from "../../globalTypes/IFile";
+import uploadFiles from "../../utils/uploadFiles";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { IPost, postSlice } from "../../store/slices/postSlice";
+import { IUser } from "../../store/slices/userSlice";
 
 interface IPostEditor {}
 
 const PostEditor = (props: IPostEditor) => {
+  const user: IUser = useAppSelector((state) => state.user.user);
+
   const [postModalOpen, setPostModalOpen] = React.useState<boolean>(false);
+  const [title, setTitle] = React.useState<string>("");
+  const [files, setFiles] = React.useState<File[]>([]);
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [sunEditor, setSunEditor] =
     React.useState<SunEditorCore | undefined>(undefined);
 
   const theme: Theme = useTheme();
   const styles = useStyles({ theme });
+  const axios = useAuthorizedAxios();
+  const dispatch = useAppDispatch();
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const content: string | undefined = sunEditor?.getContents(true);
@@ -32,8 +45,28 @@ const PostEditor = (props: IPostEditor) => {
       return toast.error("Content shouldn't be empty");
 
     setPostModalOpen(false);
-    console.log("content", content);
     sunEditor?.setContents("");
+
+    setLoading(true);
+
+    const filedsToSend: IFile[] = await uploadFiles(files);
+
+    axios
+      .request<SuccessResponseDto<IPost>>({
+        url: "/posts",
+        method: "POST",
+        data: {
+          title,
+          poster: user._id,
+          content,
+          files: filedsToSend,
+        },
+      })
+      .then((res) => {
+        const post: IPost = res.data.data;
+        dispatch(postSlice.actions.addUserPost({ post, user }));
+      })
+      .finally(() => setLoading(false));
   };
 
   // Autofocus prop is not working. So we manually focus the editor when the modal shows
@@ -42,6 +75,10 @@ const PostEditor = (props: IPostEditor) => {
       sunEditor.core.focus();
     }
   }, [postModalOpen, sunEditor]);
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
 
   return (
     <div className={styles.postEditorContainer}>
@@ -60,6 +97,13 @@ const PostEditor = (props: IPostEditor) => {
               className={styles.closeButton}
             />
           </div>
+
+          <input
+            className={styles.titleInput}
+            value={title}
+            onChange={handleTitleChange}
+            placeholder="Title"
+          />
 
           <SunEditor
             getSunEditorInstance={(sunEditor) => setSunEditor(sunEditor)}

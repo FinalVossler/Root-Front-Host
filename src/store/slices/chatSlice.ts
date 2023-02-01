@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import IFile from "../../globalTypes/IFile";
+import compareWithCreatedAt from "../../utils/compare";
 import { IUser } from "./userSlice";
 
 export interface IMessage {
@@ -138,7 +139,7 @@ export const chatSlice = createSlice({
           if (!conversation.messages.some((el) => el._id === message._id)) {
             conversation.messages.push(message);
           }
-          conversation.messages.sort(compare);
+          conversation.messages.sort(compareWithCreatedAt);
         });
       } else {
         const newConversation: Conversation = {
@@ -177,17 +178,6 @@ export const getConversationConversationalistsFromConversationId = (
   conversationId: string
 ) => {
   return conversationId.split(";;");
-};
-
-const compare = (a: IMessage, b: IMessage) => {
-  if (a.createdAt < b.createdAt) {
-    return -1;
-  }
-  if (a.createdAt > b.createdAt) {
-    return 1;
-  }
-
-  return 0;
 };
 
 export default chatSlice.reducer;

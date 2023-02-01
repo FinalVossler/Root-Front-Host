@@ -27,7 +27,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   connectedUserProfileContainer: {
     display: "flex",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
+    maxWidth: 1100,
+    margin: "auto",
+    width: "90%",
   },
   "@media (max-width: 850px)": {
     connectedUserProfileContainer: {
