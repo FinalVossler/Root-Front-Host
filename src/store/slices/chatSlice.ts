@@ -149,6 +149,20 @@ export const chatSlice = createSlice({
         state.conversations.push(newConversation);
       }
     },
+    deleteMessage: (
+      state: IChatState,
+      action: PayloadAction<{ conversationId: string; messageId: string }>
+    ) => {
+      const conversation: Conversation | undefined = state.conversations.find(
+        (c) => c.id === action.payload.conversationId
+      );
+      console.log("conversation", conversation);
+      if (conversation) {
+        conversation.messages = conversation.messages.filter(
+          (m) => m._id !== action.payload.messageId
+        );
+      }
+    },
   },
   initialState,
 });

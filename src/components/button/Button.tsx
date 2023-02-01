@@ -8,6 +8,7 @@ import useStyles from "./button.styles";
 interface IButton
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     React.PropsWithChildren {}
+
 const Button: React.FunctionComponent<IButton> = (props: IButton) => {
   const theme: Theme = useTheme();
 

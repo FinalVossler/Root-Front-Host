@@ -11,6 +11,7 @@ export type Theme = {
   boxColor: string;
   transparentBackground: string;
   subContentBackgroundColor: string;
+  shadowColor: string;
 };
 
 const theme: Theme = {
@@ -27,6 +28,7 @@ const theme: Theme = {
   contentBackgroundColor: "#0a0b13",
   subContentBackgroundColor: "#08041e",
   boxColor: "#3f3c51",
+  shadowColor: "#00000024",
 };
 
 export default theme;

@@ -67,7 +67,7 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
     return () => {
       messageRef.current?.removeEventListener("keypress", enterEvent);
     };
-  }, [messageRef.current, props.conversationId]);
+  }, [messageRef.current, props.conversationId, files, files.length]);
 
   //#region Listeners
   const handleShowEmojiPicker = () => setShowEmojiPicker(!showEmojiPicker);
@@ -207,20 +207,19 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
           contentEditable
           suppressContentEditableWarning={true}
         ></div>
+
+        <button disabled={loading} className={styles.sendButton}>
+          <AiOutlineSend className={styles.sendButtonIcon} />
+        </button>
+
         {loading && (
           <ReactLoading
             className={styles.loading}
             type={"spin"}
-            color={theme.primary}
-            width={150}
-            height={150}
+            color={theme.backgroundColor}
+            width={36}
+            height={36}
           />
-        )}
-
-        {!loading && (
-          <button className={styles.sendButton}>
-            <AiOutlineSend className={styles.sendButtonIcon} />
-          </button>
         )}
       </form>
     </div>

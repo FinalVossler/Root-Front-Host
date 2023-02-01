@@ -15,8 +15,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginTop: 10,
     display: "flex",
     flexDirection: "column",
-    overflow: "scroll",
     alignItems: "flex-start",
+    overflowY: "auto",
   },
   loadMoreButtonContainer: {
     display: "flex",

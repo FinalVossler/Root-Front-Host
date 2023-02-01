@@ -17,7 +17,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flex: 1,
     marginTop: 10,
     marginBottom: 10,
-    borderRadius: 40,
+    borderRadius: 20,
     marginLeft: 0,
     marginRight: 20,
     minHeight: 35,
@@ -40,7 +40,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     },
   },
   sendButton: {
-    width: 120,
+    width: 35,
+    height: 35,
+    bottom: 0,
     border: "none",
     padding: 0,
     display: "flex",
@@ -49,8 +51,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     cursor: "pointer",
     backgroundColor: theme.primary,
     borderRadius: 40,
-    position: "sticky",
-    top: "0px",
+    position: "absolute",
     right: "0px",
   },
   sendButtonIcon: {
@@ -108,14 +109,14 @@ const useStyles = createUseStyles((theme: Theme) => ({
     cursor: "pointer",
   },
   loading: {
-    width: 50,
-    height: 50,
+    height: 36,
+    width: 36,
+    position: "absolute",
+    right: 0,
+    zIndex: 2,
+    bottom: 0,
   },
-  "@media (max-width: 850px)": {
-    sendButton: {
-      width: 50,
-    },
-  },
+  "@media (max-width: 850px)": {},
 }));
 
 export default useStyles;

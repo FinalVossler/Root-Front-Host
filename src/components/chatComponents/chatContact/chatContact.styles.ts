@@ -22,12 +22,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     extend: "chatContactContainer",
     backgroundColor: theme.primary,
   },
-  chatAvatar: {
-    width: 50,
-    height: 50,
-    borderRadius: "50%",
-    marginRight: 20,
-  },
   defaultAvatar: {
     extend: "chatAvatar",
     color: theme.primary,
@@ -35,6 +29,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   contactName: {
     color: theme.lightTextColor,
     fontSize: 15,
+    marginLeft: 10,
   },
   notificationContainer: {
     position: "absolute",

@@ -12,13 +12,16 @@ import SuccessResponseDto from "../../globalTypes/SuccessResponseDto";
 import withProtection from "../../hoc/protection";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { chatSlice, IMessage } from "../../store/slices/chatSlice";
+import {
+  chatSlice,
+  getConversationId,
+  IMessage,
+} from "../../store/slices/chatSlice";
 import { IUser } from "../../store/slices/userSlice";
 
 import useStyles from "./chatPage.styles";
 import ChatMessagesEnum from "../../globalTypes/ChatMessagesEnum";
 import withWrapper from "../../hoc/wrapper";
-import Banner from "../../components/banner";
 
 interface IChat {
   socket: Socket;
@@ -63,6 +66,17 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
         chatSlice.actions.incrementConversationTotalUnreadMessages({
           usersIds: [...message.to],
           by: 1,
+        })
+      );
+    });
+
+    props.socket.on(ChatMessagesEnum.Delete, (message: IMessage) => {
+      const conversationId: string = getConversationId(message.to);
+
+      dispatch(
+        chatSlice.actions.deleteMessage({
+          conversationId,
+          messageId: message._id,
         })
       );
     });

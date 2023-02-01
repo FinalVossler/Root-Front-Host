@@ -12,6 +12,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginBottom: 10,
     borderRadius: 10,
     marginLeft: 20,
+    position: "relative",
+    maxWidth: "90%",
   },
   otherMessageContainer: {
     extend: "messageContainer",
@@ -32,6 +34,14 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   file: {
     width: "100%",
+  },
+  deleteButton: {
+    position: "absolute",
+    right: 0,
+    fontSize: 15,
+    cursor: "pointer",
+    top: -0,
+    color: theme.errorColor,
   },
   "@media (max-width: 800px)": {},
 }));

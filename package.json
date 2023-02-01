@@ -27,11 +27,13 @@
     "react-router-dom": "^6.6.1",
     "react-scripts": "5.0.1",
     "react-toastify": "^9.1.1",
+    "react-uuid": "^2.0.0",
     "socket.io-client": "^4.5.4",
     "socket.io-react": "^1.2.0",
     "typescript": "^4.9.4",
     "web-vitals": "^2.1.4",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "suneditor-react": "^3.4.0"
   },
   "scripts": {
     "dev": "react-scripts start",

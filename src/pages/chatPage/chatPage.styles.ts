@@ -6,7 +6,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   chatPageContainer: {
     display: "flex",
     height: "100vh",
-    width: "100vw",
+    width: "100%",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
@@ -19,7 +19,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     position: "relative",
     marginTop: 80,
-    padding: 20,
+    padding: 10,
     borderRadius: 20,
   },
   chatWelcome: {

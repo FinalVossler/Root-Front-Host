@@ -15,6 +15,8 @@ import { IUser } from "../../../store/slices/userSlice";
 import useStyles from "./chatContact.styles";
 import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
 import SuccessResponseDto from "../../../globalTypes/SuccessResponseDto";
+import UserProfilePicture from "../../userProfilePicture";
+import { SizeEnum } from "../../userProfilePicture/UserProfilePicture";
 
 interface IChatContact {
   contact: IUser;
@@ -52,6 +54,7 @@ const ChatContact: React.FunctionComponent<IChatContact> = (
   const dispatch = useAppDispatch();
   const axios = useAuthorizedAxios();
   const styles = useStyles({ theme });
+
   // Getting total unread messages of the conversation
   React.useEffect(() => {
     if (!userId) return;
@@ -100,10 +103,14 @@ const ChatContact: React.FunctionComponent<IChatContact> = (
       )}
 
       {props.contact.profilePicture?.url && (
-        <img
-          className={styles.chatAvatar}
-          src={props.contact.profilePicture?.url}
+        <UserProfilePicture
+          url={props.contact.profilePicture?.url}
+          size={SizeEnum.Small}
         />
+        // <img
+        //   className={styles.chatAvatar}
+        //   src={props.contact.profilePicture?.url}
+        // />
       )}
 
       {!props.contact.profilePicture?.url && (

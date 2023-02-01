@@ -25,6 +25,16 @@ const useStyles = createUseStyles((theme: Theme) => ({
     fontWeight: "bold",
     fontSize: 20,
   },
+  connectedUserProfileContainer: {
+    display: "flex",
+    justifyContent: "space-around",
+  },
+  "@media (max-width: 850px)": {
+    connectedUserProfileContainer: {
+      flexDirection: "column",
+      alignItems: "center",
+    },
+  },
 }));
 
 export default useStyles;

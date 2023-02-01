@@ -11,6 +11,7 @@ import withWrapper from "../../hoc/wrapper";
 
 import useStyles from "./profilePage.styles";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
+import PostEditor from "../../components/postEditor";
 
 enum ActiveForm {
   Register = "Register",
@@ -49,7 +50,12 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
 
       {activeForm === ActiveForm.Register && !isLoggedIn && <Registration />}
       {activeForm === ActiveForm.Login && !isLoggedIn && <Login />}
-      {isLoggedIn && <ProfileComponent />}
+      {isLoggedIn && (
+        <div className={styles.connectedUserProfileContainer}>
+          <ProfileComponent />
+          <PostEditor />
+        </div>
+      )}
 
       <br />
 

@@ -14,6 +14,8 @@ import SuccessResponseDto from "../../globalTypes/SuccessResponseDto";
 import { IUser, userSlice } from "../../store/slices/userSlice";
 import IFile from "../../globalTypes/IFile";
 import uploadFile from "../../utils/uploadFile";
+import UserProfilePicture from "../userProfilePicture";
+import { SizeEnum } from "../userProfilePicture/UserProfilePicture";
 
 interface IProfilePictureUpload {}
 const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
@@ -83,11 +85,13 @@ const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
   return (
     <div className={styles.profilePictureUploadContainer}>
       {(profilePicture?.url || fileAsBase64) && !loading && (
-        <img
-          className={styles.profilePicture}
-          onClick={handleTriggerInput}
-          src={fileAsBase64 ? fileAsBase64 : profilePicture?.url}
-        />
+        <>
+          <UserProfilePicture
+            url={fileAsBase64 ? fileAsBase64 : profilePicture?.url}
+            size={SizeEnum.VeryBig}
+          />
+          <br />
+        </>
       )}
       {!profilePicture?.url && !fileAsBase64 && !loading && (
         <CgProfile
