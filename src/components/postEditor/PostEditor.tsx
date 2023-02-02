@@ -18,6 +18,7 @@ import uploadFiles from "../../utils/uploadFiles";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { IPost, postSlice } from "../../store/slices/postSlice";
 import { IUser } from "../../store/slices/userSlice";
+import PostEditorFiles from "../postEditorFiles";
 
 interface IPostEditor {}
 
@@ -109,6 +110,8 @@ const PostEditor = (props: IPostEditor) => {
             getSunEditorInstance={(sunEditor) => setSunEditor(sunEditor)}
             height="200px"
           />
+
+          <PostEditorFiles setFiles={setFiles} />
 
           <Button type="submit" style={{}} className={styles.button}>
             Post

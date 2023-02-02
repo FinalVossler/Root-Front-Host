@@ -38,7 +38,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderRadius: 10,
   },
   button: {
-    marginTop: 20,
+    marginTop: 10,
     display: "flex",
     justifyContent: "center",
     backgroundColor: theme.primary,

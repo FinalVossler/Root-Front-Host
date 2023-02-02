@@ -16,6 +16,7 @@ export enum SizeEnum {
 interface IUserProfilePicture {
   url: string | undefined;
   size: SizeEnum;
+  onClick?: any;
 }
 
 const UserProfilePicture = (props: IUserProfilePicture) => {
@@ -45,7 +46,11 @@ const UserProfilePicture = (props: IUserProfilePicture) => {
       break;
   }
   return (
-    <div className={containerClassName} style={styleObject}>
+    <div
+      onClick={props.onClick}
+      className={containerClassName}
+      style={styleObject}
+    >
       {!props.url && (
         <GoPerson
           size={

@@ -16,6 +16,7 @@ import IFile from "../../globalTypes/IFile";
 import uploadFile from "../../utils/uploadFile";
 import UserProfilePicture from "../userProfilePicture";
 import { SizeEnum } from "../userProfilePicture/UserProfilePicture";
+import readAsBase64 from "../../utils/readAsBase64";
 
 interface IProfilePictureUpload {}
 const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
@@ -67,18 +68,21 @@ const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
     }
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePictureClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    inputRef.current?.click();
+  };
+
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (event.target.files && event.target.files?.length > 0) {
       const file: File = event.target.files[0];
       setFile(file);
 
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        if (event.target?.result) {
-          setFileAsBase64(event.target.result as string);
-        }
-      };
-      reader.readAsDataURL(file);
+      const base64: string = await readAsBase64(file);
+      setFileAsBase64(base64);
     }
   };
 
@@ -89,6 +93,7 @@ const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
           <UserProfilePicture
             url={fileAsBase64 ? fileAsBase64 : profilePicture?.url}
             size={SizeEnum.VeryBig}
+            onClick={handlePictureClick}
           />
           <br />
         </>
