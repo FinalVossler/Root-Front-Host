@@ -12,7 +12,6 @@ import ChatPage from "./pages/chatPage";
 
 import useGetAndSetUser from "./hooks/useGetAndSetUser";
 import PaymentPage from "./pages/paymentPage";
-import Modals from "./components/confirmationModal";
 
 import theme from "./config/theme";
 import useNotifications from "./hooks/useNotifications";
