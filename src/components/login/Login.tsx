@@ -4,6 +4,7 @@ import { AiOutlineMail } from "react-icons/ai";
 import { FormikProps, useFormik } from "formik";
 import { RiLockPasswordLine } from "react-icons/ri";
 import * as Yup from "yup";
+import { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 
 import Input from "../input/Input";
@@ -12,7 +13,6 @@ import useAxios from "../../hooks/useAxios";
 
 import { Theme } from "../../config/theme";
 
-import SuccessResponseDto from "../../globalTypes/SuccessResponseDto";
 import { IUser, userSlice } from "../../store/slices/userSlice";
 import { useAppDispatch } from "../../store/hooks";
 
@@ -47,7 +47,7 @@ const Registration: React.FunctionComponent<ILogin> = (props: ILogin) => {
       setLoading(true);
       axios
         .request<
-          SuccessResponseDto<{ expiresIn: string; token: string; user: IUser }>
+          AxiosResponse<{ expiresIn: string; token: string; user: IUser }>
         >({
           url: process.env.REACT_APP_BACKEND_URL + "/users/login",
           method: "POST",

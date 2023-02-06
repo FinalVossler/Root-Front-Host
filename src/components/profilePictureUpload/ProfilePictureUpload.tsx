@@ -3,6 +3,7 @@ import { useTheme } from "react-jss";
 import { CgProfile } from "react-icons/cg";
 import ReactLoading from "react-loading";
 import { toast } from "react-toastify";
+import { AxiosResponse } from "axios";
 
 import Button from "../button";
 import { Theme } from "../../config/theme";
@@ -10,7 +11,6 @@ import { Theme } from "../../config/theme";
 import useStyles from "./profilePictureUpload.styles";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
-import SuccessResponseDto from "../../globalTypes/SuccessResponseDto";
 import { IUser, userSlice } from "../../store/slices/userSlice";
 import IFile from "../../globalTypes/IFile";
 import uploadFile from "../../utils/uploadFile";
@@ -49,7 +49,7 @@ const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
     const newProfilePicture: IFile | null = await uploadFile(file);
     if (newProfilePicture) {
       axios
-        .request<SuccessResponseDto<IUser>>({
+        .request<AxiosResponse<IUser>>({
           method: "PUT",
           url: "/users/updateProfilePicture",
           data: newProfilePicture,

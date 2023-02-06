@@ -157,7 +157,6 @@ export const chatSlice = createSlice({
       const conversation: Conversation | undefined = state.conversations.find(
         (c) => c.id === action.payload.conversationId
       );
-      console.log("conversation", conversation);
       if (conversation) {
         conversation.messages = conversation.messages.filter(
           (m) => m._id !== action.payload.messageId

@@ -28,7 +28,6 @@ const PostEditor = (props: IPostEditorFiles) => {
     if (e.target.files) {
       const newFiles: File[] = Array.from(e.target.files);
       props.setFiles(newFiles);
-      console.log(e.target.files[0].type);
 
       const newBase64s: string[] = [];
 

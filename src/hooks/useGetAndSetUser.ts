@@ -1,5 +1,5 @@
+import { AxiosResponse } from "axios";
 import React from "react";
-import SuccessResponseDto from "../globalTypes/SuccessResponseDto";
 
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { IUser, userSlice } from "../store/slices/userSlice";
@@ -16,7 +16,7 @@ const useGetAndSetUser = () => {
     if (!token || token === "") return;
 
     axios
-      .request<SuccessResponseDto<IUser>>({
+      .request<AxiosResponse<IUser>>({
         url: "/users/me",
         method: "GET",
         headers: {

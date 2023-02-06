@@ -15,8 +15,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     height: 40,
     padding: 15,
     opacity: ".5",
-    marginLeft: "10px",
-    borderRadius: "20px",
+    marginLeft: 10,
+    borderRadius: 20,
     flex: 1,
     cursor: "pointer",
     color: theme.lightTextColor,
@@ -32,6 +32,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     placeholder: {
       marginTop: 15,
       width: "80%",
+      marginLeft: 0,
     },
   },
 }));

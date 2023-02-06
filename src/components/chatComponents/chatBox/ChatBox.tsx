@@ -1,9 +1,9 @@
+import { AxiosResponse } from "axios";
 import React from "react";
 import { useTheme } from "react-jss";
 
 import { Theme } from "../../../config/theme";
 import PaginationResponse from "../../../globalTypes/PaginationResponse";
-import SuccessResponseDto from "../../../globalTypes/SuccessResponseDto";
 import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
@@ -88,7 +88,7 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
     setLoadingMessages(true);
 
     axios
-      .request<SuccessResponseDto<PaginationResponse<IMessage>>>({
+      .request<AxiosResponse<PaginationResponse<IMessage>>>({
         method: "POST",
         url: "/messages/get",
         data: {

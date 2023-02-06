@@ -6,7 +6,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
   postEditorContainer: {
     width: "100%",
     maxWidth: 700,
-    margin: 20,
   },
   createPostModalContainer: {
     display: "flex",

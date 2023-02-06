@@ -13,6 +13,7 @@ import {
 } from "react-icons/ai";
 import { ImCross } from "react-icons/im";
 import ReactLoading from "react-loading";
+import { AxiosResponse } from "axios";
 
 import { Theme } from "../../../config/theme";
 import useStyles from "./chatInput.styles";
@@ -25,7 +26,6 @@ import {
   IMessage,
   MessageSendCommand,
 } from "../../../store/slices/chatSlice";
-import SuccessResponseDto from "../../../globalTypes/SuccessResponseDto";
 import IFile from "../../../globalTypes/IFile";
 import uploadFile from "../../../utils/uploadFile";
 import uploadFiles from "../../../utils/uploadFiles";
@@ -115,7 +115,7 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
     };
 
     axios
-      .request<SuccessResponseDto<IMessage>>({
+      .request<AxiosResponse<IMessage>>({
         method: "POST",
         url: "/messages",
         data: messageCommand,

@@ -5,6 +5,7 @@ import SunEditor from "suneditor-react";
 import "suneditor/dist/css/suneditor.min.css";
 import SunEditorCore from "suneditor/src/lib/core";
 import { ImCross } from "react-icons/im";
+import { AxiosResponse } from "axios";
 
 import useStyles from "./postEditor.styles";
 import WritePostButton from "../write-post-button";
@@ -12,7 +13,6 @@ import Modal from "../modal";
 import { Theme } from "../../config/theme";
 import Button from "../button";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
-import SuccessResponseDto from "../../globalTypes/SuccessResponseDto";
 import IFile from "../../globalTypes/IFile";
 import uploadFiles from "../../utils/uploadFiles";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -42,8 +42,11 @@ const PostEditor = (props: IPostEditor) => {
 
     const content: string | undefined = sunEditor?.getContents(true);
 
-    if (!content || content.trim() === "<p><br></p>")
-      return toast.error("Content shouldn't be empty");
+    if (
+      (!content || content.trim() === "<p><br></p>") &&
+      (!title || title.trim() === "")
+    )
+      return toast.error("Type something!");
 
     setPostModalOpen(false);
     sunEditor?.setContents("");
@@ -53,12 +56,12 @@ const PostEditor = (props: IPostEditor) => {
     const filedsToSend: IFile[] = await uploadFiles(files);
 
     axios
-      .request<SuccessResponseDto<IPost>>({
+      .request<AxiosResponse<IPost>>({
         url: "/posts",
         method: "POST",
         data: {
           title,
-          poster: user._id,
+          posterId: user._id,
           content,
           files: filedsToSend,
         },

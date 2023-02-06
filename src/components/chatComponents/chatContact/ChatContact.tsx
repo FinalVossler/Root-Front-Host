@@ -2,6 +2,7 @@ import React from "react";
 import { useTheme } from "react-jss";
 import { CgProfile } from "react-icons/cg";
 import { RiNotificationFill } from "react-icons/ri";
+import { AxiosResponse } from "axios";
 
 import { Theme } from "../../../config/theme";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
@@ -14,7 +15,6 @@ import { IUser } from "../../../store/slices/userSlice";
 
 import useStyles from "./chatContact.styles";
 import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
-import SuccessResponseDto from "../../../globalTypes/SuccessResponseDto";
 import UserProfilePicture from "../../userProfilePicture";
 import { SizeEnum } from "../../userProfilePicture/UserProfilePicture";
 
@@ -61,7 +61,7 @@ const ChatContact: React.FunctionComponent<IChatContact> = (
 
     // If this isn't a selected contact, then we update the number of total unread messages from the database
     axios
-      .request<SuccessResponseDto<number>>({
+      .request<AxiosResponse<number>>({
         method: "POST",
         url: "/messages/totalUnreadMessages",
         data: [userId, props.contact._id],

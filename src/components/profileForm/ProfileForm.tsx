@@ -3,6 +3,7 @@ import { useTheme } from "react-jss";
 import { CgProfile } from "react-icons/cg";
 import { FormikProps, useFormik } from "formik";
 import * as Yup from "yup";
+import axios, { AxiosResponse } from "axios";
 
 import Input from "../input/Input";
 import Button from "../button/Button";
@@ -12,18 +13,18 @@ import { Theme } from "../../config/theme";
 import useStyles from "./profile.styles";
 import { IUser, userSlice } from "../../store/slices/userSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import axios from "axios";
 import { toast } from "react-toastify";
-import SuccessResponseDto from "../../globalTypes/SuccessResponseDto";
 import ProfilePictureUpload from "../profilePictureUpload";
 
-type IProfileForm = {
+type ProfileFormik = {
   firstName: string;
   lastName: string;
 };
 
-interface IProfile {}
-const Profile: React.FunctionComponent<IProfile> = (props: IProfile) => {
+interface IProfileForm {}
+const Profile: React.FunctionComponent<IProfileForm> = (
+  props: IProfileForm
+) => {
   const user: IUser = useAppSelector((state) => state.user.user);
 
   const [loading, setLoading] = React.useState(false);
@@ -32,7 +33,7 @@ const Profile: React.FunctionComponent<IProfile> = (props: IProfile) => {
   const dispatch = useAppDispatch();
   const styles = useStyles({ theme });
 
-  const formik: FormikProps<IProfileForm> = useFormik<IProfileForm>({
+  const formik: FormikProps<ProfileFormik> = useFormik<ProfileFormik>({
     initialValues: {
       firstName: user.firstName,
       lastName: user.lastName,
@@ -41,10 +42,10 @@ const Profile: React.FunctionComponent<IProfile> = (props: IProfile) => {
       firstName: Yup.string().required("Firstname is required"),
       lastName: Yup.string().required("Lastname is required"),
     }),
-    onSubmit: (values: IProfileForm) => {
+    onSubmit: (values: ProfileFormik) => {
       setLoading(true);
       axios
-        .request<SuccessResponseDto<IUser>>({
+        .request<AxiosResponse<IUser>>({
           url: process.env.REACT_APP_BACKEND_URL + "/users",
           method: "PUT",
           data: {
@@ -78,8 +79,8 @@ const Profile: React.FunctionComponent<IProfile> = (props: IProfile) => {
   };
 
   return (
-    <div className={styles.profileContainer}>
-      <h2 className={styles.profileTitle}>Profile:</h2>
+    <div className={styles.profileFormContainer}>
+      <h2 className={styles.profileFormTitle}>Profile:</h2>
 
       <ProfilePictureUpload />
 

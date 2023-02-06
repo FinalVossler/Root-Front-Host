@@ -3,7 +3,7 @@ import { useTheme } from "react-jss";
 
 import Registration from "../../components/registration";
 import Login from "../../components/login";
-import ProfileComponent from "../../components/profileComponent";
+import ProfileForm from "../../components/profileForm";
 
 import { Theme } from "../../config/theme";
 
@@ -12,6 +12,9 @@ import withWrapper from "../../hoc/wrapper";
 import useStyles from "./profilePage.styles";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import PostEditor from "../../components/postEditor";
+import UserPosts from "../../components/userPosts.ts";
+import { useAppSelector } from "../../store/hooks";
+import PostVisibility from "../../globalTypes/PostVisibility";
 
 enum ActiveForm {
   Register = "Register",
@@ -22,6 +25,8 @@ interface IProfilePage {}
 const ProfilePage: React.FunctionComponent<IProfilePage> = (
   props: IProfilePage
 ) => {
+  const userId: string = useAppSelector((state) => state.user.user._id);
+
   const [activeForm, setActiveForm] = React.useState<ActiveForm>(
     ActiveForm.Register
   );
@@ -52,8 +57,18 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
       {activeForm === ActiveForm.Login && !isLoggedIn && <Login />}
       {isLoggedIn && (
         <div className={styles.connectedUserProfileContainer}>
-          <ProfileComponent />
-          <PostEditor />
+          <ProfileForm />
+          <div className={styles.postsAndEditor}>
+            <PostEditor />
+            <UserPosts
+              userId={userId}
+              visibilities={[
+                PostVisibility.Public,
+                PostVisibility.Private,
+                PostVisibility.Connections,
+              ]}
+            />
+          </div>
         </div>
       )}
 

@@ -1,14 +1,13 @@
 import React from "react";
 import { useTheme } from "react-jss";
-import { AiFillHome } from "react-icons/ai";
 import { socketConnect } from "socket.io-react";
+import { AxiosResponse } from "axios";
 import { Socket } from "socket.io-client";
 
 import ChatContacts from "../../components/chatComponents/chatContacts";
 import ChatBox from "../../components/chatComponents/chatBox";
 
 import { Theme } from "../../config/theme";
-import SuccessResponseDto from "../../globalTypes/SuccessResponseDto";
 import withProtection from "../../hoc/protection";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -41,7 +40,7 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
   // Get the list of contacts
   React.useEffect(() => {
     axios
-      .request<SuccessResponseDto<IUser[]>>({
+      .request<AxiosResponse<IUser[]>>({
         url: "/users",
         method: "GET",
       })

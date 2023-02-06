@@ -1,14 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import IFile from "../../globalTypes/IFile";
+import PostVisibility from "../../globalTypes/PostVisibility";
 import compareWithCreatedAt from "../../utils/compare";
 import { IUser } from "./userSlice";
 
 export interface IPost {
+  _id: string;
   title?: string;
-  poster: string;
+  posterId: string;
   content?: string;
   files: IFile[];
+  visibility: PostVisibility;
 
   createdAt: string;
   updatedAt: string;
@@ -17,6 +20,7 @@ export interface IPost {
 type UserPosts = {
   user: IUser;
   posts: IPost[];
+  total: number;
 };
 type PostInitialState = {
   userPosts: UserPosts[];
@@ -45,16 +49,40 @@ export const postSlice = createSlice({
     ) => {
       const { post, user } = action.payload;
 
-      const userPost: UserPosts | undefined = state.userPosts.find(
+      const userPosts: UserPosts | undefined = state.userPosts.find(
         (el) => el.user._id === user._id
       );
-      if (userPost) {
-        userPost.posts.push(post);
-        userPost.posts.sort(compareWithCreatedAt);
+      if (userPosts) {
+        userPosts.posts.push(post);
+        userPosts.posts.sort(compareWithCreatedAt);
+        userPosts.total += 1;
+        userPosts.posts.sort(compareWithCreatedAt);
       } else {
         state.userPosts.push({
           user,
           posts: [post],
+          total: 1,
+        });
+      }
+    },
+    refreshUserPosts: (
+      state: PostInitialState,
+      action: PayloadAction<{ posts: IPost[]; user: IUser; total: number }>
+    ) => {
+      const { posts, user, total } = action.payload;
+
+      const userPosts: UserPosts | undefined = state.userPosts.find(
+        (el) => el.user._id === user._id
+      );
+
+      if (userPosts) {
+        userPosts.posts = posts;
+        userPosts.posts.sort(compareWithCreatedAt);
+      } else {
+        state.userPosts.push({
+          user,
+          posts: posts,
+          total,
         });
       }
     },

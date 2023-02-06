@@ -4,12 +4,11 @@ import { CgProfile } from "react-icons/cg";
 import { AiOutlineMail } from "react-icons/ai";
 import { FormikProps, useFormik } from "formik";
 import { RiLockPasswordLine } from "react-icons/ri";
-import axios from "axios";
+import { AxiosResponse } from "axios";
 import * as Yup from "yup";
 
 import Input from "../input/Input";
 import Button from "../button/Button";
-import SuccessResponseDto from "../../globalTypes/SuccessResponseDto";
 import { useAppDispatch } from "../../store/hooks";
 import { IUser, userSlice } from "../../store/slices/userSlice";
 import useAxios from "../../hooks/useAxios";
@@ -65,7 +64,7 @@ const Registration: React.FunctionComponent<IRegistration> = (
       setLoading(true);
       axios
         .request<
-          SuccessResponseDto<{ token: string; expiresIn: string; user: IUser }>
+          AxiosResponse<{ token: string; expiresIn: string; user: IUser }>
         >({
           url: process.env.REACT_APP_BACKEND_URL + "/users/register",
           method: "POST",
