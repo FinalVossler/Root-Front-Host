@@ -39,7 +39,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "column",
     alignItems: "center",
     textDecoration: "none",
-    flex: 1,
+    width: 200,
+    marginTop: 10,
   },
   postImage: {
     width: 200,
@@ -67,6 +68,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     fontSize: 20,
     color: theme.primary,
     marginTop: 10,
+    width: "100%",
+    lineBreak: "anywhere",
   },
   "@media (max-width: 850px)": {
     userPostsContainer: {
