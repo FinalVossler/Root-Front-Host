@@ -93,18 +93,6 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
 
     const filesToSend: IFile[] = await uploadFiles(files);
 
-    const promises = files.map((file) => {
-      return uploadFile(file);
-    });
-
-    if (promises.length > 0) {
-      await Promise.all(promises).then((files: (IFile | null)[]) => {
-        files.forEach((file) => {
-          if (file?.url) filesToSend.push(file);
-        });
-      });
-    }
-
     const messageCommand: MessageSendCommand = {
       from: user._id,
       to: getConversationConversationalistsFromConversationId(
