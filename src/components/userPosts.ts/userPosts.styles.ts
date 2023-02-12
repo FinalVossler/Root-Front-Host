@@ -24,6 +24,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexWrap: "wrap",
     width: "100%",
+    flexDirection: "row",
   },
   postTitle: {
     marginTop: 0,
@@ -32,6 +33,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
   postContent: {
     marginTop: 10,
     marginBottom: 0,
+  },
+  postFileContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    textDecoration: "none",
+    flex: 1,
   },
   postImage: {
     width: 200,
@@ -45,6 +53,20 @@ const useStyles = createUseStyles((theme: Theme) => ({
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
     backgroundOrigin: "inherit",
+  },
+  postFile: {
+    display: "flex",
+  },
+  fileIcon: {
+    extend: "postImage",
+
+    width: 200,
+    height: 200,
+  },
+  fileName: {
+    fontSize: 20,
+    color: theme.primary,
+    marginTop: 10,
   },
   "@media (max-width: 850px)": {
     userPostsContainer: {

@@ -1,22 +1,39 @@
 import React from "react";
 import { useTheme } from "react-jss";
-import { AiFillPicture } from "react-icons/ai";
+import {
+  AiFillPicture,
+  AiOutlineFileDone,
+  AiFillCloseCircle,
+} from "react-icons/ai";
 
 import { Theme } from "../../config/theme";
 
 import useStyles from "./postEditorFiles.styles";
 import readAsBase64 from "../../utils/readAsBase64";
 
+type TrackedImage = {
+  base64: string;
+  indexInParent: number;
+};
+
+type TrackedFile = {
+  file: File;
+  indexInParent: number;
+};
+
 interface IPostEditorFiles {
   setFiles: (files: File[]) => void;
+  files: File[];
 }
 
 const PostEditor = (props: IPostEditorFiles) => {
+  const [images, setTrackedImages] = React.useState<TrackedImage[]>([]);
+  const [trackedFiles, setTrackedFiles] = React.useState<TrackedFile[]>([]);
+
   const theme: Theme = useTheme();
   const styles = useStyles({ theme });
   const inputRef: React.MutableRefObject<HTMLInputElement | null> =
     React.useRef<HTMLInputElement>(null);
-  const [base64s, setBase64s] = React.useState<string[]>([]);
 
   const handleIconClick = () => {
     if (inputRef.current) {
@@ -29,7 +46,8 @@ const PostEditor = (props: IPostEditorFiles) => {
       const newFiles: File[] = Array.from(e.target.files);
       props.setFiles(newFiles);
 
-      const newBase64s: string[] = [];
+      const newTrackedImages: TrackedImage[] = [];
+      const newTrackedFiles: TrackedFile[] = [];
 
       for (let i = 0; i < newFiles.length; i++) {
         const file: File = newFiles[i];
@@ -37,13 +55,37 @@ const PostEditor = (props: IPostEditorFiles) => {
           ["image/png", "image/gif", "image/jpeg"].indexOf(file.type) !== -1
         ) {
           const base64: string = await readAsBase64(newFiles[i]);
-          newBase64s.push(base64);
+          newTrackedImages.push({ base64, indexInParent: i });
+        } else {
+          newTrackedFiles.push({ file, indexInParent: i });
         }
       }
 
-      setBase64s(newBase64s);
+      setTrackedImages(newTrackedImages);
+      setTrackedFiles(newTrackedFiles);
     } else {
       props.setFiles([]);
+    }
+  };
+
+  const handleRemoveFile = (trackedElement: TrackedImage | TrackedFile) => {
+    const newFiles: File[] = [...props.files];
+
+    newFiles.splice(trackedElement.indexInParent, 1);
+
+    props.setFiles(newFiles);
+
+    if ((trackedElement as TrackedImage).base64) {
+      const newTrackedImages = images.filter(
+        (image) => image.base64 !== (trackedElement as TrackedImage).base64
+      );
+      setTrackedImages(newTrackedImages);
+    } else {
+      const newTrackedFiles = trackedFiles.filter(
+        (file) =>
+          file.file.stream !== (trackedElement as TrackedFile).file.stream
+      );
+      setTrackedFiles(newTrackedFiles);
     }
   };
 
@@ -51,15 +93,32 @@ const PostEditor = (props: IPostEditorFiles) => {
     <div className={styles.postEditorFilesContainer}>
       <div className={styles.filesContainer}>
         <div className={styles.imagesContainer}>
-          {base64s.map((base64, i) => {
+          {images.map((trackedImage: TrackedImage, i) => {
             return (
-              <img
-                key={i}
-                className={styles.singleImage}
-                style={{
-                  backgroundImage: "url(" + base64 + ")",
-                }}
-              />
+              <div key={i} className={styles.singleFileContainer}>
+                <img
+                  className={styles.singleImage}
+                  style={{
+                    backgroundImage: "url(" + trackedImage.base64 + ")",
+                  }}
+                />
+                <AiFillCloseCircle
+                  onClick={() => handleRemoveFile(trackedImage)}
+                  className={styles.removeIcon}
+                />
+              </div>
+            );
+          })}
+          {trackedFiles.map((trackedFile: TrackedFile, i: number) => {
+            return (
+              <div key={i} className={styles.singleFileContainer}>
+                <AiOutlineFileDone className={styles.fileIcon} />
+                <span className={styles.fileName}>{trackedFile.file.name}</span>
+                <AiFillCloseCircle
+                  onClick={() => handleRemoveFile(trackedFile)}
+                  className={styles.removeIcon}
+                />
+              </div>
             );
           })}
         </div>

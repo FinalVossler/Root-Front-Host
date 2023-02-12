@@ -6,6 +6,7 @@ import "suneditor/dist/css/suneditor.min.css";
 import SunEditorCore from "suneditor/src/lib/core";
 import { ImCross } from "react-icons/im";
 import { AxiosResponse } from "axios";
+import ReactLoading from "react-loading";
 
 import useStyles from "./postEditor.styles";
 import WritePostButton from "../write-post-button";
@@ -48,7 +49,6 @@ const PostEditor = (props: IPostEditor) => {
     )
       return toast.error("Type something!");
 
-    setPostModalOpen(false);
     sunEditor?.setContents("");
 
     setLoading(true);
@@ -69,6 +69,7 @@ const PostEditor = (props: IPostEditor) => {
       .then((res) => {
         const post: IPost = res.data.data;
         dispatch(postSlice.actions.addUserPost({ post, user }));
+        setPostModalOpen(false);
       })
       .finally(() => setLoading(false));
   };
@@ -114,11 +115,28 @@ const PostEditor = (props: IPostEditor) => {
             height="200px"
           />
 
-          <PostEditorFiles setFiles={setFiles} />
+          <PostEditorFiles files={files} setFiles={setFiles} />
 
-          <Button type="submit" style={{}} className={styles.button}>
-            Post
-          </Button>
+          {!loading && (
+            <Button
+              disabled={loading}
+              type="submit"
+              style={{}}
+              className={styles.button}
+            >
+              Post
+            </Button>
+          )}
+
+          {loading && (
+            <ReactLoading
+              className={styles.loading}
+              type={"spin"}
+              color={theme.primary}
+              width={36}
+              height={36}
+            />
+          )}
         </form>
       </Modal>
     </div>

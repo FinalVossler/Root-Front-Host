@@ -61,6 +61,7 @@ const initialState: IUserState = {
       url: "",
       uuid: "",
       isImage: true,
+      name: "",
     },
   },
   tokenInformation: tokenInformationInStorage,

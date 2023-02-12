@@ -14,6 +14,7 @@ const uploadFile = async (file: File): Promise<IFile | null> => {
       url: uploadResult.cdnUrl,
       uuid: uploadResult.uuid,
       isImage: uploadResult.isImage || false,
+      name: uploadResult.name,
     };
   } else {
     return null;

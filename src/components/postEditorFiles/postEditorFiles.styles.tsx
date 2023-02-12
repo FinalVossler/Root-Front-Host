@@ -28,9 +28,21 @@ const useStyles = createUseStyles((theme: Theme) => ({
     alignItems: "center",
     flexWrap: "wrap",
   },
-  singleImage: {
+  singleFileContainer: {
+    position: "relative",
+    display: "flex",
+    flexDirection: "column",
     width: 100,
     height: 100,
+    marginRight: 20,
+  },
+  fileIcon: {
+    extend: "singleImage",
+    color: theme.primary,
+  },
+  singleImage: {
+    width: "100%",
+    height: "100%",
     backgroundSize: "cover",
     backgroundBlendMode: "screen",
     backgroundPosition: "center",
@@ -38,6 +50,16 @@ const useStyles = createUseStyles((theme: Theme) => ({
     backgroundOrigin: "inherit",
     border: "none",
     margin: 5,
+  },
+  removeIcon: {
+    cursor: "pointer",
+    position: "absolute",
+    color: theme.errorColor,
+    right: 0,
+    top: 0,
+  },
+  fileName: {
+    color: theme.lightTextColor,
   },
   "@media (max-width: 850px)": {},
 }));

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import IFile from "../../globalTypes/IFile";
 import PostVisibility from "../../globalTypes/PostVisibility";
-import compareWithCreatedAt from "../../utils/compare";
+import compareWithCreatedAt from "../../utils/compareWithCreatedAt";
 import { IUser } from "./userSlice";
 
 export interface IPost {
@@ -54,9 +54,8 @@ export const postSlice = createSlice({
       );
       if (userPosts) {
         userPosts.posts.push(post);
-        userPosts.posts.sort(compareWithCreatedAt);
         userPosts.total += 1;
-        userPosts.posts.sort(compareWithCreatedAt);
+        userPosts.posts.sort(compareWithCreatedAt(true));
       } else {
         state.userPosts.push({
           user,
@@ -77,7 +76,7 @@ export const postSlice = createSlice({
 
       if (userPosts) {
         userPosts.posts = posts;
-        userPosts.posts.sort(compareWithCreatedAt);
+        userPosts.posts.sort(compareWithCreatedAt(true));
       } else {
         state.userPosts.push({
           user,

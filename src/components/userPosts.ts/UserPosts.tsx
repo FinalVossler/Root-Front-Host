@@ -2,6 +2,7 @@ import { AxiosResponse } from "axios";
 import React from "react";
 import { useTheme } from "react-jss";
 import ReactLoading from "react-loading";
+import { AiOutlineFileDone } from "react-icons/ai";
 
 import { Theme } from "../../config/theme";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
@@ -22,6 +23,8 @@ const Banner: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
   const posts: IPost[] | undefined = useAppSelector(
     (state) => state.post.userPosts.find((p) => p.user._id === user._id)?.posts
   );
+
+  console.log("posts", posts);
 
   const [postsLoading, setPostsLoading] = React.useState<boolean>(false);
   const [page, setPage] = React.useState(1);
@@ -86,21 +89,29 @@ const Banner: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
               )}
 
               <div className={styles.postFiles}>
-                {post.files
-                  .filter((p) => p.isImage)
-                  .map((post, index) => {
-                    return (
-                      <a
-                        className={styles.postImage}
-                        key={"postImage" + index}
-                        style={{ backgroundImage: "url(" + post.url + ")" }}
-                        href={post.url}
-                        target="_blank"
-                      >
-                        {" "}
-                      </a>
-                    );
-                  })}
+                {post.files.map((file, index) => {
+                  return (
+                    <a
+                      key={"postFile" + index}
+                      className={styles.postFileContainer}
+                      href={file.url}
+                      target="_blank"
+                    >
+                      {file.isImage && (
+                        <div
+                          className={styles.postImage}
+                          key={"postFile" + index}
+                          style={{ backgroundImage: "url(" + file.url + ")" }}
+                        />
+                      )}
+                      {!file.isImage && (
+                        <AiOutlineFileDone className={styles.fileIcon} />
+                      )}
+
+                      <span className={styles.fileName}>{file.name}</span>
+                    </a>
+                  );
+                })}
               </div>
             </div>
           );

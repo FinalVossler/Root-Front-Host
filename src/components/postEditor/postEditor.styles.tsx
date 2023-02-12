@@ -61,6 +61,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.darkTextColor,
     fontSize: 26,
   },
+  loading: {
+    margin: "auto",
+    marginTop: 10,
+  },
   "@media (max-width: 850px)": {
     connectedUserProfileContainer: {
       flexDirection: "column",
