@@ -54,9 +54,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
   removeIcon: {
     cursor: "pointer",
     position: "absolute",
-    color: theme.errorColor,
-    right: 0,
+    color: theme.subContentBackgroundColor,
+    left: 0,
     top: 0,
+    fontSize: 30,
   },
   fileName: {
     color: theme.lightTextColor,

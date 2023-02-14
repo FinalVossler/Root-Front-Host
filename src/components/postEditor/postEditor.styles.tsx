@@ -14,6 +14,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     maxHeight: "calc(100vh - 200px)",
     position: "relative",
     width: "100%",
+    overflow: "auto",
+    paddingRight: 20,
   },
   createPostHeader: {
     display: "flex",

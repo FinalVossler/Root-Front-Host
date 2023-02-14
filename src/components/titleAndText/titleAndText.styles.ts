@@ -10,7 +10,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     justifyContent: "space-around",
     width: "100%",
     background: "transparent",
-    marginTop: 50,
+    marginTop: 20,
   },
   title: {
     fontSize: 30,

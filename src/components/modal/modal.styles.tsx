@@ -31,7 +31,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     boxShadow: theme.boxShadow,
     borderRadius: "40px",
     zIndex: 4,
-    overflow: "auto",
     width: "80%",
   },
 }));

@@ -8,11 +8,19 @@ import { Theme } from "../../config/theme";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { IPost, postSlice, PostVisibility } from "../../store/slices/postSlice";
+import {
+  IPost,
+  PostDesign,
+  postSlice,
+  PostVisibility,
+} from "../../store/slices/postSlice";
 import { IUser } from "../../store/slices/userSlice";
+import extractContentFromHtml from "../../utils/extractContentFromHtml";
 
 import useStyles from "./userPosts.styles";
 import PostsGetCommandd from "../../globalTypes/commands/PostsGetCommand";
+import Card from "../card";
+import TitleAndText from "../titleAndText";
 
 interface IUserPosts {
   userId: string;
@@ -73,12 +81,29 @@ const Banner: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
 
       {!postsLoading &&
         posts?.map((post: IPost, index: number) => {
+          if (post.design === PostDesign.Card) {
+            return (
+              <Card
+                backgroundImage={
+                  post.files.find((file) => file.isImage)?.url ||
+                  "assets/images/card4.jpeg"
+                }
+                description={extractContentFromHtml(post.content || "")}
+                title={post.title || ""}
+                key={post._id}
+              />
+            );
+          }
+          if (post.design === PostDesign.TitleAndText) {
+            return (
+              <TitleAndText
+                description={extractContentFromHtml(post.content || "")}
+                title={post.title || ""}
+              />
+            );
+          }
           return (
-            <div
-              key={post._id}
-              className={styles.userPost}
-              style={{ marginBottom: index === posts.length - 1 ? 0 : 30 }}
-            >
+            <div key={post._id} className={styles.userPost}>
               {post.title && <h2 className={styles.postTitle}>{post.title}</h2>}
 
               {post.content && post.content !== "<p><br></p>" && (

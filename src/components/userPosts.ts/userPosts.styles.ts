@@ -9,6 +9,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     alignItems: "center",
     color: theme.lightTextColor,
     padding: 20,
+    paddingTop: 0,
     borderRadius: 10,
   },
   userPost: {
@@ -18,6 +19,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     backgroundColor: theme.contentBackgroundColor,
     padding: 20,
     borderRadius: 10,
+    marginTop: 20,
     boxSizing: "border-box",
   },
   postFiles: {

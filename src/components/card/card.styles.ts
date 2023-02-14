@@ -63,11 +63,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     zIndex: -1,
     opacity: 0.5,
   },
-  "@media (max-width: 1000px)": {
-    cardContainer: {
-      width: 700,
-    },
-  },
   "@media (max-width: 800px)": {
     cardContainer: {
       width: 340,
