@@ -1,9 +1,20 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import IFile from "../../globalTypes/IFile";
-import PostVisibility from "../../globalTypes/PostVisibility";
 import compareWithCreatedAt from "../../utils/compareWithCreatedAt";
 import { IUser } from "./userSlice";
+
+export enum PostVisibility {
+  Private = "Private",
+  Public = "Public",
+  Connections = "Connections",
+}
+
+export enum PostDesign {
+  Default = "Default",
+  Card = "Card",
+  TitleAndText = "TitleAndText",
+}
 
 export interface IPost {
   _id: string;
@@ -12,6 +23,7 @@ export interface IPost {
   content?: string;
   files: IFile[];
   visibility: PostVisibility;
+  design: PostDesign;
 
   createdAt: string;
   updatedAt: string;

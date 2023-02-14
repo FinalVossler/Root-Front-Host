@@ -14,7 +14,7 @@ import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import PostEditor from "../../components/postEditor";
 import UserPosts from "../../components/userPosts.ts";
 import { useAppSelector } from "../../store/hooks";
-import PostVisibility from "../../globalTypes/PostVisibility";
+import { PostVisibility } from "../../store/slices/postSlice";
 
 enum ActiveForm {
   Register = "Register",

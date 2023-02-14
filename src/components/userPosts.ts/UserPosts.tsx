@@ -6,10 +6,9 @@ import { AiOutlineFileDone } from "react-icons/ai";
 
 import { Theme } from "../../config/theme";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
-import PostVisibility from "../../globalTypes/PostVisibility";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { IPost, postSlice } from "../../store/slices/postSlice";
+import { IPost, postSlice, PostVisibility } from "../../store/slices/postSlice";
 import { IUser } from "../../store/slices/userSlice";
 
 import useStyles from "./userPosts.styles";

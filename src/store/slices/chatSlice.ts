@@ -16,13 +16,6 @@ export interface IMessage {
   updatedAt: string;
 }
 
-export type MessageSendCommand = {
-  from: IMessage["from"];
-  to: IMessage["to"];
-  message: IMessage["message"];
-  files: IMessage["files"];
-};
-
 export type Conversation = {
   // The id of a conversation is the joined state of the sorter array of the conversationalist's ids
   id: string;

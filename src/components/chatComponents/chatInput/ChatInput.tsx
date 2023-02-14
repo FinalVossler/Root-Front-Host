@@ -24,7 +24,6 @@ import ChatMessagesEnum from "../../../globalTypes/ChatMessagesEnum";
 import {
   getConversationConversationalistsFromConversationId,
   IMessage,
-  MessageSendCommand,
 } from "../../../store/slices/chatSlice";
 import IFile from "../../../globalTypes/IFile";
 import uploadFile from "../../../utils/uploadFile";
@@ -93,20 +92,18 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
 
     const filesToSend: IFile[] = await uploadFiles(files);
 
-    const messageCommand: MessageSendCommand = {
-      from: user._id,
-      to: getConversationConversationalistsFromConversationId(
-        props.conversationId
-      ),
-      message: message ?? "",
-      files: filesToSend,
-    };
-
     axios
       .request<AxiosResponse<IMessage>>({
         method: "POST",
         url: "/messages",
-        data: messageCommand,
+        data: {
+          from: user._id,
+          to: getConversationConversationalistsFromConversationId(
+            props.conversationId
+          ),
+          message: message ?? "",
+          files: filesToSend,
+        },
       })
       .then((res) => {
         const message: IMessage = res.data.data;

@@ -17,7 +17,12 @@ import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
 import IFile from "../../globalTypes/IFile";
 import uploadFiles from "../../utils/uploadFiles";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { IPost, postSlice } from "../../store/slices/postSlice";
+import {
+  IPost,
+  PostDesign,
+  postSlice,
+  PostVisibility,
+} from "../../store/slices/postSlice";
 import { IUser } from "../../store/slices/userSlice";
 import PostEditorFiles from "../postEditorFiles";
 
@@ -64,6 +69,8 @@ const PostEditor = (props: IPostEditor) => {
           posterId: user._id,
           content,
           files: filedsToSend,
+          visibility: PostVisibility.Public,
+          design: PostDesign.Default,
         },
       })
       .then((res) => {
