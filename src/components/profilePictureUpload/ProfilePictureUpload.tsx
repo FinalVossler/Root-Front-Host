@@ -47,6 +47,7 @@ const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
     setLoading(true);
 
     const newProfilePicture: IFile | null = await uploadFile(file);
+
     if (newProfilePicture) {
       axios
         .request<AxiosResponse<IUser>>({

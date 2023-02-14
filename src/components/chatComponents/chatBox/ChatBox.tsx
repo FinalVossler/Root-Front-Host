@@ -3,6 +3,7 @@ import React from "react";
 import { useTheme } from "react-jss";
 
 import { Theme } from "../../../config/theme";
+import MessageGetBetweenUsersCommand from "../../../globalTypes/commands/MessageGetBetweenUsersCommand";
 import PaginationResponse from "../../../globalTypes/PaginationResponse";
 import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
@@ -87,19 +88,20 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   const handleLoadMessages = (whichPage: number) => {
     setLoadingMessages(true);
 
+    const command: MessageGetBetweenUsersCommand = {
+      usersIds: getConversationConversationalistsFromConversationId(
+        props.conversationId
+      ),
+      paginationCommand: {
+        page: whichPage,
+        limit,
+      },
+    };
     axios
       .request<AxiosResponse<PaginationResponse<IMessage>>>({
         method: "POST",
         url: "/messages/get",
-        data: {
-          usersIds: getConversationConversationalistsFromConversationId(
-            props.conversationId
-          ),
-          paginationCommand: {
-            page: whichPage,
-            limit,
-          },
-        },
+        data: command,
       })
       .then((res) => {
         const messages: IMessage[] = res.data.data.data;

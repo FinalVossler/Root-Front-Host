@@ -16,6 +16,7 @@ import useAxios from "../../hooks/useAxios";
 import { Theme } from "../../config/theme";
 
 import useStyles from "./registration.styles";
+import UserRegisterCommand from "../../globalTypes/commands/UserRegisterCommand";
 
 type IRegistrationForm = {
   firstName: string;
@@ -62,13 +63,20 @@ const Registration: React.FunctionComponent<IRegistration> = (
     }),
     onSubmit: (values: IRegistrationForm) => {
       setLoading(true);
+      const command: UserRegisterCommand = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        password: values.password,
+      };
+
       axios
         .request<
           AxiosResponse<{ token: string; expiresIn: string; user: IUser }>
         >({
           url: process.env.REACT_APP_BACKEND_URL + "/users/register",
           method: "POST",
-          data: values,
+          data: command,
         })
         .then((res) => {
           const { user, token, expiresIn } = res.data.data;

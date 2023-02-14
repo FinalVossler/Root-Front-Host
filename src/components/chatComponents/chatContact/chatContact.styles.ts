@@ -42,6 +42,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     backgroundColor: theme.backgroundColor,
     borderRadius: 10,
     padding: 5,
+    zIndex: 1,
   },
   notificationNumber: {
     position: "absolute",
@@ -50,6 +51,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     left: "15px",
     top: "-5px",
     fontWeight: 900,
+    zIndex: 2,
   },
   "@media (max-width: 800px)": {},
 }));

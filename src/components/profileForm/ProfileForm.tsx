@@ -15,6 +15,7 @@ import { IUser, userSlice } from "../../store/slices/userSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { toast } from "react-toastify";
 import ProfilePictureUpload from "../profilePictureUpload";
+import UserUpdateCommand from "../../globalTypes/commands/UserUpdateCommand";
 
 type ProfileFormik = {
   firstName: string;
@@ -44,15 +45,17 @@ const Profile: React.FunctionComponent<IProfileForm> = (
     }),
     onSubmit: (values: ProfileFormik) => {
       setLoading(true);
+      const command: UserUpdateCommand = {
+        _id: user._id,
+        firstName: values.firstName,
+        lastName: values.lastName,
+      };
+
       axios
         .request<AxiosResponse<IUser>>({
           url: process.env.REACT_APP_BACKEND_URL + "/users",
           method: "PUT",
-          data: {
-            _id: user._id,
-            firstName: values.firstName,
-            lastName: values.lastName,
-          },
+          data: command,
         })
         .then((res) => {
           toast.success("Profile information updated");

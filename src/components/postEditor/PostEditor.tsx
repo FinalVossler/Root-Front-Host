@@ -25,6 +25,7 @@ import {
 } from "../../store/slices/postSlice";
 import { IUser } from "../../store/slices/userSlice";
 import PostEditorFiles from "../postEditorFiles";
+import PostCreateCommand from "../../globalTypes/commands/PostCreateCommand";
 
 interface IPostEditor {}
 
@@ -60,18 +61,20 @@ const PostEditor = (props: IPostEditor) => {
 
     const filedsToSend: IFile[] = await uploadFiles(files);
 
+    const command: PostCreateCommand = {
+      title,
+      posterId: user._id,
+      content,
+      files: filedsToSend,
+      visibility: PostVisibility.Public,
+      design: PostDesign.Default,
+    };
+
     axios
       .request<AxiosResponse<IPost>>({
         url: "/posts",
         method: "POST",
-        data: {
-          title,
-          posterId: user._id,
-          content,
-          files: filedsToSend,
-          visibility: PostVisibility.Public,
-          design: PostDesign.Default,
-        },
+        data: command,
       })
       .then((res) => {
         const post: IPost = res.data.data;

@@ -12,6 +12,7 @@ import { IPost, postSlice, PostVisibility } from "../../store/slices/postSlice";
 import { IUser } from "../../store/slices/userSlice";
 
 import useStyles from "./userPosts.styles";
+import PostsGetCommandd from "../../globalTypes/commands/PostsGetCommand";
 
 interface IUserPosts {
   userId: string;
@@ -37,18 +38,20 @@ const Banner: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
     if (!user._id) return;
 
     setPostsLoading(true);
+
+    const command: PostsGetCommandd = {
+      userId: props.userId,
+      visibilities: props.visibilities,
+      paginationCommand: {
+        page,
+        limit: 10,
+      },
+    };
     axios
       .request<AxiosResponse<PaginationResponse<IPost>>>({
         method: "POST",
         url: "/posts/getUserPosts",
-        data: {
-          userId: props.userId,
-          visibilities: props.visibilities,
-          paginationCommand: {
-            page,
-            limit: 10,
-          },
-        },
+        data: command,
       })
       .then((res) => {
         dispatch(

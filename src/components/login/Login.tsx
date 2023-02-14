@@ -15,6 +15,7 @@ import { Theme } from "../../config/theme";
 
 import { IUser, userSlice } from "../../store/slices/userSlice";
 import { useAppDispatch } from "../../store/hooks";
+import UserLoginCommand from "../../globalTypes/commands/UserLoginCommand";
 
 import useStyles from "./login.styles";
 
@@ -45,13 +46,18 @@ const Registration: React.FunctionComponent<ILogin> = (props: ILogin) => {
     }),
     onSubmit: (values: ILoginForm) => {
       setLoading(true);
+
+      const command: UserLoginCommand = {
+        email: values.email,
+        password: values.password,
+      };
       axios
         .request<
           AxiosResponse<{ expiresIn: string; token: string; user: IUser }>
         >({
           url: process.env.REACT_APP_BACKEND_URL + "/users/login",
           method: "POST",
-          data: values,
+          data: command,
         })
         .then((res) => {
           dispatch(userSlice.actions.setUserAndTokenInformation(res.data.data));
