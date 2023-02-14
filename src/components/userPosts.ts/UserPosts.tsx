@@ -24,8 +24,6 @@ const Banner: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
     (state) => state.post.userPosts.find((p) => p.user._id === user._id)?.posts
   );
 
-  console.log("posts", posts);
-
   const [postsLoading, setPostsLoading] = React.useState<boolean>(false);
   const [page, setPage] = React.useState(1);
 

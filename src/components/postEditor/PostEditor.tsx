@@ -26,6 +26,8 @@ import {
 import { IUser } from "../../store/slices/userSlice";
 import PostEditorFiles from "../postEditorFiles";
 import PostCreateCommand from "../../globalTypes/commands/PostCreateCommand";
+import InputSelect from "../inputSelect";
+import { Option } from "../inputSelect/InputSelect";
 
 interface IPostEditor {}
 
@@ -34,6 +36,7 @@ const PostEditor = (props: IPostEditor) => {
 
   const [postModalOpen, setPostModalOpen] = React.useState<boolean>(false);
   const [title, setTitle] = React.useState<string>("");
+  const [design, setDesign] = React.useState<PostDesign>(PostDesign.Default);
   const [files, setFiles] = React.useState<File[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [sunEditor, setSunEditor] =
@@ -43,6 +46,13 @@ const PostEditor = (props: IPostEditor) => {
   const styles = useStyles({ theme });
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
+
+  // Autofocus prop is not working. So we manually focus the editor when the modal shows
+  React.useEffect(() => {
+    if (postModalOpen && sunEditor && sunEditor.core) {
+      sunEditor.core.focus();
+    }
+  }, [postModalOpen, sunEditor]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -67,7 +77,7 @@ const PostEditor = (props: IPostEditor) => {
       content,
       files: filedsToSend,
       visibility: PostVisibility.Public,
-      design: PostDesign.Default,
+      design: design,
     };
 
     axios
@@ -79,21 +89,22 @@ const PostEditor = (props: IPostEditor) => {
       .then((res) => {
         const post: IPost = res.data.data;
         dispatch(postSlice.actions.addUserPost({ post, user }));
+        setTitle("");
+        setDesign(PostDesign.Default);
         setPostModalOpen(false);
       })
       .finally(() => setLoading(false));
   };
 
-  // Autofocus prop is not working. So we manually focus the editor when the modal shows
-  React.useEffect(() => {
-    if (postModalOpen && sunEditor && sunEditor.core) {
-      sunEditor.core.focus();
-    }
-  }, [postModalOpen, sunEditor]);
-
+  //#region Event listeners
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
+
+  const handleDesignChange = (option: Option) => {
+    setDesign(option.value as PostDesign);
+  };
+  //#endregion Event listeners
 
   return (
     <div className={styles.postEditorContainer}>
@@ -118,6 +129,16 @@ const PostEditor = (props: IPostEditor) => {
             value={title}
             onChange={handleTitleChange}
             placeholder="Title"
+          />
+
+          <InputSelect
+            options={Object.values(PostDesign).map((el) => ({
+              value: el,
+              label: el,
+            }))}
+            label="Design"
+            onChange={handleDesignChange}
+            value={{ value: design, label: design.toString() }}
           />
 
           <SunEditor
