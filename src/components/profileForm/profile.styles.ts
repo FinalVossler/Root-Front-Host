@@ -20,6 +20,18 @@ const useStyles = createUseStyles((theme: Theme) => ({
     fontSize: 30,
     color: theme.primary,
   },
+  profileForm: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  userRole: {
+    color: theme.lightTextColor,
+    marginBottom: 10,
+  },
+  actualRole: {
+    fontWeight: "bold",
+    color: theme.primary,
+  },
   "@media (max-width: 800px)": {},
 }));
 

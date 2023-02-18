@@ -1,7 +1,6 @@
 import React from "react";
 import { useTheme } from "react-jss";
 import Select from "react-select";
-import { Props } from "react-select/dist/declarations/src/Select";
 
 import { Theme } from "../../config/theme";
 
@@ -35,6 +34,8 @@ const InputSelect: React.FunctionComponent<IInputSelect> = (
         onChange={props.onChange}
         options={props.options}
         value={props.value}
+        className={styles.select}
+        classNamePrefix="react-select"
       />
     </div>
   );

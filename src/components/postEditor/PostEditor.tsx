@@ -36,6 +36,9 @@ const PostEditor = (props: IPostEditor) => {
 
   const [postModalOpen, setPostModalOpen] = React.useState<boolean>(false);
   const [title, setTitle] = React.useState<string>("");
+  const [visibility, setVisibility] = React.useState<PostVisibility>(
+    PostVisibility.Public
+  );
   const [design, setDesign] = React.useState<PostDesign>(PostDesign.Default);
   const [files, setFiles] = React.useState<File[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -62,8 +65,9 @@ const PostEditor = (props: IPostEditor) => {
     if (
       (!content || content.trim() === "<p><br></p>") &&
       (!title || title.trim() === "")
-    )
+    ) {
       return toast.error("Type something!");
+    }
 
     sunEditor?.setContents("");
 
@@ -76,7 +80,7 @@ const PostEditor = (props: IPostEditor) => {
       posterId: user._id,
       content,
       files: filedsToSend,
-      visibility: PostVisibility.Public,
+      visibility: visibility,
       design: design,
     };
 
@@ -91,6 +95,7 @@ const PostEditor = (props: IPostEditor) => {
         dispatch(postSlice.actions.addUserPost({ post, user }));
         setTitle("");
         setDesign(PostDesign.Default);
+        setVisibility(PostVisibility.Public);
         setPostModalOpen(false);
       })
       .finally(() => setLoading(false));
@@ -99,6 +104,10 @@ const PostEditor = (props: IPostEditor) => {
   //#region Event listeners
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
+  };
+
+  const handleVisibilityChange = (option: Option) => {
+    setVisibility(option.value as PostVisibility);
   };
 
   const handleDesignChange = (option: Option) => {
@@ -129,6 +138,16 @@ const PostEditor = (props: IPostEditor) => {
             value={title}
             onChange={handleTitleChange}
             placeholder="Title"
+          />
+
+          <InputSelect
+            options={Object.values(PostVisibility).map((el) => ({
+              value: el,
+              label: el,
+            }))}
+            label="Visibility"
+            onChange={handleVisibilityChange}
+            value={{ value: visibility, label: visibility.toString() }}
           />
 
           <InputSelect

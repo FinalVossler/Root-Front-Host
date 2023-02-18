@@ -3,11 +3,11 @@ import { createUseStyles } from "react-jss";
 import { Theme } from "../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
-  postEditorContainer: {
+  pageEditorContainer: {
     width: "100%",
     maxWidth: 700,
   },
-  createPostModalContainer: {
+  createPageModalContainer: {
     display: "flex",
     flexDirection: "column",
     paddingBottom: 15,
@@ -17,7 +17,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     overflow: "auto",
     paddingRight: 20,
   },
-  createPostHeader: {
+  createPageHeader: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -26,7 +26,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderBottom: "1px solid " + theme.borderColor,
     marginBottom: "10px",
   },
-  createPostTitle: {
+  createPageTitle: {
     color: theme.lightTextColor,
   },
   closeButton: {

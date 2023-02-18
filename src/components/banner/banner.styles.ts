@@ -46,6 +46,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     zIndex: 1,
     textAlign: "center",
     marginBottom: 100,
+    marginRight: 20,
+    marginLeft: 20,
   },
   "@media (max-width: 800px)": {
     bannerTitle: {
@@ -55,8 +57,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     },
     bannerDescription: {
       fontSize: 15,
-      marginRight: 20,
-      marginLeft: 20,
     },
   },
 }));

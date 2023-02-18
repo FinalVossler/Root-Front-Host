@@ -21,12 +21,13 @@ import useStyles from "./userPosts.styles";
 import PostsGetCommandd from "../../globalTypes/commands/PostsGetCommand";
 import Card from "../card";
 import TitleAndText from "../titleAndText";
+import Banner from "../banner";
 
 interface IUserPosts {
   userId: string;
   visibilities: PostVisibility[];
 }
-const Banner: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
+const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
   const user: IUser = useAppSelector((state) => state.user.user);
   const posts: IPost[] | undefined = useAppSelector(
     (state) => state.post.userPosts.find((p) => p.user._id === user._id)?.posts
@@ -99,6 +100,15 @@ const Banner: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
               <TitleAndText
                 description={extractContentFromHtml(post.content || "")}
                 title={post.title || ""}
+                key={post._id}
+              />
+            );
+          }
+          if (post.design === PostDesign.Banner) {
+            return (
+              <Banner
+                description={extractContentFromHtml(post.content || "")}
+                title={post.title || ""}
               />
             );
           }
@@ -145,4 +155,4 @@ const Banner: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
   );
 };
 
-export default React.memo(Banner);
+export default React.memo(UserPosts);

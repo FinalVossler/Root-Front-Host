@@ -9,12 +9,18 @@ import { toast } from "react-toastify";
 
 import IFile from "../../globalTypes/IFile";
 
+export enum Role {
+  Admin = "Admin",
+  Normal = "Normal",
+}
+
 export interface IUser {
   _id: string;
   firstName: string;
   lastName: string;
   email: string;
   profilePicture?: IFile;
+  role: Role;
 }
 
 export type TokenInformation = {
@@ -57,6 +63,7 @@ const initialState: IUserState = {
     firstName: "",
     lastName: "",
     email: "",
+    role: Role.Normal,
     profilePicture: {
       url: "",
       uuid: "",

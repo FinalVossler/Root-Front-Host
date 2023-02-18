@@ -5,14 +5,19 @@ import { Theme } from "../../config/theme";
 const useStyles = createUseStyles((theme: Theme) => ({
   inputSelectContainer: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     position: "relative",
-    marginBottom: 30,
-    zIndex: 99,
+    marginBottom: 10,
+    alignItems: "center",
   },
   selectLabel: {
     color: theme.lightTextColor,
-    marginBottom: 10,
+    marginRight: 10,
+    width: 70,
+    textAlign: "end",
+  },
+  select: {
+    flex: 1,
   },
   "@media (max-width: 800px)": {},
 }));

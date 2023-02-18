@@ -89,7 +89,7 @@ const Profile: React.FunctionComponent<IProfileForm> = (
 
       <br />
 
-      <form onSubmit={handleSubmit}>
+      <form className={styles.profileForm} onSubmit={handleSubmit}>
         <Input
           placeholder="Enter your first name"
           Icon={CgProfile}
@@ -103,6 +103,11 @@ const Profile: React.FunctionComponent<IProfileForm> = (
           name="lastName"
           formik={formik}
         />
+
+        <span className={styles.userRole}>
+          Role: <span className={styles.actualRole}>{user.role} User</span>
+        </span>
+        <br />
 
         <Button disabled={loading}>Update Profile Information</Button>
 

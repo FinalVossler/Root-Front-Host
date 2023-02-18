@@ -28,3 +28,8 @@ body::-webkit-scrollbar {
 embed img {
   width: 100%;
 }
+
+/* React select needs its menu to show on top of all other elements */
+.react-select__menu {
+  z-index: 99 !important;
+}
