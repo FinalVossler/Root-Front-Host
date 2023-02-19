@@ -7,14 +7,14 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
     margin: "auto",
-    maxWidth: theme.formMaxWidth,
-    width: "70%",
+    width: "100%",
     borderRadius: 20,
     padding: 40,
     paddingTop: 10,
     marginTop: 0,
     paddingBottom: 40,
     backgroundColor: theme.contentBackgroundColor,
+    boxSizing: "border-box",
   },
   profileFormTitle: {
     fontSize: 30,
@@ -32,7 +32,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     fontWeight: "bold",
     color: theme.primary,
   },
-  "@media (max-width: 800px)": {},
+  "@media (max-width: 930)": {},
 }));
 
 export default useStyles;

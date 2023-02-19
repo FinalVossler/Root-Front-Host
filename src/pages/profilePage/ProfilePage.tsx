@@ -15,6 +15,7 @@ import PostEditor from "../../components/postEditor";
 import UserPosts from "../../components/userPosts.ts";
 import { useAppSelector } from "../../store/hooks";
 import { PostVisibility } from "../../store/slices/postSlice";
+import PageEditor from "../../components/pageEditor";
 
 enum ActiveForm {
   Register = "Register",
@@ -57,7 +58,10 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
       {activeForm === ActiveForm.Login && !isLoggedIn && <Login />}
       {isLoggedIn && (
         <div className={styles.connectedUserProfileContainer}>
-          <ProfileForm />
+          <div className={styles.profileAndPages}>
+            <ProfileForm />
+            <PageEditor />
+          </div>
           <div className={styles.postsAndEditor}>
             <PostEditor />
             <UserPosts

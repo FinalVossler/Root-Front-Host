@@ -5,6 +5,7 @@ import SunEditor from "suneditor-react";
 import "suneditor/dist/css/suneditor.min.css";
 import SunEditorCore from "suneditor/src/lib/core";
 import { ImCross } from "react-icons/im";
+import { MdTitle } from "react-icons/md";
 import { AxiosResponse } from "axios";
 import ReactLoading from "react-loading";
 
@@ -28,6 +29,8 @@ import PostEditorFiles from "../postEditorFiles";
 import PostCreateCommand from "../../globalTypes/commands/PostCreateCommand";
 import InputSelect from "../inputSelect";
 import { Option } from "../inputSelect/InputSelect";
+import { FormikProps } from "formik";
+import Input from "../input";
 
 interface IPostEditor {}
 
@@ -133,11 +136,13 @@ const PostEditor = (props: IPostEditor) => {
             />
           </div>
 
-          <input
-            className={styles.titleInput}
+          <Input
+            Icon={MdTitle}
             value={title}
-            onChange={handleTitleChange}
-            placeholder="Title"
+            inputProps={{
+              onChange: handleTitleChange,
+              placeholder: "title",
+            }}
           />
 
           <InputSelect

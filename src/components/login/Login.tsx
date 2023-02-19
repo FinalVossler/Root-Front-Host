@@ -19,10 +19,10 @@ import UserLoginCommand from "../../globalTypes/commands/UserLoginCommand";
 
 import useStyles from "./login.styles";
 
-type ILoginForm = {
+interface ILoginForm {
   email: string;
   password: string;
-};
+}
 
 interface ILogin {}
 const Registration: React.FunctionComponent<ILogin> = (props: ILogin) => {
@@ -76,19 +76,19 @@ const Registration: React.FunctionComponent<ILogin> = (props: ILogin) => {
     <form onSubmit={handleSubmit} className={styles.loginContainer}>
       <h2 className={styles.loginTitle}>Login:</h2>
       <Input
-        placeholder="Enter your email"
         Icon={AiOutlineMail}
         inputProps={{
           type: "email",
+          placeholder: "Enter your email",
         }}
         name="email"
         formik={formik}
       />
       <Input
-        placeholder="Enter your password"
         Icon={RiLockPasswordLine}
         inputProps={{
           type: "password",
+          placeholder: "Enter your password",
         }}
         name="password"
         formik={formik}

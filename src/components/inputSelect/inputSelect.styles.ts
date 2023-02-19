@@ -18,6 +18,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   select: {
     flex: 1,
+    backgroundColor: theme.boxColor,
   },
   "@media (max-width: 800px)": {},
 }));

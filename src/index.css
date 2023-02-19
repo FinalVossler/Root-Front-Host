@@ -33,3 +33,12 @@ embed img {
 .react-select__menu {
   z-index: 99 !important;
 }
+
+.react-select__control {
+  background-color: #3f3c51 !important;
+}
+
+.react-select__input-container input,
+.react-select__single-value {
+  color: white !important;
+}

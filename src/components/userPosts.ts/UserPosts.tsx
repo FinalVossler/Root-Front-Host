@@ -107,6 +107,7 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
           if (post.design === PostDesign.Banner) {
             return (
               <Banner
+                key={post._id}
                 description={extractContentFromHtml(post.content || "")}
                 title={post.title || ""}
               />

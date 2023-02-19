@@ -18,13 +18,13 @@ import { Theme } from "../../config/theme";
 import useStyles from "./registration.styles";
 import UserRegisterCommand from "../../globalTypes/commands/UserRegisterCommand";
 
-type IRegistrationForm = {
+interface IRegistrationForm {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
   confirmPassword: string;
-};
+}
 
 interface IRegistration {}
 const Registration: React.FunctionComponent<IRegistration> = (
@@ -103,32 +103,35 @@ const Registration: React.FunctionComponent<IRegistration> = (
     <form onSubmit={handleSubmit} className={styles.registrationContainer}>
       <h2 className={styles.registrationTitle}>Registration:</h2>
       <Input
-        placeholder="Enter your first name"
         Icon={CgProfile}
         name="firstName"
         formik={formik}
+        inputProps={{
+          placeholder: "Enter your first name",
+        }}
       />
       <Input
-        placeholder="Enter your last name"
+        inputProps={{
+          placeholder: "Enter your last name",
+        }}
         Icon={CgProfile}
-        inputProps={{}}
         name="lastName"
         formik={formik}
       />
       <Input
-        placeholder="Enter your email"
         Icon={AiOutlineMail}
         inputProps={{
+          placeholder: "Enter your email",
           type: "email",
         }}
         name="email"
         formik={formik}
       />
       <Input
-        placeholder="Enter your password"
         Icon={RiLockPasswordLine}
         inputProps={{
           type: "password",
+          placeholder: "Enter your password",
         }}
         name="password"
         formik={formik}
@@ -136,8 +139,8 @@ const Registration: React.FunctionComponent<IRegistration> = (
       <Input
         inputProps={{
           type: "password",
+          placeholder: "Confirm your password",
         }}
-        placeholder="Confirm your password"
         Icon={AiOutlineMail}
         name="confirmPassword"
         formik={formik}

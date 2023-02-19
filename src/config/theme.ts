@@ -28,7 +28,7 @@ const theme: Theme = {
   contentBackgroundColor: "#0a0b13",
   subContentBackgroundColor: "#08041e",
   boxColor: "#3f3c51",
-  boxShadow: "1px 2px 20px 15px black",
+  boxShadow: "1px 2px 5px 4px black",
 };
 
 export default theme;

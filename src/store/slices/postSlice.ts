@@ -35,11 +35,12 @@ type UserPosts = {
   posts: IPost[];
   total: number;
 };
-type PostInitialState = {
-  userPosts: UserPosts[];
-};
 
-const initialState: PostInitialState = {
+interface IPostInitialState {
+  userPosts: UserPosts[];
+}
+
+const initialState: IPostInitialState = {
   userPosts: [],
 };
 
@@ -48,7 +49,7 @@ export const postSlice = createSlice({
   initialState,
   reducers: {
     createNewUserPosts: (
-      state: PostInitialState,
+      state: IPostInitialState,
       action: PayloadAction<UserPosts>
     ) => {
       const newUserPost: UserPosts = action.payload;
@@ -57,7 +58,7 @@ export const postSlice = createSlice({
       state.userPosts.push(newUserPost);
     },
     addUserPost: (
-      state: PostInitialState,
+      state: IPostInitialState,
       action: PayloadAction<{ post: IPost; user: IUser }>
     ) => {
       const { post, user } = action.payload;
@@ -78,7 +79,7 @@ export const postSlice = createSlice({
       }
     },
     refreshUserPosts: (
-      state: PostInitialState,
+      state: IPostInitialState,
       action: PayloadAction<{ posts: IPost[]; user: IUser; total: number }>
     ) => {
       const { posts, user, total } = action.payload;

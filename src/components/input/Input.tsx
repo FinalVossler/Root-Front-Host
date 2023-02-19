@@ -7,11 +7,12 @@ import { Theme } from "../../config/theme";
 import useStyles from "./input.styles";
 
 interface IInput {
-  placeholder: string;
-  Icon: any;
+  Icon?: any;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
-  name: string;
-  formik: FormikProps<any>;
+  name?: string;
+  formik?: FormikProps<any>;
+  value?: any;
+  error?: string;
 }
 const Input: React.FunctionComponent<IInput> = (props: IInput) => {
   const [isFocused, setIsFocused] = React.useState(false);
@@ -30,23 +31,28 @@ const Input: React.FunctionComponent<IInput> = (props: IInput) => {
         isFocused ? styles.inputContainerFocused : styles.inputContainer
       }
     >
-      <props.Icon className={styles.inputIcon} />
-      <input
-        onBlur={handleFocus}
-        onFocus={handleFocus}
-        className={styles.input}
-        placeholder={props.placeholder}
-        name={props.name}
-        value={props.formik.values[props.name]}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          props.formik.setFieldValue(props.name, e.target.value)
-        }
-        {...props.inputProps}
-      />
+      {props.Icon && <props.Icon className={styles.inputIcon} />}
+      {((props.name && props.formik?.values[props.name]) !== undefined ||
+        props.value) && (
+        <input
+          onBlur={handleFocus}
+          onFocus={handleFocus}
+          className={styles.input}
+          name={props.name}
+          value={props.formik?.values[props.name || ""] || props.value || ""}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            if (props.formik && props.name) {
+              props.formik.setFieldValue(props.name, e.target.value);
+            }
+          }}
+          {...props.inputProps}
+        />
+      )}
 
       <span className={styles.inputError}>
         {/* @ts-ignore */}
-        {props.formik.touched[props.name] && props.formik.errors[props.name]}
+        {props.formik?.touched[props.name] && props.formik.errors[props.name]}
+        {props.error?.toString()}
       </span>
     </div>
   );

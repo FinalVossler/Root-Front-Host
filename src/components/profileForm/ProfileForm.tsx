@@ -91,15 +91,18 @@ const Profile: React.FunctionComponent<IProfileForm> = (
 
       <form className={styles.profileForm} onSubmit={handleSubmit}>
         <Input
-          placeholder="Enter your first name"
           Icon={CgProfile}
           name="firstName"
           formik={formik}
+          inputProps={{
+            placeholder: "Enter your first name",
+          }}
         />
         <Input
-          placeholder="Enter your last name"
           Icon={CgProfile}
-          inputProps={{}}
+          inputProps={{
+            placeholder: "Enter your last name",
+          }}
           name="lastName"
           formik={formik}
         />

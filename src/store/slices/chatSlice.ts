@@ -37,6 +37,7 @@ const initialState: IChatState = {
 
 export const chatSlice = createSlice({
   name: "chat",
+  initialState,
   reducers: {
     setContacts: (state: IChatState, action: PayloadAction<IUser[]>) => {
       state.contacts = action.payload;
@@ -157,7 +158,6 @@ export const chatSlice = createSlice({
       }
     },
   },
-  initialState,
 });
 
 export const getConversationId = (

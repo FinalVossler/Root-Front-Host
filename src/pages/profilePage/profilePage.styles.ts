@@ -28,7 +28,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
   connectedUserProfileContainer: {
     display: "flex",
     justifyContent: "space-between",
-    maxWidth: 1100,
     margin: "auto",
     width: "90%",
     alignItems: "flex-start",
@@ -39,7 +38,15 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginLeft: 20,
     flex: 1,
   },
-  "@media (max-width: 850px)": {
+  profileAndPages: {
+    display: "flex",
+    flexDirection: "column",
+    flex: 0.5,
+  },
+  "@media (max-width: 930px)": {
+    profileAndPages: {
+      width: "100%",
+    },
     postsAndEditor: {
       alignItems: "center",
       width: "100%",

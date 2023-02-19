@@ -21,13 +21,14 @@ const useStyles = createUseStyles((theme: Theme) => ({
     height: "100%",
     position: "fixed",
     backgroundColor: theme.darkTextColor,
-    opacity: 0.4,
+    opacity: 0.7,
   },
   modal: {
     display: "flex",
     padding: "20px",
     paddingBottom: "5px",
-    backgroundColor: theme.secondary,
+    backgroundColor: theme.contentBackgroundColor,
+
     boxShadow: theme.boxShadow,
     borderRadius: "40px",
     zIndex: 4,
