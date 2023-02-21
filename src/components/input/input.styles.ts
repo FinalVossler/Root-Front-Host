@@ -7,7 +7,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
     position: "relative",
-    marginBottom: 30,
+    marginBottom: 10,
   },
   inputContainerFocused: {
     extend: "inputContainer",
