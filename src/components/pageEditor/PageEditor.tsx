@@ -18,6 +18,7 @@ import { IUser } from "../../store/slices/userSlice";
 import PageCreateCommand from "../../globalTypes/commands/PageCreateCommand";
 import { FormikProps, useFormik } from "formik";
 import Input from "../input";
+import SearchInput from "../searchInput";
 
 interface IPageEditorForm {
   title: string;
@@ -105,6 +106,12 @@ const PageEditor = (props: IPageEditor) => {
             name="title"
             inputProps={{
               placeholder: "Title",
+            }}
+          />
+
+          <SearchInput
+            inputProps={{
+              placeholder: "Search Post",
             }}
           />
 

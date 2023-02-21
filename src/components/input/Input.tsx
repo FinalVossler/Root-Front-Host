@@ -1,6 +1,7 @@
 import { FormikProps } from "formik";
 import React from "react";
 import { useTheme } from "react-jss";
+import debounce from "lodash.debounce";
 
 import { Theme } from "../../config/theme";
 
@@ -13,17 +14,35 @@ interface IInput {
   formik?: FormikProps<any>;
   value?: any;
   error?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => any;
+  debounce?: boolean;
 }
 const Input: React.FunctionComponent<IInput> = (props: IInput) => {
   const [isFocused, setIsFocused] = React.useState(false);
 
   const theme: Theme = useTheme();
-
   const styles = useStyles({ theme });
 
+  //#region Event listeners
   const handleFocus = (e: any) => {
     setIsFocused(e.target === document.activeElement);
   };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (props.onChange) {
+      props.onChange(e);
+    }
+    if (props.formik && props.name) {
+      props.formik.setFieldValue(props.name, e.target.value);
+    }
+  };
+
+  const debouncedChange = debounce(handleChange, 500);
+
+  const additionalProps = props.debounce
+    ? {}
+    : { value: props.formik?.values[props.name || ""] || props.value || "" };
+  //#endregion Event listeners
 
   return (
     <div
@@ -33,19 +52,15 @@ const Input: React.FunctionComponent<IInput> = (props: IInput) => {
     >
       {props.Icon && <props.Icon className={styles.inputIcon} />}
       {((props.name && props.formik?.values[props.name]) !== undefined ||
-        props.value) && (
+        props.value !== undefined) && (
         <input
           onBlur={handleFocus}
           onFocus={handleFocus}
           className={styles.input}
           name={props.name}
-          value={props.formik?.values[props.name || ""] || props.value || ""}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            if (props.formik && props.name) {
-              props.formik.setFieldValue(props.name, e.target.value);
-            }
-          }}
+          onChange={props.debounce ? debouncedChange : handleChange}
           {...props.inputProps}
+          {...additionalProps}
         />
       )}
 

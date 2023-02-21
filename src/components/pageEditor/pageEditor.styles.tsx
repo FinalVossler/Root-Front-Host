@@ -27,12 +27,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
   createPageModalContainer: {
     display: "flex",
     flexDirection: "column",
-    paddingBottom: 15,
     maxHeight: "calc(100vh - 200px)",
     position: "relative",
     width: "100%",
     overflow: "auto",
     paddingRight: 20,
+    paddingBottom: 200,
   },
   createPageHeader: {
     display: "flex",

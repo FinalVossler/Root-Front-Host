@@ -9,6 +9,7 @@ Delete message files when deleting a message
 
 Add Page creation feature for admin
 
+- Create a post search inputa
 - WIP: Backend implemented and part of the frontend implemented as well. Continue the work
 
 Add post assignment to page for admin
