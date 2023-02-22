@@ -66,12 +66,12 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
   return (
     <div ref={searchBoxRef} className={styles.searchInputContainer}>
       <Input
-        inputProps={{ ...props.inputProps, onFocus: handleFocus }}
+        inputProps={{ ...props.inputProps }}
         Icon={BsSearch}
         value={value}
         debounce
         onChange={handleValueChange}
-        isFocused={showSearchResult}
+        onFocus={handleFocus}
       />
       {showSearchResult && value && (
         <div className={styles.searchResultBox}>
