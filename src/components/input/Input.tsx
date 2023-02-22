@@ -16,12 +16,17 @@ interface IInput {
   error?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => any;
   debounce?: boolean;
+  isFocused?: boolean;
 }
 const Input: React.FunctionComponent<IInput> = (props: IInput) => {
   const [isFocused, setIsFocused] = React.useState(false);
 
   const theme: Theme = useTheme();
   const styles = useStyles({ theme });
+
+  React.useEffect(() => {
+    if (props.isFocused !== undefined) setIsFocused(props.isFocused);
+  }, [props.isFocused]);
 
   //#region Event listeners
   const handleFocus = (e: any) => {

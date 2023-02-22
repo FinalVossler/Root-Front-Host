@@ -13,12 +13,16 @@ import { Theme } from "../../config/theme";
 import Button from "../button";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { IPost, postSlice } from "../../store/slices/postSlice";
+import { IPost, postSlice, PostVisibility } from "../../store/slices/postSlice";
 import { IUser } from "../../store/slices/userSlice";
 import PageCreateCommand from "../../globalTypes/commands/PageCreateCommand";
 import { FormikProps, useFormik } from "formik";
 import Input from "../input";
 import SearchInput from "../searchInput";
+import PaginationResponse from "../../globalTypes/PaginationResponse";
+import { IPage } from "../../store/slices/pageSlice";
+import PostsSearchCommand from "../../globalTypes/commands/PostsSearchCommand";
+import PaginationCommand from "../../globalTypes/PaginationCommand";
 
 interface IPageEditorForm {
   title: string;
@@ -56,14 +60,13 @@ const PageEditor = (props: IPageEditor) => {
       };
 
       axios
-        .request<AxiosResponse<IPost>>({
+        .request<AxiosResponse<IPage>>({
           url: "/pages",
           method: "POST",
           data: command,
         })
         .then((res) => {
-          const post: IPost = res.data.data;
-          dispatch(postSlice.actions.addUserPost({ post, user }));
+          const page: IPage = res.data.data;
           setPageModalOpen(false);
         })
         .finally(() => setLoading(false));
@@ -71,6 +74,28 @@ const PageEditor = (props: IPageEditor) => {
   });
 
   //#region Event listeners
+  const handleSearchPosts = (
+    title: string,
+    paginationCommand: PaginationCommand
+  ) =>
+    new Promise<PaginationResponse<IPost>>((resolve, reject) => {
+      const command: PostsSearchCommand = {
+        paginationCommand: paginationCommand,
+        posterId: user._id,
+        title,
+        visibilities: Object.values(PostVisibility),
+      };
+
+      axios
+        .request<AxiosResponse<PaginationResponse<IPost>>>({
+          url: "/posts/searchPosts",
+          method: "POST",
+          data: command,
+        })
+        .then((res) => {
+          resolve(res.data.data);
+        });
+    });
   //#endregion Event listeners
 
   return (
@@ -113,6 +138,8 @@ const PageEditor = (props: IPageEditor) => {
             inputProps={{
               placeholder: "Search Post",
             }}
+            searchPromise={handleSearchPosts}
+            getElementTitle={(post: IPost) => post.title || ""}
           />
 
           {!loading && (

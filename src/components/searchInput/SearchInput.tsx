@@ -7,29 +7,49 @@ import Input from "../input";
 
 import useStyles from "./searchInput.styles";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
+import PaginationResponse from "../../globalTypes/PaginationResponse";
+import PaginationCommand from "../../globalTypes/PaginationCommand";
 
 interface ISearchInput {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
+  searchPromise: (
+    searchText: string,
+    paginationCommand: PaginationCommand
+  ) => Promise<PaginationResponse<any>>;
+  getElementTitle: (el: any) => string;
 }
 
 const SearchInput: React.FunctionComponent<ISearchInput> = (
   props: ISearchInput
 ) => {
   const [value, setValue] = React.useState("");
+  const [paginationCommand, setPaginationCommand] =
+    React.useState<PaginationCommand>({
+      limit: 100,
+      page: 1,
+    });
   const [showSearchResult, setShowSearchResult] =
     React.useState<boolean>(false);
-  const [searchResult, setSearchResult] = React.useState([
-    "sdfksfks",
-    "sdfksfks",
-    "sdfksfks",
-    "sdfksfks",
-    "sdfksfks",
-  ]);
+  const [searchResult, setSearchResult] =
+    React.useState<PaginationResponse<any>>();
 
   const theme: Theme = useTheme();
   const styles = useStyles({ theme });
   const searchBoxRef = React.useRef(null);
   useOnClickOutside(searchBoxRef, () => setShowSearchResult(false));
+
+  // Trigger the search whenever the value changes
+  React.useEffect(() => {
+    const search = async () => {
+      props.searchPromise(value, paginationCommand).then((res) => {
+        setSearchResult(res);
+      });
+    };
+
+    if (value && value.trim().length > 2) {
+      search();
+    }
+  }, [value, paginationCommand, props.searchPromise, setSearchResult]);
 
   //#region Event listeners
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,24 +58,26 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
   };
 
   const handleFocus = () => {
-    if (searchResult.length > 0) setShowSearchResult(true);
+    if (searchResult && searchResult?.data.length > 0)
+      setShowSearchResult(true);
   };
   //#region Event listeners
 
   return (
-    <div className={styles.searchInputContainer}>
+    <div ref={searchBoxRef} className={styles.searchInputContainer}>
       <Input
         inputProps={{ ...props.inputProps, onFocus: handleFocus }}
         Icon={BsSearch}
         value={value}
         debounce
         onChange={handleValueChange}
+        isFocused={showSearchResult}
       />
       {showSearchResult && value && (
-        <div ref={searchBoxRef} className={styles.searchResultBox}>
-          {searchResult.map((res, i) => (
+        <div className={styles.searchResultBox}>
+          {searchResult?.data.map((el, i) => (
             <span className={styles.singleResult} key={i}>
-              {res}
+              {props.getElementTitle(el)}
             </span>
           ))}
         </div>
