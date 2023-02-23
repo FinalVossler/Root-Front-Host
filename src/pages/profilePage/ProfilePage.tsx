@@ -12,10 +12,10 @@ import withWrapper from "../../hoc/wrapper";
 import useStyles from "./profilePage.styles";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import PostEditor from "../../components/postEditor";
-import UserPosts from "../../components/userPosts.ts";
+import UserPosts from "../../components/userPosts";
 import { useAppSelector } from "../../store/hooks";
-import { PostVisibility } from "../../store/slices/postSlice";
 import PageEditor from "../../components/pageEditor";
+import { IUser } from "../../store/slices/userSlice";
 
 enum ActiveForm {
   Register = "Register",
@@ -26,7 +26,7 @@ interface IProfilePage {}
 const ProfilePage: React.FunctionComponent<IProfilePage> = (
   props: IProfilePage
 ) => {
-  const userId: string = useAppSelector((state) => state.user.user._id);
+  const user: IUser = useAppSelector<IUser>((state) => state.user.user);
 
   const [activeForm, setActiveForm] = React.useState<ActiveForm>(
     ActiveForm.Register
@@ -64,14 +64,7 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
           </div>
           <div className={styles.postsAndEditor}>
             <PostEditor />
-            <UserPosts
-              userId={userId}
-              visibilities={[
-                PostVisibility.Public,
-                PostVisibility.Private,
-                PostVisibility.Connections,
-              ]}
-            />
+            <UserPosts user={user} />
           </div>
         </div>
       )}

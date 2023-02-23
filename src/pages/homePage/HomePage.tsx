@@ -4,6 +4,7 @@ import { Theme } from "../../config/theme";
 import Banner from "../../components/banner";
 import Card from "../../components/card";
 import TitleAndText from "../../components/titleAndText";
+import TitleTextAndImage from "../../components/titleTextAndImage";
 
 import withWrapper from "../../hoc/wrapper";
 
@@ -19,6 +20,11 @@ const Home: React.FunctionComponent<IHome> = (props: IHome) => {
       <Banner />
 
       <div className={styles.content}>
+        <TitleTextAndImage
+          description="Bienvenue sur ma page personnelle ! Je suis une conseillère commerciale spécialisée dans divers domaines. J'ai un master en sciences appliquées et technologies et des compétences communicationnelles hors du commun !"
+          imageUrl="/assets/images/nozha.jpeg"
+          title="Salut Tout le monde, je suis Nozha!"
+        />
         <TitleAndText
           title="Why 16 types?"
           description="The sociotype is formed by a set of psyche features identified by Carl

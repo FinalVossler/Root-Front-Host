@@ -10,6 +10,9 @@ Delete message files when deleting a message
 Add Page creation feature for admin
 
 - Create a post search input
+- Ability to sort posts in a page
+- Ability to delete a post
+- Ability to edit a post
 - WIP: Backend implemented and part of the frontend implemented as well. Continue the work
 
 Add post assignment to page for admin

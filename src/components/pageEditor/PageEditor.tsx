@@ -1,7 +1,7 @@
 import React from "react";
 import { useTheme } from "react-jss";
 import { ImCross } from "react-icons/im";
-import { AiFillPlusCircle } from "react-icons/ai";
+import { AiFillPlusCircle, AiFillDelete } from "react-icons/ai";
 import { MdTitle } from "react-icons/md";
 import { AxiosResponse } from "axios";
 import ReactLoading from "react-loading";
@@ -12,8 +12,8 @@ import Modal from "../modal";
 import { Theme } from "../../config/theme";
 import Button from "../button";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { IPost, postSlice, PostVisibility } from "../../store/slices/postSlice";
+import { useAppSelector } from "../../store/hooks";
+import { IPost, PostVisibility } from "../../store/slices/postSlice";
 import { IUser } from "../../store/slices/userSlice";
 import PageCreateCommand from "../../globalTypes/commands/PageCreateCommand";
 import { FormikProps, useFormik } from "formik";
@@ -23,10 +23,11 @@ import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { IPage } from "../../store/slices/pageSlice";
 import PostsSearchCommand from "../../globalTypes/commands/PostsSearchCommand";
 import PaginationCommand from "../../globalTypes/PaginationCommand";
+import Post from "../post";
 
 interface IPageEditorForm {
   title: string;
-  posts: string[];
+  orderedPosts: string[];
 }
 
 interface IPageEditor {}
@@ -35,17 +36,22 @@ const PageEditor = (props: IPageEditor) => {
   const user: IUser = useAppSelector((state) => state.user.user);
 
   const [postModalOpen, setPageModalOpen] = React.useState<boolean>(false);
-  const [posts, setPosts] = React.useState<string[]>([]);
+  const [selectedPosts, setSelectedPosts] = React.useState<IPost[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const theme: Theme = useTheme();
   const styles = useStyles({ theme });
   const axios = useAuthorizedAxios();
-  const dispatch = useAppDispatch();
+  React.useEffect(() => {
+    formik.setFieldValue(
+      "orderedPosts",
+      selectedPosts.map((post) => post._id)
+    );
+  }, [selectedPosts]);
 
   const formik: FormikProps<IPageEditorForm> = useFormik<IPageEditorForm>({
     initialValues: {
-      posts: [],
+      orderedPosts: [],
       title: "",
     },
     validationSchema: Yup.object().shape({
@@ -55,7 +61,7 @@ const PageEditor = (props: IPageEditor) => {
       setLoading(true);
 
       const command: PageCreateCommand = {
-        orderedPosts: values.posts,
+        orderedPosts: values.orderedPosts,
         title: values.title,
       };
 
@@ -96,6 +102,15 @@ const PageEditor = (props: IPageEditor) => {
           resolve(res.data.data);
         });
     });
+
+  const handleSelectPost = (post: IPost) => {
+    setSelectedPosts([...selectedPosts, post]);
+  };
+  const handleDeletePost = (index: number) => {
+    let newSelectedPosts = [...selectedPosts];
+    newSelectedPosts.splice(index, 1);
+    setSelectedPosts(newSelectedPosts);
+  };
   //#endregion Event listeners
 
   return (
@@ -140,7 +155,23 @@ const PageEditor = (props: IPageEditor) => {
             }}
             searchPromise={handleSearchPosts}
             getElementTitle={(post: IPost) => post.title || ""}
+            onElementClick={handleSelectPost}
           />
+
+          <div className={styles.postsContainer}>
+            {selectedPosts.map((post: IPost, postIndex: number) => {
+              return (
+                <div key={postIndex} className={styles.singlePostContainer}>
+                  <AiFillDelete
+                    color={theme.primary}
+                    className={styles.deletePostButton}
+                    onClick={() => handleDeletePost(postIndex)}
+                  />
+                  <Post post={post} />
+                </div>
+              );
+            })}
+          </div>
 
           {!loading && (
             <Button

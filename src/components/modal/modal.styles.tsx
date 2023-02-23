@@ -33,6 +33,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderRadius: "40px",
     zIndex: 4,
     width: "80%",
+    maxHeight: "90%",
   },
 }));
 

@@ -22,6 +22,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     boxSizing: "border-box",
     paddingBottom: 10,
     borderRadius: 10,
+    zIndex: 1,
   },
   singleResult: {
     marginBottom: 5,

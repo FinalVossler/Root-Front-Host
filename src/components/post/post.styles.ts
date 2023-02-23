@@ -3,15 +3,6 @@ import { createUseStyles } from "react-jss";
 import { Theme } from "../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
-  userPostsContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    color: theme.lightTextColor,
-    padding: 20,
-    paddingTop: 0,
-    borderRadius: 10,
-  },
   userPost: {
     display: "flex",
     flexDirection: "column",
@@ -73,11 +64,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "100%",
     lineBreak: "anywhere",
   },
-  "@media (max-width: 850px)": {
-    userPostsContainer: {
-      width: "100%",
-    },
-  },
+  "@media (max-width: 850px)": {},
 }));
 
 export default useStyles;

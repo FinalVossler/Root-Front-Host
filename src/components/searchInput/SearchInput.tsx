@@ -17,6 +17,7 @@ interface ISearchInput {
     paginationCommand: PaginationCommand
   ) => Promise<PaginationResponse<any>>;
   getElementTitle: (el: any) => string;
+  onElementClick?: (el: any) => any;
 }
 
 const SearchInput: React.FunctionComponent<ISearchInput> = (
@@ -61,6 +62,13 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
     if (searchResult && searchResult?.data.length > 0)
       setShowSearchResult(true);
   };
+
+  const handleElementClick = (el: any) => {
+    if (props.onElementClick) {
+      props.onElementClick(el);
+      setShowSearchResult(false);
+    }
+  };
   //#region Event listeners
 
   return (
@@ -76,7 +84,11 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
       {showSearchResult && value && (
         <div className={styles.searchResultBox}>
           {searchResult?.data.map((el, i) => (
-            <span className={styles.singleResult} key={i}>
+            <span
+              onClick={() => handleElementClick(el)}
+              className={styles.singleResult}
+              key={i}
+            >
               {props.getElementTitle(el)}
             </span>
           ))}
