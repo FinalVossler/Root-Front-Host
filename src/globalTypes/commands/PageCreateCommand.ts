@@ -2,7 +2,7 @@ import { IPage } from "../../store/slices/pageSlice";
 
 type PageCreateCommand = {
   title: IPage["title"];
-  orderedPosts: string[];
+  posts: string[];
 };
 
 export default PageCreateCommand;

@@ -5,7 +5,6 @@ import { Theme } from "../../config/theme";
 const useStyles = createUseStyles((theme: Theme) => ({
   postEditorContainer: {
     width: "100%",
-    maxWidth: 700,
   },
   createPostModalContainer: {
     display: "flex",

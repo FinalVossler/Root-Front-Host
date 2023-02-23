@@ -29,8 +29,8 @@ import PostEditorFiles from "../postEditorFiles";
 import PostCreateCommand from "../../globalTypes/commands/PostCreateCommand";
 import InputSelect from "../inputSelect";
 import { Option } from "../inputSelect/InputSelect";
-import { FormikProps } from "formik";
 import Input from "../input";
+import PostsEditor from "../postsEditor";
 
 interface IPostEditor {}
 
@@ -39,6 +39,7 @@ const PostEditor = (props: IPostEditor) => {
 
   const [postModalOpen, setPostModalOpen] = React.useState<boolean>(false);
   const [title, setTitle] = React.useState<string>("");
+  const [children, setChildren] = React.useState<string[]>([]);
   const [visibility, setVisibility] = React.useState<PostVisibility>(
     PostVisibility.Public
   );
@@ -85,6 +86,7 @@ const PostEditor = (props: IPostEditor) => {
       files: filedsToSend,
       visibility: visibility,
       design: design,
+      children: children,
     };
 
     axios
@@ -116,6 +118,13 @@ const PostEditor = (props: IPostEditor) => {
   const handleDesignChange = (option: Option) => {
     setDesign(option.value as PostDesign);
   };
+
+  const handleSetSelectedPosts = React.useCallback(
+    (posts: IPost[]) => {
+      setChildren(posts.map((post) => post._id));
+    },
+    [setChildren]
+  );
   //#endregion Event listeners
 
   return (
@@ -143,6 +152,11 @@ const PostEditor = (props: IPostEditor) => {
               onChange: handleTitleChange,
               placeholder: "title",
             }}
+          />
+
+          <PostsEditor
+            setSelectedPosts={handleSetSelectedPosts}
+            placeholder="Add children posts"
           />
 
           <InputSelect

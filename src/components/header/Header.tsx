@@ -6,11 +6,14 @@ import { AiOutlineLogout } from "react-icons/ai";
 import { Theme } from "../../config/theme";
 
 import useStyles from "./header.styles";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { userSlice } from "../../store/slices/userSlice";
+import { IPage } from "../../store/slices/pageSlice";
 
 interface IHeader {}
 const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
+  const pages = useAppSelector<IPage[]>((state) => state.page.pages);
+
   const [scrolledDown, setScrolledDown] = React.useState(window.scrollY >= 80);
 
   const theme: Theme = useTheme();
@@ -47,6 +50,15 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
 
       <div className={styles.right}>
         <ul className={styles.optionsList}>
+          {pages.map((page) => {
+            return (
+              <li className={styles.option}>
+                <a className={styles.optionATag} href={"/" + page.slug}>
+                  {page.title}
+                </a>
+              </li>
+            );
+          })}
           <li className={styles.option}>
             <a className={styles.optionATag} href="/">
               Home

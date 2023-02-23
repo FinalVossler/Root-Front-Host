@@ -16,6 +16,7 @@ export enum PostDesign {
   TitleAndText = "TitleAndText",
   Banner = "Banner",
   TitleImageAndText = "TitleImageAndText",
+  ChildrenContainer = "ChildrenContainer",
 }
 
 export interface IPost {
@@ -26,6 +27,7 @@ export interface IPost {
   files: IFile[];
   visibility: PostVisibility;
   design: PostDesign;
+  children: IPost[];
 
   createdAt: string;
   updatedAt: string;

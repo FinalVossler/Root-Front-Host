@@ -11,6 +11,7 @@ import Card from "../card";
 import TitleAndText from "../titleAndText";
 import Banner from "../banner";
 import TitleTextAndImage from "../titleTextAndImage";
+import ChildrenContainer from "../childrenContainer";
 
 interface IUserPosts {
   post: IPost;
@@ -59,6 +60,9 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
       />
     );
   }
+  if (post.design === PostDesign.ChildrenContainer) {
+    return <ChildrenContainer post={post} />;
+  }
 
   return (
     <div className={styles.userPost}>
@@ -72,7 +76,7 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
       )}
 
       <div className={styles.postFiles}>
-        {post.files.map((file, index) => {
+        {post?.files?.map((file, index) => {
           return (
             <a
               key={"postFile" + index}

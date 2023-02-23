@@ -1,7 +1,7 @@
 import React from "react";
 import { useTheme } from "react-jss";
 import { ImCross } from "react-icons/im";
-import { AiFillPlusCircle, AiFillDelete } from "react-icons/ai";
+import { AiFillPlusCircle } from "react-icons/ai";
 import { MdTitle } from "react-icons/md";
 import { AxiosResponse } from "axios";
 import ReactLoading from "react-loading";
@@ -12,22 +12,18 @@ import Modal from "../modal";
 import { Theme } from "../../config/theme";
 import Button from "../button";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
-import { useAppSelector } from "../../store/hooks";
-import { IPost, PostVisibility } from "../../store/slices/postSlice";
-import { IUser } from "../../store/slices/userSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { IPost } from "../../store/slices/postSlice";
+import { IUser, Role } from "../../store/slices/userSlice";
 import PageCreateCommand from "../../globalTypes/commands/PageCreateCommand";
 import { FormikProps, useFormik } from "formik";
 import Input from "../input";
-import SearchInput from "../searchInput";
-import PaginationResponse from "../../globalTypes/PaginationResponse";
-import { IPage } from "../../store/slices/pageSlice";
-import PostsSearchCommand from "../../globalTypes/commands/PostsSearchCommand";
-import PaginationCommand from "../../globalTypes/PaginationCommand";
-import Post from "../post";
+import { IPage, pageSlice } from "../../store/slices/pageSlice";
+import PostsEditor from "../postsEditor";
 
 interface IPageEditorForm {
   title: string;
-  orderedPosts: string[];
+  posts: string[];
 }
 
 interface IPageEditor {}
@@ -36,22 +32,16 @@ const PageEditor = (props: IPageEditor) => {
   const user: IUser = useAppSelector((state) => state.user.user);
 
   const [postModalOpen, setPageModalOpen] = React.useState<boolean>(false);
-  const [selectedPosts, setSelectedPosts] = React.useState<IPost[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const theme: Theme = useTheme();
   const styles = useStyles({ theme });
   const axios = useAuthorizedAxios();
-  React.useEffect(() => {
-    formik.setFieldValue(
-      "orderedPosts",
-      selectedPosts.map((post) => post._id)
-    );
-  }, [selectedPosts]);
+  const dispatch = useAppDispatch();
 
   const formik: FormikProps<IPageEditorForm> = useFormik<IPageEditorForm>({
     initialValues: {
-      orderedPosts: [],
+      posts: [],
       title: "",
     },
     validationSchema: Yup.object().shape({
@@ -61,7 +51,7 @@ const PageEditor = (props: IPageEditor) => {
       setLoading(true);
 
       const command: PageCreateCommand = {
-        orderedPosts: values.orderedPosts,
+        posts: values.posts,
         title: values.title,
       };
 
@@ -74,44 +64,22 @@ const PageEditor = (props: IPageEditor) => {
         .then((res) => {
           const page: IPage = res.data.data;
           setPageModalOpen(false);
+          dispatch(pageSlice.actions.addPage(page));
         })
         .finally(() => setLoading(false));
     },
   });
 
   //#region Event listeners
-  const handleSearchPosts = (
-    title: string,
-    paginationCommand: PaginationCommand
-  ) =>
-    new Promise<PaginationResponse<IPost>>((resolve, reject) => {
-      const command: PostsSearchCommand = {
-        paginationCommand: paginationCommand,
-        posterId: user._id,
-        title,
-        visibilities: Object.values(PostVisibility),
-      };
-
-      axios
-        .request<AxiosResponse<PaginationResponse<IPost>>>({
-          url: "/posts/searchPosts",
-          method: "POST",
-          data: command,
-        })
-        .then((res) => {
-          resolve(res.data.data);
-        });
-    });
-
-  const handleSelectPost = (post: IPost) => {
-    setSelectedPosts([...selectedPosts, post]);
-  };
-  const handleDeletePost = (index: number) => {
-    let newSelectedPosts = [...selectedPosts];
-    newSelectedPosts.splice(index, 1);
-    setSelectedPosts(newSelectedPosts);
-  };
+  const handleSetSelectedPosts = React.useCallback((posts: IPost[]) => {
+    formik.setFieldValue(
+      "posts",
+      posts.map((post) => post._id)
+    );
+  }, []);
   //#endregion Event listeners
+
+  if (user.role !== Role.Admin) return null;
 
   return (
     <div className={styles.pageEditorContainer}>
@@ -149,29 +117,7 @@ const PageEditor = (props: IPageEditor) => {
             }}
           />
 
-          <SearchInput
-            inputProps={{
-              placeholder: "Search Post",
-            }}
-            searchPromise={handleSearchPosts}
-            getElementTitle={(post: IPost) => post.title || ""}
-            onElementClick={handleSelectPost}
-          />
-
-          <div className={styles.postsContainer}>
-            {selectedPosts.map((post: IPost, postIndex: number) => {
-              return (
-                <div key={postIndex} className={styles.singlePostContainer}>
-                  <AiFillDelete
-                    color={theme.primary}
-                    className={styles.deletePostButton}
-                    onClick={() => handleDeletePost(postIndex)}
-                  />
-                  <Post post={post} />
-                </div>
-              );
-            })}
-          </div>
+          <PostsEditor setSelectedPosts={handleSetSelectedPosts} />
 
           {!loading && (
             <Button
