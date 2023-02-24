@@ -41,7 +41,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   profileAndPages: {
     display: "flex",
     flexDirection: "column",
-    flex: 0.5,
+    flex: 0.4,
   },
   "@media (max-width: 930px)": {
     profileAndPages: {

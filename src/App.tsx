@@ -28,6 +28,9 @@ const stripePromise = loadStripe(
 );
 
 function App() {
+  const [finishedFetchingPages, setFinishedFetchingPages] =
+    React.useState<boolean>(false);
+
   const pages: IPage[] = useAppSelector((state) => state.page.pages);
 
   useGetAndSetUser();
@@ -43,7 +46,8 @@ function App() {
       })
       .then((res) => {
         dispatch(pageSlice.actions.setPages(res.data.data));
-      });
+      })
+      .finally(() => setFinishedFetchingPages(true));
   }, []);
 
   const stripeOptions = {
@@ -75,6 +79,8 @@ function App() {
       element: <DynamicPage page={page} />,
     })),
   ]);
+
+  if (!finishedFetchingPages) return null;
 
   return (
     <Elements stripe={stripePromise} options={stripeOptions}>

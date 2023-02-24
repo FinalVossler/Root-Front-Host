@@ -1,14 +1,11 @@
-import {
-  createSlice,
-  PayloadAction,
-  SliceCaseReducers,
-} from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { IPost } from "./postSlice";
 
 export const PAGE_SLICE_NAME = "page";
 
 export interface IPage {
+  _id: string;
   title: string;
   slug: string;
   posts: IPost[];

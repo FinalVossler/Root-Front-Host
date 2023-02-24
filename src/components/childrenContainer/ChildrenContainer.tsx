@@ -18,9 +18,9 @@ const UserPosts: React.FunctionComponent<IChildrenContainer> = (
 
   return (
     <div className={styles.childrenContainer}>
-      {props.post.children.map((child, index) => (
-        <Post post={child} key={index} />
-      ))}
+      {props.post.children.map((child, index) => {
+        return <Post post={child} key={index} />;
+      })}
     </div>
   );
 };

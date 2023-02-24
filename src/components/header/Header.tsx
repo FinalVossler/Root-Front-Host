@@ -52,7 +52,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
         <ul className={styles.optionsList}>
           {pages.map((page) => {
             return (
-              <li className={styles.option}>
+              <li key={page._id} className={styles.option}>
                 <a className={styles.optionATag} href={"/" + page.slug}>
                   {page.title}
                 </a>
