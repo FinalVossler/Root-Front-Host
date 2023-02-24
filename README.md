@@ -11,7 +11,9 @@ Add Page creation feature for admin
 
 - Create a post search input
 - Add the ability for a post to contain many posts
+- Centralise populate logic in the backend
 
+- Show all pages
 - Ability to edit a page
 - Add a checkbox in page editor for show in header
 - Ability to sort posts in a page

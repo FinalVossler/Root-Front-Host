@@ -14,8 +14,8 @@ import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import PostEditor from "../../components/postEditor";
 import UserPosts from "../../components/userPosts";
 import { useAppSelector } from "../../store/hooks";
-import PageEditor from "../../components/pageEditor";
 import { IUser } from "../../store/slices/userSlice";
+import Pages from "../../components/pages";
 
 enum ActiveForm {
   Register = "Register",
@@ -60,7 +60,7 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
         <div className={styles.connectedUserProfileContainer}>
           <div className={styles.profileAndPages}>
             <ProfileForm />
-            <PageEditor />
+            <Pages />
           </div>
           <div className={styles.postsAndEditor}>
             <PostEditor />

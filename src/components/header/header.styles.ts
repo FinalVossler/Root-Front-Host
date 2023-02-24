@@ -9,6 +9,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     justifyContent: "space-around",
     width: "100%",
     backgroundColor: theme.transparentBackground,
+    paddingRight: 20,
+    paddingLeft: 20,
+    boxSizing: "border-box",
 
     position: "fixed",
     top: "0%",
