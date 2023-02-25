@@ -12,11 +12,13 @@ export enum PostVisibility {
 
 export enum PostDesign {
   Default = "Default",
+  Spacing = "Spacing",
   Card = "Card",
   TitleAndText = "TitleAndText",
   Banner = "Banner",
   TitleImageAndText = "TitleImageAndText",
   ChildrenContainer = "ChildrenContainer",
+  RotatingCarzd = "RotatingCard",
 }
 
 export interface IPost {

@@ -9,6 +9,7 @@ import TitleTextAndImage from "../../components/titleTextAndImage";
 import withWrapper from "../../hoc/wrapper";
 
 import useStyles from "./homePage.styles";
+import RotatingCard from "../../components/rotatingCard";
 
 interface IHome {}
 const Home: React.FunctionComponent<IHome> = (props: IHome) => {
@@ -25,6 +26,9 @@ const Home: React.FunctionComponent<IHome> = (props: IHome) => {
           imageUrl="/assets/images/nozha.jpeg"
           title="Salut Tout le monde, je suis Nozha!"
         />
+
+        <RotatingCard description="If you've tried your hand at data analysis, you know that it can sometimes make decision making much more complex. Dashboarding is what we offer..." />
+
         <TitleAndText
           title="Why 16 types?"
           description="The sociotype is formed by a set of psyche features identified by Carl

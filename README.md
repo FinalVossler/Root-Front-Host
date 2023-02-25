@@ -15,8 +15,10 @@ Add Page creation feature for admin
 - Show all pages
 - Ability to edit a page
 - Ability to sort posts in a page
+- Add a new visual design for rotating cards
 
-- Add a new visual design
+- Add the user on the file model
+- Create the file selection popup from existing files
 - Ability to delete a page
 - Add a checkbox in page editor for show in header
 - Ability to delete a post

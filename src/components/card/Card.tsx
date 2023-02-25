@@ -8,7 +8,7 @@ interface ICard {
   description: string;
   backgroundImage: string;
 }
-const Cared: React.FunctionComponent<ICard> = (props: ICard) => {
+const Card: React.FunctionComponent<ICard> = (props: ICard) => {
   const theme: Theme = useTheme();
 
   const styles = useStyles({ theme });
@@ -25,4 +25,4 @@ const Cared: React.FunctionComponent<ICard> = (props: ICard) => {
   );
 };
 
-export default Cared;
+export default Card;

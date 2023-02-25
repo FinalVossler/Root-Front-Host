@@ -12,6 +12,8 @@ import TitleAndText from "../titleAndText";
 import Banner from "../banner";
 import TitleTextAndImage from "../titleTextAndImage";
 import ChildrenContainer from "../childrenContainer";
+import Spacing from "../spacing";
+import RotatingCard from "../rotatingCard";
 
 interface IUserPosts {
   post: IPost;
@@ -62,6 +64,18 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
   }
   if (post.design === PostDesign.ChildrenContainer) {
     return <ChildrenContainer post={post} />;
+  }
+  if (post.design === PostDesign.Spacing) {
+    return <Spacing height={post.title} />;
+  }
+  if (post.design === PostDesign.RotatingCarzd) {
+    return (
+      <RotatingCard
+        description={extractContentFromHtml(post.content || "")}
+        title={post.title}
+        imageUrl={post.files.find((file) => file.isImage)?.url}
+      />
+    );
   }
 
   return (
