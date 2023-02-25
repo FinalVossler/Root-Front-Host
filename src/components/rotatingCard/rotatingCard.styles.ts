@@ -19,6 +19,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     animationName: "fadeInDown",
     marginTop: 10,
     marginBottom: 10,
+    marginRight: 5,
+    marginLeft: 5,
 
     "&:hover $trait": {
       width: "100%",
@@ -46,6 +48,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     fontSize: 20,
     lineHeight: 1.6,
     color: theme.darkTextColor,
+    maxHeight: 100,
   },
   trait: {
     width: "70%",

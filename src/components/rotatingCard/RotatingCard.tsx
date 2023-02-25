@@ -1,6 +1,8 @@
 import { useTheme } from "react-jss";
 import { Theme } from "../../config/theme";
 
+import shortenString from "../../utils/shortenString";
+
 import useStyles from "./rotatingCard.styles";
 
 interface IRotatingCard {
@@ -28,7 +30,9 @@ const RotatingCard: React.FunctionComponent<IRotatingCard> = (
 
       <div className={styles.trait}></div>
 
-      <p className={styles.description}>{props.description}</p>
+      <p className={styles.description}>
+        {shortenString(props.description || "", 170)}
+      </p>
     </div>
   );
 };

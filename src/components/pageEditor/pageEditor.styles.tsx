@@ -31,7 +31,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     position: "relative",
     width: "100%",
     overflow: "auto",
-    paddingRight: 20,
+    paddingRight: 45,
     paddingBottom: 200,
   },
   createPageHeader: {
