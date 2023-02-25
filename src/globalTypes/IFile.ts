@@ -4,6 +4,7 @@ interface IFile {
   uuid: string;
   isImage: boolean;
   name: string | null;
+  ownerId?: string;
 }
 
 export default IFile;

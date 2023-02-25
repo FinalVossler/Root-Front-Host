@@ -37,6 +37,9 @@ export const pageSlice = createSlice({
         return page;
       });
     },
+    deletePage: (state: IPageState, action: PayloadAction<string>) => {
+      state.pages = state.pages.filter((page) => page._id !== action.payload);
+    },
   },
 });
 

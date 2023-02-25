@@ -37,7 +37,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   description: {
     color: theme.lightTextColor,
-    marginTop: 0,
+    marginTop: 10,
   },
   title: {
     fontWeight: "bold",
