@@ -1,7 +1,10 @@
 import React from "react";
 import { useTheme } from "react-jss";
+import { CSS } from "@dnd-kit/utilities";
+import { arrayMove, SortableContext, useSortable } from "@dnd-kit/sortable";
+import { DndContext, DragEndEvent } from "@dnd-kit/core";
+import { BsHandIndexFill } from "react-icons/bs";
 
-import useStyles from "./postsEditor.styles";
 import { Theme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
 import { IPost } from "../../store/slices/postSlice";
@@ -10,10 +13,14 @@ import SearchInput from "../searchInput";
 import { AiFillDelete } from "react-icons/ai";
 import Post from "../post";
 import useSearchPosts from "../../hooks/useSearchPosts";
+import { IPage } from "../../store/slices/pageSlice";
+
+import useStyles from "./postsEditor.styles";
 
 interface IPostsEditor {
   setSelectedPosts: (posts: IPost[]) => any;
   placeholder?: string;
+  page?: IPage;
 }
 
 const PostsEditor = (props: IPostsEditor) => {
@@ -24,14 +31,34 @@ const PostsEditor = (props: IPostsEditor) => {
 
   const {
     selectedPosts,
+    setSelectedPosts,
     handleSearchPostsPromise,
     handleDeletePost,
     handleSelectPost,
-  } = useSearchPosts(user);
+  } = useSearchPosts(user, props.page);
 
   React.useEffect(() => {
     props.setSelectedPosts(selectedPosts);
   }, [selectedPosts]);
+
+  //#region Event listeners
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      const oldIndex = selectedPosts
+        .map((post) => post.uuid)
+        .indexOf(active.id as string);
+      const newIndex = selectedPosts
+        .map((post) => post.uuid)
+        .indexOf(over.id as string);
+
+      const newSelectedPosts = arrayMove(selectedPosts, oldIndex, newIndex);
+
+      setSelectedPosts(newSelectedPosts);
+    }
+  }
+  //#endregion Event listeners
 
   return (
     <div className={styles.postsEditorContainer}>
@@ -45,19 +72,63 @@ const PostsEditor = (props: IPostsEditor) => {
       />
 
       <div className={styles.postsContainer}>
-        {selectedPosts.map((post: IPost, postIndex: number) => {
-          return (
-            <div key={postIndex} className={styles.singlePostContainer}>
-              <AiFillDelete
-                color={theme.primary}
-                className={styles.deletePostButton}
-                onClick={() => handleDeletePost(postIndex)}
-              />
-              <Post post={post} />
-            </div>
-          );
-        })}
+        <DndContext onDragEnd={handleDragEnd}>
+          <SortableContext items={selectedPosts.map((post) => post.uuid)}>
+            {selectedPosts.map((post: IPost, postIndex: number) => {
+              return (
+                <SortablePost
+                  key={postIndex}
+                  handleDeletePost={handleDeletePost}
+                  post={post}
+                  postIndex={postIndex}
+                />
+              );
+            })}
+          </SortableContext>
+        </DndContext>
       </div>
+    </div>
+  );
+};
+
+interface ISortablePost {
+  post: IPost;
+  handleDeletePost: (postIndex: number) => void;
+  postIndex: number;
+}
+
+const SortablePost: React.FunctionComponent<ISortablePost> = (
+  props: ISortablePost
+) => {
+  const theme: Theme = useTheme();
+  const styles = useStyles({ theme });
+
+  const { attributes, listeners, setNodeRef, transform } = useSortable({
+    id: props.post.uuid,
+  });
+
+  const sorteStyles = {
+    transform: CSS.Transform.toString(transform),
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={sorteStyles}
+      className={styles.singlePostContainer}
+    >
+      <BsHandIndexFill
+        color={theme.primary}
+        className={styles.sortPostHandle}
+        {...attributes}
+        {...listeners}
+      />
+      <AiFillDelete
+        color={theme.primary}
+        className={styles.deletePostButton}
+        onClick={() => props.handleDeletePost(props.postIndex)}
+      />
+      <Post post={props.post} />
     </div>
   );
 };

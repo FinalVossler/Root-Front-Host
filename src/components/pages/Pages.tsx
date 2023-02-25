@@ -1,7 +1,6 @@
 import React from "react";
 import { useTheme } from "react-jss";
 import { FaDirections } from "react-icons/fa";
-import { AiFillEdit } from "react-icons/ai";
 
 import { Theme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
@@ -22,6 +21,7 @@ const Pages: React.FunctionComponent<IPageProps> = (props: IPageProps) => {
       {pages.map((page: IPage, i: number) => {
         return (
           <div
+            key={i}
             className={
               i === pages.length - 1
                 ? styles.lastPageContainer
@@ -30,10 +30,13 @@ const Pages: React.FunctionComponent<IPageProps> = (props: IPageProps) => {
           >
             <span className={styles.pageTitle}>{page.title}</span>
 
-            <AiFillEdit className={styles.editIcon} />
             <a href={"/" + page.slug} target="_blank" className={styles.goIcon}>
               <FaDirections color={theme.secondary} />
             </a>
+
+            <div className={styles.pageEditorContainer}>
+              <PageEditor page={page} />
+            </div>
           </div>
         );
       })}

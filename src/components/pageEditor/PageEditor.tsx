@@ -20,24 +20,37 @@ import { FormikProps, useFormik } from "formik";
 import Input from "../input";
 import { IPage, pageSlice } from "../../store/slices/pageSlice";
 import PostsEditor from "../postsEditor";
+import PageUpdateCommand from "../../globalTypes/commands/PageUpdateCommand";
 
 interface IPageEditorForm {
   title: string;
   posts: string[];
 }
 
-interface IPageEditor {}
+interface IPageEditor {
+  page?: IPage;
+}
 
 const PageEditor = (props: IPageEditor) => {
   const user: IUser = useAppSelector((state) => state.user.user);
 
-  const [postModalOpen, setPageModalOpen] = React.useState<boolean>(false);
+  const [pageModalOpen, setPageModalOpen] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const theme: Theme = useTheme();
   const styles = useStyles({ theme });
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    if (props.page)
+      formik.resetForm({
+        values: {
+          title: props.page.title,
+          posts: props.page.posts.map((post) => post._id),
+        },
+      });
+  }, [props.page]);
 
   const formik: FormikProps<IPageEditorForm> = useFormik<IPageEditorForm>({
     initialValues: {
@@ -50,21 +63,35 @@ const PageEditor = (props: IPageEditor) => {
     onSubmit: (values) => {
       setLoading(true);
 
-      const command: PageCreateCommand = {
-        posts: values.posts,
-        title: values.title,
-      };
+      let command: PageCreateCommand | PageUpdateCommand;
+
+      if (props.page) {
+        command = {
+          posts: values.posts,
+          title: values.title,
+          _id: props.page._id,
+        };
+      } else {
+        command = {
+          posts: values.posts,
+          title: values.title,
+        };
+      }
 
       axios
         .request<AxiosResponse<IPage>>({
           url: "/pages",
-          method: "POST",
+          method: props.page ? "PUT" : "POST",
           data: command,
         })
         .then((res) => {
           const page: IPage = res.data.data;
           setPageModalOpen(false);
-          dispatch(pageSlice.actions.addPage(page));
+          if (props.page) {
+            dispatch(pageSlice.actions.updatePage(page));
+          } else {
+            dispatch(pageSlice.actions.addPage(page));
+          }
         })
         .finally(() => setLoading(false));
     },
@@ -77,24 +104,35 @@ const PageEditor = (props: IPageEditor) => {
       posts.map((post) => post._id)
     );
   }, []);
+
+  const handleOpenModal = () => {
+    setPageModalOpen(true);
+  };
+  const handleCloseModal = () => {
+    setPageModalOpen(false);
+  };
   //#endregion Event listeners
 
   if (user.role !== Role.Admin) return null;
 
   return (
     <div className={styles.pageEditorContainer}>
+      {/* {!props.page && ( */}
       <div
-        onClick={() => setPageModalOpen(true)}
+        onClick={handleOpenModal}
         className={styles.createPageButtonContainer}
       >
         <AiFillPlusCircle
           color={theme.primary}
           className={styles.pageEditorPlusIcon}
         />{" "}
-        <span className={styles.addPageText}>Add Page</span>
+        <span className={styles.addPageText}>
+          {props.page ? "Edit" : "Add Page"}
+        </span>
       </div>
+      {/* )} */}
 
-      <Modal handleClose={() => setPageModalOpen(false)} open={postModalOpen}>
+      <Modal handleClose={handleCloseModal} open={pageModalOpen}>
         <form
           onSubmit={formik.handleSubmit}
           className={styles.createPageModalContainer}
@@ -103,7 +141,7 @@ const PageEditor = (props: IPageEditor) => {
             <h2 className={styles.createPageTitle}>Create Page</h2>
 
             <ImCross
-              onClick={() => setPageModalOpen(false)}
+              onClick={handleCloseModal}
               className={styles.closeButton}
             />
           </div>
@@ -117,7 +155,10 @@ const PageEditor = (props: IPageEditor) => {
             }}
           />
 
-          <PostsEditor setSelectedPosts={handleSetSelectedPosts} />
+          <PostsEditor
+            setSelectedPosts={handleSetSelectedPosts}
+            page={props.page}
+          />
 
           {!loading && (
             <Button
@@ -126,7 +167,7 @@ const PageEditor = (props: IPageEditor) => {
               style={{}}
               className={styles.button}
             >
-              Create Page
+              {props.page ? "Update Page" : "Create Page"}
             </Button>
           )}
 

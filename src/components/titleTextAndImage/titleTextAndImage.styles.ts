@@ -14,6 +14,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     margin: "auto",
     color: theme.lightTextColor,
     marginBottom: 20,
+    maxWidth: 1100,
   },
   left: {
     flex: 1,
@@ -31,8 +32,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "80%",
   },
   image: {
-    height: 200,
-    width: 200,
+    height: 250,
+    width: 250,
     borderRadius: 15,
 
     backgroundSize: "cover",

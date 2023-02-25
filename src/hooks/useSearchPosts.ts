@@ -7,9 +7,22 @@ import PaginationResponse from "../globalTypes/PaginationResponse";
 import { IPost, PostVisibility } from "../store/slices/postSlice";
 import { IUser } from "../store/slices/userSlice";
 import useAuthorizedAxios from "./useAuthorizedAxios";
+import { IPage } from "../store/slices/pageSlice";
+import uuid from "react-uuid";
 
-const useSearchPosts = (user: IUser) => {
+const useSearchPosts = (user: IUser, page: IPage | undefined) => {
   const [selectedPosts, setSelectedPosts] = React.useState<IPost[]>([]);
+
+  // The searched posts should be initialized to the pages' posts
+  React.useEffect(() => {
+    if (page) {
+      const newSelectedPosts = [...page.posts];
+
+      setSelectedPosts(
+        newSelectedPosts.map((post) => ({ ...post, uuid: uuid() }))
+      );
+    }
+  }, [page]);
 
   const axios = useAuthorizedAxios();
 
@@ -17,7 +30,7 @@ const useSearchPosts = (user: IUser) => {
     title: string,
     paginationCommand: PaginationCommand
   ) =>
-    new Promise<PaginationResponse<IPost>>((resolve, reject) => {
+    new Promise<PaginationResponse<IPost>>((resolve, _) => {
       const command: PostsSearchCommand = {
         paginationCommand: paginationCommand,
         posterId: user._id,
@@ -37,7 +50,7 @@ const useSearchPosts = (user: IUser) => {
     });
 
   const handleSelectPost = (post: IPost) => {
-    setSelectedPosts([...selectedPosts, post]);
+    setSelectedPosts([{ ...post, uuid: uuid() }, ...selectedPosts]);
   };
 
   const handleDeletePost = (index: number) => {
@@ -50,6 +63,7 @@ const useSearchPosts = (user: IUser) => {
     handleSelectPost,
     handleDeletePost,
     selectedPosts,
+    setSelectedPosts,
     handleSearchPostsPromise,
   };
 };

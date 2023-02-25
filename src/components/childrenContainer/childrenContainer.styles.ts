@@ -9,7 +9,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "space-around",
+    margin: "auto",
     marginBottom: 40,
+    maxWidth: 1100,
   },
   "@media (max-width: 850px)": {},
 }));

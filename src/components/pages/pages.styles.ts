@@ -21,8 +21,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
     backgroundColor: theme.primary,
     marginBottom: 10,
     paddingLeft: 10,
+    paddingRight: 10,
     borderRadius: 10,
+    boxSizing: "border-box",
     position: "relative",
+    display: "flex",
+    flexDirection: "column",
   },
   lastPageContainer: {
     extend: "pageContainer",
@@ -30,19 +34,20 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   pageTitle: {
     color: theme.lightTextColor,
-  },
-  editIcon: {
-    position: "absolute",
-    right: 35,
-    fontSize: 20,
-    top: 8,
-    cursor: "pointer",
+    marginBottom: 10,
   },
   goIcon: {
     position: "absolute",
     right: 10,
     fontSize: 20,
     top: 8,
+  },
+  pageEditorContainer: {
+    backgroundColor: theme.subContentBackgroundColor,
+    padding: 1,
+    paddingRight: 5,
+    paddingLeft: 5,
+    borderRadius: 10,
   },
 }));
 

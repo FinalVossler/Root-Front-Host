@@ -29,6 +29,9 @@ export interface IPost {
   design: PostDesign;
   children: IPost[];
 
+  // used for frontend sorting only
+  uuid: string;
+
   createdAt: string;
   updatedAt: string;
 }

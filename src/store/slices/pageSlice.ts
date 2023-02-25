@@ -29,6 +29,14 @@ export const pageSlice = createSlice({
     addPage: (state: IPageState, action: PayloadAction<IPage>) => {
       state.pages.push(action.payload);
     },
+    updatePage: (state: IPageState, action: PayloadAction<IPage>) => {
+      state.pages = state.pages.map((page) => {
+        if (page._id === action.payload._id) {
+          return action.payload;
+        }
+        return page;
+      });
+    },
   },
 });
 

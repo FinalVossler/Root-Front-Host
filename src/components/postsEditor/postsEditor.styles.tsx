@@ -21,10 +21,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
     padding: 20,
     borderRadius: 20,
     alignItems: "center",
-    flex: 1,
+    justifyContent: "center",
     margin: "auto",
     width: "100%",
     boxSizing: "border-box",
+    height: 360,
+    overflow: "scroll",
   },
   deletePostButton: {
     position: "absolute",
@@ -32,6 +34,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     right: 5,
     fontSize: 20,
     cursor: "pointer",
+  },
+  sortPostHandle: {
+    extend: "deletePostButton",
+    right: 30,
+    zIndex: 1,
   },
   "@media (max-width: 850px)": {},
 }));

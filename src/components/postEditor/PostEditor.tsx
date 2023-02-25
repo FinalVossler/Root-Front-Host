@@ -70,7 +70,7 @@ const PostEditor = (props: IPostEditor) => {
       (!content || content.trim() === "<p><br></p>") &&
       (!title || title.trim() === "")
     ) {
-      return toast.error("Type something!");
+      return toast.error("I need a title or a description");
     }
 
     sunEditor?.setContents("");
