@@ -87,6 +87,8 @@ export const chatSlice = createSlice({
           messages: [],
           totalUnreadMessages: action.payload.totalUnreadMessages,
         };
+
+        state.conversations.push(conversation);
       }
     },
     incrementConversationTotalUnreadMessages: (

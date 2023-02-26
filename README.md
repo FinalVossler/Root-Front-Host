@@ -25,11 +25,13 @@ Add Page creation feature for admin
 - Fix Heroku problem
 
 - Create the my team component (with social media links)
-- Develop the name and trait here: https://peterarendt.com/
 - Build the website configuration backend and the configuration page
+  Website title + Website theme + website email (contact form)
 - Build a contact form
 - Ability to delete a post
+
 - Add a checkbox in page editor for show in header
 - Ability to edit a post
+- Develop the name and trait here: https://peterarendt.com/
 
 Add post assignment to page for admin

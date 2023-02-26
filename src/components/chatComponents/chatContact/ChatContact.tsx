@@ -30,10 +30,11 @@ const ChatContact: React.FunctionComponent<IChatContact> = (
     (state) => state.chat.selectedConversationId
   );
   const totalUnreadMessages = useAppSelector(
-    (state) => state.chat.conversations
-  ).find(
-    (c) => c.id === getConversationId([props.contact._id, userId])
-  )?.totalUnreadMessages;
+    (state) =>
+      state.chat.conversations.find(
+        (c) => c.id === getConversationId([props.contact._id, userId])
+      )?.totalUnreadMessages
+  );
   const isContactSelected: boolean = React.useMemo(() => {
     if (selectedConversationId) {
       const conversationalists: string[] =
