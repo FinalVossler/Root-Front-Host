@@ -15,8 +15,9 @@ import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import PostEditor from "../../components/postEditor";
 import UserPosts from "../../components/userPosts";
 import { useAppSelector } from "../../store/hooks";
-import { IUser } from "../../store/slices/userSlice";
+import { IUser, Role } from "../../store/slices/userSlice";
 import Pages from "../../components/pages";
+import WebsiteConfigurationEditor from "../../components/websiteConfigurationEditor";
 
 enum ActiveForm {
   Register = "Register",
@@ -71,7 +72,8 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
           {showConfiguration && (
             <div className={styles.profileAndPages}>
               <ProfileForm />
-              <Pages />
+              {user.role === Role.Admin && <Pages />}
+              {user.role === Role.Admin && <WebsiteConfigurationEditor />}
             </div>
           )}
           <div className={styles.postsAndEditor}>

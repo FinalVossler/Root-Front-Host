@@ -13,6 +13,9 @@ import { IPage } from "../../store/slices/pageSlice";
 interface IHeader {}
 const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
   const pages = useAppSelector<IPage[]>((state) => state.page.pages);
+  const websiteTitle: string | undefined = useAppSelector(
+    (state) => state.websiteConfiguration.title
+  );
 
   const [scrolledDown, setScrolledDown] = React.useState(window.scrollY >= 80);
 
@@ -45,7 +48,9 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
       }
     >
       <div className={styles.left}>
-        <h2 className={styles.headerTitle}>Socionics with Hamza Khalifa</h2>
+        <h2 className={styles.headerTitle}>
+          {websiteTitle || "Socionics with Hamza Khalifa"}
+        </h2>
       </div>
 
       <div className={styles.right}>
@@ -64,11 +69,11 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
               Home
             </a>
           </li>
-          <li className={styles.option}>
+          {/* <li className={styles.option}>
             <a className={styles.optionATag} href="/submission">
               Typing
             </a>
-          </li>
+          </li> */}
           <li className={styles.option}>
             <a className={styles.optionATag} href="/chat">
               Chat

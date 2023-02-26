@@ -21,6 +21,10 @@ import { AxiosResponse } from "axios";
 import { IPage, pageSlice } from "./store/slices/pageSlice";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import DynamicPage from "./pages/dynamicPage";
+import {
+  IWebsiteConfiguration,
+  websiteConfigurationSlice,
+} from "./store/slices/websiteConfigurationSlice";
 
 const stripePromise = loadStripe(
   // @ts-ignore
@@ -30,6 +34,10 @@ const stripePromise = loadStripe(
 function App() {
   const [finishedFetchingPages, setFinishedFetchingPages] =
     React.useState<boolean>(false);
+  const [
+    finishedFetchingWebsiteConfiguration,
+    setFinishedFetchingWebsiteConfiguration,
+  ] = React.useState<boolean>(false);
 
   const pages: IPage[] = useAppSelector((state) => state.page.pages);
 
@@ -48,6 +56,18 @@ function App() {
         dispatch(pageSlice.actions.setPages(res.data.data));
       })
       .finally(() => setFinishedFetchingPages(true));
+
+    axios
+      .request<AxiosResponse<IWebsiteConfiguration>>({
+        method: "GET",
+        url: "/websiteConfigurations/",
+      })
+      .then((res) => {
+        dispatch(
+          websiteConfigurationSlice.actions.setConfiguration(res.data.data)
+        );
+      })
+      .finally(() => setFinishedFetchingWebsiteConfiguration(true));
   }, []);
 
   const stripeOptions = {
@@ -79,7 +99,8 @@ function App() {
     },
   ]);
 
-  if (!finishedFetchingPages) return null;
+  if (!finishedFetchingPages || !finishedFetchingWebsiteConfiguration)
+    return null;
 
   return (
     <Elements stripe={stripePromise} options={stripeOptions}>

@@ -24,14 +24,23 @@ Add Page creation feature for admin
 - Add subtitle to post creation
 - Fix Heroku problem
 
+---
+
+100 euros:
+
 - Create the my team component (with social media links)
 - Build the website configuration backend and the configuration page
-  Website title + Website theme + website email (contact form)
+  Website title + Website theme (couleur) + website email (contact form) + website icon
 - Build a contact form
 - Ability to delete a post
 
+20 euors per her
+
+- Fix unread messages: messages sent real time are still set as unread
 - Add a checkbox in page editor for show in header
 - Ability to edit a post
 - Develop the name and trait here: https://peterarendt.com/
 
 Add post assignment to page for admin
+
+template
