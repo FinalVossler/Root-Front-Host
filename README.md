@@ -11,6 +11,7 @@ Add Page creation feature for admin
 
 - Create a post search input
 - Add the ability for a post to contain many posts
+- Build a contact form
 - Centralise populate logic in the backend
 - Show all pages
 - Ability to edit a page
@@ -19,8 +20,12 @@ Add Page creation feature for admin
 - Add the user on the file model
 - Ability to delete a page
 - Create the file selection popup from existing files
-
+- Build the title in this website: https://peterarendt.com/
 - Add subtitle to post creation
+
+- Fix Heroku problem
+- Build the website configuration backend and the configuration page
+- Build a contact form
 - Ability to delete a post
 - Create the my team component (with social media links)
 - Add a checkbox in page editor for show in header

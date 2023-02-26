@@ -14,6 +14,7 @@ import TitleTextAndImage from "../titleTextAndImage";
 import ChildrenContainer from "../childrenContainer";
 import Spacing from "../spacing";
 import RotatingCard from "../rotatingCard";
+import AnimatedTitle from "../animatedTitle";
 
 interface IUserPosts {
   post: IPost;
@@ -76,6 +77,9 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
         imageUrl={post.files.find((file) => file.isImage)?.url}
       />
     );
+  }
+  if (post.design === PostDesign.AnimatedTitle) {
+    return <AnimatedTitle title={post.title || ""} />;
   }
 
   return (

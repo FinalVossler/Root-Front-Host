@@ -13,8 +13,8 @@ interface IBanner {
 }
 const Banner: React.FunctionComponent<IBanner> = (props: IBanner) => {
   const theme: Theme = useTheme();
-
   const styles = useStyles({ theme });
+
   return (
     <div className={styles.bannerContainer}>
       <div className={styles.bannerImage}></div>

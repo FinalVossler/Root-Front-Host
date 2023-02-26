@@ -39,6 +39,7 @@ const PostEditor = (props: IPostEditor) => {
 
   const [postModalOpen, setPostModalOpen] = React.useState<boolean>(false);
   const [title, setTitle] = React.useState<string>("");
+  const [subTitle, setSubtTitle] = React.useState<string>("");
   const [children, setChildren] = React.useState<string[]>([]);
   const [visibility, setVisibility] = React.useState<PostVisibility>(
     PostVisibility.Public
@@ -84,6 +85,7 @@ const PostEditor = (props: IPostEditor) => {
 
     const command: PostCreateCommand = {
       title,
+      subTitle,
       posterId: user._id,
       content,
       files: filesToSend,
@@ -102,6 +104,7 @@ const PostEditor = (props: IPostEditor) => {
         const post: IPost = res.data.data;
         dispatch(postSlice.actions.addUserPost({ post, user }));
         setTitle("");
+        setSubtTitle("");
         setDesign(PostDesign.Default);
         setVisibility(PostVisibility.Public);
         setPostModalOpen(false);
@@ -114,6 +117,10 @@ const PostEditor = (props: IPostEditor) => {
   //#region Event listeners
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
+  };
+
+  const handleSubTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSubtTitle(e.target.value);
   };
 
   const handleVisibilityChange = (option: Option) => {
@@ -156,6 +163,15 @@ const PostEditor = (props: IPostEditor) => {
             inputProps={{
               onChange: handleTitleChange,
               placeholder: "title",
+            }}
+          />
+
+          <Input
+            Icon={MdTitle}
+            value={subTitle}
+            inputProps={{
+              onChange: handleSubTitleChange,
+              placeholder: "subtitle",
             }}
           />
 

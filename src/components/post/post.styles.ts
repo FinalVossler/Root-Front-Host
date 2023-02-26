@@ -18,6 +18,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexWrap: "wrap",
     width: "100%",
     flexDirection: "row",
+    marginTop: 10,
   },
   postTitle: {
     marginTop: 0,
@@ -33,12 +34,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
     alignItems: "center",
     textDecoration: "none",
     width: 200,
-    marginTop: 10,
+    marginRight: 10,
+    margin: 5,
   },
   postImage: {
     width: 200,
     height: 200,
-    marginRight: 10,
     borderRadius: 5,
     cursor: "pointer",
 

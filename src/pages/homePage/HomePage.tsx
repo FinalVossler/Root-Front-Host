@@ -10,6 +10,7 @@ import withWrapper from "../../hoc/wrapper";
 
 import useStyles from "./homePage.styles";
 import RotatingCard from "../../components/rotatingCard";
+import AnimatedTitle from "../../components/animatedTitle";
 
 interface IHome {}
 const Home: React.FunctionComponent<IHome> = (props: IHome) => {
@@ -18,7 +19,9 @@ const Home: React.FunctionComponent<IHome> = (props: IHome) => {
   const styles = useStyles({ theme });
   return (
     <div className={styles.homePageContainer}>
-      <Banner />
+      <AnimatedTitle title="Creative Developer" />
+
+      {/* <Banner /> */}
 
       <div className={styles.content}>
         <TitleTextAndImage

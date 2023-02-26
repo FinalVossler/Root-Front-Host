@@ -19,11 +19,13 @@ export enum PostDesign {
   TitleImageAndText = "TitleImageAndText",
   ChildrenContainer = "ChildrenContainer",
   RotatingCarzd = "RotatingCard",
+  AnimatedTitle = "AnimatedTitle",
 }
 
 export interface IPost {
   _id: string;
   title?: string;
+  subTitle?: string;
   posterId: string;
   content?: string;
   files: IFile[];

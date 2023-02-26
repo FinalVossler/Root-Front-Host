@@ -17,10 +17,13 @@ const SocketWrapper: React.FunctionComponent<ISocketWrapper> = (
       return;
     }
 
-    // @ts-ignore
-    const newSocket = io(process.env.REACT_APP_BACKEND_URL, {
-      query: { userId: user._id },
-    });
+    const newSocket = io(
+      // @ts-ignore
+      process.env.REACT_APP_BACKEND_URL?.replace(/^http/, "ws"),
+      {
+        query: { userId: user._id },
+      }
+    );
     setSocket(newSocket);
   }, [user]);
 

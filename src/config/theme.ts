@@ -2,6 +2,8 @@ export type Theme = {
   darkTextColor: string;
   lightTextColor: string;
   primary: string;
+  darkerPrimary: string;
+  lighterPrimary: string;
   secondary: string;
   errorColor: string;
   borderColor: string;
@@ -19,6 +21,8 @@ const theme: Theme = {
   lightTextColor: "white",
 
   primary: "#9885ec",
+  darkerPrimary: "#795ef0",
+  lighterPrimary: "#b0a2f1",
   secondary: "#27125e",
   errorColor: "red",
   borderColor: "#e0e0e0",
