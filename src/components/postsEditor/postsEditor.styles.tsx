@@ -34,11 +34,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     right: 5,
     fontSize: 20,
     cursor: "pointer",
+    zIndex: 3,
   },
   sortPostHandle: {
     extend: "deletePostButton",
     right: 30,
-    zIndex: 1,
   },
   "@media (max-width: 850px)": {},
 }));

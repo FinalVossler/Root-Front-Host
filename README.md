@@ -22,12 +22,13 @@ Add Page creation feature for admin
 - Create the file selection popup from existing files
 - Build the title in this website: https://peterarendt.com/
 - Add subtitle to post creation
-
 - Fix Heroku problem
+
+- Create the my team component (with social media links)
+- Develop the name and trait here: https://peterarendt.com/
 - Build the website configuration backend and the configuration page
 - Build a contact form
 - Ability to delete a post
-- Create the my team component (with social media links)
 - Add a checkbox in page editor for show in header
 - Ability to edit a post
 

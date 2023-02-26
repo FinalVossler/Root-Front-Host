@@ -1,5 +1,6 @@
 import React from "react";
 import { useTheme } from "react-jss";
+import { BsFillGearFill } from "react-icons/bs";
 
 import Registration from "../../components/registration";
 import Login from "../../components/login";
@@ -31,6 +32,7 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
   const [activeForm, setActiveForm] = React.useState<ActiveForm>(
     ActiveForm.Register
   );
+  const [showConfiguration, setShowConfiguration] = React.useState(true);
 
   const theme: Theme = useTheme();
   const styles = useStyles({ theme });
@@ -43,6 +45,9 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
         : ActiveForm.Register
     );
   };
+
+  const handleTriggerShowConfiguration = () =>
+    setShowConfiguration(!showConfiguration);
 
   return (
     <div className={styles.profilePageContainer}>
@@ -57,11 +62,18 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
       {activeForm === ActiveForm.Register && !isLoggedIn && <Registration />}
       {activeForm === ActiveForm.Login && !isLoggedIn && <Login />}
       {isLoggedIn && (
-        <div className={styles.connectedUserProfileContainer}>
-          <div className={styles.profileAndPages}>
-            <ProfileForm />
-            <Pages />
-          </div>
+        <div className={styles.connectedUserContainer}>
+          <BsFillGearFill
+            onClick={handleTriggerShowConfiguration}
+            className={styles.configurationIcon}
+            color={theme.primary}
+          />
+          {showConfiguration && (
+            <div className={styles.profileAndPages}>
+              <ProfileForm />
+              <Pages />
+            </div>
+          )}
           <div className={styles.postsAndEditor}>
             <PostEditor />
             <UserPosts user={user} />
