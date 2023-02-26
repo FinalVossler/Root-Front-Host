@@ -14,8 +14,8 @@ const RotatingCard: React.FunctionComponent<IRotatingCard> = (
   props: IRotatingCard
 ) => {
   const theme: Theme = useTheme();
-
   const styles = useStyles({ theme });
+
   return (
     <div className={styles.rotatingContainer}>
       <div

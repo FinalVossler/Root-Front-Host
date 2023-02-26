@@ -8,6 +8,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "column",
     backgroundColor: theme.backgroundColor,
     width: "100%",
+    alignItems: "center",
   },
 }));
 

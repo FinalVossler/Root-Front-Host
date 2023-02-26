@@ -56,6 +56,10 @@ function App() {
   };
 
   const router = createBrowserRouter([
+    ...pages.map((page) => ({
+      path: "/" + page.slug,
+      element: <DynamicPage page={page} />,
+    })),
     {
       path: "/",
       element: <HomePage />,
@@ -73,11 +77,6 @@ function App() {
       path: "/chat",
       element: <ChatPage />,
     },
-
-    ...pages.map((page) => ({
-      path: "/" + page.slug,
-      element: <DynamicPage page={page} />,
-    })),
   ]);
 
   if (!finishedFetchingPages) return null;

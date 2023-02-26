@@ -15,6 +15,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     maxWidth: 1100,
     display: "flex",
     flexDirection: "column",
+    alignItems: "center",
   },
   cardsContainer: {
     display: "flex",

@@ -18,10 +18,12 @@ Add Page creation feature for admin
 - Add a new visual design for rotating cards
 - Add the user on the file model
 - Ability to delete a page
-
 - Create the file selection popup from existing files
-- Add a checkbox in page editor for show in header
+
+- Add subtitle to post creation
 - Ability to delete a post
+- Create the my team component (with social media links)
+- Add a checkbox in page editor for show in header
 - Ability to edit a post
 
 Add post assignment to page for admin

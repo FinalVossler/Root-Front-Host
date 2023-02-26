@@ -7,7 +7,6 @@ import { AxiosResponse } from "axios";
 import ReactLoading from "react-loading";
 import * as Yup from "yup";
 
-import useStyles from "./pageEditor.styles";
 import Modal from "../modal";
 import { Theme } from "../../config/theme";
 import Button from "../button";
@@ -21,6 +20,8 @@ import Input from "../input";
 import { IPage, pageSlice } from "../../store/slices/pageSlice";
 import PostsEditor from "../postsEditor";
 import PageUpdateCommand from "../../globalTypes/commands/PageUpdateCommand";
+
+import useStyles from "./pageEditor.styles";
 
 interface IPageEditorForm {
   title: string;
@@ -58,7 +59,7 @@ const PageEditor = (props: IPageEditor) => {
       title: "",
     },
     validationSchema: Yup.object().shape({
-      title: Yup.string().required("Title is required"),
+      // title: Yup.string().required("Title is required"),
     }),
     onSubmit: (values) => {
       setLoading(true);
@@ -117,7 +118,6 @@ const PageEditor = (props: IPageEditor) => {
 
   return (
     <div className={styles.pageEditorContainer}>
-      {/* {!props.page && ( */}
       <div
         onClick={handleOpenModal}
         className={styles.createPageButtonContainer}
@@ -130,7 +130,6 @@ const PageEditor = (props: IPageEditor) => {
           {props.page ? "Edit" : "Add Page"}
         </span>
       </div>
-      {/* )} */}
 
       <Modal handleClose={handleCloseModal} open={pageModalOpen}>
         <form

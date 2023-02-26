@@ -35,6 +35,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   pageTitle: {
     color: theme.lightTextColor,
     marginBottom: 10,
+    minHeight: 15,
   },
   goIcon: {
     position: "absolute",

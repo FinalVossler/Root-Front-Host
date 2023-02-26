@@ -62,6 +62,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
   fileName: {
     color: theme.lightTextColor,
   },
+  chooseFilesButton: {
+    fontSize: 45,
+    cursor: "pointer",
+  },
   "@media (max-width: 850px)": {},
 }));
 

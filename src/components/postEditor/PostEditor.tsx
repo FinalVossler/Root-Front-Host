@@ -45,6 +45,8 @@ const PostEditor = (props: IPostEditor) => {
   );
   const [design, setDesign] = React.useState<PostDesign>(PostDesign.Default);
   const [files, setFiles] = React.useState<File[]>([]);
+  const [ownFiles, setOwnFiles] = React.useState<IFile[]>([]);
+  // TODO add own files state and pass it down to the posteditor and ownfiles for tracking
   const [loading, setLoading] = React.useState<boolean>(false);
   const [sunEditor, setSunEditor] =
     React.useState<SunEditorCore | undefined>(undefined);
@@ -77,13 +79,14 @@ const PostEditor = (props: IPostEditor) => {
 
     setLoading(true);
 
-    const filedsToSend: IFile[] = await uploadFiles(files);
+    let filesToSend: IFile[] = await uploadFiles(files);
+    filesToSend = filesToSend.concat(ownFiles);
 
     const command: PostCreateCommand = {
       title,
       posterId: user._id,
       content,
-      files: filedsToSend,
+      files: filesToSend,
       visibility: visibility,
       design: design,
       children: children,
@@ -102,6 +105,8 @@ const PostEditor = (props: IPostEditor) => {
         setDesign(PostDesign.Default);
         setVisibility(PostVisibility.Public);
         setPostModalOpen(false);
+        setFiles([]);
+        setOwnFiles([]);
       })
       .finally(() => setLoading(false));
   };
@@ -184,7 +189,12 @@ const PostEditor = (props: IPostEditor) => {
             height="200px"
           />
 
-          <PostEditorFiles files={files} setFiles={setFiles} />
+          <PostEditorFiles
+            setOwnFiles={setOwnFiles}
+            ownFiles={ownFiles}
+            files={files}
+            setFiles={setFiles}
+          />
 
           {!loading && (
             <Button

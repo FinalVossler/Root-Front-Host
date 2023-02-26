@@ -48,7 +48,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     fontSize: 20,
     lineHeight: 1.6,
     color: theme.darkTextColor,
-    maxHeight: 100,
+    flex: 1,
+    overflow: "hidden",
   },
   trait: {
     width: "70%",
@@ -67,8 +68,21 @@ const useStyles = createUseStyles((theme: Theme) => ({
       transform: "translateY(0)",
     },
   },
-  "@media (max-width: 800px)": {},
-  "@media (max-width: 680px)": {},
+  "@media (max-width: 1100px)": {
+    rotatingContainer: {
+      width: 300,
+    },
+  },
+  "@media (max-width: 930px)": {
+    rotatingContainer: {
+      width: 250,
+    },
+  },
+  "@media (max-width: 800px)": {
+    rotatingContainer: {
+      width: "80%",
+    },
+  },
 }));
 
 export default useStyles;

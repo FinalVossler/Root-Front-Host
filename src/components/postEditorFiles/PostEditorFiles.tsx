@@ -1,18 +1,22 @@
 import React from "react";
 import { useTheme } from "react-jss";
 import {
-  AiFillPicture,
+  AiFillFileAdd,
   AiOutlineFileDone,
   AiFillCloseCircle,
+  AiOutlineFileSearch,
 } from "react-icons/ai";
 
 import { Theme } from "../../config/theme";
 
 import useStyles from "./postEditorFiles.styles";
 import readAsBase64 from "../../utils/readAsBase64";
+import OwnFiles from "../ownFiles";
+import IFile from "../../globalTypes/IFile";
 
 type TrackedImage = {
   base64: string;
+  // Used to track the index in the original array (the post's files array)
   indexInParent: number;
 };
 
@@ -24,17 +28,21 @@ type TrackedFile = {
 interface IPostEditorFiles {
   setFiles: (files: File[]) => void;
   files: File[];
+  ownFiles: IFile[];
+  setOwnFiles: (ownFiles: IFile[]) => void;
 }
 
 const PostEditor = (props: IPostEditorFiles) => {
   const [images, setTrackedImages] = React.useState<TrackedImage[]>([]);
   const [trackedFiles, setTrackedFiles] = React.useState<TrackedFile[]>([]);
+  const [ownFilesOpen, setOwnFilesOpen] = React.useState<boolean>(false);
 
   const theme: Theme = useTheme();
   const styles = useStyles({ theme });
   const inputRef: React.MutableRefObject<HTMLInputElement | null> =
     React.useRef<HTMLInputElement>(null);
 
+  //#region Event listeners
   const handleIconClick = () => {
     if (inputRef.current) {
       inputRef.current.click();
@@ -89,6 +97,14 @@ const PostEditor = (props: IPostEditorFiles) => {
     }
   };
 
+  const handleTriggerOwnFilesOpen = () => {
+    if (ownFilesOpen) {
+      props.setOwnFiles([]);
+    }
+    setOwnFilesOpen(!ownFilesOpen);
+  };
+  //#endregion Event listeners
+
   return (
     <div className={styles.postEditorFilesContainer}>
       <div className={styles.filesContainer}>
@@ -124,7 +140,14 @@ const PostEditor = (props: IPostEditorFiles) => {
         </div>
       </div>
       <div className={styles.buttonsContainer}>
-        <AiFillPicture onClick={handleIconClick} className={styles.icon} />
+        <AiOutlineFileSearch
+          className={styles.chooseFilesButton}
+          onClick={handleTriggerOwnFilesOpen}
+          color={theme.primary}
+        />
+
+        <AiFillFileAdd onClick={handleIconClick} className={styles.icon} />
+
         <input
           onChange={handleFileChange}
           ref={inputRef as React.RefObject<HTMLInputElement>}
@@ -133,6 +156,9 @@ const PostEditor = (props: IPostEditorFiles) => {
           multiple
         />
       </div>
+      {ownFilesOpen && (
+        <OwnFiles ownFiles={props.ownFiles} setOwnFiles={props.setOwnFiles} />
+      )}
     </div>
   );
 };
