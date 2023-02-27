@@ -10,10 +10,10 @@ const withWrapper =
   (Component: any, withFooter: boolean = true): React.FunctionComponent<any> =>
   (props: any) => {
     const theme: Theme = useTheme();
-
     const styles = useStyles({ theme });
+
     return (
-      <div className={styles.container}>
+      <div className={styles.withWrapperContainer}>
         <Header />
         <Component {...props} />
         {withFooter && <Footer />}

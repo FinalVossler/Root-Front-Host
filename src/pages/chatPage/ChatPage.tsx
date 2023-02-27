@@ -28,6 +28,9 @@ interface IChat {
 
 const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
   const user: IUser = useAppSelector((state) => state.user.user);
+  const withChat: boolean | undefined = useAppSelector(
+    (state) => state.websiteConfiguration.withChat
+  );
   const selectedConversationId: string | undefined = useAppSelector(
     (state) => state.chat.selectedConversationId
   );
@@ -80,6 +83,8 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
       );
     });
   }, [props.socket]);
+
+  if (!withChat) return null;
 
   return (
     <div className={styles.chatPageContainer}>

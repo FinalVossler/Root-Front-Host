@@ -6,6 +6,8 @@ export interface IWebsiteConfiguration {
   email?: string;
   phoneNumber?: string;
   tabTitle?: string;
+  withChat?: boolean;
+  withRegistration?: boolean;
 }
 
 interface IWebsiteConfigurationState {
@@ -14,6 +16,8 @@ interface IWebsiteConfigurationState {
   email?: string;
   phoneNumber?: string;
   tabTitle?: string;
+  withChat?: boolean;
+  withRegistration?: boolean;
 }
 
 const initialState: IWebsiteConfigurationState = {
@@ -22,6 +26,8 @@ const initialState: IWebsiteConfigurationState = {
   email: "",
   phoneNumber: "",
   tabTitle: "",
+  withChat: false,
+  withRegistration: false,
 };
 
 export const websiteConfigurationSlice = createSlice({
@@ -36,6 +42,8 @@ export const websiteConfigurationSlice = createSlice({
       state.title = action.payload.title;
       state.phoneNumber = action.payload.phoneNumber;
       state.tabTitle = action.payload.tabTitle;
+      state.withChat = action.payload.withChat;
+      state.withRegistration = action.payload.withRegistration;
       document.title = action.payload.tabTitle || "Loading";
     },
   },

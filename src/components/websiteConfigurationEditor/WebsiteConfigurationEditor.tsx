@@ -20,12 +20,15 @@ import {
   IWebsiteConfiguration,
   websiteConfigurationSlice,
 } from "../../store/slices/websiteConfigurationSlice";
+import Checkbox from "../checkbox";
 
 interface IConfigurationForm {
   title?: string;
   email?: string;
   phoneNumber?: string;
   tabTitle?: string;
+  withChat?: boolean;
+  withRegistration?: boolean;
 }
 
 interface IWebsiteConfigurationEditor {}
@@ -52,12 +55,16 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
           email: websiteConfiguration.email,
           phoneNumber: websiteConfiguration.phoneNumber,
           tabTitle: websiteConfiguration.tabTitle,
+          withChat: websiteConfiguration.withChat,
+          withRegistration: websiteConfiguration.withRegistration,
         },
         validationSchema: Yup.object().shape({
           title: Yup.string().required("Title is required"),
           email: Yup.string().required("Email is required"),
           phoneNumber: Yup.string().required("Phone number is required"),
           tabTitle: Yup.string().required("Tab Title is required"),
+          withChat: Yup.boolean(),
+          withRegistration: Yup.boolean(),
         }),
         onSubmit: (values: IConfigurationForm) => {
           setLoading(true);
@@ -67,6 +74,8 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             phoneNumber: values.phoneNumber || "",
             title: values.title || "",
             tabTitle: values.tabTitle || "",
+            withChat: values.withChat || false,
+            withRegistration: values.withRegistration || false,
           };
 
           axios
@@ -146,6 +155,13 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
               inputProps={{
                 placeholder: "Tab Title",
               }}
+            />
+
+            <Checkbox name="withChat" formik={formik} label="With Chat" />
+            <Checkbox
+              name="withRegistration"
+              formik={formik}
+              label="With Registration"
             />
 
             {!loading && (

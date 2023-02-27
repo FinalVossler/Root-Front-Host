@@ -9,7 +9,7 @@ import * as Yup from "yup";
 
 import Input from "../input/Input";
 import Button from "../button/Button";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { IUser, userSlice } from "../../store/slices/userSlice";
 import useAxios from "../../hooks/useAxios";
 
@@ -30,6 +30,10 @@ interface IRegistration {}
 const Registration: React.FunctionComponent<IRegistration> = (
   props: IRegistration
 ) => {
+  const withRegistration: boolean | undefined = useAppSelector(
+    (state) => state.websiteConfiguration.withRegistration
+  );
+
   const [loading, setLoading] = React.useState(false);
 
   const theme: Theme = useTheme();
@@ -99,6 +103,9 @@ const Registration: React.FunctionComponent<IRegistration> = (
   };
 
   const styles = useStyles({ theme });
+
+  if (!withRegistration) return null;
+
   return (
     <form onSubmit={handleSubmit} className={styles.registrationContainer}>
       <h2 className={styles.registrationTitle}>Registration:</h2>

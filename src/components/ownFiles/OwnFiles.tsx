@@ -40,7 +40,6 @@ const OwnFiles = (props: IOwnFiles) => {
         url: "/files/getUserFiles",
       })
       .then((res) => {
-        console.log("res", res);
         setFiles([...files, ...res.data.data]);
         setPage(page + 1);
       })
@@ -60,7 +59,6 @@ const OwnFiles = (props: IOwnFiles) => {
     } else {
       newOwnFiles = newOwnFiles.filter((el) => el._id !== file._id);
     }
-    console.log(newOwnFiles);
     props.setOwnFiles(newOwnFiles);
   };
   //#endregion Event listeners

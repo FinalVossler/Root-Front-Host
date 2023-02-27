@@ -29,6 +29,9 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
   props: IProfilePage
 ) => {
   const user: IUser = useAppSelector<IUser>((state) => state.user.user);
+  const withRegistration: boolean | undefined = useAppSelector(
+    (state) => state.websiteConfiguration.withRegistration
+  );
 
   const [activeForm, setActiveForm] = React.useState<ActiveForm>(
     ActiveForm.Register
@@ -60,8 +63,11 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
       <br />
       <br />
 
-      {activeForm === ActiveForm.Register && !isLoggedIn && <Registration />}
-      {activeForm === ActiveForm.Login && !isLoggedIn && <Login />}
+      {activeForm === ActiveForm.Register &&
+        !isLoggedIn &&
+        withRegistration && <Registration />}
+      {(activeForm === ActiveForm.Login || !withRegistration) &&
+        !isLoggedIn && <Login />}
       {isLoggedIn && (
         <div className={styles.connectedUserContainer}>
           <BsFillGearFill
@@ -85,7 +91,7 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
 
       <br />
 
-      {!isLoggedIn && (
+      {!isLoggedIn && withRegistration && (
         <div className={styles.switchFormContainer}>
           <span>
             {activeForm === ActiveForm.Register
@@ -96,7 +102,7 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
             onClick={handleSwitchForm}
             className={styles.switchFormButton}
           >
-            {activeForm === ActiveForm.Register
+            {activeForm === ActiveForm.Register && withRegistration
               ? "Login here"
               : "Register here"}
           </button>

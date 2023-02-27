@@ -11,6 +11,7 @@ import withWrapper from "../../hoc/wrapper";
 import useStyles from "./homePage.styles";
 import RotatingCard from "../../components/rotatingCard";
 import AnimatedTitle from "../../components/animatedTitle";
+import ChatPage from "../chatPage";
 
 interface IHome {}
 const Home: React.FunctionComponent<IHome> = (props: IHome) => {
@@ -19,9 +20,9 @@ const Home: React.FunctionComponent<IHome> = (props: IHome) => {
   const styles = useStyles({ theme });
   return (
     <div className={styles.homePageContainer}>
-      <AnimatedTitle title="Creative Developer" />
+      <Banner />
 
-      {/* <Banner /> */}
+      <AnimatedTitle title="Creative Developer" />
 
       <div className={styles.content}>
         <TitleTextAndImage
@@ -30,7 +31,11 @@ const Home: React.FunctionComponent<IHome> = (props: IHome) => {
           title="Salut Tout le monde, je suis Nozha!"
         />
 
-        <RotatingCard description="If you've tried your hand at data analysis, you know that it can sometimes make decision making much more complex. Dashboarding is what we offer..." />
+        <div className={styles.cardsContainer}>
+          <RotatingCard description="If you've tried your hand at data analysis, you know that it can sometimes make decision making much more complex. Dashboarding is what we offer..." />
+          <RotatingCard description="If you've tried your hand at data analysis, you know that it can sometimes make decision making much more complex. Dashboarding is what we offer..." />
+          <RotatingCard description="If you've tried your hand at data analysis, you know that it can sometimes make decision making much more complex. Dashboarding is what we offer..." />
+        </div>
 
         <TitleAndText
           title="Why 16 types?"

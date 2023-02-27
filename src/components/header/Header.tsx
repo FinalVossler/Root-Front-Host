@@ -9,6 +9,7 @@ import useStyles from "./header.styles";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { userSlice } from "../../store/slices/userSlice";
 import { IPage } from "../../store/slices/pageSlice";
+import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 
 interface IHeader {}
 const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
@@ -16,12 +17,19 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
   const websiteTitle: string | undefined = useAppSelector(
     (state) => state.websiteConfiguration.title
   );
+  const withChat: boolean | undefined = useAppSelector(
+    (state) => state.websiteConfiguration.withChat
+  );
+  const withRegistration: boolean | undefined = useAppSelector(
+    (state) => state.websiteConfiguration.withRegistration
+  );
 
   const [scrolledDown, setScrolledDown] = React.useState(window.scrollY >= 80);
 
   const theme: Theme = useTheme();
   const styles = useStyles({ theme });
   const dispatch = useAppDispatch();
+  const isLoggedIn: boolean = useIsLoggedIn();
 
   React.useEffect(() => {
     const handleScrollEvent = () => {
@@ -64,33 +72,36 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
               </li>
             );
           })}
+
           <li className={styles.option}>
             <a className={styles.optionATag} href="/">
               Home
             </a>
           </li>
-          {/* <li className={styles.option}>
-            <a className={styles.optionATag} href="/submission">
-              Typing
-            </a>
-          </li> */}
-          <li className={styles.option}>
-            <a className={styles.optionATag} href="/chat">
-              Chat
-            </a>
-          </li>
 
-          <li className={styles.option + " " + styles.headerIcon}>
-            <a className={styles.optionATag} href="/profile">
-              <CgProfile />
-            </a>
-          </li>
+          {withChat && (
+            <li className={styles.option}>
+              <a className={styles.optionATag} href="/chat">
+                Chat
+              </a>
+            </li>
+          )}
 
-          <li className={styles.option + " " + styles.headerIcon}>
-            <a onClick={handleLogout} className={styles.optionATag} href="#">
-              <AiOutlineLogout />
-            </a>
-          </li>
+          {(withRegistration || isLoggedIn) && (
+            <li className={styles.option + " " + styles.headerIcon}>
+              <a className={styles.optionATag} href="/profile">
+                <CgProfile />
+              </a>
+            </li>
+          )}
+
+          {isLoggedIn && (
+            <li className={styles.option + " " + styles.headerIcon}>
+              <a onClick={handleLogout} className={styles.optionATag} href="#">
+                <AiOutlineLogout />
+              </a>
+            </li>
+          )}
         </ul>
       </div>
     </div>
