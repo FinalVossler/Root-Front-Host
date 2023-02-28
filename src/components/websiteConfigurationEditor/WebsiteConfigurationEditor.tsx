@@ -158,6 +158,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             />
 
             <Checkbox name="withChat" formik={formik} label="With Chat" />
+
             <Checkbox
               name="withRegistration"
               formik={formik}

@@ -15,6 +15,7 @@ import ChildrenContainer from "../childrenContainer";
 import Spacing from "../spacing";
 import RotatingCard from "../rotatingCard";
 import AnimatedTitle from "../animatedTitle";
+import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
 interface IUserPosts {
   post: IPost;
@@ -22,6 +23,8 @@ interface IUserPosts {
 const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
   const theme: Theme = useTheme();
   const styles = useStyles({ theme });
+
+  const getTranslatedText = useGetTranslatedText();
 
   const post = props.post;
 
@@ -32,8 +35,8 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
           post.files.find((file) => file.isImage)?.url ||
           "assets/images/card4.jpeg"
         }
-        description={extractContentFromHtml(post.content || "")}
-        title={post.title || ""}
+        description={extractContentFromHtml(getTranslatedText(post.content))}
+        title={getTranslatedText(post.title)}
         key={post._id}
       />
     );
@@ -41,24 +44,24 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
   if (post.design === PostDesign.TitleAndText) {
     return (
       <TitleAndText
-        description={extractContentFromHtml(post.content || "")}
-        title={post.title || ""}
+        description={extractContentFromHtml(getTranslatedText(post.content))}
+        title={getTranslatedText(post.title)}
       />
     );
   }
   if (post.design === PostDesign.Banner) {
     return (
       <Banner
-        description={extractContentFromHtml(post.content || "")}
-        title={post.title || ""}
+        description={extractContentFromHtml(getTranslatedText(post.content))}
+        title={getTranslatedText(post.title)}
       />
     );
   }
   if (post.design === PostDesign.TitleImageAndText) {
     return (
       <TitleTextAndImage
-        title={post.title}
-        description={extractContentFromHtml(post.content || "")}
+        title={getTranslatedText(post.title)}
+        description={extractContentFromHtml(getTranslatedText(post.content))}
         imageUrl={post.files.find((file) => file.isImage)?.url}
       />
     );
@@ -67,57 +70,61 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
     return <ChildrenContainer post={post} />;
   }
   if (post.design === PostDesign.Spacing) {
-    return <Spacing height={post.title} />;
+    return <Spacing height={getTranslatedText(post.title)} />;
   }
   if (post.design === PostDesign.RotatingCarzd) {
     return (
       <RotatingCard
-        description={extractContentFromHtml(post.content || "")}
-        title={post.title}
+        description={extractContentFromHtml(getTranslatedText(post.content))}
+        title={getTranslatedText(post.title)}
         imageUrl={post.files.find((file) => file.isImage)?.url}
       />
     );
   }
   if (post.design === PostDesign.AnimatedTitle) {
-    return <AnimatedTitle title={post.title || ""} />;
+    return <AnimatedTitle title={getTranslatedText(post.title)} />;
   }
 
   return (
     <div className={styles.userPost}>
-      {post.title && <h2 className={styles.postTitle}>{post.title}</h2>}
+      {post.title && (
+        <h2 className={styles.postTitle}>{getTranslatedText(post.title)}</h2>
+      )}
 
-      {post.content && post.content !== "<p><br></p>" && (
+      {post.content && getTranslatedText(post.content) !== "<p><br></p>" && (
         <p
           className={styles.postContent}
-          dangerouslySetInnerHTML={{ __html: post.content }}
+          dangerouslySetInnerHTML={{ __html: getTranslatedText(post.content) }}
         ></p>
       )}
 
-      <div className={styles.postFiles}>
-        {post?.files?.map((file, index) => {
-          return (
-            <a
-              key={"postFile" + index}
-              className={styles.postFileContainer}
-              href={file.url}
-              target="_blank"
-            >
-              {file.isImage && (
-                <div
-                  className={styles.postImage}
-                  key={"postFile" + index}
-                  style={{ backgroundImage: "url(" + file.url + ")" }}
-                />
-              )}
-              {!file.isImage && (
-                <AiOutlineFileDone className={styles.fileIcon} />
-              )}
+      {post.files.length > 0 && (
+        <div className={styles.postFiles}>
+          {post?.files?.map((file, index) => {
+            return (
+              <a
+                key={"postFile" + index}
+                className={styles.postFileContainer}
+                href={file.url}
+                target="_blank"
+              >
+                {file.isImage && (
+                  <div
+                    className={styles.postImage}
+                    key={"postFile" + index}
+                    style={{ backgroundImage: "url(" + file.url + ")" }}
+                  />
+                )}
+                {!file.isImage && (
+                  <AiOutlineFileDone className={styles.fileIcon} />
+                )}
 
-              <span className={styles.fileName}>{file.name}</span>
-            </a>
-          );
-        })}
-      </div>
+                <span className={styles.fileName}>{file.name}</span>
+              </a>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

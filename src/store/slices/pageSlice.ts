@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import ITranslatedText from "../../globalTypes/ITranslatedText";
 
 import { IPost } from "./postSlice";
 
@@ -6,7 +7,7 @@ export const PAGE_SLICE_NAME = "page";
 
 export interface IPage {
   _id: string;
-  title: string;
+  title: ITranslatedText[];
   slug: string;
   posts: IPost[];
 }

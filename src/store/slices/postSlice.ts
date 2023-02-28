@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import IFile from "../../globalTypes/IFile";
+import ITranslatedText from "../../globalTypes/ITranslatedText";
 import compareWithCreatedAt from "../../utils/compareWithCreatedAt";
 import { IUser } from "./userSlice";
 
@@ -24,10 +25,10 @@ export enum PostDesign {
 
 export interface IPost {
   _id: string;
-  title?: string;
-  subTitle?: string;
+  title?: ITranslatedText[];
+  subTitle?: ITranslatedText[];
   posterId: string;
-  content?: string;
+  content?: ITranslatedText[];
   files: IFile[];
   visibility: PostVisibility;
   design: PostDesign;

@@ -14,6 +14,7 @@ import { AiFillDelete } from "react-icons/ai";
 import Post from "../post";
 import useSearchPosts from "../../hooks/useSearchPosts";
 import { IPage } from "../../store/slices/pageSlice";
+import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
 import useStyles from "./postsEditor.styles";
 
@@ -25,6 +26,8 @@ interface IPostsEditor {
 
 const PostsEditor = (props: IPostsEditor) => {
   const user: IUser = useAppSelector((state) => state.user.user);
+
+  const getTranslatedText = useGetTranslatedText();
 
   const theme: Theme = useTheme();
   const styles = useStyles({ theme });
@@ -67,7 +70,7 @@ const PostsEditor = (props: IPostsEditor) => {
           placeholder: props.placeholder || "Search Posts",
         }}
         searchPromise={handleSearchPostsPromise}
-        getElementTitle={(post: IPost) => post.title || ""}
+        getElementTitle={(post: IPost) => getTranslatedText(post.title)}
         onElementClick={handleSelectPost}
       />
 

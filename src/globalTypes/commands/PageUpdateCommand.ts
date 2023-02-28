@@ -1,9 +1,8 @@
-import { IPage } from "../../store/slices/pageSlice";
-
 type PageUpdateCommand = {
   _id: string;
-  title: IPage["title"];
+  title: string;
   posts: string[];
+  language: string;
 };
 
 export default PageUpdateCommand;

@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { userSlice } from "../../store/slices/userSlice";
 import { IPage } from "../../store/slices/pageSlice";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
+import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
 interface IHeader {}
 const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
@@ -30,6 +31,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
   const styles = useStyles({ theme });
   const dispatch = useAppDispatch();
   const isLoggedIn: boolean = useIsLoggedIn();
+  const getTranslatedText = useGetTranslatedText();
 
   React.useEffect(() => {
     const handleScrollEvent = () => {
@@ -67,7 +69,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
             return (
               <li key={page._id} className={styles.option}>
                 <a className={styles.optionATag} href={"/" + page.slug}>
-                  {page.title}
+                  {getTranslatedText(page.title)}
                 </a>
               </li>
             );

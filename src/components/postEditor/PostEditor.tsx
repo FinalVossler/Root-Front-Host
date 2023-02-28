@@ -31,6 +31,8 @@ import InputSelect from "../inputSelect";
 import { Option } from "../inputSelect/InputSelect";
 import Input from "../input";
 import PostsEditor from "../postsEditor";
+import getNavigatorLanguage from "../../utils/getNavigatorLanguage";
+import getLanguages from "../../utils/getLanguages";
 
 interface IPostEditor {}
 
@@ -40,6 +42,9 @@ const PostEditor = (props: IPostEditor) => {
   const [postModalOpen, setPostModalOpen] = React.useState<boolean>(false);
   const [title, setTitle] = React.useState<string>("");
   const [subTitle, setSubtTitle] = React.useState<string>("");
+  const [language, setLanguage] = React.useState<string>(
+    getNavigatorLanguage()
+  );
   const [children, setChildren] = React.useState<string[]>([]);
   const [visibility, setVisibility] = React.useState<PostVisibility>(
     PostVisibility.Public
@@ -92,6 +97,7 @@ const PostEditor = (props: IPostEditor) => {
       visibility: visibility,
       design: design,
       children: children,
+      language,
     };
 
     axios
@@ -137,6 +143,10 @@ const PostEditor = (props: IPostEditor) => {
     },
     [setChildren]
   );
+
+  const handleChangeLanguage = (option: Option) => {
+    setLanguage(option.value);
+  };
   //#endregion Event listeners
 
   return (
@@ -178,6 +188,16 @@ const PostEditor = (props: IPostEditor) => {
           <PostsEditor
             setSelectedPosts={handleSetSelectedPosts}
             placeholder="Add children posts"
+          />
+
+          <InputSelect
+            label="Language"
+            onChange={handleChangeLanguage}
+            options={getLanguages()}
+            value={
+              getLanguages().find((el) => el.value === language) ||
+              getLanguages()[0]
+            }
           />
 
           <InputSelect

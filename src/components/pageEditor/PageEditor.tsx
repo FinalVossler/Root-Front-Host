@@ -22,10 +22,15 @@ import PostsEditor from "../postsEditor";
 import PageUpdateCommand from "../../globalTypes/commands/PageUpdateCommand";
 
 import useStyles from "./pageEditor.styles";
+import getNavigatorLanguage from "../../utils/getNavigatorLanguage";
+import getLanguages from "../../utils/getLanguages";
+import InputSelect from "../inputSelect";
+import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
 interface IPageEditorForm {
   title: string;
   posts: string[];
+  language: string;
 }
 
 interface IPageEditor {
@@ -42,13 +47,23 @@ const PageEditor = (props: IPageEditor) => {
   const styles = useStyles({ theme });
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
+  const getTranslatedText = useGetTranslatedText();
 
   React.useEffect(() => {
     if (props.page)
       formik.resetForm({
         values: {
-          title: props.page.title,
+          title: getTranslatedText(props.page.title),
           posts: props.page.posts.map((post) => post._id),
+          // Set the language to the navigator's language if the title contains a translated text in the same language as the navigator.
+          // Else, set the language to the title's language
+          language: props.page.title.find(
+            (el) => el.language === getNavigatorLanguage()
+          )
+            ? getNavigatorLanguage()
+            : props.page.title.length > 0
+            ? props.page.title[0].language
+            : getNavigatorLanguage(),
         },
       });
   }, [props.page]);
@@ -57,6 +72,7 @@ const PageEditor = (props: IPageEditor) => {
     initialValues: {
       posts: [],
       title: "",
+      language: getNavigatorLanguage(),
     },
     validationSchema: Yup.object().shape({
       // title: Yup.string().required("Title is required"),
@@ -71,11 +87,13 @@ const PageEditor = (props: IPageEditor) => {
           posts: values.posts,
           title: values.title,
           _id: props.page._id,
+          language: values.language,
         };
       } else {
         command = {
           posts: values.posts,
           title: values.title,
+          language: values.language,
         };
       }
 
@@ -98,6 +116,13 @@ const PageEditor = (props: IPageEditor) => {
     },
   });
 
+  React.useEffect(() => {
+    formik.setFieldValue(
+      "title",
+      getTranslatedText(props.page?.title, formik.values.language)
+    );
+  }, [formik.values.language]);
+
   //#region Event listeners
   const handleSetSelectedPosts = React.useCallback((posts: IPost[]) => {
     formik.setFieldValue(
@@ -109,6 +134,7 @@ const PageEditor = (props: IPageEditor) => {
   const handleOpenModal = () => {
     setPageModalOpen(true);
   };
+
   const handleCloseModal = () => {
     setPageModalOpen(false);
   };
@@ -152,6 +178,18 @@ const PageEditor = (props: IPageEditor) => {
             inputProps={{
               placeholder: "Title",
             }}
+          />
+
+          <InputSelect
+            label="Language"
+            name="language"
+            formik={formik}
+            options={getLanguages()}
+            value={
+              getLanguages().find(
+                (el) => el.value === formik.values.language
+              ) || getLanguages()[0]
+            }
           />
 
           <PostsEditor

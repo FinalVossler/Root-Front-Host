@@ -12,6 +12,7 @@ import PageEditor from "../pageEditor";
 import useStyles from "./pages.styles";
 import ConfirmationModal from "../confirmationModal";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
+import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
 interface IPageProps {}
 
@@ -26,6 +27,7 @@ const Pages: React.FunctionComponent<IPageProps> = (props: IPageProps) => {
   const styles = useStyles({ theme });
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
+  const getTranslatedText = useGetTranslatedText();
 
   const handleDeleteModalConfirm = () => {
     setDeleteLoading(true);
@@ -76,7 +78,9 @@ const Pages: React.FunctionComponent<IPageProps> = (props: IPageProps) => {
                   : styles.pageContainer
               }
             >
-              <span className={styles.pageTitle}>{page.title}</span>
+              <span className={styles.pageTitle}>
+                {getTranslatedText(page.title)}
+              </span>
 
               <span
                 className={styles.deleteIcon}

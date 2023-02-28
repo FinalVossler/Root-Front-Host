@@ -1,8 +1,7 @@
-import { IPage } from "../../store/slices/pageSlice";
-
 type PageCreateCommand = {
-  title: IPage["title"];
+  title: string;
   posts: string[];
+  language: string;
 };
 
 export default PageCreateCommand;

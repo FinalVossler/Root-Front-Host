@@ -2,7 +2,7 @@ import { IPost } from "../../store/slices/postSlice";
 import PaginationCommand from "../PaginationCommand";
 
 type PostsSearchCommand = {
-  title: IPost["title"];
+  title: string;
   visibilities: IPost["visibility"][];
   posterId: IPost["posterId"];
   paginationCommand: PaginationCommand;
