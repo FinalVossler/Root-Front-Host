@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import {
   AiFillFileAdd,
   AiOutlineFileDone,
@@ -13,6 +12,7 @@ import useStyles from "./postEditorFiles.styles";
 import readAsBase64 from "../../utils/readAsBase64";
 import OwnFiles from "../ownFiles";
 import IFile from "../../globalTypes/IFile";
+import { useAppSelector } from "../../store/hooks";
 
 type TrackedImage = {
   base64: string;
@@ -37,7 +37,9 @@ const PostEditor = (props: IPostEditorFiles) => {
   const [trackedFiles, setTrackedFiles] = React.useState<TrackedFile[]>([]);
   const [ownFilesOpen, setOwnFilesOpen] = React.useState<boolean>(false);
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
   const inputRef: React.MutableRefObject<HTMLInputElement | null> =
     React.useRef<HTMLInputElement>(null);

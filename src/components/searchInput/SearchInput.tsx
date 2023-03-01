@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import { BsSearch } from "react-icons/bs";
 
 import { Theme } from "../../config/theme";
@@ -9,6 +8,7 @@ import useStyles from "./searchInput.styles";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import PaginationCommand from "../../globalTypes/PaginationCommand";
+import { useAppSelector } from "../../store/hooks";
 
 interface ISearchInput {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
@@ -34,7 +34,9 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
   const [searchResult, setSearchResult] =
     React.useState<PaginationResponse<any>>();
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
   const searchBoxRef = React.useRef(null);
   useOnClickOutside(searchBoxRef, () => setShowSearchResult(false));

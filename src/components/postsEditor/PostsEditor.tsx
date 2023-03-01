@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import { CSS } from "@dnd-kit/utilities";
 import { arrayMove, SortableContext, useSortable } from "@dnd-kit/sortable";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
@@ -29,7 +28,9 @@ const PostsEditor = (props: IPostsEditor) => {
 
   const getTranslatedText = useGetTranslatedText();
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
 
   const {
@@ -103,7 +104,9 @@ interface ISortablePost {
 const SortablePost: React.FunctionComponent<ISortablePost> = (
   props: ISortablePost
 ) => {
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
 
   const { attributes, listeners, setNodeRef, transform } = useSortable({

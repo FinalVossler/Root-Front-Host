@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import theme, { Theme } from "../../config/theme";
 
 export interface IWebsiteConfiguration {
   _id?: string;
@@ -8,6 +9,7 @@ export interface IWebsiteConfiguration {
   tabTitle?: string;
   withChat?: boolean;
   withRegistration?: boolean;
+  theme: Theme;
 }
 
 interface IWebsiteConfigurationState {
@@ -18,6 +20,7 @@ interface IWebsiteConfigurationState {
   tabTitle?: string;
   withChat?: boolean;
   withRegistration?: boolean;
+  theme: Theme;
 }
 
 const initialState: IWebsiteConfigurationState = {
@@ -28,6 +31,7 @@ const initialState: IWebsiteConfigurationState = {
   tabTitle: "",
   withChat: false,
   withRegistration: false,
+  theme,
 };
 
 export const websiteConfigurationSlice = createSlice({
@@ -44,6 +48,7 @@ export const websiteConfigurationSlice = createSlice({
       state.tabTitle = action.payload.tabTitle;
       state.withChat = action.payload.withChat;
       state.withRegistration = action.payload.withRegistration;
+      state.theme = action.payload.theme;
       document.title = action.payload.tabTitle || "Loading";
     },
   },

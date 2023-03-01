@@ -1,7 +1,7 @@
 import React from "react";
-import { useTheme } from "react-jss";
 
 import { Theme } from "../../config/theme";
+import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./titleTextAndImage.styles";
 
@@ -14,7 +14,9 @@ interface ITitleTextAndImage {
 const TitleTextAndImage: React.FunctionComponent<ITitleTextAndImage> = (
   props: ITitleTextAndImage
 ) => {
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
 
   const styles = useStyles({ theme });
 

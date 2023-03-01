@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import { CgProfile } from "react-icons/cg";
 import { RiNotificationFill } from "react-icons/ri";
 import { AxiosResponse } from "axios";
@@ -51,7 +50,9 @@ const ChatContact: React.FunctionComponent<IChatContact> = (
     return false;
   }, [selectedConversationId]);
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const dispatch = useAppDispatch();
   const axios = useAuthorizedAxios();
   const styles = useStyles({ theme });

@@ -25,6 +25,7 @@ Add Page creation feature for admin
 - Fix Heroku problem
 - Create configuration for with user registration
 - Create configuration for with Chat.
+- Add Translation of posts and pages support
 
 - Create the my team component (with social media links)
 - Build the website configuration backend and the configuration page
@@ -32,7 +33,12 @@ Add Page creation feature for admin
 - Build a contact form
 - Ability to delete a post
 
-- Add Translation of posts and pages support
+- theme configuration
+- Add the main languages website configuration input and column
+- Add the language selector in the header and that contains the main languages stored in the database
+- Centralize the language option in the redux store
+- Add all static text to website configuration
+- Add the forms to update static texts languages
 - Fix unread messages: messages sent real time are still set as unread
 - Add a checkbox in page editor for show in header
 - Ability to edit a post

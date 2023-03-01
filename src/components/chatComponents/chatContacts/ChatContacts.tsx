@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 
 import { Theme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
@@ -18,7 +17,9 @@ const ChatContacts: React.FunctionComponent<IChatContacts> = (
     (state) => state.chat.selectedConversationId
   );
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
 
   const styles = useStyles({ theme });
 

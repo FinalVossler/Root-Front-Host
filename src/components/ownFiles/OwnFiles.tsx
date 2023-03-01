@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import Loading from "react-loading";
 import { AiOutlineFileDone } from "react-icons/ai";
 
@@ -10,6 +9,7 @@ import IFile from "../../globalTypes/IFile";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
 import PaginationCommand from "../../globalTypes/PaginationCommand";
 import { AxiosResponse } from "axios";
+import { useAppSelector } from "../../store/hooks";
 
 interface IOwnFiles {
   ownFiles: IFile[];
@@ -21,7 +21,9 @@ const OwnFiles = (props: IOwnFiles) => {
   const [files, setFiles] = React.useState<IFile[]>([]);
   const [page, setPage] = React.useState(1);
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
   const axios = useAuthorizedAxios();
 

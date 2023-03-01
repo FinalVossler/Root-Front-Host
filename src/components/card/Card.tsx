@@ -1,5 +1,5 @@
-import { useTheme } from "react-jss";
 import { Theme } from "../../config/theme";
+import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./card.styles";
 
@@ -9,7 +9,9 @@ interface ICard {
   backgroundImage: string;
 }
 const Card: React.FunctionComponent<ICard> = (props: ICard) => {
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
 
   const styles = useStyles({ theme });
   return (

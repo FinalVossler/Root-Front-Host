@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import EmojiPicker from "emoji-picker-react";
 import { AiOutlineSend } from "react-icons/ai";
 import { HiEmojiHappy } from "react-icons/hi";
@@ -43,7 +42,9 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
   const [files, setFiles] = React.useState<File[]>([]);
   const [loading, setLoading] = React.useState(false);
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
   const axios = useAuthorizedAxios();
   const messageRef: React.MutableRefObject<HTMLDivElement | undefined> =

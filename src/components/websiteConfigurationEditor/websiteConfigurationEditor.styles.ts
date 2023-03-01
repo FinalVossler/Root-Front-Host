@@ -60,6 +60,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     margin: "auto",
     marginTop: 10,
   },
+  themeTitle: {
+    color: theme.lightTextColor,
+  },
 }));
 
 export default useStyles;

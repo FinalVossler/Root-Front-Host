@@ -1,12 +1,12 @@
 import React from "react";
 import { AxiosResponse } from "axios";
 import { FormikProps, useFormik } from "formik";
-import { useTheme } from "react-jss";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import ReactLoading from "react-loading";
+import { AiOutlineBgColors } from "react-icons/ai";
 
-import { Theme } from "../../config/theme";
+import theme, { Theme } from "../../config/theme";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
 import useStyles from "./websiteConfigurationEditor.styles";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -22,7 +22,7 @@ import {
 } from "../../store/slices/websiteConfigurationSlice";
 import Checkbox from "../checkbox";
 
-interface IConfigurationForm {
+interface IConfigurationForm extends Theme {
   title?: string;
   email?: string;
   phoneNumber?: string;
@@ -43,7 +43,9 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
     const [configurationModalOpen, setConfigurationModalOpen] =
       React.useState<boolean>(false);
 
-    const theme: Theme = useTheme();
+    const theme: Theme = useAppSelector(
+      (state) => state.websiteConfiguration.theme
+    );
     const styles = useStyles({ theme });
     const axios = useAuthorizedAxios();
     const dispatch = useAppDispatch();
@@ -57,6 +59,25 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
           tabTitle: websiteConfiguration.tabTitle,
           withChat: websiteConfiguration.withChat,
           withRegistration: websiteConfiguration.withRegistration,
+
+          darkTextColor: websiteConfiguration.theme.darkTextColor,
+          lightTextColor: websiteConfiguration.theme.lightTextColor,
+          primary: websiteConfiguration.theme.primary,
+          darkerPrimary: websiteConfiguration.theme.darkerPrimary,
+          lighterPrimary: websiteConfiguration.theme.lighterPrimary,
+          secondary: websiteConfiguration.theme.secondary,
+          errorColor: websiteConfiguration.theme.errorColor,
+          borderColor: websiteConfiguration.theme.borderColor,
+          formMaxWidth: websiteConfiguration.theme.formMaxWidth,
+          backgroundColor: websiteConfiguration.theme.backgroundColor,
+          contentBackgroundColor:
+            websiteConfiguration.theme.contentBackgroundColor,
+          boxColor: websiteConfiguration.theme.boxColor,
+          transparentBackground:
+            websiteConfiguration.theme.transparentBackground,
+          subContentBackgroundColor:
+            websiteConfiguration.theme.subContentBackgroundColor,
+          boxShadow: websiteConfiguration.theme.boxShadow,
         },
         validationSchema: Yup.object().shape({
           title: Yup.string().required("Title is required"),
@@ -76,6 +97,24 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             tabTitle: values.tabTitle || "",
             withChat: values.withChat || false,
             withRegistration: values.withRegistration || false,
+
+            theme: {
+              darkTextColor: values.darkTextColor,
+              lightTextColor: values.lightTextColor,
+              primary: values.primary,
+              darkerPrimary: values.darkerPrimary,
+              lighterPrimary: values.lighterPrimary,
+              secondary: values.secondary,
+              errorColor: values.errorColor,
+              borderColor: values.borderColor,
+              formMaxWidth: values.formMaxWidth,
+              backgroundColor: values.backgroundColor,
+              contentBackgroundColor: values.contentBackgroundColor,
+              boxColor: values.boxColor,
+              transparentBackground: values.transparentBackground,
+              subContentBackgroundColor: values.subContentBackgroundColor,
+              boxShadow: values.boxShadow,
+            },
           };
 
           axios
@@ -124,6 +163,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             <Input
               Icon={MdTitle}
               name={"title"}
+              label="Title"
               formik={formik}
               inputProps={{
                 placeholder: "title",
@@ -133,6 +173,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             <Input
               Icon={MdTitle}
               name={"email"}
+              label="Email"
               formik={formik}
               inputProps={{
                 placeholder: "email",
@@ -142,6 +183,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             <Input
               Icon={MdTitle}
               name={"phoneNumber"}
+              label="Phone number"
               formik={formik}
               inputProps={{
                 placeholder: "phone number",
@@ -151,6 +193,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             <Input
               Icon={MdTitle}
               name={"tabTitle"}
+              label="Tab Title"
               formik={formik}
               inputProps={{
                 placeholder: "Tab Title",
@@ -158,6 +201,130 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             />
 
             <Checkbox name="withChat" formik={formik} label="With Chat" />
+
+            {/* Theme inputs */}
+
+            <h2 className={styles.themeTitle}>Theme: </h2>
+
+            <Input
+              name="darkTextColor"
+              label="darkTextColor"
+              formik={formik}
+              inputProps={{ placeholder: "darkTextColor" }}
+              Icon={AiOutlineBgColors}
+            />
+
+            <Input
+              name="lightTextColor"
+              label="lightTextColor"
+              formik={formik}
+              inputProps={{ placeholder: "lightTextColor" }}
+              Icon={AiOutlineBgColors}
+            />
+
+            <Input
+              name="primary"
+              label="primary"
+              formik={formik}
+              Icon={AiOutlineBgColors}
+              inputProps={{ placeholder: "primary" }}
+            />
+
+            <Input
+              name="darkerPrimary"
+              label="darkerPrimary"
+              formik={formik}
+              Icon={AiOutlineBgColors}
+              inputProps={{ placeholder: "darkerPrimary" }}
+            />
+
+            <Input
+              name="lighterPrimary"
+              label="lighterPrimary"
+              formik={formik}
+              Icon={AiOutlineBgColors}
+              inputProps={{ placeholder: "lighterPrimary" }}
+            />
+
+            <Input
+              name="secondary"
+              label="secondary"
+              formik={formik}
+              Icon={AiOutlineBgColors}
+              inputProps={{ placeholder: "secondary" }}
+            />
+
+            <Input
+              name="errorColor"
+              label="errorColor"
+              formik={formik}
+              inputProps={{ placeholder: "errorColor" }}
+              Icon={AiOutlineBgColors}
+            />
+
+            <Input
+              name="borderColor"
+              label="borderColor"
+              formik={formik}
+              inputProps={{ placeholder: "borderColor" }}
+              Icon={AiOutlineBgColors}
+            />
+
+            <Input
+              name="formMaxWidth"
+              label="formMaxWidth"
+              formik={formik}
+              Icon={AiOutlineBgColors}
+              inputProps={{ placeholder: "formMaxWidth" }}
+            />
+
+            <Input
+              name="backgroundColor"
+              label="backgroundColor"
+              formik={formik}
+              inputProps={{ placeholder: "backgroundColor" }}
+              Icon={AiOutlineBgColors}
+            />
+
+            <Input
+              name="contentBackgroundColor"
+              label="contentBackgroundColor"
+              formik={formik}
+              inputProps={{ placeholder: "contentBackgroundColor" }}
+              Icon={AiOutlineBgColors}
+            />
+
+            <Input
+              name="boxColor"
+              label="boxColor"
+              formik={formik}
+              inputProps={{ placeholder: "boxColor" }}
+              Icon={AiOutlineBgColors}
+            />
+
+            <Input
+              name="transparentBackground"
+              label="transparentBackground"
+              formik={formik}
+              inputProps={{ placeholder: "transparentBackground" }}
+              Icon={AiOutlineBgColors}
+            />
+
+            <Input
+              name="subContentBackgroundColor"
+              label="subContentBackgroundColor"
+              formik={formik}
+              inputProps={{ placeholder: "subContentBackgroundColor" }}
+              Icon={AiOutlineBgColors}
+            />
+
+            <Input
+              name="boxShadow"
+              label="boxShadow"
+              formik={formik}
+              Icon={AiOutlineBgColors}
+              inputProps={{ placeholder: "boxShadow" }}
+            />
 
             <Checkbox
               name="withRegistration"

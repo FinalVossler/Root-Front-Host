@@ -1,8 +1,8 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import { GoPerson } from "react-icons/go";
 
 import { Theme } from "../../config/theme";
+import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./userProfilePicture.styles";
 
@@ -21,7 +21,9 @@ interface IUserProfilePicture {
 
 const UserProfilePicture = (props: IUserProfilePicture) => {
   const styles = useStyles();
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
 
   // Create an empty object if the profile picture name is undefined or null
   const styleObject = props.url

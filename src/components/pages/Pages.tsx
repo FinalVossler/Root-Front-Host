@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import { FaDirections } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 import { toast } from "react-toastify";
@@ -23,7 +22,9 @@ const Pages: React.FunctionComponent<IPageProps> = (props: IPageProps) => {
   const [deleteLoading, setDeleteLoading] = React.useState(false);
   const [selectedPageId, setSelectedPageId] = React.useState("");
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();

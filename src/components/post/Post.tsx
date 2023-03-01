@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import { AiOutlineFileDone } from "react-icons/ai";
 
 import { Theme } from "../../config/theme";
@@ -16,12 +15,15 @@ import Spacing from "../spacing";
 import RotatingCard from "../rotatingCard";
 import AnimatedTitle from "../animatedTitle";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
+import { useAppSelector } from "../../store/hooks";
 
 interface IUserPosts {
   post: IPost;
 }
 const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
 
   const getTranslatedText = useGetTranslatedText();

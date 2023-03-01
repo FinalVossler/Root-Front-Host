@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import { CgProfile } from "react-icons/cg";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 
@@ -38,7 +37,9 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
     } else return [];
   }, [contacts, conversation]);
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
   const dispatch = useAppDispatch();
 

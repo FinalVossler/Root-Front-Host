@@ -1,7 +1,7 @@
 import React from "react";
-import { useTheme } from "react-jss";
 
 import { Theme } from "../../config/theme";
+import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./button.styles";
 
@@ -10,7 +10,9 @@ interface IButton
     React.PropsWithChildren {}
 
 const Button: React.FunctionComponent<IButton> = (props: IButton) => {
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
 
   const styles = useStyles({ theme });
 

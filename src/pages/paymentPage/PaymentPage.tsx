@@ -1,11 +1,11 @@
 import React from "react";
-import { useTheme } from "react-jss";
 
 import PaymentForm from "../../components/paymentForm";
 
 import { Theme } from "../../config/theme";
 
 import withWrapper from "../../hoc/wrapper";
+import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./paymentPage.styles";
 
@@ -13,7 +13,9 @@ interface IPaymentPage {}
 const PaymentPage: React.FunctionComponent<IPaymentPage> = (
   props: IPaymentPage
 ) => {
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
 
   return (

@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import { BsFillGearFill } from "react-icons/bs";
 
 import Registration from "../../components/registration";
@@ -38,7 +37,9 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
   );
   const [showConfiguration, setShowConfiguration] = React.useState(true);
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
   const isLoggedIn: boolean = useIsLoggedIn();
 

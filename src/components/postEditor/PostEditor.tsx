@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import { toast } from "react-toastify";
 import SunEditor from "suneditor-react";
 import "suneditor/dist/css/suneditor.min.css";
@@ -57,7 +56,9 @@ const PostEditor = (props: IPostEditor) => {
   const [sunEditor, setSunEditor] =
     React.useState<SunEditorCore | undefined>(undefined);
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();

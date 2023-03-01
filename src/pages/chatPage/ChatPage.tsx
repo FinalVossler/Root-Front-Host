@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import { socketConnect } from "socket.io-react";
 import { AxiosResponse } from "axios";
 import { Socket } from "socket.io-client";
@@ -35,7 +34,9 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
     (state) => state.chat.selectedConversationId
   );
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();

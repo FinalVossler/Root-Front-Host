@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import { CgProfile } from "react-icons/cg";
 import { AiOutlineMail } from "react-icons/ai";
 import { FormikProps, useFormik } from "formik";
@@ -36,7 +35,9 @@ const Registration: React.FunctionComponent<IRegistration> = (
 
   const [loading, setLoading] = React.useState(false);
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const dispatch = useAppDispatch();
   const axios = useAxios();
 

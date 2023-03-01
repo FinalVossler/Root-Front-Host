@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import { CgProfile } from "react-icons/cg";
 
 import { Theme } from "../../../config/theme";
@@ -15,7 +14,9 @@ const ChatContact: React.FunctionComponent<IChatCurrentUser> = (
 ) => {
   const user: IUser = useAppSelector((state) => state.user.user);
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
   const dispatch = useAppDispatch();
 

@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import { CgProfile } from "react-icons/cg";
 import ReactLoading from "react-loading";
 import { toast } from "react-toastify";
@@ -30,7 +29,9 @@ const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
   const [fileAsBase64, setFileAsBase64] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(false);
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const inputRef = React.useRef<HTMLInputElement>();
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();

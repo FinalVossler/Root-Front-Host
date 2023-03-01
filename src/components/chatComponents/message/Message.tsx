@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import { RxCrossCircled } from "react-icons/rx";
 import { socketConnect } from "socket.io-react";
 import { Socket } from "socket.io-client";
@@ -31,7 +30,9 @@ const Message: React.FunctionComponent<IMessageComponent> = (
   const [modalOpen, setModalOpen] = React.useState(false);
   const [deleteLoading, setDeleteLoading] = React.useState(false);
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
   const dispatch = useAppDispatch();
   const axios = useAuthorizedAxios();

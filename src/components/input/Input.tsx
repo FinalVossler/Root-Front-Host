@@ -1,11 +1,11 @@
 import { FormikProps } from "formik";
 import React from "react";
-import { useTheme } from "react-jss";
 import debounce from "lodash.debounce";
 
 import { Theme } from "../../config/theme";
 
 import useStyles from "./input.styles";
+import { useAppSelector } from "../../store/hooks";
 
 interface IInput {
   Icon?: any;
@@ -17,11 +17,14 @@ interface IInput {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => any;
   debounce?: boolean;
   onFocus?: (e: React.FocusEvent<HTMLInputElement, Element>) => any;
+  label?: string;
 }
 const Input: React.FunctionComponent<IInput> = (props: IInput) => {
   const [isFocused, setIsFocused] = React.useState(false);
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
 
   //#region Event listeners
@@ -54,19 +57,28 @@ const Input: React.FunctionComponent<IInput> = (props: IInput) => {
         isFocused ? styles.inputContainerFocused : styles.inputContainer
       }
     >
-      {props.Icon && <props.Icon className={styles.inputIcon} />}
-      {((props.name && props.formik?.values[props.name]) !== undefined ||
-        props.value !== undefined) && (
-        <input
-          onBlur={handleFocus}
-          onFocus={handleFocus}
-          className={styles.input}
-          name={props.name}
-          onChange={props.debounce ? debouncedChange : handleChange}
-          {...props.inputProps}
-          {...additionalProps}
-        />
-      )}
+      <div className={styles.labelAndInputContainer}>
+        {props.label && <span className={styles.label}>{props.label}</span>}
+        {props.Icon && (
+          <props.Icon
+            className={
+              props.label ? styles.inputIconWithLabel : styles.inputIcon
+            }
+          />
+        )}
+        {((props.name && props.formik?.values[props.name]) !== undefined ||
+          props.value !== undefined) && (
+          <input
+            onBlur={handleFocus}
+            onFocus={handleFocus}
+            className={props.label ? styles.inputWithLabel : styles.input}
+            name={props.name}
+            onChange={props.debounce ? debouncedChange : handleChange}
+            {...props.inputProps}
+            {...additionalProps}
+          />
+        )}
+      </div>
 
       <span className={styles.inputError}>
         {/* @ts-ignore */}

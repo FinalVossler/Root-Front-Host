@@ -1,9 +1,9 @@
 import { FormikProps } from "formik";
 import React from "react";
-import { useTheme } from "react-jss";
 import Select, { PropsValue } from "react-select";
 
 import { Theme } from "../../config/theme";
+import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./inputSelect.styles";
 
@@ -25,7 +25,9 @@ interface IInputSelect {
 const InputSelect: React.FunctionComponent<IInputSelect> = (
   props: IInputSelect
 ) => {
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
 
   const handleOnChange = (option: PropsValue<Option>) => {

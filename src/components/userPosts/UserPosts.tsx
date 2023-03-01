@@ -1,6 +1,5 @@
 import { AxiosResponse } from "axios";
 import React from "react";
-import { useTheme } from "react-jss";
 import ReactLoading from "react-loading";
 
 import { Theme } from "../../config/theme";
@@ -27,7 +26,9 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
   const [postsLoading, setPostsLoading] = React.useState<boolean>(false);
   const [page, setPage] = React.useState(1);
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
   const dispatch = useAppDispatch();
 

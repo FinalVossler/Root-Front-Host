@@ -1,5 +1,3 @@
-import { useTheme } from "react-jss";
-
 import { Theme } from "../../config/theme";
 import Banner from "../../components/banner";
 import Card from "../../components/card";
@@ -11,11 +9,13 @@ import withWrapper from "../../hoc/wrapper";
 import useStyles from "./homePage.styles";
 import RotatingCard from "../../components/rotatingCard";
 import AnimatedTitle from "../../components/animatedTitle";
-import ChatPage from "../chatPage";
+import { useAppSelector } from "../../store/hooks";
 
 interface IHome {}
 const Home: React.FunctionComponent<IHome> = (props: IHome) => {
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
 
   const styles = useStyles({ theme });
   return (

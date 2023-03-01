@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import { ImCross } from "react-icons/im";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { MdTitle } from "react-icons/md";
@@ -43,7 +42,9 @@ const PageEditor = (props: IPageEditor) => {
   const [pageModalOpen, setPageModalOpen] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(false);
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
@@ -116,6 +117,7 @@ const PageEditor = (props: IPageEditor) => {
     },
   });
 
+  // Updating the title depending on the language
   React.useEffect(() => {
     formik.setFieldValue(
       "title",

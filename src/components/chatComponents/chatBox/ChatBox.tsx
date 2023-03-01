@@ -1,6 +1,5 @@
 import { AxiosResponse } from "axios";
 import React from "react";
-import { useTheme } from "react-jss";
 
 import { Theme } from "../../../config/theme";
 import MessageGetBetweenUsersCommand from "../../../globalTypes/commands/MessageGetBetweenUsersCommand";
@@ -42,7 +41,9 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   const [loadingMessages, setLoadingMessages] = React.useState<boolean>(false);
   const [page, setPage] = React.useState<number>(1);
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
   const axios = useAuthorizedAxios();
   const scrollToDiv = React.useRef<HTMLDivElement>(null);

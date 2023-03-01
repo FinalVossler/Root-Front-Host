@@ -19,6 +19,17 @@ const useStyles = createUseStyles((theme: Theme) => ({
       color: theme.primary,
     },
   },
+  labelAndInputContainer: {
+    display: "flex",
+    alignItems: "center",
+    flex: 1,
+  },
+  label: {
+    color: theme.lightTextColor,
+    marginRight: 10,
+    textAlign: "start",
+    width: 200,
+  },
   input: {
     border: "none",
     padding: 13,
@@ -28,6 +39,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.lightTextColor,
     backgroundColor: theme.boxColor,
     borderRadius: 5,
+    boxSizing: "border-box",
+    width: "100%",
+  },
+  inputWithLabel: {
+    extend: "input",
+    width: "calc(100% - 200px)",
   },
   inputIcon: {
     position: "absolute",
@@ -36,6 +53,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
     top: 10,
     transition: "all .2s ease-int-out",
     left: 6,
+  },
+  inputIconWithLabel: {
+    extend: "inputIcon",
+    left: 215,
   },
   inputError: {
     color: theme.errorColor,

@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import { toast } from "react-toastify";
 
@@ -7,6 +6,7 @@ import { Theme } from "../../config/theme";
 
 import useStyles from "./paymentForm.styles";
 import Button from "../button";
+import { useAppSelector } from "../../store/hooks";
 
 interface IPaymentForm {
   price: number;
@@ -16,7 +16,9 @@ interface IPaymentForm {
 const Profile: React.FunctionComponent<IPaymentForm> = (
   props: IPaymentForm
 ) => {
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
   const stripe = useStripe();
   const elements = useElements();

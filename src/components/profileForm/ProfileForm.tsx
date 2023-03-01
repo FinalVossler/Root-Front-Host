@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import { CgProfile } from "react-icons/cg";
 import { FormikProps, useFormik } from "formik";
 import * as Yup from "yup";
@@ -30,7 +29,9 @@ const Profile: React.FunctionComponent<IProfileForm> = (
 
   const [loading, setLoading] = React.useState(false);
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const dispatch = useAppDispatch();
   const styles = useStyles({ theme });
 

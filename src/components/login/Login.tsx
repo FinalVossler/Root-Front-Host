@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import { AiOutlineMail } from "react-icons/ai";
 import { FormikProps, useFormik } from "formik";
 import { RiLockPasswordLine } from "react-icons/ri";
@@ -14,7 +13,7 @@ import useAxios from "../../hooks/useAxios";
 import { Theme } from "../../config/theme";
 
 import { IUser, userSlice } from "../../store/slices/userSlice";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import UserLoginCommand from "../../globalTypes/commands/UserLoginCommand";
 
 import useStyles from "./login.styles";
@@ -27,7 +26,9 @@ interface ILoginForm {
 interface ILogin {}
 const Registration: React.FunctionComponent<ILogin> = (props: ILogin) => {
   const [loading, setLoading] = React.useState(false);
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const dispatch = useAppDispatch();
   const axios = useAxios();
 

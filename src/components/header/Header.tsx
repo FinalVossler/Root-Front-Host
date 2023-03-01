@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "react-jss";
 import { CgProfile } from "react-icons/cg";
 import { AiOutlineLogout } from "react-icons/ai";
 
@@ -27,7 +26,9 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
 
   const [scrolledDown, setScrolledDown] = React.useState(window.scrollY >= 80);
 
-  const theme: Theme = useTheme();
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const styles = useStyles({ theme });
   const dispatch = useAppDispatch();
   const isLoggedIn: boolean = useIsLoggedIn();
