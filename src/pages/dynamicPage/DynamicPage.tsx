@@ -25,11 +25,8 @@ const DynamicPage: React.FunctionComponent<IDynamicPage> = (
       {props.page.posts.map((post, index) => {
         return <Post key={index} post={post} />;
       })}
-      <br />
-      <br />
-      <br />
     </div>
   );
 };
 
-export default withWrapper(DynamicPage);
+export default withWrapper(DynamicPage, false);

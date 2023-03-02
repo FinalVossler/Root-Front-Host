@@ -17,6 +17,8 @@ import TitleAndText from "../postsComponents/titleAndText";
 import Card from "../postsComponents/card";
 import AnimatedTitle from "../postsComponents/animatedTitle";
 import UnderlinedTitle from "../postsComponents/underlinedTitle";
+import Footer from "../postsComponents/footer";
+import extractLinksFromText from "../../utils/extractLinksFromText";
 
 interface IUserPosts {
   post: IPost;
@@ -89,6 +91,29 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
   }
   if (post.design === PostDesign.UnderlinedTitle) {
     return <UnderlinedTitle title={getTranslatedText(post.title)} />;
+  }
+  if (post.design === PostDesign.Footer) {
+    const socialMediaLinks: string[] = extractLinksFromText(
+      extractContentFromHtml(getTranslatedText(post.content))
+    );
+    let description: string = extractContentFromHtml(
+      getTranslatedText(post.content)
+    );
+    socialMediaLinks.forEach((link) => {
+      description = description.replace(link, "");
+    });
+    return (
+      <Footer
+        title={getTranslatedText(post.title)}
+        description={description}
+        facebook={socialMediaLinks.find((el) => el.indexOf("facebook") !== -1)}
+        instagram={socialMediaLinks.find(
+          (el) => el.indexOf("instagram") !== -1
+        )}
+        linkedin={socialMediaLinks.find((el) => el.indexOf("linkedin") !== -1)}
+        youtube={socialMediaLinks.find((el) => el.indexOf("youtube") !== -1)}
+      />
+    );
   }
 
   return (

@@ -1,6 +1,6 @@
 import { Theme } from "../../config/theme";
 import Header from "../../components/header";
-import Footer from "../../components/footer";
+import Footer from "../../components/postsComponents/footer";
 
 import useStyles from "./withWrapper.styles";
 import { useAppSelector } from "../../store/hooks";

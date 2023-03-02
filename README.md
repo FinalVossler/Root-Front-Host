@@ -26,6 +26,8 @@ Add Page creation feature for admin
 - Create configuration for with user registration
 - Create configuration for with Chat.
 - Add Translation of posts and pages support
+- Add the main languages website configuration input and column
+- Social Media configuration => Made in Footer post type
 
 - Create the my team component (with social media links)
 - Build the website configuration backend and the configuration page
@@ -36,7 +38,6 @@ Add Page creation feature for admin
 
 - Implement automatic text translation: https://www.npmjs.com/package/react-auto-translate
 - Color picker input
-- Add the main languages website configuration input and column
 - Add the language selector in the header and that contains the main languages stored in the database
 - Centralize the language option in the redux store
 - Add all static text to website configuration

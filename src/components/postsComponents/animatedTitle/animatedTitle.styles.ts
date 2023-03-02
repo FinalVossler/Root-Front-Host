@@ -52,11 +52,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
     height: 2,
     background:
       "linear-gradient(45deg," +
-      theme.darkerPrimary +
-      " 17%," +
-      theme.primary +
-      "," +
       theme.lighterPrimary +
+      " 17%," +
+      theme.darkerPrimary +
+      80 +
+      "," +
+      theme.darkerPrimary +
+      30 +
       ")",
     right: -100,
     left: "80%",
@@ -66,6 +68,15 @@ const useStyles = createUseStyles((theme: Theme) => ({
   trait2: {
     extend: "trait1",
     width: "40%",
+    background:
+      "linear-gradient(45deg," +
+      theme.lighterPrimary +
+      " 17%," +
+      theme.darkerPrimary +
+      "," +
+      theme.darkerPrimary +
+      50 +
+      ")",
   },
   "@media (max-width: 750px)": {
     trait1: {
