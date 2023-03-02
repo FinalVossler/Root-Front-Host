@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import ReactLoading from "react-loading";
 import { AiOutlineBgColors } from "react-icons/ai";
 
-import theme, { Theme } from "../../config/theme";
+import { Theme } from "../../config/theme";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
 import useStyles from "./websiteConfigurationEditor.styles";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -210,6 +210,12 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
 
             <Checkbox name="withChat" formik={formik} label="With Chat" />
 
+            <Checkbox
+              name="withRegistration"
+              formik={formik}
+              label="With Registration"
+            />
+
             {/* Theme inputs */}
 
             <h2 className={styles.themeTitle}>Theme: </h2>
@@ -332,12 +338,6 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
               formik={formik}
               Icon={AiOutlineBgColors}
               inputProps={{ placeholder: "boxShadow" }}
-            />
-
-            <Checkbox
-              name="withRegistration"
-              formik={formik}
-              label="With Registration"
             />
 
             {!loading && (
