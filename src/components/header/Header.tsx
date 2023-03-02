@@ -59,9 +59,9 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
       }
     >
       <div className={styles.left}>
-        <h2 className={styles.headerTitle}>
+        <a href="/" className={styles.headerTitle}>
           {websiteTitle || "Socionics with Hamza Khalifa"}
-        </h2>
+        </a>
       </div>
 
       <div className={styles.right}>

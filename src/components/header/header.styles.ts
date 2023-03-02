@@ -42,6 +42,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
   headerTitle: {
     color: theme.lightTextColor,
     fontWeight: 600,
+    fontSize: 30,
+    textDecoration: "none",
   },
   left: {
     display: "flex",

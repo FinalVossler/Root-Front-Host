@@ -1,7 +1,6 @@
-import { Theme } from "../../config/theme";
-import { useAppSelector } from "../../store/hooks";
-
-import shortenString from "../../utils/shortenString";
+import { Theme } from "../../../config/theme";
+import { useAppSelector } from "../../../store/hooks";
+import shortenString from "../../../utils/shortenString";
 
 import useStyles from "./rotatingCard.styles";
 

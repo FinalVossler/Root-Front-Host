@@ -32,8 +32,10 @@ Add Page creation feature for admin
   Website title + Website theme (couleur) + website email (contact form) + website icon
 - Build a contact form
 - Ability to delete a post
-
 - theme configuration
+
+- Implement automatic text translation: https://www.npmjs.com/package/react-auto-translate
+- Color picker input
 - Add the main languages website configuration input and column
 - Add the language selector in the header and that contains the main languages stored in the database
 - Centralize the language option in the redux store
@@ -42,7 +44,7 @@ Add Page creation feature for admin
 - Fix unread messages: messages sent real time are still set as unread
 - Add a checkbox in page editor for show in header
 - Ability to edit a post
-- Develop the name and trait here: https://peterarendt.com/
+- Develop the name and trait here: e
 
 Add post assignment to page for admin
 

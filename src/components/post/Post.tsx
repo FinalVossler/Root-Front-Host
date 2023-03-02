@@ -6,16 +6,17 @@ import { IPost, PostDesign } from "../../store/slices/postSlice";
 import extractContentFromHtml from "../../utils/extractContentFromHtml";
 
 import useStyles from "./post.styles";
-import Card from "../card";
-import TitleAndText from "../titleAndText";
-import Banner from "../banner";
-import TitleTextAndImage from "../titleTextAndImage";
 import ChildrenContainer from "../childrenContainer";
 import Spacing from "../spacing";
-import RotatingCard from "../rotatingCard";
-import AnimatedTitle from "../animatedTitle";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../store/hooks";
+import RotatingCard from "../postsComponents/rotatingCard";
+import Banner from "../postsComponents/banner";
+import TitleTextAndImage from "../postsComponents/titleTextAndImage";
+import TitleAndText from "../postsComponents/titleAndText";
+import Card from "../postsComponents/card";
+import AnimatedTitle from "../postsComponents/animatedTitle";
+import UnderlinedTitle from "../postsComponents/underlinedTitle";
 
 interface IUserPosts {
   post: IPost;
@@ -85,6 +86,9 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
   }
   if (post.design === PostDesign.AnimatedTitle) {
     return <AnimatedTitle title={getTranslatedText(post.title)} />;
+  }
+  if (post.design === PostDesign.UnderlinedTitle) {
+    return <UnderlinedTitle title={getTranslatedText(post.title)} />;
   }
 
   return (

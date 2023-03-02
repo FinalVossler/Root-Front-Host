@@ -13,6 +13,7 @@ interface ICheckbox {
   checked?: any;
   onChange?: (checked: boolean) => any;
   label?: string;
+  labelStyles?: React.CSSProperties;
 }
 const Checkbox: React.FunctionComponent<ICheckbox> = (props: ICheckbox) => {
   const theme: Theme = useAppSelector(
@@ -34,7 +35,11 @@ const Checkbox: React.FunctionComponent<ICheckbox> = (props: ICheckbox) => {
 
   return (
     <div className={styles.checkboxContainer}>
-      {props.label && <span className={styles.label}>{props.label}</span>}
+      {props.label && (
+        <span style={{ ...(props.labelStyles || {}) }} className={styles.label}>
+          {props.label}
+        </span>
+      )}
       <input
         type="checkbox"
         checked={

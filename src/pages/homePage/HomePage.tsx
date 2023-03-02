@@ -1,15 +1,16 @@
 import { Theme } from "../../config/theme";
-import Banner from "../../components/banner";
-import Card from "../../components/card";
-import TitleAndText from "../../components/titleAndText";
-import TitleTextAndImage from "../../components/titleTextAndImage";
 
 import withWrapper from "../../hoc/wrapper";
+import { useAppSelector } from "../../store/hooks";
+import Banner from "../../components/postsComponents/banner";
+import AnimatedTitle from "../../components/postsComponents/animatedTitle";
+import TitleTextAndImage from "../../components/postsComponents/titleTextAndImage";
+import RotatingCard from "../../components/postsComponents/rotatingCard";
+import TitleAndText from "../../components/postsComponents/titleAndText";
+import Card from "../../components/postsComponents/card";
+import UnderlinedTitle from "../../components/postsComponents/underlinedTitle";
 
 import useStyles from "./homePage.styles";
-import RotatingCard from "../../components/rotatingCard";
-import AnimatedTitle from "../../components/animatedTitle";
-import { useAppSelector } from "../../store/hooks";
 
 interface IHome {}
 const Home: React.FunctionComponent<IHome> = (props: IHome) => {
@@ -24,10 +25,11 @@ const Home: React.FunctionComponent<IHome> = (props: IHome) => {
 
       <AnimatedTitle title="Creative Developer" />
 
+      <UnderlinedTitle title="Hamza Khalifa" />
+
       <div className={styles.content}>
         <TitleTextAndImage
           description="Bienvenue sur ma page personnelle ! Je suis une conseillère commerciale spécialisée dans divers domaines. J'ai un master en sciences appliquées et technologies et des compétences communicationnelles hors du commun !"
-          imageUrl="/assets/images/nozha.jpeg"
           title="Salut Tout le monde, je suis Nozha!"
         />
 

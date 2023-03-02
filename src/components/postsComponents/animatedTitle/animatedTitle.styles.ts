@@ -1,13 +1,13 @@
 import { createUseStyles } from "react-jss";
 
-import { Theme } from "../../config/theme";
+import { Theme } from "../../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
   animatedTitleContainer: {
     display: "flex",
     alignItems: "flex-start",
     justifyContent: "center",
-    height: 800,
+    height: 600,
     flexDirection: "column",
     position: "relative",
   },

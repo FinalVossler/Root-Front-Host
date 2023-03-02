@@ -21,12 +21,14 @@ import {
   websiteConfigurationSlice,
 } from "../../store/slices/websiteConfigurationSlice";
 import Checkbox from "../checkbox";
+import InputLanguages from "../inputLanguages";
 
 interface IConfigurationForm extends Theme {
   title?: string;
   email?: string;
   phoneNumber?: string;
   tabTitle?: string;
+  mainLanguages?: string[];
   withChat?: boolean;
   withRegistration?: boolean;
 }
@@ -57,6 +59,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
           email: websiteConfiguration.email,
           phoneNumber: websiteConfiguration.phoneNumber,
           tabTitle: websiteConfiguration.tabTitle,
+          mainLanguages: websiteConfiguration.mainLanguages,
           withChat: websiteConfiguration.withChat,
           withRegistration: websiteConfiguration.withRegistration,
 
@@ -95,6 +98,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             phoneNumber: values.phoneNumber || "",
             title: values.title || "",
             tabTitle: values.tabTitle || "",
+            mainLanguages: values.mainLanguages || ["en", "fr"],
             withChat: values.withChat || false,
             withRegistration: values.withRegistration || false,
 
@@ -160,6 +164,8 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
               />
             </div>
 
+            <h2 className={styles.themeTitle}>Global Configuration: </h2>
+
             <Input
               Icon={MdTitle}
               name={"title"}
@@ -173,7 +179,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             <Input
               Icon={MdTitle}
               name={"email"}
-              label="Email"
+              label="Contact Email"
               formik={formik}
               inputProps={{
                 placeholder: "email",
@@ -199,6 +205,8 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
                 placeholder: "Tab Title",
               }}
             />
+
+            <InputLanguages name={"mainLanguages"} formik={formik} />
 
             <Checkbox name="withChat" formik={formik} label="With Chat" />
 

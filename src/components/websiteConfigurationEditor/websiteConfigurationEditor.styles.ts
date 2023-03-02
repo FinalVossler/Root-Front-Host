@@ -61,7 +61,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginTop: 10,
   },
   themeTitle: {
-    color: theme.lightTextColor,
+    color: theme.primary,
+    paddingBottom: 10,
+    borderBottom: "2px solid " + theme.primary,
   },
 }));
 

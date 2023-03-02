@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Theme } from "../../config/theme";
-import { useAppSelector } from "../../store/hooks";
+import { Theme } from "../../../config/theme";
+import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./banner.styles";
 

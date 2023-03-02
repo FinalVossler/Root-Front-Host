@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Theme } from "../../config/theme";
-import { useAppSelector } from "../../store/hooks";
+import { Theme } from "../../../config/theme";
+import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./titleTextAndImage.styles";
 
@@ -31,7 +31,7 @@ const TitleTextAndImage: React.FunctionComponent<ITitleTextAndImage> = (
         className={styles.image}
         style={{
           backgroundImage:
-            "url(" + (props.imageUrl ?? "/assets/images/nozha.jpeg") + ")",
+            "url(" + (props.imageUrl ?? "/assets/images/hamza.jpeg") + ")",
         }}
       />
     </div>

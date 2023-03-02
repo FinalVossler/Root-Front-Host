@@ -7,6 +7,7 @@ export interface IWebsiteConfiguration {
   email?: string;
   phoneNumber?: string;
   tabTitle?: string;
+  mainLanguages?: string[];
   withChat?: boolean;
   withRegistration?: boolean;
   theme: Theme;
@@ -18,6 +19,7 @@ interface IWebsiteConfigurationState {
   email?: string;
   phoneNumber?: string;
   tabTitle?: string;
+  mainLanguages?: string[];
   withChat?: boolean;
   withRegistration?: boolean;
   theme: Theme;
@@ -29,6 +31,7 @@ const initialState: IWebsiteConfigurationState = {
   email: "",
   phoneNumber: "",
   tabTitle: "",
+  mainLanguages: ["en", "fr"],
   withChat: false,
   withRegistration: false,
   theme,
@@ -46,6 +49,7 @@ export const websiteConfigurationSlice = createSlice({
       state.title = action.payload.title;
       state.phoneNumber = action.payload.phoneNumber;
       state.tabTitle = action.payload.tabTitle;
+      state.mainLanguages = action.payload.mainLanguages;
       state.withChat = action.payload.withChat;
       state.withRegistration = action.payload.withRegistration;
       state.theme = action.payload.theme;

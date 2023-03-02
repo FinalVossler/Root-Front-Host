@@ -1,6 +1,6 @@
 import { createUseStyles } from "react-jss";
 
-import { Theme } from "../../config/theme";
+import { Theme } from "../../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
   TitleTextAndImageContainer: {
