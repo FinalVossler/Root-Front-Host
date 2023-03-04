@@ -52,13 +52,16 @@ const PostWrapper: React.FunctionComponent<IPostOptions> = (
         toast.success("Post has been deleted");
       });
   };
+  const handlePostOptionsOpen = () => {
+    setOptionsOpen(!optionsOpen);
+  };
   //#endregion Event listeners
 
   return (
     <div className={styles.postOptionsContainer}>
       <BsThreeDots
         color={theme.lightTextColor}
-        onClick={() => setOptionsOpen(!optionsOpen)}
+        onClick={handlePostOptionsOpen}
         className={styles.postOptionsButton}
       />
       {optionsOpen && (

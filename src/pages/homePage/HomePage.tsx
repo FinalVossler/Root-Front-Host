@@ -11,6 +11,7 @@ import Card from "../../components/postsComponents/card";
 import UnderlinedTitle from "../../components/postsComponents/underlinedTitle";
 
 import useStyles from "./homePage.styles";
+import ContactForm from "../../components/contactForm";
 
 interface IHome {}
 const Home: React.FunctionComponent<IHome> = (props: IHome) => {
@@ -73,6 +74,8 @@ const Home: React.FunctionComponent<IHome> = (props: IHome) => {
             backgroundImage="assets/images/card4.jpeg"
           />
         </div>
+
+        <ContactForm />
       </div>
     </div>
   );

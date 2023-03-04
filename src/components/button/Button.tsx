@@ -17,7 +17,12 @@ const Button: React.FunctionComponent<IButton> = (props: IButton) => {
   const styles = useStyles({ theme });
 
   return (
-    <button className={styles.buttonContainer} {...props}>
+    <button
+      className={
+        props.disabled ? styles.disabledButtonContainer : styles.buttonContainer
+      }
+      {...props}
+    >
       {props.children}
     </button>
   );

@@ -19,6 +19,7 @@ import AnimatedTitle from "../postsComponents/animatedTitle";
 import UnderlinedTitle from "../postsComponents/underlinedTitle";
 import Footer from "../postsComponents/footer";
 import extractLinksFromText from "../../utils/extractLinksFromText";
+import ContactForm from "../contactForm";
 
 interface IUserPosts {
   post: IPost;
@@ -114,6 +115,9 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
         youtube={socialMediaLinks.find((el) => el.indexOf("youtube") !== -1)}
       />
     );
+  }
+  if (post.design === PostDesign.ContactForm) {
+    return <ContactForm post={post} />;
   }
 
   return (

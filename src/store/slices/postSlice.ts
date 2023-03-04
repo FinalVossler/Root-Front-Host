@@ -23,6 +23,7 @@ export enum PostDesign {
   AnimatedTitle = "AnimatedTitle",
   UnderlinedTitle = "UnderinedTitle",
   Footer = "Footer",
+  ContactForm = "ContactForm",
 }
 
 export interface IPost {

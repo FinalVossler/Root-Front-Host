@@ -18,6 +18,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
     fontWeight: 600,
     fontSize: 20,
     cursor: "pointer",
+    transition: ".2s all ease-in-out",
+  },
+  disabledButtonContainer: {
+    extend: "buttonContainer",
+    color: theme.primary,
+    backgroundColor: theme.lightTextColor,
   },
   "@media (max-width: 800px)": {},
 }));
