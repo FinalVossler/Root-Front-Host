@@ -1,4 +1,3 @@
-import React from "react";
 import moment from "moment";
 
 import { useAppSelector } from "../store/hooks";
@@ -10,29 +9,23 @@ const useIsLoggedIn = (): boolean => {
     (state) => state.user.tokenInformation
   );
 
-  const [isloggedIn, setIsLoggedIn] = React.useState(false);
+  if (tokenInformation && tokenInformation.value?.length > 0) {
+    // Computing expiration in hours
+    let expriesInInHours = tokenInformation.expiresIn;
+    expriesInInHours.replace("h", "");
+    const expirationInHours: number = parseInt(expriesInInHours);
 
-  React.useEffect(() => {
-    if (tokenInformation && tokenInformation.value?.length > 0) {
-      // Computing expiration in hours
-      let expriesInInHours = tokenInformation.expiresIn;
-      expriesInInHours.replace("h", "");
-      const expirationInHours: number = parseInt(expriesInInHours);
+    // Computing expiration date as a moment object
+    let expirationDate: moment.Moment = moment(
+      tokenInformation.lastTokenUpdate,
+      TIME_FORMAT
+    );
+    expirationDate.add(expirationInHours, "days");
 
-      // Computing expiration date as a moment object
-      let expirationDate: moment.Moment = moment(
-        tokenInformation.lastTokenUpdate,
-        TIME_FORMAT
-      );
-      expirationDate.add(expirationInHours, "days");
-
-      setIsLoggedIn(moment().isBefore(expirationDate));
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, [tokenInformation]);
-
-  return isloggedIn;
+    return moment().isBefore(expirationDate);
+  } else {
+    return false;
+  }
 };
 
 export default useIsLoggedIn;

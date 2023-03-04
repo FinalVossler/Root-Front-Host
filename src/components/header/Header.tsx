@@ -1,6 +1,7 @@
 import React from "react";
 import { CgProfile } from "react-icons/cg";
 import { AiOutlineLogout } from "react-icons/ai";
+import { NavLink } from "react-router-dom";
 
 import { Theme } from "../../config/theme";
 
@@ -59,9 +60,9 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
       }
     >
       <div className={styles.left}>
-        <a href="/" className={styles.headerTitle}>
+        <NavLink to="/" className={styles.headerTitle}>
           {websiteTitle || "Socionics with Hamza Khalifa"}
-        </a>
+        </NavLink>
       </div>
 
       <div className={styles.right}>
@@ -69,40 +70,44 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
           {pages.map((page) => {
             return (
               <li key={page._id} className={styles.option}>
-                <a className={styles.optionATag} href={"/" + page.slug}>
+                <NavLink className={styles.optionATag} to={"/" + page.slug}>
                   {getTranslatedText(page.title)}
-                </a>
+                </NavLink>
               </li>
             );
           })}
 
           <li className={styles.option}>
-            <a className={styles.optionATag} href="/">
+            <NavLink className={styles.optionATag} to="/">
               Home
-            </a>
+            </NavLink>
           </li>
 
           {withChat && (
             <li className={styles.option}>
-              <a className={styles.optionATag} href="/chat">
+              <NavLink className={styles.optionATag} to="/chat">
                 Chat
-              </a>
+              </NavLink>
             </li>
           )}
 
           {(withRegistration || isLoggedIn) && (
             <li className={styles.option + " " + styles.headerIcon}>
-              <a className={styles.optionATag} href="/profile">
+              <NavLink className={styles.optionATag} to="/profile">
                 <CgProfile />
-              </a>
+              </NavLink>
             </li>
           )}
 
           {isLoggedIn && (
             <li className={styles.option + " " + styles.headerIcon}>
-              <a onClick={handleLogout} className={styles.optionATag} href="#">
+              <NavLink
+                onClick={handleLogout}
+                className={styles.optionATag}
+                to="#"
+              >
                 <AiOutlineLogout />
-              </a>
+              </NavLink>
             </li>
           )}
         </ul>
