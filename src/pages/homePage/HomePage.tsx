@@ -28,30 +28,35 @@ const Home: React.FunctionComponent<IHome> = (props: IHome) => {
 
       <UnderlinedTitle title="Hamza Khalifa" />
 
-      <div className={styles.content}>
-        <TitleTextAndImage
-          description="Bienvenue sur ma page personnelle ! Je suis une conseillère commerciale spécialisée dans divers domaines. J'ai un master en sciences appliquées et technologies et des compétences communicationnelles hors du commun !"
-          title="Salut Tout le monde, je suis Nozha!"
-        />
+      <TitleTextAndImage
+        description="Bienvenue sur ma page personnelle ! Je suis une conseillère commerciale spécialisée dans divers domaines. J'ai un master en sciences appliquées et technologies et des compétences communicationnelles hors du commun !"
+        title="Salut Tout le monde, je suis Nozha!"
+      />
 
-        <div className={styles.cardsContainer}>
-          <RotatingCard description="If you've tried your hand at data analysis, you know that it can sometimes make decision making much more complex. Dashboarding is what we offer..." />
-          <RotatingCard description="If you've tried your hand at data analysis, you know that it can sometimes make decision making much more complex. Dashboarding is what we offer..." />
-          <RotatingCard description="If you've tried your hand at data analysis, you know that it can sometimes make decision making much more complex. Dashboarding is what we offer..." />
-        </div>
+      <div className={styles.cardsContainer}>
+        <RotatingCard description="If you've tried your hand at data analysis, you know that it can sometimes make decision making much more complex. Dashboarding is what we offer..." />
+        <RotatingCard description="If you've tried your hand at data analysis, you know that it can sometimes make decision making much more complex. Dashboarding is what we offer..." />
+        <RotatingCard description="If you've tried your hand at data analysis, you know that it can sometimes make decision making much more complex. Dashboarding is what we offer..." />
+      </div>
 
-        <TitleAndText
-          title="Why 16 types?"
-          description="The sociotype is formed by a set of psyche features identified by Carl
+      <TitleAndText
+        title="Why 16 types?"
+        description="The sociotype is formed by a set of psyche features identified by Carl
           Gustav Jung, namely: rationality / irrationality, extraversion /
           introversion, logic / ethics, and sensibility / intuition."
-        />
-        <TitleAndText
-          title="Sociotype"
-          description="Humanitarian socionics in the description of types is based on its own Energetic model of the psyche - Model G. Descriptions of types, features of behavior are presented from the point of view of pure types.
+      />
+      <TitleAndText
+        title="Sociotype"
+        description="Humanitarian socionics in the description of types is based on its own Energetic model of the psyche - Model G. Descriptions of types, features of behavior are presented from the point of view of pure types.
           It should be understood that the behavior of each type in real life is greatly influenced by the subtype and accentuations formed under the influence of the surrounding reality."
-        />
+      />
 
+      <br />
+      <br />
+
+      <br />
+
+      <div className={styles.content}>
         <div className={styles.cardsContainer}>
           <Card
             title="Alpha Quadra"
@@ -74,9 +79,13 @@ const Home: React.FunctionComponent<IHome> = (props: IHome) => {
             backgroundImage="assets/images/card4.jpeg"
           />
         </div>
-
-        <ContactForm />
       </div>
+
+      <br />
+      <br />
+      <br />
+
+      <ContactForm />
     </div>
   );
 };

@@ -11,7 +11,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     justifyContent: "space-around",
     margin: "auto",
     marginBottom: 40,
-    maxWidth: 1100,
+    maxWidth: "1100px",
   },
   "@media (max-width: 850px)": {},
 }));

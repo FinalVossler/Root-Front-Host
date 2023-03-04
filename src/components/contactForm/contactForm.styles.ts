@@ -11,6 +11,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     padding: 20,
     borderRadius: 10,
     boxShadow: theme.boxShadow,
+    maxWidth: "1100px",
+    boxSizing: "border-box",
   },
   title: {
     color: theme.lightTextColor,

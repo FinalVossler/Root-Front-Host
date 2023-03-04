@@ -7,7 +7,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     alignItems: "flex-start",
     justifyContent: "center",
-    height: 600,
+    height: 800,
     flexDirection: "column",
     position: "relative",
   },

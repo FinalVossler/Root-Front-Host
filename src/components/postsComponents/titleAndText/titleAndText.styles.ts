@@ -35,7 +35,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   text: {
     fontSize: 20,
     textAlign: "center",
-    maxWidth: "70%",
+    maxWidth: 800,
     color: theme.lightTextColor,
   },
 }));

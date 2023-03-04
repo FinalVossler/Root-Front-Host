@@ -10,6 +10,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "row",
     position: "relative",
     width: "80%",
+    maxWidth: "1100px",
   },
   title: {
     color: theme.primary,
