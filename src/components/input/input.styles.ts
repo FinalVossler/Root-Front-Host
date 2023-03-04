@@ -45,14 +45,15 @@ const useStyles = createUseStyles((theme: Theme) => ({
   inputWithLabel: {
     extend: "input",
     width: "calc(100% - 200px)",
+    cursor: "pointer",
   },
   inputIcon: {
     position: "absolute",
     fontSize: 25,
     color: theme.primary,
     top: 10,
-    transition: "all .2s ease-int-out",
     left: 6,
+    cursor: "pointer",
   },
   inputIconWithLabel: {
     extend: "inputIcon",

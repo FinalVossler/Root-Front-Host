@@ -6,25 +6,25 @@ import { AxiosResponse } from "axios";
 import ReactLoading from "react-loading";
 import * as Yup from "yup";
 
-import Modal from "../modal";
-import { Theme } from "../../config/theme";
-import Button from "../button";
-import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { IPost } from "../../store/slices/postSlice";
-import { IUser, Role } from "../../store/slices/userSlice";
-import PageCreateCommand from "../../globalTypes/commands/PageCreateCommand";
+import Modal from "../../modal";
+import { Theme } from "../../../config/theme";
+import Button from "../../button";
+import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { IPost } from "../../../store/slices/postSlice";
+import { IUser, Role } from "../../../store/slices/userSlice";
+import PageCreateCommand from "../../../globalTypes/commands/PageCreateCommand";
 import { FormikProps, useFormik } from "formik";
-import Input from "../input";
-import { IPage, pageSlice } from "../../store/slices/pageSlice";
-import PostsEditor from "../postsEditor";
-import PageUpdateCommand from "../../globalTypes/commands/PageUpdateCommand";
+import Input from "../../input";
+import { IPage, pageSlice } from "../../../store/slices/pageSlice";
+import PostsEditor from "../../postsEditor";
+import PageUpdateCommand from "../../../globalTypes/commands/PageUpdateCommand";
 
 import useStyles from "./pageEditor.styles";
-import getNavigatorLanguage from "../../utils/getNavigatorLanguage";
-import getLanguages from "../../utils/getLanguages";
-import InputSelect from "../inputSelect";
-import useGetTranslatedText from "../../hooks/useGetTranslatedText";
+import getNavigatorLanguage from "../../../utils/getNavigatorLanguage";
+import getLanguages from "../../../utils/getLanguages";
+import InputSelect from "../../inputSelect";
+import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 
 interface IPageEditorForm {
   title: string;

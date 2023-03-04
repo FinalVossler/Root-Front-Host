@@ -28,6 +28,7 @@ Add Page creation feature for admin
 - Add Translation of posts and pages support
 - Add the main languages website configuration input and column
 - Social Media configuration => Made in Footer post type
+- Develop the name and trait here: https://peterarendt.com/
 
 - Create the my team component (with social media links)
 - Build the website configuration backend and the configuration page
@@ -45,7 +46,8 @@ Add Page creation feature for admin
 - Fix unread messages: messages sent real time are still set as unread
 - Add a checkbox in page editor for show in header
 - Ability to edit a post
-- Develop the name and trait here: e
+- develop the rest to default button for the theme configuration
+- Add instruction text for each design => Maybe with an image example too
 
 Add post assignment to page for admin
 

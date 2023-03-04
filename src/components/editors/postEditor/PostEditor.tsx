@@ -9,29 +9,29 @@ import { AxiosResponse } from "axios";
 import ReactLoading from "react-loading";
 
 import useStyles from "./postEditor.styles";
-import WritePostButton from "../write-post-button";
-import Modal from "../modal";
-import { Theme } from "../../config/theme";
-import Button from "../button";
-import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
-import IFile from "../../globalTypes/IFile";
-import uploadFiles from "../../utils/uploadFiles";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import WritePostButton from "../../write-post-button";
+import Modal from "../../modal";
+import { Theme } from "../../../config/theme";
+import Button from "../../button";
+import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
+import IFile from "../../../globalTypes/IFile";
+import uploadFiles from "../../../utils/uploadFiles";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   IPost,
   PostDesign,
   postSlice,
   PostVisibility,
-} from "../../store/slices/postSlice";
-import { IUser } from "../../store/slices/userSlice";
-import PostEditorFiles from "../postEditorFiles";
-import PostCreateCommand from "../../globalTypes/commands/PostCreateCommand";
-import InputSelect from "../inputSelect";
-import { Option } from "../inputSelect/InputSelect";
-import Input from "../input";
-import PostsEditor from "../postsEditor";
-import getNavigatorLanguage from "../../utils/getNavigatorLanguage";
-import getLanguages from "../../utils/getLanguages";
+} from "../../../store/slices/postSlice";
+import { IUser } from "../../../store/slices/userSlice";
+import PostEditorFiles from "../../postEditorFiles";
+import PostCreateCommand from "../../../globalTypes/commands/PostCreateCommand";
+import InputSelect from "../../inputSelect";
+import { Option } from "../../inputSelect/InputSelect";
+import Input from "../../input";
+import PostsEditor from "../../postsEditor";
+import getNavigatorLanguage from "../../../utils/getNavigatorLanguage";
+import getLanguages from "../../../utils/getLanguages";
 
 interface IPostEditor {}
 

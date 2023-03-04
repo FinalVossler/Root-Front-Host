@@ -7,7 +7,7 @@ import Loading from "react-loading";
 import { Theme } from "../../config/theme";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { IPage, pageSlice } from "../../store/slices/pageSlice";
-import PageEditor from "../pageEditor";
+import PageEditor from "../editors/pageEditor";
 import useStyles from "./pages.styles";
 import ConfirmationModal from "../confirmationModal";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";

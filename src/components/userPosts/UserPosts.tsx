@@ -12,6 +12,7 @@ import { IUser } from "../../store/slices/userSlice";
 import useStyles from "./userPosts.styles";
 import PostsGetCommandd from "../../globalTypes/commands/PostsGetCommand";
 import Post from "../post";
+import PostWrapper from "../postWrappers/postWrapper";
 
 interface IUserPosts {
   user: IUser;
@@ -76,7 +77,11 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
       {postsLoading && <ReactLoading />}
 
       {!postsLoading &&
-        posts?.map((post: IPost) => <Post key={post._id} post={post} />)}
+        posts?.map((post: IPost) => (
+          <PostWrapper key={post._id} post={post}>
+            <Post post={post} />
+          </PostWrapper>
+        ))}
     </div>
   );
 };

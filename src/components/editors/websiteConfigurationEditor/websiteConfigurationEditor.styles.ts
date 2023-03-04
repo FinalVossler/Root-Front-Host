@@ -1,6 +1,6 @@
 import { createUseStyles } from "react-jss";
 
-import { Theme } from "../../config/theme";
+import { Theme } from "../../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
   websiteConfigurationEditorContainer: {
@@ -64,6 +64,17 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.primary,
     paddingBottom: 10,
     borderBottom: "2px solid " + theme.primary,
+  },
+  defaultButton: {
+    fontSize: 15,
+    backgroundColor: theme.primary,
+    color: theme.lightTextColor,
+    padding: 10,
+    fontWeight: "bold",
+    border: "none",
+    borderRadius: 5,
+    cursor: "pointer",
+    marginBottom: 10,
   },
 }));
 

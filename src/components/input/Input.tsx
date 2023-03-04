@@ -1,13 +1,14 @@
 import { FormikProps } from "formik";
 import React from "react";
 import debounce from "lodash.debounce";
+import classnames from "classnames";
 
 import { Theme } from "../../config/theme";
 
 import useStyles from "./input.styles";
 import { useAppSelector } from "../../store/hooks";
 
-interface IInput {
+export interface IInput extends React.PropsWithChildren {
   Icon?: any;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
   name?: string;
@@ -18,6 +19,8 @@ interface IInput {
   debounce?: boolean;
   onFocus?: (e: React.FocusEvent<HTMLInputElement, Element>) => any;
   label?: string;
+  onIconClick?: (any) => void;
+  iconColor?: string;
 }
 const Input: React.FunctionComponent<IInput> = (props: IInput) => {
   const [isFocused, setIsFocused] = React.useState(false);
@@ -51,6 +54,7 @@ const Input: React.FunctionComponent<IInput> = (props: IInput) => {
     : { value: props.formik?.values[props.name || ""] || props.value || "" };
   //#endregion Event listeners
 
+  const iconStyles = props.iconColor ? { color: props.iconColor } : {};
   return (
     <div
       className={
@@ -61,9 +65,11 @@ const Input: React.FunctionComponent<IInput> = (props: IInput) => {
         {props.label && <span className={styles.label}>{props.label}</span>}
         {props.Icon && (
           <props.Icon
+            onClick={props.onIconClick}
             className={
               props.label ? styles.inputIconWithLabel : styles.inputIcon
             }
+            style={iconStyles}
           />
         )}
         {((props.name && props.formik?.values[props.name]) !== undefined ||
@@ -78,6 +84,7 @@ const Input: React.FunctionComponent<IInput> = (props: IInput) => {
             {...additionalProps}
           />
         )}
+        {props.children}
       </div>
 
       <span className={styles.inputError}>

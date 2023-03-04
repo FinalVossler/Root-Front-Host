@@ -11,12 +11,12 @@ import withWrapper from "../../hoc/wrapper";
 
 import useStyles from "./profilePage.styles";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
-import PostEditor from "../../components/postEditor";
+import PostEditor from "../../components/editors/postEditor";
 import UserPosts from "../../components/userPosts";
 import { useAppSelector } from "../../store/hooks";
 import { IUser, Role } from "../../store/slices/userSlice";
 import Pages from "../../components/pages";
-import WebsiteConfigurationEditor from "../../components/websiteConfigurationEditor";
+import WebsiteConfigurationEditor from "../../components/editors/websiteConfigurationEditor";
 
 enum ActiveForm {
   Register = "Register",

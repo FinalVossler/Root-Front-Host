@@ -4,24 +4,26 @@ import { FormikProps, useFormik } from "formik";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import ReactLoading from "react-loading";
-import { AiOutlineBgColors } from "react-icons/ai";
+import { AiOutlineColumnWidth } from "react-icons/ai";
+import { SiShadow } from "react-icons/si";
 
-import { Theme } from "../../config/theme";
-import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
+import theme, { Theme } from "../../../config/theme";
+import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
 import useStyles from "./websiteConfigurationEditor.styles";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import WebsiteConfigurationUpdateCommand from "../../globalTypes/commands/WebsiteConfigurationUpdateCommand";
-import Modal from "../modal";
-import Input from "../input";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import WebsiteConfigurationUpdateCommand from "../../../globalTypes/commands/WebsiteConfigurationUpdateCommand";
+import Modal from "../../modal";
+import Input from "../../input";
 import { MdTitle } from "react-icons/md";
 import { ImCross } from "react-icons/im";
-import Button from "../button";
+import Button from "../../button";
 import {
   IWebsiteConfiguration,
   websiteConfigurationSlice,
-} from "../../store/slices/websiteConfigurationSlice";
-import Checkbox from "../checkbox";
-import InputLanguages from "../inputLanguages";
+} from "../../../store/slices/websiteConfigurationSlice";
+import Checkbox from "../../checkbox";
+import InputLanguages from "../../inputLanguages";
+import ColorInput from "../../colorInput";
 
 interface IConfigurationForm extends Theme {
   title?: string;
@@ -51,6 +53,11 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
     const styles = useStyles({ theme });
     const axios = useAuthorizedAxios();
     const dispatch = useAppDispatch();
+    const handleRevertThemeToDefault = () => {
+      Object.getOwnPropertyNames(theme).forEach((property) => {
+        formik.setFieldValue(property, theme[property]);
+      });
+    };
 
     const formik: FormikProps<IConfigurationForm> =
       useFormik<IConfigurationForm>({
@@ -135,7 +142,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
                   res.data.data
                 )
               );
-              toast.success("Welcome back :)");
+              toast.success("Configuration saved");
             })
             .finally(() => setLoading(false));
         },
@@ -218,127 +225,122 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
 
             {/* Theme inputs */}
 
-            <h2 className={styles.themeTitle}>Theme: </h2>
+            <h2 className={styles.themeTitle}>Theme:</h2>
 
-            <Input
+            <ColorInput
               name="darkTextColor"
               label="darkTextColor"
               formik={formik}
               inputProps={{ placeholder: "darkTextColor" }}
-              Icon={AiOutlineBgColors}
             />
 
-            <Input
+            <ColorInput
               name="lightTextColor"
               label="lightTextColor"
               formik={formik}
               inputProps={{ placeholder: "lightTextColor" }}
-              Icon={AiOutlineBgColors}
             />
 
-            <Input
+            <ColorInput
               name="primary"
               label="primary"
               formik={formik}
-              Icon={AiOutlineBgColors}
               inputProps={{ placeholder: "primary" }}
             />
 
-            <Input
+            <ColorInput
               name="darkerPrimary"
               label="darkerPrimary"
               formik={formik}
-              Icon={AiOutlineBgColors}
               inputProps={{ placeholder: "darkerPrimary" }}
             />
 
-            <Input
+            <ColorInput
               name="lighterPrimary"
               label="lighterPrimary"
               formik={formik}
-              Icon={AiOutlineBgColors}
               inputProps={{ placeholder: "lighterPrimary" }}
             />
 
-            <Input
+            <ColorInput
               name="secondary"
               label="secondary"
               formik={formik}
-              Icon={AiOutlineBgColors}
               inputProps={{ placeholder: "secondary" }}
             />
 
-            <Input
+            <ColorInput
               name="errorColor"
               label="errorColor"
               formik={formik}
               inputProps={{ placeholder: "errorColor" }}
-              Icon={AiOutlineBgColors}
             />
 
-            <Input
+            <ColorInput
               name="borderColor"
               label="borderColor"
               formik={formik}
               inputProps={{ placeholder: "borderColor" }}
-              Icon={AiOutlineBgColors}
             />
 
-            <Input
-              name="formMaxWidth"
-              label="formMaxWidth"
-              formik={formik}
-              Icon={AiOutlineBgColors}
-              inputProps={{ placeholder: "formMaxWidth" }}
-            />
-
-            <Input
+            <ColorInput
               name="backgroundColor"
               label="backgroundColor"
               formik={formik}
               inputProps={{ placeholder: "backgroundColor" }}
-              Icon={AiOutlineBgColors}
             />
 
-            <Input
+            <ColorInput
               name="contentBackgroundColor"
               label="contentBackgroundColor"
               formik={formik}
               inputProps={{ placeholder: "contentBackgroundColor" }}
-              Icon={AiOutlineBgColors}
             />
 
-            <Input
+            <ColorInput
               name="boxColor"
               label="boxColor"
               formik={formik}
               inputProps={{ placeholder: "boxColor" }}
-              Icon={AiOutlineBgColors}
             />
 
-            <Input
+            <ColorInput
               name="transparentBackground"
               label="transparentBackground"
               formik={formik}
               inputProps={{ placeholder: "transparentBackground" }}
-              Icon={AiOutlineBgColors}
             />
 
-            <Input
+            <ColorInput
               name="subContentBackgroundColor"
               label="subContentBackgroundColor"
               formik={formik}
               inputProps={{ placeholder: "subContentBackgroundColor" }}
-              Icon={AiOutlineBgColors}
             />
 
             <Input
               name="boxShadow"
               label="boxShadow"
               formik={formik}
-              Icon={AiOutlineBgColors}
               inputProps={{ placeholder: "boxShadow" }}
+              Icon={SiShadow}
             />
+
+            <Input
+              name="formMaxWidth"
+              label="formMaxWidth"
+              formik={formik}
+              inputProps={{ placeholder: "formMaxWidth" }}
+              Icon={AiOutlineColumnWidth}
+            />
+
+            <Button
+              className={styles.defaultButton}
+              type="button"
+              onClick={handleRevertThemeToDefault}
+            >
+              Revert Theme configuration to default
+            </Button>
 
             {!loading && (
               <Button

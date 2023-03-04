@@ -1,22 +1,40 @@
 import { createUseStyles } from "react-jss";
 
-import { Theme } from "../../config/theme";
+import { Theme } from "../../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
-  postEditorContainer: {
+  pageEditorContainer: {
     width: "100%",
+    maxWidth: 700,
+    marginTop: 10,
+    marginBottom: 10,
   },
-  createPostModalContainer: {
+  createPageButtonContainer: {
+    display: "flex",
+    alignItems: "center",
+    cursor: "pointer",
+  },
+  addPageText: {
+    fontSize: 20,
+    color: theme.primary,
+    marginLeft: 10,
+    fontWeight: "bold",
+  },
+  pageEditorPlusIcon: {
+    color: theme.primary,
+    fontSize: 45,
+  },
+  createPageModalContainer: {
     display: "flex",
     flexDirection: "column",
-    paddingBottom: 15,
     maxHeight: "calc(100vh - 200px)",
     position: "relative",
     width: "100%",
     overflow: "auto",
     paddingRight: 45,
+    paddingBottom: 200,
   },
-  createPostHeader: {
+  createPageHeader: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -25,7 +43,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderBottom: "1px solid " + theme.borderColor,
     marginBottom: "10px",
   },
-  createPostTitle: {
+  createPageTitle: {
     color: theme.lightTextColor,
   },
   closeButton: {
@@ -38,7 +56,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderRadius: 10,
   },
   button: {
-    marginTop: 5,
     display: "flex",
     justifyContent: "center",
     backgroundColor: theme.primary,
