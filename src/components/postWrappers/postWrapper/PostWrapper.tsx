@@ -1,5 +1,7 @@
 import React from "react";
 
+import PostOptions from "../postOption";
+
 import { Theme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 import { IPost } from "../../../store/slices/postSlice";
@@ -20,7 +22,8 @@ const PostWrapper: React.FunctionComponent<IPostWrapper> = (
   const styles = useStyles({ theme });
 
   return (
-    <div className={styles.postWrapperContainer} {...props}>
+    <div className={styles.postWrapperContainer}>
+      <PostOptions post={props.post} />
       {props.children}
     </div>
   );

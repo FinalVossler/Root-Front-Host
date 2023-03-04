@@ -29,16 +29,16 @@ Add Page creation feature for admin
 - Add the main languages website configuration input and column
 - Social Media configuration => Made in Footer post type
 - Develop the name and trait here: https://peterarendt.com/
+- Ability to delete a post
+- Color picker input
 
 - Create the my team component (with social media links)
 - Build the website configuration backend and the configuration page
   Website title + Website theme (couleur) + website email (contact form) + website icon
 - Build a contact form
-- Ability to delete a post
 - theme configuration
 
 - Implement automatic text translation: https://www.npmjs.com/package/react-auto-translate
-- Color picker input
 - Add the language selector in the header and that contains the main languages stored in the database
 - Centralize the language option in the redux store
 - Add all static text to website configuration

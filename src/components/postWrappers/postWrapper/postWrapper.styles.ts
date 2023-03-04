@@ -13,6 +13,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderRadius: 10,
     boxShadow: theme.boxShadow,
     overflow: "hidden",
+    position: "relative",
   },
   "@media (max-width: 800px)": {},
 }));

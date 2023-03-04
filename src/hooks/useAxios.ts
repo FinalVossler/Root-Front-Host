@@ -29,7 +29,7 @@ const useAxios = () => {
           toast.error(message);
         }
 
-        return error;
+        throw new Error(error.response.data.error.message);
       }
     );
 

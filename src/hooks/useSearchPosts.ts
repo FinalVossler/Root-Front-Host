@@ -40,7 +40,7 @@ const useSearchPosts = (user: IUser, page: IPage | undefined) => {
 
       axios
         .request<AxiosResponse<PaginationResponse<IPost>>>({
-          url: "/posts/searchPosts",
+          url: "/posts/search",
           method: "POST",
           data: command,
         })
