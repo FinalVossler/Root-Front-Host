@@ -18,7 +18,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     position: "relative",
     cursor: "pointer",
     transition: ".1s all ease-in-out",
-    margin: 10,
+    margin: 20,
     "&:hover": {
       backgroundColor: theme.primary,
     },
