@@ -24,6 +24,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   singleFileContainer: {
     cursor: "pointer",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
 
     border: "2px solid " + theme.secondary,
     boxSizing: "border-box",
@@ -46,6 +50,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   fileIcon: {
     extend: "singleFileContainer",
+  },
+  fileName: {
+    textAlign: "center",
+    color: theme.lightTextColor,
   },
   "@media (max-width: 850px)": {},
 }));

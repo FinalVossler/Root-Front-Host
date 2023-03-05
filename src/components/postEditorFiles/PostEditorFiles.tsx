@@ -35,7 +35,7 @@ interface IPostEditorFiles {
 const PostEditor = (props: IPostEditorFiles) => {
   const [images, setTrackedImages] = React.useState<TrackedImage[]>([]);
   const [trackedFiles, setTrackedFiles] = React.useState<TrackedFile[]>([]);
-  const [ownFilesOpen, setOwnFilesOpen] = React.useState<boolean>(false);
+  const [ownFilesOpen, setOwnFilesOpen] = React.useState<boolean>(true);
 
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
@@ -100,9 +100,6 @@ const PostEditor = (props: IPostEditorFiles) => {
   };
 
   const handleTriggerOwnFilesOpen = () => {
-    if (ownFilesOpen) {
-      props.setOwnFiles([]);
-    }
     setOwnFilesOpen(!ownFilesOpen);
   };
   //#endregion Event listeners

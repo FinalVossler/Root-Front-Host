@@ -76,6 +76,7 @@ const OwnFiles = (props: IOwnFiles) => {
         if (file.isImage) {
           style.backgroundImage = "url(" + file.url + ")";
         }
+
         return (
           <div
             onClick={() => handleTriggerSelectFile(file)}
@@ -88,6 +89,9 @@ const OwnFiles = (props: IOwnFiles) => {
             }
           >
             {!file.isImage && <AiOutlineFileDone className={styles.fileIcon} />}
+            {!file.isImage && (
+              <span className={styles.fileName}>{file.name}</span>
+            )}
           </div>
         );
       })}

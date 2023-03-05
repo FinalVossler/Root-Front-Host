@@ -31,12 +31,13 @@ Add Page creation feature for admin
 - Develop the name and trait here: https://peterarendt.com/
 - Ability to delete a post
 - Color picker input
+- Build a contact form
+- Build the website configuration backend and the configuration page
+  Website title + Website theme (couleur) + website email (contact form)
 
 - Create the my team component (with social media links)
-- Build the website configuration backend and the configuration page
-  Website title + Website theme (couleur) + website email (contact form) + website icon
-- Build a contact form
-- theme configuration
+- website icon configuration
+- Ability to edit a post
 
 - Implement automatic text translation: https://www.npmjs.com/package/react-auto-translate
 - Add the language selector in the header and that contains the main languages stored in the database
@@ -45,7 +46,6 @@ Add Page creation feature for admin
 - Add the forms to update static texts languages
 - Fix unread messages: messages sent real time are still set as unread
 - Add a checkbox in page editor for show in header
-- Ability to edit a post
 - develop the rest to default button for the theme configuration
 - Add instruction text for each design => Maybe with an image example too
 

@@ -24,6 +24,7 @@ export enum PostDesign {
   UnderlinedTitle = "UnderinedTitle",
   Footer = "Footer",
   ContactForm = "ContactForm",
+  Person = "Person",
 }
 
 export interface IPost {
@@ -84,6 +85,29 @@ export const postSlice = createSlice({
         userPosts.posts.push(post);
         userPosts.total += 1;
         userPosts.posts.sort(compareWithCreatedAt(true));
+      } else {
+        state.userPosts.push({
+          user,
+          posts: [post],
+          total: 1,
+        });
+      }
+    },
+    updateUserPost: (
+      state: IPostInitialState,
+      action: PayloadAction<{ post: IPost; user: IUser }>
+    ) => {
+      const { post, user } = action.payload;
+
+      const userPosts: UserPosts | undefined = state.userPosts.find(
+        (el) => el.user._id === user._id
+      );
+
+      if (userPosts) {
+        userPosts.posts = userPosts.posts.map((el) => {
+          if (el._id !== post._id) return el;
+          else return post;
+        });
       } else {
         state.userPosts.push({
           user,

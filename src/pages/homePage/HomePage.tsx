@@ -12,6 +12,7 @@ import UnderlinedTitle from "../../components/postsComponents/underlinedTitle";
 
 import useStyles from "./homePage.styles";
 import ContactForm from "../../components/contactForm";
+import Person from "../../components/postsComponents/Person";
 
 interface IHome {}
 const Home: React.FunctionComponent<IHome> = (props: IHome) => {
@@ -23,6 +24,8 @@ const Home: React.FunctionComponent<IHome> = (props: IHome) => {
   return (
     <div className={styles.homePageContainer}>
       <Banner />
+
+      <Person />
 
       <AnimatedTitle title="Creative Developer" />
 

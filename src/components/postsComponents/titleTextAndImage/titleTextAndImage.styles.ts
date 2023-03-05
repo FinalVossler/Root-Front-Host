@@ -30,6 +30,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   description: {
     fontWeight: "bold",
     width: "80%",
+    lineHeight: 1.4,
   },
   image: {
     height: 250,

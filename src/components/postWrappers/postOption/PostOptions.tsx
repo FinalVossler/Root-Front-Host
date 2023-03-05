@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { IPost, postSlice } from "../../../store/slices/postSlice";
 import { IUser } from "../../../store/slices/userSlice";
 import ConfirmationModal from "../../confirmationModal";
+import PostEditor from "../../editors/postEditor";
 
 import useStyles from "./postOptions.styles";
 
@@ -29,6 +30,8 @@ const PostWrapper: React.FunctionComponent<IPostOptions> = (
   const [deletePostLoading, setDeletePostLoading] =
     React.useState<boolean>(false);
   const [deletePostModalOpen, setDeletePostModalOpen] =
+    React.useState<boolean>(false);
+  const [editPostModalOpen, setEditPostModalOpen] =
     React.useState<boolean>(false);
 
   const styles = useStyles({ theme });
@@ -75,6 +78,12 @@ const PostWrapper: React.FunctionComponent<IPostOptions> = (
           >
             Delete
           </div>
+          <div
+            className={styles.option}
+            onClick={() => setEditPostModalOpen(true)}
+          >
+            Edit
+          </div>
         </div>
       )}
 
@@ -85,6 +94,12 @@ const PostWrapper: React.FunctionComponent<IPostOptions> = (
         setModalOpen={setDeletePostLoading}
         title="Are you sure you sure you want to delete this post?"
         description="If you delete this post, you won't be able to recover it, and it will also be deleted from the pages where it was used"
+      />
+
+      <PostEditor
+        post={props.post}
+        open={editPostModalOpen}
+        setOpen={setEditPostModalOpen}
       />
     </div>
   );

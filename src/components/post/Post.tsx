@@ -20,6 +20,7 @@ import UnderlinedTitle from "../postsComponents/underlinedTitle";
 import Footer from "../postsComponents/footer";
 import extractLinksFromText from "../../utils/extractLinksFromText";
 import ContactForm from "../contactForm";
+import Person from "../postsComponents/Person";
 
 interface IUserPosts {
   post: IPost;
@@ -34,6 +35,19 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
 
   const post = props.post;
 
+  const socialMediaLinks: string[] = React.useMemo(
+    () =>
+      extractLinksFromText(
+        extractContentFromHtml(getTranslatedText(post.content))
+      ),
+    [post.content]
+  );
+
+  let description: string = React.useMemo(
+    () => extractContentFromHtml(getTranslatedText(post.content)),
+    [post.content]
+  );
+
   if (post.design === PostDesign.Card) {
     return (
       <Card
@@ -41,7 +55,7 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
           post.files.find((file) => file.isImage)?.url ||
           "assets/images/card4.jpeg"
         }
-        description={extractContentFromHtml(getTranslatedText(post.content))}
+        description={description}
         title={getTranslatedText(post.title)}
         key={post._id}
       />
@@ -50,24 +64,21 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
   if (post.design === PostDesign.TitleAndText) {
     return (
       <TitleAndText
-        description={extractContentFromHtml(getTranslatedText(post.content))}
+        description={description}
         title={getTranslatedText(post.title)}
       />
     );
   }
   if (post.design === PostDesign.Banner) {
     return (
-      <Banner
-        description={extractContentFromHtml(getTranslatedText(post.content))}
-        title={getTranslatedText(post.title)}
-      />
+      <Banner description={description} title={getTranslatedText(post.title)} />
     );
   }
   if (post.design === PostDesign.TitleImageAndText) {
     return (
       <TitleTextAndImage
         title={getTranslatedText(post.title)}
-        description={extractContentFromHtml(getTranslatedText(post.content))}
+        description={description}
         imageUrl={post.files.find((file) => file.isImage)?.url}
       />
     );
@@ -81,7 +92,7 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
   if (post.design === PostDesign.RotatingCarzd) {
     return (
       <RotatingCard
-        description={extractContentFromHtml(getTranslatedText(post.content))}
+        description={description}
         title={getTranslatedText(post.title)}
         imageUrl={post.files.find((file) => file.isImage)?.url}
       />
@@ -94,19 +105,16 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
     return <UnderlinedTitle title={getTranslatedText(post.title)} />;
   }
   if (post.design === PostDesign.Footer) {
-    const socialMediaLinks: string[] = extractLinksFromText(
-      extractContentFromHtml(getTranslatedText(post.content))
-    );
-    let description: string = extractContentFromHtml(
+    let descriptionWithoutLinks: string = extractContentFromHtml(
       getTranslatedText(post.content)
     );
     socialMediaLinks.forEach((link) => {
-      description = description.replace(link, "");
+      descriptionWithoutLinks = descriptionWithoutLinks.replace(link, "");
     });
     return (
       <Footer
         title={getTranslatedText(post.title)}
-        description={description}
+        description={descriptionWithoutLinks}
         facebook={socialMediaLinks.find((el) => el.indexOf("facebook") !== -1)}
         instagram={socialMediaLinks.find(
           (el) => el.indexOf("instagram") !== -1
@@ -118,6 +126,17 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
   }
   if (post.design === PostDesign.ContactForm) {
     return <ContactForm post={post} />;
+  }
+  if (post.design === PostDesign.Person) {
+    return (
+      <Person
+        cvLink={post.files.find((file) => !file.isImage)?.url}
+        name={getTranslatedText(post.title)}
+        description={extractContentFromHtml(getTranslatedText(post.content))}
+        occupation={getTranslatedText(post.subTitle)}
+        picture={post.files.find((file) => file.isImage)?.url}
+      />
+    );
   }
 
   return (

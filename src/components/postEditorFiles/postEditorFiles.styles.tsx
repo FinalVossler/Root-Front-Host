@@ -35,6 +35,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: 100,
     height: 100,
     marginRight: 20,
+    marginBottom: 10,
   },
   fileIcon: {
     extend: "singleImage",
@@ -61,6 +62,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   fileName: {
     color: theme.lightTextColor,
+    textAlign: "center",
   },
   chooseFilesButton: {
     fontSize: 45,

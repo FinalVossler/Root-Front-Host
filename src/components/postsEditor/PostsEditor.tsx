@@ -21,6 +21,7 @@ interface IPostsEditor {
   setSelectedPosts: (posts: IPost[]) => any;
   placeholder?: string;
   page?: IPage;
+  parentPost?: IPost;
 }
 
 const PostsEditor = (props: IPostsEditor) => {
@@ -39,7 +40,7 @@ const PostsEditor = (props: IPostsEditor) => {
     handleSearchPostsPromise,
     handleDeletePost,
     handleSelectPost,
-  } = useSearchPosts(user, props.page);
+  } = useSearchPosts(user, props.page, props.parentPost);
 
   React.useEffect(() => {
     props.setSelectedPosts(selectedPosts);

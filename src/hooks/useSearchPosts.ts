@@ -10,13 +10,24 @@ import useAuthorizedAxios from "./useAuthorizedAxios";
 import { IPage } from "../store/slices/pageSlice";
 import uuid from "react-uuid";
 
-const useSearchPosts = (user: IUser, page: IPage | undefined) => {
+const useSearchPosts = (
+  user: IUser,
+  page: IPage | undefined,
+  parentPost: IPost | undefined
+) => {
   const [selectedPosts, setSelectedPosts] = React.useState<IPost[]>([]);
 
   // The searched posts should be initialized to the pages' posts
   React.useEffect(() => {
     if (page) {
       const newSelectedPosts = [...page.posts];
+
+      setSelectedPosts(
+        newSelectedPosts.map((post) => ({ ...post, uuid: uuid() }))
+      );
+    }
+    if (parentPost) {
+      const newSelectedPosts = [...parentPost.children];
 
       setSelectedPosts(
         newSelectedPosts.map((post) => ({ ...post, uuid: uuid() }))
