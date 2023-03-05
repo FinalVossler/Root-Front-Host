@@ -35,7 +35,12 @@ const Person: React.FunctionComponent<IPerson> = (props: IPerson) => {
         {props.occupation || "Software Engineer"}
       </span>
 
-      <a href={props.cvLink || ""} className={styles.cvButton} download>
+      <a
+        target="_blank"
+        href={props.cvLink || ""}
+        className={styles.cvButton}
+        download
+      >
         Télécharger le CV
       </a>
     </div>
