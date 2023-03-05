@@ -91,7 +91,7 @@ const PostWrapper: React.FunctionComponent<IPostOptions> = (
         onConfirm={handleDeletePost}
         loading={deletePostLoading}
         modalOpen={deletePostModalOpen}
-        setModalOpen={setDeletePostLoading}
+        setModalOpen={setDeletePostModalOpen}
         title="Are you sure you sure you want to delete this post?"
         description="If you delete this post, you won't be able to recover it, and it will also be deleted from the pages where it was used"
       />

@@ -21,6 +21,7 @@ import Footer from "../postsComponents/footer";
 import extractLinksFromText from "../../utils/extractLinksFromText";
 import ContactForm from "../contactForm";
 import Person from "../postsComponents/Person";
+import Card2 from "../postsComponents/card2";
 
 interface IUserPosts {
   post: IPost;
@@ -135,6 +136,15 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
         description={extractContentFromHtml(getTranslatedText(post.content))}
         occupation={getTranslatedText(post.subTitle)}
         picture={post.files.find((file) => file.isImage)?.url}
+      />
+    );
+  }
+  if (post.design === PostDesign.Card2) {
+    return (
+      <Card2
+        title={getTranslatedText(post.title)}
+        backgroundImage={post.files.find((file) => file.isImage)?.url}
+        description={extractContentFromHtml(getTranslatedText(post.content))}
       />
     );
   }
