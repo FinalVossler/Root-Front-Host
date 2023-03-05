@@ -37,6 +37,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
     textAlign: "center",
     maxWidth: 800,
     color: theme.lightTextColor,
+    lineHeight: 1.2,
+  },
+  "@media (max-width: 850px)": {
+    text: {
+      maxWidth: 300,
+    },
   },
 }));
 

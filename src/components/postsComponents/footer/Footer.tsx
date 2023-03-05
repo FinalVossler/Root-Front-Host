@@ -3,6 +3,7 @@ import { BsInstagram, BsFacebook, BsYoutube, BsLinkedin } from "react-icons/bs";
 
 import { Theme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
+import { IWebsiteConfiguration } from "../../../store/slices/websiteConfigurationSlice";
 
 import useStyles from "./footer.styles";
 
@@ -22,6 +23,10 @@ const Footer: React.FunctionComponent<IFooter> = (props: IFooter) => {
   const title: string | undefined = useAppSelector(
     (state) => state.websiteConfiguration.title
   );
+  const conf: IWebsiteConfiguration = useAppSelector(
+    (state) => state.websiteConfiguration
+  );
+
   const styles = useStyles({ theme });
 
   return (
@@ -55,6 +60,15 @@ const Footer: React.FunctionComponent<IFooter> = (props: IFooter) => {
           </div>
         </div>
       </div>
+
+      {conf.phoneNumber && (
+        <span className={styles.phoneNumberOrEmail}>
+          Téléphone: {conf.phoneNumber}
+        </span>
+      )}
+      {conf.email && (
+        <span className={styles.phoneNumberOrEmail}>Email: {conf.email}</span>
+      )}
 
       <div className={styles.year}>
         {props.description ||

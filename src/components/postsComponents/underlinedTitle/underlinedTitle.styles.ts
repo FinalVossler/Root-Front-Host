@@ -18,6 +18,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     paddingBottom: 20,
     paddingRight: 100,
     borderBottom: "5px solid " + theme.primary,
+    boxSizing: "border-box",
+    maxWidth: "100%",
   },
   "@media (max-width: 750px)": {},
 }));

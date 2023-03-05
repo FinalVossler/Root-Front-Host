@@ -49,6 +49,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
     textAlign: "center",
     paddingTop: 20,
   },
+  phoneNumberOrEmail: {
+    marginLeft: 30,
+    marginBottom: 20,
+  },
   "@media (max-width: 400px)": {},
 }));
 

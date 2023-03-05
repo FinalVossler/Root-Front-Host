@@ -49,7 +49,7 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
       ],
       paginationCommand: {
         page,
-        limit: 10,
+        limit: 30,
       },
     };
     axios
