@@ -79,7 +79,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
 
           <li className={styles.option}>
             <NavLink className={styles.optionATag} to="/">
-              Home
+              Accueil
             </NavLink>
           </li>
 
