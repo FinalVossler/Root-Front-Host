@@ -61,17 +61,13 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   }, [props.conversationId]);
 
   React.useEffect(() => {
-    // Only scroll to the bottom when we received a new message, when the current user sends a message
+    // Scroll to the bottom when we just loaded the messages, when a new message is received
     // and when the conversation changes.
-    // We shouldn't scroll to the bottom when we eceive a new message from another user and we are still in the same
-    // conversation
     if (
       messages.length > 0 &&
       (lastMessageId === null ||
         // Last message isn't the same as the previous one
-        (lastMessageId !== messages[messages.length - 1]._id &&
-          // and the last message's sender is the current user
-          messages[messages.length - 1].from === user._id))
+        lastMessageId !== messages[messages.length - 1]._id)
     ) {
       scrollToDiv.current?.scrollIntoView();
     }
