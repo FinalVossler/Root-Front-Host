@@ -6,7 +6,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   postWrapperContainer: {
     flex: 1,
     width: "100%",
-    backgroundColor: theme.secondary,
+    backgroundColor: theme.contentBackgroundColor,
     padding: 40,
     boxSizing: "border-box",
     marginBottom: 20,

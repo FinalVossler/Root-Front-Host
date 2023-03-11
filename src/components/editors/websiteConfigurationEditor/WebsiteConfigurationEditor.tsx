@@ -7,7 +7,7 @@ import ReactLoading from "react-loading";
 import { AiOutlineColumnWidth } from "react-icons/ai";
 import { SiShadow } from "react-icons/si";
 
-import theme, { Theme } from "../../../config/theme";
+import defaultTheme, { Theme } from "../../../config/theme";
 import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
 import useStyles from "./websiteConfigurationEditor.styles";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
@@ -55,7 +55,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
     const dispatch = useAppDispatch();
     const handleRevertThemeToDefault = () => {
       Object.getOwnPropertyNames(theme).forEach((property) => {
-        formik.setFieldValue(property, theme[property]);
+        formik.setFieldValue(property, defaultTheme[property]);
       });
     };
 

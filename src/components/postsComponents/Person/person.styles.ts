@@ -35,7 +35,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   occupation: {
     fontWeight: "lighter",
-    fontSize: 14,
+    fontSize: 16,
     textAlign: "center",
   },
   cvButton: {

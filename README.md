@@ -35,10 +35,10 @@ Add Page creation feature for admin
 - Build the website configuration backend and the configuration page
   Website title + Website theme (couleur) + website email (contact form)
 - Fix unread messages: messages sent real time are still set as unread
+- Ability to edit a post
 
 - Create the my team component (with social media links)
 - website icon configuration
-- Ability to edit a post
 
 - Implement automatic text translation: https://www.npmjs.com/package/react-auto-translate
 - Add the language selector in the header and that contains the main languages stored in the database

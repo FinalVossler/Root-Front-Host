@@ -20,10 +20,11 @@ interface IUserProfilePicture {
 }
 
 const UserProfilePicture = (props: IUserProfilePicture) => {
-  const styles = useStyles();
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
+
+  const styles = useStyles({ theme });
 
   // Create an empty object if the profile picture name is undefined or null
   const styleObject = props.url

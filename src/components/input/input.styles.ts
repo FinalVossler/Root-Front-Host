@@ -8,6 +8,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "column",
     position: "relative",
     marginBottom: 10,
+
+    "& svg": {
+      color: theme.lightTextColor,
+      opacity: 0.5,
+    },
   },
   inputContainerFocused: {
     extend: "inputContainer",
@@ -16,7 +21,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
       borderBottom: "1px solid " + theme.primary,
     },
     "& svg": {
-      color: theme.primary,
+      opacity: 1,
     },
   },
   labelAndInputContainer: {
@@ -41,6 +46,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderRadius: 5,
     boxSizing: "border-box",
     width: "100%",
+
+    "&::placeholder": {
+      color: theme.lightTextColor,
+      opacity: 0.5,
+    },
   },
   inputWithLabel: {
     extend: "input",
@@ -49,7 +59,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   inputIcon: {
     position: "absolute",
     fontSize: 25,
-    color: theme.primary,
+    color: theme.lightTextColor,
     top: 10,
     left: 6,
     cursor: "pointer",

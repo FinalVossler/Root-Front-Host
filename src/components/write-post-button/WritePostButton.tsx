@@ -6,6 +6,7 @@ import UserProfilePicture from "../userProfilePicture";
 import { SizeEnum } from "../userProfilePicture/UserProfilePicture";
 
 import useStyles from "./writePostButton.styles";
+import { Theme } from "../../config/theme";
 
 interface IButton {
   onClick?: any;
@@ -15,8 +16,11 @@ const WritePostButton = (props: IButton) => {
   const profilePicture: IFile | undefined = useAppSelector(
     (state) => state.user.user.profilePicture
   );
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
 
-  const styles = useStyles();
+  const styles = useStyles({ theme });
 
   return (
     <div className={styles.writePostButtonContainer}>
