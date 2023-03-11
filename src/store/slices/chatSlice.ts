@@ -159,6 +159,20 @@ export const chatSlice = createSlice({
         );
       }
     },
+    markConversationMessagesAsReadByUser: (
+      state: IChatState,
+      action: PayloadAction<{ conversationId: string; userId: string }>
+    ) => {
+      const conversation: Conversation | undefined = state.conversations.find(
+        (c) => c.id === action.payload.conversationId
+      );
+      if (conversation) {
+        conversation.messages.forEach((message) => {
+          if (message.read.indexOf(action.payload.userId) === -1)
+            message.read.push(action.payload.userId);
+        });
+      }
+    },
   },
 });
 

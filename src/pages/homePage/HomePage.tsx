@@ -25,6 +25,10 @@ const Home: React.FunctionComponent<IHome> = (props: IHome) => {
     <div className={styles.homePageContainer}>
       <Banner />
 
+      <br />
+      <br />
+      <br />
+
       <Person />
 
       <AnimatedTitle title="Creative Developer" />

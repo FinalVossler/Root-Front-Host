@@ -5,6 +5,7 @@ import chatReducer from "./slices/chatSlice";
 import postReducer from "./slices/postSlice";
 import pageReducer from "./slices/pageSlice";
 import websiteConfigurationReducer from "./slices/websiteConfigurationSlice";
+import userPreferenceSlice from "./slices/userPreferencesSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     post: postReducer,
     page: pageReducer,
     websiteConfiguration: websiteConfigurationReducer,
+    userPreferences: userPreferenceSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

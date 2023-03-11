@@ -18,16 +18,17 @@ import { Theme } from "../../../config/theme";
 import useStyles from "./chatInput.styles";
 import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
 import { IUser } from "../../../store/slices/userSlice";
-import { useAppSelector } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import ChatMessagesEnum from "../../../globalTypes/ChatMessagesEnum";
 import {
+  chatSlice,
   getConversationConversationalistsFromConversationId,
   IMessage,
 } from "../../../store/slices/chatSlice";
 import IFile from "../../../globalTypes/IFile";
-import uploadFile from "../../../utils/uploadFile";
 import uploadFiles from "../../../utils/uploadFiles";
 import MessageSendCommand from "../../../globalTypes/commands/MessageSendCommand";
+import MessageMarkMessagesAsReadByUserCommand from "../../../globalTypes/commands/MessageMarkMessagesAsReadByUserCommand";
 
 interface IChatInput {
   conversationId: string;
@@ -36,16 +37,28 @@ interface IChatInput {
 }
 
 const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
+  //#region App state
   const user: IUser = useAppSelector((state) => state.user.user);
-
-  const [showEmojiPicker, setShowEmojiPicker] = React.useState(false);
-  const [files, setFiles] = React.useState<File[]>([]);
-  const [loading, setLoading] = React.useState(false);
-
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
+  const unreadMessagesIds: string[] | undefined = useAppSelector((state) =>
+    state.chat.conversations
+      .find((conv) => conv.id === props.conversationId)
+      ?.messages.filter((conv) => conv.read.indexOf(user._id) === -1)
+      .map((conv) => conv._id)
+  );
+  //#endregion App state
+
+  //#region Local state
+  const [showEmojiPicker, setShowEmojiPicker] = React.useState(false);
+  const [files, setFiles] = React.useState<File[]>([]);
+  const [loading, setLoading] = React.useState(false);
+  //#endregion Local state
+
+  //#region Hooks
   const styles = useStyles({ theme });
+  const dispatch = useAppDispatch();
   const axios = useAuthorizedAxios();
   const messageRef: React.MutableRefObject<HTMLDivElement | undefined> =
     React.useRef<HTMLDivElement>();
@@ -70,6 +83,7 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
       messageRef.current?.removeEventListener("keypress", enterEvent);
     };
   }, [messageRef.current, props.conversationId, files, files.length]);
+  //#endregion Hooks
 
   //#region Listeners
   const handleShowEmojiPicker = () => setShowEmojiPicker(!showEmojiPicker);
@@ -142,6 +156,29 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
       setFiles(newFiles);
     }
   };
+
+  // Mark all unread messages as read when the input is focused
+  const handleOnFocus = (e: React.FocusEvent<HTMLDivElement, Element>) => {
+    if (unreadMessagesIds && unreadMessagesIds.length > 0) {
+      const command: MessageMarkMessagesAsReadByUserCommand = {
+        messagesIds: unreadMessagesIds,
+      };
+      axios
+        .request({
+          method: "POST",
+          url: "/messages/markMessagesAsRead",
+          data: command,
+        })
+        .then(() => {
+          dispatch(
+            chatSlice.actions.markConversationMessagesAsReadByUser({
+              conversationId: props.conversationId,
+              userId: user._id,
+            })
+          );
+        });
+    }
+  };
   //#endregion Listeners
 
   return (
@@ -197,6 +234,7 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
           className={styles.chatInput}
           contentEditable
           suppressContentEditableWarning={true}
+          onFocus={handleOnFocus}
         ></div>
 
         <button disabled={loading} className={styles.sendButton}>

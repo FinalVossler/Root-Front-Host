@@ -34,6 +34,7 @@ Add Page creation feature for admin
 - Build a contact form
 - Build the website configuration backend and the configuration page
   Website title + Website theme (couleur) + website email (contact form)
+- Fix unread messages: messages sent real time are still set as unread
 
 - Create the my team component (with social media links)
 - website icon configuration
@@ -44,7 +45,6 @@ Add Page creation feature for admin
 - Centralize the language option in the redux store
 - Add all static text to website configuration
 - Add the forms to update static texts languages
-- Fix unread messages: messages sent real time are still set as unread
 - Add a checkbox in page editor for show in header
 - develop the rest to default button for the theme configuration
 - Add instruction text for each design => Maybe with an image example too

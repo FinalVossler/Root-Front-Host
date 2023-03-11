@@ -25,6 +25,7 @@ import {
   IWebsiteConfiguration,
   websiteConfigurationSlice,
 } from "./store/slices/websiteConfigurationSlice";
+import { userPreferenceSlice } from "./store/slices/userPreferencesSlice";
 
 const stripePromise = loadStripe(
   // @ts-ignore
@@ -63,8 +64,17 @@ function App() {
         url: "/websiteConfigurations/",
       })
       .then((res) => {
+        // Set the configuration
         dispatch(
           websiteConfigurationSlice.actions.setConfiguration(res.data.data)
+        );
+        // Set the default language
+        dispatch(
+          userPreferenceSlice.actions.setLanguage(
+            res.data.data.mainLanguages?.length
+              ? res.data.data.mainLanguages[0]
+              : "en"
+          )
         );
       })
       .finally(() => setFinishedFetchingWebsiteConfiguration(true));
