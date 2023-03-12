@@ -13,6 +13,7 @@ import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./login.styles";
 import useLogin, { UserLoginCommand } from "../../hooks/apiHooks/useLogin";
+import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
 interface ILoginForm {
   email: string;
@@ -24,7 +25,11 @@ const Registration: React.FunctionComponent<ILogin> = (props: ILogin) => {
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText
+  );
   const { login, loading } = useLogin();
+  const getTranslatedText = useGetTranslatedText();
 
   const formik: FormikProps<ILoginForm> = useFormik<ILoginForm>({
     initialValues: {
@@ -57,7 +62,9 @@ const Registration: React.FunctionComponent<ILogin> = (props: ILogin) => {
   const styles = useStyles({ theme });
   return (
     <form onSubmit={handleSubmit} className={styles.loginContainer}>
-      <h2 className={styles.loginTitle}>Login:</h2>
+      <h2 className={styles.loginTitle}>
+        {getTranslatedText(staticText?.login.title)}
+      </h2>
       <Input
         Icon={AiOutlineMail}
         inputProps={{
@@ -77,7 +84,9 @@ const Registration: React.FunctionComponent<ILogin> = (props: ILogin) => {
         formik={formik}
       />
 
-      <Button disabled={loading}>Login</Button>
+      <Button disabled={loading}>
+        {getTranslatedText(staticText?.login.title)}
+      </Button>
     </form>
   );
 };

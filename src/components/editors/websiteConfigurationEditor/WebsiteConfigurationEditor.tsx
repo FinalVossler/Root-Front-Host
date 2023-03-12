@@ -38,13 +38,13 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
     const websiteConfiguration: IWebsiteConfiguration = useAppSelector(
       (state) => state.websiteConfiguration
     );
+    const theme: Theme = useAppSelector(
+      (state) => state.websiteConfiguration.theme
+    );
 
     const [configurationModalOpen, setConfigurationModalOpen] =
       React.useState<boolean>(false);
 
-    const theme: Theme = useAppSelector(
-      (state) => state.websiteConfiguration.theme
-    );
     const styles = useStyles({ theme });
     const handleRevertThemeToDefault = () => {
       Object.getOwnPropertyNames(theme).forEach((property) => {

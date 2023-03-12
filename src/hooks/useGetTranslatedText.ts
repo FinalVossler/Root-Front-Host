@@ -1,27 +1,33 @@
 import ITranslatedText from "../globalTypes/ITranslatedText";
-import getNavigatorLanguage from "../utils/getNavigatorLanguage";
+import { useAppSelector } from "../store/hooks";
 
-const getTranslatedText = (
-  translatedTexts: ITranslatedText[] | undefined | string,
-  language: string | undefined = getNavigatorLanguage()
-): string => {
-  if (typeof translatedTexts === "string") return translatedTexts;
+const getTranslatedText =
+  (userPreferenceLanguage: string) =>
+  (
+    translatedTexts: ITranslatedText[] | undefined | string,
+    language: string | undefined = userPreferenceLanguage
+  ): string => {
+    if (typeof translatedTexts === "string") return translatedTexts;
 
-  if (!translatedTexts) return "";
+    if (!translatedTexts) return "";
 
-  const result: ITranslatedText | undefined = translatedTexts.find(
-    (el) => el.language === language
-  );
+    const result: ITranslatedText | undefined = translatedTexts.find(
+      (el) => el.language === language
+    );
 
-  if (result) {
-    return result.text;
-  } else {
-    return translatedTexts.length > 0 ? translatedTexts[0].text : "";
-  }
-};
+    if (result) {
+      return result.text;
+    } else {
+      return translatedTexts.length > 0 ? translatedTexts[0].text : "";
+    }
+  };
 
 const useGetTranslatedText = () => {
-  return getTranslatedText;
+  const userPreferenceLanguage: string = useAppSelector(
+    (state) => state.userPreferences.language
+  );
+
+  return getTranslatedText(userPreferenceLanguage);
 };
 
 export default useGetTranslatedText;

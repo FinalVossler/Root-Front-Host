@@ -36,20 +36,19 @@ Add Page creation feature for admin
   Website title + Website theme (couleur) + website email (contact form)
 - Fix unread messages: messages sent real time are still set as unread
 - Ability to edit a post
+- Refactor all api calls to hooks:
+- Centralize the language option in the redux store
 
 - Create the my team component (with social media links)
 - website icon configuration
 
+- Add all static text to website configuration
 - Implement automatic text translation: https://www.npmjs.com/package/react-auto-translate
 - Add the language selector in the header and that contains the main languages stored in the database
-- Centralize the language option in the redux store
-- Add all static text to website configuration
 - Add the forms to update static texts languages
 - Add a checkbox in page editor for show in header
 - develop the rest to default button for the theme configuration
 - Add instruction text for each design => Maybe with an image example too
-- Refactor all api calls to hooks:
-  ChatContact
 
 Add post assignment to page for admin
 
