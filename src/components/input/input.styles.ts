@@ -10,7 +10,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginBottom: 10,
 
     "& svg": {
-      color: theme.lightTextColor,
+      color: theme.primary,
       opacity: 0.5,
     },
   },
@@ -59,7 +59,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   inputIcon: {
     position: "absolute",
     fontSize: 25,
-    color: theme.lightTextColor,
+    color: theme.primary,
     top: 10,
     left: 6,
     cursor: "pointer",

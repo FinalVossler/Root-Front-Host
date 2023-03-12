@@ -1,14 +1,20 @@
 import React from "react";
 import { AxiosResponse } from "axios";
-
-import PostsSearchCommand from "../globalTypes/commands/PostsSearchCommand";
-import PaginationCommand from "../globalTypes/PaginationCommand";
-import PaginationResponse from "../globalTypes/PaginationResponse";
-import { IPost, PostVisibility } from "../store/slices/postSlice";
-import { IUser } from "../store/slices/userSlice";
-import useAuthorizedAxios from "./useAuthorizedAxios";
-import { IPage } from "../store/slices/pageSlice";
 import uuid from "react-uuid";
+
+import PaginationCommand from "../../globalTypes/PaginationCommand";
+import PaginationResponse from "../../globalTypes/PaginationResponse";
+import { IPost, PostVisibility } from "../../store/slices/postSlice";
+import { IUser } from "../../store/slices/userSlice";
+import useAuthorizedAxios from "../useAuthorizedAxios";
+import { IPage } from "../../store/slices/pageSlice";
+
+export type PostsSearchCommand = {
+  title: string;
+  visibilities: IPost["visibility"][];
+  posterId: IPost["posterId"];
+  paginationCommand: PaginationCommand;
+};
 
 const useSearchPosts = (
   user: IUser,

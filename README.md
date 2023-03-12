@@ -48,6 +48,8 @@ Add Page creation feature for admin
 - Add a checkbox in page editor for show in header
 - develop the rest to default button for the theme configuration
 - Add instruction text for each design => Maybe with an image example too
+- Refactor all api calls to hooks:
+  ChatContact
 
 Add post assignment to page for admin
 

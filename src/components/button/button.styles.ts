@@ -24,6 +24,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     extend: "buttonContainer",
     color: theme.primary,
     backgroundColor: theme.lightTextColor,
+    cursor: "initial",
   },
   "@media (max-width: 800px)": {},
 }));

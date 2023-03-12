@@ -1,9 +1,9 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { IUser, userSlice } from "../store/slices/userSlice";
-import useAxios from "./useAxios";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { IUser, userSlice } from "../../store/slices/userSlice";
+import useAxios from "../useAxios";
 
 const useGetAndSetUser = () => {
   const token: string | undefined = useAppSelector(

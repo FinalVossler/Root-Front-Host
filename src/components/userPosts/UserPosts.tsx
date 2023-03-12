@@ -1,18 +1,15 @@
-import { AxiosResponse } from "axios";
 import React from "react";
 import ReactLoading from "react-loading";
 
 import { Theme } from "../../config/theme";
-import PaginationResponse from "../../globalTypes/PaginationResponse";
-import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { IPost, postSlice, PostVisibility } from "../../store/slices/postSlice";
+import { useAppSelector } from "../../store/hooks";
+import { IPost, PostVisibility } from "../../store/slices/postSlice";
 import { IUser } from "../../store/slices/userSlice";
 
 import useStyles from "./userPosts.styles";
-import PostsGetCommandd from "../../globalTypes/commands/PostsGetCommand";
 import Post from "../post";
 import PostWrapper from "../postWrappers/postWrapper";
+import useGetPosts, { PostsGetCommand } from "../../hooks/apiHooks/useGetPosts";
 
 interface IUserPosts {
   user: IUser;
@@ -24,23 +21,18 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
       state.post.userPosts.find((p) => p.user._id === props.user._id)?.posts
   );
 
-  const [postsLoading, setPostsLoading] = React.useState<boolean>(false);
   const [page, setPage] = React.useState(1);
 
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const styles = useStyles({ theme });
-  const dispatch = useAppDispatch();
-
-  const axios = useAuthorizedAxios();
+  const { getPosts, loading: postsLoading } = useGetPosts();
 
   React.useEffect(() => {
     if (!props.user._id) return;
 
-    setPostsLoading(true);
-
-    const command: PostsGetCommandd = {
+    const command: PostsGetCommand = {
       userId: props.user._id,
       visibilities: props.visibilities || [
         PostVisibility.Public,
@@ -52,22 +44,7 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
         limit: 30,
       },
     };
-    axios
-      .request<AxiosResponse<PaginationResponse<IPost>>>({
-        method: "POST",
-        url: "/posts/getUserPosts",
-        data: command,
-      })
-      .then((res) => {
-        dispatch(
-          postSlice.actions.refreshUserPosts({
-            posts: res.data.data.data,
-            user: props.user,
-            total: res.data.data.total,
-          })
-        );
-      })
-      .finally(() => setPostsLoading(false));
+    getPosts(command, props.user);
   }, [props.user]);
 
   if (posts?.length === 0) return null;

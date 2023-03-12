@@ -11,7 +11,7 @@ import { IUser } from "../../store/slices/userSlice";
 import SearchInput from "../searchInput";
 import { AiFillDelete } from "react-icons/ai";
 import Post from "../post";
-import useSearchPosts from "../../hooks/useSearchPosts";
+import useSearchPosts from "../../hooks/apiHooks/useSearchPosts";
 import { IPage } from "../../store/slices/pageSlice";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 

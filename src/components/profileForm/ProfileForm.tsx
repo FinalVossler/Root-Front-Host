@@ -2,7 +2,6 @@ import React from "react";
 import { CgProfile } from "react-icons/cg";
 import { FormikProps, useFormik } from "formik";
 import * as Yup from "yup";
-import axios, { AxiosResponse } from "axios";
 
 import Input from "../input/Input";
 import Button from "../button/Button";
@@ -10,11 +9,12 @@ import Button from "../button/Button";
 import { Theme } from "../../config/theme";
 
 import useStyles from "./profile.styles";
-import { IUser, userSlice } from "../../store/slices/userSlice";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { toast } from "react-toastify";
+import { IUser } from "../../store/slices/userSlice";
+import { useAppSelector } from "../../store/hooks";
 import ProfilePictureUpload from "../profilePictureUpload";
-import UserUpdateCommand from "../../globalTypes/commands/UserUpdateCommand";
+import useUpdateUser, {
+  UserUpdateCommand,
+} from "../../hooks/apiHooks/useUpdateUser";
 
 type ProfileFormik = {
   firstName: string;
@@ -27,13 +27,11 @@ const Profile: React.FunctionComponent<IProfileForm> = (
 ) => {
   const user: IUser = useAppSelector((state) => state.user.user);
 
-  const [loading, setLoading] = React.useState(false);
-
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
-  const dispatch = useAppDispatch();
   const styles = useStyles({ theme });
+  const { updateUser, loading } = useUpdateUser();
 
   const formik: FormikProps<ProfileFormik> = useFormik<ProfileFormik>({
     initialValues: {
@@ -44,27 +42,14 @@ const Profile: React.FunctionComponent<IProfileForm> = (
       firstName: Yup.string().required("Firstname is required"),
       lastName: Yup.string().required("Lastname is required"),
     }),
-    onSubmit: (values: ProfileFormik) => {
-      setLoading(true);
+    onSubmit: async (values: ProfileFormik) => {
       const command: UserUpdateCommand = {
         _id: user._id,
         firstName: values.firstName,
         lastName: values.lastName,
       };
 
-      axios
-        .request<AxiosResponse<IUser>>({
-          url: process.env.REACT_APP_BACKEND_URL + "/users",
-          method: "PUT",
-          data: command,
-        })
-        .then((res) => {
-          toast.success("Profile information updated");
-          dispatch(userSlice.actions.setUser(res.data.data));
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      await updateUser(command);
     },
   });
 

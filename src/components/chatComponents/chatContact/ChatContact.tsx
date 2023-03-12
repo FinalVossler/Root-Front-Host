@@ -1,7 +1,6 @@
 import React from "react";
 import { CgProfile } from "react-icons/cg";
 import { RiNotificationFill } from "react-icons/ri";
-import { AxiosResponse } from "axios";
 
 import { Theme } from "../../../config/theme";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
@@ -13,9 +12,9 @@ import {
 import { IUser } from "../../../store/slices/userSlice";
 
 import useStyles from "./chatContact.styles";
-import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
 import UserProfilePicture from "../../userProfilePicture";
 import { SizeEnum } from "../../userProfilePicture/UserProfilePicture";
+import useGetTotalUnreadMessages from "../../../hooks/apiHooks/useGetTotalUnreadMessages";
 
 interface IChatContact {
   contact: IUser;
@@ -28,12 +27,38 @@ const ChatContact: React.FunctionComponent<IChatContact> = (
   const selectedConversationId: string | undefined = useAppSelector(
     (state) => state.chat.selectedConversationId
   );
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const totalUnreadMessages = useAppSelector(
     (state) =>
       state.chat.conversations.find(
         (c) => c.id === getConversationId([props.contact._id, userId])
       )?.totalUnreadMessages
   );
+
+  //#region Hooks
+  const dispatch = useAppDispatch();
+  const styles = useStyles({ theme });
+  const { getTotalUnreadMessages } = useGetTotalUnreadMessages();
+  //#endregion Hooks
+
+  // Getting total unread messages of the conversation
+  React.useEffect(() => {
+    if (!userId) return;
+
+    // If this isn't a selected contact, then we update the number of total unread messages from the database
+    getTotalUnreadMessages(getConversationId([userId, props.contact._id]));
+  }, [userId]);
+
+  const handleSelectContact = () => {
+    dispatch(
+      chatSlice.actions.setSelectedConversationId(
+        getConversationId([userId, props.contact._id])
+      )
+    );
+  };
+
   const isContactSelected: boolean = React.useMemo(() => {
     if (selectedConversationId) {
       const conversationalists: string[] =
@@ -49,42 +74,6 @@ const ChatContact: React.FunctionComponent<IChatContact> = (
 
     return false;
   }, [selectedConversationId]);
-
-  const theme: Theme = useAppSelector(
-    (state) => state.websiteConfiguration.theme
-  );
-  const dispatch = useAppDispatch();
-  const axios = useAuthorizedAxios();
-  const styles = useStyles({ theme });
-
-  // Getting total unread messages of the conversation
-  React.useEffect(() => {
-    if (!userId) return;
-
-    // If this isn't a selected contact, then we update the number of total unread messages from the database
-    axios
-      .request<AxiosResponse<number>>({
-        method: "POST",
-        url: "/messages/totalUnreadMessages",
-        data: [userId, props.contact._id],
-      })
-      .then((res) => {
-        dispatch(
-          chatSlice.actions.setConversationTotalUnreadMessages({
-            usersIds: [userId, props.contact._id],
-            totalUnreadMessages: res.data.data,
-          })
-        );
-      });
-  }, [userId]);
-
-  const handleSelectContact = () => {
-    dispatch(
-      chatSlice.actions.setSelectedConversationId(
-        getConversationId([userId, props.contact._id])
-      )
-    );
-  };
 
   return (
     <div
@@ -109,10 +98,6 @@ const ChatContact: React.FunctionComponent<IChatContact> = (
           url={props.contact.profilePicture?.url}
           size={SizeEnum.Small}
         />
-        // <img
-        //   className={styles.chatAvatar}
-        //   src={props.contact.profilePicture?.url}
-        // />
       )}
 
       {!props.contact.profilePicture?.url && (

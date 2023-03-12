@@ -12,10 +12,9 @@ import Button from "../button";
 import { IPost } from "../../store/slices/postSlice";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import extractContentFromHtml from "../../utils/extractContentFromHtml";
-import useAxios from "../../hooks/useAxios";
-import EmailSendCommand from "../../globalTypes/commands/EmailSendCommand";
-import { AxiosResponse } from "axios";
-import { toast } from "react-toastify";
+import useSendMail, {
+  EmailSendCommand,
+} from "../../hooks/apiHooks/useSendMail";
 
 interface IContactForm {
   firstName: string;
@@ -37,11 +36,9 @@ const ContactForm: React.FunctionComponent<IContactFormProps> = (
     (state) => state.websiteConfiguration.theme
   );
 
-  const [loading, setLoading] = React.useState<boolean>(false);
-
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
-  const axios = useAxios();
+  const { sendMail, loading } = useSendMail();
 
   const formik: FormikProps<IContactForm> = useFormik<IContactForm>({
     initialValues: {
@@ -52,7 +49,7 @@ const ContactForm: React.FunctionComponent<IContactFormProps> = (
       address: "",
       message: "",
     },
-    onSubmit: (values: IContactForm) => {
+    onSubmit: async (values: IContactForm) => {
       const command: EmailSendCommand = {
         firstName: values.firstName,
         lastName: values.lastName,
@@ -62,18 +59,7 @@ const ContactForm: React.FunctionComponent<IContactFormProps> = (
         message: values.message,
       };
 
-      setLoading(true);
-
-      axios
-        .request<AxiosResponse<void>>({
-          method: "POST",
-          url: "/emails",
-          data: command,
-        })
-        .then(() => {
-          toast.success("Thanks for getting in touch. Talk soon!");
-        })
-        .finally(() => setLoading(false));
+      await sendMail(command);
     },
     validationSchema: Yup.object().shape({
       firstName: Yup.string().required("Firstname is required"),

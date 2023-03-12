@@ -25,6 +25,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   defaultAvatar: {
     extend: "chatAvatar",
     color: theme.primary,
+    fontSize: 40,
   },
   contactName: {
     color: theme.lightTextColor,

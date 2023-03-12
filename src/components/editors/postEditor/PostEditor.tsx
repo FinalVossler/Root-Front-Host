@@ -5,7 +5,6 @@ import "suneditor/dist/css/suneditor.min.css";
 import SunEditorCore from "suneditor/src/lib/core";
 import { ImCross } from "react-icons/im";
 import { MdTitle } from "react-icons/md";
-import { AxiosResponse } from "axios";
 import ReactLoading from "react-loading";
 
 import useStyles from "./postEditor.styles";
@@ -13,19 +12,15 @@ import WritePostButton from "../../write-post-button";
 import Modal from "../../modal";
 import { Theme } from "../../../config/theme";
 import Button from "../../button";
-import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
 import IFile from "../../../globalTypes/IFile";
-import uploadFiles from "../../../utils/uploadFiles";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { useAppSelector } from "../../../store/hooks";
 import {
   IPost,
   PostDesign,
-  postSlice,
   PostVisibility,
 } from "../../../store/slices/postSlice";
 import { IUser } from "../../../store/slices/userSlice";
 import PostEditorFiles from "../../postEditorFiles";
-import PostCreateCommand from "../../../globalTypes/commands/PostCreateCommand";
 import InputSelect from "../../inputSelect";
 import { Option } from "../../inputSelect/InputSelect";
 import Input from "../../input";
@@ -33,7 +28,12 @@ import PostsEditor from "../../postsEditor";
 import getNavigatorLanguage from "../../../utils/getNavigatorLanguage";
 import getLanguages from "../../../utils/getLanguages";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
-import PostUpdateCommand from "../../../globalTypes/commands/PostUpdateCommand";
+import useCreatePost, {
+  PostCreateCommand,
+} from "../../../hooks/apiHooks/useCreatePost";
+import useUpdatePost, {
+  PostUpdateCommand,
+} from "../../../hooks/apiHooks/useUpdatePost";
 
 interface IPostEditor {
   post?: IPost;
@@ -61,15 +61,14 @@ const PostEditor = (props: IPostEditor) => {
   const [design, setDesign] = React.useState<PostDesign>(PostDesign.Default);
   const [files, setFiles] = React.useState<File[]>([]);
   const [ownFiles, setOwnFiles] = React.useState<IFile[]>([]);
-  const [loading, setLoading] = React.useState<boolean>(false);
   const [sunEditor, setSunEditor] =
     React.useState<SunEditorCore | undefined>(undefined);
   //#endregion Local state
 
   const styles = useStyles({ theme });
-  const axios = useAuthorizedAxios();
-  const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
+  const { createPost, loading: createLoading } = useCreatePost();
+  const { updatePost, loading: updateLoading } = useUpdatePost();
 
   //#region Effects
   React.useEffect(() => {
@@ -111,64 +110,46 @@ const PostEditor = (props: IPostEditor) => {
       return toast.error("I need a title or a description");
     }
 
-    sunEditor?.setContents("");
-
-    setLoading(true);
-
-    let filesToSend: IFile[] = await uploadFiles(files);
-    filesToSend = filesToSend.concat(ownFiles);
-
-    let command: PostCreateCommand | PostUpdateCommand;
-
     if (props.post) {
-      command = {
+      const command: PostUpdateCommand = {
         _id: props.post?._id,
         title,
         subTitle,
-        posterId: user._id,
         content,
-        files: filesToSend,
+        files: [], // The files will get updated inside the post request
         visibility,
         design,
         children,
         language,
       };
+      await updatePost(command, files, ownFiles);
     } else {
-      command = {
+      const command: PostCreateCommand = {
         title,
         subTitle,
         posterId: user._id,
         content,
-        files: filesToSend,
+        files: [], // The files will get updated inside the post request
         visibility,
         design,
         children,
         language,
       };
+      await createPost(command, files, ownFiles);
     }
 
-    axios
-      .request<AxiosResponse<IPost>>({
-        url: "/posts",
-        method: props.post ? "PUT" : "POST",
-        data: command,
-      })
-      .then((res) => {
-        const post: IPost = res.data.data;
-        if (props.post) {
-          dispatch(postSlice.actions.updateUserPost({ post, user }));
-        } else {
-          dispatch(postSlice.actions.addUserPost({ post, user }));
-          setTitle("");
-          setSubtTitle("");
-          setDesign(PostDesign.Default);
-          setVisibility(PostVisibility.Public);
-          setOwnFiles([]);
-        }
-        setFiles([]);
-        handleCloseModal();
-      })
-      .finally(() => setLoading(false));
+    // We reinitialize the form now that the post is updated
+    if (!props.post) {
+      setTitle("");
+      setSubtTitle("");
+      setDesign(PostDesign.Default);
+      setVisibility(PostVisibility.Public);
+      setOwnFiles([]);
+      sunEditor?.setContents("");
+    }
+
+    setFiles([]);
+    handleCloseModal();
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -209,6 +190,7 @@ const PostEditor = (props: IPostEditor) => {
   };
   //#endregion Event listeners
 
+  const loading = props.post ? updateLoading : createLoading;
   return (
     <div className={styles.postEditorContainer}>
       {!props.post && <WritePostButton onClick={handleOpenModal} />}

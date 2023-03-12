@@ -1,10 +1,9 @@
-import { AxiosResponse } from "axios";
 import React from "react";
 
 import { Theme } from "../../../config/theme";
-import MessageGetBetweenUsersCommand from "../../../globalTypes/commands/MessageGetBetweenUsersCommand";
-import PaginationResponse from "../../../globalTypes/PaginationResponse";
-import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
+import useLoadMessages, {
+  MessageGetBetweenUsersCommand,
+} from "../../../hooks/apiHooks/useLoadMessages";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   chatSlice,
@@ -38,19 +37,17 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   // We keep track of the last message in the list to know when to force scrolling down
   const [previousConversationId, setPreviousConversationId] =
     React.useState<string>();
-  const [loadingMessages, setLoadingMessages] = React.useState<boolean>(false);
   const [page, setPage] = React.useState<number>(1);
 
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const styles = useStyles({ theme });
-  const axios = useAuthorizedAxios();
   const scrollToDiv = React.useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
+  const { loadMessages, loading: loadingMessages } = useLoadMessages();
 
   //#region Effects
-  // Getting messages
   React.useEffect(() => {
     setPage(1);
     handleLoadMessages(1);
@@ -82,9 +79,7 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   }, [props.conversationId, messages]);
 
   //#region Listeners
-  const handleLoadMessages = (whichPage: number) => {
-    setLoadingMessages(true);
-
+  const handleLoadMessages = async (whichPage: number) => {
     const command: MessageGetBetweenUsersCommand = {
       usersIds: getConversationConversationalistsFromConversationId(
         props.conversationId
@@ -94,27 +89,12 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
         limit,
       },
     };
-    axios
-      .request<AxiosResponse<PaginationResponse<IMessage>>>({
-        method: "POST",
-        url: "/messages/get",
-        data: command,
-      })
-      .then((res) => {
-        const messages: IMessage[] = res.data.data.data;
-        dispatch(
-          chatSlice.actions.addMessages({
-            // If we are receiving old messages in the pagination, then we reverse the result
-            messages,
-            currentUser: user,
-          })
-        );
 
-        setTotal(res.data.data.total);
-        setLimit(limit);
-        setPage(whichPage + 1);
-      })
-      .finally(() => setLoadingMessages(false));
+    const total: number = await loadMessages(command);
+
+    setTotal(total);
+    setLimit(limit);
+    setPage(whichPage + 1);
   };
 
   const handleAddMessage = React.useCallback(

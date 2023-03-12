@@ -2,29 +2,31 @@ import React from "react";
 import { ImCross } from "react-icons/im";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { MdTitle } from "react-icons/md";
-import { AxiosResponse } from "axios";
 import ReactLoading from "react-loading";
 import * as Yup from "yup";
 
 import Modal from "../../modal";
 import { Theme } from "../../../config/theme";
 import Button from "../../button";
-import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { useAppSelector } from "../../../store/hooks";
 import { IPost } from "../../../store/slices/postSlice";
 import { IUser, Role } from "../../../store/slices/userSlice";
-import PageCreateCommand from "../../../globalTypes/commands/PageCreateCommand";
 import { FormikProps, useFormik } from "formik";
 import Input from "../../input";
-import { IPage, pageSlice } from "../../../store/slices/pageSlice";
+import { IPage } from "../../../store/slices/pageSlice";
 import PostsEditor from "../../postsEditor";
-import PageUpdateCommand from "../../../globalTypes/commands/PageUpdateCommand";
 
 import useStyles from "./pageEditor.styles";
 import getNavigatorLanguage from "../../../utils/getNavigatorLanguage";
 import getLanguages from "../../../utils/getLanguages";
 import InputSelect from "../../inputSelect";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
+import useCreatePage, {
+  PageCreateCommand,
+} from "../../../hooks/apiHooks/useCreatePage";
+import useUpdatePage, {
+  PageUpdateCommand,
+} from "../../../hooks/apiHooks/useUpdatePage";
 
 interface IPageEditorForm {
   title: string;
@@ -40,15 +42,14 @@ const PageEditor = (props: IPageEditor) => {
   const user: IUser = useAppSelector((state) => state.user.user);
 
   const [pageModalOpen, setPageModalOpen] = React.useState<boolean>(false);
-  const [loading, setLoading] = React.useState<boolean>(false);
 
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const styles = useStyles({ theme });
-  const axios = useAuthorizedAxios();
-  const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
+  const { createPage, loading: createLoading } = useCreatePage();
+  const { updatePage, loading: updateLoading } = useUpdatePage();
 
   React.useEffect(() => {
     if (props.page)
@@ -78,9 +79,7 @@ const PageEditor = (props: IPageEditor) => {
     validationSchema: Yup.object().shape({
       // title: Yup.string().required("Title is required"),
     }),
-    onSubmit: (values) => {
-      setLoading(true);
-
+    onSubmit: async (values) => {
       let command: PageCreateCommand | PageUpdateCommand;
 
       if (props.page) {
@@ -90,30 +89,16 @@ const PageEditor = (props: IPageEditor) => {
           _id: props.page._id,
           language: values.language,
         };
+        await updatePage(command);
       } else {
         command = {
           posts: values.posts,
           title: values.title,
           language: values.language,
         };
+        await createPage(command);
       }
-
-      axios
-        .request<AxiosResponse<IPage>>({
-          url: "/pages",
-          method: props.page ? "PUT" : "POST",
-          data: command,
-        })
-        .then((res) => {
-          const page: IPage = res.data.data;
-          setPageModalOpen(false);
-          if (props.page) {
-            dispatch(pageSlice.actions.updatePage(page));
-          } else {
-            dispatch(pageSlice.actions.addPage(page));
-          }
-        })
-        .finally(() => setLoading(false));
+      setPageModalOpen(false);
     },
   });
 
@@ -144,6 +129,7 @@ const PageEditor = (props: IPageEditor) => {
 
   if (user.role !== Role.Admin) return null;
 
+  const loading = createLoading || updateLoading;
   return (
     <div className={styles.pageEditorContainer}>
       <div

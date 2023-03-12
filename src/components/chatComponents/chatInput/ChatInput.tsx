@@ -12,23 +12,22 @@ import {
 } from "react-icons/ai";
 import { ImCross } from "react-icons/im";
 import ReactLoading from "react-loading";
-import { AxiosResponse } from "axios";
 
 import { Theme } from "../../../config/theme";
 import useStyles from "./chatInput.styles";
-import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
 import { IUser } from "../../../store/slices/userSlice";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { useAppSelector } from "../../../store/hooks";
 import ChatMessagesEnum from "../../../globalTypes/ChatMessagesEnum";
 import {
-  chatSlice,
   getConversationConversationalistsFromConversationId,
   IMessage,
 } from "../../../store/slices/chatSlice";
-import IFile from "../../../globalTypes/IFile";
-import uploadFiles from "../../../utils/uploadFiles";
-import MessageSendCommand from "../../../globalTypes/commands/MessageSendCommand";
-import MessageMarkMessagesAsReadByUserCommand from "../../../globalTypes/commands/MessageMarkMessagesAsReadByUserCommand";
+import useSendMessage, {
+  MessageSendCommand,
+} from "../../../hooks/apiHooks/useSendMessage";
+import useMarkMessagesAsRead, {
+  MessageMarkMessagesAsReadByUserCommand,
+} from "../../../hooks/apiHooks/useMarkMessagesAsRead";
 
 interface IChatInput {
   conversationId: string;
@@ -53,13 +52,12 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
   //#region Local state
   const [showEmojiPicker, setShowEmojiPicker] = React.useState(false);
   const [files, setFiles] = React.useState<File[]>([]);
-  const [loading, setLoading] = React.useState(false);
   //#endregion Local state
 
   //#region Hooks
   const styles = useStyles({ theme });
-  const dispatch = useAppDispatch();
-  const axios = useAuthorizedAxios();
+  const { sendMessage, loading } = useSendMessage();
+  const { markMessageAsRead } = useMarkMessagesAsRead();
   const messageRef: React.MutableRefObject<HTMLDivElement | undefined> =
     React.useRef<HTMLDivElement>();
   const fileRef: React.MutableRefObject<HTMLInputElement | undefined> =
@@ -104,35 +102,23 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
 
     if ((!message || message.trim() === "") && files.length === 0) return;
 
-    setLoading(true);
-
-    const filesToSend: IFile[] = await uploadFiles(files);
-
     const command: MessageSendCommand = {
       from: user._id,
       to: getConversationConversationalistsFromConversationId(
         props.conversationId
       ),
       message: message ?? "",
-      files: filesToSend,
+      files: [],
     };
 
-    axios
-      .request<AxiosResponse<IMessage>>({
-        method: "POST",
-        url: "/messages",
-        data: command,
-      })
-      .then((res) => {
-        const message: IMessage = res.data.data;
-        props.handleAddMessage(message);
-        props.socket.emit(ChatMessagesEnum.Send, message);
-        if (messageRef.current?.innerHTML) {
-          messageRef.current.innerHTML = "";
-        }
-        setFiles([]);
-      })
-      .finally(() => setLoading(false));
+    const createdMessage: IMessage = await sendMessage(command, files);
+
+    props.handleAddMessage(createdMessage);
+    props.socket.emit(ChatMessagesEnum.Send, createdMessage);
+    if (messageRef.current?.innerHTML) {
+      messageRef.current.innerHTML = "";
+    }
+    setFiles([]);
   };
 
   const handleFileClick = () => {
@@ -163,20 +149,7 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
       const command: MessageMarkMessagesAsReadByUserCommand = {
         messagesIds: unreadMessagesIds,
       };
-      axios
-        .request({
-          method: "POST",
-          url: "/messages/markMessagesAsRead",
-          data: command,
-        })
-        .then(() => {
-          dispatch(
-            chatSlice.actions.markConversationMessagesAsReadByUser({
-              conversationId: props.conversationId,
-              userId: user._id,
-            })
-          );
-        });
+      markMessageAsRead(command, props.conversationId, user._id);
     }
   };
   //#endregion Listeners

@@ -3,20 +3,16 @@ import { AiOutlineMail } from "react-icons/ai";
 import { FormikProps, useFormik } from "formik";
 import { RiLockPasswordLine } from "react-icons/ri";
 import * as Yup from "yup";
-import { AxiosResponse } from "axios";
-import { toast } from "react-toastify";
 
 import Input from "../input/Input";
 import Button from "../button/Button";
-import useAxios from "../../hooks/useAxios";
 
 import { Theme } from "../../config/theme";
 
-import { IUser, userSlice } from "../../store/slices/userSlice";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import UserLoginCommand from "../../globalTypes/commands/UserLoginCommand";
+import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./login.styles";
+import useLogin, { UserLoginCommand } from "../../hooks/apiHooks/useLogin";
 
 interface ILoginForm {
   email: string;
@@ -25,12 +21,10 @@ interface ILoginForm {
 
 interface ILogin {}
 const Registration: React.FunctionComponent<ILogin> = (props: ILogin) => {
-  const [loading, setLoading] = React.useState(false);
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
-  const dispatch = useAppDispatch();
-  const axios = useAxios();
+  const { login, loading } = useLogin();
 
   const formik: FormikProps<ILoginForm> = useFormik<ILoginForm>({
     initialValues: {
@@ -45,25 +39,13 @@ const Registration: React.FunctionComponent<ILogin> = (props: ILogin) => {
         .required("Password is required")
         .min(6, "Password length should be at least 6 characters"),
     }),
-    onSubmit: (values: ILoginForm) => {
-      setLoading(true);
-
+    onSubmit: async (values: ILoginForm) => {
       const command: UserLoginCommand = {
         email: values.email,
         password: values.password,
       };
-      axios
-        .request<
-          AxiosResponse<{ expiresIn: string; token: string; user: IUser }>
-        >({
-          url: process.env.REACT_APP_BACKEND_URL + "/users/login",
-          method: "POST",
-          data: command,
-        })
-        .then((res) => {
-          dispatch(userSlice.actions.setUserAndTokenInformation(res.data.data));
-          toast.success("Welcome back :)");
-        });
+
+      await login(command);
     },
   });
 
@@ -95,7 +77,7 @@ const Registration: React.FunctionComponent<ILogin> = (props: ILogin) => {
         formik={formik}
       />
 
-      <Button>Login</Button>
+      <Button disabled={loading}>Login</Button>
     </form>
   );
 };

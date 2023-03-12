@@ -11,7 +11,7 @@ import HomePage from "./pages/homePage";
 import ProfilePage from "./pages/profilePage";
 import ChatPage from "./pages/chatPage";
 
-import useGetAndSetUser from "./hooks/useGetAndSetUser";
+import useGetAndSetUser from "./hooks/apiHooks/useGetAndSetUser";
 import PaymentPage from "./pages/paymentPage";
 
 import theme from "./config/theme";

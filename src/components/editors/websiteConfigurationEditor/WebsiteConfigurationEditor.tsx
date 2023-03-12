@@ -1,29 +1,25 @@
 import React from "react";
-import { AxiosResponse } from "axios";
 import { FormikProps, useFormik } from "formik";
-import { toast } from "react-toastify";
 import * as Yup from "yup";
 import ReactLoading from "react-loading";
 import { AiOutlineColumnWidth } from "react-icons/ai";
 import { SiShadow } from "react-icons/si";
 
 import defaultTheme, { Theme } from "../../../config/theme";
-import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
 import useStyles from "./websiteConfigurationEditor.styles";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import WebsiteConfigurationUpdateCommand from "../../../globalTypes/commands/WebsiteConfigurationUpdateCommand";
+import { useAppSelector } from "../../../store/hooks";
 import Modal from "../../modal";
 import Input from "../../input";
 import { MdTitle } from "react-icons/md";
 import { ImCross } from "react-icons/im";
 import Button from "../../button";
-import {
-  IWebsiteConfiguration,
-  websiteConfigurationSlice,
-} from "../../../store/slices/websiteConfigurationSlice";
+import { IWebsiteConfiguration } from "../../../store/slices/websiteConfigurationSlice";
 import Checkbox from "../../checkbox";
 import InputLanguages from "../../inputLanguages";
 import ColorInput from "../../colorInput";
+import useUpdateWebsiteConfiguration, {
+  WebsiteConfigurationUpdateCommand,
+} from "../../../hooks/apiHooks/useUpdateWebsiteConfiguration";
 
 interface IConfigurationForm extends Theme {
   title?: string;
@@ -43,7 +39,6 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
       (state) => state.websiteConfiguration
     );
 
-    const [loading, setLoading] = React.useState<boolean>(false);
     const [configurationModalOpen, setConfigurationModalOpen] =
       React.useState<boolean>(false);
 
@@ -51,13 +46,13 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
       (state) => state.websiteConfiguration.theme
     );
     const styles = useStyles({ theme });
-    const axios = useAuthorizedAxios();
-    const dispatch = useAppDispatch();
     const handleRevertThemeToDefault = () => {
       Object.getOwnPropertyNames(theme).forEach((property) => {
         formik.setFieldValue(property, defaultTheme[property]);
       });
     };
+    const { updateWebsiteConfiguration, loading } =
+      useUpdateWebsiteConfiguration();
 
     const formik: FormikProps<IConfigurationForm> =
       useFormik<IConfigurationForm>({
@@ -97,9 +92,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
           withChat: Yup.boolean(),
           withRegistration: Yup.boolean(),
         }),
-        onSubmit: (values: IConfigurationForm) => {
-          setLoading(true);
-
+        onSubmit: async (values: IConfigurationForm) => {
           const command: WebsiteConfigurationUpdateCommand = {
             email: values.email || "",
             phoneNumber: values.phoneNumber || "",
@@ -128,23 +121,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             },
           };
 
-          axios
-            .request<AxiosResponse<WebsiteConfigurationUpdateCommand>>({
-              url:
-                process.env.REACT_APP_BACKEND_URL +
-                "/websiteConfigurations/update",
-              method: "POST",
-              data: command,
-            })
-            .then((res) => {
-              dispatch(
-                websiteConfigurationSlice.actions.setConfiguration(
-                  res.data.data
-                )
-              );
-              toast.success("Configuration saved");
-            })
-            .finally(() => setLoading(false));
+          await updateWebsiteConfiguration(command);
         },
       });
 

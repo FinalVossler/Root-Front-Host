@@ -3,19 +3,18 @@ import { CgProfile } from "react-icons/cg";
 import { AiOutlineMail } from "react-icons/ai";
 import { FormikProps, useFormik } from "formik";
 import { RiLockPasswordLine } from "react-icons/ri";
-import { AxiosResponse } from "axios";
 import * as Yup from "yup";
 
 import Input from "../input/Input";
 import Button from "../button/Button";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { IUser, userSlice } from "../../store/slices/userSlice";
-import useAxios from "../../hooks/useAxios";
+import { useAppSelector } from "../../store/hooks";
 
 import { Theme } from "../../config/theme";
 
 import useStyles from "./registration.styles";
-import UserRegisterCommand from "../../globalTypes/commands/UserRegisterCommand";
+import useRegister, {
+  UserRegisterCommand,
+} from "../../hooks/apiHooks/useRegister";
 
 interface IRegistrationForm {
   firstName: string;
@@ -33,13 +32,10 @@ const Registration: React.FunctionComponent<IRegistration> = (
     (state) => state.websiteConfiguration.withRegistration
   );
 
-  const [loading, setLoading] = React.useState(false);
-
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
-  const dispatch = useAppDispatch();
-  const axios = useAxios();
+  const { register, loading } = useRegister();
 
   const formik: FormikProps<IRegistrationForm> = useFormik<IRegistrationForm>({
     initialValues: {
@@ -66,35 +62,14 @@ const Registration: React.FunctionComponent<IRegistration> = (
           message: "Password don't match",
         }),
     }),
-    onSubmit: (values: IRegistrationForm) => {
-      setLoading(true);
+    onSubmit: async (values: IRegistrationForm) => {
       const command: UserRegisterCommand = {
         firstName: values.firstName,
         lastName: values.lastName,
         email: values.email,
         password: values.password,
       };
-
-      axios
-        .request<
-          AxiosResponse<{ token: string; expiresIn: string; user: IUser }>
-        >({
-          url: process.env.REACT_APP_BACKEND_URL + "/users/register",
-          method: "POST",
-          data: command,
-        })
-        .then((res) => {
-          const { user, token, expiresIn } = res.data.data;
-          dispatch(
-            dispatch(
-              userSlice.actions.setUserAndTokenInformation({
-                user,
-                token,
-                expiresIn,
-              })
-            )
-          );
-        });
+      await register(command);
     },
   });
 
@@ -154,7 +129,7 @@ const Registration: React.FunctionComponent<IRegistration> = (
         formik={formik}
       />
 
-      <Button>Register</Button>
+      <Button disabled={loading}>Register</Button>
     </form>
   );
 };
