@@ -18,6 +18,18 @@ export interface IWebsiteConfiguration {
       emailPlaceholder: ITranslatedText[];
       passwordPlaceholder: ITranslatedText[];
     };
+    header: {
+      language: ITranslatedText[];
+    };
+    registration: {
+      title: ITranslatedText[];
+      firstNamePlaceholder: ITranslatedText[];
+      lastNamePlaceholder: ITranslatedText[];
+      emailPlaceholder: ITranslatedText[];
+      passwordPlaceholder: ITranslatedText[];
+      confirmPasswordPlaceholder: ITranslatedText[];
+      buttonText: ITranslatedText[];
+    };
   };
 }
 
@@ -77,6 +89,48 @@ const initialState: IWebsiteConfigurationState = {
           text: "Veuillez entrer votre mot de passe",
           language: "fr",
         },
+      ],
+    },
+    header: {
+      language: [
+        {
+          language: "en",
+          text: "",
+        },
+        {
+          language: "fr",
+          text: "",
+        },
+      ],
+    },
+    registration: {
+      title: [
+        { language: "en", text: "Register" },
+        { language: "fr", text: "Créer un compte" },
+      ],
+      confirmPasswordPlaceholder: [
+        { language: "en", text: "Confim your password" },
+        { language: "fr", text: "Confirmez votre mot de passe" },
+      ],
+      emailPlaceholder: [
+        { language: "en", text: "Email" },
+        { language: "fr", text: "Email" },
+      ],
+      firstNamePlaceholder: [
+        { language: "en", text: "Firstname" },
+        { language: "fr", text: "Prénom" },
+      ],
+      lastNamePlaceholder: [
+        { language: "en", text: "Lastname" },
+        { language: "fr", text: "Nom" },
+      ],
+      passwordPlaceholder: [
+        { language: "en", text: "Password" },
+        { language: "fr", text: "Mot de passe" },
+      ],
+      buttonText: [
+        { language: "en", text: "Register" },
+        { language: "fr", text: "S'enregistrer" },
       ],
     },
   },

@@ -69,7 +69,7 @@ const Registration: React.FunctionComponent<ILogin> = (props: ILogin) => {
         Icon={AiOutlineMail}
         inputProps={{
           type: "email",
-          placeholder: "Enter your email",
+          placeholder: getTranslatedText(staticText?.login.emailPlaceholder),
         }}
         name="email"
         formik={formik}
@@ -78,7 +78,7 @@ const Registration: React.FunctionComponent<ILogin> = (props: ILogin) => {
         Icon={RiLockPasswordLine}
         inputProps={{
           type: "password",
-          placeholder: "Enter your password",
+          placeholder: getTranslatedText(staticText?.login.passwordPlaceholder),
         }}
         name="password"
         formik={formik}

@@ -15,6 +15,7 @@ import useStyles from "./registration.styles";
 import useRegister, {
   UserRegisterCommand,
 } from "../../hooks/apiHooks/useRegister";
+import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
 interface IRegistrationForm {
   firstName: string;
@@ -31,10 +32,13 @@ const Registration: React.FunctionComponent<IRegistration> = (
   const withRegistration: boolean | undefined = useAppSelector(
     (state) => state.websiteConfiguration.withRegistration
   );
-
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.registration
+  );
+
   const { register, loading } = useRegister();
 
   const formik: FormikProps<IRegistrationForm> = useFormik<IRegistrationForm>({
@@ -79,23 +83,26 @@ const Registration: React.FunctionComponent<IRegistration> = (
   };
 
   const styles = useStyles({ theme });
+  const getTranslatedText = useGetTranslatedText();
 
   if (!withRegistration) return null;
 
   return (
     <form onSubmit={handleSubmit} className={styles.registrationContainer}>
-      <h2 className={styles.registrationTitle}>Registration:</h2>
+      <h2 className={styles.registrationTitle}>
+        {getTranslatedText(staticText?.title)}:
+      </h2>
       <Input
         Icon={CgProfile}
         name="firstName"
         formik={formik}
         inputProps={{
-          placeholder: "Enter your first name",
+          placeholder: getTranslatedText(staticText?.firstNamePlaceholder),
         }}
       />
       <Input
         inputProps={{
-          placeholder: "Enter your last name",
+          placeholder: getTranslatedText(staticText?.lastNamePlaceholder),
         }}
         Icon={CgProfile}
         name="lastName"
@@ -104,7 +111,7 @@ const Registration: React.FunctionComponent<IRegistration> = (
       <Input
         Icon={AiOutlineMail}
         inputProps={{
-          placeholder: "Enter your email",
+          placeholder: getTranslatedText(staticText?.emailPlaceholder),
           type: "email",
         }}
         name="email"
@@ -114,7 +121,7 @@ const Registration: React.FunctionComponent<IRegistration> = (
         Icon={RiLockPasswordLine}
         inputProps={{
           type: "password",
-          placeholder: "Enter your password",
+          placeholder: getTranslatedText(staticText?.passwordPlaceholder),
         }}
         name="password"
         formik={formik}
@@ -122,14 +129,16 @@ const Registration: React.FunctionComponent<IRegistration> = (
       <Input
         inputProps={{
           type: "password",
-          placeholder: "Confirm your password",
+          placeholder: getTranslatedText(staticText?.passwordPlaceholder),
         }}
         Icon={AiOutlineMail}
         name="confirmPassword"
         formik={formik}
       />
 
-      <Button disabled={loading}>Register</Button>
+      <Button disabled={loading}>
+        {getTranslatedText(staticText?.buttonText)}
+      </Button>
     </form>
   );
 };

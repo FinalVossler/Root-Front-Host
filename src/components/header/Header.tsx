@@ -11,6 +11,9 @@ import { userSlice } from "../../store/slices/userSlice";
 import { IPage } from "../../store/slices/pageSlice";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
+import InputSelect from "../inputSelect";
+import { userPreferenceSlice } from "../../store/slices/userPreferencesSlice";
+import { Option } from "../inputSelect/InputSelect";
 
 interface IHeader {}
 const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
@@ -23,6 +26,15 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
   );
   const withRegistration: boolean | undefined = useAppSelector(
     (state) => state.websiteConfiguration.withRegistration
+  );
+  const mainLanguages: string[] | undefined = useAppSelector(
+    (state) => state.websiteConfiguration.mainLanguages
+  );
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText
+  );
+  const userPreferenceLanguage: string = useAppSelector(
+    (state) => state.userPreferences.language
   );
 
   const [scrolledDown, setScrolledDown] = React.useState(window.scrollY >= 80);
@@ -49,9 +61,14 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
     };
   }, []);
 
+  //#region Event listeners
   const handleLogout = () => {
     dispatch(userSlice.actions.logout());
   };
+  const handleChangeLanguage = (option: Option) => {
+    dispatch(userPreferenceSlice.actions.setLanguage(option.value));
+  };
+  //#endregion Event listeners
 
   return (
     <div
@@ -67,6 +84,24 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
 
       <div className={styles.right}>
         <ul className={styles.optionsList}>
+          <InputSelect
+            options={
+              mainLanguages?.map((language) => ({
+                label: language,
+                value: language,
+              })) || [
+                { label: "en", value: "en" },
+                { label: "fr", value: "fr" },
+              ]
+            }
+            label={getTranslatedText(staticText?.header.language)}
+            value={{
+              label: userPreferenceLanguage,
+              value: userPreferenceLanguage,
+            }}
+            onChange={handleChangeLanguage}
+            style={{ marginBottom: 0 }}
+          />
           {pages.map((page) => {
             return (
               <li key={page._id} className={styles.option}>

@@ -38,13 +38,13 @@ Add Page creation feature for admin
 - Ability to edit a post
 - Refactor all api calls to hooks:
 - Centralize the language option in the redux store
+- Add the language selector in the header and that contains the main languages stored in the database
 
 - Create the my team component (with social media links)
 - website icon configuration
 
 - Add all static text to website configuration
 - Implement automatic text translation: https://www.npmjs.com/package/react-auto-translate
-- Add the language selector in the header and that contains the main languages stored in the database
 - Add the forms to update static texts languages
 - Add a checkbox in page editor for show in header
 - develop the rest to default button for the theme configuration

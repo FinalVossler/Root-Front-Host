@@ -20,6 +20,7 @@ interface IInputSelect {
   value: Option;
   formik?: FormikProps<any>;
   name?: string;
+  style?: React.CSSProperties;
 }
 
 const InputSelect: React.FunctionComponent<IInputSelect> = (
@@ -41,8 +42,10 @@ const InputSelect: React.FunctionComponent<IInputSelect> = (
   };
 
   return (
-    <div className={styles.inputSelectContainer}>
-      <span className={styles.selectLabel}>{props.label}:</span>
+    <div className={styles.inputSelectContainer} style={props.style || {}}>
+      {props.label && (
+        <span className={styles.selectLabel}>{props.label}:</span>
+      )}
       <Select
         isMulti={props.isMulti}
         onChange={handleOnChange}
