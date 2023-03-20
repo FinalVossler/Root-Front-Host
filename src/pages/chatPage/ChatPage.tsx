@@ -116,4 +116,6 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
   );
 };
 
-export default withWrapper(withProtection(socketConnect(Chat)), false);
+export default withWrapper(withProtection(socketConnect(Chat)), {
+  withFooter: false,
+});

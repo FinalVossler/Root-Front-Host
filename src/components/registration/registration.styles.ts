@@ -6,7 +6,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
   registrationContainer: {
     display: "flex",
     flexDirection: "column",
-    margin: "auto",
     maxWidth: theme.formMaxWidth,
     width: "70%",
     borderRadius: 20,
@@ -14,6 +13,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     paddingTop: 10,
     paddingBottom: 40,
     backgroundColor: theme.contentBackgroundColor,
+    margin: "auto",
+    marginBottom: 0,
+    marginTop: 50,
   },
   registrationTitle: {
     fontSize: 30,

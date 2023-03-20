@@ -29,4 +29,4 @@ const DynamicPage: React.FunctionComponent<IDynamicPage> = (
   );
 };
 
-export default withWrapper(DynamicPage, false);
+export default withWrapper(DynamicPage, { withFooter: false });

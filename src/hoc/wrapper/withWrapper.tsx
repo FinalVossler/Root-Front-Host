@@ -1,3 +1,5 @@
+import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
+
 import { Theme } from "../../config/theme";
 import Header from "../../components/header";
 import Footer from "../../components/postsComponents/footer";
@@ -6,7 +8,10 @@ import useStyles from "./withWrapper.styles";
 import { useAppSelector } from "../../store/hooks";
 
 const withWrapper =
-  (Component: any, withFooter: boolean = true): React.FunctionComponent<any> =>
+  (
+    Component: any,
+    options: { withFooter: boolean } = { withFooter: true }
+  ): React.FunctionComponent<any> =>
   (props: any) => {
     const theme: Theme = useAppSelector(
       (state) => state.websiteConfiguration.theme
@@ -17,7 +22,7 @@ const withWrapper =
       <div className={styles.withWrapperContainer}>
         <Header />
         <Component {...props} />
-        {withFooter && <Footer />}
+        {options.withFooter && <Footer />}
       </div>
     );
   };

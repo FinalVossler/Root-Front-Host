@@ -22,6 +22,7 @@ import extractLinksFromText from "../../utils/extractLinksFromText";
 import ContactForm from "../contactForm";
 import Person from "../postsComponents/Person";
 import Card2 from "../postsComponents/card2";
+import Video from "../postsComponents/video";
 
 interface IUserPosts {
   post: IPost;
@@ -145,6 +146,14 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
         title={getTranslatedText(post.title)}
         backgroundImage={post.files.find((file) => file.isImage)?.url}
         description={extractContentFromHtml(getTranslatedText(post.content))}
+      />
+    );
+  }
+  if (post.design === PostDesign.Video) {
+    return (
+      <Video
+        title={getTranslatedText(post.title)}
+        videoId={getTranslatedText(post.subTitle)}
       />
     );
   }

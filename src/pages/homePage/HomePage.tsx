@@ -13,6 +13,7 @@ import UnderlinedTitle from "../../components/postsComponents/underlinedTitle";
 import useStyles from "./homePage.styles";
 import ContactForm from "../../components/contactForm";
 import Person from "../../components/postsComponents/Person";
+import Video from "../../components/postsComponents/video";
 
 interface IHome {}
 const Home: React.FunctionComponent<IHome> = (props: IHome) => {
@@ -30,6 +31,8 @@ const Home: React.FunctionComponent<IHome> = (props: IHome) => {
       <br />
 
       <Person />
+
+      <Video title="How it works" videoId="g0jiB6xHHLk" />
 
       <AnimatedTitle title="Creative Developer" />
 

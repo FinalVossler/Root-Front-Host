@@ -20,6 +20,8 @@ const useUpdatePage = () => {
 
   const updatePage = (command: PageUpdateCommand) =>
     new Promise((resolve, reject) => {
+      setLoading(true);
+
       axios
         .request<AxiosResponse<IPage>>({
           url: "/pages",

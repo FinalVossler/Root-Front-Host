@@ -34,6 +34,7 @@
     "react-select": "^5.7.0",
     "react-toastify": "^9.1.1",
     "react-uuid": "^2.0.0",
+    "react-youtube": "^10.1.0",
     "socket.io-client": "^4.5.4",
     "socket.io-react": "^1.2.0",
     "suneditor": "^2.44.3",
@@ -74,6 +75,7 @@
     "@types/moment": "^2.13.0",
     "@types/react-color": "^3.0.6",
     "@types/react-jss": "^10.0.0",
+    "@types/react-modal-video": "^1.2.0",
     "@types/react-select": "^5.0.1",
     "@types/react-toastify": "^4.1.0",
     "@types/socket.io-client": "^3.0.0"

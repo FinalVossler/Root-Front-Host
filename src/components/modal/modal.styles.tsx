@@ -13,6 +13,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    overflow: "hidden",
   },
   layer: {
     zIndex: 3,

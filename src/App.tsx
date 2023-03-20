@@ -16,16 +16,11 @@ import PaymentPage from "./pages/paymentPage";
 
 import theme from "./config/theme";
 import useNotifications from "./hooks/useNotifications";
-import useAxios from "./hooks/useAxios";
-import { AxiosResponse } from "axios";
-import { IPage, pageSlice } from "./store/slices/pageSlice";
-import { useAppDispatch, useAppSelector } from "./store/hooks";
+import { IPage } from "./store/slices/pageSlice";
+import { useAppSelector } from "./store/hooks";
 import DynamicPage from "./pages/dynamicPage";
-import {
-  IWebsiteConfiguration,
-  websiteConfigurationSlice,
-} from "./store/slices/websiteConfigurationSlice";
-import { userPreferenceSlice } from "./store/slices/userPreferencesSlice";
+import useGetPages from "./hooks/apiHooks/useGetPages";
+import useGetWebwiteConfiguration from "./hooks/apiHooks/useGetWebsiteConfiguration";
 
 const stripePromise = loadStripe(
   // @ts-ignore
@@ -33,51 +28,19 @@ const stripePromise = loadStripe(
 );
 
 function App() {
-  const [finishedFetchingPages, setFinishedFetchingPages] =
-    React.useState<boolean>(false);
-  const [
-    finishedFetchingWebsiteConfiguration,
-    setFinishedFetchingWebsiteConfiguration,
-  ] = React.useState<boolean>(false);
-
   const pages: IPage[] = useAppSelector((state) => state.page.pages);
 
   useGetAndSetUser();
   useNotifications();
-  const axios = useAxios();
-  const dispatch = useAppDispatch();
+  const { getPages, finished: finishedFetchingPages } = useGetPages();
+  const {
+    getWebsiteConfiguration,
+    finished: finishedFetchingWebsiteConfiguration,
+  } = useGetWebwiteConfiguration();
 
   React.useEffect(() => {
-    axios
-      .request<AxiosResponse<IPage[]>>({
-        method: "GET",
-        url: "/pages/",
-      })
-      .then((res) => {
-        dispatch(pageSlice.actions.setPages(res.data.data));
-      })
-      .finally(() => setFinishedFetchingPages(true));
-
-    axios
-      .request<AxiosResponse<IWebsiteConfiguration>>({
-        method: "GET",
-        url: "/websiteConfigurations/",
-      })
-      .then((res) => {
-        // Set the configuration
-        dispatch(
-          websiteConfigurationSlice.actions.setConfiguration(res.data.data)
-        );
-        // Set the default language
-        dispatch(
-          userPreferenceSlice.actions.setLanguage(
-            res.data.data.mainLanguages?.length
-              ? res.data.data.mainLanguages[0]
-              : "en"
-          )
-        );
-      })
-      .finally(() => setFinishedFetchingWebsiteConfiguration(true));
+    getPages();
+    getWebsiteConfiguration();
   }, []);
 
   const stripeOptions = {

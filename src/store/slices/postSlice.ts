@@ -26,6 +26,7 @@ export enum PostDesign {
   ContactForm = "ContactForm",
   Person = "Person",
   Card2 = "Card2",
+  Video = "Video",
 }
 
 export interface IPost {

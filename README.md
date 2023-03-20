@@ -40,9 +40,13 @@ Add Page creation feature for admin
 - Centralize the language option in the redux store
 - Add the language selector in the header and that contains the main languages stored in the database
 
+- Install and test https://www.npmjs.com/package/react-pro-sidebar
+- Add the fields api logic
+- Add the forms api logic
 - Create the my team component (with social media links)
 - website icon configuration
 
+- Add the show language selector configuration icon
 - Add all static text to website configuration
 - Implement automatic text translation: https://www.npmjs.com/package/react-auto-translate
 - Add the forms to update static texts languages
@@ -50,6 +54,39 @@ Add Page creation feature for admin
 - develop the rest to default button for the theme configuration
 - Add instruction text for each design => Maybe with an image example too
 
-Add post assignment to page for admin
+---
 
 template
+
+-business case => présentation
+-décideur => va décider en se basant sur ce slide
+-to reach the end goal
+-prennent des données achetés sur market sale => sale sarou lel produit similair (tout le marché)
+
+- calcul growth de chaque compétiteur
+  -mettent en place des graphes
+- partie forcast
+  -au bout de 5 ans => revenu => directeur va se baser pour prendre les décisions
+
+- Produit: prendre les données sur excel = copier coller power point
+- drag and drop donné -> dashboard with visuals => template power point with graphs => insights =>
+  je lance les produits si j'ai un gain de 52% =>
+  inputs from marketing => analyse de données => avoir les inputs de plusieurs groupes => pricing le prix de vente
+  marketing prends les données => envoie d'une notifications vers l'application pour
+  les deux départements: marketing + controlling
+  une autre input for the pricing => prix de vente
+
+inputs from all these departments:
+
+---
+
+1- marketing => c'est celui qui va faire le drag and drop
+2- controlling
+3- pricing
+4- medical => données qualitatives
+===> business case
+graphs
+finance
+go or no go
+
+création automatique
