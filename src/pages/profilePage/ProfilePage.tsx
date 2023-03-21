@@ -17,6 +17,7 @@ import { useAppSelector } from "../../store/hooks";
 import { IUser, Role } from "../../store/slices/userSlice";
 import Pages from "../../components/pages";
 import WebsiteConfigurationEditor from "../../components/editors/websiteConfigurationEditor";
+import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
 enum ActiveForm {
   Register = "Register",
@@ -31,17 +32,21 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
   const withRegistration: boolean | undefined = useAppSelector(
     (state) => state.websiteConfiguration.withRegistration
   );
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.profile
+  );
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
 
   const [activeForm, setActiveForm] = React.useState<ActiveForm>(
     ActiveForm.Register
   );
   const [showConfiguration, setShowConfiguration] = React.useState(true);
 
-  const theme: Theme = useAppSelector(
-    (state) => state.websiteConfiguration.theme
-  );
   const styles = useStyles({ theme });
   const isLoggedIn: boolean = useIsLoggedIn();
+  const getTranslatedText = useGetTranslatedText();
 
   const handleSwitchForm = () => {
     setActiveForm(
@@ -96,16 +101,16 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
         <div className={styles.switchFormContainer}>
           <span>
             {activeForm === ActiveForm.Register
-              ? "Already have an account?"
-              : "Don't have an account?"}
+              ? getTranslatedText(staticText?.alreadyHaveAnAccount)
+              : getTranslatedText(staticText?.dontHaveAnAccount)}
           </span>
           <button
             onClick={handleSwitchForm}
             className={styles.switchFormButton}
           >
             {activeForm === ActiveForm.Register && withRegistration
-              ? "Login here"
-              : "Register here"}
+              ? getTranslatedText(staticText?.loginHere)
+              : getTranslatedText(staticText?.registerHere)}
           </button>
         </div>
       )}

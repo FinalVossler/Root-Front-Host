@@ -26,4 +26,7 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
   );
 };
 
-export default withWrapper(FieldsPage, { withFooter: false });
+export default withWrapper(FieldsPage, {
+  withFooter: false,
+  withSideMenu: true,
+});

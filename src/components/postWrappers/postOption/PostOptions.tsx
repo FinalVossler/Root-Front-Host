@@ -42,6 +42,7 @@ const PostWrapper: React.FunctionComponent<IPostOptions> = (
 
   //#region Event listeners
   const handleDeletePost = () => {
+    setDeletePostLoading(true);
     axios
       .request<AxiosResponse<void>>({
         method: "DELETE",
@@ -53,7 +54,8 @@ const PostWrapper: React.FunctionComponent<IPostOptions> = (
       .then(() => {
         dispatch(postSlice.actions.removeUserPost({ post: props.post, user }));
         toast.success("Post has been deleted");
-      });
+      })
+      .finally(() => setDeletePostLoading(false));
   };
   const handlePostOptionsOpen = () => {
     setOptionsOpen(!optionsOpen);

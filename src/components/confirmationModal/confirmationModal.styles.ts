@@ -34,15 +34,18 @@ const useStyles = createUseStyles((theme: Theme) => ({
     alignItems: "center",
     zIndex: 2,
     boxShadow: "0px 0px 10px 1px #00000024",
+    width: "50%",
   },
   description: {
     color: theme.lightTextColor,
     marginTop: 10,
+    textAlign: "center",
   },
   title: {
     fontWeight: "bold",
     color: theme.lightTextColor,
     marginBottom: 5,
+    textAlign: "center",
   },
   buttonsContainer: {
     display: "flex",
@@ -51,7 +54,14 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "100%",
     marginTop: 20,
   },
-  "@media (max-width: 850px)": {},
+  "@media (max-width: 850px)": {
+    confirmationModal: {
+      width: "85%",
+      minWidth: "initial",
+      padding: 20,
+      boxSizing: "border-box",
+    },
+  },
 }));
 
 export default useStyles;

@@ -13,6 +13,12 @@ export interface IWebsiteConfiguration {
   withRegistration?: boolean;
   theme: Theme;
   staticText?: {
+    profile: {
+      alreadyHaveAnAccount: ITranslatedText[];
+      dontHaveAnAccount: ITranslatedText[];
+      loginHere: ITranslatedText[];
+      registerHere: ITranslatedText[];
+    };
     login: {
       title: ITranslatedText[];
       emailPlaceholder: ITranslatedText[];
@@ -70,6 +76,24 @@ const initialState: IWebsiteConfigurationState = {
   theme,
 
   staticText: {
+    profile: {
+      alreadyHaveAnAccount: [
+        { text: "Already have an account?", language: "en" },
+        { text: "Vous avez déjà un compte?", language: "fr" },
+      ],
+      dontHaveAnAccount: [
+        { text: "Don't have an account?", language: "en" },
+        { text: "Vous n'avez pas de compte?", language: "fr" },
+      ],
+      loginHere: [
+        { text: "Login", language: "en" },
+        { text: "Connectez-vous ici", language: "fr" },
+      ],
+      registerHere: [
+        { text: "Register here", language: "en" },
+        { text: "Enregistrez-vous ici", language: "fr" },
+      ],
+    },
     login: {
       title: [
         {
@@ -77,7 +101,7 @@ const initialState: IWebsiteConfigurationState = {
           language: "en",
         },
         {
-          text: "Login",
+          text: "Connexion",
           language: "fr",
         },
       ],
