@@ -103,14 +103,14 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
 
           <li className={styles.option}>
             <NavLink className={styles.optionATag} to="/">
-              Accueil
+              {getTranslatedText(staticText?.header.home)}
             </NavLink>
           </li>
 
           {withChat && (
             <li className={styles.option}>
               <NavLink className={styles.optionATag} to="/chat">
-                Chat
+                {getTranslatedText(staticText?.header.chat)}
               </NavLink>
             </li>
           )}
