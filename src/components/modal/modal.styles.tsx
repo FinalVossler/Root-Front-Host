@@ -4,7 +4,7 @@ import { Theme } from "../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
   modalContainer: {
-    zIndex: 6,
+    zIndex: 9,
     position: "fixed",
     top: "0px",
     left: "0px",
@@ -16,7 +16,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     overflow: "hidden",
   },
   layer: {
-    zIndex: 3,
+    zIndex: 7,
     display: "flex",
     width: "100%",
     height: "100%",
@@ -32,7 +32,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
 
     boxShadow: theme.boxShadow,
     borderRadius: "40px",
-    zIndex: 4,
+    zIndex: 8,
     // width: "80%",
     maxHeight: "90%",
   },

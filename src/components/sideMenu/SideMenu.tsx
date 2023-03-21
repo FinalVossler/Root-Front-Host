@@ -1,11 +1,14 @@
 import React from "react";
 import { AiOutlineMenuUnfold, AiOutlineMenuFold } from "react-icons/ai";
+import { BsFillGearFill } from "react-icons/bs";
 import { MdTextFields } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 import { Theme } from "../../config/theme";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { userPreferenceSlice } from "../../store/slices/userPreferencesSlice";
+import WebsiteConfigurationEditor from "../editors/websiteConfigurationEditor";
 
 import useStyles from "./sideMenu.styles";
 import SideMenuOption from "./sideMenuOption";
@@ -22,23 +25,39 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.sideMenu
   );
+  const isSideMenuOpen: boolean = useAppSelector(
+    (state) => state.userPreferences.isSideMenuOpen
+  );
 
-  const [isMenuOpen, setIsMenuOpen] = React.useState<boolean>(false);
+  const [configurationModalOpen, setConfigurationModalOpen] =
+    React.useState<boolean>(false);
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
+  const dispatch = useAppDispatch();
 
-  const handleToggleMenuOpen = () => setIsMenuOpen(!isMenuOpen);
+  const handleToggleMenuOpen = () =>
+    dispatch(userPreferenceSlice.actions.toggleSideMenu());
 
   return (
     <div
       className={
-        isMenuOpen ? styles.openSideMenuContainer : styles.sideMenuContainer
+        isSideMenuOpen ? styles.openSideMenuContainer : styles.sideMenuContainer
       }
     >
-      {isMenuOpen && (
+      <WebsiteConfigurationEditor
+        setConfigurationModalOpen={setConfigurationModalOpen}
+        configurationModelOpen={configurationModalOpen}
+      />
+      {isSideMenuOpen && (
         <div className={styles.sideMenuContent}>
           <span className={styles.appName}>{title}</span>
+
+          <SideMenuOption
+            Icon={BsFillGearFill}
+            title={getTranslatedText(staticText?.configuration)}
+            onClick={() => setConfigurationModalOpen(!configurationModalOpen)}
+          />
 
           <Link to="/fields">
             <SideMenuOption
@@ -49,16 +68,16 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
         </div>
       )}
 
-      {isMenuOpen && (
+      {isSideMenuOpen && (
         <AiOutlineMenuFold
-          className={isMenuOpen ? styles.menuIconMenuOpen : styles.menuIcon}
+          className={isSideMenuOpen ? styles.menuIconMenuOpen : styles.menuIcon}
           color={theme.primary}
           onClick={handleToggleMenuOpen}
         />
       )}
-      {!isMenuOpen && (
+      {!isSideMenuOpen && (
         <AiOutlineMenuUnfold
-          className={isMenuOpen ? styles.menuIconMenuOpen : styles.menuIcon}
+          className={isSideMenuOpen ? styles.menuIconMenuOpen : styles.menuIcon}
           color={theme.primary}
           onClick={handleToggleMenuOpen}
         />

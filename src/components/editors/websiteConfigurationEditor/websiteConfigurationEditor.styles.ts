@@ -3,16 +3,6 @@ import { createUseStyles } from "react-jss";
 import { Theme } from "../../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
-  websiteConfigurationEditorContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    backgroundColor: theme.contentBackgroundColor,
-    borderRadius: 10,
-    marginTop: 20,
-    padding: 40,
-    boxSizing: "border-box",
-  },
   websiteConfigurationModalContainer: {
     display: "flex",
     flexDirection: "column",

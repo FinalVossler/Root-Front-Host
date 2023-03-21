@@ -8,6 +8,7 @@ import useStyles from "./withWrapper.styles";
 import { useAppSelector } from "../../store/hooks";
 import SideMenu from "../../components/sideMenu/SideMenu";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
+import { IUser, Role } from "../../store/slices/userSlice";
 
 const withWrapper =
   (
@@ -21,6 +22,7 @@ const withWrapper =
     const theme: Theme = useAppSelector(
       (state) => state.websiteConfiguration.theme
     );
+    const user: IUser = useAppSelector((state) => state.user.user);
 
     const [scrolledDown, setScrolledDown] = React.useState(
       window.scrollY >= 80
@@ -55,7 +57,9 @@ const withWrapper =
 
     return (
       <div className={styles.sideMenuAndContent}>
-        {options.withSideMenu && isLoggedIn && <SideMenu />}
+        {options.withSideMenu && isLoggedIn && user.role === Role.Admin && (
+          <SideMenu />
+        )}
 
         <div
           ref={scrollableRef as React.RefObject<HTMLDivElement>}

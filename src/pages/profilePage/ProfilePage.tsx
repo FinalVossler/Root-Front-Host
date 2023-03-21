@@ -16,7 +16,6 @@ import UserPosts from "../../components/userPosts";
 import { useAppSelector } from "../../store/hooks";
 import { IUser, Role } from "../../store/slices/userSlice";
 import Pages from "../../components/pages";
-import WebsiteConfigurationEditor from "../../components/editors/websiteConfigurationEditor";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
 enum ActiveForm {
@@ -85,7 +84,6 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
             <div className={styles.profileAndPages}>
               <ProfileForm />
               {user.role === Role.Admin && <Pages />}
-              {user.role === Role.Admin && <WebsiteConfigurationEditor />}
             </div>
           )}
           <div className={styles.postsAndEditor}>

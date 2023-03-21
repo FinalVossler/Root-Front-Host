@@ -31,7 +31,10 @@ interface IConfigurationForm extends Theme {
   withRegistration?: boolean;
 }
 
-interface IWebsiteConfigurationEditor {}
+interface IWebsiteConfigurationEditor {
+  setConfigurationModalOpen: (open: boolean) => void;
+  configurationModelOpen: boolean;
+}
 
 const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationEditor> =
   (props: IWebsiteConfigurationEditor) => {
@@ -41,9 +44,6 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
     const theme: Theme = useAppSelector(
       (state) => state.websiteConfiguration.theme
     );
-
-    const [configurationModalOpen, setConfigurationModalOpen] =
-      React.useState<boolean>(false);
 
     const styles = useStyles({ theme });
     const handleRevertThemeToDefault = () => {
@@ -126,222 +126,216 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
       });
 
     return (
-      <div className={styles.websiteConfigurationEditorContainer}>
-        <Button onClick={() => setConfigurationModalOpen(true)}>
-          Configuration
-        </Button>
-
-        <Modal
-          handleClose={() => setConfigurationModalOpen(false)}
-          open={configurationModalOpen}
+      <Modal
+        handleClose={() => props.setConfigurationModalOpen(false)}
+        open={props.configurationModelOpen}
+      >
+        <form
+          onSubmit={formik.handleSubmit}
+          className={styles.websiteConfigurationModalContainer}
         >
-          <form
-            onSubmit={formik.handleSubmit}
-            className={styles.websiteConfigurationModalContainer}
+          <div className={styles.header}>
+            <h2 className={styles.title}>Website Configuration</h2>
+
+            <ImCross
+              onClick={() => props.setConfigurationModalOpen(false)}
+              className={styles.closeButton}
+            />
+          </div>
+
+          <h2 className={styles.themeTitle}>Global Configuration: </h2>
+
+          <Input
+            Icon={MdTitle}
+            name={"title"}
+            label="Title"
+            formik={formik}
+            inputProps={{
+              placeholder: "title",
+            }}
+          />
+
+          <Input
+            Icon={MdTitle}
+            name={"email"}
+            label="Contact Email"
+            formik={formik}
+            inputProps={{
+              placeholder: "email",
+            }}
+          />
+
+          <Input
+            Icon={MdTitle}
+            name={"phoneNumber"}
+            label="Phone number"
+            formik={formik}
+            inputProps={{
+              placeholder: "phone number",
+            }}
+          />
+
+          <Input
+            Icon={MdTitle}
+            name={"tabTitle"}
+            label="Tab Title"
+            formik={formik}
+            inputProps={{
+              placeholder: "Tab Title",
+            }}
+          />
+
+          <InputLanguages name={"mainLanguages"} formik={formik} />
+
+          <Checkbox name="withChat" formik={formik} label="With Chat" />
+
+          <Checkbox
+            name="withRegistration"
+            formik={formik}
+            label="With Registration"
+          />
+
+          {/* Theme inputs */}
+
+          <h2 className={styles.themeTitle}>Theme:</h2>
+
+          <ColorInput
+            name="darkTextColor"
+            label="darkTextColor"
+            formik={formik}
+            inputProps={{ placeholder: "darkTextColor" }}
+          />
+
+          <ColorInput
+            name="lightTextColor"
+            label="lightTextColor"
+            formik={formik}
+            inputProps={{ placeholder: "lightTextColor" }}
+          />
+
+          <ColorInput
+            name="primary"
+            label="primary"
+            formik={formik}
+            inputProps={{ placeholder: "primary" }}
+          />
+
+          <ColorInput
+            name="darkerPrimary"
+            label="darkerPrimary"
+            formik={formik}
+            inputProps={{ placeholder: "darkerPrimary" }}
+          />
+
+          <ColorInput
+            name="lighterPrimary"
+            label="lighterPrimary"
+            formik={formik}
+            inputProps={{ placeholder: "lighterPrimary" }}
+          />
+
+          <ColorInput
+            name="secondary"
+            label="secondary"
+            formik={formik}
+            inputProps={{ placeholder: "secondary" }}
+          />
+
+          <ColorInput
+            name="errorColor"
+            label="errorColor"
+            formik={formik}
+            inputProps={{ placeholder: "errorColor" }}
+          />
+
+          <ColorInput
+            name="borderColor"
+            label="borderColor"
+            formik={formik}
+            inputProps={{ placeholder: "borderColor" }}
+          />
+
+          <ColorInput
+            name="backgroundColor"
+            label="backgroundColor"
+            formik={formik}
+            inputProps={{ placeholder: "backgroundColor" }}
+          />
+
+          <ColorInput
+            name="contentBackgroundColor"
+            label="contentBackgroundColor"
+            formik={formik}
+            inputProps={{ placeholder: "contentBackgroundColor" }}
+          />
+
+          <ColorInput
+            name="boxColor"
+            label="boxColor"
+            formik={formik}
+            inputProps={{ placeholder: "boxColor" }}
+          />
+
+          <ColorInput
+            name="transparentBackground"
+            label="transparentBackground"
+            formik={formik}
+            inputProps={{ placeholder: "transparentBackground" }}
+          />
+
+          <ColorInput
+            name="subContentBackgroundColor"
+            label="subContentBackgroundColor"
+            formik={formik}
+            inputProps={{ placeholder: "subContentBackgroundColor" }}
+          />
+
+          <Input
+            name="boxShadow"
+            label="boxShadow"
+            formik={formik}
+            inputProps={{ placeholder: "boxShadow" }}
+            Icon={SiShadow}
+          />
+
+          <Input
+            name="formMaxWidth"
+            label="formMaxWidth"
+            formik={formik}
+            inputProps={{ placeholder: "formMaxWidth" }}
+            Icon={AiOutlineColumnWidth}
+          />
+
+          <Button
+            className={styles.defaultButton}
+            type="button"
+            onClick={handleRevertThemeToDefault}
           >
-            <div className={styles.header}>
-              <h2 className={styles.title}>Website Configuration</h2>
+            Revert Theme configuration to default
+          </Button>
 
-              <ImCross
-                onClick={() => setConfigurationModalOpen(false)}
-                className={styles.closeButton}
-              />
-            </div>
-
-            <h2 className={styles.themeTitle}>Global Configuration: </h2>
-
-            <Input
-              Icon={MdTitle}
-              name={"title"}
-              label="Title"
-              formik={formik}
-              inputProps={{
-                placeholder: "title",
-              }}
-            />
-
-            <Input
-              Icon={MdTitle}
-              name={"email"}
-              label="Contact Email"
-              formik={formik}
-              inputProps={{
-                placeholder: "email",
-              }}
-            />
-
-            <Input
-              Icon={MdTitle}
-              name={"phoneNumber"}
-              label="Phone number"
-              formik={formik}
-              inputProps={{
-                placeholder: "phone number",
-              }}
-            />
-
-            <Input
-              Icon={MdTitle}
-              name={"tabTitle"}
-              label="Tab Title"
-              formik={formik}
-              inputProps={{
-                placeholder: "Tab Title",
-              }}
-            />
-
-            <InputLanguages name={"mainLanguages"} formik={formik} />
-
-            <Checkbox name="withChat" formik={formik} label="With Chat" />
-
-            <Checkbox
-              name="withRegistration"
-              formik={formik}
-              label="With Registration"
-            />
-
-            {/* Theme inputs */}
-
-            <h2 className={styles.themeTitle}>Theme:</h2>
-
-            <ColorInput
-              name="darkTextColor"
-              label="darkTextColor"
-              formik={formik}
-              inputProps={{ placeholder: "darkTextColor" }}
-            />
-
-            <ColorInput
-              name="lightTextColor"
-              label="lightTextColor"
-              formik={formik}
-              inputProps={{ placeholder: "lightTextColor" }}
-            />
-
-            <ColorInput
-              name="primary"
-              label="primary"
-              formik={formik}
-              inputProps={{ placeholder: "primary" }}
-            />
-
-            <ColorInput
-              name="darkerPrimary"
-              label="darkerPrimary"
-              formik={formik}
-              inputProps={{ placeholder: "darkerPrimary" }}
-            />
-
-            <ColorInput
-              name="lighterPrimary"
-              label="lighterPrimary"
-              formik={formik}
-              inputProps={{ placeholder: "lighterPrimary" }}
-            />
-
-            <ColorInput
-              name="secondary"
-              label="secondary"
-              formik={formik}
-              inputProps={{ placeholder: "secondary" }}
-            />
-
-            <ColorInput
-              name="errorColor"
-              label="errorColor"
-              formik={formik}
-              inputProps={{ placeholder: "errorColor" }}
-            />
-
-            <ColorInput
-              name="borderColor"
-              label="borderColor"
-              formik={formik}
-              inputProps={{ placeholder: "borderColor" }}
-            />
-
-            <ColorInput
-              name="backgroundColor"
-              label="backgroundColor"
-              formik={formik}
-              inputProps={{ placeholder: "backgroundColor" }}
-            />
-
-            <ColorInput
-              name="contentBackgroundColor"
-              label="contentBackgroundColor"
-              formik={formik}
-              inputProps={{ placeholder: "contentBackgroundColor" }}
-            />
-
-            <ColorInput
-              name="boxColor"
-              label="boxColor"
-              formik={formik}
-              inputProps={{ placeholder: "boxColor" }}
-            />
-
-            <ColorInput
-              name="transparentBackground"
-              label="transparentBackground"
-              formik={formik}
-              inputProps={{ placeholder: "transparentBackground" }}
-            />
-
-            <ColorInput
-              name="subContentBackgroundColor"
-              label="subContentBackgroundColor"
-              formik={formik}
-              inputProps={{ placeholder: "subContentBackgroundColor" }}
-            />
-
-            <Input
-              name="boxShadow"
-              label="boxShadow"
-              formik={formik}
-              inputProps={{ placeholder: "boxShadow" }}
-              Icon={SiShadow}
-            />
-
-            <Input
-              name="formMaxWidth"
-              label="formMaxWidth"
-              formik={formik}
-              inputProps={{ placeholder: "formMaxWidth" }}
-              Icon={AiOutlineColumnWidth}
-            />
-
+          {!loading && (
             <Button
-              className={styles.defaultButton}
-              type="button"
-              onClick={handleRevertThemeToDefault}
+              disabled={loading}
+              type="submit"
+              style={{}}
+              className={styles.button}
             >
-              Revert Theme configuration to default
+              Update
             </Button>
+          )}
 
-            {!loading && (
-              <Button
-                disabled={loading}
-                type="submit"
-                style={{}}
-                className={styles.button}
-              >
-                Update
-              </Button>
-            )}
-
-            {loading && (
-              <ReactLoading
-                className={styles.loading}
-                type={"spin"}
-                color={theme.primary}
-                width={36}
-                height={36}
-              />
-            )}
-          </form>
-        </Modal>
-      </div>
+          {loading && (
+            <ReactLoading
+              className={styles.loading}
+              type={"spin"}
+              color={theme.primary}
+              width={36}
+              height={36}
+            />
+          )}
+        </form>
+      </Modal>
     );
   };
 

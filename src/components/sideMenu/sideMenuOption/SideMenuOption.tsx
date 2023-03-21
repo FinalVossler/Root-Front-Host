@@ -8,6 +8,7 @@ import useStyles from "./sideMenuOption.styles";
 interface ISideMenuOption {
   title: string;
   Icon: any;
+  onClick?: () => void;
 }
 
 const SideMenuOption: React.FunctionComponent<ISideMenuOption> = (
@@ -20,7 +21,7 @@ const SideMenuOption: React.FunctionComponent<ISideMenuOption> = (
   const styles = useStyles({ theme });
 
   return (
-    <div className={styles.sideMenuOptionContainer}>
+    <div onClick={props.onClick} className={styles.sideMenuOptionContainer}>
       <props.Icon className={styles.optionIcon} />
       <span className={styles.optionTitle}>{props.title}</span>
     </div>
