@@ -47,6 +47,8 @@ Add Page creation feature for admin
 - Integration of the Authentication page for a marketing team member => 1h
 - develop the reset to default button for the theme configuration
 - Develop the fields deletion API + Frontend
+- Integrate Upload care for Erikusa
+- Integrated Mongo atlas
 
 - Develop the same logic of fields for models
 - Develop the same logic of fields and models for entities
