@@ -116,4 +116,4 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
   );
 };
 
-export default withWrapper(ProfilePage);
+export default withWrapper(ProfilePage, { withSideMenu: true });

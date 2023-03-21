@@ -4,7 +4,7 @@ import { Theme } from "../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
   contactFormContainer: {
-    width: "70%",
+    width: "90%",
     display: "flex",
     flexDirection: "column",
     border: "1px solid " + theme.primary,
@@ -23,7 +23,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
   loading: {
     margin: "auto",
   },
-  "@media (max-width: 800px)": {},
+  "@media (max-width: 800px)": {
+    contactFormContainer: {
+      width: "95%",
+    },
+  },
 }));
 
 export default useStyles;

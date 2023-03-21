@@ -15,7 +15,9 @@ import InputSelect from "../inputSelect";
 import { userPreferenceSlice } from "../../store/slices/userPreferencesSlice";
 import { Option } from "../inputSelect/InputSelect";
 
-interface IHeader {}
+interface IHeader {
+  scrolledDown: boolean;
+}
 const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
   const pages = useAppSelector<IPage[]>((state) => state.page.pages);
   const websiteTitle: string | undefined = useAppSelector(
@@ -37,8 +39,6 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
     (state) => state.userPreferences.language
   );
 
-  const [scrolledDown, setScrolledDown] = React.useState(window.scrollY >= 80);
-
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
@@ -46,20 +46,6 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
   const dispatch = useAppDispatch();
   const isLoggedIn: boolean = useIsLoggedIn();
   const getTranslatedText = useGetTranslatedText();
-
-  React.useEffect(() => {
-    const handleScrollEvent = () => {
-      setScrolledDown(window.scrollY >= 80);
-    };
-
-    handleScrollEvent();
-
-    window.addEventListener("scroll", handleScrollEvent);
-
-    return () => {
-      window.removeEventListener("scroll", handleScrollEvent);
-    };
-  }, []);
 
   //#region Event listeners
   const handleLogout = () => {
@@ -73,7 +59,9 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
   return (
     <div
       className={
-        scrolledDown ? styles.headerContainerScrolled : styles.headerContainer
+        props.scrolledDown
+          ? styles.headerContainerScrolled
+          : styles.headerContainer
       }
     >
       <div className={styles.left}>

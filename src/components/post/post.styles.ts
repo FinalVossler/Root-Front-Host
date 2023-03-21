@@ -6,7 +6,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   userPost: {
     display: "flex",
     flexDirection: "column",
-    width: "100%",
+    width: "90%",
     backgroundColor: theme.primary,
     padding: 20,
     borderRadius: 10,
@@ -19,6 +19,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "100%",
     flexDirection: "row",
     marginTop: 10,
+    overflow: "scroll",
   },
   postTitle: {
     marginTop: 0,

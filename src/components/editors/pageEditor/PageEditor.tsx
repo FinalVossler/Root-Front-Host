@@ -40,6 +40,9 @@ interface IPageEditor {
 
 const PageEditor = (props: IPageEditor) => {
   const user: IUser = useAppSelector((state) => state.user.user);
+  const language: string = useAppSelector(
+    (state) => state.userPreferences.language
+  );
 
   const [pageModalOpen, setPageModalOpen] = React.useState<boolean>(false);
 
@@ -74,7 +77,7 @@ const PageEditor = (props: IPageEditor) => {
     initialValues: {
       posts: [],
       title: "",
-      language: getNavigatorLanguage(),
+      language,
     },
     validationSchema: Yup.object().shape({
       // title: Yup.string().required("Title is required"),

@@ -3,10 +3,7 @@ import { createUseStyles } from "react-jss";
 import { Theme } from "../../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
-  postEditorContainer: {
-    width: "100%",
-  },
-  createPostModalContainer: {
+  createFieldModalContainer: {
     display: "flex",
     flexDirection: "column",
     paddingBottom: 15,
@@ -16,7 +13,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     paddingRight: 45,
     width: "60vw",
   },
-  createPostHeader: {
+  createFieldHeader: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -25,7 +22,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderBottom: "1px solid " + theme.borderColor,
     marginBottom: "10px",
   },
-  createPostTitle: {
+  createFieldTitle: {
     color: theme.lightTextColor,
   },
   closeButton: {
@@ -67,7 +64,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginTop: 10,
   },
   "@media (max-width: 850px)": {
-    createPostModalContainer: {
+    createFieldModalContainer: {
       width: "70vw",
     },
   },

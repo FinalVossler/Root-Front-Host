@@ -1,0 +1,63 @@
+import { createUseStyles } from "react-jss";
+
+import { Theme } from "../../config/theme";
+
+const useStyles = createUseStyles((theme: Theme) => ({
+  sideMenuContainer: {
+    backgroundColor: theme.contentBackgroundColor,
+    height: "100vh",
+    zIndex: 6,
+    transition: "all .2s ease-in-out",
+    width: 0,
+    boxSizing: "border-box",
+    position: "relative",
+  },
+  menuIcon: {
+    position: "absolute",
+    cursor: "pointer",
+    fontSize: 40,
+    right: -50,
+    top: "50%",
+    left: 0,
+    transition: "all .2s ease-in-out",
+    zIndex: 7,
+  },
+  menuIconMenuOpen: {
+    extend: "menuIcon",
+    left: "100%",
+    transition: "all .2s ease-in-out",
+  },
+  openSideMenuContainer: {
+    extend: "sideMenuContainer",
+    borderRight: "1px solid " + theme.primary,
+    width: 300,
+  },
+  sideMenuContent: {
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+    position: "relative",
+    height: "100vh",
+    zIndex: 6,
+  },
+  appName: {
+    color: theme.primary,
+    textAlign: "center",
+    fontSize: 20,
+    padding: 30,
+    boxSizing: "border-box",
+    borderBottom: "1px solid " + theme.primary,
+  },
+  "@media (max-width: 800px)": {
+    openSideMenuContainer: {
+      width: "100%",
+    },
+    menuIconMenuOpen: {
+      right: 10,
+      left: "initial",
+      top: 8,
+    },
+  },
+}));
+
+export default useStyles;

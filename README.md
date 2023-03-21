@@ -39,11 +39,21 @@ Add Page creation feature for admin
 - Refactor all api calls to hooks:
 - Centralize the language option in the redux store
 - Add the language selector in the header and that contains the main languages stored in the database
+- Install and test https://www.npmjs.com/package/react-pro-sidebar => garbage
 
-- Install and test https://www.npmjs.com/package/react-pro-sidebar
+- Heroku, Netlify, Git and Mongo Atlas setup => 1h:30
+  Heroku for backend
+  Netlify for Frontend
+  Git for code versioning
+  Mongo atlas for the database
+- Development of the side bar => 1h
+- Integration of the Authentication page for a marketing team member => 1h
+- Development of the first form based on the excel sheet => No estimation yet
+- Development of the list of elements component
+
 - Add the fields api logic
 - Add the forms api logic
-- Create the my team component (with social media links)
+- Create the my team component
 - website icon configuration
 
 - Add the show language selector configuration icon

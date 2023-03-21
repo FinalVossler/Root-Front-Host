@@ -30,6 +30,17 @@ export interface IWebsiteConfiguration {
       confirmPasswordPlaceholder: ITranslatedText[];
       buttonText: ITranslatedText[];
     };
+    sideMenu: {
+      fields: ITranslatedText[];
+      models: ITranslatedText[];
+    };
+    fields: {
+      createField: ITranslatedText[];
+      namePlaceholder: ITranslatedText[];
+      typePlaceholder: ITranslatedText[];
+      submit: ITranslatedText[];
+      language: ITranslatedText[];
+    };
   };
 }
 
@@ -131,6 +142,38 @@ const initialState: IWebsiteConfigurationState = {
       buttonText: [
         { language: "en", text: "Register" },
         { language: "fr", text: "S'enregistrer" },
+      ],
+    },
+    sideMenu: {
+      fields: [
+        { language: "en", text: "Fields" },
+        { language: "fr", text: "Champs" },
+      ],
+      models: [
+        { language: "en", text: "Models" },
+        { language: "fr", text: "Modèles" },
+      ],
+    },
+    fields: {
+      createField: [
+        { language: "en", text: "Create a field" },
+        { language: "fr", text: "Créer un champ" },
+      ],
+      namePlaceholder: [
+        { language: "en", text: "Name" },
+        { language: "fr", text: "Nom" },
+      ],
+      typePlaceholder: [
+        { language: "en", text: "Type" },
+        { language: "fr", text: "Type" },
+      ],
+      submit: [
+        { language: "en", text: "Submit" },
+        { language: "fr", text: "Soumettre" },
+      ],
+      language: [
+        { language: "en", text: "Language" },
+        { language: "fr", text: "Langue" },
       ],
     },
   },

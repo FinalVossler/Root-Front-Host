@@ -3,17 +3,14 @@ import { createUseStyles } from "react-jss";
 import { Theme } from "../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
-  sideMenuAndContent: {
+  fieldsPageContainer: {
     display: "flex",
-  },
-  headerAndContent: {
-    display: "flex",
-    height: "100vh",
-    overflow: "scroll",
-    backgroundColor: theme.backgroundColor,
-    position: "relative",
-    flex: 1,
     flexDirection: "column",
+    backgroundColor: theme.backgroundColor,
+    width: "100%",
+    alignItems: "center",
+    overflow: "hidden",
+    minHeight: "100vh",
   },
 }));
 

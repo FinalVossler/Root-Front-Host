@@ -42,3 +42,7 @@ embed img {
 .react-select__single-value {
   color: white !important;
 }
+
+a {
+  text-decoration: none;
+}

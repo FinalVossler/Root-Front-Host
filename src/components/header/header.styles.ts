@@ -7,7 +7,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-around",
-    width: "100%",
+    flex: 1,
     backgroundColor: theme.transparentBackground,
     paddingRight: 20,
     paddingLeft: 20,
@@ -18,6 +18,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     zIndex: 5,
     transition: "all .2s ease-in-out",
     height: 80,
+    width: "-webkit-fill-available",
   },
   headerIcon: {
     fontSize: 26,

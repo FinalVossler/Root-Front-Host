@@ -21,6 +21,7 @@ import { useAppSelector } from "./store/hooks";
 import DynamicPage from "./pages/dynamicPage";
 import useGetPages from "./hooks/apiHooks/useGetPages";
 import useGetWebwiteConfiguration from "./hooks/apiHooks/useGetWebsiteConfiguration";
+import FieldsPage from "./pages/fieldsPage";
 
 const stripePromise = loadStripe(
   // @ts-ignore
@@ -69,6 +70,10 @@ function App() {
     {
       path: "/chat",
       element: <ChatPage />,
+    },
+    {
+      path: "/fields",
+      element: <FieldsPage />,
     },
   ]);
 

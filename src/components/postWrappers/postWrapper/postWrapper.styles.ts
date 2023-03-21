@@ -15,7 +15,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     overflow: "hidden",
     position: "relative",
   },
-  "@media (max-width: 800px)": {},
+  "@media (max-width: 800px)": {
+    postWrapperContainer: {
+      padding: 0,
+    },
+  },
 }));
 
 export default useStyles;

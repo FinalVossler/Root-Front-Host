@@ -72,7 +72,24 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.errorColor,
     marginTop: 5,
   },
-  "@media (max-width: 800px)": {},
+  "@media (max-width: 800px)": {
+    labelAndInputContainer: {
+      flexDirection: "column",
+      alignItems: "flex-start",
+    },
+    label: {
+      width: "initial",
+      marginBottom: 5,
+    },
+    inputIconWithLabel: {
+      position: "initial",
+      display: "none",
+    },
+    inputWithLabel: {
+      width: "100%",
+      paddingLeft: 5,
+    },
+  },
 }));
 
 export default useStyles;

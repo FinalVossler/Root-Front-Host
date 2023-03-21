@@ -29,10 +29,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "column",
     maxHeight: "calc(100vh - 200px)",
     position: "relative",
-    width: "100%",
     overflow: "auto",
     paddingRight: 45,
     paddingBottom: 200,
+    width: "65vw",
+    boxSizing: "border-box",
   },
   createPageHeader: {
     display: "flex",
@@ -83,7 +84,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     margin: "auto",
     marginTop: 10,
   },
-  "@media (max-width: 850px)": {},
+  "@media (max-width: 850px)": {
+    createPageModalContainer: {
+      width: "80vw",
+    },
+  },
 }));
 
 export default useStyles;
