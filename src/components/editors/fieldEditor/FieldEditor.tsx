@@ -73,6 +73,7 @@ const FieldEditor = (props: IFieldEditor) => {
         const command: FieldCreateCommand = {
           name: values.name,
           type: values.type,
+          language: values.language,
         };
 
         await createField(command);
@@ -90,6 +91,15 @@ const FieldEditor = (props: IFieldEditor) => {
       setFieldModalOpen(props.open);
     }
   }, [props.open]);
+  React.useEffect(() => {
+    formik.resetForm({
+      values: {
+        name: getTranslatedText(props.field?.name),
+        type: props.field?.type || FieldType.Text,
+        language,
+      },
+    });
+  }, [props.field]);
   //#endregion Effects
 
   //#region Event listeners
@@ -114,7 +124,9 @@ const FieldEditor = (props: IFieldEditor) => {
       >
         <div className={styles.createFieldHeader}>
           <h2 className={styles.createFieldTitle}>
-            {getTranslatedText(staticText?.createField)}
+            {props.field
+              ? getTranslatedText(staticText?.updateField)
+              : getTranslatedText(staticText?.createField)}
           </h2>
 
           <ImCross onClick={handleCloseModal} className={styles.closeButton} />
@@ -134,6 +146,7 @@ const FieldEditor = (props: IFieldEditor) => {
             value: el,
             label: el,
           }))}
+          name="type"
           formik={formik}
           label={getTranslatedText(staticText?.typePlaceholder)}
           value={{ value: formik.values.type, label: formik.values.type }}

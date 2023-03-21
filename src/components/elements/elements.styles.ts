@@ -12,10 +12,44 @@ const useStyles = createUseStyles((theme: Theme) => ({
     alignItems: "center",
     justifyContent: "flex-end",
     display: "flex",
+    border: "1px solid " + theme.lightTextColor,
+    marginBottom: 40,
   },
-  addIcon: {
+  actionIcon: {
     fontSize: 30,
     cursor: "pointer",
+    margin: 10,
+  },
+  addIcon: {
+    extend: "actionIcon",
+  },
+  deleteIcon: {
+    extend: "actionIcon",
+  },
+  elementsTable: {
+    color: theme.lightTextColor,
+  },
+  tableHeader: {},
+  tableRow: {},
+  tableColumn: {
+    padding: 20,
+    maxWidth: 400,
+    boxSizing: "border-box",
+    textAlign: "center",
+    border: "1px solid " + theme.lightTextColor,
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    cursor: "pointer",
+  },
+  actionColumn: {
+    extend: "tableColumn",
+  },
+  editIcon: {
+    color: theme.primary,
+    cursor: "pointer",
+    fontSize: 20,
   },
   "@media (max-width: 800px)": {},
 }));

@@ -42,10 +42,15 @@ export interface IWebsiteConfiguration {
     };
     fields: {
       createField: ITranslatedText[];
+      updateField: ITranslatedText[];
       namePlaceholder: ITranslatedText[];
       typePlaceholder: ITranslatedText[];
       submit: ITranslatedText[];
       language: ITranslatedText[];
+    };
+    elements: {
+      actions: ITranslatedText[];
+      edit: ITranslatedText[];
     };
   };
 }
@@ -183,6 +188,10 @@ const initialState: IWebsiteConfigurationState = {
         { language: "en", text: "Create a field" },
         { language: "fr", text: "Créer un champ" },
       ],
+      updateField: [
+        { language: "en", text: "Update field" },
+        { language: "fr", text: "Modifier un champ" },
+      ],
       namePlaceholder: [
         { language: "en", text: "Name" },
         { language: "fr", text: "Nom" },
@@ -198,6 +207,16 @@ const initialState: IWebsiteConfigurationState = {
       language: [
         { language: "en", text: "Language" },
         { language: "fr", text: "Langue" },
+      ],
+    },
+    elements: {
+      actions: [
+        { language: "en", text: "Actions" },
+        { language: "fr", text: "Actions" },
+      ],
+      edit: [
+        { language: "en", text: "Edit" },
+        { language: "fr", text: "Editer" },
       ],
     },
   },

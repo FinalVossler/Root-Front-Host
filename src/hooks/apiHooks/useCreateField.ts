@@ -8,6 +8,7 @@ import useAuthorizedAxios from "../useAuthorizedAxios";
 export type FieldCreateCommand = {
   name: string;
   type: IField["type"];
+  language: string;
 };
 
 const useCreateField = () => {

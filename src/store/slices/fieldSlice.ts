@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Action, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import ITranslatedText from "../../globalTypes/ITranslatedText";
 
@@ -10,22 +10,33 @@ export enum FieldType {
 
 export interface IField {
   _id: string;
-  name: ITranslatedText;
+  name: ITranslatedText[];
   type: FieldType;
 }
 
 export interface IFieldState {
   fields: IField[];
+  total: number;
 }
 
 const initialState: IFieldState = {
   fields: [],
+  total: 0,
 };
 
 export const fieldSlice = createSlice({
   initialState,
   name: "field",
   reducers: {
+    setFields: (
+      state: IFieldState,
+      action: PayloadAction<{ fields: IField[]; total: number }>
+    ) => {
+      const fields: IField[] = action.payload.fields;
+      const total: number = action.payload.total;
+      state.fields = fields;
+      state.total = total;
+    },
     addField: (state: IFieldState, action: PayloadAction<IField>) => {
       const field: IField = action.payload;
       state.fields.unshift(field);
