@@ -16,7 +16,7 @@ const Spacing: React.FunctionComponent<ISpacing> = (props: ISpacing) => {
   const styles = useStyles({ theme });
   return (
     <div
-      style={{ height: props.height || "20px" }}
+      style={{ marginBottom: props.height || "20px" }}
       className={styles.spacingContainer}
     ></div>
   );
