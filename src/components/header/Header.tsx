@@ -91,6 +91,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
             style={{ marginBottom: 0 }}
           />
           {pages.map((page) => {
+            if (getTranslatedText(page.title) === "") return null;
             return (
               <li key={page._id} className={styles.option}>
                 <NavLink className={styles.optionATag} to={"/" + page.slug}>
