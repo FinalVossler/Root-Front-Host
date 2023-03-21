@@ -28,9 +28,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   elementsTable: {
     color: theme.lightTextColor,
+    maxWidth: "100%",
   },
   tableHeader: {},
-  tableRow: {},
+  tableRow: {
+    maxWidth: "100%",
+  },
   tableColumn: {
     padding: 20,
     maxWidth: 400,

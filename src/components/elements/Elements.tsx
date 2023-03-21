@@ -10,6 +10,7 @@ import FieldEditor, { IFieldEditor } from "../editors/fieldEditor/FieldEditor";
 import ColumnResizer from "react-table-column-resizer";
 
 import useStyles from "./elements.styles";
+import ConfirmationModal from "../confirmationModal";
 
 export type Column = {
   label: string;
@@ -28,6 +29,9 @@ interface IElements {
   elements: Element[];
   total: number;
   loading: boolean;
+  deletePromise: (ids: string[]) => Promise<unknown>;
+  deleteLoading: boolean;
+  getElementName: (element: Element) => string;
 }
 
 const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
@@ -39,6 +43,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
   );
 
   const [editorOpen, setEditorOpen] = React.useState<boolean>(false);
+  const [deleteModalOpen, setDeleteModalOpen] = React.useState<boolean>(false);
   const [selectedElements, setSelectedElements] = React.useState<string[]>([]);
   const [selectedElement, setSelectedElement] =
     React.useState<Element | null>(null);
@@ -47,7 +52,6 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
   const getTranslatedText = useGetTranslatedText();
 
   const handleOpenEditor = () => setEditorOpen(true);
-  const handleCloseEditor = () => setEditorOpen(false);
 
   React.useEffect(() => {
     if (!editorOpen) {
@@ -76,6 +80,11 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
     setSelectedElement(element);
     setEditorOpen(true);
   };
+  const handleDelete = async () => {
+    await props.deletePromise(selectedElements);
+    setDeleteModalOpen(false);
+    setSelectedElements([]);
+  };
   //#endregion Event listeners
 
   return (
@@ -87,7 +96,32 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
           onClick={handleOpenEditor}
         />
         {selectedElements.length > 0 && (
-          <AiFillDelete color={theme.primary} className={styles.deleteIcon} />
+          <React.Fragment>
+            <AiFillDelete
+              onClick={() => setDeleteModalOpen(true)}
+              color={theme.primary}
+              className={styles.deleteIcon}
+            />
+            <ConfirmationModal
+              title={getTranslatedText(staticText?.deleteTitle)}
+              description={
+                getTranslatedText(staticText?.deleteDescription) +
+                ": " +
+                selectedElements
+                  .map((selectedElementId) => {
+                    const element: Element | undefined = props.elements.find(
+                      (el) => el._id === selectedElementId
+                    );
+                    return element ? props.getElementName(element) : "";
+                  })
+                  .join(", ")
+              }
+              loading={props.deleteLoading}
+              modalOpen={deleteModalOpen}
+              onConfirm={handleDelete}
+              setModalOpen={setDeleteModalOpen}
+            />
+          </React.Fragment>
         )}
 
         <props.Editor

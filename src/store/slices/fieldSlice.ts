@@ -45,6 +45,12 @@ export const fieldSlice = createSlice({
       const field: IField = action.payload;
       state.fields = state.fields.map((f) => (f._id === field._id ? field : f));
     },
+    deleteFields: (state: IFieldState, action: PayloadAction<string[]>) => {
+      const fieldsIds: string[] = action.payload;
+      state.fields = state.fields.filter(
+        (f) => fieldsIds.indexOf(f._id) === -1
+      );
+    },
   },
 });
 

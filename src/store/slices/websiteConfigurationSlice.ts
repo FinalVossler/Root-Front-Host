@@ -51,6 +51,8 @@ export interface IWebsiteConfiguration {
     elements: {
       actions: ITranslatedText[];
       edit: ITranslatedText[];
+      deleteTitle: ITranslatedText[];
+      deleteDescription: ITranslatedText[];
     };
   };
 }
@@ -217,6 +219,20 @@ const initialState: IWebsiteConfigurationState = {
       edit: [
         { language: "en", text: "Edit" },
         { language: "fr", text: "Editer" },
+      ],
+      deleteDescription: [
+        {
+          language: "en",
+          text: "Are you sure want you delete the selected elements? You won't be able to recover them once the deletion is made",
+        },
+        {
+          language: "fr",
+          text: "Êtes vous sûr de vouloir supprimer les éléments sélectionnés ?",
+        },
+      ],
+      deleteTitle: [
+        { language: "en", text: "Delete" },
+        { language: "fr", text: "Suppression" },
       ],
     },
   },

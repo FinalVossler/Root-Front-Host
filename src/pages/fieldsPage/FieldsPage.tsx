@@ -4,6 +4,7 @@ import FieldEditor from "../../components/editors/fieldEditor";
 import Elements from "../../components/elements";
 import { Theme } from "../../config/theme";
 import withWrapper from "../../hoc/wrapper";
+import useDeleteFields from "../../hooks/apiHooks/useDeleteFields";
 import useGetFields from "../../hooks/apiHooks/useGetFields";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../store/hooks";
@@ -27,6 +28,7 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
   const { getFields, loading } = useGetFields();
+  const { deleteFields, loading: deleteLoading } = useDeleteFields();
 
   React.useEffect(() => {
     getFields({
@@ -56,6 +58,9 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
         elements={fields}
         total={total}
         loading={loading}
+        deletePromise={deleteFields}
+        deleteLoading={deleteLoading}
+        getElementName={(field: IField) => getTranslatedText(field.name)}
       />
     </div>
   );

@@ -45,7 +45,9 @@ const ConfirmationModal: React.FunctionComponent<IConfirmationModal> = (
             </Button>
           )}
 
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button disabled={props.loading} onClick={handleClose}>
+            Cancel
+          </Button>
         </div>
       </div>
     </div>

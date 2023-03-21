@@ -40,6 +40,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.lightTextColor,
     marginTop: 10,
     textAlign: "center",
+    lineHeight: 2,
   },
   title: {
     fontWeight: "bold",

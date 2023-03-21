@@ -41,27 +41,28 @@ Add Page creation feature for admin
 - Add the language selector in the header and that contains the main languages stored in the database
 - Install and test https://www.npmjs.com/package/react-pro-sidebar => garbage
 - Add the fields api logic
+- Add the show language selector configuration icon
 - Development of the side bar => 1h
+- Development of the list of elements component => 1h
+- Integration of the Authentication page for a marketing team member => 1h
+- develop the reset to default button for the theme configuration
+- Develop the fields deletion API + Frontend
 
+- Develop the same logic of fields for models
 - Heroku, Netlify, Git and Mongo Atlas setup => 1h:30
   Heroku for backend
   Netlify for Frontend
   Git for code versioning
   Mongo atlas for the database
-- Integration of the Authentication page for a marketing team member => 1h
 - Development of the first form based on the excel sheet => No estimation yet
-- Development of the list of elements component
 
 - Add the forms api logic
 - Create the my team component
 - website icon configuration
 
-- Add the show language selector configuration icon
 - Add all static text to website configuration
-- Implement automatic text translation: https://www.npmjs.com/package/react-auto-translate
 - Add the forms to update static texts languages
 - Add a checkbox in page editor for show in header
-- develop the rest to default button for the theme configuration
 - Add instruction text for each design => Maybe with an image example too
 
 ---
