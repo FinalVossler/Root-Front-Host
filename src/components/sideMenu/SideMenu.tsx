@@ -1,5 +1,6 @@
 import React from "react";
 import { AiOutlineMenuUnfold, AiOutlineMenuFold } from "react-icons/ai";
+import { SiThemodelsresource } from "react-icons/si";
 import { BsFillGearFill } from "react-icons/bs";
 import { MdTextFields } from "react-icons/md";
 import { Link } from "react-router-dom";
@@ -63,6 +64,13 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
             <SideMenuOption
               Icon={MdTextFields}
               title={getTranslatedText(staticText?.fields)}
+            />
+          </Link>
+
+          <Link to="/models">
+            <SideMenuOption
+              Icon={SiThemodelsresource}
+              title={getTranslatedText(staticText?.models)}
             />
           </Link>
         </div>

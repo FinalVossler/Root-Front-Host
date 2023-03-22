@@ -11,13 +11,15 @@ import ColumnResizer from "react-table-column-resizer";
 
 import useStyles from "./elements.styles";
 import ConfirmationModal from "../confirmationModal";
+import { IModel } from "../../store/slices/modelSlice";
 
 export type Column = {
   label: string;
   name: string;
+  render?: (any) => string;
 };
 
-export type Element = IField;
+export type Element = IField | IModel;
 
 interface IElements {
   Editor: React.FunctionComponent<{
@@ -163,7 +165,9 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                   return (
                     <React.Fragment key={columnIndex}>
                       <td className={styles.tableColumn} key={columnIndex}>
-                        {getTranslatedText(element[column.name])}
+                        {column.render
+                          ? column.render(element)
+                          : getTranslatedText(element[column.name])}
                       </td>
                       <ColumnResizer className="columnResizer" minWidth={0} />
                     </React.Fragment>
@@ -181,6 +185,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                   <input
                     className={styles.checkbox}
                     type="checkbox"
+                    checked={selectedElements.indexOf(element._id) !== -1}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       handleToggleElementSelect(e, element)
                     }

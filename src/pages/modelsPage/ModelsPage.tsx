@@ -1,40 +1,40 @@
 import React from "react";
 
-import FieldEditor from "../../components/editors/fieldEditor";
+import ModelEditor from "../../components/editors/modelEditor";
 import Elements from "../../components/elements";
 import { Theme } from "../../config/theme";
 import withWrapper from "../../hoc/wrapper";
-import useDeleteFields from "../../hooks/apiHooks/useDeleteFields";
-import useGetFields from "../../hooks/apiHooks/useGetFields";
+import useDeleteModels from "../../hooks/apiHooks/useDeleteModels";
+import useGetModels from "../../hooks/apiHooks/useGetModels";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
 import { IField } from "../../store/slices/fieldSlice";
 import { IModel } from "../../store/slices/modelSlice";
 
-import useStyles from "./fieldsPage.styles";
+import useStyles from "./modelsPage.styles";
 
-interface IFieldsPage {}
+interface IModelsPage {}
 
-const FieldsPage: React.FunctionComponent<IFieldsPage> = (
-  props: IFieldsPage
+const ModelsPage: React.FunctionComponent<IModelsPage> = (
+  props: IModelsPage
 ) => {
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(
-    (state) => state.websiteConfiguration.staticText?.fields
+    (state) => state.websiteConfiguration.staticText?.models
   );
-  const { fields, total } = useAppSelector((state) => state.field);
+  const { models, total } = useAppSelector((state) => state.model);
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
-  const { getFields, loading } = useGetFields();
+  const { getModels, loading } = useGetModels();
   const isLoggedIn: boolean = useIsLoggedIn();
-  const { deleteFields, loading: deleteLoading } = useDeleteFields();
+  const { deleteModels, loading: deleteLoading } = useDeleteModels();
 
   React.useEffect(() => {
-    getFields({
+    getModels({
       paginationCommand: {
         limit: 100,
         page: 1,
@@ -45,10 +45,10 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
   if (!isLoggedIn) return null;
 
   return (
-    <div className={styles.fieldsPageContainer}>
+    <div className={styles.modelsPageContainer}>
       <Elements
         Editor={({ element, ...props }) => (
-          <FieldEditor {...props} field={element as IField} />
+          <ModelEditor {...props} model={element as IModel} />
         )}
         columns={[
           {
@@ -56,24 +56,29 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
             name: "name",
           },
           {
-            label: getTranslatedText(staticText?.typePlaceholder),
-            name: "type",
+            label: getTranslatedText(staticText?.fieldsPlaceholder),
+            name: "fields",
+            render: (model: IModel) => {
+              return model.modelFields
+                .map((modelField) => getTranslatedText(modelField.field.name))
+                .join(", ");
+            },
           },
         ]}
-        elements={fields}
+        elements={models}
         total={total}
         loading={loading}
-        deletePromise={deleteFields}
+        deletePromise={deleteModels}
         deleteLoading={deleteLoading}
-        getElementName={(field: IField | IModel) =>
-          getTranslatedText(field.name)
+        getElementName={(model: IModel | IField) =>
+          getTranslatedText(model.name)
         }
       />
     </div>
   );
 };
 
-export default withWrapper(FieldsPage, {
+export default withWrapper(ModelsPage, {
   withFooter: false,
   withSideMenu: true,
 });

@@ -49,15 +49,18 @@ Add Page creation feature for admin
 - Develop the fields deletion API + Frontend
 - Integrate Upload care for Erikusa
 - Integrated Mongo atlas
-
-- Develop the same logic of fields for models
-- Develop the same logic of fields and models for entities
-- Delete all entities when the model is deleted
 - Heroku, Netlify, Git and Mongo Atlas setup => 1h:30
   Heroku for backend
   Netlify for Frontend
   Git for code versioning
   Mongo atlas for the database
+
+- Develop the fields search api logic
+- Develop the fields editor component
+- Develop the same logic of fields for models
+- Develop the same logic of fields and models for entities
+- Delete all entities when the model is deleted
+
 - Development of the first form based on the excel sheet => No estimation yet
 
 - Add the forms api logic

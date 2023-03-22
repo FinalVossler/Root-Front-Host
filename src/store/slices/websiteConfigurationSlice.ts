@@ -50,6 +50,16 @@ export interface IWebsiteConfiguration {
       typePlaceholder: ITranslatedText[];
       submit: ITranslatedText[];
       language: ITranslatedText[];
+      searchFields: ITranslatedText[];
+    };
+    models: {
+      createModel: ITranslatedText[];
+      updateModel: ITranslatedText[];
+      namePlaceholder: ITranslatedText[];
+      fieldsPlaceholder: ITranslatedText[];
+      submit: ITranslatedText[];
+      language: ITranslatedText[];
+      nameIsRequired: ITranslatedText[];
     };
     elements: {
       actions: ITranslatedText[];
@@ -224,6 +234,41 @@ const initialState: IWebsiteConfigurationState = {
       language: [
         { language: "en", text: "Language" },
         { language: "fr", text: "Langue" },
+      ],
+      searchFields: [
+        { language: "en", text: "Search Fields" },
+        { language: "fr", text: "Chercher des champs" },
+      ],
+    },
+
+    models: {
+      createModel: [
+        { language: "en", text: "Create a Model" },
+        { language: "fr", text: "Créer un Modèle" },
+      ],
+      updateModel: [
+        { language: "en", text: "Update Model" },
+        { language: "fr", text: "Modifier un Modèle" },
+      ],
+      namePlaceholder: [
+        { language: "en", text: "Name" },
+        { language: "fr", text: "Nom" },
+      ],
+      fieldsPlaceholder: [
+        { language: "en", text: "Fields" },
+        { language: "fr", text: "Champs" },
+      ],
+      submit: [
+        { language: "en", text: "Submit" },
+        { language: "fr", text: "Soumettre" },
+      ],
+      language: [
+        { language: "en", text: "Language" },
+        { language: "fr", text: "Langue" },
+      ],
+      nameIsRequired: [
+        { language: "en", text: "Name is required" },
+        { language: "fr", text: "Le nom est requis" },
       ],
     },
     elements: {

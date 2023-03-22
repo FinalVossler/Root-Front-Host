@@ -22,6 +22,7 @@ import DynamicPage from "./pages/dynamicPage";
 import useGetPages from "./hooks/apiHooks/useGetPages";
 import useGetWebwiteConfiguration from "./hooks/apiHooks/useGetWebsiteConfiguration";
 import FieldsPage from "./pages/fieldsPage";
+import ModelsPage from "./pages/modelsPage";
 
 const stripePromise = loadStripe(
   // @ts-ignore
@@ -74,6 +75,10 @@ function App() {
     {
       path: "/fields",
       element: <FieldsPage />,
+    },
+    {
+      path: "/models",
+      element: <ModelsPage />,
     },
   ]);
 

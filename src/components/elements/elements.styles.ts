@@ -36,6 +36,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   tableColumn: {
     padding: 20,
+    lineHeight: 1.3,
     maxWidth: 400,
     boxSizing: "border-box",
     textAlign: "center",
