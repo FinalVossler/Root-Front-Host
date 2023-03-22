@@ -9,8 +9,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     backgroundColor: theme.backgroundColor,
     width: "100%",
     alignItems: "center",
-    overflow: "hidden",
     minHeight: "100vh",
+    paddingBottom: 300,
   },
 }));
 

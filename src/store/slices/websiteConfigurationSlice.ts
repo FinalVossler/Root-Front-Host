@@ -18,6 +18,13 @@ export interface IWebsiteConfiguration {
       dontHaveAnAccount: ITranslatedText[];
       loginHere: ITranslatedText[];
       registerHere: ITranslatedText[];
+      enterYourFirstName: ITranslatedText[];
+      enterYourLastName: ITranslatedText[];
+      role: ITranslatedText[];
+      updateProfileInformation: ITranslatedText[];
+      firstNameIsRequired: ITranslatedText[];
+      lastNameIsRequired: ITranslatedText[];
+      upload: ITranslatedText[];
     };
     login: {
       title: ITranslatedText[];
@@ -67,6 +74,28 @@ export interface IWebsiteConfiguration {
       deleteTitle: ITranslatedText[];
       deleteDescription: ITranslatedText[];
     };
+    pages: {
+      deletePageMessage: ITranslatedText[];
+      deletePage: ITranslatedText[];
+      createPage: ITranslatedText[];
+      updatePage: ITranslatedText[];
+      delete: ITranslatedText[];
+      addPage: ITranslatedText[];
+      title: ITranslatedText[];
+      language: ITranslatedText[];
+    };
+    posts: {
+      haveSomethingInMind: ITranslatedText[];
+      iNeedATitleOrADescription: ITranslatedText[];
+      createPost: ITranslatedText[];
+      title: ITranslatedText[];
+      subTitle: ITranslatedText[];
+      addChildrenPosts: ITranslatedText[];
+      language: ITranslatedText[];
+      visibility: ITranslatedText[];
+      design: ITranslatedText[];
+      submit: ITranslatedText[];
+    };
   };
 }
 
@@ -112,6 +141,34 @@ const initialState: IWebsiteConfigurationState = {
       registerHere: [
         { text: "Register here", language: "en" },
         { text: "Enregistrez-vous ici", language: "fr" },
+      ],
+      enterYourFirstName: [
+        { text: "Enter your firstname", language: "en" },
+        { text: "Veuillez entrer votre prénom ici", language: "fr" },
+      ],
+      enterYourLastName: [
+        { text: "Enter your lastname here", language: "en" },
+        { text: "Veuillez entrer votre nom ici", language: "fr" },
+      ],
+      role: [
+        { text: "Role", language: "en" },
+        { text: "Rôle", language: "fr" },
+      ],
+      updateProfileInformation: [
+        { text: "Update", language: "en" },
+        { text: "Mettre à jour", language: "fr" },
+      ],
+      firstNameIsRequired: [
+        { text: "Firstname is required", language: "en" },
+        { text: "Le prénom est requis", language: "fr" },
+      ],
+      lastNameIsRequired: [
+        { text: "Lastname is required", language: "en" },
+        { text: "Le nom est requis", language: "fr" },
+      ],
+      upload: [
+        { text: "Upload", language: "en" },
+        { text: "Téléverser", language: "fr" },
       ],
     },
     login: {
@@ -293,6 +350,91 @@ const initialState: IWebsiteConfigurationState = {
       deleteTitle: [
         { language: "en", text: "Delete" },
         { language: "fr", text: "Suppression" },
+      ],
+    },
+    pages: {
+      deletePageMessage: [
+        {
+          language: "en",
+          text: "This page is going to be deleted. It won't be able to be recovered. Are you sure?",
+        },
+        {
+          language: "fr",
+          text: "Cette page va être supprimé. Il ne sera plus possible de la récupérer après. Êtes-vous sûr ?",
+        },
+      ],
+      deletePage: [
+        { language: "en", text: "Delete Page" },
+        { language: "fr", text: "Supprimer la page" },
+      ],
+      addPage: [
+        { language: "en", text: "Add Page" },
+        { language: "fr", text: "Ajouter une page" },
+      ],
+      createPage: [
+        { language: "en", text: "Create Page" },
+        { language: "fr", text: "Créer une page" },
+      ],
+      delete: [
+        { language: "en", text: "Delete" },
+        { language: "fr", text: "Supprimer" },
+      ],
+      language: [
+        { language: "en", text: "Language" },
+        { language: "fr", text: "Langue" },
+      ],
+      title: [
+        { language: "en", text: "Title" },
+        { language: "fr", text: "Titre" },
+      ],
+      updatePage: [
+        { language: "en", text: "Update Page" },
+        { language: "fr", text: "Mettre à jour la page" },
+      ],
+    },
+    posts: {
+      haveSomethingInMind: [
+        { language: "en", text: "Have something in mind?" },
+        { language: "fr", text: "Vous avez quelque chose en tête ?" },
+      ],
+      language: [
+        { language: "en", text: "Language" },
+        { language: "fr", text: "Langue" },
+      ],
+      addChildrenPosts: [
+        { language: "en", text: "Add children posts" },
+        {
+          language: "fr",
+          text: "Ajouter des postes en tant que postes enfants",
+        },
+      ],
+      createPost: [
+        { language: "en", text: "Create Post" },
+        { language: "fr", text: "Créer un poste" },
+      ],
+      design: [
+        { language: "en", text: "Design" },
+        { language: "fr", text: "Design" },
+      ],
+      iNeedATitleOrADescription: [
+        { language: "en", text: "I need a title or a description" },
+        { language: "fr", text: "J'ai besoin d'un titre ou d'une description" },
+      ],
+      subTitle: [
+        { language: "en", text: "Subtitle" },
+        { language: "fr", text: "Sous-titre" },
+      ],
+      submit: [
+        { language: "en", text: "Submit" },
+        { language: "fr", text: "Soumettre" },
+      ],
+      title: [
+        { language: "en", text: "Title" },
+        { language: "fr", text: "Titre" },
+      ],
+      visibility: [
+        { language: "en", text: "Visibility" },
+        { language: "fr", text: "Visibilité" },
       ],
     },
   },

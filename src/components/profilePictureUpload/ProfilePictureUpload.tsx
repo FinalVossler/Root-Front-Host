@@ -16,6 +16,7 @@ import uploadFile from "../../utils/uploadFile";
 import UserProfilePicture from "../userProfilePicture";
 import { SizeEnum } from "../userProfilePicture/UserProfilePicture";
 import readAsBase64 from "../../utils/readAsBase64";
+import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
 interface IProfilePictureUpload {}
 const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
@@ -23,6 +24,9 @@ const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
 ) => {
   const profilePicture: IFile | undefined = useAppSelector<IFile | undefined>(
     (state) => state.user.user.profilePicture
+  );
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.profile
   );
 
   const [file, setFile] = React.useState<File | null>(null);
@@ -35,6 +39,7 @@ const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
   const inputRef = React.useRef<HTMLInputElement>();
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
+  const getTranslatedText = useGetTranslatedText();
 
   const styles = useStyles({ theme });
 
@@ -123,7 +128,7 @@ const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
         onChange={handleFileChange}
       />
       <Button disabled={loading} onClick={handleUpload}>
-        Upload
+        {getTranslatedText(staticText?.upload)}
       </Button>
     </div>
   );

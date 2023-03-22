@@ -17,14 +17,17 @@ interface IPageProps {}
 
 const Pages: React.FunctionComponent<IPageProps> = (props: IPageProps) => {
   const pages = useAppSelector((state) => state.page.pages);
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.pages
+  );
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
 
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
   const [deleteLoading, setDeleteLoading] = React.useState(false);
   const [selectedPageId, setSelectedPageId] = React.useState("");
 
-  const theme: Theme = useAppSelector(
-    (state) => state.websiteConfiguration.theme
-  );
   const styles = useStyles({ theme });
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
@@ -59,7 +62,7 @@ const Pages: React.FunctionComponent<IPageProps> = (props: IPageProps) => {
     <div className={styles.pagesContainer}>
       <ConfirmationModal
         onConfirm={handleDeleteModalConfirm}
-        description="This page is going to be deleted. It won't be able to be recovered. Are you sure?"
+        description={getTranslatedText(staticText?.deletePageMessage)}
         title="Delete page"
         modalOpen={deleteModalOpen}
         setModalOpen={setDeleteModalOpen}

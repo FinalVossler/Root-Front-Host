@@ -46,6 +46,9 @@ const PostEditor = (props: IPostEditor) => {
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.posts
+  );
 
   //#region Local state
   const [postModalOpen, setPostModalOpen] = React.useState<boolean>(false);
@@ -107,7 +110,9 @@ const PostEditor = (props: IPostEditor) => {
       (!content || content.trim() === "<p><br></p>") &&
       (!title || title.trim() === "")
     ) {
-      return toast.error("I need a title or a description");
+      return toast.error(
+        getTranslatedText(staticText?.iNeedATitleOrADescription)
+      );
     }
 
     if (props.post) {
@@ -201,7 +206,9 @@ const PostEditor = (props: IPostEditor) => {
           className={styles.createPostModalContainer}
         >
           <div className={styles.createPostHeader}>
-            <h2 className={styles.createPostTitle}>Create Post</h2>
+            <h2 className={styles.createPostTitle}>
+              {getTranslatedText(staticText?.createPost)}
+            </h2>
 
             <ImCross
               onClick={handleCloseModal}
@@ -214,7 +221,7 @@ const PostEditor = (props: IPostEditor) => {
             value={title}
             inputProps={{
               onChange: handleTitleChange,
-              placeholder: "title",
+              placeholder: getTranslatedText(staticText?.title),
             }}
           />
 
@@ -223,18 +230,18 @@ const PostEditor = (props: IPostEditor) => {
             value={subTitle}
             inputProps={{
               onChange: handleSubTitleChange,
-              placeholder: "subtitle",
+              placeholder: getTranslatedText(staticText?.subTitle),
             }}
           />
 
           <PostsEditor
             setSelectedPosts={handleSetSelectedPosts}
-            placeholder="Add children posts"
+            placeholder={getTranslatedText(staticText?.addChildrenPosts)}
             parentPost={props.post}
           />
 
           <InputSelect
-            label="Language"
+            label={getTranslatedText(staticText?.language)}
             onChange={handleChangeLanguage}
             options={getLanguages()}
             value={
@@ -248,7 +255,7 @@ const PostEditor = (props: IPostEditor) => {
               value: el,
               label: el,
             }))}
-            label="Visibility"
+            label={getTranslatedText(staticText?.visibility)}
             onChange={handleVisibilityChange}
             value={{ value: visibility, label: visibility.toString() }}
           />
@@ -258,7 +265,7 @@ const PostEditor = (props: IPostEditor) => {
               value: el,
               label: el,
             }))}
-            label="Design"
+            label={getTranslatedText(staticText?.design)}
             onChange={handleDesignChange}
             value={{ value: design, label: design.toString() }}
           />
@@ -282,7 +289,7 @@ const PostEditor = (props: IPostEditor) => {
               style={{}}
               className={styles.button}
             >
-              Post
+              {getTranslatedText(staticText?.submit)}
             </Button>
           )}
 

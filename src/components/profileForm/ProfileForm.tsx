@@ -15,6 +15,7 @@ import ProfilePictureUpload from "../profilePictureUpload";
 import useUpdateUser, {
   UserUpdateCommand,
 } from "../../hooks/apiHooks/useUpdateUser";
+import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
 type ProfileFormik = {
   firstName: string;
@@ -26,12 +27,16 @@ const Profile: React.FunctionComponent<IProfileForm> = (
   props: IProfileForm
 ) => {
   const user: IUser = useAppSelector((state) => state.user.user);
-
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.profile
+  );
+
   const styles = useStyles({ theme });
   const { updateUser, loading } = useUpdateUser();
+  const getTranslatedText = useGetTranslatedText();
 
   const formik: FormikProps<ProfileFormik> = useFormik<ProfileFormik>({
     initialValues: {
@@ -39,8 +44,12 @@ const Profile: React.FunctionComponent<IProfileForm> = (
       lastName: user.lastName,
     },
     validationSchema: Yup.object().shape({
-      firstName: Yup.string().required("Firstname is required"),
-      lastName: Yup.string().required("Lastname is required"),
+      firstName: Yup.string().required(
+        getTranslatedText(staticText?.firstNameIsRequired)
+      ),
+      lastName: Yup.string().required(
+        getTranslatedText(staticText?.lastNameIsRequired)
+      ),
     }),
     onSubmit: async (values: ProfileFormik) => {
       const command: UserUpdateCommand = {
@@ -81,24 +90,26 @@ const Profile: React.FunctionComponent<IProfileForm> = (
           name="firstName"
           formik={formik}
           inputProps={{
-            placeholder: "Enter your first name",
+            placeholder: getTranslatedText(staticText?.enterYourFirstName),
           }}
         />
         <Input
           Icon={CgProfile}
           inputProps={{
-            placeholder: "Enter your last name",
+            placeholder: getTranslatedText(staticText?.enterYourLastName),
           }}
           name="lastName"
           formik={formik}
         />
 
         <span className={styles.userRole}>
-          Role: <span className={styles.actualRole}>{user.role} User</span>
+          Role: <span className={styles.actualRole}>{user.role}</span>
         </span>
         <br />
 
-        <Button disabled={loading}>Update Profile Information</Button>
+        <Button disabled={loading}>
+          {getTranslatedText(staticText?.updateProfileInformation)}
+        </Button>
 
         <br />
       </form>

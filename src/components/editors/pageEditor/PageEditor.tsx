@@ -43,6 +43,9 @@ const PageEditor = (props: IPageEditor) => {
   const language: string = useAppSelector(
     (state) => state.userPreferences.language
   );
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.pages
+  );
 
   const [pageModalOpen, setPageModalOpen] = React.useState<boolean>(false);
 
@@ -144,7 +147,9 @@ const PageEditor = (props: IPageEditor) => {
           className={styles.pageEditorPlusIcon}
         />{" "}
         <span className={styles.addPageText}>
-          {props.page ? "Edit" : "Add Page"}
+          {props.page
+            ? getTranslatedText(staticText?.updatePage)
+            : getTranslatedText(staticText?.addPage)}
         </span>
       </div>
 
@@ -154,7 +159,9 @@ const PageEditor = (props: IPageEditor) => {
           className={styles.createPageModalContainer}
         >
           <div className={styles.createPageHeader}>
-            <h2 className={styles.createPageTitle}>Create Page</h2>
+            <h2 className={styles.createPageTitle}>
+              {getTranslatedText(staticText?.createPage)}
+            </h2>
 
             <ImCross
               onClick={handleCloseModal}
@@ -167,12 +174,12 @@ const PageEditor = (props: IPageEditor) => {
             formik={formik}
             name="title"
             inputProps={{
-              placeholder: "Title",
+              placeholder: getTranslatedText(staticText?.title),
             }}
           />
 
           <InputSelect
-            label="Language"
+            label={getTranslatedText(staticText?.language)}
             name="language"
             formik={formik}
             options={getLanguages()}
@@ -195,7 +202,9 @@ const PageEditor = (props: IPageEditor) => {
               style={{}}
               className={styles.button}
             >
-              {props.page ? "Update Page" : "Create Page"}
+              {props.page
+                ? getTranslatedText(staticText?.updatePage)
+                : getTranslatedText(staticText?.createPage)}
             </Button>
           )}
 
