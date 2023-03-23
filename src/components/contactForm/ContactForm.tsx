@@ -35,6 +35,9 @@ const ContactForm: React.FunctionComponent<IContactFormProps> = (
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.contact
+  );
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
@@ -62,13 +65,21 @@ const ContactForm: React.FunctionComponent<IContactFormProps> = (
       await sendMail(command);
     },
     validationSchema: Yup.object().shape({
-      firstName: Yup.string().required("Firstname is required"),
-      lastName: Yup.string().required("Lastname is required"),
-      address: Yup.string().required("Email Address is required"),
+      firstName: Yup.string().required(
+        getTranslatedText(staticText?.firstNameRequired)
+      ),
+      lastName: Yup.string().required(
+        getTranslatedText(staticText?.lastNameRequired)
+      ),
+      address: Yup.string().required(
+        getTranslatedText(staticText?.addressRequired)
+      ),
       email: Yup.string()
-        .email("Must be a valid email")
-        .required("Email is required"),
-      message: Yup.string().required("Message is required"),
+        .email(getTranslatedText(staticText?.mustBeValidEmail))
+        .required(getTranslatedText(staticText?.emailRequired)),
+      message: Yup.string().required(
+        getTranslatedText(staticText?.messageRequired)
+      ),
     }),
   });
 
@@ -79,62 +90,65 @@ const ContactForm: React.FunctionComponent<IContactFormProps> = (
       {...props}
     >
       <h2 className={styles.title}>
-        {getTranslatedText(props.post?.title) || "Get in touch"}
+        {getTranslatedText(props.post?.title) ||
+          getTranslatedText(staticText?.getInTouch)}
       </h2>
       <p className={styles.description}>
         {extractContentFromHtml(getTranslatedText(props.post?.content || ""))}
       </p>
       <Input
         Icon={BsFillPersonFill}
-        label="Firstname: "
+        label={getTranslatedText(staticText?.firstName)}
         formik={formik}
-        inputProps={{ placeholder: "Firstname" }}
+        inputProps={{ placeholder: getTranslatedText(staticText?.firstName) }}
         name="firstName"
       />
 
       <Input
         Icon={BsFillPersonFill}
-        label="Lastname: "
+        label={getTranslatedText(staticText?.lastName)}
         formik={formik}
-        inputProps={{ placeholder: "Lastname" }}
+        inputProps={{ placeholder: getTranslatedText(staticText?.lastName) }}
         name="lastName"
       />
 
       <Input
         Icon={BsFillPersonFill}
-        label="Email: "
+        label={getTranslatedText(staticText?.email)}
         formik={formik}
-        inputProps={{ placeholder: "Email" }}
+        inputProps={{ placeholder: getTranslatedText(staticText?.email) }}
         name="email"
       />
 
       <Input
         Icon={BsFillPersonFill}
-        label="phone: "
+        label={getTranslatedText(staticText?.phone)}
         formik={formik}
-        inputProps={{ placeholder: "Phone" }}
+        inputProps={{ placeholder: getTranslatedText(staticText?.phone) }}
         name="phone"
       />
 
       <Input
         Icon={BsFillPersonFill}
-        label="Address: "
+        label={getTranslatedText(staticText?.address)}
         formik={formik}
-        inputProps={{ placeholder: "Address" }}
+        inputProps={{ placeholder: getTranslatedText(staticText?.address) }}
         name="address"
       />
 
       <Input
         Icon={BsFillPersonFill}
-        label="Message: "
+        label={getTranslatedText(staticText?.message)}
         formik={formik}
-        inputProps={{ placeholder: "Message" }}
+        inputProps={{ placeholder: getTranslatedText(staticText?.message) }}
         name="message"
       />
 
       <br />
 
-      <Button disabled={loading}>Submit</Button>
+      <Button disabled={loading}>
+        {getTranslatedText(staticText?.submit)}
+      </Button>
     </form>
   );
 };

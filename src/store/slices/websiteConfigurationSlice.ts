@@ -105,6 +105,22 @@ export interface IWebsiteConfiguration {
       language: ITranslatedText[];
       required: ITranslatedText[];
     };
+    contact: {
+      firstNameRequired: ITranslatedText[];
+      lastNameRequired: ITranslatedText[];
+      addressRequired: ITranslatedText[];
+      mustBeValidEmail: ITranslatedText[];
+      emailRequired: ITranslatedText[];
+      messageRequired: ITranslatedText[];
+      getInTouch: ITranslatedText[];
+      firstName: ITranslatedText[];
+      lastName: ITranslatedText[];
+      email: ITranslatedText[];
+      phone: ITranslatedText[];
+      address: ITranslatedText[];
+      message: ITranslatedText[];
+      submit: ITranslatedText[];
+    };
   };
 }
 
@@ -474,6 +490,64 @@ const initialState: IWebsiteConfigurationState = {
       updateEntity: [
         { language: "en", text: "Update" },
         { language: "fr", text: "Mettre à jour" },
+      ],
+    },
+    contact: {
+      address: [
+        { language: "en", text: "Address" },
+        { language: "fr", text: "Adresse" },
+      ],
+      email: [
+        { language: "en", text: "Email" },
+        { language: "fr", text: "Email" },
+      ],
+      addressRequired: [
+        { language: "en", text: "Addresse is required" },
+        { language: "fr", text: "L'adresse est requise" },
+      ],
+      emailRequired: [
+        { language: "en", text: "Email Address is required" },
+        { language: "fr", text: "L'adresse email est requise" },
+      ],
+      firstName: [
+        { language: "en", text: "Firstname" },
+        { language: "fr", text: "Prénom" },
+      ],
+      firstNameRequired: [
+        { language: "en", text: "Firstname is requinred" },
+        { language: "fr", text: "Le prénom est requis" },
+      ],
+      getInTouch: [
+        { language: "en", text: "Get in touch" },
+        { language: "fr", text: "Entrons en contact" },
+      ],
+      lastName: [
+        { language: "en", text: "Lastname" },
+        { language: "fr", text: "Nom" },
+      ],
+      lastNameRequired: [
+        { language: "en", text: "Lastname is required" },
+        { language: "fr", text: "Le nom est requis" },
+      ],
+      message: [
+        { language: "en", text: "Message" },
+        { language: "fr", text: "Message" },
+      ],
+      messageRequired: [
+        { language: "en", text: "Message is required" },
+        { language: "fr", text: "Le message est requis" },
+      ],
+      mustBeValidEmail: [
+        { language: "en", text: "Must be a valid email" },
+        { language: "fr", text: "L'email doit être valide" },
+      ],
+      phone: [
+        { language: "en", text: "Phone" },
+        { language: "fr", text: "Numéro de téléphone" },
+      ],
+      submit: [
+        { language: "en", text: "Submit" },
+        { language: "fr", text: "Envoyer" },
       ],
     },
   },
