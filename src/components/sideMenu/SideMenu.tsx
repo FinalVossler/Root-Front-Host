@@ -35,6 +35,9 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
     (state) => state.userPreferences.isSideMenuOpen
   );
   const models: IModel[] = useAppSelector((state) => state.model.models);
+  const sideMenuExtendedModels: boolean = useAppSelector(
+    (state) => state.userPreferences.sideMenuExtendedModels
+  );
 
   const [configurationModalOpen, setConfigurationModalOpen] =
     React.useState<boolean>(false);
@@ -89,6 +92,10 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
             link="/models"
             Icon={SiThemodelsresource}
             title={getTranslatedText(staticText?.models)}
+            extended={sideMenuExtendedModels}
+            triggerExtended={() =>
+              dispatch(userPreferenceSlice.actions.triggerExtendModels())
+            }
             subOptions={models.map((model) => ({
               Icon: SiElement,
               link: "/entities/" + model._id,

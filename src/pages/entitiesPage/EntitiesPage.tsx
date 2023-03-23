@@ -80,7 +80,7 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
         loading={loading}
         deletePromise={deleteEntities}
         deleteLoading={deleteLoading}
-        getElementName={(field: IField | IModel | IEntity) => ""}
+        getElementName={(entity: any) => ""}
       />
     </div>
   );

@@ -19,6 +19,8 @@ interface ISideMenuOption {
   onClick?: () => void;
   subOptions?: SubOption[];
   link?: string;
+  extended?: boolean;
+  triggerExtended?: () => void;
 }
 
 const SideMenuOption: React.FunctionComponent<ISideMenuOption> = (
@@ -28,24 +30,20 @@ const SideMenuOption: React.FunctionComponent<ISideMenuOption> = (
     (state) => state.websiteConfiguration.theme
   );
 
-  const [extended, setExtended] = React.useState<boolean>(false);
-
   const styles = useStyles({ theme });
-
-  const handleTriggerExtended = () => setExtended(!extended);
 
   return (
     <React.Fragment>
-      <Link to={props.link || "#"} onClick={handleTriggerExtended}>
+      <Link to={props.link || "#"} onClick={props.triggerExtended}>
         <div onClick={props.onClick} className={styles.sideMenuOptionContainer}>
           <props.Icon className={styles.optionIcon} />
           <span className={styles.optionTitle}>{props.title}</span>
           {props.subOptions && props.subOptions.length > 0 && (
             <React.Fragment>
-              {extended && (
+              {props.extended && (
                 <BsArrowUpShort className={styles.triggerSubOptionsButton} />
               )}
-              {!extended && (
+              {!props.extended && (
                 <BsArrowDownShort className={styles.triggerSubOptionsButton} />
               )}
             </React.Fragment>
@@ -53,7 +51,7 @@ const SideMenuOption: React.FunctionComponent<ISideMenuOption> = (
         </div>
       </Link>
 
-      {props.subOptions && props.subOptions.length > 0 && extended && (
+      {props.subOptions && props.subOptions.length > 0 && props.extended && (
         <div className={styles.subOptionsContainer}>
           {props.subOptions.map((subOption, index) => {
             return (
