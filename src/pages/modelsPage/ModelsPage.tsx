@@ -70,9 +70,7 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
         loading={loading}
         deletePromise={deleteModels}
         deleteLoading={deleteLoading}
-        getElementName={(model: IModel | IField) =>
-          getTranslatedText(model.name)
-        }
+        getElementName={(model: any) => getTranslatedText(model.name)}
       />
     </div>
   );

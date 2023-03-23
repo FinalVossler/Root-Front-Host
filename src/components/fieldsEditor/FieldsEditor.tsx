@@ -19,6 +19,7 @@ interface IFieldsEditor {
   setSelectedModelFields: (modelFields: IModelField[]) => any;
   placeholder?: string;
   model?: IModel;
+  language?: string;
 }
 
 const FieldsEditor = (props: IFieldsEditor) => {
@@ -91,6 +92,7 @@ const FieldsEditor = (props: IFieldsEditor) => {
                     handleDeleteModelField={handleDeleteModelField}
                     modelField={modelField}
                     modelFieldIndex={modelFieldIndex}
+                    language={props.language}
                   />
                 );
               }
@@ -106,6 +108,7 @@ interface ISortableModelField {
   modelField: IModelField;
   handleDeleteModelField: (modelFieldIndex: number) => void;
   modelFieldIndex: number;
+  language?: string;
 }
 
 const SortableModelField: React.FunctionComponent<ISortableModelField> = (
@@ -143,7 +146,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
         onClick={() => props.handleDeleteModelField(props.modelFieldIndex)}
       />
       <span className={styles.fieldName}>
-        {getTranslatedText(props.modelField.field.name)}
+        {getTranslatedText(props.modelField.field.name, props.language)}
       </span>
     </div>
   );

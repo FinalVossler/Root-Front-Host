@@ -23,6 +23,7 @@ import useGetPages from "./hooks/apiHooks/useGetPages";
 import useGetWebwiteConfiguration from "./hooks/apiHooks/useGetWebsiteConfiguration";
 import FieldsPage from "./pages/fieldsPage";
 import ModelsPage from "./pages/modelsPage";
+import EntitiesPage from "./pages/entitiesPage";
 
 const stripePromise = loadStripe(
   // @ts-ignore
@@ -79,6 +80,10 @@ function App() {
     {
       path: "/models",
       element: <ModelsPage />,
+    },
+    {
+      path: "/entities/:modelId",
+      element: <EntitiesPage />,
     },
   ]);
 

@@ -54,16 +54,15 @@ Add Page creation feature for admin
   Netlify for Frontend
   Git for code versioning
   Mongo atlas for the database
-
 - Develop the fields search api logic
 - Develop the fields editor component
 - Develop the same logic of fields for models
+- Add the forms api logic
+
 - Develop the same logic of fields and models for entities
 - Delete all entities when the model is deleted
 
 - Development of the first form based on the excel sheet => No estimation yet
-
-- Add the forms api logic
 - Create the my team component
 - website icon configuration
 

@@ -12,6 +12,7 @@ import ColumnResizer from "react-table-column-resizer";
 import useStyles from "./elements.styles";
 import ConfirmationModal from "../confirmationModal";
 import { IModel } from "../../store/slices/modelSlice";
+import { IEntity } from "../../store/slices/entitySlice";
 
 export type Column = {
   label: string;
@@ -19,7 +20,7 @@ export type Column = {
   render?: (any) => string;
 };
 
-export type Element = IField | IModel;
+export type Element = IField | IModel | IEntity;
 
 interface IElements {
   Editor: React.FunctionComponent<{

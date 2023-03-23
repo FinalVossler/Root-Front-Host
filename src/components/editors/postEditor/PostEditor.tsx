@@ -49,14 +49,15 @@ const PostEditor = (props: IPostEditor) => {
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.posts
   );
+  const stateLanguage: string = useAppSelector(
+    (state) => state.userPreferences.language
+  );
 
   //#region Local state
   const [postModalOpen, setPostModalOpen] = React.useState<boolean>(false);
   const [title, setTitle] = React.useState<string>("");
   const [subTitle, setSubtTitle] = React.useState<string>("");
-  const [language, setLanguage] = React.useState<string>(
-    getNavigatorLanguage()
-  );
+  const [language, setLanguage] = React.useState<string>(stateLanguage);
   const [children, setChildren] = React.useState<string[]>([]);
   const [visibility, setVisibility] = React.useState<PostVisibility>(
     PostVisibility.Public
@@ -82,15 +83,15 @@ const PostEditor = (props: IPostEditor) => {
 
   React.useEffect(() => {
     if (props.post && sunEditor) {
-      setTitle(getTranslatedText(props.post?.title));
-      setSubtTitle(getTranslatedText(props.post.subTitle));
+      setTitle(getTranslatedText(props.post?.title, language));
+      setSubtTitle(getTranslatedText(props.post.subTitle, language));
       setChildren(props.post.children.map((c) => c._id));
       setDesign(props.post?.design);
       setOwnFiles(props.post?.files);
       if (sunEditor)
-        sunEditor?.setContents(getTranslatedText(props.post.content));
+        sunEditor?.setContents(getTranslatedText(props.post.content, language));
     }
-  }, [props.post, sunEditor]);
+  }, [props.post, sunEditor, language]);
 
   // Autofocus prop is not working. So we manually focus the editor when the modal shows
   React.useEffect(() => {

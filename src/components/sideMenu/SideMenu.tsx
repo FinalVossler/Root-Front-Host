@@ -4,6 +4,7 @@ import { SiThemodelsresource } from "react-icons/si";
 import { BsFillGearFill } from "react-icons/bs";
 import { MdTextFields } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { SiElement } from "react-icons/si";
 
 import { Theme } from "../../config/theme";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
@@ -13,6 +14,10 @@ import WebsiteConfigurationEditor from "../editors/websiteConfigurationEditor";
 
 import useStyles from "./sideMenu.styles";
 import SideMenuOption from "./sideMenuOption";
+import useGetModels, {
+  ModelsGetCommand,
+} from "../../hooks/apiHooks/useGetModels";
+import { IModel } from "../../store/slices/modelSlice";
 
 interface ISideMenu {}
 
@@ -29,6 +34,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
   const isSideMenuOpen: boolean = useAppSelector(
     (state) => state.userPreferences.isSideMenuOpen
   );
+  const models: IModel[] = useAppSelector((state) => state.model.models);
 
   const [configurationModalOpen, setConfigurationModalOpen] =
     React.useState<boolean>(false);
@@ -36,9 +42,22 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
   const dispatch = useAppDispatch();
+  const { getModels, loading: getModelsLoading } = useGetModels();
 
+  React.useEffect(() => {
+    const command: ModelsGetCommand = {
+      paginationCommand: {
+        limit: 99999,
+        page: 1,
+      },
+    };
+    getModels(command);
+  }, []);
+
+  //#region Event listeners
   const handleToggleMenuOpen = () =>
     dispatch(userPreferenceSlice.actions.toggleSideMenu());
+  //#endregion Event listeners
 
   return (
     <div
@@ -60,19 +79,22 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
             onClick={() => setConfigurationModalOpen(!configurationModalOpen)}
           />
 
-          <Link to="/fields">
-            <SideMenuOption
-              Icon={MdTextFields}
-              title={getTranslatedText(staticText?.fields)}
-            />
-          </Link>
+          <SideMenuOption
+            Icon={MdTextFields}
+            title={getTranslatedText(staticText?.fields)}
+            link="/fields"
+          />
 
-          <Link to="/models">
-            <SideMenuOption
-              Icon={SiThemodelsresource}
-              title={getTranslatedText(staticText?.models)}
-            />
-          </Link>
+          <SideMenuOption
+            link="/models"
+            Icon={SiThemodelsresource}
+            title={getTranslatedText(staticText?.models)}
+            subOptions={models.map((model) => ({
+              Icon: SiElement,
+              link: "/entities/" + model._id,
+              title: getTranslatedText(model.name),
+            }))}
+          />
         </div>
       )}
 

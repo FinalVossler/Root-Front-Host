@@ -96,6 +96,13 @@ export interface IWebsiteConfiguration {
       design: ITranslatedText[];
       submit: ITranslatedText[];
     };
+    entities: {
+      createEntity: ITranslatedText[];
+      updateEntity: ITranslatedText[];
+      submit: ITranslatedText[];
+      language: ITranslatedText[];
+      required: ITranslatedText[];
+    };
   };
 }
 
@@ -435,6 +442,28 @@ const initialState: IWebsiteConfigurationState = {
       visibility: [
         { language: "en", text: "Visibility" },
         { language: "fr", text: "Visibilité" },
+      ],
+    },
+    entities: {
+      createEntity: [
+        { language: "en", text: "Create" },
+        { language: "fr", text: "Créer" },
+      ],
+      language: [
+        { language: "en", text: "Language" },
+        { language: "fr", text: "Langue" },
+      ],
+      required: [
+        { language: "en", text: "Required" },
+        { language: "fr", text: "Requis" },
+      ],
+      submit: [
+        { language: "en", text: "Submit" },
+        { language: "fr", text: "Soumettre" },
+      ],
+      updateEntity: [
+        { language: "en", text: "Update" },
+        { language: "fr", text: "Mettre à jour" },
       ],
     },
   },

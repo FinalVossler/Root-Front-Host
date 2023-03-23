@@ -25,6 +25,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     "&:hover $optionIcon": {
       color: theme.primary,
     },
+    "&:hover svg": {
+      color: theme.primary,
+    },
   },
   optionIcon: {
     fontSize: 30,
@@ -34,6 +37,31 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginLeft: 10,
     color: theme.lightTextColor,
     fontSize: 22,
+  },
+  triggerSubOptionsButton: {
+    fontSize: 30,
+    color: theme.primary,
+    cursor: "pointer",
+    position: "absolute",
+    right: 10,
+  },
+  subOptionsContainer: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  subOption: {
+    extend: "sideMenuOptionContainer",
+
+    color: theme.lightTextColor,
+    padding: 10,
+    borderBottom: "1px solid " + theme.lightTextColor,
+    display: "flex",
+    alignItems: "center",
+  },
+  subOptionIcon: {
+    extend: "optionIcon",
+    fontSize: 25,
+    marginLeft: 40,
   },
   "@media (max-width: 800px)": {},
 }));

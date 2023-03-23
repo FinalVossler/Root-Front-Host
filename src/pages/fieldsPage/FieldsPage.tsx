@@ -9,6 +9,7 @@ import useGetFields from "../../hooks/apiHooks/useGetFields";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
+import { IEntity } from "../../store/slices/entitySlice";
 import { IField } from "../../store/slices/fieldSlice";
 import { IModel } from "../../store/slices/modelSlice";
 
@@ -65,9 +66,7 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
         loading={loading}
         deletePromise={deleteFields}
         deleteLoading={deleteLoading}
-        getElementName={(field: IField | IModel) =>
-          getTranslatedText(field.name)
-        }
+        getElementName={(field: any) => getTranslatedText(field.name)}
       />
     </div>
   );

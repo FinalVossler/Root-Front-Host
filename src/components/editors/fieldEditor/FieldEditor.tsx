@@ -94,12 +94,12 @@ const FieldEditor = (props: IFieldEditor) => {
   React.useEffect(() => {
     formik.resetForm({
       values: {
-        name: getTranslatedText(props.field?.name),
+        name: getTranslatedText(props.field?.name, formik.values.language),
         type: props.field?.type || FieldType.Text,
-        language,
+        language: formik.values.language,
       },
     });
-  }, [props.field]);
+  }, [props.field, formik.values.language]);
   //#endregion Effects
 
   //#region Event listeners
