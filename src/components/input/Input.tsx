@@ -39,11 +39,11 @@ const Input: React.FunctionComponent<IInput> = (props: IInput) => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (props.onChange) {
-      props.onChange(e);
-    }
     if (props.formik && props.name) {
       props.formik.setFieldValue(props.name, e.target.value);
+    }
+    if (props.onChange) {
+      props.onChange(e);
     }
   };
 
@@ -51,7 +51,12 @@ const Input: React.FunctionComponent<IInput> = (props: IInput) => {
 
   const additionalProps = props.debounce
     ? {}
-    : { value: props.formik?.values[props.name || ""] || props.value || "" };
+    : {
+        value:
+          props.value !== undefined && props.value !== null
+            ? props.value
+            : props.formik?.values[props.name || ""] || "",
+      };
   //#endregion Event listeners
 
   const iconStyles = props.iconColor ? { color: props.iconColor } : {};

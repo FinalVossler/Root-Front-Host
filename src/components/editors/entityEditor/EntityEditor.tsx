@@ -2,6 +2,7 @@ import React from "react";
 import "suneditor/dist/css/suneditor.min.css";
 import ReactLoading from "react-loading";
 import * as Yup from "yup";
+import { MdTextFields } from "react-icons/md";
 
 import useStyles from "./entityEditor.styles";
 import Modal from "../../modal";
@@ -20,6 +21,10 @@ import useUpdateEntity, {
 import useCreateEntity, {
   EntityCreateCommand,
 } from "../../../hooks/apiHooks/useCreateEntity";
+import { IModel } from "../../../store/slices/modelSlice";
+import { FieldType } from "../../../store/slices/fieldSlice";
+import Input from "../../input";
+import { useParams } from "react-router-dom";
 
 export interface IEntityEditor {
   entity?: IEntity;
@@ -28,17 +33,19 @@ export interface IEntityEditor {
 }
 
 interface IEntityFieldValueForm {
-  field: string;
+  fieldId: string;
   value: string;
 }
 
 interface IEntityForm {
-  model: string;
+  modelId: string;
   entityFieldValues: IEntityFieldValueForm[];
   language: string;
 }
 
 const EntityEditor = (props: IEntityEditor) => {
+  const { modelId } = useParams();
+
   const language: string = useAppSelector(
     (state) => state.userPreferences.language
   );
@@ -47,6 +54,9 @@ const EntityEditor = (props: IEntityEditor) => {
   );
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration?.staticText?.entities
+  );
+  const model: IModel | undefined = useAppSelector((state) =>
+    state.model.models.find((m) => m._id === modelId)
   );
 
   //#region Local state
@@ -59,7 +69,7 @@ const EntityEditor = (props: IEntityEditor) => {
   const { updateEntity, loading: updateLoading } = useUpdateEntity();
   const formik: FormikProps<IEntityForm> = useFormik<IEntityForm>({
     initialValues: {
-      model: "",
+      modelId: modelId || props.entity?.model._id || "",
       entityFieldValues: [],
       language,
     },
@@ -70,7 +80,7 @@ const EntityEditor = (props: IEntityEditor) => {
           _id: props.entity._id,
           entityFieldValues: values.entityFieldValues,
           language: values.language,
-          model: values.model,
+          modelId: values.modelId,
         };
 
         await updateEntity(command);
@@ -78,7 +88,7 @@ const EntityEditor = (props: IEntityEditor) => {
         const command: EntityCreateCommand = {
           entityFieldValues: values.entityFieldValues,
           language: values.language,
-          model: values.model,
+          modelId: values.modelId,
         };
 
         await createEntity(command);
@@ -101,21 +111,24 @@ const EntityEditor = (props: IEntityEditor) => {
     formik.resetForm({
       values: {
         entityFieldValues:
-          props.entity?.entityFieldValues.map((entityFieldValue) => {
+          model?.modelFields.map((modelField) => {
             const entityFieldValueForm: IEntityFieldValueForm = {
-              field: entityFieldValue.field._id,
+              fieldId: modelField.field._id,
               value: getTranslatedText(
-                entityFieldValue.value,
+                props.entity?.entityFieldValues.find(
+                  (entityFieldValue) =>
+                    entityFieldValue.field._id === modelField.field._id
+                )?.value,
                 formik.values.language
               ),
             };
             return entityFieldValueForm;
           }) || [],
-        model: props.entity?.model._id || "",
+        modelId: modelId || props.entity?.model._id || "",
         language: formik.values.language,
       },
     });
-  }, [props.entity, formik.values.language]);
+  }, [props.entity, formik.values.language, model]);
   //#endregion Effects
 
   //#region Event listeners
@@ -148,14 +161,46 @@ const EntityEditor = (props: IEntityEditor) => {
           <ImCross onClick={handleCloseModal} className={styles.closeButton} />
         </div>
 
-        {/* <Input
-          Icon={MdTitle}
-          formik={formik}
-          name="name"
-          inputProps={{
-            placeholder: getTranslatedText(staticText?.namePlaceholder),
-          }}
-        /> */}
+        {model?.modelFields.map((modelField, index) => {
+          if (
+            modelField.field.type === FieldType.Text ||
+            modelField.field.type === FieldType.Number ||
+            modelField.field.type === FieldType.Paragraph
+          ) {
+            return (
+              <Input
+                key={index}
+                Icon={MdTextFields}
+                formik={formik}
+                name="entityFieldValues"
+                value={
+                  formik.values.entityFieldValues.find(
+                    (el) => el.fieldId === modelField.field._id
+                  )?.value
+                }
+                label={getTranslatedText(modelField.field.name)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  formik.setFieldValue(
+                    "entityFieldValues",
+                    formik.values.entityFieldValues.map((entityFieldValue) => {
+                      if (entityFieldValue.fieldId === modelField.field._id) {
+                        return {
+                          ...entityFieldValue,
+                          value: e.target.value.toString(),
+                        };
+                      } else {
+                        return entityFieldValue;
+                      }
+                    }) || []
+                  );
+                }}
+                inputProps={{
+                  placeholder: getTranslatedText(modelField.field.name),
+                }}
+              />
+            );
+          }
+        })}
 
         <InputSelect
           label={getTranslatedText(staticText?.language)}

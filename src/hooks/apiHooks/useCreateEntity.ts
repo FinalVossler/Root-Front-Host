@@ -1,16 +1,14 @@
 import { AxiosResponse } from "axios";
 import React from "react";
-import { IModelFieldForm } from "../../components/editors/modelEditor/ModelEditor";
 
 import { useAppDispatch } from "../../store/hooks";
 import { entitySlice, IEntity } from "../../store/slices/entitySlice";
-import { modelSlice, IModel } from "../../store/slices/modelSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 
 export type EntityCreateCommand = {
-  model: string;
+  modelId: string;
   entityFieldValues: {
-    field: string;
+    fieldId: string;
     value: string;
   }[];
   language: string;
@@ -35,7 +33,7 @@ const useCreateEntity = () => {
         .then((res) => {
           const entity: IEntity = res.data.data;
           dispatch(
-            entitySlice.actions.addEntity({ entity, modelId: command.model })
+            entitySlice.actions.addEntity({ entity, modelId: command.modelId })
           );
           resolve(null);
         })

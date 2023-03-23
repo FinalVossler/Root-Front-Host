@@ -31,7 +31,7 @@ export interface IModelEditor {
 }
 
 export interface IModelFieldForm {
-  field: string;
+  fieldId: string;
   required: boolean;
 }
 
@@ -110,7 +110,7 @@ const ModelEditor = (props: IModelEditor) => {
         modelFields:
           props.model?.modelFields.map((modelField) => ({
             ...modelField,
-            field: modelField.field._id,
+            fieldId: modelField.field._id,
           })) || [],
         language: formik.values.language,
       },

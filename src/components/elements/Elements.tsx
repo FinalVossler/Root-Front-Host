@@ -159,43 +159,44 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
         </thead>
 
         <tbody>
-          {props.elements.map((element, index) => {
-            return (
-              <tr className={styles.tableRow} key={index}>
-                {props.columns.map((column, columnIndex) => {
-                  return (
-                    <React.Fragment key={columnIndex}>
-                      <td className={styles.tableColumn} key={columnIndex}>
-                        {column.render
-                          ? column.render(element)
-                          : getTranslatedText(element[column.name])}
-                      </td>
-                      <ColumnResizer className="columnResizer" minWidth={0} />
-                    </React.Fragment>
-                  );
-                })}
-                <td className={styles.tableColumn}>
-                  <AiFillEdit
-                    onClick={() => handleEdit(element)}
-                    className={styles.editIcon}
-                  />
-                </td>
-                <ColumnResizer className="columnResizer" minWidth={0} />
+          {!props.loading &&
+            props.elements.map((element, index) => {
+              return (
+                <tr className={styles.tableRow} key={index}>
+                  {props.columns.map((column, columnIndex) => {
+                    return (
+                      <React.Fragment key={columnIndex}>
+                        <td className={styles.tableColumn} key={columnIndex}>
+                          {column.render
+                            ? column.render(element)
+                            : getTranslatedText(element[column.name])}
+                        </td>
+                        <ColumnResizer className="columnResizer" minWidth={0} />
+                      </React.Fragment>
+                    );
+                  })}
+                  <td className={styles.tableColumn}>
+                    <AiFillEdit
+                      onClick={() => handleEdit(element)}
+                      className={styles.editIcon}
+                    />
+                  </td>
+                  <ColumnResizer className="columnResizer" minWidth={0} />
 
-                <td className={styles.actionColumn}>
-                  <input
-                    className={styles.checkbox}
-                    type="checkbox"
-                    checked={selectedElements.indexOf(element._id) !== -1}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      handleToggleElementSelect(e, element)
-                    }
-                  />
-                </td>
-                <ColumnResizer className="columnResizer" minWidth={0} />
-              </tr>
-            );
-          })}
+                  <td className={styles.actionColumn}>
+                    <input
+                      className={styles.checkbox}
+                      type="checkbox"
+                      checked={selectedElements.indexOf(element._id) !== -1}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleToggleElementSelect(e, element)
+                      }
+                    />
+                  </td>
+                  <ColumnResizer className="columnResizer" minWidth={0} />
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>

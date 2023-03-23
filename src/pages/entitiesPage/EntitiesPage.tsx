@@ -2,7 +2,6 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import EntityEditor from "../../components/editors/entityEditor";
 
-import FieldEditor from "../../components/editors/fieldEditor";
 import Elements from "../../components/elements";
 import { Theme } from "../../config/theme";
 import withWrapper from "../../hoc/wrapper";
@@ -12,7 +11,6 @@ import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
 import { IEntity } from "../../store/slices/entitySlice";
-import { IField } from "../../store/slices/fieldSlice";
 import { IModel } from "../../store/slices/modelSlice";
 
 import useStyles from "./entitiesPage.styles";
@@ -27,9 +25,18 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
-  const modelEntities = useAppSelector((state) =>
-    state.entity.entities.find((el) => el.modelId === modelId)
+  const entitiesByModel = useAppSelector(
+    (state) => state.entity.entitiesByModel
   );
+  const entities = entitiesByModel?.find(
+    (el) => el.modelId === modelId
+  )?.entities;
+  console.log("entities", entities);
+
+  const total: number =
+    useAppSelector((state) =>
+      state.entity.entitiesByModel.find((el) => el.modelId === modelId)
+    )?.total || 0;
   const model: IModel | undefined = useAppSelector((state) =>
     state.model.models.find((m) => m._id === modelId)
   );
@@ -50,7 +57,7 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
         page: 1,
       },
     });
-  }, []);
+  }, [modelId]);
 
   if (!isLoggedIn) return null;
 
@@ -75,8 +82,8 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
             };
           }) || []
         }
-        elements={modelEntities?.entities || []}
-        total={modelEntities?.total || 0}
+        elements={entities || []}
+        total={total || 0}
         loading={loading}
         deletePromise={deleteEntities}
         deleteLoading={deleteLoading}

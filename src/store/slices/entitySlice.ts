@@ -16,12 +16,12 @@ export interface IEntityFieldValue {
 }
 
 export interface IEntityState {
-  entities: { modelId: string; entities: IEntity[]; total: number }[];
+  entitiesByModel: { modelId: string; entities: IEntity[]; total: number }[];
   total: number;
 }
 
 const initialState: IEntityState = {
-  entities: [],
+  entitiesByModel: [],
   total: 0,
 };
 
@@ -37,16 +37,16 @@ export const entitySlice = createSlice({
         total: number;
       }>
     ) => {
-      const modelEntities = state.entities.find(
+      const modelEntities = state.entitiesByModel.find(
         (el) => el.modelId === action.payload.modelId
       );
       if (modelEntities) {
-        modelEntities.entities = action.payload.entities;
+        modelEntities.entities = [...action.payload.entities.reverse()];
         modelEntities.total = action.payload.total;
       } else {
-        state.entities.push({
+        state.entitiesByModel.push({
           modelId: action.payload.modelId,
-          entities: action.payload.entities,
+          entities: [...action.payload.entities],
           total: action.payload.total,
         });
       }
@@ -57,7 +57,7 @@ export const entitySlice = createSlice({
     ) => {
       const entity: IEntity = action.payload.entity;
       const modelId: string = action.payload.modelId;
-      state.entities
+      state.entitiesByModel
         .find((el) => el.modelId === modelId)
         ?.entities.unshift(entity);
     },
@@ -67,7 +67,7 @@ export const entitySlice = createSlice({
     ) => {
       const entity: IEntity = action.payload.entity;
       const modelId: string = action.payload.modelId;
-      let modelEntities: IEntity[] | undefined = state.entities.find(
+      let modelEntities: IEntity[] | undefined = state.entitiesByModel.find(
         (el) => el.modelId === modelId
       )?.entities;
       if (modelEntities) {
@@ -83,14 +83,18 @@ export const entitySlice = createSlice({
       const modelId: string = action.payload.modelId;
       const entitiesIds: string[] = action.payload.entitiesIds;
 
-      let modelEntities = state.entities.find(
-        (el) => el.modelId === modelId
-      )?.entities;
-      if (modelEntities) {
-        modelEntities = modelEntities.filter(
-          (entity) => entitiesIds.indexOf(entity._id) === -1
-        );
-      }
+      state.entitiesByModel = state.entitiesByModel.map((entitiesByModel) => {
+        if (entitiesByModel.modelId === modelId) {
+          return {
+            ...entitiesByModel,
+            entities: entitiesByModel.entities.filter(
+              (entity) => entitiesIds.indexOf(entity._id) === -1
+            ),
+          };
+        } else {
+          return entitiesByModel;
+        }
+      });
     },
   },
 });

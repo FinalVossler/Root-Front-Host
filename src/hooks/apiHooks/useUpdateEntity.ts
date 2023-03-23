@@ -7,9 +7,9 @@ import { entitySlice, IEntity } from "../../store/slices/entitySlice";
 
 export type EntityUpdateCommand = {
   _id: string;
-  model: string;
+  modelId: string;
   entityFieldValues: {
-    field: string;
+    fieldId: string;
     value: string;
   }[];
   language: string;
@@ -34,7 +34,10 @@ const useUpdateEntity = () => {
         .then((res) => {
           const entity: IEntity = res.data.data;
           dispatch(
-            entitySlice.actions.updateEntity({ modelId: command.model, entity })
+            entitySlice.actions.updateEntity({
+              modelId: command.modelId,
+              entity,
+            })
           );
           resolve(null);
         })
