@@ -12,6 +12,9 @@ export interface IField {
   _id: string;
   name: ITranslatedText[];
   type: FieldType;
+
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IFieldState {

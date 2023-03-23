@@ -7,6 +7,9 @@ export interface IModel {
   _id: string;
   name: ITranslatedText[];
   modelFields: IModelField[];
+
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IModelField {

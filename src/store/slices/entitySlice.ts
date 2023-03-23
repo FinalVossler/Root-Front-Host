@@ -8,6 +8,9 @@ export interface IEntity {
   _id: string;
   model: IModel;
   entityFieldValues: IEntityFieldValue[];
+
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IEntityFieldValue {
