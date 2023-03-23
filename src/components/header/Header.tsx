@@ -115,7 +115,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
             </li>
           )}
 
-          {(withRegistration || isLoggedIn) && (
+          {withRegistration && !isLoggedIn && (
             <li className={styles.option + " " + styles.headerIcon}>
               <NavLink className={styles.optionATag} to="/profile">
                 <CgProfile />

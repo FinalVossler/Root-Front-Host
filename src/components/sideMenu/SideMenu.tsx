@@ -3,7 +3,7 @@ import { AiOutlineMenuUnfold, AiOutlineMenuFold } from "react-icons/ai";
 import { SiThemodelsresource } from "react-icons/si";
 import { BsFillGearFill } from "react-icons/bs";
 import { MdTextFields } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { CgProfile } from "react-icons/cg";
 import { SiElement } from "react-icons/si";
 
 import { Theme } from "../../config/theme";
@@ -89,6 +89,11 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
               onClick={() => setConfigurationModalOpen(!configurationModalOpen)}
             />
           )}
+          <SideMenuOption
+            Icon={CgProfile}
+            title={getTranslatedText(staticText?.profile)}
+            link="/profile"
+          />
           {user.role === Role.Admin && (
             <SideMenuOption
               Icon={MdTextFields}

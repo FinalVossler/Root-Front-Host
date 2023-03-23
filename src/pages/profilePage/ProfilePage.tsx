@@ -40,7 +40,7 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
   const [activeForm, setActiveForm] = React.useState<ActiveForm>(
     ActiveForm.Register
   );
-  const [showConfiguration, setShowConfiguration] = React.useState(true);
+  const [showProfileForm, setShowProfileForm] = React.useState(true);
 
   const styles = useStyles({ theme });
   const isLoggedIn: boolean = useIsLoggedIn();
@@ -54,8 +54,8 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
     );
   };
 
-  const handleTriggerShowConfiguration = () =>
-    setShowConfiguration(!showConfiguration);
+  const handleTriggerShowProfileForm = () =>
+    setShowProfileForm(!showProfileForm);
 
   return (
     <div className={styles.profilePageContainer}>
@@ -75,11 +75,11 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
       {isLoggedIn && (
         <div className={styles.connectedUserContainer}>
           <BsFillGearFill
-            onClick={handleTriggerShowConfiguration}
+            onClick={handleTriggerShowProfileForm}
             className={styles.configurationIcon}
             color={theme.primary}
           />
-          {showConfiguration && (
+          {showProfileForm && (
             <div className={styles.profileAndPages}>
               <ProfileForm />
             </div>
