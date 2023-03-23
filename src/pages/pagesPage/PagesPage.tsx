@@ -7,16 +7,21 @@ import Loading from "react-loading";
 import { Theme } from "../../config/theme";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { IPage, pageSlice } from "../../store/slices/pageSlice";
-import PageEditor from "../editors/pageEditor";
-import useStyles from "./pages.styles";
-import ConfirmationModal from "../confirmationModal";
+import PageEditor from "../../components/editors/pageEditor";
+import useStyles from "./pagesPage.styles";
+import ConfirmationModal from "../../components/confirmationModal";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
+import { Role } from "../../store/slices/userSlice";
+import withWrapper from "../../hoc/wrapper";
 
-interface IPageProps {}
+interface IPagesPageProps {}
 
-const Pages: React.FunctionComponent<IPageProps> = (props: IPageProps) => {
+const PagesPage: React.FunctionComponent<IPagesPageProps> = (
+  props: IPagesPageProps
+) => {
   const pages = useAppSelector((state) => state.page.pages);
+  const user = useAppSelector((state) => state.user.user);
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.pages
   );
@@ -58,8 +63,10 @@ const Pages: React.FunctionComponent<IPageProps> = (props: IPageProps) => {
     setDeleteModalOpen(true);
   };
 
+  if (user.role !== Role.Admin) return null;
+
   return (
-    <div className={styles.pagesContainer}>
+    <div className={styles.pagesPageContainer}>
       <ConfirmationModal
         onConfirm={handleDeleteModalConfirm}
         description={getTranslatedText(staticText?.deletePageMessage)}
@@ -114,4 +121,7 @@ const Pages: React.FunctionComponent<IPageProps> = (props: IPageProps) => {
   );
 };
 
-export default React.memo(Pages);
+export default withWrapper(PagesPage, {
+  withFooter: false,
+  withSideMenu: true,
+});

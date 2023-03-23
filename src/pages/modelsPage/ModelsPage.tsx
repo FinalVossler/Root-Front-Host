@@ -11,6 +11,7 @@ import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
 import { IField } from "../../store/slices/fieldSlice";
 import { IModel } from "../../store/slices/modelSlice";
+import { IUser, Role } from "../../store/slices/userSlice";
 
 import useStyles from "./modelsPage.styles";
 
@@ -26,6 +27,7 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
     (state) => state.websiteConfiguration.staticText?.models
   );
   const { models, total } = useAppSelector((state) => state.model);
+  const user: IUser = useAppSelector((state) => state.user.user);
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
@@ -43,6 +45,8 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
   }, []);
 
   if (!isLoggedIn) return null;
+
+  if (user.role !== Role.Admin) return null;
 
   return (
     <div className={styles.modelsPageContainer}>

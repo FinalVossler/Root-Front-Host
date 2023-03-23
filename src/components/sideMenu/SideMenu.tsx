@@ -18,6 +18,8 @@ import useGetModels, {
   ModelsGetCommand,
 } from "../../hooks/apiHooks/useGetModels";
 import { IModel } from "../../store/slices/modelSlice";
+import { IUser, Role } from "../../store/slices/userSlice";
+import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 
 interface ISideMenu {}
 
@@ -38,6 +40,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
   const sideMenuExtendedModels: boolean = useAppSelector(
     (state) => state.userPreferences.sideMenuExtendedModels
   );
+  const user: IUser = useAppSelector((state) => state.user.user);
 
   const [configurationModalOpen, setConfigurationModalOpen] =
     React.useState<boolean>(false);
@@ -46,6 +49,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
   const getTranslatedText = useGetTranslatedText();
   const dispatch = useAppDispatch();
   const { getModels, loading: getModelsLoading } = useGetModels();
+  const isLoggedIn: boolean = useIsLoggedIn();
 
   React.useEffect(() => {
     const command: ModelsGetCommand = {
@@ -62,6 +66,8 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
     dispatch(userPreferenceSlice.actions.toggleSideMenu());
   //#endregion Event listeners
 
+  if (!isLoggedIn) return null;
+
   return (
     <div
       className={
@@ -72,22 +78,31 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
         setConfigurationModalOpen={setConfigurationModalOpen}
         configurationModelOpen={configurationModalOpen}
       />
+
       {isSideMenuOpen && (
         <div className={styles.sideMenuContent}>
           <span className={styles.appName}>{title}</span>
-
-          <SideMenuOption
-            Icon={BsFillGearFill}
-            title={getTranslatedText(staticText?.configuration)}
-            onClick={() => setConfigurationModalOpen(!configurationModalOpen)}
-          />
-
-          <SideMenuOption
-            Icon={MdTextFields}
-            title={getTranslatedText(staticText?.fields)}
-            link="/fields"
-          />
-
+          {user.role === Role.Admin && (
+            <SideMenuOption
+              Icon={BsFillGearFill}
+              title={getTranslatedText(staticText?.configuration)}
+              onClick={() => setConfigurationModalOpen(!configurationModalOpen)}
+            />
+          )}
+          {user.role === Role.Admin && (
+            <SideMenuOption
+              Icon={MdTextFields}
+              title={getTranslatedText(staticText?.pages)}
+              link="/pages"
+            />
+          )}
+          {user.role === Role.Admin && (
+            <SideMenuOption
+              Icon={MdTextFields}
+              title={getTranslatedText(staticText?.fields)}
+              link="/fields"
+            />
+          )}
           <SideMenuOption
             link="/models"
             Icon={SiThemodelsresource}

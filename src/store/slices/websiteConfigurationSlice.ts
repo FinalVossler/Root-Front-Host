@@ -46,6 +46,7 @@ export interface IWebsiteConfiguration {
       buttonText: ITranslatedText[];
     };
     sideMenu: {
+      pages: ITranslatedText[];
       fields: ITranslatedText[];
       models: ITranslatedText[];
       configuration: ITranslatedText[];
@@ -261,6 +262,10 @@ const initialState: IWebsiteConfigurationState = {
       ],
     },
     sideMenu: {
+      pages: [
+        { language: "en", text: "Pages" },
+        { language: "fr", text: "Pages" },
+      ],
       fields: [
         { language: "en", text: "Fields" },
         { language: "fr", text: "Champs" },

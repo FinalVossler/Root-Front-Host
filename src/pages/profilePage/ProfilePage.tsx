@@ -14,8 +14,7 @@ import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import PostEditor from "../../components/editors/postEditor";
 import UserPosts from "../../components/userPosts";
 import { useAppSelector } from "../../store/hooks";
-import { IUser, Role } from "../../store/slices/userSlice";
-import Pages from "../../components/pages";
+import { IUser } from "../../store/slices/userSlice";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
 enum ActiveForm {
@@ -83,7 +82,6 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
           {showConfiguration && (
             <div className={styles.profileAndPages}>
               <ProfileForm />
-              {user.role === Role.Admin && <Pages />}
             </div>
           )}
           <div className={styles.postsAndEditor}>

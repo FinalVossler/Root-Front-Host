@@ -100,4 +100,7 @@ const Home: React.FunctionComponent<IHome> = (props: IHome) => {
   );
 };
 
-export default withWrapper(Home);
+export default withWrapper(Home, {
+  withFooter: true,
+  withSideMenu: true,
+});

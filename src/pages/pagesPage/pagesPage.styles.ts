@@ -3,15 +3,16 @@ import { createUseStyles } from "react-jss";
 import { Theme } from "../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
-  pagesContainer: {
+  pagesPageContainer: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
     backgroundColor: theme.contentBackgroundColor,
     borderRadius: 10,
-    marginTop: 20,
     padding: 40,
     paddingBottom: 10,
+    margin: 40,
+    marginTop: 120,
     boxSizing: "border-box",
   },
   pageContainer: {
