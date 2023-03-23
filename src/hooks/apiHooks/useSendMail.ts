@@ -33,7 +33,10 @@ const useSendMail = () => {
           resolve(null);
         })
         .finally(() => setLoading(false))
-        .catch((e) => reject(e));
+        .catch((e: Error) => {
+          toast.error(e.message);
+          reject(e);
+        });
     });
 
   return { sendMail, loading };
