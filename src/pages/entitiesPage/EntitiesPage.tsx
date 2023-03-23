@@ -31,7 +31,6 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
   const entities = entitiesByModel?.find(
     (el) => el.modelId === modelId
   )?.entities;
-  console.log("entities", entities);
 
   const total: number =
     useAppSelector((state) =>

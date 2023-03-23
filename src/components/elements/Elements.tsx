@@ -1,12 +1,12 @@
 import React from "react";
 import { BiAddToQueue } from "react-icons/bi";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import Loading from "react-loading";
 
 import { Theme } from "../../config/theme";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../store/hooks";
 import { IField } from "../../store/slices/fieldSlice";
-import FieldEditor, { IFieldEditor } from "../editors/fieldEditor/FieldEditor";
 import ColumnResizer from "react-table-column-resizer";
 
 import useStyles from "./elements.styles";
@@ -159,6 +159,14 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
         </thead>
 
         <tbody>
+          {props.loading && (
+            <tr>
+              <td>
+                <Loading />
+              </td>
+            </tr>
+          )}
+
           {!props.loading &&
             props.elements.map((element, index) => {
               return (

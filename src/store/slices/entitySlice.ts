@@ -67,14 +67,22 @@ export const entitySlice = createSlice({
     ) => {
       const entity: IEntity = action.payload.entity;
       const modelId: string = action.payload.modelId;
-      let modelEntities: IEntity[] | undefined = state.entitiesByModel.find(
-        (el) => el.modelId === modelId
-      )?.entities;
-      if (modelEntities) {
-        modelEntities = modelEntities.map((e) =>
-          e._id === entity._id ? entity : e
-        );
-      }
+      state.entitiesByModel = state.entitiesByModel.map((entitiesByModel) => {
+        if (entitiesByModel.modelId === modelId) {
+          return {
+            ...entitiesByModel,
+            entities: entitiesByModel.entities.map((el) => {
+              if (el._id === entity._id) {
+                return entity;
+              } else {
+                return el;
+              }
+            }),
+          };
+        } else {
+          return entitiesByModel;
+        }
+      });
     },
     deleteEntities: (
       state: IEntityState,
