@@ -107,7 +107,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
             </NavLink>
           </li>
 
-          {withChat && (
+          {withChat && isLoggedIn && (
             <li className={styles.option}>
               <NavLink className={styles.optionATag} to="/chat">
                 {getTranslatedText(staticText?.header.chat)}

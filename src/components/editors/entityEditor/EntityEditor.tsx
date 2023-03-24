@@ -14,7 +14,7 @@ import { FormikProps, useFormik } from "formik";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import InputSelect from "../../inputSelect";
 import getLanguages from "../../../utils/getLanguages";
-import { IEntity } from "../../../store/slices/entitySlice";
+import { IEntity, IEntityFieldValue } from "../../../store/slices/entitySlice";
 import useUpdateEntity, {
   EntityUpdateCommand,
 } from "../../../hooks/apiHooks/useUpdateEntity";
@@ -26,6 +26,9 @@ import { FieldType } from "../../../store/slices/fieldSlice";
 import Input from "../../input";
 import Textarea from "../../textarea";
 import { useParams } from "react-router-dom";
+import IFile from "../../../globalTypes/IFile";
+import EntityFieldFiles from "./entityFieldFiles";
+import uploadFiles from "../../../utils/uploadFiles";
 
 export interface IEntityEditor {
   entity?: IEntity;
@@ -33,12 +36,17 @@ export interface IEntityEditor {
   setOpen?: (boolean) => void;
 }
 
-interface IEntityFieldValueForm {
+export interface IEntityFieldValueForm {
   fieldId: string;
   value: string;
+  selectedOwnFiles?: IFile[];
+  newFiles?: File[];
+
+  // The combined result of selectedOwnFiles and newFiels after uploading the newFiles
+  files?: IFile[];
 }
 
-interface IEntityForm {
+export interface IEntityEditorForm {
   modelId: string;
   entityFieldValues: IEntityFieldValueForm[];
   language: string;
@@ -62,20 +70,55 @@ const EntityEditor = (props: IEntityEditor) => {
 
   //#region Local state
   const [modelModalOpen, setModelModalOpen] = React.useState<boolean>(false);
+  const [uploadFilesLoading, setUploadFilesLoading] =
+    React.useState<boolean>(false);
   //#endregion Local state
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
   const { createEntity, loading: createLoading } = useCreateEntity();
   const { updateEntity, loading: updateLoading } = useUpdateEntity();
-  const formik: FormikProps<IEntityForm> = useFormik<IEntityForm>({
+  const formik: FormikProps<IEntityEditorForm> = useFormik<IEntityEditorForm>({
     initialValues: {
       modelId: modelId || props.entity?.model._id || "",
       entityFieldValues: [],
       language,
     },
     validationSchema: Yup.object().shape({}),
-    onSubmit: async (values: IEntityForm) => {
+    onSubmit: async (values: IEntityEditorForm) => {
+      setUploadFilesLoading(true);
+
+      const uploadNewFilesPromises: Promise<IFile[]>[] = [];
+
+      // preparing the files by uploading the new files and combining the new files and the selected own files into one array
+      values.entityFieldValues.forEach(async (entityFieldValue) => {
+        entityFieldValue.files = [...(entityFieldValue.selectedOwnFiles || [])];
+
+        const promise = new Promise<IFile[]>(async (resolve, _) => {
+          if (
+            entityFieldValue.newFiles &&
+            entityFieldValue.newFiles.length > 0
+          ) {
+            const newFiles: IFile[] = await uploadFiles(
+              entityFieldValue.newFiles
+            );
+            entityFieldValue.files = (entityFieldValue.files || []).concat(
+              newFiles
+            );
+
+            resolve(newFiles);
+          }
+
+          resolve([]);
+        });
+
+        uploadNewFilesPromises.push(promise);
+      });
+
+      await Promise.all(uploadNewFilesPromises);
+
+      setUploadFilesLoading(false);
+
       if (props.entity) {
         const command: EntityUpdateCommand = {
           _id: props.entity._id,
@@ -113,13 +156,17 @@ const EntityEditor = (props: IEntityEditor) => {
       values: {
         entityFieldValues:
           model?.modelFields.map((modelField) => {
+            const entityFieldValue: IEntityFieldValue | undefined =
+              props.entity?.entityFieldValues.find(
+                (entityFieldValue) =>
+                  entityFieldValue.field._id === modelField.field._id
+              );
+
             const entityFieldValueForm: IEntityFieldValueForm = {
               fieldId: modelField.field._id,
+              selectedOwnFiles: entityFieldValue?.files,
               value: getTranslatedText(
-                props.entity?.entityFieldValues.find(
-                  (entityFieldValue) =>
-                    entityFieldValue.field._id === modelField.field._id
-                )?.value,
+                entityFieldValue?.value,
                 formik.values.language
               ),
             };
@@ -145,7 +192,9 @@ const EntityEditor = (props: IEntityEditor) => {
   };
   //#endregion Event listeners
 
-  const loading = props.entity ? updateLoading : createLoading;
+  const loading =
+    (props.entity ? updateLoading : createLoading) || uploadFilesLoading;
+
   return (
     <Modal handleClose={handleCloseModal} open={modelModalOpen}>
       <form
@@ -163,11 +212,14 @@ const EntityEditor = (props: IEntityEditor) => {
         </div>
 
         {model?.modelFields.map((modelField, index) => {
-          const value = formik.values.entityFieldValues.find(
-            (el) => el.fieldId === modelField.field._id
-          )?.value;
+          const entityFieldValue: IEntityFieldValueForm | undefined =
+            formik.values.entityFieldValues.find(
+              (el) => el.fieldId === modelField.field._id
+            );
 
-          const onChange = (
+          const value = entityFieldValue?.value;
+
+          const handleOnChange = (
             e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
           ) => {
             formik.setFieldValue(
@@ -197,7 +249,7 @@ const EntityEditor = (props: IEntityEditor) => {
                 name="entityFieldValues"
                 value={value}
                 label={getTranslatedText(modelField.field.name)}
-                onChange={onChange}
+                onChange={handleOnChange}
                 inputProps={{
                   placeholder: getTranslatedText(modelField.field.name),
                   type:
@@ -217,10 +269,21 @@ const EntityEditor = (props: IEntityEditor) => {
                 name="entityFieldValues"
                 value={value}
                 label={getTranslatedText(modelField.field.name)}
-                onChange={onChange}
+                onChange={handleOnChange}
                 textareaProps={{
                   placeholder: getTranslatedText(modelField.field.name),
                 }}
+              />
+            );
+          }
+
+          if (modelField.field.type === FieldType.File) {
+            return (
+              <EntityFieldFiles
+                key={index}
+                entityFieldValue={entityFieldValue}
+                formik={formik}
+                modelField={modelField}
               />
             );
           }

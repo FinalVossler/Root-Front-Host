@@ -6,20 +6,23 @@ import {
   AiOutlineFileSearch,
 } from "react-icons/ai";
 
-import { Theme } from "../../config/theme";
+import { Theme } from "../../../../config/theme";
 
 import useStyles from "./postEditorFiles.styles";
-import readAsBase64 from "../../utils/readAsBase64";
-import OwnFiles from "../ownFiles";
-import IFile from "../../globalTypes/IFile";
-import { useAppSelector } from "../../store/hooks";
+import readAsBase64 from "../../../../utils/readAsBase64";
+import OwnFiles from "../../../ownFiles";
+import IFile from "../../../../globalTypes/IFile";
+import { useAppSelector } from "../../../../store/hooks";
+import isFileAnImage from "../../../../utils/isFileAnImage";
 
+// Used to show the new selected images
 type TrackedImage = {
   base64: string;
   // Used to track the index in the original array (the post's files array)
   indexInParent: number;
 };
 
+// Used to show the new selected files
 type TrackedFile = {
   file: File;
   indexInParent: number;
@@ -28,14 +31,14 @@ type TrackedFile = {
 interface IPostEditorFiles {
   setFiles: (files: File[]) => void;
   files: File[];
-  ownFiles: IFile[];
-  setOwnFiles: (ownFiles: IFile[]) => void;
+  selectedOwnFiles: IFile[];
+  setSelectedOwnFiles: (ownFiles: IFile[]) => void;
 }
 
 const PostEditor = (props: IPostEditorFiles) => {
   const [images, setTrackedImages] = React.useState<TrackedImage[]>([]);
   const [trackedFiles, setTrackedFiles] = React.useState<TrackedFile[]>([]);
-  const [ownFilesOpen, setOwnFilesOpen] = React.useState<boolean>(true);
+  const [ownFilesOpen, setSelectedOwnFilesOpen] = React.useState<boolean>(true);
 
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
@@ -61,9 +64,7 @@ const PostEditor = (props: IPostEditorFiles) => {
 
       for (let i = 0; i < newFiles.length; i++) {
         const file: File = newFiles[i];
-        if (
-          ["image/png", "image/gif", "image/jpeg"].indexOf(file.type) !== -1
-        ) {
+        if (isFileAnImage(file)) {
           const base64: string = await readAsBase64(newFiles[i]);
           newTrackedImages.push({ base64, indexInParent: i });
         } else {
@@ -100,7 +101,7 @@ const PostEditor = (props: IPostEditorFiles) => {
   };
 
   const handleTriggerOwnFilesOpen = () => {
-    setOwnFilesOpen(!ownFilesOpen);
+    setSelectedOwnFilesOpen(!ownFilesOpen);
   };
   //#endregion Event listeners
 
@@ -156,7 +157,10 @@ const PostEditor = (props: IPostEditorFiles) => {
         />
       </div>
       {ownFilesOpen && (
-        <OwnFiles ownFiles={props.ownFiles} setOwnFiles={props.setOwnFiles} />
+        <OwnFiles
+          selectedOwnFiles={props.selectedOwnFiles}
+          setSelectedOwnFiles={props.setSelectedOwnFiles}
+        />
       )}
     </div>
   );

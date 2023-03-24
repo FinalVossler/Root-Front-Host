@@ -1,4 +1,4 @@
-import { Action, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import ITranslatedText from "../../globalTypes/ITranslatedText";
 
@@ -6,6 +6,7 @@ export enum FieldType {
   Number = "Number",
   Text = "Text",
   Paragraph = "Paragraph",
+  File = "File",
 }
 
 export interface IField {

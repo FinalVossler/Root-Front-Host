@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import IFile from "../../globalTypes/IFile";
 
 import ITranslatedText from "../../globalTypes/ITranslatedText";
 import { IField } from "./fieldSlice";
@@ -16,6 +17,7 @@ export interface IEntity {
 export interface IEntityFieldValue {
   field: IField;
   value: ITranslatedText[];
+  files: IFile[];
 }
 
 export interface IEntityState {

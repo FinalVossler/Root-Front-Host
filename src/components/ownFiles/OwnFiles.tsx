@@ -12,8 +12,8 @@ import { AxiosResponse } from "axios";
 import { useAppSelector } from "../../store/hooks";
 
 interface IOwnFiles {
-  ownFiles: IFile[];
-  setOwnFiles: (ownFiles: IFile[]) => void;
+  selectedOwnFiles: IFile[];
+  setSelectedOwnFiles: (ownFiles: IFile[]) => void;
 }
 
 const OwnFiles = (props: IOwnFiles) => {
@@ -55,13 +55,13 @@ const OwnFiles = (props: IOwnFiles) => {
 
   //#region Event listeners
   const handleTriggerSelectFile = (file: IFile) => {
-    let newOwnFiles = [...props.ownFiles];
+    let newOwnFiles = [...props.selectedOwnFiles];
     if (!newOwnFiles.find((el) => el._id === file._id)) {
       newOwnFiles.push(file);
     } else {
       newOwnFiles = newOwnFiles.filter((el) => el._id !== file._id);
     }
-    props.setOwnFiles(newOwnFiles);
+    props.setSelectedOwnFiles(newOwnFiles);
   };
   //#endregion Event listeners
 
@@ -83,7 +83,7 @@ const OwnFiles = (props: IOwnFiles) => {
             key={index}
             style={style}
             className={
-              props.ownFiles.find((el) => el._id === file._id)
+              props.selectedOwnFiles.find((el) => el._id === file._id)
                 ? styles.selectedSingleFileContainer
                 : styles.singleFileContainer
             }
