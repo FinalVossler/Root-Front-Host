@@ -368,7 +368,7 @@ const initialState: IWebsiteConfigurationState = {
       ],
       edit: [
         { language: "en", text: "Edit" },
-        { language: "fr", text: "Editer" },
+        { language: "fr", text: "Modifier" },
       ],
       deleteDescription: [
         {

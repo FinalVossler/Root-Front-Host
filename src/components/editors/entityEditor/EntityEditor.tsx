@@ -24,6 +24,7 @@ import useCreateEntity, {
 import { IModel } from "../../../store/slices/modelSlice";
 import { FieldType } from "../../../store/slices/fieldSlice";
 import Input from "../../input";
+import Textarea from "../../textarea";
 import { useParams } from "react-router-dom";
 
 export interface IEntityEditor {
@@ -162,10 +163,31 @@ const EntityEditor = (props: IEntityEditor) => {
         </div>
 
         {model?.modelFields.map((modelField, index) => {
+          const value = formik.values.entityFieldValues.find(
+            (el) => el.fieldId === modelField.field._id
+          )?.value;
+
+          const onChange = (
+            e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+          ) => {
+            formik.setFieldValue(
+              "entityFieldValues",
+              formik.values.entityFieldValues.map((entityFieldValue) => {
+                if (entityFieldValue.fieldId === modelField.field._id) {
+                  return {
+                    ...entityFieldValue,
+                    value: e.target.value.toString(),
+                  };
+                } else {
+                  return entityFieldValue;
+                }
+              }) || []
+            );
+          };
+
           if (
             modelField.field.type === FieldType.Text ||
-            modelField.field.type === FieldType.Number ||
-            modelField.field.type === FieldType.Paragraph
+            modelField.field.type === FieldType.Number
           ) {
             return (
               <Input
@@ -173,28 +195,30 @@ const EntityEditor = (props: IEntityEditor) => {
                 Icon={MdTextFields}
                 formik={formik}
                 name="entityFieldValues"
-                value={
-                  formik.values.entityFieldValues.find(
-                    (el) => el.fieldId === modelField.field._id
-                  )?.value
-                }
+                value={value}
                 label={getTranslatedText(modelField.field.name)}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  formik.setFieldValue(
-                    "entityFieldValues",
-                    formik.values.entityFieldValues.map((entityFieldValue) => {
-                      if (entityFieldValue.fieldId === modelField.field._id) {
-                        return {
-                          ...entityFieldValue,
-                          value: e.target.value.toString(),
-                        };
-                      } else {
-                        return entityFieldValue;
-                      }
-                    }) || []
-                  );
-                }}
+                onChange={onChange}
                 inputProps={{
+                  placeholder: getTranslatedText(modelField.field.name),
+                  type:
+                    modelField.field.type === FieldType.Number
+                      ? "number"
+                      : "text",
+                }}
+              />
+            );
+          }
+
+          if (modelField.field.type === FieldType.Paragraph) {
+            return (
+              <Textarea
+                key={index}
+                formik={formik}
+                name="entityFieldValues"
+                value={value}
+                label={getTranslatedText(modelField.field.name)}
+                onChange={onChange}
+                textareaProps={{
                   placeholder: getTranslatedText(modelField.field.name),
                 }}
               />
