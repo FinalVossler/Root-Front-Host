@@ -1,15 +1,18 @@
 import React from "react";
 import Loading from "react-loading";
 import { AiOutlineFileDone } from "react-icons/ai";
+import _ from "lodash";
 
 import { Theme } from "../../config/theme";
 
 import useStyles from "./ownFiles.styles";
 import IFile from "../../globalTypes/IFile";
-import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
 import PaginationCommand from "../../globalTypes/PaginationCommand";
-import { AxiosResponse } from "axios";
 import { useAppSelector } from "../../store/hooks";
+import useGetUserAndSelectedFiles, {
+  FileGetUserAndSelectedFilesCommand,
+} from "../../hooks/apiHooks/useGetUserAndSelectedFiles";
+import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
 interface IOwnFiles {
   selectedOwnFiles: IFile[];
@@ -17,35 +20,46 @@ interface IOwnFiles {
 }
 
 const OwnFiles = (props: IOwnFiles) => {
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const [files, setFiles] = React.useState<IFile[]>([]);
-  const [page, setPage] = React.useState(1);
-
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.ownFiles
+  );
+
+  const [files, setFiles] = React.useState<IFile[]>([]);
+  const [page, setPage] = React.useState(1);
+
   const styles = useStyles({ theme });
-  const axios = useAuthorizedAxios();
+  const { getUserAndSelectedFiles, loading } = useGetUserAndSelectedFiles();
+  const getTranslatedText = useGetTranslatedText();
 
   React.useEffect(() => {
-    const paginationCommand: PaginationCommand = {
-      page,
-      limit: 20,
+    const getFiles = async () => {
+      const paginationCommand: PaginationCommand = {
+        page,
+        limit: 20,
+      };
+
+      const command: FileGetUserAndSelectedFilesCommand = {
+        paginationCommand,
+        selectedFilesIds: props.selectedOwnFiles.map((f) => f._id || ""),
+      };
+
+      const filesResult: IFile[] = await getUserAndSelectedFiles(command);
+
+      const concatenatedFiles = [...files, ...filesResult];
+      // Remove redundancy (Because we could get in a future page a selected element that we already got)
+      const newFiles = _.uniqWith(
+        concatenatedFiles,
+        (f1, f2) => f1._id === f2._id
+      );
+
+      setFiles(newFiles);
+      setPage(page + 1);
     };
 
-    setLoading(true);
-
-    axios
-      .request<AxiosResponse<IFile[]>>({
-        method: "POST",
-        data: paginationCommand,
-        url: "/files/getUserFiles",
-      })
-      .then((res) => {
-        setFiles([...files, ...res.data.data]);
-        setPage(page + 1);
-      })
-      .finally(() => setLoading(false));
+    getFiles();
 
     return () => {
       setFiles([]);
@@ -68,7 +82,9 @@ const OwnFiles = (props: IOwnFiles) => {
   return (
     <div className={styles.ownFilesContainer}>
       {files.length === 0 && (
-        <div className={styles.noFiles}>No Files found</div>
+        <div className={styles.noFiles}>
+          {getTranslatedText(staticText?.noFilesFound)}
+        </div>
       )}
 
       {files.map((file, index) => {

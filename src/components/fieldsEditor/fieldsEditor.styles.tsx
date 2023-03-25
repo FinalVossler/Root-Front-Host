@@ -26,7 +26,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "100%",
     boxSizing: "border-box",
     height: 50,
-    overflow: "scroll",
   },
   deleteModelFieldButton: {
     position: "absolute",

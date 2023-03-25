@@ -121,6 +121,9 @@ export interface IWebsiteConfiguration {
       message: ITranslatedText[];
       submit: ITranslatedText[];
     };
+    ownFiles: {
+      noFilesFound: ITranslatedText[];
+    };
   };
 }
 
@@ -548,6 +551,12 @@ const initialState: IWebsiteConfigurationState = {
       submit: [
         { language: "en", text: "Submit" },
         { language: "fr", text: "Envoyer" },
+      ],
+    },
+    ownFiles: {
+      noFilesFound: [
+        { text: "Now files found", language: "en" },
+        { text: "Pas de fichiers trouvés", language: "fr" },
       ],
     },
   },
