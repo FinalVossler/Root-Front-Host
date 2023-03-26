@@ -21,6 +21,7 @@ export interface IInput extends React.PropsWithChildren {
   label?: string;
   onIconClick?: (any) => void;
   iconColor?: string;
+  containerProps?: any;
 }
 const Input: React.FunctionComponent<IInput> = (props: IInput) => {
   const [isFocused, setIsFocused] = React.useState(false);
@@ -65,6 +66,7 @@ const Input: React.FunctionComponent<IInput> = (props: IInput) => {
       className={
         isFocused ? styles.inputContainerFocused : styles.inputContainer
       }
+      {...props.containerProps}
     >
       <div className={styles.labelAndInputContainer}>
         {props.label && <span className={styles.label}>{props.label}</span>}

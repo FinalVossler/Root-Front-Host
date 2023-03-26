@@ -7,12 +7,19 @@ export enum FieldType {
   Text = "Text",
   Paragraph = "Paragraph",
   File = "File",
+  Selector = "Selector",
 }
+
+export type FieldOption = {
+  value: string;
+  label: ITranslatedText[];
+};
 
 export interface IField {
   _id: string;
   name: ITranslatedText[];
   type: FieldType;
+  options?: FieldOption[];
 
   createdAt: string;
   updatedAt: string;

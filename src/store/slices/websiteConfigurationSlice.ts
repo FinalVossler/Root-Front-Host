@@ -60,6 +60,10 @@ export interface IWebsiteConfiguration {
       submit: ITranslatedText[];
       language: ITranslatedText[];
       searchFields: ITranslatedText[];
+      options: ITranslatedText[];
+      addOption: ITranslatedText[];
+      label: ITranslatedText[];
+      value: ITranslatedText[];
     };
     models: {
       createModel: ITranslatedText[];
@@ -331,6 +335,22 @@ const initialState: IWebsiteConfigurationState = {
       searchFields: [
         { language: "en", text: "Search Fields" },
         { language: "fr", text: "Chercher des champs" },
+      ],
+      options: [
+        { language: "en", text: "Options" },
+        { language: "fr", text: "Options" },
+      ],
+      addOption: [
+        { language: "en", text: "Add option" },
+        { language: "fr", text: "Ajouter une option" },
+      ],
+      label: [
+        { language: "en", text: "Label" },
+        { language: "fr", text: "Label" },
+      ],
+      value: [
+        { language: "en", text: "Value" },
+        { language: "fr", text: "Valeur" },
       ],
     },
 

@@ -58,6 +58,17 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
             label: getTranslatedText(staticText?.typePlaceholder),
             name: "type",
           },
+          {
+            label: getTranslatedText(staticText?.options),
+            name: "options",
+            render: (field: IField) => {
+              if (field.options) {
+                return field.options
+                  .map((option) => getTranslatedText(option.label))
+                  .join(", ");
+              } else return "";
+            },
+          },
         ]}
         elements={fields}
         total={total}

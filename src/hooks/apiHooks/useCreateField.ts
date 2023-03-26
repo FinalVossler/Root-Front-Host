@@ -9,6 +9,10 @@ export type FieldCreateCommand = {
   name: string;
   type: IField["type"];
   language: string;
+  options?: {
+    label: string;
+    value: string;
+  }[];
 };
 
 const useCreateField = () => {

@@ -1,7 +1,9 @@
 import React from "react";
 import "suneditor/dist/css/suneditor.min.css";
-import { MdTitle } from "react-icons/md";
+import { MdDriveFileRenameOutline, MdTitle } from "react-icons/md";
 import ReactLoading from "react-loading";
+import { AiFillDelete, AiOutlineAppstoreAdd } from "react-icons/ai";
+import slugify from "slugify";
 
 import useStyles from "./fieldEditor.styles";
 import Modal from "../../modal";
@@ -21,6 +23,7 @@ import useUpdateField, {
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import InputSelect from "../../inputSelect";
 import getLanguages from "../../../utils/getLanguages";
+import { BiLabel } from "react-icons/bi";
 
 export interface IFieldEditor {
   field?: IField;
@@ -28,10 +31,16 @@ export interface IFieldEditor {
   setOpen?: (boolean) => void;
 }
 
+type FieldOptionForm = {
+  label: string;
+  value: string;
+};
+
 interface IFieldForm {
   name: string;
   type: IField["type"];
   language: string;
+  options: FieldOptionForm[];
 }
 
 const FieldEditor = (props: IFieldEditor) => {
@@ -58,6 +67,7 @@ const FieldEditor = (props: IFieldEditor) => {
       name: "",
       type: FieldType.Text,
       language,
+      options: [],
     },
     onSubmit: async (values: IFieldForm) => {
       if (props.field) {
@@ -66,6 +76,7 @@ const FieldEditor = (props: IFieldEditor) => {
           name: values.name,
           type: values.type,
           language: values.language,
+          options: values.options,
         };
 
         await updateField(command);
@@ -74,6 +85,7 @@ const FieldEditor = (props: IFieldEditor) => {
           name: values.name,
           type: values.type,
           language: values.language,
+          options: values.options,
         };
 
         await createField(command);
@@ -91,15 +103,44 @@ const FieldEditor = (props: IFieldEditor) => {
       setFieldModalOpen(props.open);
     }
   }, [props.open]);
+
   React.useEffect(() => {
+    // Initialize the form based on the language and the passed field to update
     formik.resetForm({
       values: {
         name: getTranslatedText(props.field?.name, formik.values.language),
         type: props.field?.type || FieldType.Text,
         language: formik.values.language,
+        options:
+          (props.field?.options &&
+            props.field?.options.map((option) => ({
+              label: getTranslatedText(option.label),
+              value: option.value,
+            }))) ||
+          [],
       },
     });
   }, [props.field, formik.values.language]);
+
+  React.useEffect(() => {
+    // slugify the option name
+    // only slufigy new options.
+    // Old options need to keep their own slug so to not lose their values in entities
+    const newOptions: FieldOptionForm[] = formik.values.options;
+
+    if (newOptions.length > 0) {
+      newOptions.forEach((option) => {
+        if (
+          !props.field?.options?.find((op) => op.value === option.value) ||
+          option.value === ""
+        ) {
+          option.value = slugify(option.label.toLowerCase());
+        }
+      });
+
+      formik.setFieldValue("options", newOptions);
+    }
+  }, [formik.values.options, props.field]);
   //#endregion Effects
 
   //#region Event listeners
@@ -112,6 +153,23 @@ const FieldEditor = (props: IFieldEditor) => {
     if (props.setOpen) {
       props.setOpen(false);
     } else setFieldModalOpen(false);
+  };
+
+  const handleAddOption = () => {
+    formik.setFieldValue("options", [
+      ...formik.values.options,
+      {
+        label: "",
+        value: "",
+      },
+    ]);
+  };
+
+  const handleDeleteOption = (option: FieldOptionForm) => {
+    formik.setFieldValue(
+      "options",
+      formik.values.options.filter((op) => op.value !== option.value)
+    );
   };
   //#endregion Event listeners
 
@@ -162,6 +220,57 @@ const FieldEditor = (props: IFieldEditor) => {
             getLanguages()[0]
           }
         />
+
+        {formik.values.type === FieldType.Selector && (
+          <div className={styles.optionsContainer}>
+            <span className={styles.addOptionButton} onClick={handleAddOption}>
+              <AiOutlineAppstoreAdd className={styles.addOptionIcon} />{" "}
+              {getTranslatedText(staticText?.addOption)}
+            </span>
+
+            {formik.values.options.map((option, index) => {
+              return (
+                <div key={index} className={styles.singleOptionContainer}>
+                  <AiFillDelete
+                    className={styles.deleteOptionButton}
+                    onClick={() => handleDeleteOption(option)}
+                  />
+                  <Input
+                    label={getTranslatedText(staticText?.label)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      formik.setFieldValue(
+                        "options",
+                        formik.values.options.map((op, i) =>
+                          i !== index
+                            ? op
+                            : {
+                                label: e.target.value,
+                                value: op.value,
+                              }
+                        )
+                      );
+                    }}
+                    value={option.label}
+                    Icon={BiLabel}
+                  />
+                  <Input
+                    label={getTranslatedText(staticText?.namePlaceholder)}
+                    value={option.value}
+                    Icon={MdDriveFileRenameOutline}
+                    inputProps={{
+                      disabled: true,
+                    }}
+                    containerProps={{
+                      style: {
+                        marginBottom: 0,
+                      },
+                    }}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        )}
 
         {!loading && (
           <Button

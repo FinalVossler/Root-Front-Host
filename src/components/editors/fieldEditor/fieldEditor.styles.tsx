@@ -63,6 +63,38 @@ const useStyles = createUseStyles((theme: Theme) => ({
     margin: "auto",
     marginTop: 10,
   },
+  optionsContainer: {
+    display: "flex",
+    marginBottom: 10,
+    flexDirection: "column",
+  },
+  addOptionButton: {
+    display: "flex",
+    alignItems: "center",
+    cursor: "pointer",
+    color: theme.primary,
+  },
+  addOptionIcon: {
+    fontSize: 25,
+    marginRight: 10,
+  },
+  singleOptionContainer: {
+    margin: 10,
+    border: "1px solid " + theme.lightTextColor,
+    padding: 10,
+    position: "relative",
+  },
+  deleteOptionButton: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    color: theme.errorColor,
+    zIndex: 2,
+    fontSize: 20,
+    backgroundColor: theme.secondary,
+    boxShadow: theme.boxShadow,
+    cursor: "pointer",
+  },
   "@media (max-width: 850px)": {
     createFieldModalContainer: {
       width: "70vw",

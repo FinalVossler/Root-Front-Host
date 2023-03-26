@@ -29,6 +29,7 @@ import { useParams } from "react-router-dom";
 import IFile from "../../../globalTypes/IFile";
 import EntityFieldFiles from "./entityFieldFiles";
 import uploadFiles from "../../../utils/uploadFiles";
+import { Option } from "../../inputSelect/InputSelect";
 
 export interface IEntityEditor {
   entity?: IEntity;
@@ -284,6 +285,47 @@ const EntityEditor = (props: IEntityEditor) => {
                 entityFieldValue={entityFieldValue}
                 formik={formik}
                 modelField={modelField}
+              />
+            );
+          }
+
+          if (modelField.field.type === FieldType.Selector) {
+            const options =
+              modelField.field.options?.map((op) => ({
+                label: getTranslatedText(op.label),
+                value: op.value,
+              })) || [];
+            return (
+              <InputSelect
+                key={index}
+                label={getTranslatedText(modelField.field.name)}
+                options={
+                  modelField.field.options?.map((op) => ({
+                    label: getTranslatedText(op.label),
+                    value: op.value,
+                  })) || []
+                }
+                value={
+                  options.find((op) => op.value === value) || {
+                    label: "",
+                    value: "",
+                  }
+                }
+                onChange={(option: Option) => {
+                  formik.setFieldValue(
+                    "entityFieldValues",
+                    formik.values.entityFieldValues.map((entityFieldValue) => {
+                      if (entityFieldValue.fieldId === modelField.field._id) {
+                        return {
+                          ...entityFieldValue,
+                          value: option.value,
+                        };
+                      } else {
+                        return entityFieldValue;
+                      }
+                    }) || []
+                  );
+                }}
               />
             );
           }

@@ -10,6 +10,10 @@ export type FieldUpdateCommand = {
   name: string;
   type: IField["type"];
   language: string;
+  options?: {
+    label: string;
+    value: string;
+  }[];
 };
 
 const useUpdateField = () => {

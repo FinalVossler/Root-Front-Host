@@ -7,6 +7,7 @@ import { Theme } from "../../config/theme";
 import withWrapper from "../../hoc/wrapper";
 import useDeleteEntities from "../../hooks/apiHooks/useDeleteEntities";
 import useGetEntitiesByModel from "../../hooks/apiHooks/useGetEntitiesByModel";
+import useGetModels from "../../hooks/apiHooks/useGetModels";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
@@ -43,6 +44,7 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
   const { getEntitiesByModel, loading } = useGetEntitiesByModel();
+  const { getModels } = useGetModels();
   const isLoggedIn: boolean = useIsLoggedIn();
   const { deleteEntities, loading: deleteLoading } = useDeleteEntities(
     modelId || ""
@@ -57,6 +59,15 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
       },
     });
   }, [modelId]);
+
+  React.useEffect(() => {
+    getModels({
+      paginationCommand: {
+        limit: 9999,
+        page: 1,
+      },
+    });
+  }, []);
 
   if (!isLoggedIn) return null;
 

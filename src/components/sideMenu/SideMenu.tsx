@@ -52,13 +52,15 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
   const isLoggedIn: boolean = useIsLoggedIn();
 
   React.useEffect(() => {
-    const command: ModelsGetCommand = {
-      paginationCommand: {
-        limit: 99999,
-        page: 1,
-      },
-    };
-    getModels(command);
+    if (models.length === 0) {
+      const command: ModelsGetCommand = {
+        paginationCommand: {
+          limit: 99999,
+          page: 1,
+        },
+      };
+      getModels(command);
+    }
   }, []);
 
   //#region Event listeners

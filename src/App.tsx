@@ -25,6 +25,7 @@ import FieldsPage from "./pages/fieldsPage";
 import ModelsPage from "./pages/modelsPage";
 import EntitiesPage from "./pages/entitiesPage";
 import PagesPage from "./pages/pagesPage";
+import withWrapper from "./hoc/wrapper";
 
 const stripePromise = loadStripe(
   // @ts-ignore

@@ -30,7 +30,7 @@ const useGetModels = () => {
         .then((res) => {
           dispatch(
             modelSlice.actions.setModels({
-              models: res.data.data.data,
+              models: res.data.data.data.reverse(),
               total: res.data.data.total,
             })
           );
