@@ -128,6 +128,22 @@ export interface IWebsiteConfiguration {
     ownFiles: {
       noFilesFound: ITranslatedText[];
     };
+    websiteConfiguration: {
+      titleIsRequired: ITranslatedText[];
+      emailIsRequired: ITranslatedText[];
+      phoneNumberIsRequired: ITranslatedText[];
+      tabTitleIsRequired: ITranslatedText[];
+      websiteConfiguration: ITranslatedText[];
+      globalConfiguration: ITranslatedText[];
+      title: ITranslatedText[];
+      email: ITranslatedText[];
+      phoneNumber: ITranslatedText[];
+      tabTitle: ITranslatedText[];
+      withChat: ITranslatedText[];
+      theme: ITranslatedText[];
+      revertThemeConfigurationToDefault: ITranslatedText[];
+      update: ITranslatedText[];
+    };
   };
 }
 
@@ -577,6 +593,67 @@ const initialState: IWebsiteConfigurationState = {
       noFilesFound: [
         { text: "Now files found", language: "en" },
         { text: "Pas de fichiers trouvés", language: "fr" },
+      ],
+    },
+    websiteConfiguration: {
+      email: [
+        { text: "Email", language: "en" },
+        { text: "Email", language: "fr" },
+      ],
+      emailIsRequired: [
+        { text: "Email is required", language: "en" },
+        { text: "L'email est requis", language: "fr" },
+      ],
+      globalConfiguration: [
+        { text: "Global Configuration", language: "en" },
+        { text: "Configuration Globale", language: "fr" },
+      ],
+      phoneNumber: [
+        { text: "Phone number", language: "en" },
+        { text: "Numéro de téléphone", language: "fr" },
+      ],
+      phoneNumberIsRequired: [
+        { text: "Phone number is required", language: "en" },
+        { text: "Le numéro de téléphone est requis", language: "fr" },
+      ],
+      revertThemeConfigurationToDefault: [
+        { text: "Revert theme configuration to default", language: "en" },
+        {
+          text: "Remettre la configuration du thème aux valeurs par défaut",
+          language: "fr",
+        },
+      ],
+      tabTitle: [
+        { text: "Tab title", language: "en" },
+        { text: "Titre de l'onglet", language: "fr" },
+      ],
+      tabTitleIsRequired: [
+        { text: "Tab title is required", language: "en" },
+        { text: "Le titlre de l'onglet est requis", language: "fr" },
+      ],
+      theme: [
+        { text: "Theme", language: "en" },
+        { text: "Thème", language: "fr" },
+      ],
+      title: [
+        { text: "Title", language: "en" },
+        { text: "Titre", language: "fr" },
+      ],
+      titleIsRequired: [
+        { text: "Title is required", language: "en" },
+        { text: "Le titre est requis", language: "fr" },
+      ],
+      update: [
+        { text: "Update", language: "en" },
+        { text: "Mettre à jour", language: "fr" },
+      ],
+      websiteConfiguration: [
+        { text: "Website configuration", language: "en" },
+        { text: "Configuration du site Web/Application", language: "fr" },
+      ],
+      withChat: [
+        { text: "With Chat", language: "en" },
+        { text: "Avec Chat", language: "fr" },
       ],
     },
   },

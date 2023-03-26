@@ -20,6 +20,7 @@ import ColorInput from "../../colorInput";
 import useUpdateWebsiteConfiguration, {
   WebsiteConfigurationUpdateCommand,
 } from "../../../hooks/apiHooks/useUpdateWebsiteConfiguration";
+import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 
 interface IConfigurationForm extends Theme {
   title?: string;
@@ -44,6 +45,9 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
     const theme: Theme = useAppSelector(
       (state) => state.websiteConfiguration.theme
     );
+    const staticText = useAppSelector(
+      (state) => state.websiteConfiguration.staticText?.websiteConfiguration
+    );
 
     const styles = useStyles({ theme });
     const handleRevertThemeToDefault = () => {
@@ -53,6 +57,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
     };
     const { updateWebsiteConfiguration, loading } =
       useUpdateWebsiteConfiguration();
+    const getTranslatedText = useGetTranslatedText();
 
     const formik: FormikProps<IConfigurationForm> =
       useFormik<IConfigurationForm>({
@@ -85,10 +90,18 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
           boxShadow: websiteConfiguration.theme.boxShadow,
         },
         validationSchema: Yup.object().shape({
-          title: Yup.string().required("Title is required"),
-          email: Yup.string().required("Email is required"),
-          phoneNumber: Yup.string().required("Phone number is required"),
-          tabTitle: Yup.string().required("Tab Title is required"),
+          title: Yup.string().required(
+            getTranslatedText(staticText?.titleIsRequired)
+          ),
+          email: Yup.string().required(
+            getTranslatedText(staticText?.emailIsRequired)
+          ),
+          phoneNumber: Yup.string().required(
+            getTranslatedText(staticText?.phoneNumberIsRequired)
+          ),
+          tabTitle: Yup.string().required(
+            getTranslatedText(staticText?.tabTitleIsRequired)
+          ),
           withChat: Yup.boolean(),
           withRegistration: Yup.boolean(),
         }),
@@ -135,7 +148,9 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
           className={styles.websiteConfigurationModalContainer}
         >
           <div className={styles.header}>
-            <h2 className={styles.title}>Website Configuration</h2>
+            <h2 className={styles.title}>
+              {getTranslatedText(staticText?.websiteConfiguration)}
+            </h2>
 
             <ImCross
               onClick={() => props.setConfigurationModalOpen(false)}
@@ -143,7 +158,9 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             />
           </div>
 
-          <h2 className={styles.themeTitle}>Global Configuration: </h2>
+          <h2 className={styles.themeTitle}>
+            {getTranslatedText(staticText?.globalConfiguration)}:{" "}
+          </h2>
 
           <Input
             Icon={MdTitle}
@@ -311,7 +328,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             type="button"
             onClick={handleRevertThemeToDefault}
           >
-            Revert Theme configuration to default
+            {getTranslatedText(staticText?.revertThemeConfigurationToDefault)}
           </Button>
 
           {!loading && (
@@ -321,7 +338,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
               style={{}}
               className={styles.button}
             >
-              Update
+              {getTranslatedText(staticText?.update)}
             </Button>
           )}
 
