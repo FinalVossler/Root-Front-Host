@@ -66,6 +66,10 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
     }
   }, [editorOpen]);
 
+  React.useEffect(() => {
+    setSelectedElements([]);
+  }, [props.elements]);
+
   //#region Event listeners
   const handleToggleElementSelect = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -156,7 +160,21 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
             </th>
             <ColumnResizer className="columnResizer" minWidth={0} />
             <th className={styles.tableColumn}>
-              {getTranslatedText(staticText?.actions)}
+              <div className={styles.actions}>
+                {getTranslatedText(staticText?.actions)}
+                <input
+                  className={styles.actionCheckbox}
+                  type="checkbox"
+                  checked={selectedElements.length === props.elements.length}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setSelectedElements(
+                      props.elements.length !== selectedElements.length
+                        ? props.elements.map((el) => el._id)
+                        : []
+                    )
+                  }
+                />
+              </div>
             </th>
             <ColumnResizer className="columnResizer" minWidth={0} />
           </tr>

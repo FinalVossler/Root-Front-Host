@@ -42,6 +42,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     textAlign: "center",
     border: "1px solid " + theme.lightTextColor,
   },
+  actions: {
+    display: "flex",
+    width: "100%",
+    alignItems: "center",
+  },
   checkbox: {
     width: 20,
     height: 20,
@@ -54,6 +59,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.primary,
     cursor: "pointer",
     fontSize: 20,
+  },
+  actionCheckbox: {
+    extend: "checkbox",
+    marginLeft: 10,
   },
   "@media (max-width: 800px)": {},
 }));
