@@ -3,6 +3,11 @@ import { createUseStyles } from "react-jss";
 import { Theme } from "../../../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
+  label: {
+    color: theme.lightTextColor,
+    fontSize: 20,
+    marginBottom: 5,
+  },
   addFilesContainer: {
     display: "flex",
     flexDirection: "column",

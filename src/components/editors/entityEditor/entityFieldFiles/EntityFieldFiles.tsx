@@ -16,6 +16,7 @@ import { useAppSelector } from "../../../../store/hooks";
 import useStyles from "./entityFieldFiles.styles";
 import isFileAnImage from "../../../../utils/isFileAnImage";
 import readAsBase64 from "../../../../utils/readAsBase64";
+import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 
 type TrackedImage = {
   base64: string;
@@ -43,6 +44,7 @@ const EntityFieldFiles = (props: IEntityFieldFiles) => {
   const styles = useStyles({ theme });
   const inputRef: React.MutableRefObject<HTMLInputElement | null> =
     React.useRef<HTMLInputElement>(null);
+  const getTranslatedText = useGetTranslatedText();
 
   //#region Effects
   React.useEffect(() => {
@@ -158,6 +160,9 @@ const EntityFieldFiles = (props: IEntityFieldFiles) => {
 
   return (
     <div className={styles.addFilesContainer}>
+      <span className={styles.label}>
+        {getTranslatedText(props.modelField.field.name)}:
+      </span>
       <div className={styles.filesButtonsContainer}>
         <AiOutlineFileSearch
           className={styles.chooseFilesButton}

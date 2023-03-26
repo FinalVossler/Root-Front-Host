@@ -11,7 +11,8 @@ import useGetModels from "../../hooks/apiHooks/useGetModels";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
-import { IEntity } from "../../store/slices/entitySlice";
+import { IEntity, IEntityFieldValue } from "../../store/slices/entitySlice";
+import { FieldType } from "../../store/slices/fieldSlice";
 import { IModel } from "../../store/slices/modelSlice";
 
 import useStyles from "./entitiesPage.styles";
@@ -89,13 +90,28 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
             return {
               label: getTranslatedText(modelField.field.name),
               name: "",
-              render: (entity: IEntity) =>
-                getTranslatedText(
+              render: (entity: IEntity) => {
+                const entityFieldValue: IEntityFieldValue | undefined =
                   entity.entityFieldValues.find(
                     (entityField) =>
                       entityField.field._id === modelField.field._id
-                  )?.value
-                ),
+                  );
+
+                if (
+                  entityFieldValue &&
+                  entityFieldValue?.field.type !== FieldType.File
+                ) {
+                  return getTranslatedText(entityFieldValue?.value);
+                }
+                if (
+                  entityFieldValue &&
+                  entityFieldValue.field.type === FieldType.File
+                ) {
+                  return entityFieldValue.files.map((f) => f.name).join(", ");
+                }
+
+                return "";
+              },
             };
           }) || []
         }
