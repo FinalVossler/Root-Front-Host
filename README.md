@@ -7,7 +7,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 Delete message files when deleting a message
 
-Add Page creation feature for admin
+Add Page creation feature for SuperAdmin
 
 - Create a post search input
 - Add the ability for a post to contain many posts

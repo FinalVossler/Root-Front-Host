@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import IFile from "../../globalTypes/IFile";
 
 export enum Role {
-  Admin = "Admin",
+  SuperAdmin = "SuperAdmin",
   Normal = "Normal",
 }
 

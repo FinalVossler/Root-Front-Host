@@ -57,9 +57,9 @@ const withWrapper =
 
     return (
       <div className={styles.sideMenuAndContent}>
-        {options.withSideMenu && isLoggedIn && user.role === Role.Admin && (
-          <SideMenu />
-        )}
+        {options.withSideMenu &&
+          isLoggedIn &&
+          user.role === Role.SuperAdmin && <SideMenu />}
 
         <div
           ref={scrollableRef as React.RefObject<HTMLDivElement>}

@@ -17,16 +17,19 @@ const useGetUserAndSelectedFiles = () => {
   const getUserAndSelectedFiles = (
     command: FileGetUserAndSelectedFilesCommand
   ) =>
-    new Promise<IFile[]>((resolve, reject) => {
+    new Promise<{ files: IFile[]; total: number }>((resolve, reject) => {
+      setLoading(true);
+
       axios
-        .request<AxiosResponse<IFile[]>>({
+        .request<AxiosResponse<{ files: IFile[]; total: number }>>({
           method: "POST",
           data: command,
           url: "/files/getUserAndSelectedFilesCommand",
         })
         .then((res) => {
-          const files: IFile[] = res.data.data;
-          resolve(files);
+          const files: IFile[] = res.data.data.files;
+          const total: number = res.data.data.total;
+          resolve({ files, total });
         })
         .finally(() => setLoading(false));
     });

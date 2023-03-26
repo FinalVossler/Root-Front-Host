@@ -84,7 +84,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
       {isSideMenuOpen && (
         <div className={styles.sideMenuContent}>
           <span className={styles.appName}>{title}</span>
-          {user.role === Role.Admin && (
+          {user.role === Role.SuperAdmin && (
             <SideMenuOption
               Icon={BsFillGearFill}
               title={getTranslatedText(staticText?.configuration)}
@@ -96,14 +96,14 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
             title={getTranslatedText(staticText?.profile)}
             link="/profile"
           />
-          {user.role === Role.Admin && (
+          {user.role === Role.SuperAdmin && (
             <SideMenuOption
               Icon={MdTextFields}
               title={getTranslatedText(staticText?.pages)}
               link="/pages"
             />
           )}
-          {user.role === Role.Admin && (
+          {user.role === Role.SuperAdmin && (
             <SideMenuOption
               Icon={MdTextFields}
               title={getTranslatedText(staticText?.fields)}

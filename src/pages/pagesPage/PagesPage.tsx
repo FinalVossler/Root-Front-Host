@@ -63,7 +63,7 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
     setDeleteModalOpen(true);
   };
 
-  if (user.role !== Role.Admin) return null;
+  if (user.role !== Role.SuperAdmin) return null;
 
   return (
     <div className={styles.pagesPageContainer}>

@@ -133,7 +133,7 @@ const PageEditor = (props: IPageEditor) => {
   };
   //#endregion Event listeners
 
-  if (user.role !== Role.Admin) return null;
+  if (user.role !== Role.SuperAdmin) return null;
 
   const loading = createLoading || updateLoading;
   return (

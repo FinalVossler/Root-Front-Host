@@ -13,6 +13,7 @@ import useGetUserAndSelectedFiles, {
   FileGetUserAndSelectedFilesCommand,
 } from "../../hooks/apiHooks/useGetUserAndSelectedFiles";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
+import Pagination from "../pagination";
 
 interface IOwnFiles {
   selectedOwnFiles: IFile[];
@@ -29,16 +30,26 @@ const OwnFiles = (props: IOwnFiles) => {
 
   const [files, setFiles] = React.useState<IFile[]>([]);
   const [page, setPage] = React.useState(1);
+  const [limit, setLimit] = React.useState(5);
+  const [total, setTotal] = React.useState<number>(0);
 
   const styles = useStyles({ theme });
   const { getUserAndSelectedFiles, loading } = useGetUserAndSelectedFiles();
   const getTranslatedText = useGetTranslatedText();
 
+  //#region Effects
+  React.useEffect(() => {
+    return () => {
+      setFiles([]);
+      setPage(1);
+    };
+  }, []);
+
   React.useEffect(() => {
     const getFiles = async () => {
       const paginationCommand: PaginationCommand = {
         page,
-        limit: 20,
+        limit,
       };
 
       const command: FileGetUserAndSelectedFilesCommand = {
@@ -46,26 +57,20 @@ const OwnFiles = (props: IOwnFiles) => {
         selectedFilesIds: props.selectedOwnFiles.map((f) => f._id || ""),
       };
 
-      const filesResult: IFile[] = await getUserAndSelectedFiles(command);
-
-      const concatenatedFiles = [...files, ...filesResult];
-      // Remove redundancy (Because we could get in a future page a selected element that we already got)
-      const newFiles = _.uniqWith(
-        concatenatedFiles,
-        (f1, f2) => f1._id === f2._id
+      const { files: filesResult, total } = await getUserAndSelectedFiles(
+        command
       );
 
+      // Remove redundancy (Because we could get in a future page a selected element that we already got)
+      const newFiles = _.uniqWith(filesResult, (f1, f2) => f1._id === f2._id);
+
+      setTotal(total);
       setFiles(newFiles);
-      setPage(page + 1);
     };
 
     getFiles();
-
-    return () => {
-      setFiles([]);
-      setPage(1);
-    };
-  }, []);
+  }, [page]);
+  //#endregion Effects
 
   //#region Event listeners
   const handleTriggerSelectFile = (file: IFile) => {
@@ -77,42 +82,55 @@ const OwnFiles = (props: IOwnFiles) => {
     }
     props.setSelectedOwnFiles(newOwnFiles);
   };
+
+  const handlePageChange = (page: number) => {
+    setPage(page);
+  };
   //#endregion Event listeners
 
   return (
     <div className={styles.ownFilesContainer}>
-      {files.length === 0 && (
+      {files.length === 0 && !loading && (
         <div className={styles.noFiles}>
           {getTranslatedText(staticText?.noFilesFound)}
         </div>
       )}
 
-      {files.map((file, index) => {
-        const style: React.CSSProperties = {};
-        if (file.isImage) {
-          style.backgroundImage = "url(" + file.url + ")";
-        }
+      {!loading &&
+        files.map((file, index) => {
+          const style: React.CSSProperties = {};
+          if (file.isImage) {
+            style.backgroundImage = "url(" + file.url + ")";
+          }
 
-        return (
-          <div
-            onClick={() => handleTriggerSelectFile(file)}
-            key={index}
-            style={style}
-            className={
-              props.selectedOwnFiles.find((el) => el._id === file._id)
-                ? styles.selectedSingleFileContainer
-                : styles.singleFileContainer
-            }
-          >
-            {!file.isImage && <AiOutlineFileDone className={styles.fileIcon} />}
-            {!file.isImage && (
-              <span className={styles.fileName}>{file.name}</span>
-            )}
-          </div>
-        );
-      })}
+          return (
+            <div
+              onClick={() => handleTriggerSelectFile(file)}
+              key={index}
+              style={style}
+              className={
+                props.selectedOwnFiles.find((el) => el._id === file._id)
+                  ? styles.selectedSingleFileContainer
+                  : styles.singleFileContainer
+              }
+            >
+              {!file.isImage && (
+                <AiOutlineFileDone className={styles.fileIcon} />
+              )}
+              {!file.isImage && (
+                <span className={styles.fileName}>{file.name}</span>
+              )}
+            </div>
+          );
+        })}
+      <div className={styles.loadingContainer}>{loading && <Loading />}</div>
 
-      {loading && <Loading />}
+      <Pagination
+        page={page}
+        limit={limit}
+        total={total}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };

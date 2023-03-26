@@ -55,6 +55,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
     textAlign: "center",
     color: theme.lightTextColor,
   },
+  loadingContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+  },
   "@media (max-width: 850px)": {},
 }));
 
