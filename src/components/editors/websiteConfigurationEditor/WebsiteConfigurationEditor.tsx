@@ -165,161 +165,199 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
           <Input
             Icon={MdTitle}
             name={"title"}
-            label="Title"
+            label={getTranslatedText(staticText?.title)}
             formik={formik}
             inputProps={{
-              placeholder: "title",
+              placeholder: getTranslatedText(staticText?.title),
             }}
           />
 
           <Input
             Icon={MdTitle}
             name={"email"}
-            label="Contact Email"
+            label={getTranslatedText(staticText?.email)}
             formik={formik}
             inputProps={{
-              placeholder: "email",
+              placeholder: getTranslatedText(staticText?.email),
             }}
           />
 
           <Input
             Icon={MdTitle}
             name={"phoneNumber"}
-            label="Phone number"
+            label={getTranslatedText(staticText?.phoneNumber)}
             formik={formik}
             inputProps={{
-              placeholder: "phone number",
+              placeholder: getTranslatedText(staticText?.phoneNumber),
             }}
           />
 
           <Input
             Icon={MdTitle}
             name={"tabTitle"}
-            label="Tab Title"
+            label={getTranslatedText(staticText?.tabTitle)}
             formik={formik}
             inputProps={{
-              placeholder: "Tab Title",
+              placeholder: getTranslatedText(staticText?.tabTitle),
             }}
           />
 
           <InputLanguages name={"mainLanguages"} formik={formik} />
 
-          <Checkbox name="withChat" formik={formik} label="With Chat" />
+          <Checkbox
+            name="withChat"
+            formik={formik}
+            label={getTranslatedText(staticText?.withChat)}
+          />
 
           <Checkbox
             name="withRegistration"
             formik={formik}
-            label="With Registration"
+            label={getTranslatedText(staticText?.withRegistration)}
           />
 
           {/* Theme inputs */}
 
-          <h2 className={styles.themeTitle}>Theme:</h2>
+          <h2 className={styles.themeTitle}>
+            {getTranslatedText(staticText?.theme)}:
+          </h2>
 
           <ColorInput
             name="darkTextColor"
-            label="darkTextColor"
+            label={getTranslatedText(staticText?.darkTextColor)}
             formik={formik}
-            inputProps={{ placeholder: "darkTextColor" }}
+            inputProps={{
+              placeholder: getTranslatedText(staticText?.darkTextColor),
+            }}
           />
 
           <ColorInput
             name="lightTextColor"
-            label="lightTextColor"
+            label={getTranslatedText(staticText?.lightTextColor)}
             formik={formik}
-            inputProps={{ placeholder: "lightTextColor" }}
+            inputProps={{
+              placeholder: getTranslatedText(staticText?.lightTextColor),
+            }}
           />
 
           <ColorInput
             name="primary"
-            label="primary"
+            label={getTranslatedText(staticText?.primary)}
             formik={formik}
-            inputProps={{ placeholder: "primary" }}
+            inputProps={{ placeholder: getTranslatedText(staticText?.primary) }}
           />
 
           <ColorInput
             name="darkerPrimary"
-            label="darkerPrimary"
+            label={getTranslatedText(staticText?.darkerPrimary)}
             formik={formik}
-            inputProps={{ placeholder: "darkerPrimary" }}
+            inputProps={{
+              placeholder: getTranslatedText(staticText?.darkerPrimary),
+            }}
           />
 
           <ColorInput
             name="lighterPrimary"
-            label="lighterPrimary"
+            label={getTranslatedText(staticText?.lighterPrimary)}
             formik={formik}
-            inputProps={{ placeholder: "lighterPrimary" }}
+            inputProps={{
+              placeholder: getTranslatedText(staticText?.lighterPrimary),
+            }}
           />
 
           <ColorInput
             name="secondary"
-            label="secondary"
+            label={getTranslatedText(staticText?.secondary)}
             formik={formik}
-            inputProps={{ placeholder: "secondary" }}
+            inputProps={{
+              placeholder: getTranslatedText(staticText?.secondary),
+            }}
           />
 
           <ColorInput
             name="errorColor"
-            label="errorColor"
+            label={getTranslatedText(staticText?.errorColor)}
             formik={formik}
-            inputProps={{ placeholder: "errorColor" }}
+            inputProps={{
+              placeholder: getTranslatedText(staticText?.errorColor),
+            }}
           />
 
           <ColorInput
             name="borderColor"
-            label="borderColor"
+            label={getTranslatedText(staticText?.borderColor)}
             formik={formik}
-            inputProps={{ placeholder: "borderColor" }}
+            inputProps={{
+              placeholder: getTranslatedText(staticText?.borderColor),
+            }}
           />
 
           <ColorInput
             name="backgroundColor"
-            label="backgroundColor"
+            label={getTranslatedText(staticText?.backgroundColor)}
             formik={formik}
-            inputProps={{ placeholder: "backgroundColor" }}
+            inputProps={{
+              placeholder: getTranslatedText(staticText?.backgroundColor),
+            }}
           />
 
           <ColorInput
             name="contentBackgroundColor"
-            label="contentBackgroundColor"
+            label={getTranslatedText(staticText?.contentBackgroundColor)}
             formik={formik}
-            inputProps={{ placeholder: "contentBackgroundColor" }}
+            inputProps={{
+              placeholder: getTranslatedText(
+                staticText?.contentBackgroundColor
+              ),
+            }}
           />
 
           <ColorInput
             name="boxColor"
-            label="boxColor"
+            label={getTranslatedText(staticText?.boxColor)}
             formik={formik}
-            inputProps={{ placeholder: "boxColor" }}
+            inputProps={{
+              placeholder: getTranslatedText(staticText?.boxColor),
+            }}
           />
 
           <ColorInput
             name="transparentBackground"
-            label="transparentBackground"
+            label={getTranslatedText(staticText?.transparentBackground)}
             formik={formik}
-            inputProps={{ placeholder: "transparentBackground" }}
+            inputProps={{
+              placeholder: getTranslatedText(staticText?.transparentBackground),
+            }}
           />
 
           <ColorInput
             name="subContentBackgroundColor"
-            label="subContentBackgroundColor"
+            label={getTranslatedText(staticText?.subContentBackgroundColor)}
             formik={formik}
-            inputProps={{ placeholder: "subContentBackgroundColor" }}
+            inputProps={{
+              placeholder: getTranslatedText(
+                staticText?.subContentBackgroundColor
+              ),
+            }}
           />
 
           <Input
             name="boxShadow"
-            label="boxShadow"
+            label={getTranslatedText(staticText?.boxShadow)}
             formik={formik}
-            inputProps={{ placeholder: "boxShadow" }}
+            inputProps={{
+              placeholder: getTranslatedText(staticText?.boxShadow),
+            }}
             Icon={SiShadow}
           />
 
           <Input
             name="formMaxWidth"
-            label="formMaxWidth"
+            label={getTranslatedText(staticText?.formMaxWidth)}
             formik={formik}
-            inputProps={{ placeholder: "formMaxWidth" }}
+            inputProps={{
+              placeholder: getTranslatedText(staticText?.formMaxWidth),
+            }}
             Icon={AiOutlineColumnWidth}
           />
 

@@ -143,6 +143,24 @@ export interface IWebsiteConfiguration {
       theme: ITranslatedText[];
       revertThemeConfigurationToDefault: ITranslatedText[];
       update: ITranslatedText[];
+      withRegistration: ITranslatedText[];
+
+      darkTextColor: ITranslatedText[];
+      lightTextColor: ITranslatedText[];
+
+      primary: ITranslatedText[];
+      darkerPrimary: ITranslatedText[];
+      lighterPrimary: ITranslatedText[];
+      secondary: ITranslatedText[];
+      errorColor: ITranslatedText[];
+      borderColor: ITranslatedText[];
+      formMaxWidth: ITranslatedText[];
+      transparentBackground: ITranslatedText[];
+      backgroundColor: ITranslatedText[];
+      contentBackgroundColor: ITranslatedText[];
+      subContentBackgroundColor: ITranslatedText[];
+      boxColor: ITranslatedText[];
+      boxShadow: ITranslatedText[];
     };
   };
 }
@@ -654,6 +672,73 @@ const initialState: IWebsiteConfigurationState = {
       withChat: [
         { text: "With Chat", language: "en" },
         { text: "Avec Chat", language: "fr" },
+      ],
+      withRegistration: [
+        { text: "With Registraton", language: "en" },
+        {
+          text: "Avec la capactié de créer un compte utilisateur",
+          language: "fr",
+        },
+      ],
+      darkTextColor: [
+        { text: "Dark text color", language: "en" },
+        { text: "Couleur du texte sombre", language: "fr" },
+      ],
+      backgroundColor: [
+        { text: "Background couleur", language: "en" },
+        { text: "Couleur de l'arrière-plan", language: "fr" },
+      ],
+      borderColor: [
+        { text: "Border color", language: "en" },
+        { text: "Couleur de la bordure", language: "fr" },
+      ],
+      boxColor: [
+        { text: "Box Color", language: "en" },
+        { text: "Couleur d'un box", language: "fr" },
+      ],
+      boxShadow: [
+        { text: "Box Shadow", language: "en" },
+        { text: "Ombre", language: "fr" },
+      ],
+      contentBackgroundColor: [
+        { text: "Content background color", language: "en" },
+        { text: "Couleur d'arrière plan du contenu", language: "fr" },
+      ],
+      darkerPrimary: [
+        { text: "Darker primary", language: "en" },
+        { text: "Primaire sombre", language: "fr" },
+      ],
+      errorColor: [
+        { text: "Error color", language: "en" },
+        { text: "couleur en erreur", language: "fr" },
+      ],
+      formMaxWidth: [
+        { text: "Form max width", language: "en" },
+        { text: "Largeur maximale d'un formulaire", language: "fr" },
+      ],
+      lightTextColor: [
+        { text: "Light text color", language: "en" },
+        { text: "Couloeur du texte adoucie", language: "fr" },
+      ],
+      lighterPrimary: [
+        { text: "Lighter text color", language: "en" },
+        { text: "Couleur du text encore plus adoucie", language: "fr" },
+      ],
+      primary: [
+        { text: "Primary", language: "en" },
+        { text: "Primaire", language: "fr" },
+      ],
+      secondary: [
+        { text: "Secondary", language: "en" },
+        { text: "Secondaire", language: "fr" },
+      ],
+      subContentBackgroundColor: [
+        { text: "Sub bontent background color", language: "en" },
+        { text: "couleur d'arrière-plan du sous-contenu", language: "fr" },
+      ],
+      transparentBackground: [
+        { text: "Transparent backround", language: "en" },
+        { text: "Arrière-plan transparent", language: "fr" },
       ],
     },
   },
