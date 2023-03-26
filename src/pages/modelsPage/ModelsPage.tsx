@@ -9,7 +9,6 @@ import useGetModels from "../../hooks/apiHooks/useGetModels";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
-import { IField } from "../../store/slices/fieldSlice";
 import { IModel } from "../../store/slices/modelSlice";
 import { IUser, Role } from "../../store/slices/userSlice";
 
@@ -29,6 +28,9 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
   const { models, total } = useAppSelector((state) => state.model);
   const user: IUser = useAppSelector((state) => state.user.user);
 
+  const [limit, setLimit] = React.useState<number>(10);
+  const [page, setPage] = React.useState<number>(1);
+
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
   const { getModels, loading } = useGetModels();
@@ -38,11 +40,15 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
   React.useEffect(() => {
     getModels({
       paginationCommand: {
-        limit: 100,
-        page: 1,
+        limit,
+        page,
       },
     });
   }, []);
+
+  const handlePageChange = (page: number) => {
+    setPage(page);
+  };
 
   if (!isLoggedIn) return null;
 
@@ -71,10 +77,13 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
         ]}
         elements={models}
         total={total}
+        limit={limit}
+        page={page}
         loading={loading}
         deletePromise={deleteModels}
         deleteLoading={deleteLoading}
         getElementName={(model: any) => getTranslatedText(model.name)}
+        onPageChange={handlePageChange}
       />
     </div>
   );

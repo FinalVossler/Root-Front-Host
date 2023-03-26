@@ -13,6 +13,7 @@ import useStyles from "./elements.styles";
 import ConfirmationModal from "../confirmationModal";
 import { IModel } from "../../store/slices/modelSlice";
 import { IEntity } from "../../store/slices/entitySlice";
+import Pagination from "../pagination";
 
 export type Column = {
   label: string;
@@ -31,10 +32,13 @@ interface IElements {
   columns: Column[];
   elements: Element[];
   total: number;
+  limit: number;
+  page: number;
   loading: boolean;
   deletePromise: (ids: string[]) => Promise<unknown>;
   deleteLoading: boolean;
   getElementName: (element: Element) => string;
+  onPageChange: (page: number) => void;
 }
 
 const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
@@ -207,6 +211,13 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
             })}
         </tbody>
       </table>
+
+      <Pagination
+        total={props.total}
+        limit={props.limit}
+        page={props.page}
+        onPageChange={props.onPageChange}
+      />
     </div>
   );
 };

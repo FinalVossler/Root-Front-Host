@@ -46,3 +46,25 @@ embed img {
 a {
   text-decoration: none;
 }
+
+/* Pagination styling for component: src/components/pagination/Pagination.tsx */
+.rc-pagination {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.rc-pagination li {
+  margin: 10px;
+}
+
+.rc-pagination-item-active {
+  font-size: 40px;
+  margin-left: 40px !important;
+  color: red;
+}
+
+.rc-pagination-next,
+.rc-pagination-prev {
+  display: none;
+}

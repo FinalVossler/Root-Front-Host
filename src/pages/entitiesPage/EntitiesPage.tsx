@@ -41,6 +41,9 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
     state.model.models.find((m) => m._id === modelId)
   );
 
+  const [limit, setLimit] = React.useState<number>(10);
+  const [page, setPage] = React.useState<number>(1);
+
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
   const { getEntitiesByModel, loading } = useGetEntitiesByModel();
@@ -55,7 +58,7 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
       model: modelId || "",
       paginationCommand: {
         limit: 100,
-        page: 1,
+        page,
       },
     });
   }, [modelId]);
@@ -63,11 +66,15 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
   React.useEffect(() => {
     getModels({
       paginationCommand: {
-        limit: 9999,
+        limit,
         page: 1,
       },
     });
   }, []);
+
+  const handlePageChange = (page: number) => {
+    setPage(page);
+  };
 
   if (!isLoggedIn) return null;
 
@@ -94,10 +101,13 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
         }
         elements={entities || []}
         total={total || 0}
+        limit={limit}
+        page={page}
         loading={loading}
         deletePromise={deleteEntities}
         deleteLoading={deleteLoading}
         getElementName={(entity: any) => ""}
+        onPageChange={handlePageChange}
       />
     </div>
   );

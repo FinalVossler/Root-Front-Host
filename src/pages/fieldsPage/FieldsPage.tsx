@@ -26,6 +26,9 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
   );
   const { fields, total } = useAppSelector((state) => state.field);
 
+  const [limit, setLimit] = React.useState<number>(10);
+  const [page, setPage] = React.useState<number>(1);
+
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
   const { getFields, loading } = useGetFields();
@@ -35,11 +38,15 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
   React.useEffect(() => {
     getFields({
       paginationCommand: {
-        limit: 100,
-        page: 1,
+        limit,
+        page,
       },
     });
-  }, []);
+  }, [page]);
+
+  const handlePageChange = (page: number) => {
+    setPage(page);
+  };
 
   if (!isLoggedIn) return null;
 
@@ -72,10 +79,13 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
         ]}
         elements={fields}
         total={total}
+        limit={limit}
+        page={page}
         loading={loading}
         deletePromise={deleteFields}
         deleteLoading={deleteLoading}
         getElementName={(field: any) => getTranslatedText(field.name)}
+        onPageChange={handlePageChange}
       />
     </div>
   );
