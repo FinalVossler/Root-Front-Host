@@ -9,7 +9,6 @@ const uploadFile = async (file: File): Promise<IFile | undefined> => {
 
   const uploadResult: UploadcareFile = await client.uploadFile(file);
 
-  console.log("cdn url", uploadResult.cdnUrl);
   if (uploadResult.cdnUrl) {
     return {
       url: uploadResult.cdnUrl,

@@ -772,8 +772,6 @@ export const websiteConfigurationSlice = createSlice({
       state.theme = action.payload.theme;
       state.tabIcon = action.payload.tabIcon;
 
-      console.log("state tab icon", action.payload.tabIcon);
-
       // We override the initial values defined here by whatever is stored in the database
       // But we keep the values that aren't stored in the db.
       // This is so when we make modifications to the initial state after adding new text to the project,

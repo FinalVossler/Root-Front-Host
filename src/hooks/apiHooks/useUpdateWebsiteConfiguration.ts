@@ -1,12 +1,11 @@
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import React from "react";
 import { toast } from "react-toastify";
 
 import { Theme } from "../../config/theme";
 import IFile from "../../globalTypes/IFile";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { websiteConfigurationSlice } from "../../store/slices/websiteConfigurationSlice";
-import useAuthorizedAxios from "../useAuthorizedAxios";
 
 export type WebsiteConfigurationUpdateCommand = {
   title: string;
@@ -21,9 +20,12 @@ export type WebsiteConfigurationUpdateCommand = {
 };
 
 const useUpdateWebsiteConfiguration = () => {
+  const token: string = useAppSelector(
+    (state) => state.user.tokenInformation.value
+  );
+
   const [loading, setLoading] = React.useState<boolean>(false);
 
-  const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
   const updateWebsiteConfiguration = (
@@ -32,14 +34,16 @@ const useUpdateWebsiteConfiguration = () => {
     new Promise((resolve, reject) => {
       setLoading(true);
 
-      console.log("url in command", command.tabIcon?.url);
-      console.log("command", command);
       axios
         .request<AxiosResponse<WebsiteConfigurationUpdateCommand>>({
+          baseURL: process.env.REACT_APP_BACKEND_URL,
           url:
             process.env.REACT_APP_BACKEND_URL + "/websiteConfigurations/update",
           method: "POST",
           data: command,
+          headers: {
+            Authorization: "bearer " + token,
+          },
         })
         .then((res) => {
           dispatch(

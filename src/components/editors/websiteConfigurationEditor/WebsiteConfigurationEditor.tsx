@@ -128,7 +128,6 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             setUploadingTabIconLoading(false);
           }
 
-          console.log("url in formik", tabIcon?.url);
           const command: WebsiteConfigurationUpdateCommand = {
             email: values.email || "",
             phoneNumber: values.phoneNumber || "",

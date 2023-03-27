@@ -9,32 +9,28 @@ import { userSlice } from "../store/slices/userSlice";
 const useAxios = () => {
   const dispatch = useAppDispatch();
 
-  const instance = React.useMemo(() => {
-    const result = axios.create({
-      baseURL: process.env.REACT_APP_BACKEND_URL,
-    });
+  const instance = axios.create({
+    baseURL: process.env.REACT_APP_BACKEND_URL,
+  });
 
-    result.interceptors.response.use(
-      (response) => {
-        return response;
-      },
-      (error: ErrorResponseDto) => {
-        const message: string = error.response.data.error.message;
+  instance.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error: ErrorResponseDto) => {
+      const message: string = error.response.data.error.message;
 
-        // If unauthorized, then we logout the user
-        if (message == "Unauthorized") {
-          dispatch(userSlice.actions.logout());
-          toast.error("Offline");
-        } else {
-          toast.error(message);
-        }
-
-        throw new Error(error.response.data.error.message);
+      // If unauthorized, then we logout the user
+      if (message == "Unauthorized") {
+        dispatch(userSlice.actions.logout());
+        toast.error("Offline");
+      } else {
+        toast.error(message);
       }
-    );
 
-    return result;
-  }, []);
+      throw new Error(error.response.data.error.message);
+    }
+  );
 
   return instance;
 };
