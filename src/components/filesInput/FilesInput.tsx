@@ -5,6 +5,7 @@ import {
   AiFillCloseCircle,
   AiOutlineFileSearch,
 } from "react-icons/ai";
+import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import Loading from "react-loading";
 
 import { Theme } from "../../config/theme";
@@ -37,14 +38,17 @@ interface IFilesInput {
   allowMany?: boolean;
   label?: string;
   disabled?: boolean;
+  canAddNew?: boolean;
 }
 
 const FilesInput = (props: IFilesInput) => {
   const allowMany = props.allowMany ?? true;
+  const canAddNew = props.canAddNew ?? true;
 
   const [images, setTrackedImages] = React.useState<TrackedImage[]>([]);
   const [trackedFiles, setTrackedFiles] = React.useState<TrackedFile[]>([]);
   const [ownFilesOpen, setSelectedOwnFilesOpen] = React.useState<boolean>(true);
+  const [isShowing, setIsShowing] = React.useState<boolean>(false);
 
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
@@ -123,63 +127,84 @@ const FilesInput = (props: IFilesInput) => {
   const handleTriggerOwnFilesOpen = () => {
     setSelectedOwnFilesOpen(!ownFilesOpen);
   };
+
+  const handleTriggerIsShowing = () => setIsShowing(!isShowing);
   //#endregion Event listeners
 
   return (
     <div className={styles.filesInputContainer}>
       {props.label && (
-        <span className={styles.fileInputLabel}>{props.label}</span>
+        <span
+          onClick={handleTriggerIsShowing}
+          className={styles.fileInputLabel}
+        >
+          {props.label}{" "}
+          {isShowing ? (
+            <BsArrowDownShort className={styles.isShowingIcon} />
+          ) : (
+            <BsArrowUpShort className={styles.isShowingIcon} />
+          )}
+        </span>
       )}
-      <div className={styles.filesContainer}>
-        <div className={styles.imagesContainer}>
-          {images.map((trackedImage: TrackedImage, i) => {
-            return (
-              <div key={i} className={styles.singleFileContainer}>
-                <img
-                  className={styles.singleImage}
-                  style={{
-                    backgroundImage: "url(" + trackedImage.base64 + ")",
-                  }}
-                />
-                <AiFillCloseCircle
-                  onClick={() => handleRemoveFile(trackedImage)}
-                  className={styles.removeIcon}
-                />
-              </div>
-            );
-          })}
-          {trackedFiles.map((trackedFile: TrackedFile, i: number) => {
-            return (
-              <div key={i} className={styles.singleFileContainer}>
-                <AiOutlineFileDone className={styles.fileIcon} />
-                <span className={styles.fileName}>{trackedFile.file.name}</span>
-                <AiFillCloseCircle
-                  onClick={() => handleRemoveFile(trackedFile)}
-                  className={styles.removeIcon}
-                />
-              </div>
-            );
-          })}
+      {isShowing && (
+        <div className={styles.filesContainer}>
+          <div className={styles.imagesContainer}>
+            {images.map((trackedImage: TrackedImage, i) => {
+              return (
+                <div key={i} className={styles.singleFileContainer}>
+                  <img
+                    className={styles.singleImage}
+                    style={{
+                      backgroundImage: "url(" + trackedImage.base64 + ")",
+                    }}
+                  />
+                  <AiFillCloseCircle
+                    onClick={() => handleRemoveFile(trackedImage)}
+                    className={styles.removeIcon}
+                  />
+                </div>
+              );
+            })}
+            {trackedFiles.map((trackedFile: TrackedFile, i: number) => {
+              return (
+                <div key={i} className={styles.singleFileContainer}>
+                  <AiOutlineFileDone className={styles.fileIcon} />
+                  <span className={styles.fileName}>
+                    {trackedFile.file.name}
+                  </span>
+                  <AiFillCloseCircle
+                    onClick={() => handleRemoveFile(trackedFile)}
+                    className={styles.removeIcon}
+                  />
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
-      <div className={styles.buttonsContainer}>
-        <AiOutlineFileSearch
-          className={styles.chooseFilesButton}
-          onClick={handleTriggerOwnFilesOpen}
-          color={theme.primary}
-        />
+      )}
 
-        <AiFillFileAdd onClick={handleIconClick} className={styles.icon} />
+      {isShowing && (
+        <div className={styles.buttonsContainer}>
+          {props.canAddNew && (
+            <AiOutlineFileSearch
+              className={styles.chooseFilesButton}
+              onClick={handleTriggerOwnFilesOpen}
+              color={theme.primary}
+            />
+          )}
 
-        <input
-          onChange={handleFileChange}
-          ref={inputRef as React.RefObject<HTMLInputElement>}
-          hidden
-          type="file"
-          multiple={allowMany}
-        />
-      </div>
-      {ownFilesOpen && (
+          <AiFillFileAdd onClick={handleIconClick} className={styles.icon} />
+
+          <input
+            onChange={handleFileChange}
+            ref={inputRef as React.RefObject<HTMLInputElement>}
+            hidden
+            type="file"
+            multiple={allowMany}
+          />
+        </div>
+      )}
+      {ownFilesOpen && isShowing && (
         <OwnFiles
           selectedOwnFiles={props.selectedOwnFiles}
           setSelectedOwnFiles={props.setSelectedOwnFiles}

@@ -2,21 +2,20 @@ import React from "react";
 import { CgProfile } from "react-icons/cg";
 import ReactLoading from "react-loading";
 import { toast } from "react-toastify";
-import { AxiosResponse } from "axios";
 
 import Button from "../button";
 import { Theme } from "../../config/theme";
 
 import useStyles from "./profilePictureUpload.styles";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
-import { IUser, userSlice } from "../../store/slices/userSlice";
+import { useAppSelector } from "../../store/hooks";
 import IFile from "../../globalTypes/IFile";
 import uploadFile from "../../utils/uploadFile";
 import UserProfilePicture from "../userProfilePicture";
 import { SizeEnum } from "../userProfilePicture/UserProfilePicture";
 import readAsBase64 from "../../utils/readAsBase64";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
+import useUpdateProfilePicture from "../../hooks/apiHooks/useUpdateProfilePicture";
+import FilesInput from "../filesInput";
 
 interface IProfilePictureUpload {}
 const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
@@ -30,16 +29,18 @@ const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
   );
 
   const [file, setFile] = React.useState<File | null>(null);
+  const [selectedOwnFile, setSelectedOwnFile] =
+    React.useState<IFile | null>(null);
   const [fileAsBase64, setFileAsBase64] = React.useState<string | null>(null);
-  const [loading, setLoading] = React.useState(false);
+  const [uploadingFileLoading, setUploadingFileLoading] =
+    React.useState<boolean>(false);
 
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const inputRef = React.useRef<HTMLInputElement>();
-  const axios = useAuthorizedAxios();
-  const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
+  const { updateProfilePicture, loading } = useUpdateProfilePicture();
 
   const styles = useStyles({ theme });
 
@@ -48,30 +49,26 @@ const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
   };
 
   const handleUpload = async () => {
-    if (file === null) return toast.error("Upload a new picture first");
+    if (file === null && selectedOwnFile === null)
+      return toast.error(getTranslatedText(staticText?.uploadANewPictureFirst));
 
-    setLoading(true);
+    let newProfilePicture: IFile | undefined;
 
-    const newProfilePicture: IFile | undefined = await uploadFile(file);
+    if (file) {
+      setUploadingFileLoading(true);
+      newProfilePicture = await uploadFile(file);
+      setUploadingFileLoading(false);
+    }
+    if (selectedOwnFile) {
+      newProfilePicture = selectedOwnFile;
+    }
 
     if (newProfilePicture) {
-      axios
-        .request<AxiosResponse<IUser>>({
-          method: "PUT",
-          url: "/users/updateProfilePicture",
-          data: newProfilePicture,
-        })
-        .then((res) => {
-          const newUser: IUser = res.data.data;
-          dispatch(userSlice.actions.setUser(newUser));
-        })
-        .finally(() => {
-          setLoading(false);
-          setFile(null);
-          setFileAsBase64(null);
-        });
-    } else {
-      setLoading(false);
+      await updateProfilePicture(newProfilePicture);
+
+      setFile(null);
+      setSelectedOwnFile(null);
+      setFileAsBase64(null);
     }
   };
 
@@ -87,31 +84,40 @@ const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
     if (event.target.files && event.target.files?.length > 0) {
       const file: File = event.target.files[0];
       setFile(file);
+      setSelectedOwnFile(null);
 
       const base64: string = await readAsBase64(file);
       setFileAsBase64(base64);
     }
   };
 
+  const actualLoading = loading || uploadingFileLoading;
+
   return (
     <div className={styles.profilePictureUploadContainer}>
       {(profilePicture?.url || fileAsBase64) && !loading && (
         <>
           <UserProfilePicture
-            url={fileAsBase64 ? fileAsBase64 : profilePicture?.url}
+            url={
+              fileAsBase64
+                ? fileAsBase64
+                : selectedOwnFile
+                ? selectedOwnFile.url
+                : profilePicture?.url
+            }
             size={SizeEnum.VeryBig}
             onClick={handlePictureClick}
           />
           <br />
         </>
       )}
-      {!profilePicture?.url && !fileAsBase64 && !loading && (
+      {!profilePicture?.url && !fileAsBase64 && !actualLoading && (
         <CgProfile
           onClick={handleTriggerInput}
           className={styles.defaultIcon}
         />
       )}
-      {loading && (
+      {actualLoading && (
         <ReactLoading
           className={styles.loading}
           type={"spin"}
@@ -127,9 +133,26 @@ const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
         type="file"
         onChange={handleFileChange}
       />
-      <Button disabled={loading} onClick={handleUpload}>
-        {getTranslatedText(staticText?.upload)}
+
+      <Button disabled={actualLoading} onClick={handleUpload}>
+        {getTranslatedText(staticText?.update)}
       </Button>
+
+      <FilesInput
+        selectedOwnFiles={selectedOwnFile ? [selectedOwnFile] : []}
+        setSelectedOwnFiles={(ownFiles: IFile[]) => {
+          if (ownFiles.length > 0) {
+            setFile(null);
+            setFileAsBase64(null);
+            setSelectedOwnFile(ownFiles[ownFiles.length - 1]);
+          }
+        }}
+        files={[]}
+        setFiles={() => undefined}
+        allowMany={false}
+        label={getTranslatedText(staticText?.chooseFromYourOwnFiles)}
+        canAddNew={false}
+      />
     </div>
   );
 };

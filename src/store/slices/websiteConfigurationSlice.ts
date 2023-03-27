@@ -27,7 +27,9 @@ export interface IWebsiteConfiguration {
       updateProfileInformation: ITranslatedText[];
       firstNameIsRequired: ITranslatedText[];
       lastNameIsRequired: ITranslatedText[];
-      upload: ITranslatedText[];
+      update: ITranslatedText[];
+      chooseFromYourOwnFiles: ITranslatedText[];
+      uploadANewPictureFirst: ITranslatedText[];
     };
     login: {
       title: ITranslatedText[];
@@ -238,9 +240,17 @@ const initialState: IWebsiteConfigurationState = {
         { text: "Lastname is required", language: "en" },
         { text: "Le nom est requis", language: "fr" },
       ],
-      upload: [
-        { text: "Upload", language: "en" },
-        { text: "Téléverser", language: "fr" },
+      update: [
+        { text: "Update", language: "en" },
+        { text: "Mettre à jour", language: "fr" },
+      ],
+      chooseFromYourOwnFiles: [
+        { text: "Choose from your own", language: "en" },
+        { text: "Choisir depuis vos images", language: "fr" },
+      ],
+      uploadANewPictureFirst: [
+        { text: "Upload a new picture first", language: "en" },
+        { text: "Veuillez sélectionner une nouvelle image", language: "fr" },
       ],
     },
     login: {

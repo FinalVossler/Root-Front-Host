@@ -7,9 +7,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "100%",
     marginTop: 10,
     position: "relative",
+    marginBottom: 10,
   },
   fileInputLabel: {
     color: theme.lightTextColor,
+    cursor: "pointer",
   },
   icon: {
     cursor: "pointer",
@@ -85,6 +87,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+  },
+  isShowingIcon: {
+    color: theme.primary,
+    fontSize: 30,
+    top: 10,
+    position: "relative",
   },
   "@media (max-width: 850px)": {},
 }));
