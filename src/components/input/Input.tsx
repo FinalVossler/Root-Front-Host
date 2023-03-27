@@ -68,7 +68,13 @@ const Input: React.FunctionComponent<IInput> = (props: IInput) => {
       }
       {...props.containerProps}
     >
-      <div className={styles.labelAndInputContainer}>
+      <div
+        className={
+          props.inputProps?.disabled
+            ? styles.labelAndInputDisabled
+            : styles.labelAndInputContainer
+        }
+      >
         {props.label && <span className={styles.label}>{props.label}</span>}
         {props.Icon && (
           <props.Icon

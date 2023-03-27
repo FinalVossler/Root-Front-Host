@@ -6,6 +6,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   filesInputContainer: {
     width: "100%",
     marginTop: 10,
+    position: "relative",
   },
   fileInputLabel: {
     color: theme.lightTextColor,
@@ -71,6 +72,19 @@ const useStyles = createUseStyles((theme: Theme) => ({
   chooseFilesButton: {
     fontSize: 45,
     cursor: "pointer",
+  },
+  filesInputDisabledLayer: {
+    position: "absolute",
+    top: -5,
+    right: -5,
+    backgroundColor: "black",
+    opacity: 0.9,
+    width: "calc(100% + 10px)",
+    height: "calc(100% + 10px)",
+    borderRadius: 10,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   "@media (max-width: 850px)": {},
 }));

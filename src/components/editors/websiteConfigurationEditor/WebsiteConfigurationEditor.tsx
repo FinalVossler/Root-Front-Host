@@ -195,6 +195,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             formik={formik}
             inputProps={{
               placeholder: getTranslatedText(staticText?.title),
+              disabled: actualLoading,
             }}
           />
 
@@ -205,6 +206,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             formik={formik}
             inputProps={{
               placeholder: getTranslatedText(staticText?.email),
+              disabled: actualLoading,
             }}
           />
 
@@ -215,6 +217,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             formik={formik}
             inputProps={{
               placeholder: getTranslatedText(staticText?.phoneNumber),
+              disabled: actualLoading,
             }}
           />
 
@@ -225,6 +228,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             formik={formik}
             inputProps={{
               placeholder: getTranslatedText(staticText?.tabTitle),
+              disabled: actualLoading,
             }}
           />
 
@@ -234,15 +238,22 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             name="withChat"
             formik={formik}
             label={getTranslatedText(staticText?.withChat)}
+            inputProps={{
+              disabled: actualLoading,
+            }}
           />
 
           <Checkbox
             name="withRegistration"
             formik={formik}
             label={getTranslatedText(staticText?.withRegistration)}
+            inputProps={{
+              disabled: actualLoading,
+            }}
           />
 
           <FilesInput
+            disabled={actualLoading}
             files={
               formik.values.tabIconAsYetToDownloadFile
                 ? [formik.values.tabIconAsYetToDownloadFile]
@@ -280,6 +291,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             label={getTranslatedText(staticText?.darkTextColor)}
             formik={formik}
             inputProps={{
+              disabled: actualLoading,
               placeholder: getTranslatedText(staticText?.darkTextColor),
             }}
           />
@@ -289,6 +301,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             label={getTranslatedText(staticText?.lightTextColor)}
             formik={formik}
             inputProps={{
+              disabled: actualLoading,
               placeholder: getTranslatedText(staticText?.lightTextColor),
             }}
           />
@@ -297,7 +310,10 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             name="primary"
             label={getTranslatedText(staticText?.primary)}
             formik={formik}
-            inputProps={{ placeholder: getTranslatedText(staticText?.primary) }}
+            inputProps={{
+              placeholder: getTranslatedText(staticText?.primary),
+              disabled: actualLoading,
+            }}
           />
 
           <ColorInput
@@ -305,6 +321,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             label={getTranslatedText(staticText?.darkerPrimary)}
             formik={formik}
             inputProps={{
+              disabled: actualLoading,
               placeholder: getTranslatedText(staticText?.darkerPrimary),
             }}
           />
@@ -314,6 +331,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             label={getTranslatedText(staticText?.lighterPrimary)}
             formik={formik}
             inputProps={{
+              disabled: actualLoading,
               placeholder: getTranslatedText(staticText?.lighterPrimary),
             }}
           />
@@ -323,6 +341,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             label={getTranslatedText(staticText?.secondary)}
             formik={formik}
             inputProps={{
+              disabled: actualLoading,
               placeholder: getTranslatedText(staticText?.secondary),
             }}
           />
@@ -332,6 +351,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             label={getTranslatedText(staticText?.errorColor)}
             formik={formik}
             inputProps={{
+              disabled: actualLoading,
               placeholder: getTranslatedText(staticText?.errorColor),
             }}
           />
@@ -341,6 +361,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             label={getTranslatedText(staticText?.borderColor)}
             formik={formik}
             inputProps={{
+              disabled: actualLoading,
               placeholder: getTranslatedText(staticText?.borderColor),
             }}
           />
@@ -350,6 +371,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             label={getTranslatedText(staticText?.backgroundColor)}
             formik={formik}
             inputProps={{
+              disabled: actualLoading,
               placeholder: getTranslatedText(staticText?.backgroundColor),
             }}
           />
@@ -359,6 +381,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             label={getTranslatedText(staticText?.contentBackgroundColor)}
             formik={formik}
             inputProps={{
+              disabled: actualLoading,
               placeholder: getTranslatedText(
                 staticText?.contentBackgroundColor
               ),
@@ -370,6 +393,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             label={getTranslatedText(staticText?.boxColor)}
             formik={formik}
             inputProps={{
+              disabled: actualLoading,
               placeholder: getTranslatedText(staticText?.boxColor),
             }}
           />
@@ -379,6 +403,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             label={getTranslatedText(staticText?.transparentBackground)}
             formik={formik}
             inputProps={{
+              disabled: actualLoading,
               placeholder: getTranslatedText(staticText?.transparentBackground),
             }}
           />
@@ -388,6 +413,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             label={getTranslatedText(staticText?.subContentBackgroundColor)}
             formik={formik}
             inputProps={{
+              disabled: actualLoading,
               placeholder: getTranslatedText(
                 staticText?.subContentBackgroundColor
               ),
@@ -399,6 +425,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             label={getTranslatedText(staticText?.boxShadow)}
             formik={formik}
             inputProps={{
+              disabled: actualLoading,
               placeholder: getTranslatedText(staticText?.boxShadow),
             }}
             Icon={SiShadow}
@@ -409,6 +436,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             label={getTranslatedText(staticText?.formMaxWidth)}
             formik={formik}
             inputProps={{
+              disabled: actualLoading,
               placeholder: getTranslatedText(staticText?.formMaxWidth),
             }}
             Icon={AiOutlineColumnWidth}

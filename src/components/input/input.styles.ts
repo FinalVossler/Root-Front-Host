@@ -29,6 +29,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
     alignItems: "center",
     flex: 1,
   },
+  labelAndInputDisabled: {
+    extend: "labelAndInputContainer",
+
+    "& input": {
+      backgroundColor: theme.secondary,
+    },
+  },
   label: {
     color: theme.lightTextColor,
     marginRight: 10,

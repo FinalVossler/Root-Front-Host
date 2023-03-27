@@ -5,6 +5,8 @@ import {
   AiFillCloseCircle,
   AiOutlineFileSearch,
 } from "react-icons/ai";
+import Loading from "react-loading";
+
 import { Theme } from "../../config/theme";
 import IFile from "../../globalTypes/IFile";
 import { useAppSelector } from "../../store/hooks";
@@ -34,6 +36,7 @@ interface IFilesInput {
   setSelectedOwnFiles: (ownFiles: IFile[]) => void;
   allowMany?: boolean;
   label?: string;
+  disabled?: boolean;
 }
 
 const FilesInput = (props: IFilesInput) => {
@@ -181,6 +184,11 @@ const FilesInput = (props: IFilesInput) => {
           selectedOwnFiles={props.selectedOwnFiles}
           setSelectedOwnFiles={props.setSelectedOwnFiles}
         />
+      )}
+      {props.disabled && (
+        <div className={styles.filesInputDisabledLayer}>
+          <Loading />
+        </div>
       )}
     </div>
   );
