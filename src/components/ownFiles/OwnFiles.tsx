@@ -30,7 +30,7 @@ const OwnFiles = (props: IOwnFiles) => {
 
   const [files, setFiles] = React.useState<IFile[]>([]);
   const [page, setPage] = React.useState(1);
-  const [limit, setLimit] = React.useState(5);
+  const [limit, setLimit] = React.useState(20);
   const [total, setTotal] = React.useState<number>(0);
 
   const styles = useStyles({ theme });

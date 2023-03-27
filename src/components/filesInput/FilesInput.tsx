@@ -5,15 +5,14 @@ import {
   AiFillCloseCircle,
   AiOutlineFileSearch,
 } from "react-icons/ai";
+import { Theme } from "../../config/theme";
+import IFile from "../../globalTypes/IFile";
+import { useAppSelector } from "../../store/hooks";
+import isFileAnImage from "../../utils/isFileAnImage";
+import readAsBase64 from "../../utils/readAsBase64";
+import OwnFiles from "../ownFiles";
 
-import { Theme } from "../../../../config/theme";
-
-import useStyles from "./postEditorFiles.styles";
-import readAsBase64 from "../../../../utils/readAsBase64";
-import OwnFiles from "../../../ownFiles";
-import IFile from "../../../../globalTypes/IFile";
-import { useAppSelector } from "../../../../store/hooks";
-import isFileAnImage from "../../../../utils/isFileAnImage";
+import useStyles from "./filesInput.styles";
 
 // Used to show the new selected images
 type TrackedImage = {
@@ -28,14 +27,18 @@ type TrackedFile = {
   indexInParent: number;
 };
 
-interface IPostEditorFiles {
+interface IFilesInput {
   setFiles: (files: File[]) => void;
   files: File[];
   selectedOwnFiles: IFile[];
   setSelectedOwnFiles: (ownFiles: IFile[]) => void;
+  allowMany?: boolean;
+  label?: string;
 }
 
-const PostEditor = (props: IPostEditorFiles) => {
+const FilesInput = (props: IFilesInput) => {
+  const allowMany = props.allowMany ?? true;
+
   const [images, setTrackedImages] = React.useState<TrackedImage[]>([]);
   const [trackedFiles, setTrackedFiles] = React.useState<TrackedFile[]>([]);
   const [ownFilesOpen, setSelectedOwnFilesOpen] = React.useState<boolean>(true);
@@ -46,6 +49,20 @@ const PostEditor = (props: IPostEditorFiles) => {
   const styles = useStyles({ theme });
   const inputRef: React.MutableRefObject<HTMLInputElement | null> =
     React.useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    if (!allowMany && props.selectedOwnFiles.length > 0) {
+      setTrackedFiles([]);
+      setTrackedImages([]);
+    }
+  }, [props.selectedOwnFiles]);
+
+  React.useEffect(() => {
+    if (props.files.length === 0) {
+      setTrackedFiles([]);
+      setTrackedImages([]);
+    }
+  }, [props.selectedOwnFiles]);
 
   //#region Event listeners
   const handleIconClick = () => {
@@ -106,7 +123,10 @@ const PostEditor = (props: IPostEditorFiles) => {
   //#endregion Event listeners
 
   return (
-    <div className={styles.postEditorFilesContainer}>
+    <div className={styles.filesInputContainer}>
+      {props.label && (
+        <span className={styles.fileInputLabel}>{props.label}</span>
+      )}
       <div className={styles.filesContainer}>
         <div className={styles.imagesContainer}>
           {images.map((trackedImage: TrackedImage, i) => {
@@ -153,7 +173,7 @@ const PostEditor = (props: IPostEditorFiles) => {
           ref={inputRef as React.RefObject<HTMLInputElement>}
           hidden
           type="file"
-          multiple
+          multiple={allowMany}
         />
       </div>
       {ownFilesOpen && (
@@ -166,4 +186,4 @@ const PostEditor = (props: IPostEditorFiles) => {
   );
 };
 
-export default React.memo(PostEditor);
+export default React.memo(FilesInput);

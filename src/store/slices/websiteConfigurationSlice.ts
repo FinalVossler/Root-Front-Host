@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import theme, { Theme } from "../../config/theme";
+import IFile from "../../globalTypes/IFile";
 import ITranslatedText from "../../globalTypes/ITranslatedText";
+import changeTabIcon from "../../utils/changeTabIcon";
 
 export interface IWebsiteConfiguration {
   _id?: string;
@@ -12,6 +14,7 @@ export interface IWebsiteConfiguration {
   withChat?: boolean;
   withRegistration?: boolean;
   theme: Theme;
+  tabIcon?: IFile;
   staticText?: {
     profile: {
       alreadyHaveAnAccount: ITranslatedText[];
@@ -161,6 +164,7 @@ export interface IWebsiteConfiguration {
       subContentBackgroundColor: ITranslatedText[];
       boxColor: ITranslatedText[];
       boxShadow: ITranslatedText[];
+      tabIcon: ITranslatedText[];
     };
   };
 }
@@ -175,6 +179,7 @@ interface IWebsiteConfigurationState {
   withChat?: boolean;
   withRegistration?: boolean;
   theme: Theme;
+  tabIcon?: IFile;
 
   staticText?: IWebsiteConfiguration["staticText"];
 }
@@ -189,6 +194,7 @@ const initialState: IWebsiteConfigurationState = {
   withChat: false,
   withRegistration: false,
   theme,
+  tabIcon: undefined,
 
   staticText: {
     profile: {
@@ -740,6 +746,10 @@ const initialState: IWebsiteConfigurationState = {
         { text: "Transparent backround", language: "en" },
         { text: "Arrière-plan transparent", language: "fr" },
       ],
+      tabIcon: [
+        { text: "Tab Icon", language: "en" },
+        { text: "Icône de l'onglet ", language: "fr" },
+      ],
     },
   },
 };
@@ -760,6 +770,9 @@ export const websiteConfigurationSlice = createSlice({
       state.withChat = action.payload.withChat;
       state.withRegistration = action.payload.withRegistration;
       state.theme = action.payload.theme;
+      state.tabIcon = action.payload.tabIcon;
+
+      console.log("state tab icon", action.payload.tabIcon);
 
       // We override the initial values defined here by whatever is stored in the database
       // But we keep the values that aren't stored in the db.
@@ -789,6 +802,7 @@ export const websiteConfigurationSlice = createSlice({
         }
       }
       document.title = action.payload.tabTitle || "Loading";
+      changeTabIcon(state.tabIcon?.url || "");
     },
   },
 });

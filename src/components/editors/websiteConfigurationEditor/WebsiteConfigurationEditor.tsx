@@ -21,6 +21,9 @@ import useUpdateWebsiteConfiguration, {
   WebsiteConfigurationUpdateCommand,
 } from "../../../hooks/apiHooks/useUpdateWebsiteConfiguration";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
+import IFile from "../../../globalTypes/IFile";
+import FilesInput from "../../filesInput";
+import uploadFile from "../../../utils/uploadFile";
 
 interface IConfigurationForm extends Theme {
   title?: string;
@@ -30,6 +33,8 @@ interface IConfigurationForm extends Theme {
   mainLanguages?: string[];
   withChat?: boolean;
   withRegistration?: boolean;
+  tabIcon?: IFile;
+  tabIconAsYetToDownloadFile?: File;
 }
 
 interface IWebsiteConfigurationEditor {
@@ -48,6 +53,9 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
     const staticText = useAppSelector(
       (state) => state.websiteConfiguration.staticText?.websiteConfiguration
     );
+
+    const [uploadingTabIconLoading, setUploadingTabIconLoading] =
+      React.useState<boolean>(false);
 
     const styles = useStyles({ theme });
     const handleRevertThemeToDefault = () => {
@@ -88,6 +96,8 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
           subContentBackgroundColor:
             websiteConfiguration.theme.subContentBackgroundColor,
           boxShadow: websiteConfiguration.theme.boxShadow,
+          tabIcon: websiteConfiguration.tabIcon,
+          tabIconAsYetToDownloadFile: undefined,
         },
         validationSchema: Yup.object().shape({
           title: Yup.string().required(
@@ -106,6 +116,19 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
           withRegistration: Yup.boolean(),
         }),
         onSubmit: async (values: IConfigurationForm) => {
+          let tabIcon: IFile | undefined = undefined;
+          if (formik.values.tabIcon) {
+            tabIcon = formik.values.tabIcon;
+          }
+          if (formik.values.tabIconAsYetToDownloadFile) {
+            setUploadingTabIconLoading(true);
+            tabIcon = await uploadFile(
+              formik.values.tabIconAsYetToDownloadFile
+            );
+            setUploadingTabIconLoading(false);
+          }
+
+          console.log("url in formik", tabIcon?.url);
           const command: WebsiteConfigurationUpdateCommand = {
             email: values.email || "",
             phoneNumber: values.phoneNumber || "",
@@ -114,6 +137,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             mainLanguages: values.mainLanguages || ["en", "fr"],
             withChat: values.withChat || false,
             withRegistration: values.withRegistration || false,
+            tabIcon,
 
             theme: {
               darkTextColor: values.darkTextColor,
@@ -135,9 +159,12 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
           };
 
           await updateWebsiteConfiguration(command);
+
+          formik.setFieldValue("tabIconAsYetToDownloadFile", null);
         },
       });
 
+    const actualLoading = loading || uploadingTabIconLoading;
     return (
       <Modal
         handleClose={() => props.setConfigurationModalOpen(false)}
@@ -214,6 +241,33 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             name="withRegistration"
             formik={formik}
             label={getTranslatedText(staticText?.withRegistration)}
+          />
+
+          <FilesInput
+            files={
+              formik.values.tabIconAsYetToDownloadFile
+                ? [formik.values.tabIconAsYetToDownloadFile]
+                : []
+            }
+            setFiles={(files: File[]) => {
+              formik.setFieldValue(
+                "tabIconAsYetToDownloadFile",
+                files.length > 0 ? files[0] : null
+              );
+              formik.setFieldValue("tabIcon", null);
+            }}
+            selectedOwnFiles={
+              formik.values.tabIcon ? [formik.values.tabIcon] : []
+            }
+            setSelectedOwnFiles={(ownFiles: IFile[]) => {
+              formik.setFieldValue(
+                "tabIcon",
+                ownFiles.length > 0 ? ownFiles[ownFiles.length - 1] : null
+              );
+              formik.setFieldValue("tabIconAsYetToDownloadFile", null);
+            }}
+            allowMany={false}
+            label={getTranslatedText(staticText?.tabIcon)}
           />
 
           {/* Theme inputs */}
@@ -369,9 +423,9 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             {getTranslatedText(staticText?.revertThemeConfigurationToDefault)}
           </Button>
 
-          {!loading && (
+          {!actualLoading && (
             <Button
-              disabled={loading}
+              disabled={actualLoading}
               type="submit"
               style={{}}
               className={styles.button}
@@ -380,7 +434,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             </Button>
           )}
 
-          {loading && (
+          {actualLoading && (
             <ReactLoading
               className={styles.loading}
               type={"spin"}

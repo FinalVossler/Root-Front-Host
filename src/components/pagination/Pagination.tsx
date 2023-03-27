@@ -23,11 +23,9 @@ const Pagination: React.FunctionComponent<IPagination> = (
   const styles = useStyles({ theme });
 
   const handleOnChange = (page: number) => {
-    console.log("page", page);
     props.onPageChange(page);
   };
 
-  console.log("total", props.total);
   return (
     <div className={styles.paginationContainer}>
       <PaginationComponent

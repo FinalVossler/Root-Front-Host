@@ -3,6 +3,7 @@ import React from "react";
 import { toast } from "react-toastify";
 
 import { Theme } from "../../config/theme";
+import IFile from "../../globalTypes/IFile";
 import { useAppDispatch } from "../../store/hooks";
 import { websiteConfigurationSlice } from "../../store/slices/websiteConfigurationSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
@@ -16,6 +17,7 @@ export type WebsiteConfigurationUpdateCommand = {
   withChat: boolean;
   withRegistration: boolean;
   theme: Theme;
+  tabIcon?: IFile;
 };
 
 const useUpdateWebsiteConfiguration = () => {
@@ -30,6 +32,8 @@ const useUpdateWebsiteConfiguration = () => {
     new Promise((resolve, reject) => {
       setLoading(true);
 
+      console.log("url in command", command.tabIcon?.url);
+      console.log("command", command);
       axios
         .request<AxiosResponse<WebsiteConfigurationUpdateCommand>>({
           url:

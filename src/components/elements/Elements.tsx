@@ -1,13 +1,13 @@
 import React from "react";
 import { BiAddToQueue } from "react-icons/bi";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import ColumnResizer from "react-table-column-resizer";
 import Loading from "react-loading";
 
 import { Theme } from "../../config/theme";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../store/hooks";
 import { IField } from "../../store/slices/fieldSlice";
-import ColumnResizer from "react-table-column-resizer";
 
 import useStyles from "./elements.styles";
 import ConfirmationModal from "../confirmationModal";

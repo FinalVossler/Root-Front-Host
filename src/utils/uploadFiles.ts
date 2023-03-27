@@ -8,7 +8,7 @@ const uploadFiles = async (files: File[]): Promise<IFile[]> => {
   });
 
   if (promises.length > 0) {
-    await Promise.all(promises).then((files: (IFile | null)[]) => {
+    await Promise.all(promises).then((files: (IFile | undefined)[]) => {
       files.forEach((file) => {
         if (file?.url) filesToSend.push(file);
       });

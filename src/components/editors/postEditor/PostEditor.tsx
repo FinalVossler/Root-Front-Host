@@ -20,7 +20,6 @@ import {
   PostVisibility,
 } from "../../../store/slices/postSlice";
 import { IUser } from "../../../store/slices/userSlice";
-import PostEditorFiles from "./postEditorFiles";
 import InputSelect from "../../inputSelect";
 import { Option } from "../../inputSelect/InputSelect";
 import Input from "../../input";
@@ -33,6 +32,7 @@ import useCreatePost, {
 import useUpdatePost, {
   PostUpdateCommand,
 } from "../../../hooks/apiHooks/useUpdatePost";
+import FilesInput from "../../filesInput";
 
 interface IPostEditor {
   post?: IPost;
@@ -96,6 +96,10 @@ const PostEditor = (props: IPostEditor) => {
   React.useEffect(() => {
     if (postModalOpen && sunEditor && sunEditor.core) {
       sunEditor.core.focus();
+    }
+    if (!postModalOpen) {
+      setFiles([]);
+      setSelectedOwnFiles([]);
     }
   }, [postModalOpen, sunEditor]);
   //#endregion Effects
@@ -275,7 +279,7 @@ const PostEditor = (props: IPostEditor) => {
             height="200px"
           />
 
-          <PostEditorFiles
+          <FilesInput
             setSelectedOwnFiles={setSelectedOwnFiles}
             selectedOwnFiles={selectedOwnFiles}
             files={files}

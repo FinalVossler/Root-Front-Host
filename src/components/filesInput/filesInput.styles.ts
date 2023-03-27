@@ -1,11 +1,14 @@
 import { createUseStyles } from "react-jss";
 
-import { Theme } from "../../../../config/theme";
+import { Theme } from "../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
-  postEditorFilesContainer: {
+  filesInputContainer: {
     width: "100%",
     marginTop: 10,
+  },
+  fileInputLabel: {
+    color: theme.lightTextColor,
   },
   icon: {
     cursor: "pointer",
@@ -21,6 +24,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     justifyContent: "flex-start",
     display: "flex",
     alignItems: "center",
+    marginTop: 10,
   },
   imagesContainer: {
     justifyContent: "flex-start",
