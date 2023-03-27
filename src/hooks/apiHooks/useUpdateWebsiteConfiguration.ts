@@ -20,6 +20,7 @@ export type WebsiteConfigurationUpdateCommand = {
 };
 
 const useUpdateWebsiteConfiguration = () => {
+  // Don't use the useAuthorized axios here (for whatever reasons, weird things are going on and making it send the wrong update data)
   const token: string = useAppSelector(
     (state) => state.user.tokenInformation.value
   );
