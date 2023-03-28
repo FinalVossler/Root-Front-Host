@@ -16,6 +16,7 @@ import readAsBase64 from "../../utils/readAsBase64";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useUpdateProfilePicture from "../../hooks/apiHooks/useUpdateProfilePicture";
 import FilesInput from "../filesInput";
+import { TypeOfFiles } from "../existingFiles/ExistingFiles";
 
 interface IProfilePictureUpload {}
 const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
@@ -139,19 +140,20 @@ const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
       </Button>
 
       <FilesInput
-        selectedOwnFiles={selectedOwnFile ? [selectedOwnFile] : []}
-        setSelectedOwnFiles={(ownFiles: IFile[]) => {
-          if (ownFiles.length > 0) {
+        selectedExistingFiles={selectedOwnFile ? [selectedOwnFile] : []}
+        setSelectedExistingFiles={(existingFiles: IFile[]) => {
+          if (existingFiles.length > 0) {
             setFile(null);
             setFileAsBase64(null);
-            setSelectedOwnFile(ownFiles[ownFiles.length - 1]);
+            setSelectedOwnFile(existingFiles[existingFiles.length - 1]);
           }
         }}
         files={[]}
         setFiles={() => undefined}
         allowMany={false}
-        label={getTranslatedText(staticText?.chooseFromYourOwnFiles)}
+        label={getTranslatedText(staticText?.chooseFromYourExistingFiles)}
         canAddNew={false}
+        typeOfFiles={TypeOfFiles.UserFiles}
       />
     </div>
   );

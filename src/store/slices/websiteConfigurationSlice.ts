@@ -28,7 +28,7 @@ export interface IWebsiteConfiguration {
       firstNameIsRequired: ITranslatedText[];
       lastNameIsRequired: ITranslatedText[];
       update: ITranslatedText[];
-      chooseFromYourOwnFiles: ITranslatedText[];
+      chooseFromYourExistingFiles: ITranslatedText[];
       uploadANewPictureFirst: ITranslatedText[];
       title: ITranslatedText[];
       forgotPassword: ITranslatedText[];
@@ -147,7 +147,7 @@ export interface IWebsiteConfiguration {
       message: ITranslatedText[];
       submit: ITranslatedText[];
     };
-    ownFiles: {
+    existingFiles: {
       noFilesFound: ITranslatedText[];
     };
     websiteConfiguration: {
@@ -265,7 +265,7 @@ const initialState: IWebsiteConfigurationState = {
         { text: "Update", language: "en" },
         { text: "Mettre à jour", language: "fr" },
       ],
-      chooseFromYourOwnFiles: [
+      chooseFromYourExistingFiles: [
         { text: "Choose from your own", language: "en" },
         { text: "Choisir depuis vos images", language: "fr" },
       ],
@@ -712,7 +712,7 @@ const initialState: IWebsiteConfigurationState = {
         { language: "fr", text: "Envoyer" },
       ],
     },
-    ownFiles: {
+    existingFiles: {
       noFilesFound: [
         { text: "Now files found", language: "en" },
         { text: "Pas de fichiers trouvés", language: "fr" },

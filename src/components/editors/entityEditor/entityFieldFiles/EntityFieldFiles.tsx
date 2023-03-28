@@ -6,7 +6,6 @@ import {
   AiFillFileAdd,
 } from "react-icons/ai";
 
-import OwnFiles from "../../../ownFiles";
 import { FormikProps } from "formik";
 import IFile from "../../../../globalTypes/IFile";
 import { IEntityEditorForm, IEntityFieldValueForm } from "../EntityEditor";
@@ -17,6 +16,8 @@ import useStyles from "./entityFieldFiles.styles";
 import isFileAnImage from "../../../../utils/isFileAnImage";
 import readAsBase64 from "../../../../utils/readAsBase64";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
+import ExistingFiles from "../../../existingFiles";
+import { TypeOfFiles } from "../../../existingFiles/ExistingFiles";
 
 type TrackedImage = {
   base64: string;
@@ -37,7 +38,8 @@ const EntityFieldFiles = (props: IEntityFieldFiles) => {
   );
 
   //#region Local state
-  const [ownFilesOpen, setOwnFilesOpen] = React.useState<boolean>(false);
+  const [existingFilesOpen, setExistingFilesOpen] =
+    React.useState<boolean>(false);
   const [trackedImages, setTrackedImages] = React.useState<TrackedImage[]>([]);
   //#endregion Local state
 
@@ -82,12 +84,12 @@ const EntityFieldFiles = (props: IEntityFieldFiles) => {
     // set selected own files based on the value our entityFieldValie
     if (
       props.entityFieldValue &&
-      props.entityFieldValue.selectedOwnFiles &&
-      props.entityFieldValue?.selectedOwnFiles.length > 0
+      props.entityFieldValue.selectedExistingFiles &&
+      props.entityFieldValue?.selectedExistingFiles.length > 0
     ) {
-      setOwnFilesOpen(true);
+      setExistingFilesOpen(true);
     }
-  }, [props.entityFieldValue?.selectedOwnFiles]);
+  }, [props.entityFieldValue?.selectedExistingFiles]);
   //#endregion Effects
 
   //#region Event listeners
@@ -118,14 +120,14 @@ const EntityFieldFiles = (props: IEntityFieldFiles) => {
     }
   };
 
-  const handleSelectedOwnFilesChange = (files: IFile[]) => {
+  const handleSelectedExistingFilesChange = (files: IFile[]) => {
     props.formik.setFieldValue(
       "entityFieldValues",
       props.formik.values.entityFieldValues.map((entityFieldValue) => {
         if (entityFieldValue.fieldId === props.modelField.field._id) {
           return {
             ...entityFieldValue,
-            selectedOwnFiles: files,
+            selectedExistingFiles: files,
           };
         } else {
           return entityFieldValue;
@@ -166,7 +168,7 @@ const EntityFieldFiles = (props: IEntityFieldFiles) => {
       <div className={styles.filesButtonsContainer}>
         <AiOutlineFileSearch
           className={styles.chooseFilesButton}
-          onClick={() => setOwnFilesOpen(true)}
+          onClick={() => setExistingFilesOpen(true)}
           color={theme.primary}
         />
 
@@ -221,10 +223,13 @@ const EntityFieldFiles = (props: IEntityFieldFiles) => {
         })}
       </div>
 
-      {ownFilesOpen && (
-        <OwnFiles
-          selectedOwnFiles={props.entityFieldValue?.selectedOwnFiles || []}
-          setSelectedOwnFiles={handleSelectedOwnFilesChange}
+      {existingFilesOpen && (
+        <ExistingFiles
+          selectedExistingFiles={
+            props.entityFieldValue?.selectedExistingFiles || []
+          }
+          setSelectedExistingFiles={handleSelectedExistingFilesChange}
+          typeOfFiles={TypeOfFiles.UnownedFiles}
         />
       )}
     </div>

@@ -5,7 +5,7 @@ import _ from "lodash";
 
 import { Theme } from "../../config/theme";
 
-import useStyles from "./ownFiles.styles";
+import useStyles from "./existingFiles.styles";
 import IFile from "../../globalTypes/IFile";
 import PaginationCommand from "../../globalTypes/PaginationCommand";
 import { useAppSelector } from "../../store/hooks";
@@ -14,18 +14,27 @@ import useGetUserAndSelectedFiles, {
 } from "../../hooks/apiHooks/useGetUserAndSelectedFiles";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import Pagination from "../pagination";
+import useGetUnownedFiles, {
+  FileGetUnownedAndSelectedFilesCommand,
+} from "../../hooks/apiHooks/useGetUnownedAndSelectedFiles";
 
-interface IOwnFiles {
-  selectedOwnFiles: IFile[];
-  setSelectedOwnFiles: (ownFiles: IFile[]) => void;
+export enum TypeOfFiles {
+  UserFiles = "UserFiles",
+  UnownedFiles = "UnownedFiles",
 }
 
-const OwnFiles = (props: IOwnFiles) => {
+interface IExistingFiles {
+  selectedExistingFiles: IFile[];
+  setSelectedExistingFiles: (existingFiles: IFile[]) => void;
+  typeOfFiles: TypeOfFiles;
+}
+
+const ExistingFiles = (props: IExistingFiles) => {
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(
-    (state) => state.websiteConfiguration.staticText?.ownFiles
+    (state) => state.websiteConfiguration.staticText?.existingFiles
   );
 
   const [files, setFiles] = React.useState<IFile[]>([]);
@@ -34,7 +43,10 @@ const OwnFiles = (props: IOwnFiles) => {
   const [total, setTotal] = React.useState<number>(0);
 
   const styles = useStyles({ theme });
-  const { getUserAndSelectedFiles, loading } = useGetUserAndSelectedFiles();
+  const { getUserAndSelectedFiles, loading: getUserAndSelectedFilesLoading } =
+    useGetUserAndSelectedFiles();
+  const { getUnownedAndSelectedFiles, loading: getUnownedFilesLoading } =
+    useGetUnownedFiles();
   const getTranslatedText = useGetTranslatedText();
 
   //#region Effects
@@ -52,20 +64,43 @@ const OwnFiles = (props: IOwnFiles) => {
         limit,
       };
 
-      const command: FileGetUserAndSelectedFilesCommand = {
-        paginationCommand,
-        selectedFilesIds: props.selectedOwnFiles.map((f) => f._id || ""),
-      };
+      let newFiles: IFile[] = [];
+      let newTotal: number = 0;
 
-      const { files: filesResult, total } = await getUserAndSelectedFiles(
-        command
-      );
+      if (props.typeOfFiles === TypeOfFiles.UserFiles) {
+        const command: FileGetUserAndSelectedFilesCommand = {
+          paginationCommand,
+          selectedFilesIds: props.selectedExistingFiles.map((f) => f._id || ""),
+        };
+
+        const { files: filesResult, total } = await getUserAndSelectedFiles(
+          command
+        );
+
+        newTotal = total;
+        newFiles = filesResult;
+      } else {
+        const command: FileGetUnownedAndSelectedFilesCommand = {
+          paginationCommand,
+          selectedFilesIds: props.selectedExistingFiles.map((f) => f._id || ""),
+        };
+
+        const { files: filesResult, total } = await getUnownedAndSelectedFiles(
+          command
+        );
+
+        newTotal = total;
+        newFiles = filesResult;
+      }
 
       // Remove redundancy (Because we could get in a future page a selected element that we already got)
-      const newFiles = _.uniqWith(filesResult, (f1, f2) => f1._id === f2._id);
+      const actualNewFiles = _.uniqWith(
+        newFiles,
+        (f1, f2) => f1._id === f2._id
+      );
 
       setTotal(total);
-      setFiles(newFiles);
+      setFiles(actualNewFiles);
     };
 
     getFiles();
@@ -74,13 +109,13 @@ const OwnFiles = (props: IOwnFiles) => {
 
   //#region Event listeners
   const handleTriggerSelectFile = (file: IFile) => {
-    let newOwnFiles = [...props.selectedOwnFiles];
-    if (!newOwnFiles.find((el) => el._id === file._id)) {
-      newOwnFiles.push(file);
+    let newExistingFiles = [...props.selectedExistingFiles];
+    if (!newExistingFiles.find((el) => el._id === file._id)) {
+      newExistingFiles.push(file);
     } else {
-      newOwnFiles = newOwnFiles.filter((el) => el._id !== file._id);
+      newExistingFiles = newExistingFiles.filter((el) => el._id !== file._id);
     }
-    props.setSelectedOwnFiles(newOwnFiles);
+    props.setSelectedExistingFiles(newExistingFiles);
   };
 
   const handlePageChange = (page: number) => {
@@ -88,15 +123,17 @@ const OwnFiles = (props: IOwnFiles) => {
   };
   //#endregion Event listeners
 
+  const actualLoading =
+    getUserAndSelectedFilesLoading || getUserAndSelectedFilesLoading;
   return (
-    <div className={styles.ownFilesContainer}>
-      {files.length === 0 && !loading && (
+    <div className={styles.existingFilesContainer}>
+      {files.length === 0 && !actualLoading && (
         <div className={styles.noFiles}>
           {getTranslatedText(staticText?.noFilesFound)}
         </div>
       )}
 
-      {!loading &&
+      {!actualLoading &&
         files.map((file, index) => {
           const style: React.CSSProperties = {};
           if (file.isImage) {
@@ -109,7 +146,7 @@ const OwnFiles = (props: IOwnFiles) => {
               key={index}
               style={style}
               className={
-                props.selectedOwnFiles.find((el) => el._id === file._id)
+                props.selectedExistingFiles.find((el) => el._id === file._id)
                   ? styles.selectedSingleFileContainer
                   : styles.singleFileContainer
               }
@@ -123,7 +160,9 @@ const OwnFiles = (props: IOwnFiles) => {
             </div>
           );
         })}
-      <div className={styles.loadingContainer}>{loading && <Loading />}</div>
+      <div className={styles.loadingContainer}>
+        {actualLoading && <Loading />}
+      </div>
 
       <Pagination
         page={page}
@@ -135,4 +174,4 @@ const OwnFiles = (props: IOwnFiles) => {
   );
 };
 
-export default React.memo(OwnFiles);
+export default React.memo(ExistingFiles);

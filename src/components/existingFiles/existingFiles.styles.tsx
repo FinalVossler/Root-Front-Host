@@ -3,7 +3,7 @@ import { createUseStyles } from "react-jss";
 import { Theme } from "../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
-  ownFilesContainer: {
+  existingFilesContainer: {
     display: "flex",
     width: "100%",
     flexDirection: "row",

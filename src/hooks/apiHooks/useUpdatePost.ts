@@ -30,13 +30,13 @@ const useUpdatePost = () => {
   const updatePost = (
     command: PostUpdateCommand,
     newFiles: File[],
-    ownFiles: IFile[]
+    existingFiles: IFile[]
   ) =>
     new Promise(async (resolve, reject) => {
       setLoading(true);
 
       let filesToSend: IFile[] = await uploadFiles(newFiles);
-      filesToSend = filesToSend.concat(ownFiles);
+      filesToSend = filesToSend.concat(existingFiles);
 
       command.files = filesToSend;
 

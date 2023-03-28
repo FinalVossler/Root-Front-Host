@@ -40,10 +40,10 @@ export interface IEntityEditor {
 export interface IEntityFieldValueForm {
   fieldId: string;
   value: string;
-  selectedOwnFiles?: IFile[];
+  selectedExistingFiles?: IFile[];
   newFiles?: File[];
 
-  // The combined result of selectedOwnFiles and newFiels after uploading the newFiles
+  // The combined result of selectedExistingFiles and newFiels after uploading the newFiles
   files?: IFile[];
 }
 
@@ -93,7 +93,9 @@ const EntityEditor = (props: IEntityEditor) => {
 
       // preparing the files by uploading the new files and combining the new files and the selected own files into one array
       values.entityFieldValues.forEach(async (entityFieldValue) => {
-        entityFieldValue.files = [...(entityFieldValue.selectedOwnFiles || [])];
+        entityFieldValue.files = [
+          ...(entityFieldValue.selectedExistingFiles || []),
+        ];
 
         const promise = new Promise<IFile[]>(async (resolve, _) => {
           if (
@@ -165,7 +167,7 @@ const EntityEditor = (props: IEntityEditor) => {
 
             const entityFieldValueForm: IEntityFieldValueForm = {
               fieldId: modelField.field._id,
-              selectedOwnFiles: entityFieldValue?.files,
+              selectedExistingFiles: entityFieldValue?.files,
               value: getTranslatedText(
                 entityFieldValue?.value,
                 formik.values.language

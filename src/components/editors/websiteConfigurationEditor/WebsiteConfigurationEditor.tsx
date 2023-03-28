@@ -24,6 +24,7 @@ import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import IFile from "../../../globalTypes/IFile";
 import FilesInput from "../../filesInput";
 import uploadFile from "../../../utils/uploadFile";
+import { TypeOfFiles } from "../../existingFiles/ExistingFiles";
 
 interface IConfigurationForm extends Theme {
   title?: string;
@@ -67,38 +68,40 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
       useUpdateWebsiteConfiguration();
     const getTranslatedText = useGetTranslatedText();
 
+    const getInitialValuesBasedOnWebsiteConfiguration = () => {
+      return {
+        title: websiteConfiguration.title,
+        email: websiteConfiguration.email,
+        phoneNumber: websiteConfiguration.phoneNumber,
+        tabTitle: websiteConfiguration.tabTitle,
+        mainLanguages: websiteConfiguration.mainLanguages,
+        withChat: websiteConfiguration.withChat,
+        withRegistration: websiteConfiguration.withRegistration,
+
+        darkTextColor: websiteConfiguration.theme.darkTextColor,
+        lightTextColor: websiteConfiguration.theme.lightTextColor,
+        primary: websiteConfiguration.theme.primary,
+        darkerPrimary: websiteConfiguration.theme.darkerPrimary,
+        lighterPrimary: websiteConfiguration.theme.lighterPrimary,
+        secondary: websiteConfiguration.theme.secondary,
+        errorColor: websiteConfiguration.theme.errorColor,
+        borderColor: websiteConfiguration.theme.borderColor,
+        formMaxWidth: websiteConfiguration.theme.formMaxWidth,
+        backgroundColor: websiteConfiguration.theme.backgroundColor,
+        contentBackgroundColor:
+          websiteConfiguration.theme.contentBackgroundColor,
+        boxColor: websiteConfiguration.theme.boxColor,
+        transparentBackground: websiteConfiguration.theme.transparentBackground,
+        subContentBackgroundColor:
+          websiteConfiguration.theme.subContentBackgroundColor,
+        boxShadow: websiteConfiguration.theme.boxShadow,
+        tabIcon: websiteConfiguration.tabIcon,
+        tabIconAsYetToDownloadFile: undefined,
+      };
+    };
     const formik: FormikProps<IConfigurationForm> =
       useFormik<IConfigurationForm>({
-        initialValues: {
-          title: websiteConfiguration.title,
-          email: websiteConfiguration.email,
-          phoneNumber: websiteConfiguration.phoneNumber,
-          tabTitle: websiteConfiguration.tabTitle,
-          mainLanguages: websiteConfiguration.mainLanguages,
-          withChat: websiteConfiguration.withChat,
-          withRegistration: websiteConfiguration.withRegistration,
-
-          darkTextColor: websiteConfiguration.theme.darkTextColor,
-          lightTextColor: websiteConfiguration.theme.lightTextColor,
-          primary: websiteConfiguration.theme.primary,
-          darkerPrimary: websiteConfiguration.theme.darkerPrimary,
-          lighterPrimary: websiteConfiguration.theme.lighterPrimary,
-          secondary: websiteConfiguration.theme.secondary,
-          errorColor: websiteConfiguration.theme.errorColor,
-          borderColor: websiteConfiguration.theme.borderColor,
-          formMaxWidth: websiteConfiguration.theme.formMaxWidth,
-          backgroundColor: websiteConfiguration.theme.backgroundColor,
-          contentBackgroundColor:
-            websiteConfiguration.theme.contentBackgroundColor,
-          boxColor: websiteConfiguration.theme.boxColor,
-          transparentBackground:
-            websiteConfiguration.theme.transparentBackground,
-          subContentBackgroundColor:
-            websiteConfiguration.theme.subContentBackgroundColor,
-          boxShadow: websiteConfiguration.theme.boxShadow,
-          tabIcon: websiteConfiguration.tabIcon,
-          tabIconAsYetToDownloadFile: undefined,
-        },
+        initialValues: getInitialValuesBasedOnWebsiteConfiguration(),
         validationSchema: Yup.object().shape({
           title: Yup.string().required(
             getTranslatedText(staticText?.titleIsRequired)
@@ -162,6 +165,12 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
           formik.setFieldValue("tabIconAsYetToDownloadFile", null);
         },
       });
+
+    React.useEffect(() => {
+      formik.resetForm({
+        values: getInitialValuesBasedOnWebsiteConfiguration(),
+      });
+    }, [websiteConfiguration]);
 
     const actualLoading = loading || uploadingTabIconLoading;
     return (
@@ -266,18 +275,21 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
               );
               formik.setFieldValue("tabIcon", null);
             }}
-            selectedOwnFiles={
+            selectedExistingFiles={
               formik.values.tabIcon ? [formik.values.tabIcon] : []
             }
-            setSelectedOwnFiles={(ownFiles: IFile[]) => {
+            setSelectedExistingFiles={(existingFiles: IFile[]) => {
               formik.setFieldValue(
                 "tabIcon",
-                ownFiles.length > 0 ? ownFiles[ownFiles.length - 1] : null
+                existingFiles.length > 0
+                  ? existingFiles[existingFiles.length - 1]
+                  : null
               );
               formik.setFieldValue("tabIconAsYetToDownloadFile", null);
             }}
             allowMany={false}
             label={getTranslatedText(staticText?.tabIcon)}
+            typeOfFiles={TypeOfFiles.UnownedFiles}
           />
 
           {/* Theme inputs */}
@@ -443,9 +455,13 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
           />
 
           <Button
-            className={styles.defaultButton}
+            style={{
+              fontSize: 15,
+              marginBottom: 10,
+            }}
             type="button"
             onClick={handleRevertThemeToDefault}
+            disabled={actualLoading}
           >
             {getTranslatedText(staticText?.revertThemeConfigurationToDefault)}
           </Button>

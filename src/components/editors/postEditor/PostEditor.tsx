@@ -33,6 +33,7 @@ import useUpdatePost, {
   PostUpdateCommand,
 } from "../../../hooks/apiHooks/useUpdatePost";
 import FilesInput from "../../filesInput";
+import { TypeOfFiles } from "../../existingFiles/ExistingFiles";
 
 interface IPostEditor {
   post?: IPost;
@@ -63,7 +64,9 @@ const PostEditor = (props: IPostEditor) => {
   );
   const [design, setDesign] = React.useState<PostDesign>(PostDesign.Default);
   const [files, setFiles] = React.useState<File[]>([]);
-  const [selectedOwnFiles, setSelectedOwnFiles] = React.useState<IFile[]>([]);
+  const [selectedExistingFiles, setSelectedExistingFiles] = React.useState<
+    IFile[]
+  >([]);
   const [sunEditor, setSunEditor] =
     React.useState<SunEditorCore | undefined>(undefined);
   //#endregion Local state
@@ -86,7 +89,7 @@ const PostEditor = (props: IPostEditor) => {
       setSubtTitle(getTranslatedText(props.post.subTitle, language));
       setChildren(props.post.children.map((c) => c._id));
       setDesign(props.post?.design);
-      setSelectedOwnFiles(props.post?.files);
+      setSelectedExistingFiles(props.post?.files);
       if (sunEditor)
         sunEditor?.setContents(getTranslatedText(props.post.content, language));
     }
@@ -99,7 +102,7 @@ const PostEditor = (props: IPostEditor) => {
     }
     if (!postModalOpen) {
       setFiles([]);
-      setSelectedOwnFiles([]);
+      setSelectedExistingFiles([]);
     }
   }, [postModalOpen, sunEditor]);
   //#endregion Effects
@@ -131,7 +134,7 @@ const PostEditor = (props: IPostEditor) => {
         children,
         language,
       };
-      await updatePost(command, files, selectedOwnFiles);
+      await updatePost(command, files, selectedExistingFiles);
     } else {
       const command: PostCreateCommand = {
         title,
@@ -144,7 +147,7 @@ const PostEditor = (props: IPostEditor) => {
         children,
         language,
       };
-      await createPost(command, files, selectedOwnFiles);
+      await createPost(command, files, selectedExistingFiles);
     }
 
     // We reinitialize the form now that the post is updated
@@ -153,7 +156,7 @@ const PostEditor = (props: IPostEditor) => {
       setSubtTitle("");
       setDesign(PostDesign.Default);
       setVisibility(PostVisibility.Public);
-      setSelectedOwnFiles([]);
+      setSelectedExistingFiles([]);
       sunEditor?.setContents("");
     }
 
@@ -280,11 +283,12 @@ const PostEditor = (props: IPostEditor) => {
           />
 
           <FilesInput
-            setSelectedOwnFiles={setSelectedOwnFiles}
-            selectedOwnFiles={selectedOwnFiles}
+            setSelectedExistingFiles={setSelectedExistingFiles}
+            selectedExistingFiles={selectedExistingFiles}
             files={files}
             setFiles={setFiles}
             label={getTranslatedText(staticText?.files)}
+            typeOfFiles={TypeOfFiles.UserFiles}
           />
 
           {!loading && (

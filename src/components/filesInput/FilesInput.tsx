@@ -13,7 +13,8 @@ import IFile from "../../globalTypes/IFile";
 import { useAppSelector } from "../../store/hooks";
 import isFileAnImage from "../../utils/isFileAnImage";
 import readAsBase64 from "../../utils/readAsBase64";
-import OwnFiles from "../ownFiles";
+import ExistingFiles from "../existingFiles";
+import { TypeOfFiles } from "../existingFiles/ExistingFiles";
 
 import useStyles from "./filesInput.styles";
 
@@ -33,21 +34,25 @@ type TrackedFile = {
 interface IFilesInput {
   setFiles: (files: File[]) => void;
   files: File[];
-  selectedOwnFiles: IFile[];
-  setSelectedOwnFiles: (ownFiles: IFile[]) => void;
+  selectedExistingFiles: IFile[];
+  setSelectedExistingFiles: (existingFiles: IFile[]) => void;
   allowMany?: boolean;
   label?: string;
   disabled?: boolean;
   canAddNew?: boolean;
+  typeOfFiles: TypeOfFiles;
 }
 
 const FilesInput = (props: IFilesInput) => {
   const allowMany = props.allowMany ?? true;
   const canAddNew = props.canAddNew ?? true;
 
+  console.log("props.selectedExisting", props.selectedExistingFiles);
+
   const [images, setTrackedImages] = React.useState<TrackedImage[]>([]);
   const [trackedFiles, setTrackedFiles] = React.useState<TrackedFile[]>([]);
-  const [ownFilesOpen, setSelectedOwnFilesOpen] = React.useState<boolean>(true);
+  const [existingFilesOpen, setSelectedExistingFilesOpen] =
+    React.useState<boolean>(true);
   const [isShowing, setIsShowing] = React.useState<boolean>(false);
 
   const theme: Theme = useAppSelector(
@@ -58,18 +63,18 @@ const FilesInput = (props: IFilesInput) => {
     React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
-    if (!allowMany && props.selectedOwnFiles.length > 0) {
+    if (!allowMany && props.selectedExistingFiles.length > 0) {
       setTrackedFiles([]);
       setTrackedImages([]);
     }
-  }, [props.selectedOwnFiles]);
+  }, [props.selectedExistingFiles]);
 
   React.useEffect(() => {
     if (props.files.length === 0) {
       setTrackedFiles([]);
       setTrackedImages([]);
     }
-  }, [props.selectedOwnFiles]);
+  }, [props.selectedExistingFiles]);
 
   //#region Event listeners
   const handleIconClick = () => {
@@ -124,8 +129,8 @@ const FilesInput = (props: IFilesInput) => {
     }
   };
 
-  const handleTriggerOwnFilesOpen = () => {
-    setSelectedOwnFilesOpen(!ownFilesOpen);
+  const handleTriggerExistingFilesOpen = () => {
+    setSelectedExistingFilesOpen(!existingFilesOpen);
   };
 
   const handleTriggerIsShowing = () => setIsShowing(!isShowing);
@@ -188,7 +193,7 @@ const FilesInput = (props: IFilesInput) => {
           {canAddNew && (
             <AiOutlineFileSearch
               className={styles.chooseFilesButton}
-              onClick={handleTriggerOwnFilesOpen}
+              onClick={handleTriggerExistingFilesOpen}
               color={theme.primary}
             />
           )}
@@ -204,10 +209,11 @@ const FilesInput = (props: IFilesInput) => {
           />
         </div>
       )}
-      {ownFilesOpen && isShowing && (
-        <OwnFiles
-          selectedOwnFiles={props.selectedOwnFiles}
-          setSelectedOwnFiles={props.setSelectedOwnFiles}
+      {existingFilesOpen && isShowing && (
+        <ExistingFiles
+          selectedExistingFiles={props.selectedExistingFiles}
+          setSelectedExistingFiles={props.setSelectedExistingFiles}
+          typeOfFiles={props.typeOfFiles}
         />
       )}
       {props.disabled && (
