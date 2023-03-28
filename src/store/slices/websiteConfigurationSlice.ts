@@ -30,6 +30,22 @@ export interface IWebsiteConfiguration {
       update: ITranslatedText[];
       chooseFromYourOwnFiles: ITranslatedText[];
       uploadANewPictureFirst: ITranslatedText[];
+      title: ITranslatedText[];
+      forgotPassword: ITranslatedText[];
+    };
+    changePassword: {
+      required: ITranslatedText[];
+      passwordsMustMatch: ITranslatedText[];
+      passwordWasChanged: ITranslatedText[];
+      oldPassword: ITranslatedText[];
+      newPassword: ITranslatedText[];
+      sendChangePasswordRequestTitle: ITranslatedText[];
+      email: ITranslatedText[];
+      sendChangePasswordRequest: ITranslatedText[];
+      send: ITranslatedText[];
+      changePasswordRequestHasBeenSent: ITranslatedText[];
+      changePasswordTitle: ITranslatedText[];
+      confirmPassword: ITranslatedText[];
     };
     login: {
       title: ITranslatedText[];
@@ -200,6 +216,10 @@ const initialState: IWebsiteConfigurationState = {
 
   staticText: {
     profile: {
+      forgotPassword: [
+        { text: "Forgot your password?", language: "en" },
+        { text: "Vous avez oublié votre mot de passe?", language: "fr" },
+      ],
       alreadyHaveAnAccount: [
         { text: "Already have an account?", language: "en" },
         { text: "Vous avez déjà un compte?", language: "fr" },
@@ -251,6 +271,70 @@ const initialState: IWebsiteConfigurationState = {
       uploadANewPictureFirst: [
         { text: "Upload a new picture first", language: "en" },
         { text: "Veuillez sélectionner une nouvelle image", language: "fr" },
+      ],
+      title: [
+        { text: "Profile", language: "en" },
+        { text: "Profile", language: "fr" },
+      ],
+    },
+    changePassword: {
+      changePasswordTitle: [
+        { text: "Change password", language: "en" },
+        { text: "Changer votre mot de passe", language: "fr" },
+      ],
+      send: [
+        { text: "Send", language: "en" },
+        { text: "Envoyer", language: "fr" },
+      ],
+      required: [
+        { language: "en", text: "Required" },
+        { language: "fr", text: "Requis" },
+      ],
+      passwordsMustMatch: [
+        { language: "en", text: "Passwords must match" },
+        { language: "fr", text: "Les mots de passes doivent être identiques" },
+      ],
+      passwordWasChanged: [
+        { language: "en", text: "Password was changed" },
+        { language: "fr", text: "Le mot de passe a été changé" },
+      ],
+      oldPassword: [
+        { language: "en", text: "Old password" },
+        { language: "fr", text: "Ancien mot de passe" },
+      ],
+      newPassword: [
+        { language: "en", text: "New Password" },
+        { language: "fr", text: "Nouveau mot de passe" },
+      ],
+      confirmPassword: [
+        { language: "en", text: "Password confirmation" },
+        { language: "fr", text: "Confirmation du mot de passe" },
+      ],
+      sendChangePasswordRequestTitle: [
+        { language: "en", text: "Change password request" },
+        { language: "fr", text: "Demande de changement de mot de passe" },
+      ],
+      email: [
+        { language: "en", text: "Email" },
+        { language: "fr", text: "Adresse Email" },
+      ],
+
+      sendChangePasswordRequest: [
+        { text: "Change password request", language: "en" },
+        {
+          text: "Demande de changement de mot de passe",
+          language: "fr",
+        },
+      ],
+      changePasswordRequestHasBeenSent: [
+        {
+          text: "Change password request has been sent. Check your email!",
+          language: "en",
+        },
+        {
+          text: "La demande de changement du mot de passe a été envoyée. Veuillez consulter votre adresse email.",
+          language: "fr",
+        },
       ],
     },
     login: {

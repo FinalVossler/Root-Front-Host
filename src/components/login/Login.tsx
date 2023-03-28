@@ -14,6 +14,7 @@ import { useAppSelector } from "../../store/hooks";
 import useStyles from "./login.styles";
 import useLogin, { UserLoginCommand } from "../../hooks/apiHooks/useLogin";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
+import useSendChangePasswordRequest from "../../hooks/apiHooks/useSendChangePasswordRequest";
 
 interface ILoginForm {
   email: string;
@@ -61,33 +62,37 @@ const Registration: React.FunctionComponent<ILogin> = (props: ILogin) => {
 
   const styles = useStyles({ theme });
   return (
-    <form onSubmit={handleSubmit} className={styles.loginContainer}>
-      <h2 className={styles.loginTitle}>
-        {getTranslatedText(staticText?.login.title)}
-      </h2>
-      <Input
-        Icon={AiOutlineMail}
-        inputProps={{
-          type: "email",
-          placeholder: getTranslatedText(staticText?.login.emailPlaceholder),
-        }}
-        name="email"
-        formik={formik}
-      />
-      <Input
-        Icon={RiLockPasswordLine}
-        inputProps={{
-          type: "password",
-          placeholder: getTranslatedText(staticText?.login.passwordPlaceholder),
-        }}
-        name="password"
-        formik={formik}
-      />
+    <>
+      <form onSubmit={handleSubmit} className={styles.loginContainer}>
+        <h2 className={styles.loginTitle}>
+          {getTranslatedText(staticText?.login.title)}
+        </h2>
+        <Input
+          Icon={AiOutlineMail}
+          inputProps={{
+            type: "email",
+            placeholder: getTranslatedText(staticText?.login.emailPlaceholder),
+          }}
+          name="email"
+          formik={formik}
+        />
+        <Input
+          Icon={RiLockPasswordLine}
+          inputProps={{
+            type: "password",
+            placeholder: getTranslatedText(
+              staticText?.login.passwordPlaceholder
+            ),
+          }}
+          name="password"
+          formik={formik}
+        />
 
-      <Button disabled={loading}>
-        {getTranslatedText(staticText?.login.title)}
-      </Button>
-    </form>
+        <Button disabled={loading}>
+          {getTranslatedText(staticText?.login.title)}
+        </Button>
+      </form>
+    </>
   );
 };
 

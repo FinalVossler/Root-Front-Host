@@ -32,6 +32,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     fontWeight: "bold",
     color: theme.primary,
   },
+  triggerShowChangePasswordFormIcon: {
+    color: theme.lightTextColor,
+  },
   "@media (max-width: 930)": {},
 }));
 

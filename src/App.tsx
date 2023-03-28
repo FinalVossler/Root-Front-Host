@@ -25,7 +25,7 @@ import FieldsPage from "./pages/fieldsPage";
 import ModelsPage from "./pages/modelsPage";
 import EntitiesPage from "./pages/entitiesPage";
 import PagesPage from "./pages/pagesPage";
-import withWrapper from "./hoc/wrapper";
+import ForgotPasswordChangePasswordPage from "./pages/forgotPasswordChangePassworwPage";
 
 const stripePromise = loadStripe(
   // @ts-ignore
@@ -90,6 +90,10 @@ function App() {
     {
       path: "/pages",
       element: <PagesPage />,
+    },
+    {
+      path: "/changePassword/:token",
+      element: <ForgotPasswordChangePasswordPage />,
     },
   ]);
 

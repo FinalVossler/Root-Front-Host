@@ -16,10 +16,12 @@ import UserPosts from "../../components/userPosts";
 import { useAppSelector } from "../../store/hooks";
 import { IUser } from "../../store/slices/userSlice";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
+import SendChangePasswordRequestForm from "../../components/sendChangePasswordRequestForm";
 
 enum ActiveForm {
   Register = "Register",
   Login = "Login",
+  ForgotPassword = "ForgotPassword",
 }
 
 interface IProfilePage {}
@@ -46,12 +48,8 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
   const isLoggedIn: boolean = useIsLoggedIn();
   const getTranslatedText = useGetTranslatedText();
 
-  const handleSwitchForm = () => {
-    setActiveForm(
-      activeForm === ActiveForm.Register
-        ? ActiveForm.Login
-        : ActiveForm.Register
-    );
+  const handleSwitchToForgotPasswordForm = () => {
+    setActiveForm(ActiveForm.ForgotPassword);
   };
 
   const handleTriggerShowProfileForm = () =>
@@ -72,6 +70,10 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
         withRegistration && <Registration />}
       {(activeForm === ActiveForm.Login || !withRegistration) &&
         !isLoggedIn && <Login />}
+
+      {activeForm === ActiveForm.ForgotPassword && !isLoggedIn && (
+        <SendChangePasswordRequestForm />
+      )}
       {isLoggedIn && (
         <div className={styles.connectedUserContainer}>
           <BsFillGearFill
@@ -95,22 +97,44 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
 
       {!isLoggedIn && withRegistration && (
         <div className={styles.switchFormContainer}>
-          <span>
-            {activeForm === ActiveForm.Register
-              ? getTranslatedText(staticText?.alreadyHaveAnAccount)
-              : getTranslatedText(staticText?.dontHaveAnAccount)}
-          </span>
-          <button
-            onClick={handleSwitchForm}
-            className={styles.switchFormButton}
-          >
-            {activeForm === ActiveForm.Register && withRegistration
-              ? getTranslatedText(staticText?.loginHere)
-              : getTranslatedText(staticText?.registerHere)}
-          </button>
+          {activeForm === ActiveForm.Register && (
+            <span>{getTranslatedText(staticText?.alreadyHaveAnAccount)}</span>
+          )}
+          {activeForm === ActiveForm.Login && (
+            <span>{getTranslatedText(staticText?.dontHaveAnAccount)}</span>
+          )}
+
+          {activeForm !== ActiveForm.Register && withRegistration && (
+            <button
+              onClick={() => setActiveForm(ActiveForm.Register)}
+              className={styles.switchFormButton}
+            >
+              -{getTranslatedText(staticText?.registerHere)}
+            </button>
+          )}
+
+          {activeForm !== ActiveForm.Login && (
+            <button
+              onClick={() => setActiveForm(ActiveForm.Login)}
+              className={styles.switchFormButton}
+            >
+              -{getTranslatedText(staticText?.loginHere)}
+            </button>
+          )}
         </div>
       )}
-
+      {activeForm !== ActiveForm.ForgotPassword &&
+        activeForm !== ActiveForm.Register && (
+          <>
+            <div />
+            <button
+              onClick={handleSwitchToForgotPasswordForm}
+              className={styles.switchFormButton}
+            >
+              -{getTranslatedText(staticText?.forgotPassword)}
+            </button>
+          </>
+        )}
       <br />
       <br />
     </div>
