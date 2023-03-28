@@ -1,6 +1,7 @@
 import React from "react";
 import { CgProfile } from "react-icons/cg";
 import { FormikProps, useFormik } from "formik";
+import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import * as Yup from "yup";
 
 import Input from "../input/Input";
@@ -16,13 +17,14 @@ import useUpdateUser, {
 } from "../../hooks/apiHooks/useUpdateUser";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
-import useStyles from "./profileForm.styles";
 import ChangePasswordForm from "../changePasswordForm";
-import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
+
+import useStyles from "./profileForm.styles";
 
 type ProfileFormik = {
   firstName: string;
   lastName: string;
+  email: string;
 };
 
 interface IProfileForm {}
@@ -51,6 +53,7 @@ const Profile: React.FunctionComponent<IProfileForm> = (
     initialValues: {
       firstName: user.firstName,
       lastName: user.lastName,
+      email: user.email,
     },
     validationSchema: Yup.object().shape({
       firstName: Yup.string().required(
@@ -59,12 +62,16 @@ const Profile: React.FunctionComponent<IProfileForm> = (
       lastName: Yup.string().required(
         getTranslatedText(staticText?.lastNameIsRequired)
       ),
+      email: Yup.string()
+        .email(getTranslatedText(staticText?.mustBeOfTypeEmail))
+        .required(getTranslatedText(staticText?.lastNameIsRequired)),
     }),
     onSubmit: async (values: ProfileFormik) => {
       const command: UserUpdateCommand = {
         _id: user._id,
         firstName: values.firstName,
         lastName: values.lastName,
+        email: values.email,
       };
 
       await updateUser(command);
@@ -76,6 +83,7 @@ const Profile: React.FunctionComponent<IProfileForm> = (
       values: {
         firstName: user.firstName,
         lastName: user.lastName,
+        email: user.email,
       },
     });
   }, [user]);
@@ -103,17 +111,27 @@ const Profile: React.FunctionComponent<IProfileForm> = (
           name="firstName"
           formik={formik}
           inputProps={{
-            placeholder: getTranslatedText(staticText?.enterYourFirstName),
+            placeholder: getTranslatedText(staticText?.enterFirstName),
             disabled: actualLoading,
           }}
         />
         <Input
           Icon={CgProfile}
           inputProps={{
-            placeholder: getTranslatedText(staticText?.enterYourLastName),
+            placeholder: getTranslatedText(staticText?.enterLastName),
             disabled: actualLoading,
           }}
           name="lastName"
+          formik={formik}
+        />
+        <Input
+          Icon={CgProfile}
+          inputProps={{
+            placeholder: getTranslatedText(staticText?.enterEmail),
+            disabled: actualLoading,
+            type: "email",
+          }}
+          name="email"
           formik={formik}
         />
 

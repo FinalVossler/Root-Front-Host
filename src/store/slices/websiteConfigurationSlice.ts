@@ -21,17 +21,26 @@ export interface IWebsiteConfiguration {
       dontHaveAnAccount: ITranslatedText[];
       loginHere: ITranslatedText[];
       registerHere: ITranslatedText[];
-      enterYourFirstName: ITranslatedText[];
-      enterYourLastName: ITranslatedText[];
+      enterFirstName: ITranslatedText[];
+      enterLastName: ITranslatedText[];
+      enterEmail: ITranslatedText[];
       role: ITranslatedText[];
       updateProfileInformation: ITranslatedText[];
       firstNameIsRequired: ITranslatedText[];
       lastNameIsRequired: ITranslatedText[];
+      emailIsRequired: ITranslatedText[];
       update: ITranslatedText[];
       chooseFromYourExistingFiles: ITranslatedText[];
       uploadANewPictureFirst: ITranslatedText[];
       title: ITranslatedText[];
       forgotPassword: ITranslatedText[];
+      mustBeOfTypeEmail: ITranslatedText[];
+      userInformationUpdated: ITranslatedText[];
+      create: ITranslatedText[];
+      submit: ITranslatedText[];
+      firstName: ITranslatedText[];
+      lastName: ITranslatedText[];
+      email: ITranslatedText[];
     };
     changePassword: {
       required: ITranslatedText[];
@@ -72,6 +81,7 @@ export interface IWebsiteConfiguration {
       fields: ITranslatedText[];
       models: ITranslatedText[];
       configuration: ITranslatedText[];
+      users: ITranslatedText[];
     };
     fields: {
       createField: ITranslatedText[];
@@ -237,13 +247,25 @@ const initialState: IWebsiteConfigurationState = {
         { text: "Register here", language: "en" },
         { text: "Enregistrez-vous ici", language: "fr" },
       ],
-      enterYourFirstName: [
-        { text: "Enter your firstname", language: "en" },
-        { text: "Veuillez entrer votre prénom ici", language: "fr" },
+      enterFirstName: [
+        { text: "Enter the firstname here", language: "en" },
+        { text: "Veuillez entrer le prénom ici", language: "fr" },
       ],
-      enterYourLastName: [
-        { text: "Enter your lastname here", language: "en" },
-        { text: "Veuillez entrer votre nom ici", language: "fr" },
+      enterLastName: [
+        { text: "Enter lastname here", language: "en" },
+        { text: "Veuillez entrer le nom ici", language: "fr" },
+      ],
+      enterEmail: [
+        { text: "Enter email here", language: "en" },
+        { text: "Veuillez entrer l'adresse email ici", language: "fr" },
+      ],
+      userInformationUpdated: [
+        { text: "User information updated", language: "en" },
+        { text: "Les Informations ont été mises à jour", language: "fr" },
+      ],
+      mustBeOfTypeEmail: [
+        { text: "Invalid email", language: "en" },
+        { text: "Email invalide", language: "fr" },
       ],
       role: [
         { text: "Role", language: "en" },
@@ -261,6 +283,10 @@ const initialState: IWebsiteConfigurationState = {
         { text: "Lastname is required", language: "en" },
         { text: "Le nom est requis", language: "fr" },
       ],
+      emailIsRequired: [
+        { text: "Email is required", language: "en" },
+        { text: "L'email est requis", language: "fr" },
+      ],
       update: [
         { text: "Update", language: "en" },
         { text: "Mettre à jour", language: "fr" },
@@ -276,6 +302,26 @@ const initialState: IWebsiteConfigurationState = {
       title: [
         { text: "Profile", language: "en" },
         { text: "Profile", language: "fr" },
+      ],
+      create: [
+        { text: "Create", language: "en" },
+        { text: "Créer", language: "fr" },
+      ],
+      submit: [
+        { text: "Submit", language: "en" },
+        { text: "Soumettre", language: "fr" },
+      ],
+      firstName: [
+        { text: "Firstname", language: "en" },
+        { text: "Prénom", language: "fr" },
+      ],
+      lastName: [
+        { text: "Lastname", language: "en" },
+        { text: "Nom", language: "fr" },
+      ],
+      email: [
+        { text: "Email", language: "en" },
+        { text: "Adresse email", language: "fr" },
       ],
     },
     changePassword: {
@@ -440,6 +486,10 @@ const initialState: IWebsiteConfigurationState = {
       configuration: [
         { language: "en", text: "Configuration" },
         { language: "fr", text: "Configuration" },
+      ],
+      users: [
+        { language: "en", text: "Users" },
+        { language: "fr", text: "Utilisateurs" },
       ],
     },
     fields: {

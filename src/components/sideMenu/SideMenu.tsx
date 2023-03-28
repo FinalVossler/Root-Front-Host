@@ -124,6 +124,14 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
               title: getTranslatedText(model.name),
             }))}
           />
+          {user.role === Role.SuperAdmin && (
+            <SideMenuOption
+              link="/users"
+              Icon={SiThemodelsresource}
+              title={getTranslatedText(staticText?.users)}
+              extended={sideMenuExtendedModels}
+            />
+          )}
         </div>
       )}
 

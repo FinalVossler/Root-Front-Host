@@ -32,6 +32,8 @@ export type TokenInformation = {
 export interface IUserState {
   user: IUser;
   tokenInformation: TokenInformation;
+  users: IUser[];
+  total: number;
 }
 
 // Initializing the token from local storage
@@ -72,6 +74,8 @@ const initialState: IUserState = {
     },
   },
   tokenInformation: tokenInformationInStorage,
+  users: [],
+  total: 0,
 };
 
 export const userSlice = createSlice({
@@ -115,6 +119,27 @@ export const userSlice = createSlice({
       state.user = initialState.user;
 
       localStorage.removeItem(LOCAL_STORAGE_TOKEN_ITEM_NAME);
+    },
+    setUsers: (
+      state: IUserState,
+      action: PayloadAction<{ users: IUser[]; total: number }>
+    ) => {
+      const users: IUser[] = action.payload.users;
+      const total: number = action.payload.total;
+      state.users = users;
+      state.total = total;
+    },
+    addUser: (state: IUserState, action: PayloadAction<IUser>) => {
+      const user: IUser = action.payload;
+      state.users.unshift(user);
+    },
+    updateUser: (state: IUserState, action: PayloadAction<IUser>) => {
+      const user: IUser = action.payload;
+      state.users = state.users.map((f) => (f._id === user._id ? user : f));
+    },
+    deleteUsers: (state: IUserState, action: PayloadAction<string[]>) => {
+      const usersIds: string[] = action.payload;
+      state.users = state.users.filter((f) => usersIds.indexOf(f._id) === -1);
     },
   },
 });

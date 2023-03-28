@@ -14,6 +14,7 @@ import ConfirmationModal from "../confirmationModal";
 import { IModel } from "../../store/slices/modelSlice";
 import { IEntity } from "../../store/slices/entitySlice";
 import Pagination from "../pagination";
+import { IUser } from "../../store/slices/userSlice";
 
 export type Column = {
   label: string;
@@ -21,7 +22,7 @@ export type Column = {
   render?: (any) => string;
 };
 
-export type Element = IField | IModel | IEntity;
+export type Element = IField | IModel | IEntity | IUser;
 
 interface IElements {
   Editor: React.FunctionComponent<{
