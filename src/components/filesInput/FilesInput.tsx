@@ -185,7 +185,7 @@ const FilesInput = (props: IFilesInput) => {
 
       {isShowing && (
         <div className={styles.buttonsContainer}>
-          {props.canAddNew && (
+          {canAddNew && (
             <AiOutlineFileSearch
               className={styles.chooseFilesButton}
               onClick={handleTriggerOwnFilesOpen}

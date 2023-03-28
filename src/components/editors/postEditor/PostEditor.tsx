@@ -284,6 +284,7 @@ const PostEditor = (props: IPostEditor) => {
             selectedOwnFiles={selectedOwnFiles}
             files={files}
             setFiles={setFiles}
+            label={getTranslatedText(staticText?.files)}
           />
 
           {!loading && (

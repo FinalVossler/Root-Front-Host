@@ -122,6 +122,7 @@ export interface IWebsiteConfiguration {
       visibility: ITranslatedText[];
       design: ITranslatedText[];
       submit: ITranslatedText[];
+      files: ITranslatedText[];
     };
     entities: {
       createEntity: ITranslatedText[];
@@ -625,6 +626,10 @@ const initialState: IWebsiteConfigurationState = {
       visibility: [
         { language: "en", text: "Visibility" },
         { language: "fr", text: "Visibilité" },
+      ],
+      files: [
+        { language: "en", text: "Files" },
+        { language: "fr", text: "Fichiers" },
       ],
     },
     entities: {

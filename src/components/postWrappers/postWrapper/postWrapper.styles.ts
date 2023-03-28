@@ -12,13 +12,14 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginBottom: 20,
     borderRadius: 10,
     boxShadow: theme.boxShadow,
-    overflow: "hidden",
+    overflow: "auto",
     position: "relative",
   },
   "@media (max-width: 800px)": {
     postWrapperContainer: {
       padding: 0,
       flex: "initial",
+      overflow: "auto",
     },
   },
 }));
