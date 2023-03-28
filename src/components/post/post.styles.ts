@@ -66,7 +66,17 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "100%",
     lineBreak: "anywhere",
   },
-  "@media (max-width: 850px)": {},
+  "@media (max-width: 850px)": {
+    userPost: {
+      marginTop: 40,
+      width: "100%",
+    },
+    postFiles: {
+      alignItems: "center",
+      justifyContent: "center",
+      flexDirection: "column",
+    },
+  },
 }));
 
 export default useStyles;

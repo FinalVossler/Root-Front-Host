@@ -18,6 +18,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   "@media (max-width: 800px)": {
     postWrapperContainer: {
       padding: 0,
+      flex: "initial",
     },
   },
 }));

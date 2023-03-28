@@ -124,7 +124,8 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
         </div>
       )}
       {activeForm !== ActiveForm.ForgotPassword &&
-        activeForm !== ActiveForm.Register && (
+        activeForm !== ActiveForm.Register &&
+        !isLoggedIn && (
           <>
             <div />
             <button

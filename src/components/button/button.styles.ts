@@ -19,6 +19,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     fontSize: 20,
     cursor: "pointer",
     transition: ".2s all ease-in-out",
+    alignItems: "center",
   },
   disabledButtonContainer: {
     extend: "buttonContainer",

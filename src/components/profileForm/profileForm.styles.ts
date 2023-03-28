@@ -34,6 +34,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   triggerShowChangePasswordFormIcon: {
     color: theme.lightTextColor,
+    position: "relative",
+    top: 0,
+    fontSize: 30,
   },
   "@media (max-width: 930)": {},
 }));
