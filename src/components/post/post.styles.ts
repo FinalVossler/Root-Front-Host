@@ -20,6 +20,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "row",
     marginTop: 10,
     overflow: "scroll",
+    height: 300,
   },
   postTitle: {
     marginTop: 0,

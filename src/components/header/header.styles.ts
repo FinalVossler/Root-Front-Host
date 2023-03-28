@@ -92,6 +92,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     },
     option: {
       fontSize: 15,
+      margin: 5,
     },
   },
   "@media (max-width: 400px)": {
