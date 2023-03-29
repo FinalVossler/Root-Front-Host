@@ -1,7 +1,7 @@
 import React from "react";
 import { AiOutlineMenuUnfold, AiOutlineMenuFold } from "react-icons/ai";
 import { SiThemodelsresource } from "react-icons/si";
-import { BsFillGearFill } from "react-icons/bs";
+import { BsFillGearFill, BsPerson } from "react-icons/bs";
 import { MdTextFields } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { SiElement } from "react-icons/si";
@@ -20,6 +20,7 @@ import useGetModels, {
 import { IModel } from "../../store/slices/modelSlice";
 import { IUser, Role } from "../../store/slices/userSlice";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
+import { FaPager } from "react-icons/fa";
 
 interface ISideMenu {}
 
@@ -98,7 +99,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
           />
           {user.role === Role.SuperAdmin && (
             <SideMenuOption
-              Icon={MdTextFields}
+              Icon={FaPager}
               title={getTranslatedText(staticText?.pages)}
               link="/pages"
             />
@@ -127,7 +128,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
           {user.role === Role.SuperAdmin && (
             <SideMenuOption
               link="/users"
-              Icon={SiThemodelsresource}
+              Icon={BsPerson}
               title={getTranslatedText(staticText?.users)}
               extended={sideMenuExtendedModels}
             />
