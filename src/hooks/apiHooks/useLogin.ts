@@ -19,6 +19,7 @@ const useLogin = () => {
 
   const login = (command: UserLoginCommand) =>
     new Promise((resolve, reject) => {
+      setLoading(true);
       axios
         .request<
           AxiosResponse<{ expiresIn: string; token: string; user: IUser }>

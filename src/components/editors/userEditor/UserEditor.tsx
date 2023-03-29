@@ -1,6 +1,6 @@
 import React from "react";
 import "suneditor/dist/css/suneditor.min.css";
-import { MdTitle } from "react-icons/md";
+import { MdPassword, MdTitle } from "react-icons/md";
 import ReactLoading from "react-loading";
 import * as Yup from "yup";
 
@@ -31,6 +31,8 @@ interface IUserForm {
   firstName: string;
   lastName: string;
   email: string;
+  password: string;
+  confirmPassword: string;
 }
 
 const UserEditor = (props: IUserEditor) => {
@@ -57,6 +59,8 @@ const UserEditor = (props: IUserEditor) => {
       firstName: "",
       lastName: "",
       email: "",
+      password: "",
+      confirmPassword: "",
     },
     validationSchema: Yup.object().shape({
       email: Yup.string()
@@ -67,6 +71,14 @@ const UserEditor = (props: IUserEditor) => {
       ),
       lastName: Yup.string().required(
         getTranslatedText(staticText?.lastNameIsRequired)
+      ),
+      password: Yup.string().required(
+        getTranslatedText(staticText?.passwordIsRequired)
+      ),
+      confirmPassword: Yup.string().test(
+        "testMatchingPasswords",
+        getTranslatedText(staticText?.passwordsDontMatch),
+        (confirmPassword) => confirmPassword === formik.values.password
       ),
     }),
     onSubmit: async (values: IUserForm) => {
@@ -84,6 +96,7 @@ const UserEditor = (props: IUserEditor) => {
           firstName: values.firstName,
           lastName: values.lastName,
           email: values.email,
+          password: values.password,
         };
 
         await createUser(command);
@@ -109,6 +122,8 @@ const UserEditor = (props: IUserEditor) => {
         firstName: props.user?.firstName || "",
         lastName: props.user?.lastName || "",
         email: props.user?.email || "",
+        password: props.user ? "********" : "",
+        confirmPassword: props.user ? "********" : "",
       },
     });
   }, [props.user]);
@@ -172,6 +187,28 @@ const UserEditor = (props: IUserEditor) => {
             placeholder: getTranslatedText(staticText?.enterEmail),
             disabled: loading,
             type: "email",
+          }}
+        />
+
+        <Input
+          Icon={MdPassword}
+          formik={formik}
+          name="password"
+          inputProps={{
+            placeholder: getTranslatedText(staticText?.password),
+            disabled: loading || Boolean(props.user),
+            type: "password",
+          }}
+        />
+
+        <Input
+          Icon={MdPassword}
+          formik={formik}
+          name="confirmPassword"
+          inputProps={{
+            placeholder: getTranslatedText(staticText?.passwordConfirmation),
+            disabled: loading || Boolean(props.user),
+            type: "password",
           }}
         />
 

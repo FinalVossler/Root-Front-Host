@@ -47,8 +47,6 @@ const FilesInput = (props: IFilesInput) => {
   const allowMany = props.allowMany ?? true;
   const canAddNew = props.canAddNew ?? true;
 
-  console.log("props.selectedExisting", props.selectedExistingFiles);
-
   const [images, setTrackedImages] = React.useState<TrackedImage[]>([]);
   const [trackedFiles, setTrackedFiles] = React.useState<TrackedFile[]>([]);
   const [existingFilesOpen, setSelectedExistingFilesOpen] =
@@ -145,9 +143,9 @@ const FilesInput = (props: IFilesInput) => {
         >
           {props.label}{" "}
           {isShowing ? (
-            <BsArrowDownShort className={styles.isShowingIcon} />
-          ) : (
             <BsArrowUpShort className={styles.isShowingIcon} />
+          ) : (
+            <BsArrowDownShort className={styles.isShowingIcon} />
           )}
         </span>
       )}

@@ -41,6 +41,10 @@ export interface IWebsiteConfiguration {
       firstName: ITranslatedText[];
       lastName: ITranslatedText[];
       email: ITranslatedText[];
+      password: ITranslatedText[];
+      passwordConfirmation: ITranslatedText[];
+      passwordIsRequired: ITranslatedText[];
+      passwordsDontMatch: ITranslatedText[];
     };
     changePassword: {
       required: ITranslatedText[];
@@ -322,6 +326,22 @@ const initialState: IWebsiteConfigurationState = {
       email: [
         { text: "Email", language: "en" },
         { text: "Adresse email", language: "fr" },
+      ],
+      password: [
+        { text: "Password", language: "en" },
+        { text: "Mot de passe", language: "fr" },
+      ],
+      passwordConfirmation: [
+        { text: "Password confirmation", language: "en" },
+        { text: "Confirmation du mot de passe", language: "fr" },
+      ],
+      passwordIsRequired: [
+        { text: "Password is required", language: "en" },
+        { text: "Le mot de passe est requis", language: "fr" },
+      ],
+      passwordsDontMatch: [
+        { text: "Passwords don't match", language: "en" },
+        { text: "Les mots de passe ne sont pas identiques", language: "fr" },
       ],
     },
     changePassword: {
