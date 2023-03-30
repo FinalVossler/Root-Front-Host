@@ -47,6 +47,7 @@ export interface IWebsiteConfiguration {
       passwordIsRequired: ITranslatedText[];
       passwordsDontMatch: ITranslatedText[];
       visit: ITranslatedText[];
+      role: ITranslatedText[];
     };
     changePassword: {
       required: ITranslatedText[];
@@ -337,6 +338,10 @@ const initialState: IWebsiteConfigurationState = {
       email: [
         { text: "Email", language: "en" },
         { text: "Adresse email", language: "fr" },
+      ],
+      role: [
+        { text: "Role", language: "en" },
+        { text: "Rôle", language: "fr" },
       ],
       password: [
         { text: "Password", language: "en" },

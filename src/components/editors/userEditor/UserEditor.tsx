@@ -2,6 +2,8 @@ import React from "react";
 import "suneditor/dist/css/suneditor.min.css";
 import { MdPassword, MdTitle } from "react-icons/md";
 import ReactLoading from "react-loading";
+import { FormikProps, useFormik } from "formik";
+import { ImCross } from "react-icons/im";
 import * as Yup from "yup";
 
 import useStyles from "./userEditor.styles";
@@ -10,8 +12,6 @@ import { Theme } from "../../../config/theme";
 import Button from "../../button";
 import { useAppSelector } from "../../../store/hooks";
 import Input from "../../input";
-import { ImCross } from "react-icons/im";
-import { FormikProps, useFormik } from "formik";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import { IUser } from "../../../store/slices/userSlice";
 import useUpdateUser, {
@@ -20,6 +20,12 @@ import useUpdateUser, {
 import useCreateUser, {
   UserCreateCommand,
 } from "../../../hooks/apiHooks/useCreateUser";
+import useGetRoles, {
+  RolesGetCommand,
+} from "../../../hooks/apiHooks/useGetRoles";
+import InputSelect from "../../inputSelect";
+import { IRole } from "../../../store/slices/roleSlice";
+import { Option } from "../../inputSelect/InputSelect";
 
 export interface IUserEditor {
   user?: IUser;
@@ -31,20 +37,19 @@ interface IUserForm {
   firstName: string;
   lastName: string;
   email: string;
+  roleId?: string;
   password: string;
   confirmPassword: string;
 }
 
 const UserEditor = (props: IUserEditor) => {
-  const language: string = useAppSelector(
-    (state) => state.userPreferences.language
-  );
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration?.staticText?.profile
   );
+  const roles: IRole[] = useAppSelector((state) => state.role.roles);
 
   //#region Local state
   const [userModalOpen, setUserModalOpen] = React.useState<boolean>(false);
@@ -54,11 +59,13 @@ const UserEditor = (props: IUserEditor) => {
   const getTranslatedText = useGetTranslatedText();
   const { createUser, loading: createLoading } = useCreateUser();
   const { updateUser, loading: updateLoading } = useUpdateUser();
+  const { getRoles, loading: getRolesLoading } = useGetRoles();
   const formik: FormikProps<IUserForm> = useFormik<IUserForm>({
     initialValues: {
       firstName: "",
       lastName: "",
       email: "",
+      roleId: "",
       password: "",
       confirmPassword: "",
     },
@@ -88,6 +95,7 @@ const UserEditor = (props: IUserEditor) => {
           firstName: values.firstName,
           lastName: values.lastName,
           email: values.email,
+          roleId: values.roleId,
         };
 
         await updateUser(command);
@@ -97,6 +105,7 @@ const UserEditor = (props: IUserEditor) => {
           lastName: values.lastName,
           email: values.email,
           password: values.password,
+          roleId: values.roleId,
         };
 
         await createUser(command);
@@ -116,7 +125,22 @@ const UserEditor = (props: IUserEditor) => {
   }, [props.open]);
 
   React.useEffect(() => {
+    if (userModalOpen) {
+      const getRolesCommand: RolesGetCommand = {
+        paginationCommand: {
+          limit: 999,
+          page: 1,
+        },
+      };
+      getRoles(getRolesCommand);
+    }
+  }, [userModalOpen]);
+
+  React.useEffect(() => {
     // Initialize the form based on the passed user to update
+    const role: IRole | undefined = roles.find(
+      (r) => r._id === props.user?.role?._id
+    );
     formik.resetForm({
       values: {
         firstName: props.user?.firstName || "",
@@ -124,9 +148,10 @@ const UserEditor = (props: IUserEditor) => {
         email: props.user?.email || "",
         password: props.user ? "********" : "",
         confirmPassword: props.user ? "********" : "",
+        roleId: props.user?.role?._id,
       },
     });
-  }, [props.user]);
+  }, [props.user, roles]);
   //#endregion Effects
 
   //#region Event listeners
@@ -142,7 +167,8 @@ const UserEditor = (props: IUserEditor) => {
   };
   //#endregion Event listeners
 
-  const loading = props.user ? updateLoading : createLoading;
+  const loading =
+    (props.user ? updateLoading : createLoading) || getRolesLoading;
   return (
     <Modal handleClose={handleCloseModal} open={userModalOpen}>
       <form
@@ -188,6 +214,22 @@ const UserEditor = (props: IUserEditor) => {
             disabled: loading,
             type: "email",
           }}
+        />
+
+        <InputSelect
+          label={getTranslatedText(staticText?.role)}
+          value={{
+            label: getTranslatedText(
+              roles?.find((role) => role._id === formik.values.roleId)?.name
+            ),
+            value: formik.values.roleId || "",
+          }}
+          options={roles.map((role) => ({
+            label: getTranslatedText(role.name),
+            value: role._id,
+          }))}
+          formik={formik}
+          name="roleId"
         />
 
         <Input

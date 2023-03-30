@@ -1,13 +1,14 @@
 import moment from "moment";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 import {
   LOCAL_STORAGE_TOKEN_ITEM_NAME,
   TIME_FORMAT,
 } from "../../config/constants";
-import { toast } from "react-toastify";
 
 import IFile from "../../globalTypes/IFile";
+import { IRole } from "./roleSlice";
 
 export enum SuperRole {
   SuperAdmin = "SuperAdmin",
@@ -21,6 +22,7 @@ export interface IUser {
   email: string;
   profilePicture?: IFile;
   superRole: SuperRole;
+  role?: IRole;
 }
 
 export type TokenInformation = {
@@ -72,6 +74,7 @@ const initialState: IUserState = {
       isImage: true,
       name: "",
     },
+    role: undefined,
   },
   tokenInformation: tokenInformationInStorage,
   users: [],

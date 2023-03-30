@@ -10,6 +10,7 @@ export type UserCreateCommand = {
   lastName: string;
   email: string;
   password: string;
+  roleId?: string;
 };
 
 const useCreateUser = () => {

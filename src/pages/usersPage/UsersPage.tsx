@@ -1,9 +1,9 @@
 import React from "react";
 import { FaDirections } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import UserEditor from "../../components/editors/userEditor";
 
 import Elements from "../../components/elements";
+import UserEditor from "../../components/editors/userEditor";
 import { Theme } from "../../config/theme";
 import withWrapper from "../../hoc/wrapper";
 import useDeleteUsers from "../../hooks/apiHooks/useDeleteUsers";
@@ -70,11 +70,16 @@ const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
             name: "email",
           },
           {
+            label: getTranslatedText(staticText?.role),
+            name: "",
+            render: (user: IUser) => getTranslatedText(user.role?.name),
+          },
+          {
             label: getTranslatedText(staticText?.visit),
             name: "",
             render: (user: IUser) => {
               return (
-                <Link to={"/profile/" + user._id}>
+                <Link target="_blank" to={"/profile/" + user._id}>
                   <FaDirections />
                 </Link>
               );
