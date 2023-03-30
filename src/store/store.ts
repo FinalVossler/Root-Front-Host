@@ -9,6 +9,7 @@ import userPreferenceReducer from "./slices/userPreferencesSlice";
 import fieldReducer from "./slices/fieldSlice";
 import modelReducer from "./slices/modelSlice";
 import entityReducer from "./slices/entitySlice";
+import roleReducer from "./slices/roleSlice";
 
 export const store = configureStore({
   reducer: {
@@ -21,6 +22,7 @@ export const store = configureStore({
     field: fieldReducer,
     model: modelReducer,
     entity: entityReducer,
+    role: roleReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

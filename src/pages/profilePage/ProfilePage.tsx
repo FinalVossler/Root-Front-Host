@@ -96,12 +96,14 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
       {activeForm === ActiveForm.Register &&
         !isLoggedIn &&
         withRegistration && <Registration />}
+
       {(activeForm === ActiveForm.Login || !withRegistration) &&
         !isLoggedIn && <Login />}
 
       {activeForm === ActiveForm.ForgotPassword && !isLoggedIn && (
         <SendChangePasswordRequestForm />
       )}
+
       {isLoggedIn && (
         <div className={styles.connectedUserContainer}>
           {actualUser._id === currentUser._id && (

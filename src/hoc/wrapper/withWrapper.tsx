@@ -8,7 +8,7 @@ import useStyles from "./withWrapper.styles";
 import { useAppSelector } from "../../store/hooks";
 import SideMenu from "../../components/sideMenu/SideMenu";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
-import { IUser, Role } from "../../store/slices/userSlice";
+import { IUser, SuperRole } from "../../store/slices/userSlice";
 
 const withWrapper =
   (
@@ -59,7 +59,7 @@ const withWrapper =
       <div className={styles.sideMenuAndContent}>
         {options.withSideMenu &&
           isLoggedIn &&
-          user.role === Role.SuperAdmin && <SideMenu />}
+          user.superRole === SuperRole.SuperAdmin && <SideMenu />}
 
         <div
           ref={scrollableRef as React.RefObject<HTMLDivElement>}

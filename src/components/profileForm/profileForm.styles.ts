@@ -24,11 +24,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
   },
-  userRole: {
+  userRoleContainer: {
     color: theme.lightTextColor,
     marginBottom: 10,
   },
-  actualRole: {
+  role: {
     fontWeight: "bold",
     color: theme.primary,
   },

@@ -27,6 +27,7 @@ import EntitiesPage from "./pages/entitiesPage";
 import PagesPage from "./pages/pagesPage";
 import ForgotPasswordChangePasswordPage from "./pages/forgotPasswordChangePassworwPage";
 import UsersPage from "./pages/usersPage";
+import RolesPage from "./pages/rolesPage";
 
 const stripePromise = loadStripe(
   // @ts-ignore
@@ -103,6 +104,10 @@ function App() {
     {
       path: "/users/",
       element: <UsersPage />,
+    },
+    {
+      path: "/roles/",
+      element: <RolesPage />,
     },
   ]);
 

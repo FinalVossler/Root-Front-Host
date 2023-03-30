@@ -23,14 +23,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
   },
-  userRole: {
-    color: theme.lightTextColor,
-    marginBottom: 10,
-  },
-  actualRole: {
-    fontWeight: "bold",
-    color: theme.primary,
-  },
   "@media (max-width: 930)": {},
 }));
 

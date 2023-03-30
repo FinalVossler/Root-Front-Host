@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 import theme, { Theme } from "../../config/theme";
 import IFile from "../../globalTypes/IFile";
 import ITranslatedText from "../../globalTypes/ITranslatedText";
@@ -24,7 +25,7 @@ export interface IWebsiteConfiguration {
       enterFirstName: ITranslatedText[];
       enterLastName: ITranslatedText[];
       enterEmail: ITranslatedText[];
-      role: ITranslatedText[];
+      superRole: ITranslatedText[];
       updateProfileInformation: ITranslatedText[];
       firstNameIsRequired: ITranslatedText[];
       lastNameIsRequired: ITranslatedText[];
@@ -87,6 +88,7 @@ export interface IWebsiteConfiguration {
       models: ITranslatedText[];
       configuration: ITranslatedText[];
       users: ITranslatedText[];
+      roles: ITranslatedText[];
     };
     fields: {
       createField: ITranslatedText[];
@@ -200,6 +202,14 @@ export interface IWebsiteConfiguration {
       boxShadow: ITranslatedText[];
       tabIcon: ITranslatedText[];
     };
+    roles: {
+      createRole: ITranslatedText[];
+      updateRole: ITranslatedText[];
+      namePlaceholder: ITranslatedText[];
+      submit: ITranslatedText[];
+      language: ITranslatedText[];
+      searchRoles: ITranslatedText[];
+    };
   };
 }
 
@@ -272,9 +282,9 @@ const initialState: IWebsiteConfigurationState = {
         { text: "Invalid email", language: "en" },
         { text: "Email invalide", language: "fr" },
       ],
-      role: [
-        { text: "Role", language: "en" },
-        { text: "Rôle", language: "fr" },
+      superRole: [
+        { text: "Super Role", language: "en" },
+        { text: "Super Role", language: "fr" },
       ],
       updateProfileInformation: [
         { text: "Update", language: "en" },
@@ -515,6 +525,10 @@ const initialState: IWebsiteConfigurationState = {
       users: [
         { language: "en", text: "Users" },
         { language: "fr", text: "Utilisateurs" },
+      ],
+      roles: [
+        { language: "en", text: "Roles" },
+        { language: "fr", text: "Rôles" },
       ],
     },
     fields: {
@@ -923,6 +937,33 @@ const initialState: IWebsiteConfigurationState = {
       tabIcon: [
         { text: "Tab Icon", language: "en" },
         { text: "Icône de l'onglet ", language: "fr" },
+      ],
+    },
+
+    roles: {
+      createRole: [
+        { language: "en", text: "Create a role" },
+        { language: "fr", text: "Créer un rôle" },
+      ],
+      updateRole: [
+        { language: "en", text: "Update role" },
+        { language: "fr", text: "Modifier un rôle" },
+      ],
+      namePlaceholder: [
+        { language: "en", text: "Name" },
+        { language: "fr", text: "Nom" },
+      ],
+      submit: [
+        { language: "en", text: "Submit" },
+        { language: "fr", text: "Soumettre" },
+      ],
+      language: [
+        { language: "en", text: "Language" },
+        { language: "fr", text: "Langue" },
+      ],
+      searchRoles: [
+        { language: "en", text: "Search Roles" },
+        { language: "fr", text: "Chercher des rôles" },
       ],
     },
   },

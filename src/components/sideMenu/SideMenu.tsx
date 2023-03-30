@@ -18,9 +18,10 @@ import useGetModels, {
   ModelsGetCommand,
 } from "../../hooks/apiHooks/useGetModels";
 import { IModel } from "../../store/slices/modelSlice";
-import { IUser, Role } from "../../store/slices/userSlice";
+import { IUser, SuperRole } from "../../store/slices/userSlice";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { FaPager } from "react-icons/fa";
+import { RiUserStarFill } from "react-icons/ri";
 
 interface ISideMenu {}
 
@@ -85,7 +86,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
       {isSideMenuOpen && (
         <div className={styles.sideMenuContent}>
           <span className={styles.appName}>{title}</span>
-          {user.role === Role.SuperAdmin && (
+          {user.superRole === SuperRole.SuperAdmin && (
             <SideMenuOption
               Icon={BsFillGearFill}
               title={getTranslatedText(staticText?.configuration)}
@@ -97,14 +98,14 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
             title={getTranslatedText(staticText?.profile)}
             link={"/profile/" + user._id}
           />
-          {user.role === Role.SuperAdmin && (
+          {user.superRole === SuperRole.SuperAdmin && (
             <SideMenuOption
               Icon={FaPager}
               title={getTranslatedText(staticText?.pages)}
               link="/pages"
             />
           )}
-          {user.role === Role.SuperAdmin && (
+          {user.superRole === SuperRole.SuperAdmin && (
             <SideMenuOption
               Icon={MdTextFields}
               title={getTranslatedText(staticText?.fields)}
@@ -125,12 +126,18 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
               title: getTranslatedText(model.name),
             }))}
           />
-          {user.role === Role.SuperAdmin && (
+          {user.superRole === SuperRole.SuperAdmin && (
             <SideMenuOption
               link="/users"
               Icon={BsPerson}
               title={getTranslatedText(staticText?.users)}
-              extended={sideMenuExtendedModels}
+            />
+          )}
+          {user.superRole === SuperRole.SuperAdmin && (
+            <SideMenuOption
+              link="/roles"
+              Icon={RiUserStarFill}
+              title={getTranslatedText(staticText?.roles)}
             />
           )}
         </div>

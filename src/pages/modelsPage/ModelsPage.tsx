@@ -10,7 +10,7 @@ import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
 import { IModel } from "../../store/slices/modelSlice";
-import { IUser, Role } from "../../store/slices/userSlice";
+import { IUser, SuperRole } from "../../store/slices/userSlice";
 
 import useStyles from "./modelsPage.styles";
 
@@ -52,7 +52,7 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
 
   if (!isLoggedIn) return null;
 
-  if (user.role !== Role.SuperAdmin) return null;
+  if (user.superRole !== SuperRole.SuperAdmin) return null;
 
   return (
     <div className={styles.modelsPageContainer}>

@@ -15,6 +15,7 @@ import { IModel } from "../../store/slices/modelSlice";
 import { IEntity } from "../../store/slices/entitySlice";
 import Pagination from "../pagination";
 import { IUser } from "../../store/slices/userSlice";
+import { IRole } from "../../store/slices/roleSlice";
 
 export type Column = {
   label: string;
@@ -22,7 +23,7 @@ export type Column = {
   render?: (any) => any;
 };
 
-export type Element = IField | IModel | IEntity | IUser;
+export type Element = IField | IModel | IEntity | IUser | IRole;
 
 interface IElements {
   Editor: React.FunctionComponent<{

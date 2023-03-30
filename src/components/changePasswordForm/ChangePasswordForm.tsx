@@ -1,6 +1,5 @@
 import React from "react";
-import { CgProfile } from "react-icons/cg";
-import { FormikProps, useFormik, yupToFormErrors } from "formik";
+import { FormikProps, useFormik } from "formik";
 import * as Yup from "yup";
 
 import Input from "../input/Input";
@@ -10,7 +9,6 @@ import { Theme } from "../../config/theme";
 
 import { IUser } from "../../store/slices/userSlice";
 import { useAppSelector } from "../../store/hooks";
-import ProfilePictureUpload from "../profilePictureUpload";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
 import useStyles from "./changePasswordForm.styles";

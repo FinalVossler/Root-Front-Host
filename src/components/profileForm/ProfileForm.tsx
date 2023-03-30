@@ -135,9 +135,9 @@ const Profile: React.FunctionComponent<IProfileForm> = (
           formik={formik}
         />
 
-        <span className={styles.userRole}>
-          {getTranslatedText(staticText?.role)}:{" "}
-          <span className={styles.actualRole}>{user.role}</span>
+        <span className={styles.userRoleContainer}>
+          {getTranslatedText(staticText?.superRole)}:{" "}
+          <span className={styles.role}>{user.superRole}</span>
         </span>
         <br />
 

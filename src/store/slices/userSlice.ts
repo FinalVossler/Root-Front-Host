@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 
 import IFile from "../../globalTypes/IFile";
 
-export enum Role {
+export enum SuperRole {
   SuperAdmin = "SuperAdmin",
   Normal = "Normal",
 }
@@ -20,7 +20,7 @@ export interface IUser {
   lastName: string;
   email: string;
   profilePicture?: IFile;
-  role: Role;
+  superRole: SuperRole;
 }
 
 export type TokenInformation = {
@@ -65,7 +65,7 @@ const initialState: IUserState = {
     firstName: "",
     lastName: "",
     email: "",
-    role: Role.Normal,
+    superRole: SuperRole.Normal,
     profilePicture: {
       url: "",
       uuid: "",

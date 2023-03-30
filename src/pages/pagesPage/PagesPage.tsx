@@ -12,7 +12,7 @@ import useStyles from "./pagesPage.styles";
 import ConfirmationModal from "../../components/confirmationModal";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
-import { Role } from "../../store/slices/userSlice";
+import { SuperRole } from "../../store/slices/userSlice";
 import withWrapper from "../../hoc/wrapper";
 
 interface IPagesPageProps {}
@@ -63,7 +63,7 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
     setDeleteModalOpen(true);
   };
 
-  if (user.role !== Role.SuperAdmin) return null;
+  if (user.superRole !== SuperRole.SuperAdmin) return null;
 
   return (
     <div className={styles.pagesPageContainer}>

@@ -10,7 +10,7 @@ import { Theme } from "../../../config/theme";
 import Button from "../../button";
 import { useAppSelector } from "../../../store/hooks";
 import { IPost } from "../../../store/slices/postSlice";
-import { IUser, Role } from "../../../store/slices/userSlice";
+import { IUser, SuperRole } from "../../../store/slices/userSlice";
 import { FormikProps, useFormik } from "formik";
 import Input from "../../input";
 import { IPage } from "../../../store/slices/pageSlice";
@@ -133,7 +133,7 @@ const PageEditor = (props: IPageEditor) => {
   };
   //#endregion Event listeners
 
-  if (user.role !== Role.SuperAdmin) return null;
+  if (user.superRole !== SuperRole.SuperAdmin) return null;
 
   const loading = createLoading || updateLoading;
   return (
