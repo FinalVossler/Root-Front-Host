@@ -5,8 +5,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import SocketProvider from "./providers/SocketProvider";
 
+import SocketProvider from "./providers/SocketProvider";
 import HomePage from "./pages/homePage";
 import ProfilePage from "./pages/profilePage";
 import ChatPage from "./pages/chatPage";
@@ -62,6 +62,10 @@ function App() {
     {
       path: "/",
       element: <HomePage />,
+    },
+    {
+      path: "/profile/:userId",
+      element: <ProfilePage />,
     },
     {
       path: "/profile",

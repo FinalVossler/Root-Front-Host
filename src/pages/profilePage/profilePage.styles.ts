@@ -39,6 +39,18 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flex: 1,
     overflow: "hidden",
   },
+  userFullName: {
+    color: theme.lightTextColor,
+    fontSize: 25,
+    marginLeft: 20,
+  },
+  userProfilePicAndName: {
+    display: "flex",
+    flexDirection: "row",
+    marginBottom: 20,
+    alignItems: "center",
+  },
+
   profileAndPages: {
     display: "flex",
     flexDirection: "column",

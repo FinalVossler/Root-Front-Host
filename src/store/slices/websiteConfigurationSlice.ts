@@ -45,6 +45,7 @@ export interface IWebsiteConfiguration {
       passwordConfirmation: ITranslatedText[];
       passwordIsRequired: ITranslatedText[];
       passwordsDontMatch: ITranslatedText[];
+      visit: ITranslatedText[];
     };
     changePassword: {
       required: ITranslatedText[];
@@ -342,6 +343,10 @@ const initialState: IWebsiteConfigurationState = {
       passwordsDontMatch: [
         { text: "Passwords don't match", language: "en" },
         { text: "Les mots de passe ne sont pas identiques", language: "fr" },
+      ],
+      visit: [
+        { text: "visit", language: "en" },
+        { text: "Visiter", language: "fr" },
       ],
     },
     changePassword: {

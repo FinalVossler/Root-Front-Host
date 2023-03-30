@@ -19,7 +19,7 @@ import { IUser } from "../../store/slices/userSlice";
 export type Column = {
   label: string;
   name: string;
-  render?: (any) => string;
+  render?: (any) => any;
 };
 
 export type Element = IField | IModel | IEntity | IUser;

@@ -95,7 +95,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
           <SideMenuOption
             Icon={CgProfile}
             title={getTranslatedText(staticText?.profile)}
-            link="/profile"
+            link={"/profile/" + user._id}
           />
           {user.role === Role.SuperAdmin && (
             <SideMenuOption

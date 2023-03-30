@@ -7,7 +7,7 @@ import { Theme } from "../../config/theme";
 
 import useStyles from "./header.styles";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { userSlice } from "../../store/slices/userSlice";
+import { IUser, userSlice } from "../../store/slices/userSlice";
 import { IPage } from "../../store/slices/pageSlice";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
@@ -19,6 +19,7 @@ interface IHeader {
   scrolledDown: boolean;
 }
 const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
+  const user: IUser = useAppSelector((state) => state.user.user);
   const pages = useAppSelector<IPage[]>((state) => state.page.pages);
   const websiteTitle: string | undefined = useAppSelector(
     (state) => state.websiteConfiguration.title
@@ -117,7 +118,10 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
 
           {withRegistration && !isLoggedIn && (
             <li className={styles.option + " " + styles.headerIcon}>
-              <NavLink className={styles.optionATag} to="/profile">
+              <NavLink
+                className={styles.optionATag}
+                to={"/profile/" + user._id}
+              >
                 <CgProfile />
               </NavLink>
             </li>

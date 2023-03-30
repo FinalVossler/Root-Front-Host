@@ -17,6 +17,10 @@ import { useAppSelector } from "../../store/hooks";
 import { IUser } from "../../store/slices/userSlice";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import SendChangePasswordRequestForm from "../../components/sendChangePasswordRequestForm";
+import { useParams } from "react-router-dom";
+import useGetUser from "../../hooks/apiHooks/useGetUser";
+import UserProfilePicture from "../../components/userProfilePicture";
+import { SizeEnum } from "../../components/userProfilePicture/UserProfilePicture";
 
 enum ActiveForm {
   Register = "Register",
@@ -28,7 +32,9 @@ interface IProfilePage {}
 const ProfilePage: React.FunctionComponent<IProfilePage> = (
   props: IProfilePage
 ) => {
-  const user: IUser = useAppSelector<IUser>((state) => state.user.user);
+  const { userId } = useParams();
+
+  const currentUser: IUser = useAppSelector<IUser>((state) => state.user.user);
   const withRegistration: boolean | undefined = useAppSelector(
     (state) => state.websiteConfiguration.withRegistration
   );
@@ -39,6 +45,7 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
     (state) => state.websiteConfiguration.theme
   );
 
+  const [fetchedUser, setFetchedUser] = React.useState<IUser | null>(null);
   const [activeForm, setActiveForm] = React.useState<ActiveForm>(
     ActiveForm.Register
   );
@@ -47,6 +54,20 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
   const styles = useStyles({ theme });
   const isLoggedIn: boolean = useIsLoggedIn();
   const getTranslatedText = useGetTranslatedText();
+  const { getUser, loading: getUserLoading } = useGetUser();
+
+  React.useEffect(() => {
+    const fetchUser = async () => {
+      if (userId) {
+        const newFetchedUser: IUser = await getUser(userId);
+        setFetchedUser(newFetchedUser);
+      }
+    };
+
+    if (userId !== currentUser._id && userId) {
+      fetchUser();
+    }
+  }, [userId]);
 
   const handleSwitchToForgotPasswordForm = () => {
     setActiveForm(ActiveForm.ForgotPassword);
@@ -54,6 +75,13 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
 
   const handleTriggerShowProfileForm = () =>
     setShowProfileForm(!showProfileForm);
+
+  const actualUser =
+    userId === undefined || userId === currentUser._id
+      ? currentUser
+      : fetchedUser;
+
+  if (!actualUser) return null;
 
   return (
     <div className={styles.profilePageContainer}>
@@ -76,19 +104,32 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
       )}
       {isLoggedIn && (
         <div className={styles.connectedUserContainer}>
-          <BsFillGearFill
-            onClick={handleTriggerShowProfileForm}
-            className={styles.configurationIcon}
-            color={theme.primary}
-          />
-          {showProfileForm && (
+          {actualUser._id === currentUser._id && (
+            <BsFillGearFill
+              onClick={handleTriggerShowProfileForm}
+              className={styles.configurationIcon}
+              color={theme.primary}
+            />
+          )}
+          {showProfileForm && actualUser._id === currentUser._id && (
             <div className={styles.profileAndPages}>
               <ProfileForm />
             </div>
           )}
           <div className={styles.postsAndEditor}>
-            <PostEditor />
-            <UserPosts user={user} />
+            {actualUser._id === currentUser._id && <PostEditor />}
+            {actualUser._id !== currentUser._id && (
+              <div className={styles.userProfilePicAndName}>
+                <UserProfilePicture
+                  size={SizeEnum.Big}
+                  url={actualUser.profilePicture?.url}
+                />
+                <span className={styles.userFullName}>
+                  {actualUser.firstName + " " + actualUser.lastName}
+                </span>
+              </div>
+            )}
+            <UserPosts user={actualUser} />
           </div>
         </div>
       )}

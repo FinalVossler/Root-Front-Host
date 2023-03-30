@@ -1,4 +1,6 @@
 import React from "react";
+import { FaDirections } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import UserEditor from "../../components/editors/userEditor";
 
 import Elements from "../../components/elements";
@@ -66,6 +68,17 @@ const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
           {
             label: getTranslatedText(staticText?.email),
             name: "email",
+          },
+          {
+            label: getTranslatedText(staticText?.visit),
+            name: "",
+            render: (user: IUser) => {
+              return (
+                <Link to={"/profile/" + user._id}>
+                  <FaDirections />
+                </Link>
+              );
+            },
           },
         ]}
         elements={users}
