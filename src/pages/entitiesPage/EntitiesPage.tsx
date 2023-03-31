@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import EntityEditor from "../../components/editors/entityEditor";
 
+import EntityEditor from "../../components/editors/entityEditor";
 import Elements from "../../components/elements";
 import { Theme } from "../../config/theme";
 import PaginationCommand from "../../globalTypes/PaginationCommand";

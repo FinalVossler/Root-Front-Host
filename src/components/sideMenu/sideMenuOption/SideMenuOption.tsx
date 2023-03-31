@@ -34,7 +34,14 @@ const SideMenuOption: React.FunctionComponent<ISideMenuOption> = (
 
   return (
     <React.Fragment>
-      <Link to={props.link || "#"} onClick={props.triggerExtended}>
+      <Link
+        to={
+          props.subOptions && props.subOptions.length > 0
+            ? "#"
+            : props.link || "#"
+        }
+        onClick={props.triggerExtended}
+      >
         <div onClick={props.onClick} className={styles.sideMenuOptionContainer}>
           <props.Icon className={styles.optionIcon} />
           <span className={styles.optionTitle}>{props.title}</span>
@@ -51,21 +58,41 @@ const SideMenuOption: React.FunctionComponent<ISideMenuOption> = (
         </div>
       </Link>
 
+      {props.subOptions && props.subOptions?.length > 0 && props.extended && (
+        <SubOption
+          subOption={{
+            Icon: props.Icon,
+            link: props.link || "",
+            title: props.title,
+          }}
+        />
+      )}
+
       {props.subOptions && props.subOptions.length > 0 && props.extended && (
         <div className={styles.subOptionsContainer}>
           {props.subOptions.map((subOption, index) => {
-            return (
-              <Link key={index} to={subOption.link}>
-                <div key={index} className={styles.subOption}>
-                  <subOption.Icon className={styles.subOptionIcon} />
-                  <span className={styles.optionTitle}>{subOption.title}</span>
-                </div>
-              </Link>
-            );
+            return <SubOption subOption={subOption} key={index} />;
           })}
         </div>
       )}
     </React.Fragment>
+  );
+};
+
+const SubOption = (props: { subOption: SubOption }) => {
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
+
+  const styles = useStyles({ theme });
+
+  return (
+    <Link to={props.subOption.link}>
+      <div className={styles.subOption}>
+        <props.subOption.Icon className={styles.subOptionIcon} />
+        <span className={styles.optionTitle}>{props.subOption.title}</span>
+      </div>
+    </Link>
   );
 };
 
