@@ -4,10 +4,12 @@ import EntityEditor from "../../components/editors/entityEditor";
 
 import Elements from "../../components/elements";
 import { Theme } from "../../config/theme";
+import PaginationCommand from "../../globalTypes/PaginationCommand";
 import withWrapper from "../../hoc/wrapper";
 import useDeleteEntities from "../../hooks/apiHooks/useDeleteEntities";
 import useGetEntitiesByModel from "../../hooks/apiHooks/useGetEntitiesByModel";
 import useGetModels from "../../hooks/apiHooks/useGetModels";
+import useSearchEntities from "../../hooks/apiHooks/useSearchEntities";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
@@ -53,6 +55,7 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
   const { deleteEntities, loading: deleteLoading } = useDeleteEntities(
     modelId || ""
   );
+  const { handleSearchEntitiesPromise } = useSearchEntities();
 
   React.useEffect(() => {
     getEntitiesByModel({
@@ -122,8 +125,16 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
         loading={loading}
         deletePromise={deleteEntities}
         deleteLoading={deleteLoading}
-        getElementName={(entity: any) => ""}
+        getElementName={(entity: any) => {
+          const entityAsEntity: IEntity = entity;
+          return entityAsEntity.entityFieldValues
+            .map((fieldValue) => getTranslatedText(fieldValue.value))
+            .join(", ");
+        }}
         onPageChange={handlePageChange}
+        searchPromise={(name: string, paginationCommand: PaginationCommand) =>
+          handleSearchEntitiesPromise(name, paginationCommand, modelId || "")
+        }
       />
     </div>
   );
