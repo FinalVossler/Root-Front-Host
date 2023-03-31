@@ -9,6 +9,7 @@ import useOnClickOutside from "../../hooks/useOnClickOutside";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import PaginationCommand from "../../globalTypes/PaginationCommand";
 import { useAppSelector } from "../../store/hooks";
+import Pagination from "../pagination";
 
 interface ISearchInput {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
@@ -18,7 +19,10 @@ interface ISearchInput {
   ) => Promise<PaginationResponse<any>>;
   getElementTitle: (el: any) => string;
   onElementClick?: (el: any) => any;
+  setSearchResult?: any;
 }
+
+const LIMIT = 10;
 
 const SearchInput: React.FunctionComponent<ISearchInput> = (
   props: ISearchInput
@@ -26,13 +30,14 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
   const [value, setValue] = React.useState("");
   const [paginationCommand, setPaginationCommand] =
     React.useState<PaginationCommand>({
-      limit: 100,
+      limit: LIMIT,
       page: 1,
     });
   const [showSearchResult, setShowSearchResult] =
     React.useState<boolean>(false);
-  const [searchResult, setSearchResult] =
-    React.useState<PaginationResponse<any>>();
+  const [searchResult, setSearchResult] = React.useState<
+    PaginationResponse<any>
+  >({ data: [], total: 0 });
 
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
@@ -43,18 +48,27 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
 
   // Trigger the search whenever the value changes
   React.useEffect(() => {
-    const search = async () => {
-      props.searchPromise(value, paginationCommand).then((res) => {
-        setSearchResult(res);
-      });
-    };
-
     if (value && value.trim().length > 2) {
-      search();
+      handleSearch();
+    }
+    if (value.trim().length <= 2) {
+      setSearchResult({ data: [], total: 0 });
     }
   }, [value, paginationCommand, props.searchPromise, setSearchResult]);
 
+  React.useEffect(() => {
+    if (props.setSearchResult && searchResult) {
+      props.setSearchResult(searchResult);
+    }
+  }, [searchResult, props.setSearchResult]);
+
   //#region Event listeners
+  const handleSearch = () => {
+    props.searchPromise(value, paginationCommand).then((res) => {
+      setSearchResult(res);
+    });
+  };
+
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
     setShowSearchResult(true);
@@ -70,6 +84,13 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
       props.onElementClick(el);
       setShowSearchResult(false);
     }
+  };
+
+  const handlePageChange = (page: number) => {
+    setPaginationCommand({
+      limit: LIMIT,
+      page,
+    });
   };
   //#region Event listeners
 
@@ -94,6 +115,13 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
               {props.getElementTitle(el)}
             </span>
           ))}
+
+          <Pagination
+            page={paginationCommand.page}
+            onPageChange={handlePageChange}
+            limit={LIMIT}
+            total={searchResult?.total || 0}
+          />
         </div>
       )}
     </div>

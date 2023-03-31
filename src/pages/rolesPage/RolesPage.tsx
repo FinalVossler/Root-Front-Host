@@ -6,6 +6,7 @@ import { Theme } from "../../config/theme";
 import withWrapper from "../../hoc/wrapper";
 import useDeleteRoles from "../../hooks/apiHooks/useDeleteRoles";
 import useGetRoles from "../../hooks/apiHooks/useGetRoles";
+import useSearchRoles from "../../hooks/apiHooks/useSearchRoles";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
@@ -32,6 +33,7 @@ const RolesPage: React.FunctionComponent<IRolesPage> = (props: IRolesPage) => {
   const { getRoles, loading } = useGetRoles();
   const isLoggedIn: boolean = useIsLoggedIn();
   const { deleteRoles, loading: deleteLoading } = useDeleteRoles();
+  const { handleSearchRolesPromise } = useSearchRoles();
 
   React.useEffect(() => {
     getRoles({
@@ -69,6 +71,7 @@ const RolesPage: React.FunctionComponent<IRolesPage> = (props: IRolesPage) => {
         deleteLoading={deleteLoading}
         getElementName={(role: any) => getTranslatedText(role.name)}
         onPageChange={handlePageChange}
+        searchPromise={handleSearchRolesPromise}
       />
     </div>
   );

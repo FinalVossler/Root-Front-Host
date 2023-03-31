@@ -26,6 +26,8 @@ const Pagination: React.FunctionComponent<IPagination> = (
     props.onPageChange(page);
   };
 
+  if (props.total <= props.limit) return null;
+
   return (
     <div className={styles.paginationContainer}>
       <PaginationComponent

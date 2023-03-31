@@ -16,6 +16,9 @@ import { IEntity } from "../../store/slices/entitySlice";
 import Pagination from "../pagination";
 import { IUser } from "../../store/slices/userSlice";
 import { IRole } from "../../store/slices/roleSlice";
+import SearchInput from "../searchInput";
+import PaginationResponse from "../../globalTypes/PaginationResponse";
+import PaginationCommand from "../../globalTypes/PaginationCommand";
 
 export type Column = {
   label: string;
@@ -41,6 +44,10 @@ interface IElements {
   deleteLoading: boolean;
   getElementName: (element: Element) => string;
   onPageChange: (page: number) => void;
+  searchPromise?: (
+    searchText: string,
+    paginationCommand: PaginationCommand
+  ) => Promise<PaginationResponse<any>>;
 }
 
 const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
@@ -56,6 +63,9 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
   const [selectedElements, setSelectedElements] = React.useState<string[]>([]);
   const [selectedElement, setSelectedElement] =
     React.useState<Element | null>(null);
+  const [searchResult, setSearchResult] = React.useState<
+    PaginationResponse<any>
+  >({ data: [], total: 0 });
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
@@ -100,6 +110,9 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
   };
   //#endregion Event listeners
 
+  // The elements to show are either the search result or the elements passed as props
+  const elements =
+    searchResult.data.length > 0 ? searchResult.data : props.elements;
   return (
     <div className={styles.elementsContainer}>
       <div className={styles.buttonsContainer}>
@@ -122,7 +135,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                 ": " +
                 selectedElements
                   .map((selectedElementId) => {
-                    const element: Element | undefined = props.elements.find(
+                    const element: Element | undefined = elements.find(
                       (el) => el._id === selectedElementId
                     );
                     return element ? props.getElementName(element) : "";
@@ -143,6 +156,14 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
           element={selectedElement}
         />
       </div>
+
+      {props.searchPromise && (
+        <SearchInput
+          getElementTitle={props.getElementName}
+          searchPromise={props.searchPromise}
+          setSearchResult={setSearchResult}
+        />
+      )}
 
       <table className={styles.elementsTable}>
         <thead className={styles.tableHeader}>
@@ -167,11 +188,11 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                 <input
                   className={styles.actionCheckbox}
                   type="checkbox"
-                  checked={selectedElements.length === props.elements.length}
+                  checked={selectedElements.length === elements.length}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setSelectedElements(
-                      props.elements.length !== selectedElements.length
-                        ? props.elements.map((el) => el._id)
+                      elements.length !== selectedElements.length
+                        ? elements.map((el) => el._id)
                         : []
                     )
                   }
@@ -192,7 +213,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
           )}
 
           {!props.loading &&
-            props.elements.map((element, index) => {
+            elements.map((element, index) => {
               return (
                 <tr className={styles.tableRow} key={index}>
                   {props.columns.map((column, columnIndex) => {
@@ -233,7 +254,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
       </table>
 
       <Pagination
-        total={props.total}
+        total={searchResult.data.length > 0 ? searchResult.total : props.total}
         limit={props.limit}
         page={props.page}
         onPageChange={props.onPageChange}
