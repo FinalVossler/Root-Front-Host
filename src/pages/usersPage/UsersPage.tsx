@@ -14,6 +14,7 @@ import { useAppSelector } from "../../store/hooks";
 import { IUser } from "../../store/slices/userSlice";
 
 import useStyles from "./usersPage.styles";
+import useSearchUsers from "../../hooks/apiHooks/useSearchUsers";
 
 interface IUsersPage {}
 
@@ -34,6 +35,7 @@ const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
   const { getUsers, loading } = useGetUsers();
   const isLoggedIn: boolean = useIsLoggedIn();
   const { deleteUsers, loading: deleteLoading } = useDeleteUsers();
+  const { handleSearchUsersPromise } = useSearchUsers();
 
   React.useEffect(() => {
     getUsers({
@@ -97,6 +99,7 @@ const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
           getTranslatedText(user.firstName + " " + user.lastName)
         }
         onPageChange={handlePageChange}
+        searchPromise={handleSearchUsersPromise}
       />
     </div>
   );

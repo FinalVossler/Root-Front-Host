@@ -6,6 +6,7 @@ import { Theme } from "../../config/theme";
 import withWrapper from "../../hoc/wrapper";
 import useDeleteModels from "../../hooks/apiHooks/useDeleteModels";
 import useGetModels from "../../hooks/apiHooks/useGetModels";
+import useSearchModels from "../../hooks/apiHooks/useSearchModels";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
@@ -36,6 +37,7 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
   const { getModels, loading } = useGetModels();
   const isLoggedIn: boolean = useIsLoggedIn();
   const { deleteModels, loading: deleteLoading } = useDeleteModels();
+  const { handleSearchModelsPromise } = useSearchModels();
 
   React.useEffect(() => {
     getModels({
@@ -84,6 +86,7 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
         deleteLoading={deleteLoading}
         getElementName={(model: any) => getTranslatedText(model.name)}
         onPageChange={handlePageChange}
+        searchPromise={handleSearchModelsPromise}
       />
     </div>
   );
