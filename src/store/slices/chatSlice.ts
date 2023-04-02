@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { number } from "yup/lib/locale";
 
 import IFile from "../../globalTypes/IFile";
 import compareWithCreatedAt from "../../utils/compareWithCreatedAt";
@@ -25,12 +26,16 @@ export type Conversation = {
 
 interface IChatState {
   contacts: IUser[];
+  totalContacts: number;
+  contactsPage: number;
   selectedConversationId?: string;
   conversations: Conversation[];
 }
 
 const initialState: IChatState = {
   contacts: [],
+  totalContacts: 0,
+  contactsPage: 1,
   selectedConversationId: undefined,
   conversations: [],
 };
@@ -41,6 +46,14 @@ export const chatSlice = createSlice({
   reducers: {
     setContacts: (state: IChatState, action: PayloadAction<IUser[]>) => {
       state.contacts = action.payload;
+    },
+    setContactsPage: (state: IChatState, action: PayloadAction<number>) => {
+      const page: number = action.payload;
+      state.contactsPage = page;
+    },
+    setContactsTotal: (state: IChatState, action: PayloadAction<number>) => {
+      const total: number = action.payload;
+      state.totalContacts = total;
     },
     setSelectedConversationId: (
       state: IChatState,

@@ -51,7 +51,12 @@ a {
 .rc-pagination {
   display: flex;
   align-items: center;
+  justify-content: center;
   cursor: pointer;
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  border: 1px solid white;
 }
 
 .rc-pagination li {
@@ -59,12 +64,16 @@ a {
 }
 
 .rc-pagination-item-active {
-  font-size: 40px;
-  margin-left: 40px !important;
+  font-size: 30px;
+  margin-left: 20px !important;
   color: red;
 }
 
 .rc-pagination-next,
 .rc-pagination-prev {
   display: none;
+}
+
+ul {
+  padding-inline-start: 0px;
 }

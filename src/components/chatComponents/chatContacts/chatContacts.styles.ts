@@ -11,6 +11,21 @@ const useStyles = createUseStyles((theme: Theme) => ({
     backgroundColor: theme.subContentBackgroundColor,
     height: "100%",
     width: 350,
+    minWidth: 350,
+    overflow: "scroll",
+    paddingRight: 10,
+
+    "& .rc-pagination": {
+      marginRight: 10,
+      marginLeft: 10,
+      paddingLeft: 15,
+      maxWidth: 340,
+      overflow: "scroll",
+    },
+
+    "& li": {
+      fontSize: 15,
+    },
   },
   top: {
     width: "100%",

@@ -211,6 +211,9 @@ export interface IWebsiteConfiguration {
       language: ITranslatedText[];
       searchRoles: ITranslatedText[];
     };
+    chat: {
+      title: ITranslatedText[];
+    };
   };
 }
 
@@ -969,6 +972,12 @@ const initialState: IWebsiteConfigurationState = {
       searchRoles: [
         { language: "en", text: "Search Roles" },
         { language: "fr", text: "Chercher des rôles" },
+      ],
+    },
+    chat: {
+      title: [
+        { language: "en", text: "Chat" },
+        { language: "fr", text: "Chat" },
       ],
     },
   },

@@ -1,29 +1,17 @@
 import React from "react";
-import { socketConnect } from "socket.io-react";
-import { AxiosResponse } from "axios";
-import { Socket } from "socket.io-client";
 
 import ChatContacts from "../../components/chatComponents/chatContacts";
 import ChatBox from "../../components/chatComponents/chatBox";
 
 import { Theme } from "../../config/theme";
 import withProtection from "../../hoc/protection";
-import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import {
-  chatSlice,
-  getConversationId,
-  IMessage,
-} from "../../store/slices/chatSlice";
+import { useAppSelector } from "../../store/hooks";
 import { IUser } from "../../store/slices/userSlice";
+import withWrapper from "../../hoc/wrapper";
+import withChatHoc from "../../hoc/withChat";
 
 import useStyles from "./chatPage.styles";
-import ChatMessagesEnum from "../../globalTypes/ChatMessagesEnum";
-import withWrapper from "../../hoc/wrapper";
-
-interface IChat {
-  socket: Socket;
-}
+interface IChat {}
 
 const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
   const user: IUser = useAppSelector((state) => state.user.user);
@@ -38,52 +26,6 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
     (state) => state.websiteConfiguration.theme
   );
   const styles = useStyles({ theme });
-  const axios = useAuthorizedAxios();
-  const dispatch = useAppDispatch();
-
-  // Get the list of contacts
-  React.useEffect(() => {
-    axios
-      .request<AxiosResponse<IUser[]>>({
-        url: "/users",
-        method: "GET",
-      })
-      .then((res) => {
-        dispatch(chatSlice.actions.setContacts(res.data.data));
-      });
-  }, [axios]);
-
-  // Listening to incoming messages
-  React.useEffect(() => {
-    if (!props.socket.on) return;
-
-    props.socket.on(ChatMessagesEnum.Receive, (message: IMessage) => {
-      dispatch(
-        chatSlice.actions.addMessages({
-          messages: [message],
-          currentUser: user,
-        })
-      );
-
-      dispatch(
-        chatSlice.actions.incrementConversationTotalUnreadMessages({
-          usersIds: [...message.to],
-          by: 1,
-        })
-      );
-    });
-
-    props.socket.on(ChatMessagesEnum.Delete, (message: IMessage) => {
-      const conversationId: string = getConversationId(message.to);
-
-      dispatch(
-        chatSlice.actions.deleteMessage({
-          conversationId,
-          messageId: message._id,
-        })
-      );
-    });
-  }, [props.socket]);
 
   if (!withChat) return null;
 
@@ -116,6 +58,7 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
   );
 };
 
-export default withWrapper(withProtection(socketConnect(Chat)), {
+export default withWrapper(withProtection(withChatHoc(Chat)), {
   withFooter: false,
+  withSideMenu: true,
 });
