@@ -11,6 +11,7 @@ import withWrapper from "../../hoc/wrapper";
 import withChatHoc from "../../hoc/withChat";
 
 import useStyles from "./chatPage.styles";
+import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 interface IChat {}
 
 const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
@@ -21,11 +22,15 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
   const selectedConversationId: string | undefined = useAppSelector(
     (state) => state.chat.selectedConversationId
   );
-
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.chat
+  );
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
+
   const styles = useStyles({ theme });
+  const getTranslatedText = useGetTranslatedText();
 
   if (!withChat) return null;
 
@@ -42,14 +47,14 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
           <div className={styles.chatWelcome}>
             <img className={styles.chatRobot} src="/robot.gif" />
             <span className={styles.welcomeText}>
-              Welcome,{" "}
+              {getTranslatedText(staticText?.welcome)},{" "}
               <span className={styles.welcomeTextUserName}>
                 {user.firstName} {user.lastName}
               </span>
             </span>
 
             <span className={styles.chatDirectionText}>
-              Please select a chat to start messaging
+              {getTranslatedText(staticText?.welcomeText)}
             </span>
           </div>
         )}

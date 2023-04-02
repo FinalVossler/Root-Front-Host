@@ -213,6 +213,8 @@ export interface IWebsiteConfiguration {
     };
     chat: {
       title: ITranslatedText[];
+      welcome: ITranslatedText[];
+      welcomeText: ITranslatedText[];
     };
   };
 }
@@ -978,6 +980,17 @@ const initialState: IWebsiteConfigurationState = {
       title: [
         { language: "en", text: "Chat" },
         { language: "fr", text: "Chat" },
+      ],
+      welcome: [
+        { language: "en", text: "Welcome" },
+        { language: "fr", text: "Bienvenue" },
+      ],
+      welcomeText: [
+        { language: "en", text: "Please select a contact to start messaging" },
+        {
+          language: "fr",
+          text: "Veuillez sélectionner un contact pour commencer à chatter :)",
+        },
       ],
     },
   },

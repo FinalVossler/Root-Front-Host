@@ -58,6 +58,17 @@ const useStyles = createUseStyles((theme: Theme) => ({
       display: "flex",
     },
   },
+  "@media (max-width: 400px)": {
+    chatContactsContainer: {
+      minWidth: "initial",
+    },
+    chatContactsContainerConversationSelected: {
+      minWidth: "initial",
+    },
+    noConversationSelectedChatContactsContainer: {
+      minWidth: "initial",
+    },
+  },
 }));
 
 export default useStyles;

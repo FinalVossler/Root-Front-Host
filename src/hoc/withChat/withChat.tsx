@@ -1,14 +1,8 @@
-import { AxiosResponse } from "axios";
 import React from "react";
 import { Socket } from "socket.io-client";
 import { socketConnect } from "socket.io-react";
 
 import ChatMessagesEnum from "../../globalTypes/ChatMessagesEnum";
-import PaginationCommand from "../../globalTypes/PaginationCommand";
-import useGetChatContacts, {
-  ChatGetContactsCommand,
-} from "../../hooks/apiHooks/useGetChatContacts";
-import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   chatSlice,
@@ -24,12 +18,15 @@ interface IChat {
 const withChat = (Component: React.FunctionComponent<any>) =>
   socketConnect((props: IChat) => {
     const user: IUser = useAppSelector((state) => state.user.user);
+    const withChat = useAppSelector(
+      (state) => state.websiteConfiguration.withChat
+    );
 
     const dispatch = useAppDispatch();
 
     // Listening to incoming messages
     React.useEffect(() => {
-      if (!props.socket.on) return;
+      if (!props.socket.on || !withChat) return;
 
       props.socket.on(ChatMessagesEnum.Receive, (message: IMessage) => {
         dispatch(
