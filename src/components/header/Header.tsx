@@ -14,6 +14,7 @@ import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import InputSelect from "../inputSelect";
 import { userPreferenceSlice } from "../../store/slices/userPreferencesSlice";
 import { Option } from "../inputSelect/InputSelect";
+import HeaderInbox from "../headerInbox";
 
 interface IHeader {
   scrolledDown: boolean;
@@ -115,6 +116,8 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
               </NavLink>
             </li>
           )}
+
+          {withChat && isLoggedIn && <HeaderInbox />}
 
           {withRegistration && !isLoggedIn && (
             <li className={styles.option + " " + styles.headerIcon}>

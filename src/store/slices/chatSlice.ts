@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { number } from "yup/lib/locale";
 
 import IFile from "../../globalTypes/IFile";
 import compareWithCreatedAt from "../../utils/compareWithCreatedAt";
@@ -9,6 +8,18 @@ export interface IMessage {
   _id: string;
   from: string;
   to: string[];
+  message: string;
+  read: string[];
+  files: IFile[];
+
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IPopulatedMessage {
+  _id: string;
+  from: IUser;
+  to: IUser[];
   message: string;
   read: string[];
   files: IFile[];
@@ -30,6 +41,8 @@ interface IChatState {
   contactsPage: number;
   selectedConversationId?: string;
   conversations: Conversation[];
+  lastConversationsLastMessages: IPopulatedMessage[];
+  totalLastConversationsLastMessages: number;
 }
 
 const initialState: IChatState = {
@@ -38,6 +51,8 @@ const initialState: IChatState = {
   contactsPage: 1,
   selectedConversationId: undefined,
   conversations: [],
+  lastConversationsLastMessages: [],
+  totalLastConversationsLastMessages: 0,
 };
 
 export const chatSlice = createSlice({
@@ -185,6 +200,15 @@ export const chatSlice = createSlice({
             message.read.push(action.payload.userId);
         });
       }
+    },
+    setLastConversationsLastMessages: (
+      state: IChatState,
+      action: PayloadAction<{ messages: IPopulatedMessage[]; total: number }>
+    ) => {
+      const { messages, total } = action.payload;
+
+      state.lastConversationsLastMessages = messages;
+      state.totalLastConversationsLastMessages = total;
     },
   },
 });

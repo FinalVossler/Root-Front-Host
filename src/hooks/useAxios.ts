@@ -18,6 +18,7 @@ const useAxios = () => {
       return response;
     },
     (error: ErrorResponseDto) => {
+      console.log("error response", error);
       const message: string = error.response.data.error.message;
 
       // If unauthorized, then we logout the user
