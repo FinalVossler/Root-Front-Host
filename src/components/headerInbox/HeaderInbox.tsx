@@ -34,8 +34,8 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
   const [page, setPage] = React.useState<number>(1);
 
   const styles = useStyles({ theme });
-  const inboxPopupRef = React.useRef<HTMLDivElement>();
-  useOnClickOutside(inboxPopupRef, () => {
+  const inboxRef = React.useRef<HTMLDivElement>();
+  useOnClickOutside(inboxRef, () => {
     setInboxOpen(false);
   });
 
@@ -53,20 +53,21 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
     }
   }, [inboxOpen]);
 
-  const handleOpenInbox = () => setInboxOpen(true);
+  const handleOpenInbox = () => setInboxOpen(!inboxOpen);
 
   return (
-    <div className={styles.headerInboxContainer} {...props}>
+    <div
+      className={styles.headerInboxContainer}
+      ref={inboxRef as React.RefObject<HTMLDivElement>}
+      {...props}
+    >
       <BsFillChatDotsFill
         onClick={handleOpenInbox}
         className={styles.inboxIcon}
       />
 
       {inboxOpen && (
-        <div
-          className={styles.inboxPopup}
-          ref={inboxPopupRef as React.RefObject<HTMLDivElement>}
-        >
+        <div className={styles.inboxPopup}>
           {lastConversationsLastMessages.map(
             (message: IPopulatedMessage, index: number) => {
               const otherUser: IUser =
