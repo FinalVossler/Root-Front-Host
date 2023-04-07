@@ -12,6 +12,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginLeft: 20,
     borderRadius: 5,
     alignSelf: "flex-start",
+    marginTop: 10,
   },
   participantContainer: {
     display: "flex",

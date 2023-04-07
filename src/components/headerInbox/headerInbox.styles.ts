@@ -34,6 +34,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     overflowY: "auto",
     paddingBottom: 20,
     paddingRight: 20,
+    zIndex: 8,
     boxSizing: "border-box",
   },
   conversationContainer: {

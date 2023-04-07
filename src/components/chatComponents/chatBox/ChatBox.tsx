@@ -1,4 +1,5 @@
 import React from "react";
+import { AiFillCloseCircle } from "react-icons/ai";
 
 import { Theme } from "../../../config/theme";
 import useLoadMessages, {
@@ -18,12 +19,19 @@ import Message from "../message/Message";
 
 import useStyles from "./chatBox.styles";
 
+export enum BoxType {
+  SmallBox = "SmallBox",
+  FullPageBox = "FullPageBox",
+}
+
 interface IChatBox {
   conversationId: string;
+  boxType: BoxType;
 }
 
 let lastMessageId: string | null = null;
 const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
+  //#region Store
   const user: IUser = useAppSelector((state) => state.user.user);
   const messages: IMessage[] =
     useAppSelector(
@@ -31,21 +39,26 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
         state.chat.conversations.find((el) => el.id === props.conversationId)
           ?.messages
     ) || [];
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
+  //#endregion Store
 
+  //#region State
   const [limit, setLimit] = React.useState<number>(9);
   const [total, setTotal] = React.useState(0);
   // We keep track of the last message in the list to know when to force scrolling down
   const [previousConversationId, setPreviousConversationId] =
     React.useState<string>();
   const [page, setPage] = React.useState<number>(1);
+  //#endregion State
 
-  const theme: Theme = useAppSelector(
-    (state) => state.websiteConfiguration.theme
-  );
+  //#region Hooks
   const styles = useStyles({ theme });
   const scrollToDiv = React.useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const { loadMessages, loading: loadingMessages } = useLoadMessages();
+  //#endregion Hooks
 
   //#region Effects
   React.useEffect(() => {
@@ -77,6 +90,7 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
       setPreviousConversationId(props.conversationId);
     }
   }, [props.conversationId, messages]);
+  //#endregion Effects
 
   //#region Listeners
   const handleLoadMessages = async (whichPage: number) => {
@@ -115,17 +129,37 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
       handleLoadMessages(page);
     }
   };
+
+  const handleCloseSmallBox = () => {
+    dispatch(
+      chatSlice.actions.unselectConversation({
+        conversationId: props.conversationId,
+      })
+    );
+  };
   //#endregion Listeners
 
   return (
     <div
       className={
-        props.conversationId
+        props.boxType === BoxType.SmallBox
+          ? styles.smallBoxContainer
+          : props.conversationId
           ? styles.chatBoxContainer
           : styles.noConversationSelectedChatBoxContainer
       }
     >
-      <ChatBoxParticipants conversationId={props.conversationId} />
+      {props.boxType === BoxType.SmallBox && (
+        <AiFillCloseCircle
+          onClick={handleCloseSmallBox}
+          className={styles.closeButton}
+        />
+      )}
+
+      <ChatBoxParticipants
+        boxType={props.boxType}
+        conversationId={props.conversationId}
+      />
 
       <div className={styles.chatMessagesBox}>
         {total > messages.length && !loadingMessages && (

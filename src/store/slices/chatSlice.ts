@@ -39,7 +39,9 @@ interface IChatState {
   contacts: IUser[];
   totalContacts: number;
   contactsPage: number;
+  // For the chat page
   selectedConversationId?: string;
+  selectedConversationIds?: string[];
   conversations: Conversation[];
   lastConversationsLastMessages: IPopulatedMessage[];
   totalLastConversationsLastMessages: number;
@@ -50,6 +52,7 @@ const initialState: IChatState = {
   totalContacts: 0,
   contactsPage: 1,
   selectedConversationId: undefined,
+  selectedConversationIds: [],
   conversations: [],
   lastConversationsLastMessages: [],
   totalLastConversationsLastMessages: 0,
@@ -209,6 +212,27 @@ export const chatSlice = createSlice({
 
       state.lastConversationsLastMessages = messages;
       state.totalLastConversationsLastMessages = total;
+    },
+    addSelectedConversation: (
+      state: IChatState,
+      action: PayloadAction<{ conversationId: string }>
+    ) => {
+      const conversationId: string = action.payload.conversationId;
+      if (state.selectedConversationIds?.indexOf(conversationId) === -1) {
+        state.selectedConversationIds?.push(conversationId);
+      }
+      if (!state.selectedConversationIds) {
+        state.selectedConversationIds = [conversationId];
+      }
+    },
+    unselectConversation: (
+      state: IChatState,
+      action: PayloadAction<{ conversationId: string }>
+    ) => {
+      const conversationId: string = action.payload.conversationId;
+      state.selectedConversationIds =
+        state.selectedConversationIds?.filter((id) => id !== conversationId) ||
+        [];
     },
   },
 });

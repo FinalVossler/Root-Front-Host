@@ -12,17 +12,25 @@ import {
 import { IUser } from "../../../store/slices/userSlice";
 
 import useStyles from "./ChatBoxParticipants.styles";
+import { BoxType } from "../chatBox/ChatBox";
 
 interface IChatBox {
   conversationId: string;
+  boxType: BoxType;
 }
 
 const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
+  //#region Store
   const user: IUser = useAppSelector((state) => state.user.user);
   const contacts: IUser[] = useAppSelector((state) => state.chat.contacts);
   const conversation: Conversation | undefined = useAppSelector(
     (state) => state.chat.conversations
   ).find((c) => c.id === props.conversationId);
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
+  //#endregion Store
+
   const otherParticipants: IUser[] = React.useMemo(() => {
     if (conversation) {
       const participantsIds =
@@ -36,10 +44,6 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
       return result;
     } else return [];
   }, [contacts, conversation]);
-
-  const theme: Theme = useAppSelector(
-    (state) => state.websiteConfiguration.theme
-  );
   const styles = useStyles({ theme });
   const dispatch = useAppDispatch();
 
@@ -54,10 +58,13 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
 
   return (
     <div className={styles.chatBoxParticipantsContainer}>
-      <AiOutlineArrowLeft
-        className={styles.backArrow}
-        onClick={handleBackArrowClick}
-      />
+      {props.boxType === BoxType.FullPageBox && (
+        <AiOutlineArrowLeft
+          className={styles.backArrow}
+          onClick={handleBackArrowClick}
+        />
+      )}
+
       {otherParticipants.map((participant: IUser) => {
         return (
           <div className={styles.participantContainer} key={participant._id}>

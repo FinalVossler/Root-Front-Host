@@ -36,12 +36,14 @@ const withChat = (Component: React.FunctionComponent<any>) =>
           })
         );
 
-        dispatch(
-          chatSlice.actions.incrementConversationTotalUnreadMessages({
-            usersIds: [...message.to],
-            by: 1,
-          })
-        );
+        if (message.from !== user._id) {
+          dispatch(
+            chatSlice.actions.incrementConversationTotalUnreadMessages({
+              usersIds: [...message.to],
+              by: 1,
+            })
+          );
+        }
       });
 
       props.socket.on(ChatMessagesEnum.Delete, (message: IMessage) => {

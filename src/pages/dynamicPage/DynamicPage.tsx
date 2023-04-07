@@ -1,6 +1,7 @@
 import Post from "../../components/post";
 
 import { Theme } from "../../config/theme";
+import withChat from "../../hoc/withChat";
 
 import withWrapper from "../../hoc/wrapper";
 import { useAppSelector } from "../../store/hooks";
@@ -29,7 +30,7 @@ const DynamicPage: React.FunctionComponent<IDynamicPage> = (
   );
 };
 
-export default withWrapper(DynamicPage, {
+export default withWrapper(withChat(DynamicPage), {
   withFooter: false,
   withSideMenu: true,
 });

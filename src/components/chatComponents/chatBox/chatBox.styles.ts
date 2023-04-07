@@ -8,6 +8,20 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "column",
     justifyContent: "space-between",
     flex: 1,
+    position: "relative",
+  },
+  noConversationSelectedChatBoxContainer: {
+    extend: "chatBoxContainer",
+  },
+  smallBoxContainer: {
+    extend: "chatBoxContainer",
+    width: 350,
+    height: 470,
+    backgroundColor: theme.backgroundColor,
+    marginRight: 20,
+    marginBottom: 40,
+    border: "1px solid " + theme.lightTextColor,
+    boxSizing: "border-box",
   },
   chatMessagesBox: {
     flex: 1,
@@ -17,6 +31,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "column",
     alignItems: "flex-start",
     overflowY: "auto",
+    borderTop: "1px solid " + theme.lightTextColor,
+    paddingTop: 5,
   },
   loadMoreButtonContainer: {
     display: "flex",
@@ -36,8 +52,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: 60,
     borderRadius: 10,
   },
-  noConversationSelectedChatBoxContainer: {
-    extend: "chatBoxContainer",
+  closeButton: {
+    position: "absolute",
+    right: 10,
+    color: theme.errorColor,
+    top: 17,
+    fontSize: 25,
+    cursor: "pointer",
   },
   "@media (max-width: 850px)": {
     noConversationSelectedChatBoxContainer: {

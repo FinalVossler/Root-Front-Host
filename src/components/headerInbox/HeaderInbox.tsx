@@ -4,15 +4,21 @@ import Loading from "react-loading";
 
 import { Theme } from "../../config/theme";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import useGetLastConversationsLastMessages from "../../hooks/apiHooks/useGetLastConversationsLastMessages";
 
 import useStyles from "./headerInbox.styles";
-import { IPopulatedMessage } from "../../store/slices/chatSlice";
+import {
+  chatSlice,
+  getConversationId,
+  IMessage,
+  IPopulatedMessage,
+} from "../../store/slices/chatSlice";
 import UserProfilePicture from "../userProfilePicture";
 import { SizeEnum } from "../userProfilePicture/UserProfilePicture";
 import { IUser } from "../../store/slices/userSlice";
 import Pagination from "../pagination";
+import ChatBoxes from "../chatComponents/chatBoxes";
 
 interface IHeaderInbox {}
 
@@ -36,12 +42,25 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
   const [page, setPage] = React.useState<number>(1);
 
   const styles = useStyles({ theme });
+  const dispatch = useAppDispatch();
   const inboxRef = React.useRef<HTMLDivElement>();
   useOnClickOutside(inboxRef, () => {
     setInboxOpen(false);
   });
   const { getLastConversationsLastMessages, loading } =
     useGetLastConversationsLastMessages();
+
+  React.useEffect(() => {
+    // Reset everything when the component has just loaded to not have a snapping event
+    if (inboxOpen) {
+      dispatch(
+        chatSlice.actions.setLastConversationsLastMessages({
+          messages: [],
+          total: 0,
+        })
+      );
+    }
+  }, [inboxOpen]);
 
   React.useEffect(() => {
     if (inboxOpen) {
@@ -57,6 +76,14 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
   const handleOpenInbox = () => setInboxOpen(!inboxOpen);
 
   const handlePageChange = (page: number) => setPage(page);
+
+  const handleSelectConversation = (message: IPopulatedMessage) => {
+    const conversationId: string = getConversationId([
+      ...message.to.map((u) => u._id),
+    ]);
+    dispatch(chatSlice.actions.addSelectedConversation({ conversationId }));
+    setInboxOpen(false);
+  };
 
   return (
     <div
@@ -81,7 +108,11 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
                     : message.to.filter((to) => to._id !== user._id)[0];
 
                 return (
-                  <div key={index} className={styles.conversationContainer}>
+                  <div
+                    key={index}
+                    onClick={() => handleSelectConversation(message)}
+                    className={styles.conversationContainer}
+                  >
                     <UserProfilePicture
                       url={otherUser.profilePicture?.url}
                       size={SizeEnum.Small}
@@ -109,6 +140,8 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
           />
         </div>
       )}
+
+      <ChatBoxes />
     </div>
   );
 };

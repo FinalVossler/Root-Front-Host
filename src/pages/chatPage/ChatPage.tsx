@@ -12,6 +12,7 @@ import withChatHoc from "../../hoc/withChat";
 
 import useStyles from "./chatPage.styles";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
+import { BoxType } from "../../components/chatComponents/chatBox/ChatBox";
 interface IChat {}
 
 const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
@@ -40,7 +41,10 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
         <ChatContacts />
 
         {selectedConversationId && (
-          <ChatBox conversationId={selectedConversationId} />
+          <ChatBox
+            conversationId={selectedConversationId}
+            boxType={BoxType.FullPageBox}
+          />
         )}
 
         {!selectedConversationId && (

@@ -147,4 +147,4 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
   );
 };
 
-export default Header;
+export default React.memo(Header);
