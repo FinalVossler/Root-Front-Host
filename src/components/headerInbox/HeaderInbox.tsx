@@ -1,5 +1,6 @@
 import React from "react";
 import { BsFillChatDotsFill } from "react-icons/bs";
+import Loading from "react-loading";
 
 import { Theme } from "../../config/theme";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
@@ -11,10 +12,11 @@ import { IPopulatedMessage } from "../../store/slices/chatSlice";
 import UserProfilePicture from "../userProfilePicture";
 import { SizeEnum } from "../userProfilePicture/UserProfilePicture";
 import { IUser } from "../../store/slices/userSlice";
+import Pagination from "../pagination";
 
 interface IHeaderInbox {}
 
-const LIMIT = 20;
+const LIMIT = 99;
 
 const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
   props: IHeaderInbox
@@ -38,8 +40,7 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
   useOnClickOutside(inboxRef, () => {
     setInboxOpen(false);
   });
-
-  const { getLastConversationsLastMessages } =
+  const { getLastConversationsLastMessages, loading } =
     useGetLastConversationsLastMessages();
 
   React.useEffect(() => {
@@ -51,9 +52,11 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
         },
       });
     }
-  }, [inboxOpen]);
+  }, [inboxOpen, page]);
 
   const handleOpenInbox = () => setInboxOpen(!inboxOpen);
+
+  const handlePageChange = (page: number) => setPage(page);
 
   return (
     <div
@@ -68,33 +71,42 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
 
       {inboxOpen && (
         <div className={styles.inboxPopup}>
-          {lastConversationsLastMessages.map(
-            (message: IPopulatedMessage, index: number) => {
-              const otherUser: IUser =
-                message.from._id !== user._id
-                  ? message.from
-                  : message.to.filter((to) => to._id !== user._id)[0];
+          {loading && <Loading className={styles.headerInboxLoading} />}
+          {!loading &&
+            lastConversationsLastMessages.map(
+              (message: IPopulatedMessage, index: number) => {
+                const otherUser: IUser =
+                  message.from._id !== user._id
+                    ? message.from
+                    : message.to.filter((to) => to._id !== user._id)[0];
 
-              return (
-                <div key={index} className={styles.conversationContainer}>
-                  <UserProfilePicture
-                    url={otherUser.profilePicture?.url}
-                    size={SizeEnum.Small}
-                  />
+                return (
+                  <div key={index} className={styles.conversationContainer}>
+                    <UserProfilePicture
+                      url={otherUser.profilePicture?.url}
+                      size={SizeEnum.Small}
+                    />
 
-                  <div className={styles.userNameAndLastMessage}>
-                    <span className={styles.userName}>
-                      {otherUser.firstName + " " + otherUser.lastName}
-                    </span>
-                    <div
-                      className={styles.messageContent}
-                      dangerouslySetInnerHTML={{ __html: message.message }}
-                    ></div>
+                    <div className={styles.userNameAndLastMessage}>
+                      <span className={styles.userName}>
+                        {otherUser.firstName + " " + otherUser.lastName}
+                      </span>
+                      <div
+                        className={styles.messageContent}
+                        dangerouslySetInnerHTML={{ __html: message.message }}
+                      ></div>
+                    </div>
                   </div>
-                </div>
-              );
-            }
-          )}
+                );
+              }
+            )}
+
+          <Pagination
+            total={total}
+            page={page}
+            onPageChange={handlePageChange}
+            limit={LIMIT}
+          />
         </div>
       )}
     </div>

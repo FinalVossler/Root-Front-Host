@@ -6,6 +6,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
   headerInboxContainer: {
     position: "relative",
   },
+  headerInboxLoading: {
+    color: theme.lightTextColor,
+    fill: theme.primary + "!important",
+  },
   inboxIcon: {
     fontSize: 26,
     color: theme.lightTextColor,
@@ -14,8 +18,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     padding: 5,
   },
   inboxPopup: {
-    backgroundColor: theme.lightTextColor,
-    color: theme.darkTextColor,
+    backgroundColor: theme.secondary,
+    color: theme.lightTextColor,
     padding: 10,
     boxShadow: theme.boxShadow,
     position: "absolute",
@@ -23,6 +27,14 @@ const useStyles = createUseStyles((theme: Theme) => ({
     right: -50,
     borderRadius: 5,
     width: 300,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    maxHeight: "85vh",
+    overflowY: "auto",
+    paddingBottom: 20,
+    paddingRight: 20,
+    boxSizing: "border-box",
   },
   conversationContainer: {
     padding: 10,
@@ -30,10 +42,19 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     cursor: "pointer",
     borderRadius: 10,
+    width: "95%",
+    boxSizing: "border-box",
 
     "&:hover": {
-      backgroundColor: theme.secondary,
+      backgroundColor: theme.darkerPrimary,
       color: theme.lightTextColor,
+
+      "& svg": {
+        color: theme.lightTextColor + "!important",
+      },
+      "& div": {
+        borderColor: theme.lightTextColor + "!important",
+      },
     },
   },
   userNameAndLastMessage: {

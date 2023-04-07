@@ -21,6 +21,7 @@ const useGetLastConversationsLastMessages = () => {
     command: MessageGetLastConversations
   ) =>
     new Promise((resolve, reject) => {
+      setLoading(true);
       axios
         .request<AxiosResponse<PaginationResponse<IPopulatedMessage>>>({
           method: "POST",
