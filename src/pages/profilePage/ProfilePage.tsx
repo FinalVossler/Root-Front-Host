@@ -21,6 +21,7 @@ import { useParams } from "react-router-dom";
 import useGetUser from "../../hooks/apiHooks/useGetUser";
 import UserProfilePicture from "../../components/userProfilePicture";
 import { SizeEnum } from "../../components/userProfilePicture/UserProfilePicture";
+import withChat from "../../hoc/withChat";
 
 enum ActiveForm {
   Register = "Register",
@@ -185,4 +186,4 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
   );
 };
 
-export default withWrapper(ProfilePage, { withSideMenu: true });
+export default withWrapper(withChat(ProfilePage), { withSideMenu: true });
