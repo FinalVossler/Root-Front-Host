@@ -1,7 +1,7 @@
 import React from "react";
 import { CgProfile } from "react-icons/cg";
 import { AiOutlineLogout } from "react-icons/ai";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 import { Theme } from "../../config/theme";
 
@@ -48,6 +48,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
   const dispatch = useAppDispatch();
   const isLoggedIn: boolean = useIsLoggedIn();
   const getTranslatedText = useGetTranslatedText();
+  const location = useLocation();
 
   //#region Event listeners
   const handleLogout = () => {
@@ -117,7 +118,9 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
             </li>
           )}
 
-          {withChat && isLoggedIn && <HeaderInbox />}
+          {withChat && isLoggedIn && location.pathname !== "/chat" && (
+            <HeaderInbox />
+          )}
 
           {withRegistration && !isLoggedIn && (
             <li className={styles.option + " " + styles.headerIcon}>

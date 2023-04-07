@@ -4,7 +4,7 @@ import { Theme } from "../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
   modalContainer: {
-    zIndex: 9,
+    zIndex: 10,
     position: "fixed",
     top: "0px",
     left: "0px",
