@@ -234,6 +234,12 @@ export const chatSlice = createSlice({
         state.selectedConversationIds?.filter((id) => id !== conversationId) ||
         [];
     },
+    unselectAllConversations: (
+      state: IChatState,
+      action: PayloadAction<void>
+    ) => {
+      state.selectedConversationIds = [];
+    },
   },
 });
 

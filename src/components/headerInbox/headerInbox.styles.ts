@@ -20,13 +20,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
   inboxPopup: {
     backgroundColor: theme.secondary,
     color: theme.lightTextColor,
-    padding: 10,
     boxShadow: theme.boxShadow,
     position: "absolute",
     top: 70,
     right: -50,
     borderRadius: 5,
-    width: 300,
+    width: 350,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -36,6 +35,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     paddingRight: 20,
     zIndex: 8,
     boxSizing: "border-box",
+    paddingLeft: 0,
+    paddingTop: 10,
   },
   conversationContainer: {
     padding: 10,
@@ -68,7 +69,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
   messageContent: {
     opacity: 0.7,
   },
-  "@media (max-width: 800px)": {},
+  "@media (max-width: 800px)": {
+    inboxPopup: {
+      width: 300,
+    },
+  },
 }));
 
 export default useStyles;

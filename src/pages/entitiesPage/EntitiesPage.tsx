@@ -5,6 +5,7 @@ import EntityEditor from "../../components/editors/entityEditor";
 import Elements from "../../components/elements";
 import { Theme } from "../../config/theme";
 import PaginationCommand from "../../globalTypes/PaginationCommand";
+import withChat from "../../hoc/withChat";
 import withWrapper from "../../hoc/wrapper";
 import useDeleteEntities from "../../hooks/apiHooks/useDeleteEntities";
 import useGetEntitiesByModel from "../../hooks/apiHooks/useGetEntitiesByModel";
@@ -140,7 +141,7 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
   );
 };
 
-export default withWrapper(EntitiesPage, {
+export default withWrapper(withChat(EntitiesPage), {
   withFooter: false,
   withSideMenu: true,
 });

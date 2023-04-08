@@ -14,6 +14,7 @@ import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { SuperRole } from "../../store/slices/userSlice";
 import withWrapper from "../../hoc/wrapper";
+import withChat from "../../hoc/withChat";
 
 interface IPagesPageProps {}
 
@@ -121,7 +122,7 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
   );
 };
 
-export default withWrapper(PagesPage, {
+export default withWrapper(withChat(PagesPage), {
   withFooter: false,
   withSideMenu: true,
 });

@@ -11,7 +11,6 @@ import useStyles from "./headerInbox.styles";
 import {
   chatSlice,
   getConversationId,
-  IMessage,
   IPopulatedMessage,
 } from "../../store/slices/chatSlice";
 import UserProfilePicture from "../userProfilePicture";
@@ -19,6 +18,9 @@ import { SizeEnum } from "../userProfilePicture/UserProfilePicture";
 import { IUser } from "../../store/slices/userSlice";
 import Pagination from "../pagination";
 import ChatBoxes from "../chatComponents/chatBoxes";
+import useSearchUsers from "../../hooks/apiHooks/useSearchUsers";
+import SearchInput from "../searchInput";
+import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
 interface IHeaderInbox {}
 
@@ -37,18 +39,23 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
     (state) => state.chat.totalLastConversationsLastMessages
   );
   const user: IUser = useAppSelector((state) => state.user.user);
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.chat
+  );
 
   const [inboxOpen, setInboxOpen] = React.useState<boolean>(false);
   const [page, setPage] = React.useState<number>(1);
 
   const styles = useStyles({ theme });
   const dispatch = useAppDispatch();
+  const getTranslatedText = useGetTranslatedText();
   const inboxRef = React.useRef<HTMLDivElement>();
   useOnClickOutside(inboxRef, () => {
     setInboxOpen(false);
   });
   const { getLastConversationsLastMessages, loading } =
     useGetLastConversationsLastMessages();
+  const { handleSearchUsersPromise } = useSearchUsers();
 
   React.useEffect(() => {
     // Reset everything when the component has just loaded to not have a snapping event
@@ -61,6 +68,13 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
       );
     }
   }, [inboxOpen]);
+
+  React.useEffect(() => {
+    // Empty selected conversations when this component is unmounted
+    return () => {
+      dispatch(chatSlice.actions.unselectAllConversations());
+    };
+  }, []);
 
   React.useEffect(() => {
     if (inboxOpen) {
@@ -77,9 +91,17 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
 
   const handlePageChange = (page: number) => setPage(page);
 
-  const handleSelectConversation = (message: IPopulatedMessage) => {
+  const handleSelectConversationFromMessage = (message: IPopulatedMessage) => {
     const conversationId: string = getConversationId([
       ...message.to.map((u) => u._id),
+    ]);
+    dispatch(chatSlice.actions.addSelectedConversation({ conversationId }));
+    setInboxOpen(false);
+  };
+
+  const handleSelectConversationfromUsers = (users: IUser[]) => {
+    const conversationId: string = getConversationId([
+      ...users.map((u) => u._id),
     ]);
     dispatch(chatSlice.actions.addSelectedConversation({ conversationId }));
     setInboxOpen(false);
@@ -98,6 +120,21 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
 
       {inboxOpen && (
         <div className={styles.inboxPopup}>
+          <SearchInput
+            getElementTitle={(user: IUser) =>
+              user.firstName + " " + user.lastName
+            }
+            searchPromise={handleSearchUsersPromise}
+            onElementClick={(user: IUser) =>
+              handleSelectConversationfromUsers([user])
+            }
+            inputProps={{
+              placeholder: getTranslatedText(staticText?.searchContacts),
+              style: {
+                width: "100%",
+              },
+            }}
+          />
           {loading && <Loading className={styles.headerInboxLoading} />}
           {!loading &&
             lastConversationsLastMessages.map(
@@ -110,7 +147,7 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
                 return (
                   <div
                     key={index}
-                    onClick={() => handleSelectConversation(message)}
+                    onClick={() => handleSelectConversationFromMessage(message)}
                     className={styles.conversationContainer}
                   >
                     <UserProfilePicture

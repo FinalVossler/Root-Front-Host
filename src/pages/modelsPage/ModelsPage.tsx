@@ -3,6 +3,7 @@ import React from "react";
 import ModelEditor from "../../components/editors/modelEditor";
 import Elements from "../../components/elements";
 import { Theme } from "../../config/theme";
+import withChat from "../../hoc/withChat";
 import withWrapper from "../../hoc/wrapper";
 import useDeleteModels from "../../hooks/apiHooks/useDeleteModels";
 import useGetModels from "../../hooks/apiHooks/useGetModels";
@@ -92,7 +93,7 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
   );
 };
 
-export default withWrapper(ModelsPage, {
+export default withWrapper(withChat(ModelsPage), {
   withFooter: false,
   withSideMenu: true,
 });

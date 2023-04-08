@@ -3,6 +3,7 @@ import React from "react";
 import RoleEditor from "../../components/editors/roleEditor";
 import Elements from "../../components/elements";
 import { Theme } from "../../config/theme";
+import withChat from "../../hoc/withChat";
 import withWrapper from "../../hoc/wrapper";
 import useDeleteRoles from "../../hooks/apiHooks/useDeleteRoles";
 import useGetRoles from "../../hooks/apiHooks/useGetRoles";
@@ -77,7 +78,7 @@ const RolesPage: React.FunctionComponent<IRolesPage> = (props: IRolesPage) => {
   );
 };
 
-export default withWrapper(RolesPage, {
+export default withWrapper(withChat(RolesPage), {
   withFooter: false,
   withSideMenu: true,
 });

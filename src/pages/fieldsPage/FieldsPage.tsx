@@ -3,6 +3,7 @@ import React from "react";
 import FieldEditor from "../../components/editors/fieldEditor";
 import Elements from "../../components/elements";
 import { Theme } from "../../config/theme";
+import withChat from "../../hoc/withChat";
 import withWrapper from "../../hoc/wrapper";
 import useDeleteFields from "../../hooks/apiHooks/useDeleteFields";
 import useGetFields from "../../hooks/apiHooks/useGetFields";
@@ -91,7 +92,7 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
   );
 };
 
-export default withWrapper(FieldsPage, {
+export default withWrapper(withChat(FieldsPage), {
   withFooter: false,
   withSideMenu: true,
 });

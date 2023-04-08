@@ -13,6 +13,7 @@ import { IUser } from "../../../store/slices/userSlice";
 
 import useStyles from "./ChatBoxParticipants.styles";
 import { BoxType } from "../chatBox/ChatBox";
+import usegetContactsByIds from "../../../hooks/apiHooks/useGetContactsByIds";
 
 interface IChatBox {
   conversationId: string;
@@ -29,25 +30,35 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
+  const [otherParticipants, setOtherParticipants] = React.useState<IUser[]>([]);
   //#endregion Store
 
-  const otherParticipants: IUser[] = React.useMemo(() => {
-    if (conversation) {
-      const participantsIds =
-        getConversationConversationalistsFromConversationId(
-          conversation.id
-        ).filter((id) => id !== user._id);
-      const result = contacts.filter(
-        (c) => participantsIds.indexOf(c._id) !== -1
-      );
-
-      return result;
-    } else return [];
-  }, [contacts, conversation]);
   const styles = useStyles({ theme });
   const dispatch = useAppDispatch();
+  const { getContactsByIds } = usegetContactsByIds();
 
   //#region Effects
+  React.useEffect(() => {
+    if (props.conversationId) {
+      const participantsIds =
+        getConversationConversationalistsFromConversationId(
+          props.conversationId
+        ).filter((id) => id !== user._id);
+
+      // If we are in a small box, then we need to get the concerned contacts (because in the small box, we load the conversation last message, not the contacts)
+      if (props.boxType === BoxType.SmallBox) {
+        getContactsByIds(participantsIds).then((users: IUser[]) =>
+          setOtherParticipants(users)
+        );
+      } else {
+        const participants = contacts.filter(
+          (c) => participantsIds.indexOf(c._id) !== -1
+        );
+        setOtherParticipants(participants);
+      }
+      // Else, the contacts must already be loaded in the chat page
+    }
+  }, [props.boxType, conversation, contacts]);
   //#endregion Effects
 
   //#region Listeners

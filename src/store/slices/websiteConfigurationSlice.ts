@@ -215,6 +215,7 @@ export interface IWebsiteConfiguration {
       title: ITranslatedText[];
       welcome: ITranslatedText[];
       welcomeText: ITranslatedText[];
+      searchContacts: ITranslatedText[];
     };
   };
 }
@@ -991,6 +992,10 @@ const initialState: IWebsiteConfigurationState = {
           language: "fr",
           text: "Veuillez sélectionner un contact pour commencer à chatter :)",
         },
+      ],
+      searchContacts: [
+        { language: "en", text: "Search Contacts" },
+        { language: "fr", text: "Rechercher des contacts" },
       ],
     },
   },

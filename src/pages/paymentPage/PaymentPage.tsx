@@ -3,6 +3,7 @@ import React from "react";
 import PaymentForm from "../../components/paymentForm";
 
 import { Theme } from "../../config/theme";
+import withChat from "../../hoc/withChat";
 
 import withWrapper from "../../hoc/wrapper";
 import { useAppSelector } from "../../store/hooks";
@@ -35,4 +36,4 @@ const PaymentPage: React.FunctionComponent<IPaymentPage> = (
   );
 };
 
-export default withWrapper(PaymentPage);
+export default withWrapper(withChat(PaymentPage));

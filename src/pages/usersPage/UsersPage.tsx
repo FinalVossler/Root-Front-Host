@@ -15,6 +15,7 @@ import { IUser } from "../../store/slices/userSlice";
 
 import useStyles from "./usersPage.styles";
 import useSearchUsers from "../../hooks/apiHooks/useSearchUsers";
+import withChat from "../../hoc/withChat";
 
 interface IUsersPage {}
 
@@ -105,7 +106,7 @@ const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
   );
 };
 
-export default withWrapper(UsersPage, {
+export default withWrapper(withChat(UsersPage), {
   withFooter: false,
   withSideMenu: true,
 });
