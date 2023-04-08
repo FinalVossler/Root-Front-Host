@@ -5,7 +5,6 @@ import { ImCross } from "react-icons/im";
 import { FormikProps, useFormik } from "formik";
 import ReactLoading from "react-loading";
 
-import useStyles from "./roleEditor.styles";
 import Modal from "../../modal";
 import { Theme } from "../../../config/theme";
 import Button from "../../button";
@@ -20,7 +19,10 @@ import useUpdateRole, {
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import InputSelect from "../../inputSelect";
 import getLanguages from "../../../utils/getLanguages";
-import { IRole } from "../../../store/slices/roleSlice";
+import { IRole, Permission } from "../../../store/slices/roleSlice";
+import useStyles from "./roleEditor.styles";
+import { Option } from "../../inputSelect/InputSelect";
+import lowerCaseFirstLetter from "../../../utils/lowerCaseFirstLetter";
 
 export interface IRoleEditor {
   role?: IRole;
@@ -31,6 +33,7 @@ export interface IRoleEditor {
 interface IRoleForm {
   name: string;
   language: string;
+  permissions: Permission[];
 }
 
 const RoleEditor = (props: IRoleEditor) => {
@@ -56,6 +59,7 @@ const RoleEditor = (props: IRoleEditor) => {
     initialValues: {
       name: "",
       language,
+      permissions: Object.values(Permission),
     },
     onSubmit: async (values: IRoleForm) => {
       if (props.role) {
@@ -63,6 +67,7 @@ const RoleEditor = (props: IRoleEditor) => {
           _id: props.role._id,
           name: values.name,
           language: values.language,
+          permissions: values.permissions,
         };
 
         await updateRole(command);
@@ -70,6 +75,7 @@ const RoleEditor = (props: IRoleEditor) => {
         const command: RoleCreateCommand = {
           name: values.name,
           language: values.language,
+          permissions: values.permissions,
         };
 
         await createRole(command);
@@ -94,6 +100,7 @@ const RoleEditor = (props: IRoleEditor) => {
       values: {
         name: getTranslatedText(props.role?.name, formik.values.language),
         language: formik.values.language,
+        permissions: props.role?.permissions || formik.values.permissions,
       },
     });
   }, [props.role, formik.values.language]);
@@ -114,6 +121,17 @@ const RoleEditor = (props: IRoleEditor) => {
   //#endregion Event listeners
 
   const loading = props.role ? updateLoading : createLoading;
+  const permissionsOptions: Option[] = Object.values(Permission).map(
+    (permission) => {
+      return {
+        label: getTranslatedText(
+          staticText?.[lowerCaseFirstLetter(permission)]
+        ),
+        value: permission,
+      };
+    }
+  );
+
   return (
     <Modal handleClose={handleCloseModal} open={roleModalOpen}>
       <form onSubmit={handleSubmit} className={styles.createRoleModalContainer}>
@@ -145,6 +163,14 @@ const RoleEditor = (props: IRoleEditor) => {
             getLanguages().find((el) => el.value === formik.values.language) ||
             getLanguages()[0]
           }
+        />
+
+        <InputSelect
+          label={getTranslatedText(staticText?.permissions)}
+          name="permissions"
+          formik={formik}
+          options={permissionsOptions}
+          isMulti
         />
 
         {!loading && (

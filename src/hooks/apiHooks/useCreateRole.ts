@@ -2,12 +2,13 @@ import { AxiosResponse } from "axios";
 import React from "react";
 
 import { useAppDispatch } from "../../store/hooks";
-import { roleSlice, IRole } from "../../store/slices/roleSlice";
+import { roleSlice, IRole, Permission } from "../../store/slices/roleSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 
 export type RoleCreateCommand = {
   name: string;
   language: string;
+  permissions: Permission[];
 };
 
 const useCreateRole = () => {

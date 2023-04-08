@@ -16,8 +16,9 @@ interface IInputSelect {
   options: Option[];
   label: string;
   onChange?: (option: Option) => void;
+  onMultiChange?: (options: Option[]) => void;
   isMulti?: boolean;
-  value: Option;
+  value?: Option | Option[];
   formik?: FormikProps<any>;
   name?: string;
   style?: React.CSSProperties;
@@ -41,6 +42,20 @@ const InputSelect: React.FunctionComponent<IInputSelect> = (
     }
   };
 
+  const handleOnMultiChange = (optionsParams: any) => {
+    const options: Option[] = optionsParams;
+    if (props.formik && props.name) {
+      props.formik.setFieldValue(
+        props.name,
+        options.map((option) => option.value)
+      );
+    }
+
+    if (props.onMultiChange) {
+      props.onMultiChange(options);
+    }
+  };
+
   return (
     <div className={styles.inputSelectContainer} style={props.style || {}}>
       {props.label && (
@@ -48,13 +63,22 @@ const InputSelect: React.FunctionComponent<IInputSelect> = (
       )}
       <Select
         isMulti={props.isMulti}
-        onChange={handleOnChange}
+        onChange={props.isMulti ? handleOnMultiChange : handleOnChange}
         options={props.options}
         value={
-          props.formik && props.name
+          props.formik && props.name && !props.isMulti
             ? props.options.find(
                 (option) =>
                   option.value === props.formik?.values[props.name || ""]
+              )
+            : props.formik && props.name && props.isMulti
+            ? props.options.filter((option) =>
+                Boolean(
+                  props.formik?.values[props.name || ""].find(
+                    (selectedOption) =>
+                      selectedOption.toString() === option.value.toString()
+                  )
+                )
               )
             : props.value
         }

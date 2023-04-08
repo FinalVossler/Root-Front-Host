@@ -2,13 +2,14 @@ import { AxiosResponse } from "axios";
 import React from "react";
 
 import { useAppDispatch } from "../../store/hooks";
-import { roleSlice, IRole } from "../../store/slices/roleSlice";
+import { roleSlice, IRole, Permission } from "../../store/slices/roleSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 
 export type RoleUpdateCommand = {
   _id: string;
   name: string;
   language: string;
+  permissions: Permission[];
 };
 
 const useUpdateRole = () => {

@@ -204,12 +204,39 @@ export interface IWebsiteConfiguration {
       tabIcon: ITranslatedText[];
     };
     roles: {
+      editConfiguration: ITranslatedText[];
       createRole: ITranslatedText[];
       updateRole: ITranslatedText[];
       namePlaceholder: ITranslatedText[];
       submit: ITranslatedText[];
       language: ITranslatedText[];
       searchRoles: ITranslatedText[];
+      permissions: ITranslatedText[];
+
+      createPage: ITranslatedText[];
+      readPage: ITranslatedText[];
+      updatePage: ITranslatedText[];
+      deletePage: ITranslatedText[];
+
+      createPost: ITranslatedText[];
+
+      createField: ITranslatedText[];
+      readField: ITranslatedText[];
+      updateField: ITranslatedText[];
+      deleteField: ITranslatedText[];
+
+      createModel: ITranslatedText[];
+      readModel: ITranslatedText[];
+      updateModel: ITranslatedText[];
+      deleteModel: ITranslatedText[];
+
+      createUser: ITranslatedText[];
+      readUser: ITranslatedText[];
+      updateUser: ITranslatedText[];
+      deleteUser: ITranslatedText[];
+
+      readRole: ITranslatedText[];
+      deleteRole: ITranslatedText[];
     };
     chat: {
       title: ITranslatedText[];
@@ -952,6 +979,10 @@ const initialState: IWebsiteConfigurationState = {
     },
 
     roles: {
+      editConfiguration: [
+        { language: "en", text: "Edit configuration" },
+        { language: "fr", text: "Modifier la configuration" },
+      ],
       createRole: [
         { language: "en", text: "Create a role" },
         { language: "fr", text: "Créer un rôle" },
@@ -975,6 +1006,90 @@ const initialState: IWebsiteConfigurationState = {
       searchRoles: [
         { language: "en", text: "Search Roles" },
         { language: "fr", text: "Chercher des rôles" },
+      ],
+      permissions: [
+        { language: "en", text: "Permissions" },
+        { language: "fr", text: "Permissions" },
+      ],
+      createPage: [
+        { language: "en", text: "Create page" },
+        { language: "fr", text: "Créer une page" },
+      ],
+      readPage: [
+        { language: "en", text: "Read page" },
+        { language: "fr", text: "Lire une page" },
+      ],
+      updatePage: [
+        { language: "en", text: "Update page" },
+        { language: "fr", text: "Mettre un jour une page" },
+      ],
+      deletePage: [
+        { language: "en", text: "Delete page" },
+        { language: "fr", text: "Supprimer une page" },
+      ],
+
+      createPost: [
+        { language: "en", text: "Create post" },
+        { language: "fr", text: "Créer une publication" },
+      ],
+
+      createField: [
+        { language: "en", text: "Create field" },
+        { language: "fr", text: "Créer un champ" },
+      ],
+      readField: [
+        { language: "en", text: "Read field" },
+        { language: "fr", text: "Like un champ" },
+      ],
+      updateField: [
+        { language: "en", text: "Update field" },
+        { language: "fr", text: "Mettre un jour un champ" },
+      ],
+      deleteField: [
+        { language: "en", text: "Delete field" },
+        { language: "fr", text: "Supprmier un champ" },
+      ],
+
+      createModel: [
+        { language: "en", text: "Create model" },
+        { language: "fr", text: "Créer un modèle" },
+      ],
+      readModel: [
+        { language: "en", text: "Read model" },
+        { language: "fr", text: "Lire un modèle" },
+      ],
+      updateModel: [
+        { language: "en", text: "Updatem odel" },
+        { language: "fr", text: "Mettre un jour un modèle" },
+      ],
+      deleteModel: [
+        { language: "en", text: "Deletem odel" },
+        { language: "fr", text: "Supprmier un modèle" },
+      ],
+
+      createUser: [
+        { language: "en", text: "Create user" },
+        { language: "fr", text: "Créer un utilisateur" },
+      ],
+      readUser: [
+        { language: "en", text: "Read user" },
+        { language: "fr", text: "Lire un utilisateur" },
+      ],
+      updateUser: [
+        { language: "en", text: "Update user" },
+        { language: "fr", text: "Mettre un jour un utilisateur" },
+      ],
+      deleteUser: [
+        { language: "en", text: "Delete user" },
+        { language: "fr", text: "Supprimer un utilisateur" },
+      ],
+      readRole: [
+        { language: "en", text: "Read role" },
+        { language: "fr", text: "Lire un rôle" },
+      ],
+      deleteRole: [
+        { language: "en", text: "Delete rôle" },
+        { language: "fr", text: "Supprimer un rôle" },
       ],
     },
     chat: {
