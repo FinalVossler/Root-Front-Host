@@ -33,6 +33,7 @@ export const store = configureStore({
         ignoredPaths: [],
       },
     }),
+  devTools: true,
 });
 
 export type AppDispatch = typeof store.dispatch;

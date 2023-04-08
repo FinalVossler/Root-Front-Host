@@ -145,6 +145,11 @@ export const chatSlice = createSlice({
           totalUnreadMessages: action.payload.by,
         };
       }
+
+      // Open the small chat box when we receive a new message
+      if (state.selectedConversationIds?.indexOf(conversationId) === -1) {
+        state.selectedConversationIds.push(conversationId);
+      }
     },
     addMessages: (
       state: IChatState,
@@ -199,10 +204,16 @@ export const chatSlice = createSlice({
       );
       if (conversation) {
         conversation.messages.forEach((message) => {
-          if (message.read.indexOf(action.payload.userId) === -1)
+          if (message.read.indexOf(action.payload.userId) === -1) {
             message.read.push(action.payload.userId);
+          }
         });
+        conversation.totalUnreadMessages = 0;
       }
+
+      state.conversations = state.conversations.map(
+        (conversation) => conversation
+      );
     },
     setLastConversationsLastMessages: (
       state: IChatState,

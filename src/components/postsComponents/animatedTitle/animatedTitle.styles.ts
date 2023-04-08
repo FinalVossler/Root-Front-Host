@@ -10,6 +10,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     height: 800,
     flexDirection: "column",
     position: "relative",
+    overflow: "hidden",
   },
   wordContainer: {
     display: "flex",

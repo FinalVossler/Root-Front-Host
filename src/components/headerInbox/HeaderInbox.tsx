@@ -21,6 +21,7 @@ import ChatBoxes from "../chatComponents/chatBoxes";
 import useSearchUsers from "../../hooks/apiHooks/useSearchUsers";
 import SearchInput from "../searchInput";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
+import { useLocation } from "react-router-dom";
 
 interface IHeaderInbox {}
 
@@ -47,6 +48,7 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
   const [page, setPage] = React.useState<number>(1);
 
   const styles = useStyles({ theme });
+  const { pathname } = useLocation();
   const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
   const inboxRef = React.useRef<HTMLDivElement>();
@@ -125,8 +127,8 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
               user.firstName + " " + user.lastName
             }
             searchPromise={handleSearchUsersPromise}
-            onElementClick={(user: IUser) =>
-              handleSelectConversationfromUsers([user])
+            onElementClick={(u: IUser) =>
+              handleSelectConversationfromUsers([user, u])
             }
             inputProps={{
               placeholder: getTranslatedText(staticText?.searchContacts),
@@ -178,7 +180,7 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
         </div>
       )}
 
-      <ChatBoxes />
+      {pathname != "/chat" && <ChatBoxes />}
     </div>
   );
 };

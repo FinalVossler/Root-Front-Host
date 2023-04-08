@@ -71,6 +71,11 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   }, [props.conversationId]);
 
   React.useEffect(() => {
+    // Scroll to the bottom when we just loaded the component
+    scrollToDiv.current?.scrollIntoView();
+  }, [scrollToDiv.current]);
+
+  React.useEffect(() => {
     // Scroll to the bottom when we just loaded the messages, when a new message is received
     // and when the conversation changes.
     if (
@@ -89,7 +94,7 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
       scrollToDiv.current?.scrollIntoView();
       setPreviousConversationId(props.conversationId);
     }
-  }, [props.conversationId, messages]);
+  }, [props.conversationId, messages, scrollToDiv.current]);
   //#endregion Effects
 
   //#region Listeners

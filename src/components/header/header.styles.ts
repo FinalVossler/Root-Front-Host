@@ -15,7 +15,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
 
     position: "fixed",
     top: "0%",
-    zIndex: 7,
+    zIndex: 10,
     transition: "all .2s ease-in-out",
     height: 80,
     width: "-webkit-fill-available",

@@ -50,7 +50,7 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
       );
       // Else, the contacts must already be loaded in the chat page
     }
-  }, [props.boxType, conversation, contacts]);
+  }, [props.boxType, props.conversationId, contacts]);
   //#endregion Effects
 
   //#region Listeners
