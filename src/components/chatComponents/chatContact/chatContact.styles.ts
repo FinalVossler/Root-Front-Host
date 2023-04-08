@@ -21,6 +21,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
   chatSelectedContactContainer: {
     extend: "chatContactContainer",
     backgroundColor: theme.primary,
+
+    "& svg": {
+      color: theme.lightTextColor,
+    },
   },
   defaultAvatar: {
     extend: "chatAvatar",
