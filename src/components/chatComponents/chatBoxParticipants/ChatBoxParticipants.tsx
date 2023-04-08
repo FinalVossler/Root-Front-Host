@@ -45,17 +45,9 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
           props.conversationId
         ).filter((id) => id !== user._id);
 
-      // If we are in a small box, then we need to get the concerned contacts (because in the small box, we load the conversation last message, not the contacts)
-      if (props.boxType === BoxType.SmallBox) {
-        getContactsByIds(participantsIds).then((users: IUser[]) =>
-          setOtherParticipants(users)
-        );
-      } else {
-        const participants = contacts.filter(
-          (c) => participantsIds.indexOf(c._id) !== -1
-        );
-        setOtherParticipants(participants);
-      }
+      getContactsByIds(participantsIds).then((users: IUser[]) =>
+        setOtherParticipants(users)
+      );
       // Else, the contacts must already be loaded in the chat page
     }
   }, [props.boxType, conversation, contacts]);
