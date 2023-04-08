@@ -8,7 +8,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "row",
     position: "relative",
     backgroundColor: theme.boxColor,
-    height: 80,
+    height: 60,
     alignItems: "center",
     padding: 10,
     boxSizing: "border-box",

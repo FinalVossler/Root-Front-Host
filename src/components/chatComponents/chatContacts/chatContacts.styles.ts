@@ -10,8 +10,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     position: "relative",
     backgroundColor: theme.subContentBackgroundColor,
     height: "100%",
-    width: 350,
-    minWidth: 350,
+    width: 300,
+    minWidth: 300,
     overflow: "scroll",
     paddingRight: 10,
 
