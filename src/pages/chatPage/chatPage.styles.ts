@@ -46,6 +46,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.lightTextColor,
     fontSize: 20,
     letterSpacing: 1,
+    textAlign: "center",
   },
   chatButtons: {
     display: "flex",

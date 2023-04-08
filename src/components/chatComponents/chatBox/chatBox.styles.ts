@@ -16,12 +16,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
   smallBoxContainer: {
     extend: "chatBoxContainer",
     width: 350,
+    minWidth: 350,
     height: 470,
     backgroundColor: theme.backgroundColor,
     marginRight: 20,
-    marginBottom: 40,
     border: "1px solid " + theme.lightTextColor,
     boxSizing: "border-box",
+    boxShadow: theme.boxShadow,
   },
   chatMessagesBox: {
     flex: 1,
