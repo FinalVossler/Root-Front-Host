@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 
 import ErrorResponseDto from "../globalTypes/ErrorResponseDto";
 import { useAppDispatch } from "../store/hooks";
+import { userSlice } from "../store/slices/userSlice";
 
 const useAxios = () => {
   const dispatch = useAppDispatch();
@@ -20,7 +21,7 @@ const useAxios = () => {
 
       // If unauthorized, then we logout the user
       if (message == "Unauthorized") {
-        // dispatch(userSlice.actions.logout());
+        dispatch(userSlice.actions.logout());
         toast.error("Offline");
       } else {
         toast.error(message);
