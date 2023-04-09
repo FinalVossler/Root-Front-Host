@@ -8,9 +8,11 @@ import withWrapper from "../../hoc/wrapper";
 import useDeleteFields from "../../hooks/apiHooks/useDeleteFields";
 import useGetFields from "../../hooks/apiHooks/useGetFields";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
+import useHasPermission from "../../hooks/useHasPermission";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
 import { IField } from "../../store/slices/fieldSlice";
+import { Permission } from "../../store/slices/roleSlice";
 
 import useStyles from "./fieldsPage.styles";
 
@@ -35,6 +37,7 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
   const { getFields, loading } = useGetFields();
   const isLoggedIn: boolean = useIsLoggedIn();
   const { deleteFields, loading: deleteLoading } = useDeleteFields();
+  const { hasPermission } = useHasPermission();
 
   React.useEffect(() => {
     getFields({
@@ -50,6 +53,8 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
   };
 
   if (!isLoggedIn) return null;
+
+  if (!hasPermission(Permission.ReadField)) return null;
 
   return (
     <div className={styles.fieldsPageContainer}>
@@ -87,6 +92,9 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
         deleteLoading={deleteLoading}
         getElementName={(field: any) => getTranslatedText(field.name)}
         onPageChange={handlePageChange}
+        canCreate={hasPermission(Permission.CreateField)}
+        canUpdate={hasPermission(Permission.UpdateField)}
+        canDelete={hasPermission(Permission.DeleteField)}
       />
     </div>
   );

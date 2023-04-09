@@ -10,7 +10,7 @@ import { Theme } from "../../../config/theme";
 import Button from "../../button";
 import { useAppSelector } from "../../../store/hooks";
 import { IPost } from "../../../store/slices/postSlice";
-import { IUser, SuperRole } from "../../../store/slices/userSlice";
+import { IUser } from "../../../store/slices/userSlice";
 import { FormikProps, useFormik } from "formik";
 import Input from "../../input";
 import { IPage } from "../../../store/slices/pageSlice";
@@ -27,6 +27,8 @@ import useCreatePage, {
 import useUpdatePage, {
   PageUpdateCommand,
 } from "../../../hooks/apiHooks/useUpdatePage";
+import useHasPermission from "../../../hooks/useHasPermission";
+import { Permission } from "../../../store/slices/roleSlice";
 
 interface IPageEditorForm {
   title: string;
@@ -56,6 +58,7 @@ const PageEditor = (props: IPageEditor) => {
   const getTranslatedText = useGetTranslatedText();
   const { createPage, loading: createLoading } = useCreatePage();
   const { updatePage, loading: updateLoading } = useUpdatePage();
+  const { hasPermission } = useHasPermission();
 
   React.useEffect(() => {
     if (props.page)
@@ -133,7 +136,8 @@ const PageEditor = (props: IPageEditor) => {
   };
   //#endregion Event listeners
 
-  if (user.superRole !== SuperRole.SuperAdmin) return null;
+  if (!hasPermission(Permission.CreatePage) && !props.page) return null;
+  if (!hasPermission(Permission.UpdatePage) && props.page) return null;
 
   const loading = createLoading || updateLoading;
   return (

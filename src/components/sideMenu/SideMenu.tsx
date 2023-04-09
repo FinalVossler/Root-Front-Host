@@ -22,6 +22,8 @@ import { IUser, SuperRole } from "../../store/slices/userSlice";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { FaPager } from "react-icons/fa";
 import { RiUserStarFill } from "react-icons/ri";
+import useHasPermission from "../../hooks/useHasPermission";
+import { Permission } from "../../store/slices/roleSlice";
 
 interface ISideMenu {}
 
@@ -52,6 +54,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
   const dispatch = useAppDispatch();
   const { getModels, loading: getModelsLoading } = useGetModels();
   const isLoggedIn: boolean = useIsLoggedIn();
+  const { hasPermission } = useHasPermission();
 
   React.useEffect(() => {
     if (models.length === 0) {
@@ -78,15 +81,17 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
         isSideMenuOpen ? styles.openSideMenuContainer : styles.sideMenuContainer
       }
     >
-      <WebsiteConfigurationEditor
-        setConfigurationModalOpen={setConfigurationModalOpen}
-        configurationModelOpen={configurationModalOpen}
-      />
+      {hasPermission(Permission.EditConfiguration) && (
+        <WebsiteConfigurationEditor
+          setConfigurationModalOpen={setConfigurationModalOpen}
+          configurationModelOpen={configurationModalOpen}
+        />
+      )}
 
       {isSideMenuOpen && (
         <div className={styles.sideMenuContent}>
           <span className={styles.appName}>{title}</span>
-          {user.superRole === SuperRole.SuperAdmin && (
+          {hasPermission(Permission.EditConfiguration) && (
             <SideMenuOption
               Icon={BsFillGearFill}
               title={getTranslatedText(staticText?.configuration)}
@@ -98,14 +103,14 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
             title={getTranslatedText(staticText?.profile)}
             link={"/profile/" + user._id}
           />
-          {user.superRole === SuperRole.SuperAdmin && (
+          {hasPermission(Permission.ReadPage) && (
             <SideMenuOption
               Icon={FaPager}
               title={getTranslatedText(staticText?.pages)}
               link="/pages"
             />
           )}
-          {user.superRole === SuperRole.SuperAdmin && (
+          {hasPermission(Permission.ReadField) && (
             <SideMenuOption
               Icon={MdTextFields}
               title={getTranslatedText(staticText?.fields)}
@@ -126,14 +131,14 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
               title: getTranslatedText(model.name),
             }))}
           />
-          {user.superRole === SuperRole.SuperAdmin && (
+          {hasPermission(Permission.ReadUser) && (
             <SideMenuOption
               link="/users"
               Icon={BsPerson}
               title={getTranslatedText(staticText?.users)}
             />
           )}
-          {user.superRole === SuperRole.SuperAdmin && (
+          {hasPermission(Permission.ReadRole) && (
             <SideMenuOption
               link="/roles"
               Icon={RiUserStarFill}

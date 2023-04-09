@@ -12,9 +12,10 @@ import useStyles from "./pagesPage.styles";
 import ConfirmationModal from "../../components/confirmationModal";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
-import { SuperRole } from "../../store/slices/userSlice";
 import withWrapper from "../../hoc/wrapper";
 import withChat from "../../hoc/withChat";
+import useHasPermission from "../../hooks/useHasPermission";
+import { Permission } from "../../store/slices/roleSlice";
 
 interface IPagesPageProps {}
 
@@ -22,7 +23,6 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
   props: IPagesPageProps
 ) => {
   const pages = useAppSelector((state) => state.page.pages);
-  const user = useAppSelector((state) => state.user.user);
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.pages
   );
@@ -38,6 +38,7 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
+  const { hasPermission } = useHasPermission();
 
   const handleDeleteModalConfirm = () => {
     setDeleteLoading(true);
@@ -64,7 +65,7 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
     setDeleteModalOpen(true);
   };
 
-  if (user.superRole !== SuperRole.SuperAdmin) return null;
+  if (!hasPermission(Permission.ReadPage)) return null;
 
   return (
     <div className={styles.pagesPageContainer}>
@@ -94,12 +95,14 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
                 {getTranslatedText(page.title)}
               </span>
 
-              <span
-                className={styles.deleteIcon}
-                onClick={() => handleDeleteIconClick(page)}
-              >
-                <AiFillDelete color={theme.secondary} />
-              </span>
+              {hasPermission(Permission.DeletePage) && (
+                <span
+                  className={styles.deleteIcon}
+                  onClick={() => handleDeleteIconClick(page)}
+                >
+                  <AiFillDelete color={theme.secondary} />
+                </span>
+              )}
 
               <a
                 href={"/" + page.slug}
@@ -109,9 +112,11 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
                 <FaDirections color={theme.secondary} />
               </a>
 
-              <div className={styles.pageEditorContainer}>
-                <PageEditor page={page} />
-              </div>
+              {hasPermission(Permission.UpdatePage) && (
+                <div className={styles.pageEditorContainer}>
+                  <PageEditor page={page} />
+                </div>
+              )}
             </div>
           );
         })}

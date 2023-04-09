@@ -9,9 +9,11 @@ import useDeleteModels from "../../hooks/apiHooks/useDeleteModels";
 import useGetModels from "../../hooks/apiHooks/useGetModels";
 import useSearchModels from "../../hooks/apiHooks/useSearchModels";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
+import useHasPermission from "../../hooks/useHasPermission";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
 import { IModel } from "../../store/slices/modelSlice";
+import { Permission } from "../../store/slices/roleSlice";
 import { IUser, SuperRole } from "../../store/slices/userSlice";
 
 import useStyles from "./modelsPage.styles";
@@ -39,6 +41,7 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
   const isLoggedIn: boolean = useIsLoggedIn();
   const { deleteModels, loading: deleteLoading } = useDeleteModels();
   const { handleSearchModelsPromise } = useSearchModels();
+  const { hasPermission } = useHasPermission();
 
   React.useEffect(() => {
     getModels({
@@ -55,7 +58,7 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
 
   if (!isLoggedIn) return null;
 
-  if (user.superRole !== SuperRole.SuperAdmin) return null;
+  if (!hasPermission(Permission.ReadModel)) return null;
 
   return (
     <div className={styles.modelsPageContainer}>
@@ -88,6 +91,9 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
         getElementName={(model: any) => getTranslatedText(model.name)}
         onPageChange={handlePageChange}
         searchPromise={handleSearchModelsPromise}
+        canCreate={hasPermission(Permission.CreateModel)}
+        canUpdate={hasPermission(Permission.UpdateModel)}
+        canDelete={hasPermission(Permission.DeleteModel)}
       />
     </div>
   );

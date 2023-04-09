@@ -136,6 +136,9 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
         searchPromise={(name: string, paginationCommand: PaginationCommand) =>
           handleSearchEntitiesPromise(name, paginationCommand, modelId || "")
         }
+        canCreate={true}
+        canUpdate={true}
+        canDelete={true}
       />
     </div>
   );

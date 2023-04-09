@@ -1063,7 +1063,7 @@ const initialState: IWebsiteConfigurationState = {
         { language: "fr", text: "Mettre un jour un modèle" },
       ],
       deleteModel: [
-        { language: "en", text: "Deletem odel" },
+        { language: "en", text: "Delete model" },
         { language: "fr", text: "Supprmier un modèle" },
       ],
 

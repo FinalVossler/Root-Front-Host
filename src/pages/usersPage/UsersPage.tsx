@@ -16,6 +16,8 @@ import { IUser } from "../../store/slices/userSlice";
 import useStyles from "./usersPage.styles";
 import useSearchUsers from "../../hooks/apiHooks/useSearchUsers";
 import withChat from "../../hoc/withChat";
+import useHasPermission from "../../hooks/useHasPermission";
+import { Permission } from "../../store/slices/roleSlice";
 
 interface IUsersPage {}
 
@@ -37,6 +39,7 @@ const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
   const isLoggedIn: boolean = useIsLoggedIn();
   const { deleteUsers, loading: deleteLoading } = useDeleteUsers();
   const { handleSearchUsersPromise } = useSearchUsers();
+  const { hasPermission } = useHasPermission();
 
   React.useEffect(() => {
     getUsers({
@@ -52,6 +55,8 @@ const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
   };
 
   if (!isLoggedIn) return null;
+
+  if (!hasPermission(Permission.ReadUser)) return null;
 
   return (
     <div className={styles.usersPageContainer}>
@@ -101,6 +106,9 @@ const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
         }
         onPageChange={handlePageChange}
         searchPromise={handleSearchUsersPromise}
+        canUpdate={hasPermission(Permission.UpdatePage)}
+        canCreate={hasPermission(Permission.CreatePage)}
+        canDelete={hasPermission(Permission.DeletePage)}
       />
     </div>
   );

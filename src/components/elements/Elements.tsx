@@ -48,6 +48,9 @@ interface IElements {
     searchText: string,
     paginationCommand: PaginationCommand
   ) => Promise<PaginationResponse<any>>;
+  canDelete: boolean;
+  canUpdate: boolean;
+  canCreate: boolean;
 }
 
 const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
@@ -104,6 +107,8 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
     setEditorOpen(true);
   };
   const handleDelete = async () => {
+    if (!props.canDelete) return;
+
     await props.deletePromise(selectedElements);
     setDeleteModalOpen(false);
     setSelectedElements([]);
@@ -116,18 +121,24 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
   return (
     <div className={styles.elementsContainer}>
       <div className={styles.buttonsContainer}>
-        <BiAddToQueue
-          className={styles.addIcon}
-          color={theme.primary}
-          onClick={handleOpenEditor}
-        />
+        {props.canCreate && (
+          <BiAddToQueue
+            className={styles.addIcon}
+            color={theme.primary}
+            onClick={handleOpenEditor}
+          />
+        )}
+
         {selectedElements.length > 0 && (
           <React.Fragment>
-            <AiFillDelete
-              onClick={() => setDeleteModalOpen(true)}
-              color={theme.primary}
-              className={styles.deleteIcon}
-            />
+            {props.canDelete && (
+              <AiFillDelete
+                onClick={() => setDeleteModalOpen(true)}
+                color={theme.primary}
+                className={styles.deleteIcon}
+              />
+            )}
+
             <ConfirmationModal
               title={getTranslatedText(staticText?.deleteTitle)}
               description={
@@ -178,28 +189,36 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                 </React.Fragment>
               );
             })}
-            <th className={styles.tableColumn}>
-              {getTranslatedText(staticText?.edit)}
-            </th>
-            <ColumnResizer className="columnResizer" minWidth={0} />
-            <th className={styles.tableColumn}>
-              <div className={styles.actions}>
-                {getTranslatedText(staticText?.actions)}
-                <input
-                  className={styles.actionCheckbox}
-                  type="checkbox"
-                  checked={selectedElements.length === elements.length}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setSelectedElements(
-                      elements.length !== selectedElements.length
-                        ? elements.map((el) => el._id)
-                        : []
-                    )
-                  }
-                />
-              </div>
-            </th>
-            <ColumnResizer className="columnResizer" minWidth={0} />
+            {props.canUpdate && (
+              <th className={styles.tableColumn}>
+                {getTranslatedText(staticText?.edit)}
+              </th>
+            )}
+            {props.canUpdate && (
+              <ColumnResizer className="columnResizer" minWidth={0} />
+            )}
+            {props.canDelete && (
+              <th className={styles.tableColumn}>
+                <div className={styles.actions}>
+                  {getTranslatedText(staticText?.actions)}
+                  <input
+                    className={styles.actionCheckbox}
+                    type="checkbox"
+                    checked={selectedElements.length === elements.length}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setSelectedElements(
+                        elements.length !== selectedElements.length
+                          ? elements.map((el) => el._id)
+                          : []
+                      )
+                    }
+                  />
+                </div>
+              </th>
+            )}
+            {props.canDelete && (
+              <ColumnResizer className="columnResizer" minWidth={0} />
+            )}
           </tr>
         </thead>
 
@@ -228,25 +247,34 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                       </React.Fragment>
                     );
                   })}
-                  <td className={styles.tableColumn}>
-                    <AiFillEdit
-                      onClick={() => handleEdit(element)}
-                      className={styles.editIcon}
-                    />
-                  </td>
-                  <ColumnResizer className="columnResizer" minWidth={0} />
+                  {props.canUpdate && (
+                    <td className={styles.tableColumn}>
+                      <AiFillEdit
+                        onClick={() => handleEdit(element)}
+                        className={styles.editIcon}
+                      />
+                    </td>
+                  )}
 
-                  <td className={styles.actionColumn}>
-                    <input
-                      className={styles.checkbox}
-                      type="checkbox"
-                      checked={selectedElements.indexOf(element._id) !== -1}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleToggleElementSelect(e, element)
-                      }
-                    />
-                  </td>
-                  <ColumnResizer className="columnResizer" minWidth={0} />
+                  {props.canUpdate && (
+                    <ColumnResizer className="columnResizer" minWidth={0} />
+                  )}
+
+                  {props.canDelete && (
+                    <td className={styles.actionColumn}>
+                      <input
+                        className={styles.checkbox}
+                        type="checkbox"
+                        checked={selectedElements.indexOf(element._id) !== -1}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          handleToggleElementSelect(e, element)
+                        }
+                      />
+                    </td>
+                  )}
+                  {props.canDelete && (
+                    <ColumnResizer className="columnResizer" minWidth={0} />
+                  )}
                 </tr>
               );
             })}

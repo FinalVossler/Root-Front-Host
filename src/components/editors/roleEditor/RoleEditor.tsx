@@ -60,7 +60,6 @@ const RoleEditor = (props: IRoleEditor) => {
     language,
     permissions: Object.values(Permission),
   };
-  console.log("jdf");
   const formik: FormikProps<IRoleForm> = useFormik<IRoleForm>({
     initialValues: { ...initialValues },
     onSubmit: async (values: IRoleForm) => {

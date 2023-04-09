@@ -139,6 +139,13 @@ const Profile: React.FunctionComponent<IProfileForm> = (
           {getTranslatedText(staticText?.superRole)}:{" "}
           <span className={styles.role}>{user.superRole}</span>
         </span>
+
+        <span className={styles.userRoleContainer}>
+          {getTranslatedText(staticText?.role)}:{" "}
+          <span className={styles.role}>
+            {getTranslatedText(user.role?.name)}
+          </span>
+        </span>
         <br />
 
         <Button disabled={actualLoading}>

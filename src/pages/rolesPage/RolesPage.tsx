@@ -9,9 +9,10 @@ import useDeleteRoles from "../../hooks/apiHooks/useDeleteRoles";
 import useGetRoles from "../../hooks/apiHooks/useGetRoles";
 import useSearchRoles from "../../hooks/apiHooks/useSearchRoles";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
+import useHasPermission from "../../hooks/useHasPermission";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
-import { IRole } from "../../store/slices/roleSlice";
+import { IRole, Permission } from "../../store/slices/roleSlice";
 
 import useStyles from "./rolesPage.styles";
 
@@ -35,6 +36,7 @@ const RolesPage: React.FunctionComponent<IRolesPage> = (props: IRolesPage) => {
   const isLoggedIn: boolean = useIsLoggedIn();
   const { deleteRoles, loading: deleteLoading } = useDeleteRoles();
   const { handleSearchRolesPromise } = useSearchRoles();
+  const { hasPermission } = useHasPermission();
 
   React.useEffect(() => {
     getRoles({
@@ -50,6 +52,8 @@ const RolesPage: React.FunctionComponent<IRolesPage> = (props: IRolesPage) => {
   };
 
   if (!isLoggedIn) return null;
+
+  if (!hasPermission(Permission.ReadRole)) return null;
 
   return (
     <div className={styles.rolesPageContainer}>
@@ -73,6 +77,9 @@ const RolesPage: React.FunctionComponent<IRolesPage> = (props: IRolesPage) => {
         getElementName={(role: any) => getTranslatedText(role.name)}
         onPageChange={handlePageChange}
         searchPromise={handleSearchRolesPromise}
+        canCreate={hasPermission(Permission.CreateRole)}
+        canUpdate={hasPermission(Permission.UpdateRole)}
+        canDelete={hasPermission(Permission.DeleteRole)}
       />
     </div>
   );

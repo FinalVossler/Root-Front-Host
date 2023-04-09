@@ -34,6 +34,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     paddingBottom: 200,
     width: "65vw",
     boxSizing: "border-box",
+    paddingLeft: 5,
   },
   createPageHeader: {
     display: "flex",
