@@ -1,4 +1,6 @@
+import React from "react";
 import { useParams } from "react-router-dom";
+
 import { Theme } from "../../config/theme";
 import { MdPassword } from "react-icons/md";
 import * as Yup from "yup";
@@ -103,7 +105,7 @@ const ForgotPasswordChangePasswordPage: React.FunctionComponent<IForgotPasswordC
     );
   };
 
-export default withWrapper(ForgotPasswordChangePasswordPage, {
+export default withWrapper(React.memo(ForgotPasswordChangePasswordPage), {
   withFooter: true,
   withSideMenu: true,
 });

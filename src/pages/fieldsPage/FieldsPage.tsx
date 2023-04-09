@@ -92,7 +92,7 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
   );
 };
 
-export default withWrapper(withChat(FieldsPage), {
+export default withWrapper(withChat(React.memo(FieldsPage)), {
   withFooter: false,
   withSideMenu: true,
 });

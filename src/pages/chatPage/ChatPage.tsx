@@ -13,8 +13,8 @@ import withChatHoc from "../../hoc/withChat";
 import useStyles from "./chatPage.styles";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { BoxType } from "../../components/chatComponents/chatBox/ChatBox";
-interface IChat {}
 
+interface IChat {}
 const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
   const user: IUser = useAppSelector((state) => state.user.user);
   const withChat: boolean | undefined = useAppSelector(
@@ -67,7 +67,7 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
   );
 };
 
-export default withWrapper(withProtection(withChatHoc(Chat)), {
+export default withWrapper(withProtection(withChatHoc(React.memo(Chat))), {
   withFooter: false,
   withSideMenu: true,
 });

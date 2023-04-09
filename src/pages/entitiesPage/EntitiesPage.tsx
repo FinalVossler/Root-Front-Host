@@ -141,7 +141,7 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
   );
 };
 
-export default withWrapper(withChat(EntitiesPage), {
+export default withWrapper(withChat(React.memo(EntitiesPage)), {
   withFooter: false,
   withSideMenu: true,
 });

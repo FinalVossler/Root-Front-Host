@@ -36,4 +36,4 @@ const PaymentPage: React.FunctionComponent<IPaymentPage> = (
   );
 };
 
-export default withWrapper(withChat(PaymentPage));
+export default withWrapper(withChat(React.memo(PaymentPage)));

@@ -1,5 +1,6 @@
-import Post from "../../components/post";
+import React from "react";
 
+import Post from "../../components/post";
 import { Theme } from "../../config/theme";
 import withChat from "../../hoc/withChat";
 
@@ -30,7 +31,7 @@ const DynamicPage: React.FunctionComponent<IDynamicPage> = (
   );
 };
 
-export default withWrapper(withChat(DynamicPage), {
+export default withWrapper(withChat(React.memo(DynamicPage)), {
   withFooter: false,
   withSideMenu: true,
 });

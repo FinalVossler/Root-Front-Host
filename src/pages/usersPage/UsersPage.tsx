@@ -106,7 +106,7 @@ const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
   );
 };
 
-export default withWrapper(withChat(UsersPage), {
+export default withWrapper(withChat(React.memo(UsersPage)), {
   withFooter: false,
   withSideMenu: true,
 });

@@ -1,5 +1,6 @@
-import { Theme } from "../../config/theme";
+import React from "react";
 
+import { Theme } from "../../config/theme";
 import withWrapper from "../../hoc/wrapper";
 import { useAppSelector } from "../../store/hooks";
 import Banner from "../../components/postsComponents/banner";
@@ -10,11 +11,12 @@ import TitleAndText from "../../components/postsComponents/titleAndText";
 import Card from "../../components/postsComponents/card";
 import UnderlinedTitle from "../../components/postsComponents/underlinedTitle";
 
-import useStyles from "./homePage.styles";
 import ContactForm from "../../components/contactForm";
 import Person from "../../components/postsComponents/Person";
 import Video from "../../components/postsComponents/video";
 import withChat from "../../hoc/withChat";
+
+import useStyles from "./homePage.styles";
 
 interface IHome {}
 const Home: React.FunctionComponent<IHome> = (props: IHome) => {
@@ -101,7 +103,7 @@ const Home: React.FunctionComponent<IHome> = (props: IHome) => {
   );
 };
 
-export default withWrapper(withChat(Home), {
+export default withWrapper(withChat(React.memo(Home)), {
   withFooter: true,
   withSideMenu: true,
 });

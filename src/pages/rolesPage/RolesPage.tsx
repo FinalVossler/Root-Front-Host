@@ -78,7 +78,7 @@ const RolesPage: React.FunctionComponent<IRolesPage> = (props: IRolesPage) => {
   );
 };
 
-export default withWrapper(withChat(RolesPage), {
+export default withWrapper(withChat(React.memo(RolesPage)), {
   withFooter: false,
   withSideMenu: true,
 });

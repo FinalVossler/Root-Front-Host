@@ -55,12 +55,14 @@ const RoleEditor = (props: IRoleEditor) => {
   const getTranslatedText = useGetTranslatedText();
   const { createRole, loading: createLoading } = useCreateRole();
   const { updateRole, loading: updateLoading } = useUpdateRole();
+  const initialValues: IRoleForm = {
+    name: "",
+    language,
+    permissions: Object.values(Permission),
+  };
+  console.log("jdf");
   const formik: FormikProps<IRoleForm> = useFormik<IRoleForm>({
-    initialValues: {
-      name: "",
-      language,
-      permissions: Object.values(Permission),
-    },
+    initialValues: { ...initialValues },
     onSubmit: async (values: IRoleForm) => {
       if (props.role) {
         const command: RoleUpdateCommand = {
@@ -91,6 +93,14 @@ const RoleEditor = (props: IRoleEditor) => {
   React.useEffect(() => {
     if (props.open !== undefined) {
       setRoleModalOpen(props.open);
+    }
+  }, [props.open]);
+
+  React.useEffect(() => {
+    if (!props.open) {
+      formik.resetForm({
+        values: { ...initialValues },
+      });
     }
   }, [props.open]);
 

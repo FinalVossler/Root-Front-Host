@@ -122,7 +122,7 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
   );
 };
 
-export default withWrapper(withChat(PagesPage), {
+export default withWrapper(withChat(React.memo(PagesPage)), {
   withFooter: false,
   withSideMenu: true,
 });
