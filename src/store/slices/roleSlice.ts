@@ -2,6 +2,20 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import _ from "lodash";
 
 import ITranslatedText from "../../globalTypes/ITranslatedText";
+import { IModel } from "./modelSlice";
+
+export enum StaticPermission {
+  Create = "Create",
+  Read = "Read",
+  Update = "Update",
+  Delete = "Delete",
+}
+
+export interface IEntityPermission {
+  _id: string;
+  model: IModel;
+  permissions: StaticPermission[];
+}
 
 export enum Permission {
   EditConfiguration = "EditConfiguration",
@@ -38,6 +52,7 @@ export interface IRole {
   _id: string;
   name: ITranslatedText[];
   permissions: Permission[];
+  entityPermissions: IEntityPermission[];
 
   createdAt: string;
   updatedAt: string;

@@ -2,7 +2,12 @@ import { AxiosResponse } from "axios";
 import React from "react";
 
 import { useAppDispatch } from "../../store/hooks";
-import { roleSlice, IRole, Permission } from "../../store/slices/roleSlice";
+import {
+  roleSlice,
+  IRole,
+  Permission,
+  StaticPermission,
+} from "../../store/slices/roleSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 
 export type RoleUpdateCommand = {
@@ -10,6 +15,11 @@ export type RoleUpdateCommand = {
   name: string;
   language: string;
   permissions: Permission[];
+
+  entityPermissions: {
+    modelId: string;
+    permissions: StaticPermission[];
+  }[];
 };
 
 const useUpdateRole = () => {

@@ -19,7 +19,11 @@ import useUpdateRole, {
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import InputSelect from "../../inputSelect";
 import getLanguages from "../../../utils/getLanguages";
-import { IRole, Permission } from "../../../store/slices/roleSlice";
+import {
+  IRole,
+  Permission,
+  StaticPermission,
+} from "../../../store/slices/roleSlice";
 import useStyles from "./roleEditor.styles";
 import { Option } from "../../inputSelect/InputSelect";
 import lowerCaseFirstLetter from "../../../utils/lowerCaseFirstLetter";
@@ -34,6 +38,10 @@ interface IRoleForm {
   name: string;
   language: string;
   permissions: Permission[];
+  entityPermissions: {
+    modelId: string;
+    permissions: StaticPermission[];
+  }[];
 }
 
 const RoleEditor = (props: IRoleEditor) => {
@@ -59,6 +67,7 @@ const RoleEditor = (props: IRoleEditor) => {
     name: "",
     language,
     permissions: Object.values(Permission),
+    entityPermissions: [],
   };
   const formik: FormikProps<IRoleForm> = useFormik<IRoleForm>({
     initialValues: { ...initialValues },
@@ -69,6 +78,7 @@ const RoleEditor = (props: IRoleEditor) => {
           name: values.name,
           language: values.language,
           permissions: values.permissions,
+          entityPermissions: values.entityPermissions,
         };
 
         await updateRole(command);
@@ -77,6 +87,7 @@ const RoleEditor = (props: IRoleEditor) => {
           name: values.name,
           language: values.language,
           permissions: values.permissions,
+          entityPermissions: values.entityPermissions,
         };
 
         await createRole(command);
@@ -110,6 +121,11 @@ const RoleEditor = (props: IRoleEditor) => {
         name: getTranslatedText(props.role?.name, formik.values.language),
         language: formik.values.language,
         permissions: props.role?.permissions || formik.values.permissions,
+        entityPermissions:
+          props.role?.entityPermissions?.map((p) => ({
+            modelId: p.model._id,
+            permissions: p.permissions,
+          })) || formik.values.entityPermissions,
       },
     });
   }, [props.role, formik.values.language]);

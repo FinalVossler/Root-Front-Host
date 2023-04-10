@@ -2,13 +2,24 @@ import { AxiosResponse } from "axios";
 import React from "react";
 
 import { useAppDispatch } from "../../store/hooks";
-import { roleSlice, IRole, Permission } from "../../store/slices/roleSlice";
+import {
+  roleSlice,
+  IRole,
+  Permission,
+  StaticPermission,
+} from "../../store/slices/roleSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
+
+type EntityPermissionCreateCommand = {
+  modelId: string;
+  permissions: StaticPermission[];
+};
 
 export type RoleCreateCommand = {
   name: string;
   language: string;
   permissions: Permission[];
+  entityPermissions: EntityPermissionCreateCommand[];
 };
 
 const useCreateRole = () => {
