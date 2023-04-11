@@ -20,6 +20,7 @@ interface ISearchInput {
   getElementTitle: (el: any) => string;
   onElementClick?: (el: any) => any;
   setSearchResult?: any;
+  label?: string;
 }
 
 const LIMIT = 10;
@@ -28,6 +29,7 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
   props: ISearchInput
 ) => {
   const [value, setValue] = React.useState("");
+  const [lastSearchValue, setLastSearchValue] = React.useState("");
   const [paginationCommand, setPaginationCommand] =
     React.useState<PaginationCommand>({
       limit: LIMIT,
@@ -48,7 +50,7 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
 
   // Trigger the search whenever the value changes
   React.useEffect(() => {
-    if (value && value.trim().length > 2) {
+    if (value && value.trim().length > 2 && value !== lastSearchValue) {
       handleSearch();
     }
     if (value.trim().length <= 2) {
@@ -64,6 +66,7 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
 
   //#region Event listeners
   const handleSearch = () => {
+    setLastSearchValue(value);
     props.searchPromise(value, paginationCommand).then((res) => {
       setSearchResult(res);
     });
@@ -103,6 +106,7 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
         debounce
         onChange={handleValueChange}
         onFocus={handleFocus}
+        label={props.label}
       />
       {showSearchResult && value && (
         <div className={styles.searchResultBox}>

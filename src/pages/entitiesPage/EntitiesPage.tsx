@@ -14,7 +14,11 @@ import useSearchEntities from "../../hooks/apiHooks/useSearchEntities";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
-import { IEntity, IEntityFieldValue } from "../../store/slices/entitySlice";
+import {
+  getEntityName,
+  IEntity,
+  IEntityFieldValue,
+} from "../../store/slices/entitySlice";
 import { FieldType } from "../../store/slices/fieldSlice";
 import { IModel } from "../../store/slices/modelSlice";
 
@@ -127,10 +131,7 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
         deletePromise={deleteEntities}
         deleteLoading={deleteLoading}
         getElementName={(entity: any) => {
-          const entityAsEntity: IEntity = entity;
-          return entityAsEntity.entityFieldValues
-            .map((fieldValue) => getTranslatedText(fieldValue.value))
-            .join(", ");
+          return getEntityName({ entity, getTranslatedText });
         }}
         onPageChange={handlePageChange}
         searchPromise={(name: string, paginationCommand: PaginationCommand) =>

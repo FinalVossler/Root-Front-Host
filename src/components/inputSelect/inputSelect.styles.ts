@@ -13,7 +13,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
   selectLabel: {
     color: theme.lightTextColor,
     marginRight: 10,
-    width: 150,
+    width: 170,
+
     textAlign: "start",
   },
   select: {

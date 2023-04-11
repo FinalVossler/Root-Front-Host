@@ -212,6 +212,14 @@ export interface IWebsiteConfiguration {
       language: ITranslatedText[];
       searchRoles: ITranslatedText[];
       permissions: ITranslatedText[];
+      entitiesPermisions: ITranslatedText[];
+      searchByModel: ITranslatedText[];
+      nameIsRequired: ITranslatedText[];
+
+      create: ITranslatedText[];
+      read: ITranslatedText[];
+      update: ITranslatedText[];
+      delete: ITranslatedText[];
 
       createPage: ITranslatedText[];
       readPage: ITranslatedText[];
@@ -983,6 +991,18 @@ const initialState: IWebsiteConfigurationState = {
         { language: "en", text: "Edit configuration" },
         { language: "fr", text: "Modifier la configuration" },
       ],
+      entitiesPermisions: [
+        { language: "en", text: "Entities Permissions" },
+        { language: "fr", text: "Permissions des entités" },
+      ],
+      searchByModel: [
+        { language: "en", text: "Search by model" },
+        { language: "fr", text: "Rechercher par modèle" },
+      ],
+      nameIsRequired: [
+        { language: "en", text: "Name is required" },
+        { language: "fr", text: "Le nom est requis" },
+      ],
       createRole: [
         { language: "en", text: "Create a role" },
         { language: "fr", text: "Créer un rôle" },
@@ -1090,6 +1110,22 @@ const initialState: IWebsiteConfigurationState = {
       deleteRole: [
         { language: "en", text: "Delete rôle" },
         { language: "fr", text: "Supprimer un rôle" },
+      ],
+      create: [
+        { language: "en", text: "Create" },
+        { language: "fr", text: "Créer" },
+      ],
+      update: [
+        { language: "en", text: "Update" },
+        { language: "fr", text: "Mettre à jour" },
+      ],
+      read: [
+        { language: "en", text: "Read" },
+        { language: "fr", text: "Lire" },
+      ],
+      delete: [
+        { language: "en", text: "Delete" },
+        { language: "fr", text: "Supprimer" },
       ],
     },
     chat: {

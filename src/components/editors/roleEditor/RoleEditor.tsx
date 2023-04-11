@@ -4,6 +4,7 @@ import { MdTitle } from "react-icons/md";
 import { ImCross } from "react-icons/im";
 import { FormikProps, useFormik } from "formik";
 import ReactLoading from "react-loading";
+import * as Yup from "yup";
 
 import Modal from "../../modal";
 import { Theme } from "../../../config/theme";
@@ -27,6 +28,10 @@ import {
 import useStyles from "./roleEditor.styles";
 import { Option } from "../../inputSelect/InputSelect";
 import lowerCaseFirstLetter from "../../../utils/lowerCaseFirstLetter";
+import SearchInput from "../../searchInput";
+import { IModel } from "../../../store/slices/modelSlice";
+import useSearchModels from "../../../hooks/apiHooks/useSearchModels";
+import Checkbox from "../../checkbox";
 
 export interface IRoleEditor {
   role?: IRole;
@@ -34,14 +39,16 @@ export interface IRoleEditor {
   setOpen?: (boolean) => void;
 }
 
+interface IRoleFormEntityPermission {
+  model: IModel;
+  permissions: StaticPermission[];
+}
+
 interface IRoleForm {
   name: string;
   language: string;
   permissions: Permission[];
-  entityPermissions: {
-    modelId: string;
-    permissions: StaticPermission[];
-  }[];
+  entityPermissions: IRoleFormEntityPermission[];
 }
 
 const RoleEditor = (props: IRoleEditor) => {
@@ -63,6 +70,7 @@ const RoleEditor = (props: IRoleEditor) => {
   const getTranslatedText = useGetTranslatedText();
   const { createRole, loading: createLoading } = useCreateRole();
   const { updateRole, loading: updateLoading } = useUpdateRole();
+  const { handleSearchModelsPromise } = useSearchModels();
   const initialValues: IRoleForm = {
     name: "",
     language,
@@ -71,6 +79,11 @@ const RoleEditor = (props: IRoleEditor) => {
   };
   const formik: FormikProps<IRoleForm> = useFormik<IRoleForm>({
     initialValues: { ...initialValues },
+    validationSchema: Yup.object().shape({
+      name: Yup.string().required(
+        getTranslatedText(staticText?.nameIsRequired)
+      ),
+    }),
     onSubmit: async (values: IRoleForm) => {
       if (props.role) {
         const command: RoleUpdateCommand = {
@@ -78,7 +91,12 @@ const RoleEditor = (props: IRoleEditor) => {
           name: values.name,
           language: values.language,
           permissions: values.permissions,
-          entityPermissions: values.entityPermissions,
+          entityPermissions: values.entityPermissions.map(
+            (entityPermission) => ({
+              modelId: entityPermission.model._id,
+              permissions: entityPermission.permissions,
+            })
+          ),
         };
 
         await updateRole(command);
@@ -87,7 +105,12 @@ const RoleEditor = (props: IRoleEditor) => {
           name: values.name,
           language: values.language,
           permissions: values.permissions,
-          entityPermissions: values.entityPermissions,
+          entityPermissions: values.entityPermissions.map(
+            (entityPermission) => ({
+              modelId: entityPermission.model._id,
+              permissions: entityPermission.permissions,
+            })
+          ),
         };
 
         await createRole(command);
@@ -122,10 +145,12 @@ const RoleEditor = (props: IRoleEditor) => {
         language: formik.values.language,
         permissions: props.role?.permissions || formik.values.permissions,
         entityPermissions:
-          props.role?.entityPermissions?.map((p) => ({
-            modelId: p.model._id,
-            permissions: p.permissions,
-          })) || formik.values.entityPermissions,
+          props.role?.entityPermissions?.map((p) => {
+            return {
+              model: p.model,
+              permissions: p.permissions || [],
+            };
+          }) || formik.values.entityPermissions,
       },
     });
   }, [props.role, formik.values.language]);
@@ -142,6 +167,58 @@ const RoleEditor = (props: IRoleEditor) => {
     if (props.setOpen) {
       props.setOpen(false);
     } else setRoleModalOpen(false);
+  };
+
+  const handleSelectModel = (model: IModel) => {
+    const currentPermissions: IRoleFormEntityPermission[] =
+      formik.values.entityPermissions;
+
+    const foundEntityPermission = currentPermissions.find(
+      (el) => el.model._id === model._id
+    );
+
+    if (!foundEntityPermission) {
+      const newEntityPermission: IRoleFormEntityPermission = {
+        model: model,
+        permissions: [
+          StaticPermission.Create,
+          StaticPermission.Read,
+          StaticPermission.Update,
+          StaticPermission.Delete,
+        ],
+      };
+      formik.setFieldValue("entityPermissions", [
+        ...currentPermissions,
+        newEntityPermission,
+      ]);
+    }
+  };
+
+  const handleCheckOrUncheckStaticPermission = ({
+    modelId,
+    staticPermission,
+  }: {
+    modelId: string;
+    staticPermission: StaticPermission;
+  }) => {
+    const newEntityPermissions = formik.values.entityPermissions.map(
+      (entityPermission: IRoleFormEntityPermission) => {
+        if (entityPermission.model._id === modelId) {
+          const containStaticPermission: boolean =
+            entityPermission.permissions.indexOf(staticPermission) !== -1;
+          return {
+            model: entityPermission.model,
+            permissions: containStaticPermission
+              ? entityPermission.permissions.filter(
+                  (p) => p !== staticPermission
+                )
+              : [...entityPermission.permissions, staticPermission],
+          };
+        } else return entityPermission;
+      }
+    );
+
+    formik.setFieldValue("entityPermissions", newEntityPermissions);
   };
   //#endregion Event listeners
 
@@ -197,6 +274,93 @@ const RoleEditor = (props: IRoleEditor) => {
           options={permissionsOptions}
           isMulti
         />
+
+        <SearchInput
+          getElementTitle={(model: IModel) => getTranslatedText(model.name)}
+          searchPromise={handleSearchModelsPromise}
+          onElementClick={handleSelectModel}
+          label={getTranslatedText(staticText?.entitiesPermisions)}
+          inputProps={{
+            placeholder: getTranslatedText(staticText?.searchByModel),
+          }}
+        />
+
+        <div className={styles.entityPermissionsContainer}>
+          {formik.values.entityPermissions.map(
+            (entityPermission: IRoleFormEntityPermission, index: number) => {
+              return (
+                <div
+                  key={index}
+                  className={styles.singleEntityPermissionContainer}
+                >
+                  <span className={styles.modelName}>
+                    {getTranslatedText(entityPermission.model.name)}:
+                  </span>
+                  <Checkbox
+                    label={getTranslatedText(staticText?.create)}
+                    checked={
+                      entityPermission.permissions.find(
+                        (permission) => permission === StaticPermission.Create
+                      ) || false
+                    }
+                    labelStyles={{ width: 100 }}
+                    onChange={() =>
+                      handleCheckOrUncheckStaticPermission({
+                        modelId: entityPermission.model._id,
+                        staticPermission: StaticPermission.Create,
+                      })
+                    }
+                  />
+                  <Checkbox
+                    label={getTranslatedText(staticText?.read)}
+                    checked={
+                      entityPermission.permissions.find(
+                        (permission) => permission === StaticPermission.Read
+                      ) || false
+                    }
+                    labelStyles={{ width: 100 }}
+                    onChange={() =>
+                      handleCheckOrUncheckStaticPermission({
+                        modelId: entityPermission.model._id,
+                        staticPermission: StaticPermission.Read,
+                      })
+                    }
+                  />
+                  <Checkbox
+                    label={getTranslatedText(staticText?.update)}
+                    checked={
+                      entityPermission.permissions.find(
+                        (permission) => permission === StaticPermission.Update
+                      ) || false
+                    }
+                    labelStyles={{ width: 100 }}
+                    onChange={() =>
+                      handleCheckOrUncheckStaticPermission({
+                        modelId: entityPermission.model._id,
+                        staticPermission: StaticPermission.Update,
+                      })
+                    }
+                  />
+                  <Checkbox
+                    label={getTranslatedText(staticText?.delete)}
+                    checked={
+                      entityPermission.permissions.find(
+                        (permission) => permission === StaticPermission.Delete
+                      ) || false
+                    }
+                    labelStyles={{ width: 100 }}
+                    onChange={() =>
+                      handleCheckOrUncheckStaticPermission({
+                        modelId: entityPermission.model._id,
+                        staticPermission: StaticPermission.Delete,
+                      })
+                    }
+                  />
+                </div>
+              );
+            }
+          )}
+        </div>
 
         {!loading && (
           <Button

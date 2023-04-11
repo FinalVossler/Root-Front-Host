@@ -112,4 +112,11 @@ export const entitySlice = createSlice({
   },
 });
 
+export const getEntityName = ({ entity, getTranslatedText }) => {
+  const entityAsEntity: IEntity = entity;
+  return entityAsEntity.entityFieldValues
+    .map((fieldValue) => getTranslatedText(fieldValue.value))
+    .join(", ");
+};
+
 export default entitySlice.reducer;

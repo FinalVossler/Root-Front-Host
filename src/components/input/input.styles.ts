@@ -40,7 +40,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.lightTextColor,
     marginRight: 10,
     textAlign: "start",
-    width: 200,
+    width: 170,
   },
   input: {
     border: "none",
@@ -73,7 +73,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   inputIconWithLabel: {
     extend: "inputIcon",
-    left: 215,
+    left: 185,
   },
   inputError: {
     color: theme.errorColor,
