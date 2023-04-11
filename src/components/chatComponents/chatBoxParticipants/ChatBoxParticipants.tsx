@@ -24,9 +24,6 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   //#region Store
   const user: IUser = useAppSelector((state) => state.user.user);
   const contacts: IUser[] = useAppSelector((state) => state.chat.contacts);
-  const conversation: Conversation | undefined = useAppSelector(
-    (state) => state.chat.conversations
-  ).find((c) => c.id === props.conversationId);
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
