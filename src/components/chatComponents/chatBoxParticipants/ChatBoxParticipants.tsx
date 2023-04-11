@@ -45,7 +45,6 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
       getContactsByIds(participantsIds).then((users: IUser[]) =>
         setOtherParticipants(users)
       );
-      // Else, the contacts must already be loaded in the chat page
     }
   }, [props.boxType, props.conversationId, contacts]);
   //#endregion Effects
