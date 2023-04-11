@@ -61,7 +61,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   inputWithLabel: {
     extend: "input",
-    width: "calc(100% - 200px)",
+    width: "calc(100% - 170px)",
   },
   inputIcon: {
     position: "absolute",

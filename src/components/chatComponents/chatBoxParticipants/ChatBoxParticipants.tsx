@@ -6,7 +6,6 @@ import { Theme } from "../../../config/theme";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   chatSlice,
-  Conversation,
   getConversationConversationalistsFromConversationId,
 } from "../../../store/slices/chatSlice";
 import { IUser } from "../../../store/slices/userSlice";
