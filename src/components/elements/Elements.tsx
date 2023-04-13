@@ -73,8 +73,6 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
 
-  const handleOpenEditor = () => setEditorOpen(true);
-
   React.useEffect(() => {
     if (!editorOpen) {
       setSelectedElement(null);
@@ -86,6 +84,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
   }, [props.elements]);
 
   //#region Event listeners
+  const handleOpenEditor = () => setEditorOpen(true);
   const handleToggleElementSelect = (
     e: React.ChangeEvent<HTMLInputElement>,
     element: Element

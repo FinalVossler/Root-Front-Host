@@ -1,5 +1,5 @@
 import { useAppSelector } from "../store/hooks";
-import { Permission } from "../store/slices/roleSlice";
+import { Permission, StaticPermission } from "../store/slices/roleSlice";
 import { IUser, SuperRole } from "../store/slices/userSlice";
 
 const useHasPermission = () => {
@@ -17,7 +17,18 @@ const useHasPermission = () => {
     );
   };
 
-  return { hasPermission };
+  const hasEntityPermission = (
+    staticPermission: StaticPermission,
+    modelId: string
+  ): boolean => {
+    return (
+      user.role?.entityPermissions
+        .find((ePermission) => ePermission?.model?._id === modelId)
+        ?.permissions.indexOf(staticPermission) !== -1
+    );
+  };
+
+  return { hasPermission, hasEntityPermission };
 };
 
 export default useHasPermission;

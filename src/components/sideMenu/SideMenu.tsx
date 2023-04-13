@@ -52,7 +52,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
   const dispatch = useAppDispatch();
-  const { getModels, loading: getModelsLoading } = useGetModels();
+  const { getModels } = useGetModels();
   const isLoggedIn: boolean = useIsLoggedIn();
   const { hasPermission } = useHasPermission();
 

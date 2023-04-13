@@ -12,6 +12,7 @@ import useGetEntitiesByModel from "../../hooks/apiHooks/useGetEntitiesByModel";
 import useGetModels from "../../hooks/apiHooks/useGetModels";
 import useSearchEntities from "../../hooks/apiHooks/useSearchEntities";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
+import useHasPermission from "../../hooks/useHasPermission";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
 import {
@@ -21,6 +22,7 @@ import {
 } from "../../store/slices/entitySlice";
 import { FieldType } from "../../store/slices/fieldSlice";
 import { IModel } from "../../store/slices/modelSlice";
+import { StaticPermission } from "../../store/slices/roleSlice";
 
 import useStyles from "./entitiesPage.styles";
 
@@ -61,6 +63,7 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
     modelId || ""
   );
   const { handleSearchEntitiesPromise } = useSearchEntities();
+  const { hasEntityPermission } = useHasPermission();
 
   React.useEffect(() => {
     getEntitiesByModel({
@@ -137,9 +140,9 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
         searchPromise={(name: string, paginationCommand: PaginationCommand) =>
           handleSearchEntitiesPromise(name, paginationCommand, modelId || "")
         }
-        canCreate={true}
-        canUpdate={true}
-        canDelete={true}
+        canCreate={hasEntityPermission(StaticPermission.Create, modelId || "")}
+        canUpdate={hasEntityPermission(StaticPermission.Update, modelId || "")}
+        canDelete={hasEntityPermission(StaticPermission.Delete, modelId || "")}
       />
     </div>
   );
