@@ -1,7 +1,7 @@
 import React from "react";
 import { CgProfile } from "react-icons/cg";
 import { AiOutlineLogout } from "react-icons/ai";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import { Theme } from "../../config/theme";
 
@@ -49,10 +49,12 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
   const isLoggedIn: boolean = useIsLoggedIn();
   const getTranslatedText = useGetTranslatedText();
   const location = useLocation();
+  const navigate = useNavigate();
 
   //#region Event listeners
   const handleLogout = () => {
     dispatch(userSlice.actions.logout());
+    navigate("/profile");
   };
   const handleChangeLanguage = (option: Option) => {
     dispatch(userPreferenceSlice.actions.setLanguage(option.value));

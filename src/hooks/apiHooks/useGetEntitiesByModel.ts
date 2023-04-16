@@ -9,7 +9,7 @@ import { entitySlice, IEntity } from "../../store/slices/entitySlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 
 export type EntitiesGetCommand = {
-  model: string;
+  modelId: string;
   paginationCommand: PaginationCommand;
 };
 
@@ -31,7 +31,7 @@ const useGetEntitiesByModel = () => {
         .then((res) => {
           dispatch(
             entitySlice.actions.setModelEntities({
-              modelId: command.model,
+              modelId: command.modelId,
               entities: res.data.data.data,
               total: res.data.data.total,
             })

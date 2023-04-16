@@ -67,7 +67,7 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
 
   React.useEffect(() => {
     getEntitiesByModel({
-      model: modelId || "",
+      modelId: modelId || "",
       paginationCommand: {
         limit: 100,
         page,

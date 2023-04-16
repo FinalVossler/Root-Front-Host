@@ -30,7 +30,6 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
     (state) => state.websiteConfiguration.staticText?.models
   );
   const { models, total } = useAppSelector((state) => state.model);
-  const user: IUser = useAppSelector((state) => state.user.user);
 
   const [limit, setLimit] = React.useState<number>(10);
   const [page, setPage] = React.useState<number>(1);

@@ -23,7 +23,7 @@ import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { FaPager } from "react-icons/fa";
 import { RiUserStarFill } from "react-icons/ri";
 import useHasPermission from "../../hooks/useHasPermission";
-import { Permission } from "../../store/slices/roleSlice";
+import { Permission, StaticPermission } from "../../store/slices/roleSlice";
 
 interface ISideMenu {}
 
@@ -125,11 +125,19 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
             triggerExtended={() =>
               dispatch(userPreferenceSlice.actions.triggerExtendModels())
             }
-            subOptions={models.map((model) => ({
-              Icon: SiElement,
-              link: "/entities/" + model._id,
-              title: getTranslatedText(model.name),
-            }))}
+            subOptions={models
+              .filter(
+                (m) =>
+                  user.superRole === SuperRole.SuperAdmin ||
+                  user.role?.entityPermissions
+                    .find((e) => e.model._id === m._id)
+                    ?.permissions.find((p) => p === StaticPermission.Read)
+              )
+              .map((model) => ({
+                Icon: SiElement,
+                link: "/entities/" + model._id,
+                title: getTranslatedText(model.name),
+              }))}
           />
           {hasPermission(Permission.ReadUser) && (
             <SideMenuOption

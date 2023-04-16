@@ -22,6 +22,7 @@ const useHasPermission = () => {
     modelId: string
   ): boolean => {
     return (
+      user.superRole === SuperRole.SuperAdmin ||
       user.role?.entityPermissions
         .find((ePermission) => ePermission?.model?._id === modelId)
         ?.permissions.indexOf(staticPermission) !== -1
