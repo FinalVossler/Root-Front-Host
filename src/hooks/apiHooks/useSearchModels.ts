@@ -4,7 +4,8 @@ import { AxiosResponse } from "axios";
 import PaginationCommand from "../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { IModel } from "../../store/slices/modelSlice";
+import { IModel, modelSlice } from "../../store/slices/modelSlice";
+import { useAppDispatch } from "../../store/hooks";
 
 export type ModelsSearchCommand = {
   name: string;
@@ -15,6 +16,7 @@ const useSearchModels = () => {
   const [selectedModels, setSelectedModels] = React.useState<IModel[]>([]);
 
   const axios = useAuthorizedAxios();
+  const dispatch = useAppDispatch();
 
   const handleSearchModelsPromise = (
     name: string,
@@ -34,6 +36,7 @@ const useSearchModels = () => {
         })
         .then((res) => {
           resolve(res.data.data);
+          dispatch(modelSlice.actions.setSearchedModels(res.data.data));
         });
     });
 

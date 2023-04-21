@@ -5,6 +5,7 @@ import EntityEditor from "../../components/editors/entityEditor";
 import Elements from "../../components/elements";
 import { Theme } from "../../config/theme";
 import PaginationCommand from "../../globalTypes/PaginationCommand";
+import PaginationResponse from "../../globalTypes/PaginationResponse";
 import withChat from "../../hoc/withChat";
 import withWrapper from "../../hoc/wrapper";
 import useDeleteEntities from "../../hooks/apiHooks/useDeleteEntities";
@@ -14,8 +15,9 @@ import useSearchEntities from "../../hooks/apiHooks/useSearchEntities";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useHasPermission from "../../hooks/useHasPermission";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
+  entitySlice,
   getEntityName,
   IEntity,
   IEntityFieldValue,
@@ -50,11 +52,15 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
   const model: IModel | undefined = useAppSelector((state) =>
     state.model.models.find((m) => m._id === modelId)
   );
+  const searchResult = useAppSelector((state) =>
+    state.entity.entitiesByModel.find((el) => el.modelId === modelId)
+  )?.searchResult;
 
   const [limit, setLimit] = React.useState<number>(10);
   const [page, setPage] = React.useState<number>(1);
 
   const styles = useStyles({ theme });
+  const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
   const { getEntitiesByModel, loading } = useGetEntitiesByModel();
   const { getModels } = useGetModels();
@@ -87,6 +93,18 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
   const handlePageChange = (page: number) => {
     setPage(page);
   };
+
+  const handleSetSearchResult = React.useCallback(
+    (res: PaginationResponse<IEntity>) => {
+      dispatch(
+        entitySlice.actions.setSearchedEntities({
+          modelId: modelId || "",
+          searchResult: res,
+        })
+      );
+    },
+    []
+  );
 
   if (!isLoggedIn) return null;
 
@@ -143,6 +161,8 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
         canCreate={hasEntityPermission(StaticPermission.Create, modelId || "")}
         canUpdate={hasEntityPermission(StaticPermission.Update, modelId || "")}
         canDelete={hasEntityPermission(StaticPermission.Delete, modelId || "")}
+        searchResult={searchResult || { data: [], total: 0 }}
+        setSearchResult={handleSetSearchResult}
       />
     </div>
   );

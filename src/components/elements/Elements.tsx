@@ -51,6 +51,8 @@ interface IElements {
   canDelete: boolean;
   canUpdate: boolean;
   canCreate: boolean;
+  searchResult: PaginationResponse<any>;
+  setSearchResult: (result: PaginationResponse<any>) => void;
 }
 
 const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
@@ -66,9 +68,6 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
   const [selectedElements, setSelectedElements] = React.useState<string[]>([]);
   const [selectedElement, setSelectedElement] =
     React.useState<Element | null>(null);
-  const [searchResult, setSearchResult] = React.useState<
-    PaginationResponse<any>
-  >({ data: [], total: 0 });
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
@@ -116,7 +115,9 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
 
   // The elements to show are either the search result or the elements passed as props
   const elements =
-    searchResult.data.length > 0 ? searchResult.data : props.elements;
+    props.searchResult.data.length > 0
+      ? props.searchResult.data
+      : props.elements;
   return (
     <div className={styles.elementsContainer}>
       <div className={styles.buttonsContainer}>
@@ -171,7 +172,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
         <SearchInput
           getElementTitle={props.getElementName}
           searchPromise={props.searchPromise}
-          setSearchResult={setSearchResult}
+          setSearchResult={props.setSearchResult}
         />
       )}
 
@@ -281,7 +282,11 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
       </table>
 
       <Pagination
-        total={searchResult.data.length > 0 ? searchResult.total : props.total}
+        total={
+          props.searchResult.data.length > 0
+            ? props.searchResult.total
+            : props.total
+        }
         limit={props.limit}
         page={props.page}
         onPageChange={props.onPageChange}

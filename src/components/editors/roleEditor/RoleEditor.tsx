@@ -1,6 +1,6 @@
 import React from "react";
 import "suneditor/dist/css/suneditor.min.css";
-import { MdTitle } from "react-icons/md";
+import { MdDelete, MdTitle } from "react-icons/md";
 import { ImCross } from "react-icons/im";
 import { FormikProps, useFormik } from "formik";
 import ReactLoading from "react-loading";
@@ -220,6 +220,17 @@ const RoleEditor = (props: IRoleEditor) => {
 
     formik.setFieldValue("entityPermissions", newEntityPermissions);
   };
+
+  const handleDeleteEntityPermission = (
+    entityPermission: IRoleFormEntityPermission
+  ) => {
+    formik.setFieldValue(
+      "entityPermissions",
+      formik.values.entityPermissions.filter(
+        (pot) => pot.model._id !== entityPermission.model._id
+      )
+    );
+  };
   //#endregion Event listeners
 
   const loading = props.role ? updateLoading : createLoading;
@@ -293,6 +304,12 @@ const RoleEditor = (props: IRoleEditor) => {
                   key={index}
                   className={styles.singleEntityPermissionContainer}
                 >
+                  <MdDelete
+                    className={styles.deleteEntityPermissionsButton}
+                    onClick={() =>
+                      handleDeleteEntityPermission(entityPermission)
+                    }
+                  />
                   <span className={styles.modelName}>
                     {getTranslatedText(entityPermission.model.name)}:
                   </span>

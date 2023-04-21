@@ -10,14 +10,15 @@ import useDeleteUsers from "../../hooks/apiHooks/useDeleteUsers";
 import useGetUsers from "../../hooks/apiHooks/useGetUsers";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
-import { useAppSelector } from "../../store/hooks";
-import { IUser } from "../../store/slices/userSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { IUser, userSlice } from "../../store/slices/userSlice";
 
 import useStyles from "./usersPage.styles";
 import useSearchUsers from "../../hooks/apiHooks/useSearchUsers";
 import withChat from "../../hoc/withChat";
 import useHasPermission from "../../hooks/useHasPermission";
 import { Permission } from "../../store/slices/roleSlice";
+import PaginationResponse from "../../globalTypes/PaginationResponse";
 
 interface IUsersPage {}
 
@@ -29,9 +30,11 @@ const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
     (state) => state.websiteConfiguration.staticText?.profile
   );
   const { users, total } = useAppSelector((state) => state.user);
+  const searchResult = useAppSelector((state) => state.user.searchedUsers);
 
   const [limit, setLimit] = React.useState<number>(10);
   const [page, setPage] = React.useState<number>(1);
+  const dispatch = useAppDispatch();
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
@@ -53,6 +56,13 @@ const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
   const handlePageChange = (page: number) => {
     setPage(page);
   };
+
+  const handleSetSearchResult = React.useCallback(
+    (res: PaginationResponse<IUser>) => {
+      dispatch(userSlice.actions.setSearchedUsers(res));
+    },
+    []
+  );
 
   if (!isLoggedIn) return null;
 
@@ -109,6 +119,8 @@ const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
         canUpdate={hasPermission(Permission.UpdatePage)}
         canCreate={hasPermission(Permission.CreatePage)}
         canDelete={hasPermission(Permission.DeletePage)}
+        searchResult={searchResult}
+        setSearchResult={handleSetSearchResult}
       />
     </div>
   );

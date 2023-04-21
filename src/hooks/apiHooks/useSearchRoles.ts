@@ -4,7 +4,8 @@ import { AxiosResponse } from "axios";
 import PaginationCommand from "../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { IRole } from "../../store/slices/roleSlice";
+import { IRole, roleSlice } from "../../store/slices/roleSlice";
+import { useAppDispatch } from "../../store/hooks";
 
 export type RolesSearchCommand = {
   name: string;
@@ -15,6 +16,7 @@ const useSearchRoles = () => {
   const [selectedRoles, setSelectedRoles] = React.useState<IRole[]>([]);
 
   const axios = useAuthorizedAxios();
+  const dispatch = useAppDispatch();
 
   const handleSearchRolesPromise = (
     name: string,
@@ -34,6 +36,7 @@ const useSearchRoles = () => {
         })
         .then((res) => {
           resolve(res.data.data);
+          dispatch(roleSlice.actions.setSearchedRoles(res.data.data));
         });
     });
 

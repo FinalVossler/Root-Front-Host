@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import _ from "lodash";
 
 import ITranslatedText from "../../globalTypes/ITranslatedText";
+import PaginationResponse from "../../globalTypes/PaginationResponse";
 
 export enum FieldType {
   Number = "Number",
@@ -29,11 +30,16 @@ export interface IField {
 export interface IFieldState {
   fields: IField[];
   total: number;
+  searchedFields: PaginationResponse<IField>;
 }
 
 const initialState: IFieldState = {
   fields: [],
   total: 0,
+  searchedFields: {
+    data: [],
+    total: 0,
+  },
 };
 
 export const fieldSlice = createSlice({
@@ -56,12 +62,21 @@ export const fieldSlice = createSlice({
     updateField: (state: IFieldState, action: PayloadAction<IField>) => {
       const field: IField = action.payload;
       state.fields = state.fields.map((f) => (f._id === field._id ? field : f));
+      state.searchedFields.data = state.searchedFields.data.map((f) =>
+        f._id === field._id ? field : f
+      );
     },
     deleteFields: (state: IFieldState, action: PayloadAction<string[]>) => {
       const fieldsIds: string[] = action.payload;
       state.fields = state.fields.filter(
         (f) => fieldsIds.indexOf(f._id) === -1
       );
+    },
+    setSearchedFields: (
+      state: IFieldState,
+      action: PayloadAction<PaginationResponse<IField>>
+    ) => {
+      state.searchedFields = action.payload;
     },
   },
 });

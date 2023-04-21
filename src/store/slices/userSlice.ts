@@ -9,6 +9,7 @@ import {
 
 import IFile from "../../globalTypes/IFile";
 import { IRole } from "./roleSlice";
+import PaginationResponse from "../../globalTypes/PaginationResponse";
 
 export enum SuperRole {
   SuperAdmin = "SuperAdmin",
@@ -36,6 +37,7 @@ export interface IUserState {
   tokenInformation: TokenInformation;
   users: IUser[];
   total: number;
+  searchedUsers: PaginationResponse<IUser>;
 }
 
 // Initializing the token from local storage
@@ -79,6 +81,10 @@ const initialState: IUserState = {
   tokenInformation: tokenInformationInStorage,
   users: [],
   total: 0,
+  searchedUsers: {
+    data: [],
+    total: 0,
+  },
 };
 
 export const userSlice = createSlice({
@@ -139,10 +145,23 @@ export const userSlice = createSlice({
     updateUser: (state: IUserState, action: PayloadAction<IUser>) => {
       const user: IUser = action.payload;
       state.users = state.users.map((f) => (f._id === user._id ? user : f));
+      state.searchedUsers.data = state.searchedUsers.data.map((u) => {
+        if (u._id === user._id) {
+          return user;
+        } else {
+          return u;
+        }
+      });
     },
     deleteUsers: (state: IUserState, action: PayloadAction<string[]>) => {
       const usersIds: string[] = action.payload;
       state.users = state.users.filter((f) => usersIds.indexOf(f._id) === -1);
+    },
+    setSearchedUsers: (
+      state: IUserState,
+      action: PayloadAction<PaginationResponse<IUser>>
+    ) => {
+      state.searchedUsers = action.payload;
     },
   },
 });

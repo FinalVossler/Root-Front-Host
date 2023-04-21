@@ -3,6 +3,7 @@ import React from "react";
 import RoleEditor from "../../components/editors/roleEditor";
 import Elements from "../../components/elements";
 import { Theme } from "../../config/theme";
+import PaginationResponse from "../../globalTypes/PaginationResponse";
 import withChat from "../../hoc/withChat";
 import withWrapper from "../../hoc/wrapper";
 import useDeleteRoles from "../../hooks/apiHooks/useDeleteRoles";
@@ -11,8 +12,8 @@ import useSearchRoles from "../../hooks/apiHooks/useSearchRoles";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useHasPermission from "../../hooks/useHasPermission";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
-import { useAppSelector } from "../../store/hooks";
-import { IRole, Permission } from "../../store/slices/roleSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { IRole, Permission, roleSlice } from "../../store/slices/roleSlice";
 
 import useStyles from "./rolesPage.styles";
 
@@ -26,11 +27,13 @@ const RolesPage: React.FunctionComponent<IRolesPage> = (props: IRolesPage) => {
     (state) => state.websiteConfiguration.staticText?.roles
   );
   const { roles, total } = useAppSelector((state) => state.role);
+  const searchResult = useAppSelector((state) => state.role.searchedRoles);
 
   const [limit, setLimit] = React.useState<number>(10);
   const [page, setPage] = React.useState<number>(1);
 
   const styles = useStyles({ theme });
+  const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
   const { getRoles, loading } = useGetRoles();
   const isLoggedIn: boolean = useIsLoggedIn();
@@ -50,6 +53,13 @@ const RolesPage: React.FunctionComponent<IRolesPage> = (props: IRolesPage) => {
   const handlePageChange = (page: number) => {
     setPage(page);
   };
+
+  const handleSetSearchResult = React.useCallback(
+    (res: PaginationResponse<IRole>) => {
+      dispatch(roleSlice.actions.setSearchedRoles(res));
+    },
+    []
+  );
 
   if (!isLoggedIn) return null;
 
@@ -80,6 +90,8 @@ const RolesPage: React.FunctionComponent<IRolesPage> = (props: IRolesPage) => {
         canCreate={hasPermission(Permission.CreateRole)}
         canUpdate={hasPermission(Permission.UpdateRole)}
         canDelete={hasPermission(Permission.DeleteRole)}
+        searchResult={searchResult}
+        setSearchResult={handleSetSearchResult}
       />
     </div>
   );

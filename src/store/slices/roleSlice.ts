@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import _ from "lodash";
 
 import ITranslatedText from "../../globalTypes/ITranslatedText";
+import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { IModel } from "./modelSlice";
 
 export enum StaticPermission {
@@ -61,11 +62,16 @@ export interface IRole {
 export interface IRoleState {
   roles: IRole[];
   total: number;
+  searchedRoles: PaginationResponse<IRole>;
 }
 
 const initialState: IRoleState = {
   roles: [],
   total: 0,
+  searchedRoles: {
+    data: [],
+    total: 0,
+  },
 };
 
 export const roleSlice = createSlice({
@@ -88,10 +94,23 @@ export const roleSlice = createSlice({
     updateRole: (state: IRoleState, action: PayloadAction<IRole>) => {
       const role: IRole = action.payload;
       state.roles = state.roles.map((f) => (f._id === role._id ? role : f));
+      state.searchedRoles.data = state.searchedRoles.data.map((r) => {
+        if (r._id === role._id) {
+          return role;
+        } else {
+          return r;
+        }
+      });
     },
     deleteRoles: (state: IRoleState, action: PayloadAction<string[]>) => {
       const rolesIds: string[] = action.payload;
       state.roles = state.roles.filter((f) => rolesIds.indexOf(f._id) === -1);
+    },
+    setSearchedRoles: (
+      state: IRoleState,
+      action: PayloadAction<PaginationResponse<IRole>>
+    ) => {
+      state.searchedRoles = action.payload;
     },
   },
 });

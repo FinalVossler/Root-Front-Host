@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import IFile from "../../globalTypes/IFile";
 import ITranslatedText from "../../globalTypes/ITranslatedText";
+import PaginationResponse from "../../globalTypes/PaginationResponse";
 import compareWithCreatedAt from "../../utils/compareWithCreatedAt";
 import { IUser } from "./userSlice";
 
@@ -53,12 +54,17 @@ type UserPosts = {
   total: number;
 };
 
-interface IPostInitialState {
+interface IPostState {
   userPosts: UserPosts[];
+  searchedPosts: PaginationResponse<IPost>;
 }
 
-const initialState: IPostInitialState = {
+const initialState: IPostState = {
   userPosts: [],
+  searchedPosts: {
+    data: [],
+    total: 0,
+  },
 };
 
 export const postSlice = createSlice({
@@ -66,7 +72,7 @@ export const postSlice = createSlice({
   initialState,
   reducers: {
     createNewUserPosts: (
-      state: IPostInitialState,
+      state: IPostState,
       action: PayloadAction<UserPosts>
     ) => {
       const newUserPost: UserPosts = action.payload;
@@ -75,7 +81,7 @@ export const postSlice = createSlice({
       state.userPosts.push(newUserPost);
     },
     addUserPost: (
-      state: IPostInitialState,
+      state: IPostState,
       action: PayloadAction<{ post: IPost; user: IUser }>
     ) => {
       const { post, user } = action.payload;
@@ -96,13 +102,17 @@ export const postSlice = createSlice({
       }
     },
     updateUserPost: (
-      state: IPostInitialState,
+      state: IPostState,
       action: PayloadAction<{ post: IPost; user: IUser }>
     ) => {
       const { post, user } = action.payload;
 
       const userPosts: UserPosts | undefined = state.userPosts.find(
         (el) => el.user._id === user._id
+      );
+
+      state.searchedPosts.data = state.searchedPosts.data.map((p) =>
+        p._id === action.payload.post._id ? action.payload.post : p
       );
 
       if (userPosts) {
@@ -119,7 +129,7 @@ export const postSlice = createSlice({
       }
     },
     removeUserPost: (
-      state: IPostInitialState,
+      state: IPostState,
       action: PayloadAction<{ post: IPost; user: IUser }>
     ) => {
       const { post, user } = action.payload;
@@ -140,7 +150,7 @@ export const postSlice = createSlice({
       }
     },
     refreshUserPosts: (
-      state: IPostInitialState,
+      state: IPostState,
       action: PayloadAction<{ posts: IPost[]; user: IUser; total: number }>
     ) => {
       const { posts, user, total } = action.payload;
@@ -159,6 +169,12 @@ export const postSlice = createSlice({
           total,
         });
       }
+    },
+    setSearchedPosts: (
+      state: IPostState,
+      action: PayloadAction<PaginationResponse<IPost>>
+    ) => {
+      state.searchedPosts = action.payload;
     },
   },
 });

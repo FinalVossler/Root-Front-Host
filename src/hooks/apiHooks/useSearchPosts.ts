@@ -4,10 +4,11 @@ import uuid from "react-uuid";
 
 import PaginationCommand from "../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
-import { IPost, PostVisibility } from "../../store/slices/postSlice";
+import { IPost, postSlice, PostVisibility } from "../../store/slices/postSlice";
 import { IUser } from "../../store/slices/userSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 import { IPage } from "../../store/slices/pageSlice";
+import { useAppDispatch } from "../../store/hooks";
 
 export type PostsSearchCommand = {
   title: string;
@@ -42,6 +43,7 @@ const useSearchPosts = (
   }, [page]);
 
   const axios = useAuthorizedAxios();
+  const dispatch = useAppDispatch();
 
   const handleSearchPostsPromise = (
     title: string,
@@ -63,6 +65,7 @@ const useSearchPosts = (
         })
         .then((res) => {
           resolve(res.data.data);
+          dispatch(postSlice.actions.setSearchedPosts(res.data.data));
         });
     });
 

@@ -107,6 +107,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     padding: 20,
     marginBottom: 10,
     borderRadius: 5,
+    position: "relative",
   },
   modelName: {
     marginBottom: 10,
@@ -114,6 +115,14 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.primary,
     borderBottom: "1px solid " + theme.primary,
     paddingBottom: 5,
+  },
+  deleteEntityPermissionsButton: {
+    position: "absolute",
+    cursor: "pointer",
+    right: 0,
+    top: 0,
+    color: theme.errorColor,
+    fontSize: 30,
   },
   "@media (max-width: 850px)": {
     createRoleModalContainer: {

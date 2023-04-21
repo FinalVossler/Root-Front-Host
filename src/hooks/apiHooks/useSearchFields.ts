@@ -6,7 +6,8 @@ import PaginationCommand from "../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 import { IModel, IModelField } from "../../store/slices/modelSlice";
-import { IField } from "../../store/slices/fieldSlice";
+import { fieldSlice, IField } from "../../store/slices/fieldSlice";
+import { useAppDispatch } from "../../store/hooks";
 
 export type FieldsSearchCommand = {
   name: string;
@@ -19,6 +20,7 @@ const useSearchFields = (model: IModel | undefined) => {
   >([]);
 
   const axios = useAuthorizedAxios();
+  const dispatch = useAppDispatch();
 
   // The searched model fields should be initialized to the models' model fields
   React.useEffect(() => {
@@ -52,6 +54,7 @@ const useSearchFields = (model: IModel | undefined) => {
         })
         .then((res) => {
           resolve(res.data.data);
+          dispatch(fieldSlice.actions.setSearchedFields(res.data.data));
         });
     });
 

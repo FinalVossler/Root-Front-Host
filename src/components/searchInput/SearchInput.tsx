@@ -56,10 +56,10 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
     if (value.trim().length <= 2) {
       setSearchResult({ data: [], total: 0 });
     }
-  }, [value, paginationCommand, props.searchPromise, setSearchResult]);
+  }, [value, paginationCommand]);
 
   React.useEffect(() => {
-    if (props.setSearchResult && searchResult) {
+    if (searchResult && props.setSearchResult) {
       props.setSearchResult(searchResult);
     }
   }, [searchResult, props.setSearchResult]);

@@ -4,7 +4,8 @@ import { AxiosResponse } from "axios";
 import PaginationCommand from "../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { IUser } from "../../store/slices/userSlice";
+import { IUser, userSlice } from "../../store/slices/userSlice";
+import { useAppDispatch } from "../../store/hooks";
 
 export type UsersSearchCommand = {
   firstNameOrLastName: string;
@@ -15,6 +16,7 @@ const useSearchUsers = () => {
   const [selectedUsers, setSelectedUsers] = React.useState<IUser[]>([]);
 
   const axios = useAuthorizedAxios();
+  const dispatch = useAppDispatch();
 
   const handleSearchUsersPromise = (
     firstNameOrLastName: string,
@@ -34,6 +36,7 @@ const useSearchUsers = () => {
         })
         .then((res) => {
           resolve(res.data.data);
+          dispatch(userSlice.actions.setSearchedUsers(res.data.data));
         });
     });
 

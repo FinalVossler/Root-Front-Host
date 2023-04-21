@@ -3,6 +3,7 @@ import React from "react";
 import ModelEditor from "../../components/editors/modelEditor";
 import Elements from "../../components/elements";
 import { Theme } from "../../config/theme";
+import PaginationResponse from "../../globalTypes/PaginationResponse";
 import withChat from "../../hoc/withChat";
 import withWrapper from "../../hoc/wrapper";
 import useDeleteModels from "../../hooks/apiHooks/useDeleteModels";
@@ -11,10 +12,9 @@ import useSearchModels from "../../hooks/apiHooks/useSearchModels";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useHasPermission from "../../hooks/useHasPermission";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
-import { useAppSelector } from "../../store/hooks";
-import { IModel } from "../../store/slices/modelSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { IModel, modelSlice } from "../../store/slices/modelSlice";
 import { Permission } from "../../store/slices/roleSlice";
-import { IUser, SuperRole } from "../../store/slices/userSlice";
 
 import useStyles from "./modelsPage.styles";
 
@@ -30,11 +30,13 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
     (state) => state.websiteConfiguration.staticText?.models
   );
   const { models, total } = useAppSelector((state) => state.model);
+  const searchResult = useAppSelector((state) => state.model.searchedModels);
 
   const [limit, setLimit] = React.useState<number>(10);
   const [page, setPage] = React.useState<number>(1);
 
   const styles = useStyles({ theme });
+  const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
   const { getModels, loading } = useGetModels();
   const isLoggedIn: boolean = useIsLoggedIn();
@@ -54,6 +56,13 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
   const handlePageChange = (page: number) => {
     setPage(page);
   };
+
+  const handleSetSearchResult = React.useCallback(
+    (res: PaginationResponse<IModel>) => {
+      dispatch(modelSlice.actions.setSearchedModels(res));
+    },
+    []
+  );
 
   if (!isLoggedIn) return null;
 
@@ -93,6 +102,8 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
         canCreate={hasPermission(Permission.CreateModel)}
         canUpdate={hasPermission(Permission.UpdateModel)}
         canDelete={hasPermission(Permission.DeleteModel)}
+        searchResult={searchResult}
+        setSearchResult={handleSetSearchResult}
       />
     </div>
   );

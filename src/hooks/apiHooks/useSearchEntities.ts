@@ -4,7 +4,8 @@ import { AxiosResponse } from "axios";
 import PaginationCommand from "../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { IEntity } from "../../store/slices/entitySlice";
+import { entitySlice, IEntity } from "../../store/slices/entitySlice";
+import { useAppDispatch } from "../../store/hooks";
 
 export type EntitiesSearchCommand = {
   name: string;
@@ -16,6 +17,7 @@ const useSearchEntities = () => {
   const [selectedEntities, setSelectedEntities] = React.useState<IEntity[]>([]);
 
   const axios = useAuthorizedAxios();
+  const dispatch = useAppDispatch();
 
   const handleSearchEntitiesPromise = (
     name: string,
@@ -37,6 +39,12 @@ const useSearchEntities = () => {
         })
         .then((res) => {
           resolve(res.data.data);
+          dispatch(
+            entitySlice.actions.setSearchedEntities({
+              searchResult: res.data.data,
+              modelId: modelId,
+            })
+          );
         });
     });
 

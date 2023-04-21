@@ -3,15 +3,17 @@ import React from "react";
 import FieldEditor from "../../components/editors/fieldEditor";
 import Elements from "../../components/elements";
 import { Theme } from "../../config/theme";
+import PaginationResponse from "../../globalTypes/PaginationResponse";
 import withChat from "../../hoc/withChat";
 import withWrapper from "../../hoc/wrapper";
 import useDeleteFields from "../../hooks/apiHooks/useDeleteFields";
 import useGetFields from "../../hooks/apiHooks/useGetFields";
+import useSearchFields from "../../hooks/apiHooks/useSearchFields";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useHasPermission from "../../hooks/useHasPermission";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
-import { useAppSelector } from "../../store/hooks";
-import { IField } from "../../store/slices/fieldSlice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { fieldSlice, IField } from "../../store/slices/fieldSlice";
 import { Permission } from "../../store/slices/roleSlice";
 
 import useStyles from "./fieldsPage.styles";
@@ -28,16 +30,19 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
     (state) => state.websiteConfiguration.staticText?.fields
   );
   const { fields, total } = useAppSelector((state) => state.field);
+  const searchResult = useAppSelector((state) => state.field.searchedFields);
 
   const [limit, setLimit] = React.useState<number>(10);
   const [page, setPage] = React.useState<number>(1);
 
   const styles = useStyles({ theme });
+  const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
   const { getFields, loading } = useGetFields();
   const isLoggedIn: boolean = useIsLoggedIn();
   const { deleteFields, loading: deleteLoading } = useDeleteFields();
   const { hasPermission } = useHasPermission();
+  const { handleSearchFieldsPromise } = useSearchFields(undefined);
 
   React.useEffect(() => {
     getFields({
@@ -51,6 +56,13 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
   const handlePageChange = (page: number) => {
     setPage(page);
   };
+
+  const handleSetSearchResult = React.useCallback(
+    (res: PaginationResponse<IField>) => {
+      dispatch(fieldSlice.actions.setSearchedFields(res));
+    },
+    []
+  );
 
   if (!isLoggedIn) return null;
 
@@ -95,6 +107,9 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
         canCreate={hasPermission(Permission.CreateField)}
         canUpdate={hasPermission(Permission.UpdateField)}
         canDelete={hasPermission(Permission.DeleteField)}
+        searchPromise={handleSearchFieldsPromise}
+        searchResult={searchResult}
+        setSearchResult={handleSetSearchResult}
       />
     </div>
   );
