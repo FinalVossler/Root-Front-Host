@@ -3,7 +3,6 @@ import {
   AiOutlineFileDone,
   AiFillDelete,
   AiOutlineFileSearch,
-  AiFillFileAdd,
 } from "react-icons/ai";
 
 import { FormikProps } from "formik";
@@ -18,6 +17,7 @@ import readAsBase64 from "../../../../utils/readAsBase64";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import ExistingFiles from "../../../existingFiles";
 import { TypeOfFiles } from "../../../existingFiles/ExistingFiles";
+import FilesDropZone from "../../../filesDropZone";
 
 type TrackedImage = {
   base64: string;
@@ -81,7 +81,7 @@ const EntityFieldFiles = (props: IEntityFieldFiles) => {
   }, [props.entityFieldValue?.newFiles]);
 
   React.useEffect(() => {
-    // set selected own files based on the value our entityFieldValie
+    // set selected own files based on the value of our entityFieldValie
     if (
       props.entityFieldValue &&
       props.entityFieldValue.selectedExistingFiles &&
@@ -111,12 +111,6 @@ const EntityFieldFiles = (props: IEntityFieldFiles) => {
           }
         }) || []
       );
-    }
-  };
-
-  const handleAddNewFilesIconClick = () => {
-    if (inputRef.current) {
-      inputRef.current.click();
     }
   };
 
@@ -158,6 +152,22 @@ const EntityFieldFiles = (props: IEntityFieldFiles) => {
       setTrackedImages(newTrackedImages);
     }
   };
+
+  const handleDropFiles = (files: File[]) => {
+    props.formik.setFieldValue(
+      "entityFieldValues",
+      props.formik.values.entityFieldValues.map((entityFieldValue) => {
+        if (entityFieldValue.fieldId === props.modelField.field._id) {
+          return {
+            ...entityFieldValue,
+            newFiles: [...(entityFieldValue.newFiles || []), ...files],
+          };
+        } else {
+          return entityFieldValue;
+        }
+      }) || []
+    );
+  };
   //#endregion Event listeners
 
   return (
@@ -172,10 +182,7 @@ const EntityFieldFiles = (props: IEntityFieldFiles) => {
           color={theme.primary}
         />
 
-        <AiFillFileAdd
-          onClick={handleAddNewFilesIconClick}
-          className={styles.icon}
-        />
+        <FilesDropZone onDrop={handleDropFiles} />
 
         <input
           onChange={handleNewFilesChange}

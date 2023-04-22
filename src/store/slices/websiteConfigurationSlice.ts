@@ -252,6 +252,9 @@ export interface IWebsiteConfiguration {
       welcomeText: ITranslatedText[];
       searchContacts: ITranslatedText[];
     };
+    files: {
+      dropHere: ITranslatedText[];
+    };
   };
 }
 
@@ -1147,6 +1150,12 @@ const initialState: IWebsiteConfigurationState = {
       searchContacts: [
         { language: "en", text: "Search Contacts" },
         { language: "fr", text: "Rechercher des contacts" },
+      ],
+    },
+    files: {
+      dropHere: [
+        { language: "en", text: "Drop here" },
+        { language: "fr", text: "Glisser déposer" },
       ],
     },
   },
