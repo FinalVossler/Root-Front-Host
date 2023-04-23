@@ -139,8 +139,6 @@ const ModelEditor = (props: IModelEditor) => {
   }, [props.model, formik.values.language]);
   //#endregion Effects
 
-  console.log("wtf", formik.values.modelFields);
-
   //#region Event listeners
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

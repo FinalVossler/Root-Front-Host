@@ -124,7 +124,6 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
     value: string,
     conditionIndex: number
   ) => {
-    console.log("fdfdf", value);
     const newSelectedModelFields = props.selectedModelFields.map(
       (modelField: IModelField, index: number) => {
         if (index === props.modelFieldIndex) {
