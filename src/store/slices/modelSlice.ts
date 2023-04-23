@@ -16,9 +16,22 @@ export interface IModel {
 export interface IModelField {
   field: IField;
   required: boolean;
+  conditions?: IModelFieldCondition[];
 
   // used for frontend sorting only
   uuid: string;
+}
+
+export enum ModelFieldConditionType {
+  SuperiorTo = "SuperiorTo",
+  InferiorTo = "InferiorTo",
+  Equal = "Equal",
+}
+
+export interface IModelFieldCondition {
+  field?: IField;
+  conditionType: ModelFieldConditionType;
+  value: number | string;
 }
 
 export interface IModelState {

@@ -103,6 +103,13 @@ export interface IWebsiteConfiguration {
       addOption: ITranslatedText[];
       label: ITranslatedText[];
       value: ITranslatedText[];
+      superiorTo: ITranslatedText[];
+      inferiorTo: ITranslatedText[];
+      equal: ITranslatedText[];
+      conditions: ITranslatedText[];
+      condition: ITranslatedText[];
+      field: ITranslatedText[];
+      conditionType: ITranslatedText[];
     };
     models: {
       createModel: ITranslatedText[];
@@ -625,8 +632,77 @@ const initialState: IWebsiteConfigurationState = {
         { language: "en", text: "Value" },
         { language: "fr", text: "Valeur" },
       ],
+      inferiorTo: [
+        {
+          language: "en",
+          text: "Inferior to",
+        },
+        {
+          language: "fr",
+          text: "inférieur à",
+        },
+      ],
+      superiorTo: [
+        {
+          language: "en",
+          text: "Superior to",
+        },
+        {
+          language: "fr",
+          text: "Supérieur à",
+        },
+      ],
+      equal: [
+        {
+          language: "en",
+          text: "Equal",
+        },
+        {
+          language: "fr",
+          text: "Égal",
+        },
+      ],
+      conditions: [
+        {
+          language: "en",
+          text: "Show Conditions",
+        },
+        {
+          language: "fr",
+          text: "Conditions d'apparition",
+        },
+      ],
+      condition: [
+        {
+          language: "en",
+          text: "Condition",
+        },
+        {
+          language: "fr",
+          text: "Condition",
+        },
+      ],
+      field: [
+        {
+          language: "en",
+          text: "Field",
+        },
+        {
+          language: "fr",
+          text: "Champ",
+        },
+      ],
+      conditionType: [
+        {
+          language: "en",
+          text: "Operator",
+        },
+        {
+          language: "fr",
+          text: "Opérateur",
+        },
+      ],
     },
-
     models: {
       createModel: [
         { language: "en", text: "Create a Model" },

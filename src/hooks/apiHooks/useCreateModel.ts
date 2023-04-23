@@ -1,14 +1,26 @@
 import { AxiosResponse } from "axios";
 import React from "react";
-import { IModelFieldForm } from "../../components/editors/modelEditor/ModelEditor";
 
 import { useAppDispatch } from "../../store/hooks";
-import { modelSlice, IModel } from "../../store/slices/modelSlice";
+import {
+  modelSlice,
+  IModel,
+  IModelField,
+  ModelFieldConditionType,
+} from "../../store/slices/modelSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 
 export type ModelCreateCommand = {
   name: string;
-  modelFields: IModelFieldForm[];
+  modelFields: {
+    fieldId: string;
+    required: boolean;
+    conditions?: {
+      fieldId: string;
+      conditionType: ModelFieldConditionType;
+      value: number | string;
+    }[];
+  }[];
   language: string;
 };
 

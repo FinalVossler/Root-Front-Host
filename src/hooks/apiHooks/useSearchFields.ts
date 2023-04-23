@@ -1,6 +1,7 @@
 import React from "react";
 import { AxiosResponse } from "axios";
 import uuid from "react-uuid";
+import _ from "lodash";
 
 import PaginationCommand from "../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
@@ -25,9 +26,20 @@ const useSearchFields = (model: IModel | undefined) => {
   // The searched model fields should be initialized to the models' model fields
   React.useEffect(() => {
     if (model) {
-      const newSelectedModelFields = [...model.modelFields];
+      const newSelectedModelFields: IModelField[] =
+        model.modelFields.map((modelField) => ({
+          ...modelField,
+          field: modelField.field,
+          required: modelField.required,
+          conditions:
+            modelField.conditions?.map((condition) => ({
+              value: condition.value,
+              conditionType: condition.conditionType,
+              field: condition.field,
+            })) || [],
+        })) || [];
 
-      setSelectedModelFields(
+      handleSelectModelFields(
         newSelectedModelFields.map((modelField) => ({
           ...modelField,
           uuid: uuid(),
@@ -35,6 +47,15 @@ const useSearchFields = (model: IModel | undefined) => {
       );
     }
   }, [model]);
+
+  // We shouldn't allow selecting the same field more than once.
+  const handleSelectModelFields = (selected: IModelField[]) => {
+    const result = _.uniqBy(
+      selected,
+      (modelField: IModelField) => modelField.field._id
+    );
+    setSelectedModelFields(result);
+  };
 
   const handleSearchFieldsPromise = (
     name: string,
@@ -59,7 +80,7 @@ const useSearchFields = (model: IModel | undefined) => {
     });
 
   const handleSelectField = (field: IField) => {
-    setSelectedModelFields([
+    handleSelectModelFields([
       { field, required: false, uuid: uuid() },
       ...selectedModelFields,
     ]);
@@ -68,14 +89,14 @@ const useSearchFields = (model: IModel | undefined) => {
   const handleDeleteModelField = (index: number) => {
     let newSelectedModelFields = [...selectedModelFields];
     newSelectedModelFields.splice(index, 1);
-    setSelectedModelFields(newSelectedModelFields);
+    handleSelectModelFields(newSelectedModelFields);
   };
 
   return {
     handleSelectField,
     handleDeleteModelField,
     selectedModelFields,
-    setSelectedModelFields,
+    setSelectedModelFields: handleSelectModelFields,
     handleSearchFieldsPromise,
   };
 };

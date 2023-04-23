@@ -15,6 +15,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   singleModelFieldContainer: {
     display: "flex",
+    flexDirection: "column",
     position: "relative",
     border: "1px solid " + theme.primary,
     marginBottom: 10,
@@ -25,22 +26,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     margin: "auto",
     width: "100%",
     boxSizing: "border-box",
-    height: 50,
-  },
-  deleteModelFieldButton: {
-    position: "absolute",
-    top: 5,
-    right: 5,
-    fontSize: 20,
-    cursor: "pointer",
-    zIndex: 3,
-  },
-  fieldName: {
-    color: theme.lightTextColor,
-  },
-  sortModelFieldHandle: {
-    extend: "deleteModelFieldButton",
-    right: 30,
   },
   "@media (max-width: 850px)": {},
 }));

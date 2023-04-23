@@ -1,19 +1,17 @@
 import React from "react";
-import { CSS } from "@dnd-kit/utilities";
-import { arrayMove, SortableContext, useSortable } from "@dnd-kit/sortable";
+import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
-import { BsHandIndexFill } from "react-icons/bs";
 
 import { Theme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
 import SearchInput from "../searchInput";
-import { AiFillDelete } from "react-icons/ai";
 import useSearchFields from "../../hooks/apiHooks/useSearchFields";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
 import useStyles from "./fieldsEditor.styles";
 import { IField } from "../../store/slices/fieldSlice";
 import { IModel, IModelField } from "../../store/slices/modelSlice";
+import SortableModelField from "./sortableModelField";
 
 interface IFieldsEditor {
   setSelectedModelFields: (modelFields: IModelField[]) => any;
@@ -93,6 +91,8 @@ const FieldsEditor = (props: IFieldsEditor) => {
                     modelField={modelField}
                     modelFieldIndex={modelFieldIndex}
                     language={props.language}
+                    selectedModelFields={selectedModelFields}
+                    setSelectedModelFields={setSelectedModelFields}
                   />
                 );
               }
@@ -100,54 +100,6 @@ const FieldsEditor = (props: IFieldsEditor) => {
           </SortableContext>
         </DndContext>
       </div>
-    </div>
-  );
-};
-
-interface ISortableModelField {
-  modelField: IModelField;
-  handleDeleteModelField: (modelFieldIndex: number) => void;
-  modelFieldIndex: number;
-  language?: string;
-}
-
-const SortableModelField: React.FunctionComponent<ISortableModelField> = (
-  props: ISortableModelField
-) => {
-  const theme: Theme = useAppSelector(
-    (state) => state.websiteConfiguration.theme
-  );
-
-  const styles = useStyles({ theme });
-  const { attributes, listeners, setNodeRef, transform } = useSortable({
-    id: props.modelField.uuid,
-  });
-  const getTranslatedText = useGetTranslatedText();
-
-  const sorteStyles = {
-    transform: CSS.Transform.toString(transform),
-  };
-
-  return (
-    <div
-      ref={setNodeRef}
-      style={sorteStyles}
-      className={styles.singleModelFieldContainer}
-    >
-      <BsHandIndexFill
-        color={theme.primary}
-        className={styles.sortModelFieldHandle}
-        {...attributes}
-        {...listeners}
-      />
-      <AiFillDelete
-        color={theme.primary}
-        className={styles.deleteModelFieldButton}
-        onClick={() => props.handleDeleteModelField(props.modelFieldIndex)}
-      />
-      <span className={styles.fieldName}>
-        {getTranslatedText(props.modelField.field.name, props.language)}
-      </span>
     </div>
   );
 };

@@ -18,7 +18,7 @@ import useCreateModel, {
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import InputSelect from "../../inputSelect";
 import getLanguages from "../../../utils/getLanguages";
-import { IModel } from "../../../store/slices/modelSlice";
+import { IModel, IModelField } from "../../../store/slices/modelSlice";
 import useUpdateModel, {
   ModelUpdateCommand,
 } from "../../../hooks/apiHooks/useUpdateModel";
@@ -30,14 +30,9 @@ export interface IModelEditor {
   setOpen?: (boolean) => void;
 }
 
-export interface IModelFieldForm {
-  fieldId: string;
-  required: boolean;
-}
-
 interface IModelForm {
   name: string;
-  modelFields: IModelFieldForm[];
+  modelFields: IModelField[];
   language: string;
 }
 
@@ -76,7 +71,17 @@ const ModelEditor = (props: IModelEditor) => {
         const command: ModelUpdateCommand = {
           _id: props.model._id,
           name: values.name,
-          modelFields: values.modelFields,
+          modelFields:
+            values.modelFields.map((modelField) => ({
+              fieldId: modelField.field._id || "",
+              required: modelField.required,
+              conditions:
+                modelField.conditions?.map((condition) => ({
+                  fieldId: condition.field?._id || "",
+                  conditionType: condition.conditionType,
+                  value: condition.value,
+                })) || [],
+            })) || [],
           language: values.language,
         };
 
@@ -84,7 +89,17 @@ const ModelEditor = (props: IModelEditor) => {
       } else {
         const command: ModelCreateCommand = {
           name: values.name,
-          modelFields: values.modelFields,
+          modelFields:
+            values.modelFields.map((modelField) => ({
+              fieldId: modelField.field._id || "",
+              required: modelField.required,
+              conditions:
+                modelField.conditions?.map((condition) => ({
+                  fieldId: condition.field?._id || "",
+                  conditionType: condition.conditionType,
+                  value: condition.value,
+                })) || [],
+            })) || [],
           language: values.language,
         };
 
@@ -110,13 +125,21 @@ const ModelEditor = (props: IModelEditor) => {
         modelFields:
           props.model?.modelFields.map((modelField) => ({
             ...modelField,
-            fieldId: modelField.field._id,
+            field: { ...modelField.field },
+            conditions:
+              modelField?.conditions?.map((condition) => ({
+                value: condition.value,
+                conditionType: condition.conditionType,
+                field: condition.field,
+              })) || [],
           })) || [],
         language: formik.values.language,
       },
     });
   }, [props.model, formik.values.language]);
   //#endregion Effects
+
+  console.log("wtf", formik.values.modelFields);
 
   //#region Event listeners
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -130,7 +153,7 @@ const ModelEditor = (props: IModelEditor) => {
     } else setModelModalOpen(false);
   };
 
-  const handleModelFieldsChange = (modelFields) => {
+  const handleModelFieldsChange = (modelFields: IModelField[]) => {
     formik.setFieldValue("modelFields", modelFields);
   };
   //#endregion Event listeners
