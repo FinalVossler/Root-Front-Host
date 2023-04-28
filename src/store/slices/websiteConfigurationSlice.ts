@@ -104,7 +104,9 @@ export interface IWebsiteConfiguration {
       label: ITranslatedText[];
       value: ITranslatedText[];
       superiorTo: ITranslatedText[];
+      superiorOrEqualTo: ITranslatedText[];
       inferiorTo: ITranslatedText[];
+      inferiorOrEqualTo: ITranslatedText[];
       equal: ITranslatedText[];
       conditions: ITranslatedText[];
       condition: ITranslatedText[];
@@ -650,6 +652,26 @@ const initialState: IWebsiteConfigurationState = {
         {
           language: "fr",
           text: "Supérieur à",
+        },
+      ],
+      superiorOrEqualTo: [
+        {
+          language: "en",
+          text: "Superior or equal to",
+        },
+        {
+          language: "fr",
+          text: "Supérieur ou égal à",
+        },
+      ],
+      inferiorOrEqualTo: [
+        {
+          language: "en",
+          text: "Inferior or equal to",
+        },
+        {
+          language: "fr",
+          text: "Inférieur ou égal à",
         },
       ],
       equal: [

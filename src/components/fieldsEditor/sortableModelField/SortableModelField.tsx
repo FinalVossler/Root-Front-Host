@@ -1,11 +1,11 @@
 import React from "react";
 import { CSS } from "@dnd-kit/utilities";
 import { BsHandIndexFill } from "react-icons/bs";
+import { AiFillDelete } from "react-icons/ai";
 import { useSortable } from "@dnd-kit/sortable";
 
 import { Theme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
-import { AiFillDelete } from "react-icons/ai";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 
 import {
@@ -158,6 +158,15 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
     {
       label: getTranslatedText(staticText?.superiorTo),
       value: ModelFieldConditionType.SuperiorTo,
+    },
+    {
+      label: getTranslatedText(staticText?.inferiorOrEqualTo),
+      value: ModelFieldConditionType.InferiorOrEqualTo,
+    },
+
+    {
+      label: getTranslatedText(staticText?.superiorOrEqualTo),
+      value: ModelFieldConditionType.SuperiorOrEqualTo,
     },
   ];
   const fieldsOptions: Option[] = props.selectedModelFields

@@ -21,7 +21,10 @@ import useUpdateEntity, {
 import useCreateEntity, {
   EntityCreateCommand,
 } from "../../../hooks/apiHooks/useCreateEntity";
-import { IModel } from "../../../store/slices/modelSlice";
+import {
+  IModel,
+  ModelFieldConditionType,
+} from "../../../store/slices/modelSlice";
 import { FieldType } from "../../../store/slices/fieldSlice";
 import Input from "../../input";
 import Textarea from "../../textarea";
@@ -215,6 +218,56 @@ const EntityEditor = (props: IEntityEditor) => {
         </div>
 
         {model?.modelFields.map((modelField, index) => {
+          // Check if we can show the field first
+          if (modelField.conditions && modelField.conditions?.length > 0) {
+            let conditionsMet: boolean = true;
+
+            modelField.conditions.forEach((condition) => {
+              const efv: IEntityFieldValueForm | undefined =
+                formik.values.entityFieldValues.find(
+                  (entityFieldValue) =>
+                    entityFieldValue.fieldId === condition.field?._id
+                );
+              if (efv) {
+                switch (condition.conditionType) {
+                  case ModelFieldConditionType.Equal:
+                    if (efv.value !== condition.value) {
+                      conditionsMet = false;
+                    }
+                    break;
+                  case ModelFieldConditionType.InferiorTo: {
+                    if (efv.value >= condition.value) {
+                      conditionsMet = false;
+                    }
+                    break;
+                  }
+                  case ModelFieldConditionType.SuperiorTo: {
+                    if (efv.value <= condition.value) {
+                      conditionsMet = false;
+                    }
+                    break;
+                  }
+                  case ModelFieldConditionType.InferiorOrEqualTo: {
+                    if (efv.value > condition.value) {
+                      conditionsMet = false;
+                    }
+                    break;
+                  }
+                  case ModelFieldConditionType.SuperiorOrEqualTo: {
+                    if (efv.value < condition.value) {
+                      conditionsMet = false;
+                    }
+                    break;
+                  }
+                }
+              } else {
+                conditionsMet = false;
+              }
+            });
+
+            if (!conditionsMet) return null;
+          }
+
           const entityFieldValue: IEntityFieldValueForm | undefined =
             formik.values.entityFieldValues.find(
               (el) => el.fieldId === modelField.field._id
