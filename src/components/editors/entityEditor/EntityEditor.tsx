@@ -228,6 +228,10 @@ const EntityEditor = (props: IEntityEditor) => {
                   (entityFieldValue) =>
                     entityFieldValue.fieldId === condition.field?._id
                 );
+
+              if (!efv?.value) {
+                conditionsMet = false;
+              }
               if (efv) {
                 switch (condition.conditionType) {
                   case ModelFieldConditionType.Equal:
@@ -255,6 +259,21 @@ const EntityEditor = (props: IEntityEditor) => {
                   }
                   case ModelFieldConditionType.SuperiorOrEqualTo: {
                     if (efv.value < condition.value) {
+                      conditionsMet = false;
+                    }
+                    break;
+                  }
+                  case ModelFieldConditionType.ValueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear: {
+                    if (condition.field?.type !== FieldType.Number) {
+                      conditionsMet = false;
+                    }
+                    const currentYear: number = new Date().getFullYear();
+
+                    if (
+                      condition.value < currentYear ||
+                      currentYear + parseInt(efv.value) <
+                        parseInt(condition.value.toString())
+                    ) {
                       conditionsMet = false;
                     }
                     break;

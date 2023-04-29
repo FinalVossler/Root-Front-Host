@@ -163,10 +163,16 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
       label: getTranslatedText(staticText?.inferiorOrEqualTo),
       value: ModelFieldConditionType.InferiorOrEqualTo,
     },
-
     {
       label: getTranslatedText(staticText?.superiorOrEqualTo),
       value: ModelFieldConditionType.SuperiorOrEqualTo,
+    },
+    {
+      label: getTranslatedText(
+        staticText?.valueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear
+      ),
+      value:
+        ModelFieldConditionType.ValueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear,
     },
   ];
   const fieldsOptions: Option[] = props.selectedModelFields

@@ -112,6 +112,7 @@ export interface IWebsiteConfiguration {
       condition: ITranslatedText[];
       field: ITranslatedText[];
       conditionType: ITranslatedText[];
+      valueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear: ITranslatedText[];
     };
     models: {
       createModel: ITranslatedText[];
@@ -724,6 +725,17 @@ const initialState: IWebsiteConfigurationState = {
           text: "Opérateur",
         },
       ],
+      valueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear:
+        [
+          {
+            language: "en",
+            text: "Value inferior or equal to (current year + value of field), and superior or equal to current year",
+          },
+          {
+            language: "fr",
+            text: "Valeur inférieure ou égale à (la valeur de l'année actuelle + la valeur du champ), et supérieur ou égal à la valeur de l'année actuelle",
+          },
+        ],
     },
     models: {
       createModel: [
