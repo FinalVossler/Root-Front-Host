@@ -3,6 +3,7 @@ import _ from "lodash";
 
 import ITranslatedText from "../../globalTypes/ITranslatedText";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
+import { IField } from "./fieldSlice";
 import { IModel } from "./modelSlice";
 
 export enum StaticPermission {
@@ -15,6 +16,12 @@ export enum StaticPermission {
 export interface IEntityPermission {
   _id: string;
   model: IModel;
+  permissions: StaticPermission[];
+  fieldPermissions: IFieldPermission[];
+}
+
+export interface IFieldPermission {
+  field: IField;
   permissions: StaticPermission[];
 }
 

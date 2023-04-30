@@ -124,6 +124,23 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.errorColor,
     fontSize: 30,
   },
+  singleFieldPermissionContainer: {
+    display: "flex",
+    border: "1px solid " + theme.lightTextColor,
+    boxSizing: "border-box",
+    flexDirection: "column",
+    padding: 20,
+    marginBottom: 10,
+    borderRadius: 5,
+    position: "relative",
+  },
+  fieldName: {
+    marginBottom: 10,
+    fontSize: 20,
+    color: theme.primary,
+    borderBottom: "1px solid " + theme.primary,
+    paddingBottom: 5,
+  },
   "@media (max-width: 850px)": {
     createRoleModalContainer: {
       width: "70vw",

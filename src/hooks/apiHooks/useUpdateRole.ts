@@ -10,16 +10,22 @@ import {
 } from "../../store/slices/roleSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 
+type EntityPermissionUpdateCommand = {
+  modelId: string;
+  permissions: StaticPermission[];
+  fieldPermissions: {
+    fieldId: string;
+    permissions: StaticPermission[];
+  }[];
+};
+
 export type RoleUpdateCommand = {
   _id: string;
   name: string;
   language: string;
   permissions: Permission[];
 
-  entityPermissions: {
-    modelId: string;
-    permissions: StaticPermission[];
-  }[];
+  entityPermissions: EntityPermissionUpdateCommand[];
 };
 
 const useUpdateRole = () => {

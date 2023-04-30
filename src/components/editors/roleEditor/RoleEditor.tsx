@@ -21,6 +21,7 @@ import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import InputSelect from "../../inputSelect";
 import getLanguages from "../../../utils/getLanguages";
 import {
+  IEntityPermission,
   IRole,
   Permission,
   StaticPermission,
@@ -32,6 +33,7 @@ import SearchInput from "../../searchInput";
 import { IModel } from "../../../store/slices/modelSlice";
 import useSearchModels from "../../../hooks/apiHooks/useSearchModels";
 import Checkbox from "../../checkbox";
+import { IField } from "../../../store/slices/fieldSlice";
 
 export interface IRoleEditor {
   role?: IRole;
@@ -42,6 +44,10 @@ export interface IRoleEditor {
 interface IRoleFormEntityPermission {
   model: IModel;
   permissions: StaticPermission[];
+  fieldPermissions: {
+    field: IField;
+    permissions: StaticPermission[];
+  }[];
 }
 
 interface IRoleForm {
@@ -95,6 +101,12 @@ const RoleEditor = (props: IRoleEditor) => {
             (entityPermission) => ({
               modelId: entityPermission.model._id,
               permissions: entityPermission.permissions,
+              fieldPermissions: entityPermission.fieldPermissions.map(
+                (fPermission) => ({
+                  fieldId: fPermission.field._id,
+                  permissions: fPermission.permissions,
+                })
+              ),
             })
           ),
         };
@@ -109,6 +121,12 @@ const RoleEditor = (props: IRoleEditor) => {
             (entityPermission) => ({
               modelId: entityPermission.model._id,
               permissions: entityPermission.permissions,
+              fieldPermissions: entityPermission.fieldPermissions.map(
+                (fPermission) => ({
+                  fieldId: fPermission.field._id,
+                  permissions: fPermission.permissions,
+                })
+              ),
             })
           ),
         };
@@ -145,10 +163,23 @@ const RoleEditor = (props: IRoleEditor) => {
         language: formik.values.language,
         permissions: props.role?.permissions || formik.values.permissions,
         entityPermissions:
-          props.role?.entityPermissions?.map((p) => {
+          props.role?.entityPermissions?.map((entityPermission) => {
             return {
-              model: p.model,
-              permissions: p.permissions || [],
+              model: entityPermission.model,
+              permissions: entityPermission.permissions || [],
+              // We need to set the initial values of all fields (fields that already have stored permissions in the db + fields with no stored permissions)
+              fieldPermissions: entityPermission.model.modelFields.map(
+                (modelField) => ({
+                  field: modelField.field,
+                  permissions: entityPermission.fieldPermissions.find(
+                    (fieldPermission) =>
+                      fieldPermission.field._id === modelField.field._id
+                  )?.permissions || [
+                    StaticPermission.Read,
+                    StaticPermission.Update,
+                  ],
+                })
+              ),
             };
           }) || formik.values.entityPermissions,
       },
@@ -186,6 +217,10 @@ const RoleEditor = (props: IRoleEditor) => {
           StaticPermission.Update,
           StaticPermission.Delete,
         ],
+        fieldPermissions: model.modelFields.map((modelField) => ({
+          field: modelField.field,
+          permissions: [StaticPermission.Read, StaticPermission.Update],
+        })),
       };
       formik.setFieldValue("entityPermissions", [
         ...currentPermissions,
@@ -194,7 +229,7 @@ const RoleEditor = (props: IRoleEditor) => {
     }
   };
 
-  const handleCheckOrUncheckStaticPermission = ({
+  const handleCheckOrUncheckStaticEntityPermission = ({
     modelId,
     staticPermission,
   }: {
@@ -213,6 +248,7 @@ const RoleEditor = (props: IRoleEditor) => {
                   (p) => p !== staticPermission
                 )
               : [...entityPermission.permissions, staticPermission],
+            fieldPermissions: entityPermission.fieldPermissions,
           };
         } else return entityPermission;
       }
@@ -230,6 +266,63 @@ const RoleEditor = (props: IRoleEditor) => {
         (pot) => pot.model._id !== entityPermission.model._id
       )
     );
+  };
+
+  const handleCheckOrUncheckStaticFieldPermission = ({
+    modelId,
+    fieldId,
+    staticPermission,
+  }: {
+    modelId: string;
+    fieldId: string;
+    staticPermission: StaticPermission;
+  }) => {
+    const newEntityPermissions = formik.values.entityPermissions.map(
+      (entityPermission: IRoleFormEntityPermission) => {
+        if (entityPermission.model._id === modelId) {
+          const containStaticPermission: boolean =
+            entityPermission.fieldPermissions
+              .find((fieldPermission) => fieldPermission.field._id === fieldId)
+              ?.permissions.indexOf(staticPermission) !== -1;
+
+          // Force the permissions to both read and update when we select update
+          // Force the permissions to non when we deselect the read
+          let newPermissions: StaticPermission[] | undefined = undefined;
+          if (
+            containStaticPermission &&
+            staticPermission === StaticPermission.Read
+          ) {
+            newPermissions = [];
+          } else if (
+            !containStaticPermission &&
+            staticPermission === StaticPermission.Update
+          ) {
+            newPermissions = [StaticPermission.Read, StaticPermission.Update];
+          }
+          return {
+            model: entityPermission.model,
+            permissions: entityPermission.permissions,
+            fieldPermissions: entityPermission.fieldPermissions.map(
+              (fieldPermission) => ({
+                field: fieldPermission.field,
+                permissions:
+                  fieldPermission.field._id === fieldId
+                    ? newPermissions !== undefined
+                      ? newPermissions
+                      : containStaticPermission
+                      ? fieldPermission.permissions.filter(
+                          (p) => p !== staticPermission
+                        )
+                      : [...fieldPermission.permissions, staticPermission]
+                    : fieldPermission.permissions,
+              })
+            ),
+          };
+        } else return entityPermission;
+      }
+    );
+
+    formik.setFieldValue("entityPermissions", newEntityPermissions);
   };
   //#endregion Event listeners
 
@@ -322,7 +415,7 @@ const RoleEditor = (props: IRoleEditor) => {
                     }
                     labelStyles={{ width: 100 }}
                     onChange={() =>
-                      handleCheckOrUncheckStaticPermission({
+                      handleCheckOrUncheckStaticEntityPermission({
                         modelId: entityPermission.model._id,
                         staticPermission: StaticPermission.Create,
                       })
@@ -337,7 +430,7 @@ const RoleEditor = (props: IRoleEditor) => {
                     }
                     labelStyles={{ width: 100 }}
                     onChange={() =>
-                      handleCheckOrUncheckStaticPermission({
+                      handleCheckOrUncheckStaticEntityPermission({
                         modelId: entityPermission.model._id,
                         staticPermission: StaticPermission.Read,
                       })
@@ -352,7 +445,7 @@ const RoleEditor = (props: IRoleEditor) => {
                     }
                     labelStyles={{ width: 100 }}
                     onChange={() =>
-                      handleCheckOrUncheckStaticPermission({
+                      handleCheckOrUncheckStaticEntityPermission({
                         modelId: entityPermission.model._id,
                         staticPermission: StaticPermission.Update,
                       })
@@ -367,12 +460,76 @@ const RoleEditor = (props: IRoleEditor) => {
                     }
                     labelStyles={{ width: 100 }}
                     onChange={() =>
-                      handleCheckOrUncheckStaticPermission({
+                      handleCheckOrUncheckStaticEntityPermission({
                         modelId: entityPermission.model._id,
                         staticPermission: StaticPermission.Delete,
                       })
                     }
                   />
+
+                  <span>Field permissions</span>
+
+                  {entityPermission.model.modelFields.map(
+                    (modelField, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className={styles.singleFieldPermissionContainer}
+                        >
+                          <span className={styles.fieldName}>
+                            {getTranslatedText(modelField.field.name)}
+                          </span>
+
+                          <Checkbox
+                            label={getTranslatedText(staticText?.read)}
+                            checked={
+                              entityPermission.fieldPermissions
+                                .find(
+                                  (fieldPermission) =>
+                                    fieldPermission.field._id ===
+                                    modelField.field._id
+                                )
+                                ?.permissions.find(
+                                  (permission) =>
+                                    permission === StaticPermission.Read
+                                ) || false
+                            }
+                            labelStyles={{ width: 100 }}
+                            onChange={() =>
+                              handleCheckOrUncheckStaticFieldPermission({
+                                modelId: entityPermission.model._id,
+                                fieldId: modelField.field._id,
+                                staticPermission: StaticPermission.Read,
+                              })
+                            }
+                          />
+                          <Checkbox
+                            label={getTranslatedText(staticText?.update)}
+                            checked={
+                              entityPermission.fieldPermissions
+                                .find(
+                                  (fieldPermission) =>
+                                    fieldPermission.field._id ===
+                                    modelField.field._id
+                                )
+                                ?.permissions.find(
+                                  (permission) =>
+                                    permission === StaticPermission.Update
+                                ) || false
+                            }
+                            labelStyles={{ width: 100 }}
+                            onChange={() =>
+                              handleCheckOrUncheckStaticFieldPermission({
+                                modelId: entityPermission.model._id,
+                                fieldId: modelField.field._id,
+                                staticPermission: StaticPermission.Update,
+                              })
+                            }
+                          />
+                        </div>
+                      );
+                    }
+                  )}
                 </div>
               );
             }

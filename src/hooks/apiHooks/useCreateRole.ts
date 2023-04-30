@@ -13,6 +13,10 @@ import useAuthorizedAxios from "../useAuthorizedAxios";
 type EntityPermissionCreateCommand = {
   modelId: string;
   permissions: StaticPermission[];
+  fieldPermissions: {
+    fieldId: string;
+    permissions: StaticPermission[];
+  }[];
 };
 
 export type RoleCreateCommand = {
