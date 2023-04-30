@@ -10,8 +10,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginBottom: 10,
   },
   fileInputLabel: {
-    color: theme.lightTextColor,
+    color: theme.primary,
     cursor: "pointer",
+    fontSize: 30,
   },
   icon: {
     cursor: "pointer",
@@ -90,7 +91,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   isShowingIcon: {
     color: theme.primary,
-    fontSize: 30,
+    fontSize: 40,
     top: 10,
     position: "relative",
   },

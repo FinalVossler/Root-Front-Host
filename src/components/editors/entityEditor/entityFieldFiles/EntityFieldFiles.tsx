@@ -28,6 +28,7 @@ export interface IEntityFieldFiles {
   formik: FormikProps<IEntityEditorForm>;
   modelField: IModelField;
   entityFieldValue?: IEntityFieldValueForm;
+  disabled?: boolean;
 }
 
 // Hint: Own files are files already uploaded.
@@ -190,6 +191,7 @@ const EntityFieldFiles = (props: IEntityFieldFiles) => {
           hidden
           type="file"
           multiple
+          disabled={props.disabled}
         />
       </div>
 
@@ -237,6 +239,7 @@ const EntityFieldFiles = (props: IEntityFieldFiles) => {
           }
           setSelectedExistingFiles={handleSelectedExistingFilesChange}
           typeOfFiles={TypeOfFiles.UnownedFiles}
+          disabled={props.disabled}
         />
       )}
     </div>

@@ -17,6 +17,7 @@ export type PostUpdateCommand = {
   design: IPost["design"];
   children: string[];
   language: string;
+  code?: string;
 };
 
 const useUpdatePost = () => {

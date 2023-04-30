@@ -28,6 +28,7 @@ export enum PostDesign {
   Person = "Person",
   Card2 = "Card2",
   Video = "Video",
+  ModelForm = "ModelForm",
 }
 
 export interface IPost {
@@ -40,6 +41,7 @@ export interface IPost {
   visibility: PostVisibility;
   design: PostDesign;
   children: IPost[];
+  code?: string;
 
   // used for frontend sorting only
   uuid: string;

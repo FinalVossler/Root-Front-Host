@@ -18,6 +18,7 @@ export type PostCreateCommand = {
   design: IPost["design"];
   children: string[];
   language: string;
+  code?: string;
 };
 
 const useCreatePost = () => {

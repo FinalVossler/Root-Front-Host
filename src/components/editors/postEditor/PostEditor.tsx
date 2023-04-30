@@ -34,6 +34,7 @@ import useUpdatePost, {
 } from "../../../hooks/apiHooks/useUpdatePost";
 import FilesInput from "../../filesInput";
 import { TypeOfFiles } from "../../existingFiles/ExistingFiles";
+import { BiCode } from "react-icons/bi";
 
 interface IPostEditor {
   post?: IPost;
@@ -57,6 +58,7 @@ const PostEditor = (props: IPostEditor) => {
   const [postModalOpen, setPostModalOpen] = React.useState<boolean>(false);
   const [title, setTitle] = React.useState<string>("");
   const [subTitle, setSubtTitle] = React.useState<string>("");
+  const [code, setCode] = React.useState<string>("");
   const [language, setLanguage] = React.useState<string>(stateLanguage);
   const [children, setChildren] = React.useState<string[]>([]);
   const [visibility, setVisibility] = React.useState<PostVisibility>(
@@ -133,6 +135,7 @@ const PostEditor = (props: IPostEditor) => {
         design,
         children,
         language,
+        code,
       };
       await updatePost(command, files, selectedExistingFiles);
     } else {
@@ -146,6 +149,7 @@ const PostEditor = (props: IPostEditor) => {
         design,
         children,
         language,
+        code,
       };
       await createPost(command, files, selectedExistingFiles);
     }
@@ -154,6 +158,7 @@ const PostEditor = (props: IPostEditor) => {
     if (!props.post) {
       setTitle("");
       setSubtTitle("");
+      setCode("");
       setDesign(PostDesign.Default);
       setVisibility(PostVisibility.Public);
       setSelectedExistingFiles([]);
@@ -170,6 +175,10 @@ const PostEditor = (props: IPostEditor) => {
 
   const handleSubTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSubtTitle(e.target.value);
+  };
+
+  const handleCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCode(e.target.value);
   };
 
   const handleVisibilityChange = (option: Option) => {
@@ -238,6 +247,15 @@ const PostEditor = (props: IPostEditor) => {
             inputProps={{
               onChange: handleSubTitleChange,
               placeholder: getTranslatedText(staticText?.subTitle),
+            }}
+          />
+
+          <Input
+            Icon={BiCode}
+            value={code}
+            inputProps={{
+              onChange: handleCodeChange,
+              placeholder: getTranslatedText(staticText?.code),
             }}
           />
 

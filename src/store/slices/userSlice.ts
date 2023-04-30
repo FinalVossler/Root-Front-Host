@@ -153,6 +153,12 @@ export const userSlice = createSlice({
         }
       });
     },
+    updateUserRoleAfterRoleUpdate: (
+      state: IUserState,
+      action: PayloadAction<IRole>
+    ) => {
+      state.user.role = action.payload;
+    },
     deleteUsers: (state: IUserState, action: PayloadAction<string[]>) => {
       const usersIds: string[] = action.payload;
       state.users = state.users.filter((f) => usersIds.indexOf(f._id) === -1);

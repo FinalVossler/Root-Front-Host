@@ -27,6 +27,7 @@ interface IExistingFiles {
   selectedExistingFiles: IFile[];
   setSelectedExistingFiles: (existingFiles: IFile[]) => void;
   typeOfFiles: TypeOfFiles;
+  disabled?: boolean;
 }
 
 const ExistingFiles = (props: IExistingFiles) => {
@@ -109,6 +110,8 @@ const ExistingFiles = (props: IExistingFiles) => {
 
   //#region Event listeners
   const handleTriggerSelectFile = (file: IFile) => {
+    if (props.disabled) return;
+
     let newExistingFiles = [...props.selectedExistingFiles];
     if (!newExistingFiles.find((el) => el._id === file._id)) {
       newExistingFiles.push(file);

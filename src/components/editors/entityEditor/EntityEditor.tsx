@@ -33,12 +33,8 @@ import IFile from "../../../globalTypes/IFile";
 import EntityFieldFiles from "./entityFieldFiles";
 import uploadFiles from "../../../utils/uploadFiles";
 import { Option } from "../../inputSelect/InputSelect";
-
-export interface IEntityEditor {
-  entity?: IEntity;
-  open?: boolean;
-  setOpen?: (boolean) => void;
-}
+import { IUser } from "../../../store/slices/userSlice";
+import { StaticPermission } from "../../../store/slices/roleSlice";
 
 export interface IEntityFieldValueForm {
   fieldId: string;
@@ -56,8 +52,16 @@ export interface IEntityEditorForm {
   language: string;
 }
 
+export interface IEntityEditor {
+  entity?: IEntity;
+  open?: boolean;
+  setOpen?: (boolean) => void;
+  modelId?: string;
+}
+
 const EntityEditor = (props: IEntityEditor) => {
   const { modelId } = useParams();
+  const actualModelId = props.modelId ?? modelId;
 
   const language: string = useAppSelector(
     (state) => state.userPreferences.language
@@ -69,8 +73,9 @@ const EntityEditor = (props: IEntityEditor) => {
     (state) => state.websiteConfiguration?.staticText?.entities
   );
   const model: IModel | undefined = useAppSelector((state) =>
-    state.model.models.find((m) => m._id === modelId)
+    state.model.models.find((m) => m._id === actualModelId)
   );
+  const user: IUser = useAppSelector((state) => state.user.user);
 
   //#region Local state
   const [modelModalOpen, setModelModalOpen] = React.useState<boolean>(false);
@@ -84,7 +89,7 @@ const EntityEditor = (props: IEntityEditor) => {
   const { updateEntity, loading: updateLoading } = useUpdateEntity();
   const formik: FormikProps<IEntityEditorForm> = useFormik<IEntityEditorForm>({
     initialValues: {
-      modelId: modelId || props.entity?.model._id || "",
+      modelId: actualModelId || props.entity?.model._id || "",
       entityFieldValues: [],
       language,
     },
@@ -152,7 +157,7 @@ const EntityEditor = (props: IEntityEditor) => {
 
   //#region Effects
   React.useEffect(() => {
-    if (props.open !== undefined) {
+    if (props.open !== undefined && modelModalOpen !== props.open) {
       setModelModalOpen(props.open);
     }
   }, [props.open]);
@@ -178,7 +183,7 @@ const EntityEditor = (props: IEntityEditor) => {
             };
             return entityFieldValueForm;
           }) || [],
-        modelId: modelId || props.entity?.model._id || "",
+        modelId: actualModelId || props.entity?.model._id || "",
         language: formik.values.language,
       },
     });
@@ -218,7 +223,33 @@ const EntityEditor = (props: IEntityEditor) => {
         </div>
 
         {model?.modelFields.map((modelField, index) => {
-          // Check if we can show the field first
+          // Check if we c an show the field based on role field permissions first:
+          const foundFieldPermissions = user.role?.entityPermissions
+            .find(
+              (entityPermission) => entityPermission.model._id === actualModelId
+            )
+            ?.fieldPermissions.find(
+              (fieldPermission) =>
+                fieldPermission.field._id === modelField.field._id
+            );
+
+          // By default, if we don't find the field permission in the db for the role, then all the permissions should apply
+          if (
+            foundFieldPermissions &&
+            foundFieldPermissions.permissions.indexOf(StaticPermission.Read) ===
+              -1
+          ) {
+            return null;
+          }
+
+          // By default, if we don't find the field permission in the db for the role, then all the permissions should apply
+          const canEdit =
+            foundFieldPermissions === undefined ||
+            foundFieldPermissions?.permissions.indexOf(
+              StaticPermission.Update
+            ) !== -1;
+
+          // Check if we can show the field based on conditions second
           if (modelField.conditions && modelField.conditions?.length > 0) {
             let conditionsMet: boolean = true;
 
@@ -326,6 +357,7 @@ const EntityEditor = (props: IEntityEditor) => {
                 label={getTranslatedText(modelField.field.name)}
                 onChange={handleOnChange}
                 inputProps={{
+                  disabled: !canEdit,
                   placeholder: getTranslatedText(modelField.field.name),
                   type:
                     modelField.field.type === FieldType.Number
@@ -346,6 +378,7 @@ const EntityEditor = (props: IEntityEditor) => {
                 label={getTranslatedText(modelField.field.name)}
                 onChange={handleOnChange}
                 textareaProps={{
+                  disabled: !canEdit,
                   placeholder: getTranslatedText(modelField.field.name),
                 }}
               />
@@ -385,6 +418,7 @@ const EntityEditor = (props: IEntityEditor) => {
                     value: "",
                   }
                 }
+                disabled={!canEdit}
                 onChange={(option: Option) => {
                   formik.setFieldValue(
                     "entityFieldValues",

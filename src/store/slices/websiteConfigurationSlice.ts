@@ -151,6 +151,8 @@ export interface IWebsiteConfiguration {
       design: ITranslatedText[];
       submit: ITranslatedText[];
       files: ITranslatedText[];
+      code: ITranslatedText[];
+      codePlaceholder: ITranslatedText[];
     };
     entities: {
       createEntity: ITranslatedText[];
@@ -880,6 +882,14 @@ const initialState: IWebsiteConfigurationState = {
       files: [
         { language: "en", text: "Files" },
         { language: "fr", text: "Fichiers" },
+      ],
+      code: [
+        { language: "en", text: "Code" },
+        { language: "fr", text: "Code" },
+      ],
+      codePlaceholder: [
+        { language: "en", text: "Model Id, etc..." },
+        { language: "fr", text: "Id du modèle, etc..." },
       ],
     },
     entities: {

@@ -23,6 +23,7 @@ import ContactForm from "../contactForm";
 import Person from "../postsComponents/Person";
 import Card2 from "../postsComponents/card2";
 import Video from "../postsComponents/video";
+import PostAsEntityEditor from "../postsComponents/postAsEntityEditor";
 
 interface IUserPosts {
   post: IPost;
@@ -49,6 +50,10 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
     () => extractContentFromHtml(getTranslatedText(post.content)),
     [post.content]
   );
+
+  if (post.design === PostDesign.ModelForm) {
+    return <PostAsEntityEditor post={post} />;
+  }
 
   if (post.design === PostDesign.Card) {
     return (
