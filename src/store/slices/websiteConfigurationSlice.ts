@@ -255,6 +255,8 @@ export interface IWebsiteConfiguration {
 
       readRole: ITranslatedText[];
       deleteRole: ITranslatedText[];
+
+      fieldPermissions: ITranslatedText[];
     };
     chat: {
       title: ITranslatedText[];
@@ -1239,6 +1241,16 @@ const initialState: IWebsiteConfigurationState = {
       delete: [
         { language: "en", text: "Delete" },
         { language: "fr", text: "Supprimer" },
+      ],
+      fieldPermissions: [
+        {
+          language: "en",
+          text: "Field permissions",
+        },
+        {
+          language: "fr",
+          text: "Permissions des champs",
+        },
       ],
     },
     chat: {

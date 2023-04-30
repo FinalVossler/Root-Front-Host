@@ -1,6 +1,11 @@
 import React from "react";
 import "suneditor/dist/css/suneditor.min.css";
-import { MdDelete, MdTitle } from "react-icons/md";
+import {
+  MdArrowDownward,
+  MdArrowUpward,
+  MdDelete,
+  MdTitle,
+} from "react-icons/md";
 import { ImCross } from "react-icons/im";
 import { FormikProps, useFormik } from "formik";
 import ReactLoading from "react-loading";
@@ -21,7 +26,6 @@ import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import InputSelect from "../../inputSelect";
 import getLanguages from "../../../utils/getLanguages";
 import {
-  IEntityPermission,
   IRole,
   Permission,
   StaticPermission,
@@ -70,6 +74,8 @@ const RoleEditor = (props: IRoleEditor) => {
 
   //#region Local state
   const [roleModalOpen, setRoleModalOpen] = React.useState<boolean>(false);
+  const [showFieldPermissions, setShowFieldPermissions] =
+    React.useState<boolean>(false);
   //#endregion Local state
 
   const styles = useStyles({ theme });
@@ -467,69 +473,87 @@ const RoleEditor = (props: IRoleEditor) => {
                     }
                   />
 
-                  <span>Field permissions</span>
-
-                  {entityPermission.model.modelFields.map(
-                    (modelField, index) => {
-                      return (
-                        <div
-                          key={index}
-                          className={styles.singleFieldPermissionContainer}
-                        >
-                          <span className={styles.fieldName}>
-                            {getTranslatedText(modelField.field.name)}
-                          </span>
-
-                          <Checkbox
-                            label={getTranslatedText(staticText?.read)}
-                            checked={
-                              entityPermission.fieldPermissions
-                                .find(
-                                  (fieldPermission) =>
-                                    fieldPermission.field._id ===
-                                    modelField.field._id
-                                )
-                                ?.permissions.find(
-                                  (permission) =>
-                                    permission === StaticPermission.Read
-                                ) || false
-                            }
-                            labelStyles={{ width: 100 }}
-                            onChange={() =>
-                              handleCheckOrUncheckStaticFieldPermission({
-                                modelId: entityPermission.model._id,
-                                fieldId: modelField.field._id,
-                                staticPermission: StaticPermission.Read,
-                              })
-                            }
-                          />
-                          <Checkbox
-                            label={getTranslatedText(staticText?.update)}
-                            checked={
-                              entityPermission.fieldPermissions
-                                .find(
-                                  (fieldPermission) =>
-                                    fieldPermission.field._id ===
-                                    modelField.field._id
-                                )
-                                ?.permissions.find(
-                                  (permission) =>
-                                    permission === StaticPermission.Update
-                                ) || false
-                            }
-                            labelStyles={{ width: 100 }}
-                            onChange={() =>
-                              handleCheckOrUncheckStaticFieldPermission({
-                                modelId: entityPermission.model._id,
-                                fieldId: modelField.field._id,
-                                staticPermission: StaticPermission.Update,
-                              })
-                            }
-                          />
-                        </div>
-                      );
+                  <span
+                    onClick={() =>
+                      setShowFieldPermissions(!showFieldPermissions)
                     }
-                  )}
+                    className={styles.fieldPermissionsTitle}
+                  >
+                    {getTranslatedText(staticText?.fieldPermissions)}
+                    {!showFieldPermissions && (
+                      <MdArrowDownward
+                        className={styles.fieldPermissionsArrowIcon}
+                      />
+                    )}
+                    {showFieldPermissions && (
+                      <MdArrowUpward
+                        className={styles.fieldPermissionsArrowIcon}
+                      />
+                    )}
+                  </span>
+
+                  {showFieldPermissions &&
+                    entityPermission.model.modelFields.map(
+                      (modelField, index) => {
+                        return (
+                          <div
+                            key={index}
+                            className={styles.singleFieldPermissionContainer}
+                          >
+                            <span className={styles.fieldName}>
+                              {getTranslatedText(modelField.field.name)}
+                            </span>
+
+                            <Checkbox
+                              label={getTranslatedText(staticText?.read)}
+                              checked={
+                                entityPermission.fieldPermissions
+                                  .find(
+                                    (fieldPermission) =>
+                                      fieldPermission.field._id ===
+                                      modelField.field._id
+                                  )
+                                  ?.permissions.find(
+                                    (permission) =>
+                                      permission === StaticPermission.Read
+                                  ) || false
+                              }
+                              labelStyles={{ width: 100 }}
+                              onChange={() =>
+                                handleCheckOrUncheckStaticFieldPermission({
+                                  modelId: entityPermission.model._id,
+                                  fieldId: modelField.field._id,
+                                  staticPermission: StaticPermission.Read,
+                                })
+                              }
+                            />
+                            <Checkbox
+                              label={getTranslatedText(staticText?.update)}
+                              checked={
+                                entityPermission.fieldPermissions
+                                  .find(
+                                    (fieldPermission) =>
+                                      fieldPermission.field._id ===
+                                      modelField.field._id
+                                  )
+                                  ?.permissions.find(
+                                    (permission) =>
+                                      permission === StaticPermission.Update
+                                  ) || false
+                              }
+                              labelStyles={{ width: 100 }}
+                              onChange={() =>
+                                handleCheckOrUncheckStaticFieldPermission({
+                                  modelId: entityPermission.model._id,
+                                  fieldId: modelField.field._id,
+                                  staticPermission: StaticPermission.Update,
+                                })
+                              }
+                            />
+                          </div>
+                        );
+                      }
+                    )}
                 </div>
               );
             }
