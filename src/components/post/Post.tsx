@@ -5,7 +5,6 @@ import { Theme } from "../../config/theme";
 import { IPost, PostDesign } from "../../store/slices/postSlice";
 import extractContentFromHtml from "../../utils/extractContentFromHtml";
 
-import useStyles from "./post.styles";
 import ChildrenContainer from "../childrenContainer";
 import Spacing from "../spacing";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
@@ -24,6 +23,8 @@ import Person from "../postsComponents/Person";
 import Card2 from "../postsComponents/card2";
 import Video from "../postsComponents/video";
 import PostAsEntityEditor from "../postsComponents/postAsEntityEditor";
+
+import useStyles from "./post.styles";
 
 interface IUserPosts {
   post: IPost;

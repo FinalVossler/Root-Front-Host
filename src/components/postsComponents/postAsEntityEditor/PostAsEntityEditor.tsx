@@ -37,7 +37,10 @@ const PostAsEntityEditor: React.FunctionComponent<IPostAsEntityEditor> = (
   return (
     <div className={styles.postAsEntityEditorContainer}>
       <Button onClick={handleOpenEditor}>
-        {getTranslatedText(model.name)} <BiPlus className={styles.addIcon} />
+        {props.post.title
+          ? getTranslatedText(props.post.title)
+          : getTranslatedText(model.name)}{" "}
+        <BiPlus className={styles.addIcon} />
       </Button>
 
       <EntityEditor
