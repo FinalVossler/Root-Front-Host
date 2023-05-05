@@ -259,6 +259,14 @@ export interface IWebsiteConfiguration {
       deleteRole: ITranslatedText[];
 
       fieldPermissions: ITranslatedText[];
+      eventNotifications: ITranslatedText[];
+
+      onCreate: ITranslatedText[];
+
+      addEvent: ITranslatedText[];
+      eventTitle: ITranslatedText[];
+      eventDescription: ITranslatedText[];
+      eventType: ITranslatedText[];
     };
     chat: {
       title: ITranslatedText[];
@@ -1260,6 +1268,66 @@ const initialState: IWebsiteConfigurationState = {
         {
           language: "fr",
           text: "Permissions des champs",
+        },
+      ],
+      eventNotifications: [
+        {
+          language: "en",
+          text: "Event notifications",
+        },
+        {
+          language: "fr",
+          text: "Notifications sur les évènements",
+        },
+      ],
+      onCreate: [
+        {
+          language: "en",
+          text: "On create",
+        },
+        {
+          language: "fr",
+          text: "Suite à la création",
+        },
+      ],
+      addEvent: [
+        {
+          language: "en",
+          text: "Add Event",
+        },
+        {
+          language: "fr",
+          text: "Ajouter un évènement",
+        },
+      ],
+      eventTitle: [
+        {
+          language: "en",
+          text: "Event title",
+        },
+        {
+          language: "fr",
+          text: "Titre de l'évènement",
+        },
+      ],
+      eventDescription: [
+        {
+          language: "en",
+          text: "Event description",
+        },
+        {
+          language: "fr",
+          text: "Description de l'évènement",
+        },
+      ],
+      eventType: [
+        {
+          language: "en",
+          text: "Event type",
+        },
+        {
+          language: "fr",
+          text: "Type de l'évènement",
         },
       ],
     },

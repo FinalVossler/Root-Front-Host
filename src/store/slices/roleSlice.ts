@@ -13,16 +13,27 @@ export enum StaticPermission {
   Delete = "Delete",
 }
 
+export enum EventNotificationTrigger {
+  OnCreate = "OnCreate",
+}
+
 export interface IEntityPermission {
   _id: string;
   model: IModel;
   permissions: StaticPermission[];
   fieldPermissions: IFieldPermission[];
+  eventNotifications: IEventNotification[];
 }
 
 export interface IFieldPermission {
   field: IField;
   permissions: StaticPermission[];
+}
+
+export interface IEventNotification {
+  title: ITranslatedText[];
+  text: ITranslatedText[];
+  trigger: EventNotificationTrigger;
 }
 
 export enum Permission {

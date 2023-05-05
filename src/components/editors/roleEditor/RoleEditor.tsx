@@ -27,8 +27,10 @@ import InputSelect from "../../inputSelect";
 import getLanguages from "../../../utils/getLanguages";
 import {
   IRole,
+  EventNotificationTrigger,
   Permission,
   StaticPermission,
+  IEventNotification,
 } from "../../../store/slices/roleSlice";
 import useStyles from "./roleEditor.styles";
 import { Option } from "../../inputSelect/InputSelect";
@@ -38,11 +40,18 @@ import { IModel } from "../../../store/slices/modelSlice";
 import useSearchModels from "../../../hooks/apiHooks/useSearchModels";
 import Checkbox from "../../checkbox";
 import { IField } from "../../../store/slices/fieldSlice";
+import RoleEntityEventsNotification from "./roleEntityEventsNotification/RoleEntityEventsNotification";
 
 export interface IRoleEditor {
   role?: IRole;
   open?: boolean;
   setOpen?: (boolean) => void;
+}
+
+export interface IEventNotificationForm {
+  title: string;
+  text: string;
+  trigger: EventNotificationTrigger;
 }
 
 interface IRoleFormEntityPermission {
@@ -52,9 +61,10 @@ interface IRoleFormEntityPermission {
     field: IField;
     permissions: StaticPermission[];
   }[];
+  eventNotifications: IEventNotificationForm[];
 }
 
-interface IRoleForm {
+export interface IRoleForm {
   name: string;
   language: string;
   permissions: Permission[];
@@ -76,6 +86,9 @@ const RoleEditor = (props: IRoleEditor) => {
   const [roleModalOpen, setRoleModalOpen] = React.useState<boolean>(false);
   const [showFieldPermissions, setShowFieldPermissions] =
     React.useState<boolean>(false);
+  const [showEventNotifications, setShowEventNotifications] =
+    React.useState<boolean>(false);
+
   //#endregion Local state
 
   const styles = useStyles({ theme });
@@ -113,6 +126,14 @@ const RoleEditor = (props: IRoleEditor) => {
                   permissions: fPermission.permissions,
                 })
               ),
+              eventNotifications: entityPermission.eventNotifications.map(
+                (eventNotification) => ({
+                  title: eventNotification.title,
+                  text: eventNotification.text,
+                  trigger: eventNotification.trigger,
+                })
+              ),
+              language: values.language,
             })
           ),
         };
@@ -133,6 +154,14 @@ const RoleEditor = (props: IRoleEditor) => {
                   permissions: fPermission.permissions,
                 })
               ),
+              eventNotifications: entityPermission.eventNotifications.map(
+                (eventNotification) => ({
+                  title: eventNotification.title,
+                  text: eventNotification.text,
+                  trigger: eventNotification.trigger,
+                })
+              ),
+              language: values.language,
             })
           ),
         };
@@ -186,6 +215,19 @@ const RoleEditor = (props: IRoleEditor) => {
                   ],
                 })
               ),
+              eventNotifications: entityPermission.eventNotifications.map(
+                (eventNotification) => ({
+                  title: getTranslatedText(
+                    eventNotification.title,
+                    formik.values.language
+                  ),
+                  text: getTranslatedText(
+                    eventNotification.text,
+                    formik.values.language
+                  ),
+                  trigger: eventNotification.trigger,
+                })
+              ),
             };
           }) || formik.values.entityPermissions,
       },
@@ -227,6 +269,7 @@ const RoleEditor = (props: IRoleEditor) => {
           field: modelField.field,
           permissions: [StaticPermission.Read, StaticPermission.Update],
         })),
+        eventNotifications: [],
       };
       formik.setFieldValue("entityPermissions", [
         ...currentPermissions,
@@ -330,6 +373,24 @@ const RoleEditor = (props: IRoleEditor) => {
 
     formik.setFieldValue("entityPermissions", newEntityPermissions);
   };
+
+  const handleApplyEventNotifications =
+    (modelId: string) => (eventNotifications: IEventNotificationForm[]) => {
+      const newEntityPermissions = formik.values.entityPermissions.map(
+        (entityPermission: IRoleFormEntityPermission) => {
+          if (entityPermission.model._id === modelId) {
+            return {
+              model: entityPermission.model,
+              permissions: entityPermission.permissions,
+              fieldPermissions: entityPermission.fieldPermissions,
+              eventNotifications: eventNotifications,
+            };
+          } else return entityPermission;
+        }
+      );
+
+      formik.setFieldValue("entityPermissions", newEntityPermissions);
+    };
   //#endregion Event listeners
 
   const loading = props.role ? updateLoading : createLoading;
@@ -481,14 +542,10 @@ const RoleEditor = (props: IRoleEditor) => {
                   >
                     {getTranslatedText(staticText?.fieldPermissions)}
                     {!showFieldPermissions && (
-                      <MdArrowDownward
-                        className={styles.fieldPermissionsArrowIcon}
-                      />
+                      <MdArrowDownward className={styles.arrowIcon} />
                     )}
                     {showFieldPermissions && (
-                      <MdArrowUpward
-                        className={styles.fieldPermissionsArrowIcon}
-                      />
+                      <MdArrowUpward className={styles.arrowIcon} />
                     )}
                   </span>
 
@@ -554,6 +611,31 @@ const RoleEditor = (props: IRoleEditor) => {
                         );
                       }
                     )}
+
+                  <span
+                    onClick={() =>
+                      setShowEventNotifications(!showEventNotifications)
+                    }
+                    className={styles.eventNotificationsTitle}
+                  >
+                    {getTranslatedText(staticText?.eventNotifications)}
+                    {!showEventNotifications && (
+                      <MdArrowDownward className={styles.arrowIcon} />
+                    )}
+                    {showEventNotifications && (
+                      <MdArrowUpward className={styles.arrowIcon} />
+                    )}
+                  </span>
+
+                  {showEventNotifications && (
+                    <RoleEntityEventsNotification
+                      key={index}
+                      eventNotifications={entityPermission.eventNotifications}
+                      handleApplyEventNotifications={handleApplyEventNotifications(
+                        entityPermission.model._id
+                      )}
+                    />
+                  )}
                 </div>
               );
             }

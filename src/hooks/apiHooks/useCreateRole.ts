@@ -7,6 +7,7 @@ import {
   IRole,
   Permission,
   StaticPermission,
+  EventNotificationTrigger,
 } from "../../store/slices/roleSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 
@@ -17,6 +18,12 @@ type EntityPermissionCreateCommand = {
     fieldId: string;
     permissions: StaticPermission[];
   }[];
+  eventNotifications: {
+    title: string;
+    text: string;
+    trigger: EventNotificationTrigger;
+  }[];
+  language: string;
 };
 
 export type RoleCreateCommand = {
