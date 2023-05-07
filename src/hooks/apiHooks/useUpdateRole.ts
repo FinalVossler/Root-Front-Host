@@ -7,17 +7,28 @@ import {
   IRole,
   Permission,
   StaticPermission,
+  EntityEventNotificationTrigger,
 } from "../../store/slices/roleSlice";
 import { IUser, userSlice } from "../../store/slices/userSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 
+type EntityEventNotificationUpdateCommand = {
+  _id?: string;
+  title: string;
+  text: string;
+  trigger: EntityEventNotificationTrigger;
+  language: string;
+};
+
 type EntityPermissionUpdateCommand = {
+  _id?: string;
   modelId: string;
   permissions: StaticPermission[];
-  fieldPermissions: {
+  entityFieldPermissions: {
     fieldId: string;
     permissions: StaticPermission[];
   }[];
+  entityEventNotifications: EntityEventNotificationUpdateCommand[];
 };
 
 export type RoleUpdateCommand = {

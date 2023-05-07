@@ -141,7 +141,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderBottom: "1px solid " + theme.primary,
     paddingBottom: 5,
   },
-  fieldPermissionsTitle: {
+  entityFieldPermissionsTitle: {
     color: theme.primary,
     cursor: "pointer",
     marginBottom: 20,
@@ -152,7 +152,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     top: 7,
     marginLeft: 10,
   },
-  eventNotificationsTitle: {
+  entityEventNotificationsTitle: {
     color: theme.primary,
     cursor: "pointer",
     marginBottom: 20,

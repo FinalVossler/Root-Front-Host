@@ -6,23 +6,15 @@ import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { IField } from "./fieldSlice";
 import { IModel } from "./modelSlice";
 
-export enum StaticPermission {
-  Create = "Create",
-  Read = "Read",
-  Update = "Update",
-  Delete = "Delete",
-}
-
-export enum EventNotificationTrigger {
+export enum EntityEventNotificationTrigger {
   OnCreate = "OnCreate",
 }
 
-export interface IEntityPermission {
-  _id: string;
-  model: IModel;
-  permissions: StaticPermission[];
-  fieldPermissions: IFieldPermission[];
-  eventNotifications: IEventNotification[];
+export interface IEntityEventNotification {
+  _id?: string;
+  title: ITranslatedText[];
+  text: ITranslatedText[];
+  trigger: EntityEventNotificationTrigger;
 }
 
 export interface IFieldPermission {
@@ -30,10 +22,19 @@ export interface IFieldPermission {
   permissions: StaticPermission[];
 }
 
-export interface IEventNotification {
-  title: ITranslatedText[];
-  text: ITranslatedText[];
-  trigger: EventNotificationTrigger;
+export enum StaticPermission {
+  Create = "Create",
+  Read = "Read",
+  Update = "Update",
+  Delete = "Delete",
+}
+
+export interface IEntityPermission {
+  _id?: string;
+  model: IModel;
+  permissions: StaticPermission[];
+  entityFieldPermissions: IFieldPermission[];
+  entityEventNotifications: IEntityEventNotification[];
 }
 
 export enum Permission {
@@ -111,7 +112,7 @@ export const roleSlice = createSlice({
     },
     updateRole: (state: IRoleState, action: PayloadAction<IRole>) => {
       const role: IRole = action.payload;
-      state.roles = state.roles.map((f) => (f._id === role._id ? role : f));
+      state.roles = state.roles.map((r) => (r._id === role._id ? role : r));
       state.searchedRoles.data = state.searchedRoles.data.map((r) => {
         if (r._id === role._id) {
           return role;

@@ -258,8 +258,8 @@ export interface IWebsiteConfiguration {
       readRole: ITranslatedText[];
       deleteRole: ITranslatedText[];
 
-      fieldPermissions: ITranslatedText[];
-      eventNotifications: ITranslatedText[];
+      entityFieldPermissions: ITranslatedText[];
+      entityEventNotifications: ITranslatedText[];
 
       onCreate: ITranslatedText[];
 
@@ -1260,7 +1260,7 @@ const initialState: IWebsiteConfigurationState = {
         { language: "en", text: "Delete" },
         { language: "fr", text: "Supprimer" },
       ],
-      fieldPermissions: [
+      entityFieldPermissions: [
         {
           language: "en",
           text: "Field permissions",
@@ -1270,7 +1270,7 @@ const initialState: IWebsiteConfigurationState = {
           text: "Permissions des champs",
         },
       ],
-      eventNotifications: [
+      entityEventNotifications: [
         {
           language: "en",
           text: "Event notifications",

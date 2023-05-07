@@ -228,9 +228,9 @@ const EntityEditor = (props: IEntityEditor) => {
             .find(
               (entityPermission) => entityPermission.model._id === actualModelId
             )
-            ?.fieldPermissions.find(
-              (fieldPermission) =>
-                fieldPermission.field._id === modelField.field._id
+            ?.entityFieldPermissions.find(
+              (entityFieldPermission) =>
+                entityFieldPermission.field._id === modelField.field._id
             );
 
           // By default, if we don't find the field permission in the db for the role, then all the permissions should apply

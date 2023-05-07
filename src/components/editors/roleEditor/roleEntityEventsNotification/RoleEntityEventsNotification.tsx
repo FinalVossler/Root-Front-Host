@@ -6,19 +6,19 @@ import { MdDelete } from "react-icons/md";
 import { Theme } from "../../../../config/theme";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../store/hooks";
-import { EventNotificationTrigger } from "../../../../store/slices/roleSlice";
+import { EntityEventNotificationTrigger } from "../../../../store/slices/roleSlice";
 import Button from "../../../button";
 import Checkbox from "../../../checkbox";
 import Input from "../../../input";
 import Textarea from "../../../textarea/Textarea";
-import { IEventNotificationForm, IRoleForm } from "../RoleEditor";
+import { IEntityEventNotificationForm } from "../RoleEditor";
 
 import useStyles from "./roleEntityEventsNotification.styles";
 
 interface IRoleEntityEventsNotification {
-  eventNotifications: IEventNotificationForm[];
+  entityEventNotifications: IEntityEventNotificationForm[];
   handleApplyEventNotifications: (
-    eventNotifications: IEventNotificationForm[]
+    entityEventNotifications: IEntityEventNotificationForm[]
   ) => void;
 }
 
@@ -33,28 +33,38 @@ const RoleEntityEventsNotification: React.FunctionComponent<IRoleEntityEventsNot
 
     const styles = useStyles({ theme });
     const getTranslatedText = useGetTranslatedText();
-    const formik = useFormik<{ eventNotifications: IEventNotificationForm[] }>({
+    const formik = useFormik<{
+      entityEventNotifications: IEntityEventNotificationForm[];
+    }>({
       initialValues: {
-        eventNotifications: props.eventNotifications,
+        entityEventNotifications: [...props.entityEventNotifications],
       },
       onSubmit: (values: {
-        eventNotifications: IEventNotificationForm[];
+        entityEventNotifications: IEntityEventNotificationForm[];
       }) => {},
     });
 
+    React.useEffect(() => {
+      formik.setFieldValue("entityEventNotifications", [
+        ...props.entityEventNotifications,
+      ]);
+    }, [props.entityEventNotifications]);
+
     const handleFieldChange = (
       value: string | boolean,
-      eventNotificationIndex: number,
+      entityEventNotificationIndex: number,
       fieldName: string
     ) => {
-      const newValues = formik.values.eventNotifications.map((not, index) => {
-        if (index === eventNotificationIndex) {
-          return { ...not, [fieldName]: value };
-        } else {
-          return not;
+      const newValues = formik.values.entityEventNotifications.map(
+        (not, index) => {
+          if (index === entityEventNotificationIndex) {
+            return { ...not, [fieldName]: value };
+          } else {
+            return not;
+          }
         }
-      });
-      formik.setFieldValue("eventNotifications", newValues);
+      );
+      formik.setFieldValue("entityEventNotifications", newValues);
       props.handleApplyEventNotifications(newValues);
     };
 
@@ -62,29 +72,33 @@ const RoleEntityEventsNotification: React.FunctionComponent<IRoleEntityEventsNot
       e: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
       e.preventDefault();
-      const newEvent: IEventNotificationForm = {
+      const newEvent: IEntityEventNotificationForm = {
         text: "",
         title: "",
-        trigger: EventNotificationTrigger.OnCreate,
+        trigger: EntityEventNotificationTrigger.OnCreate,
       };
-      const newValues: IEventNotificationForm[] = [
-        ...formik.values.eventNotifications,
+      const newValues: IEntityEventNotificationForm[] = [
+        ...formik.values.entityEventNotifications,
         newEvent,
       ];
-      formik.setFieldValue("eventNotifications", newValues);
+      formik.setFieldValue("entityEventNotifications", newValues);
       props.handleApplyEventNotifications(newValues);
     };
 
     const handleDeleteEvent = (index: number) => {
-      const newValues = [...formik.values.eventNotifications.splice(1, index)];
-      formik.setFieldValue("eventNotifications", newValues);
+      const newValues = [...formik.values.entityEventNotifications];
+      newValues.splice(index, 1);
+      formik.setFieldValue("entityEventNotifications", newValues);
       props.handleApplyEventNotifications(newValues);
     };
 
     return (
       <div className={styles.roleEntityEventNotificationContainer}>
-        {formik.values.eventNotifications.map(
-          (eventNotification: IEventNotificationForm, index: number) => {
+        {formik.values.entityEventNotifications.map(
+          (
+            entityEventNotification: IEntityEventNotificationForm,
+            index: number
+          ) => {
             return (
               <div key={index} className={styles.singleEventNotification}>
                 <MdDelete
@@ -94,12 +108,12 @@ const RoleEntityEventsNotification: React.FunctionComponent<IRoleEntityEventsNot
                 <Checkbox
                   label={getTranslatedText(staticText?.onCreate)}
                   checked={
-                    eventNotification.trigger ===
-                    EventNotificationTrigger.OnCreate
+                    entityEventNotification.trigger ===
+                    EntityEventNotificationTrigger.OnCreate
                   }
                   onChange={() =>
                     handleFieldChange(
-                      EventNotificationTrigger.OnCreate,
+                      EntityEventNotificationTrigger.OnCreate,
                       index,
                       "trigger"
                     )
@@ -111,14 +125,14 @@ const RoleEntityEventsNotification: React.FunctionComponent<IRoleEntityEventsNot
                     handleFieldChange(e.target.value, index, "title")
                   }
                   label={getTranslatedText(staticText?.eventTitle)}
-                  value={eventNotification.title}
+                  value={entityEventNotification.title}
                   Icon={BiText}
                 />
                 <Textarea
                   onChange={(e) =>
                     handleFieldChange(e.target.value, index, "text")
                   }
-                  value={eventNotification.text}
+                  value={entityEventNotification.text}
                   label={getTranslatedText(staticText?.eventDescription)}
                 />
               </div>
