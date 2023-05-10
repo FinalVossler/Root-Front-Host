@@ -161,7 +161,10 @@ export const userSlice = createSlice({
     },
     deleteUsers: (state: IUserState, action: PayloadAction<string[]>) => {
       const usersIds: string[] = action.payload;
-      state.users = state.users.filter((f) => usersIds.indexOf(f._id) === -1);
+      state.users = state.users.filter((u) => usersIds.indexOf(u._id) === -1);
+      state.searchedUsers.data = state.searchedUsers.data.filter(
+        (u) => usersIds.indexOf(u._id) === -1
+      );
     },
     setSearchedUsers: (
       state: IUserState,

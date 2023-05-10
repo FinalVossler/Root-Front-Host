@@ -8,7 +8,7 @@ import { IUser, userSlice } from "../../store/slices/userSlice";
 import { useAppDispatch } from "../../store/hooks";
 
 export type UsersSearchCommand = {
-  firstNameOrLastName: string;
+  firstNameOrLastNameOrEmail: string;
   paginationCommand: PaginationCommand;
 };
 
@@ -19,13 +19,13 @@ const useSearchUsers = () => {
   const dispatch = useAppDispatch();
 
   const handleSearchUsersPromise = (
-    firstNameOrLastName: string,
+    firstNameOrLastNameOrEmail: string,
     paginationCommand: PaginationCommand
   ) =>
     new Promise<PaginationResponse<IUser>>((resolve, _) => {
       const command: UsersSearchCommand = {
         paginationCommand: paginationCommand,
-        firstNameOrLastName,
+        firstNameOrLastNameOrEmail,
       };
 
       axios
