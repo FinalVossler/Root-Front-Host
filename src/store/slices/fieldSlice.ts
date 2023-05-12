@@ -71,6 +71,9 @@ export const fieldSlice = createSlice({
       state.fields = state.fields.filter(
         (f) => fieldsIds.indexOf(f._id) === -1
       );
+      state.searchedFields.data = state.searchedFields.data.filter(
+        (u) => fieldsIds.indexOf(u._id) === -1
+      );
     },
     setSearchedFields: (
       state: IFieldState,

@@ -1,5 +1,5 @@
 import React from "react";
-import { BiAddToQueue } from "react-icons/bi";
+import { BiAddToQueue, BiCopy } from "react-icons/bi";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import ColumnResizer from "react-table-column-resizer";
 import Loading from "react-loading";
@@ -42,6 +42,9 @@ interface IElements {
   loading: boolean;
   deletePromise: (ids: string[]) => Promise<unknown>;
   deleteLoading: boolean;
+  copyPromise?: (ids: string[]) => Promise<unknown>;
+  copyLoading?: boolean;
+  onCopyFinished?: () => void;
   getElementName: (element: Element) => string;
   onPageChange: (page: number) => void;
   searchPromise?: (
@@ -65,7 +68,10 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
 
   const [editorOpen, setEditorOpen] = React.useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = React.useState<boolean>(false);
-  const [selectedElements, setSelectedElements] = React.useState<string[]>([]);
+  const [copyModalOpen, setCopyModalOpen] = React.useState<boolean>(false);
+  const [selectedElementsIds, setSelectedElementsIds] = React.useState<
+    string[]
+  >([]);
   const [selectedElement, setSelectedElement] =
     React.useState<Element | null>(null);
 
@@ -79,7 +85,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
   }, [editorOpen]);
 
   React.useEffect(() => {
-    setSelectedElements([]);
+    setSelectedElementsIds([]);
   }, [props.elements]);
 
   //#region Event listeners
@@ -88,7 +94,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
     e: React.ChangeEvent<HTMLInputElement>,
     element: Element
   ) => {
-    const newSelectedElements: string[] = [...selectedElements];
+    const newSelectedElements: string[] = [...selectedElementsIds];
     const exists = newSelectedElements.indexOf(element._id) !== -1;
 
     if (e.target.checked && !exists) {
@@ -98,7 +104,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
       newSelectedElements.splice(newSelectedElements.indexOf(element._id), 1);
     }
 
-    setSelectedElements(newSelectedElements);
+    setSelectedElementsIds(newSelectedElements);
   };
   const handleEdit = (element: Element) => {
     setSelectedElement(element);
@@ -107,9 +113,21 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
   const handleDelete = async () => {
     if (!props.canDelete) return;
 
-    await props.deletePromise(selectedElements);
+    await props.deletePromise(selectedElementsIds);
     setDeleteModalOpen(false);
-    setSelectedElements([]);
+    setSelectedElementsIds([]);
+  };
+  const handleCopy = async () => {
+    if (!props.copyPromise) return;
+
+    await props.copyPromise(selectedElementsIds);
+    // The on copy finished is used to redirect to the first page to have the newly copied elements in front of us
+    if (props.onCopyFinished) {
+      props.onCopyFinished();
+    }
+    setCopyModalOpen(false);
+    setSelectedElementsIds([]);
+    props.onPageChange(1);
   };
   //#endregion Event listeners
 
@@ -129,7 +147,37 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
           />
         )}
 
-        {selectedElements.length > 0 && (
+        {props.copyPromise &&
+          props.canCreate &&
+          selectedElementsIds.length > 0 && (
+            <React.Fragment>
+              <BiCopy
+                className={styles.copyIcon}
+                onClick={() => setCopyModalOpen(true)}
+              />
+              <ConfirmationModal
+                title={getTranslatedText(staticText?.copyTitle)}
+                description={
+                  getTranslatedText(staticText?.copyDescription) +
+                  " " +
+                  selectedElementsIds
+                    .map((selectedElementId) => {
+                      const element: Element | undefined = elements.find(
+                        (el) => el._id === selectedElementId
+                      );
+                      return element ? props.getElementName(element) : "";
+                    })
+                    .join(", ")
+                }
+                loading={props.copyLoading || false}
+                modalOpen={copyModalOpen}
+                onConfirm={handleCopy}
+                setModalOpen={setCopyModalOpen}
+              />
+            </React.Fragment>
+          )}
+
+        {selectedElementsIds.length > 0 && (
           <React.Fragment>
             {props.canDelete && (
               <AiFillDelete
@@ -144,7 +192,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
               description={
                 getTranslatedText(staticText?.deleteDescription) +
                 ": " +
-                selectedElements
+                selectedElementsIds
                   .map((selectedElementId) => {
                     const element: Element | undefined = elements.find(
                       (el) => el._id === selectedElementId
@@ -204,10 +252,10 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                   <input
                     className={styles.actionCheckbox}
                     type="checkbox"
-                    checked={selectedElements.length === elements.length}
+                    checked={selectedElementsIds.length === elements.length}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      setSelectedElements(
-                        elements.length !== selectedElements.length
+                      setSelectedElementsIds(
+                        elements.length !== selectedElementsIds.length
                           ? elements.map((el) => el._id)
                           : []
                       )
@@ -265,7 +313,9 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                       <input
                         className={styles.checkbox}
                         type="checkbox"
-                        checked={selectedElements.indexOf(element._id) !== -1}
+                        checked={
+                          selectedElementsIds.indexOf(element._id) !== -1
+                        }
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           handleToggleElementSelect(e, element)
                         }

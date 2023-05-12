@@ -128,6 +128,8 @@ export interface IWebsiteConfiguration {
       edit: ITranslatedText[];
       deleteTitle: ITranslatedText[];
       deleteDescription: ITranslatedText[];
+      copyTitle: ITranslatedText[];
+      copyDescription: ITranslatedText[];
     };
     pages: {
       deletePageMessage: ITranslatedText[];
@@ -801,6 +803,20 @@ const initialState: IWebsiteConfigurationState = {
       deleteTitle: [
         { language: "en", text: "Delete" },
         { language: "fr", text: "Suppression" },
+      ],
+      copyTitle: [
+        { language: "en", text: "Copy elements?" },
+        { language: "fr", text: "Copie des éléments ?" },
+      ],
+      copyDescription: [
+        {
+          language: "en",
+          text: "Are you sure you want to copy this(these) element(s)?",
+        },
+        {
+          language: "fr",
+          text: "Êtes-vous sûr de vouloir copier ce(s) élément(s) ?",
+        },
       ],
     },
     pages: {

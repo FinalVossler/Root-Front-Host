@@ -81,6 +81,10 @@ export const modelSlice = createSlice({
       state.models = state.models.filter(
         (f) => modelsIds.indexOf(f._id) === -1
       );
+
+      state.searchedModels.data = state.searchedModels.data.filter(
+        (u) => modelsIds.indexOf(u._id) === -1
+      );
     },
     setSearchedModels: (
       state: IModelState,

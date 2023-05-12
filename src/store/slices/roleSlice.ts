@@ -124,6 +124,10 @@ export const roleSlice = createSlice({
     deleteRoles: (state: IRoleState, action: PayloadAction<string[]>) => {
       const rolesIds: string[] = action.payload;
       state.roles = state.roles.filter((f) => rolesIds.indexOf(f._id) === -1);
+
+      state.searchedRoles.data = state.searchedRoles.data.filter(
+        (u) => rolesIds.indexOf(u._id) === -1
+      );
     },
     setSearchedRoles: (
       state: IRoleState,

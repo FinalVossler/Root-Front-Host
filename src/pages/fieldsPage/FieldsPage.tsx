@@ -6,6 +6,7 @@ import { Theme } from "../../config/theme";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import withChat from "../../hoc/withChat";
 import withWrapper from "../../hoc/wrapper";
+import useCopyFields from "../../hooks/apiHooks/useCopyFields";
 import useDeleteFields from "../../hooks/apiHooks/useDeleteFields";
 import useGetFields from "../../hooks/apiHooks/useGetFields";
 import useSearchFields from "../../hooks/apiHooks/useSearchFields";
@@ -41,17 +42,30 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
   const { getFields, loading } = useGetFields();
   const isLoggedIn: boolean = useIsLoggedIn();
   const { deleteFields, loading: deleteLoading } = useDeleteFields();
+  const { copyFields, loading: copyLoading } = useCopyFields();
   const { hasPermission } = useHasPermission();
   const { handleSearchFieldsPromise } = useSearchFields(undefined);
 
   React.useEffect(() => {
+    handleFetchElements();
+  }, [page]);
+
+  const handleFetchElements = () => {
     getFields({
       paginationCommand: {
         limit,
         page,
       },
     });
-  }, [page]);
+  };
+
+  const handleCopyFinished = () => {
+    if (page === 1) {
+      handleFetchElements();
+    } else {
+      setPage(1);
+    }
+  };
 
   const handlePageChange = (page: number) => {
     setPage(page);
@@ -102,6 +116,9 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
         loading={loading}
         deletePromise={deleteFields}
         deleteLoading={deleteLoading}
+        copyPromise={copyFields}
+        copyLoading={copyLoading}
+        onCopyFinished={handleCopyFinished}
         getElementName={(field: any) => getTranslatedText(field.name)}
         onPageChange={handlePageChange}
         canCreate={hasPermission(Permission.CreateField)}

@@ -19,11 +19,15 @@ const useStyles = createUseStyles((theme: Theme) => ({
     fontSize: 30,
     cursor: "pointer",
     margin: 10,
+    color: theme.primary,
   },
   addIcon: {
     extend: "actionIcon",
   },
   deleteIcon: {
+    extend: "actionIcon",
+  },
+  copyIcon: {
     extend: "actionIcon",
   },
   elementsTable: {

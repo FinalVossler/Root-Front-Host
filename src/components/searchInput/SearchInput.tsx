@@ -58,6 +58,11 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
     }
   }, [value, paginationCommand]);
 
+  // Trigger the search whenever the pagination command changes
+  React.useEffect(() => {
+    handleSearch();
+  }, [paginationCommand]);
+
   React.useEffect(() => {
     if (searchResult && props.setSearchResult) {
       props.setSearchResult(searchResult);
