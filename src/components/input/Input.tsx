@@ -30,6 +30,13 @@ const Input: React.FunctionComponent<IInput> = (props: IInput) => {
     (state) => state.websiteConfiguration.theme
   );
   const styles = useStyles({ theme });
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    if (inputRef.current !== null) {
+      inputRef.current.value = props.value;
+    }
+  }, [props.value]);
 
   //#region Event listeners
   const handleFocus = (e: any) => {
@@ -88,6 +95,7 @@ const Input: React.FunctionComponent<IInput> = (props: IInput) => {
         {((props.name && props.formik?.values[props.name]) !== undefined ||
           props.value !== undefined) && (
           <input
+            ref={inputRef}
             onBlur={handleFocus}
             onFocus={handleFocus}
             className={props.label ? styles.inputWithLabel : styles.input}

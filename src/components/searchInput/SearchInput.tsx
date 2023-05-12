@@ -56,11 +56,13 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
     if (value.trim().length <= 2) {
       setSearchResult({ data: [], total: 0 });
     }
-  }, [value, paginationCommand]);
+  }, [value]);
 
   // Trigger the search whenever the pagination command changes
   React.useEffect(() => {
-    handleSearch();
+    if (value && value.trim().length > 2) {
+      handleSearch();
+    }
   }, [paginationCommand]);
 
   React.useEffect(() => {

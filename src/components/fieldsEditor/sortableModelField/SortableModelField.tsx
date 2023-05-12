@@ -224,6 +224,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
 
         {props.modelField.conditions?.map(
           (condition: IModelFieldCondition, conditionIndex) => {
+            console.log("condition", condition);
             return (
               <div key={conditionIndex} className={styles.singleCondition}>
                 <MdDelete
@@ -263,6 +264,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
                   inputProps={{
                     placeholder: getTranslatedText(staticText?.value),
                   }}
+                  debounce
                 />
               </div>
             );
