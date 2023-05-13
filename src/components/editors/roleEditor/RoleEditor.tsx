@@ -199,11 +199,11 @@ const RoleEditor = (props: IRoleEditor) => {
 
   React.useEffect(() => {
     // Initialize the form based on the language and the passed role to update
-    console.log("language", formik.values.language);
-    console.log(props.role?.entityPermissions);
     formik.resetForm({
       values: {
-        name: getTranslatedText(props.role?.name, formik.values.language),
+        name: props.role
+          ? getTranslatedText(props.role?.name, formik.values.language)
+          : "",
         language: formik.values.language,
         permissions: props.role?.permissions || formik.values.permissions,
         entityPermissions:

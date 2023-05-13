@@ -33,7 +33,7 @@ const Input: React.FunctionComponent<IInput> = (props: IInput) => {
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
-    if (inputRef.current !== null) {
+    if (inputRef.current !== null && props.debounce) {
       inputRef.current.value = props.value;
     }
   }, [props.value]);
