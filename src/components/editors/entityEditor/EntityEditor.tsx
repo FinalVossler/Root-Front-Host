@@ -418,6 +418,7 @@ const EntityEditor = (props: IEntityEditor) => {
                     value: "",
                   }
                 }
+                placeholder={getTranslatedText(modelField.field.name)}
                 disabled={!canEdit}
                 onChange={(option: Option) => {
                   formik.setFieldValue(

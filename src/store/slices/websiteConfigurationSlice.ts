@@ -1228,7 +1228,7 @@ const initialState: IWebsiteConfigurationState = {
         { language: "fr", text: "Lire un modèle" },
       ],
       updateModel: [
-        { language: "en", text: "Updatem odel" },
+        { language: "en", text: "Update model" },
         { language: "fr", text: "Mettre un jour un modèle" },
       ],
       deleteModel: [

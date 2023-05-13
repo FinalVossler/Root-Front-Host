@@ -23,6 +23,7 @@ interface IInputSelect {
   name?: string;
   style?: React.CSSProperties;
   disabled?: boolean;
+  placeholder?: string;
 }
 
 const InputSelect: React.FunctionComponent<IInputSelect> = (
@@ -67,6 +68,7 @@ const InputSelect: React.FunctionComponent<IInputSelect> = (
         onChange={props.isMulti ? handleOnMultiChange : handleOnChange}
         options={props.options}
         isDisabled={props.disabled}
+        placeholder={props.placeholder}
         value={
           props.formik && props.name && !props.isMulti
             ? props.options.find(

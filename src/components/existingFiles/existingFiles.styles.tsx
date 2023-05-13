@@ -50,6 +50,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   fileIcon: {
     extend: "singleFileContainer",
+    color: theme.primary,
   },
   fileName: {
     textAlign: "center",
