@@ -28,6 +28,7 @@ import PagesPage from "./pages/pagesPage";
 import ForgotPasswordChangePasswordPage from "./pages/forgotPasswordChangePassworwPage";
 import UsersPage from "./pages/usersPage";
 import RolesPage from "./pages/rolesPage";
+import SingleEntityPage from "./pages/singleEntityPage";
 
 const stripePromise = loadStripe(
   // @ts-ignore
@@ -92,6 +93,10 @@ function App() {
     {
       path: "/entities/:modelId",
       element: <EntitiesPage />,
+    },
+    {
+      path: "/entities/:modelId/:entityId",
+      element: <SingleEntityPage />,
     },
     {
       path: "/pages",

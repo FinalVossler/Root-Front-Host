@@ -2,10 +2,10 @@ import React from "react";
 import Loading from "react-loading";
 import { AiOutlineFileDone } from "react-icons/ai";
 import _ from "lodash";
+import { BiDownload } from "react-icons/bi";
 
 import { Theme } from "../../config/theme";
 
-import useStyles from "./existingFiles.styles";
 import IFile from "../../globalTypes/IFile";
 import PaginationCommand from "../../globalTypes/PaginationCommand";
 import { useAppSelector } from "../../store/hooks";
@@ -17,6 +17,8 @@ import Pagination from "../pagination";
 import useGetUnownedFiles, {
   FileGetUnownedAndSelectedFilesCommand,
 } from "../../hooks/apiHooks/useGetUnownedAndSelectedFiles";
+
+import useStyles from "./existingFiles.styles";
 
 export enum TypeOfFiles {
   UserFiles = "UserFiles",
@@ -109,7 +111,10 @@ const ExistingFiles = (props: IExistingFiles) => {
   //#endregion Effects
 
   //#region Event listeners
-  const handleTriggerSelectFile = (file: IFile) => {
+  const handleTriggerSelectFile = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    file: IFile
+  ) => {
     if (props.disabled) return;
 
     let newExistingFiles = [...props.selectedExistingFiles];
@@ -123,6 +128,12 @@ const ExistingFiles = (props: IExistingFiles) => {
 
   const handlePageChange = (page: number) => {
     setPage(page);
+  };
+
+  const handleDownloadFile = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
   };
   //#endregion Event listeners
 
@@ -145,7 +156,7 @@ const ExistingFiles = (props: IExistingFiles) => {
 
           return (
             <div
-              onClick={() => handleTriggerSelectFile(file)}
+              onClick={(e) => handleTriggerSelectFile(e, file)}
               key={index}
               style={style}
               className={
@@ -160,6 +171,15 @@ const ExistingFiles = (props: IExistingFiles) => {
               {!file.isImage && (
                 <span className={styles.fileName}>{file.name}</span>
               )}
+              <a
+                className={styles.downloadButton}
+                href={file.url}
+                download={file.name}
+                onClick={handleDownloadFile}
+                target="_blank"
+              >
+                <BiDownload />
+              </a>
             </div>
           );
         })}
