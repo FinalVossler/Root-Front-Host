@@ -221,6 +221,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
           getElementTitle={props.getElementName}
           searchPromise={props.searchPromise}
           setSearchResult={props.setSearchResult}
+          showSearchResult={false}
         />
       )}
 

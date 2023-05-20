@@ -13,6 +13,7 @@ const Spacing: React.FunctionComponent<ISpacing> = (props: ISpacing) => {
     (state) => state.websiteConfiguration.theme
   );
 
+  console.log("props height", props.height);
   const styles = useStyles({ theme });
   return (
     <div

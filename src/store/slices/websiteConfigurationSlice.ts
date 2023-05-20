@@ -162,6 +162,7 @@ export interface IWebsiteConfiguration {
       submit: ITranslatedText[];
       language: ITranslatedText[];
       required: ITranslatedText[];
+      visit: ITranslatedText[];
     };
     contact: {
       firstNameRequired: ITranslatedText[];
@@ -936,6 +937,10 @@ const initialState: IWebsiteConfigurationState = {
       updateEntity: [
         { language: "en", text: "Update" },
         { language: "fr", text: "Mettre à jour" },
+      ],
+      visit: [
+        { text: "visit", language: "en" },
+        { text: "Visiter", language: "fr" },
       ],
     },
     contact: {

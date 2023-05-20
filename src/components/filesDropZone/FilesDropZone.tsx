@@ -10,6 +10,7 @@ import useStyles from "./filesDropZone.styles";
 
 interface IFilesDropZone {
   onDrop: (files: File[]) => any;
+  disabled?: boolean;
 }
 
 const FilesDropZone: React.FunctionComponent<IFilesDropZone> = (
@@ -26,7 +27,7 @@ const FilesDropZone: React.FunctionComponent<IFilesDropZone> = (
   const getTranslatedText = useGetTranslatedText();
 
   return (
-    <Dropzone onDrop={props.onDrop}>
+    <Dropzone onDrop={props.onDrop} disabled={props.disabled}>
       {({ getRootProps, getInputProps }) => (
         <div className={styles.filesDropZoneContainer} {...getRootProps()}>
           <input {...getInputProps()} />

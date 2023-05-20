@@ -1,8 +1,10 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { FaDirections } from "react-icons/fa";
+import { Link, useParams } from "react-router-dom";
 
 import EntityEditor from "../../components/editors/entityEditor";
 import Elements from "../../components/elements";
+import { Column } from "../../components/elements/Elements";
 import { Theme } from "../../config/theme";
 import PaginationCommand from "../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
@@ -37,6 +39,9 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
 
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
+  );
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.entities
   );
   const entitiesByModel = useAppSelector(
     (state) => state.entity.entitiesByModel
@@ -108,42 +113,58 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
 
   if (!isLoggedIn) return null;
 
+  // Computing fields columns
+  const columns: Column[] =
+    model?.modelFields.map((modelField) => {
+      return {
+        label: getTranslatedText(modelField.field.name),
+        name: "",
+        render: (entity: IEntity) => {
+          const entityFieldValue: IEntityFieldValue | undefined =
+            entity.entityFieldValues.find(
+              (entityField) => entityField.field._id === modelField.field._id
+            );
+
+          if (
+            entityFieldValue &&
+            entityFieldValue?.field.type !== FieldType.File
+          ) {
+            return <div>{getTranslatedText(entityFieldValue?.value)}</div>;
+          }
+          if (
+            entityFieldValue &&
+            entityFieldValue.field.type === FieldType.File
+          ) {
+            return (
+              <div>{entityFieldValue.files.map((f) => f.name).join(", ")}</div>
+            );
+          }
+
+          return <div></div>;
+        },
+      };
+    }) || [];
+
+  // Additional columns
+  columns.push({
+    label: getTranslatedText(staticText?.visit),
+    name: "",
+    render: (entity: IEntity) => {
+      return (
+        <Link target="_blank" to={"/entities/" + modelId + "/" + entity._id}>
+          <FaDirections />
+        </Link>
+      );
+    },
+  });
+
   return (
     <div className={styles.entitiesPageContainer}>
       <Elements
         Editor={({ element, ...props }) => (
           <EntityEditor {...props} entity={element as IEntity} />
         )}
-        columns={
-          model?.modelFields.map((modelField) => {
-            return {
-              label: getTranslatedText(modelField.field.name),
-              name: "",
-              render: (entity: IEntity) => {
-                const entityFieldValue: IEntityFieldValue | undefined =
-                  entity.entityFieldValues.find(
-                    (entityField) =>
-                      entityField.field._id === modelField.field._id
-                  );
-
-                if (
-                  entityFieldValue &&
-                  entityFieldValue?.field.type !== FieldType.File
-                ) {
-                  return getTranslatedText(entityFieldValue?.value);
-                }
-                if (
-                  entityFieldValue &&
-                  entityFieldValue.field.type === FieldType.File
-                ) {
-                  return entityFieldValue.files.map((f) => f.name).join(", ");
-                }
-
-                return "";
-              },
-            };
-          }) || []
-        }
+        columns={columns}
         elements={entities || []}
         total={total || 0}
         limit={limit}

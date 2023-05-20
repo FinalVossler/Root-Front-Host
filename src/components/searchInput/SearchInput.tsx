@@ -21,6 +21,7 @@ interface ISearchInput {
   onElementClick?: (el: any) => any;
   setSearchResult?: any;
   label?: string;
+  showSearchResult?: boolean;
 }
 
 const LIMIT = 10;
@@ -29,7 +30,6 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
   props: ISearchInput
 ) => {
   const [value, setValue] = React.useState("");
-  const [lastSearchValue, setLastSearchValue] = React.useState("");
   const [paginationCommand, setPaginationCommand] =
     React.useState<PaginationCommand>({
       limit: LIMIT,
@@ -50,7 +50,7 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
 
   // Trigger the search whenever the value changes
   React.useEffect(() => {
-    if (value && value.trim().length > 2 && value !== lastSearchValue) {
+    if (value && value.trim().length > 2) {
       handleSearch();
     }
     if (value.trim().length <= 2) {
@@ -73,7 +73,6 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
 
   //#region Event listeners
   const handleSearch = () => {
-    setLastSearchValue(value);
     props.searchPromise(value, paginationCommand).then((res) => {
       setSearchResult(res);
     });
@@ -115,26 +114,29 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
         onFocus={handleFocus}
         label={props.label}
       />
-      {showSearchResult && value && (
-        <div className={styles.searchResultBox}>
-          {searchResult?.data.map((el, i) => (
-            <span
-              onClick={() => handleElementClick(el)}
-              className={styles.singleResult}
-              key={i}
-            >
-              {props.getElementTitle(el)}
-            </span>
-          ))}
+      {showSearchResult &&
+        (props.showSearchResult === undefined ||
+          props.showSearchResult === true) &&
+        value && (
+          <div className={styles.searchResultBox}>
+            {searchResult?.data.map((el, i) => (
+              <span
+                onClick={() => handleElementClick(el)}
+                className={styles.singleResult}
+                key={i}
+              >
+                {props.getElementTitle(el)}
+              </span>
+            ))}
 
-          <Pagination
-            page={paginationCommand.page}
-            onPageChange={handlePageChange}
-            limit={LIMIT}
-            total={searchResult?.total || 0}
-          />
-        </div>
-      )}
+            <Pagination
+              page={paginationCommand.page}
+              onPageChange={handlePageChange}
+              limit={LIMIT}
+              total={searchResult?.total || 0}
+            />
+          </div>
+        )}
     </div>
   );
 };

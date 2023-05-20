@@ -7,7 +7,10 @@ import {
 import { FormikProps } from "formik";
 
 import IFile from "../../../../globalTypes/IFile";
-import { IEntityEditorForm, IEntityFieldValueForm } from "../EntityEditor";
+import {
+  IEntityEditorFormForm,
+  IEntityFieldValueForm,
+} from "../EntityEditorForm";
 import { IModelField } from "../../../../store/slices/modelSlice";
 import { Theme } from "../../../../config/theme";
 import { useAppSelector } from "../../../../store/hooks";
@@ -25,7 +28,7 @@ type TrackedImage = {
 };
 
 export interface IEntityFieldFiles {
-  formik: FormikProps<IEntityEditorForm>;
+  formik: FormikProps<IEntityEditorFormForm>;
   modelField: IModelField;
   entityFieldValue?: IEntityFieldValueForm;
   disabled?: boolean;
@@ -183,7 +186,7 @@ const EntityFieldFiles = (props: IEntityFieldFiles) => {
           color={theme.primary}
         />
 
-        <FilesDropZone onDrop={handleDropFiles} />
+        <FilesDropZone onDrop={handleDropFiles} disabled={props.disabled} />
 
         <input
           onChange={handleNewFilesChange}

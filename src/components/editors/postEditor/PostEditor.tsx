@@ -88,6 +88,7 @@ const PostEditor = (props: IPostEditor) => {
   React.useEffect(() => {
     if (props.post && sunEditor) {
       setTitle(getTranslatedText(props.post?.title, language));
+      setCode(props.post.code || "");
       setSubtTitle(getTranslatedText(props.post.subTitle, language));
       setChildren(props.post.children.map((c) => c._id));
       setDesign(props.post?.design);
