@@ -35,7 +35,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
     (state) => state.websiteConfiguration.mainLanguages
   );
   const staticText = useAppSelector(
-    (state) => state.websiteConfiguration.staticText
+    (state) => state.websiteConfiguration.staticText?.header
   );
   const userPreferenceLanguage: string = useAppSelector(
     (state) => state.userPreferences.language
@@ -44,6 +44,12 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
+  const isSideMenuOpen: boolean = useAppSelector(
+    (state) => state.userPreferences.isSideMenuOpen
+  );
+
+  const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
+
   const styles = useStyles({ theme });
   const dispatch = useAppDispatch();
   const isLoggedIn: boolean = useIsLoggedIn();
@@ -58,6 +64,9 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
   };
   const handleChangeLanguage = (option: Option) => {
     dispatch(userPreferenceSlice.actions.setLanguage(option.value));
+  };
+  const handleTriggerShowMobileMenu = () => {
+    setShowMobileMenu(!showMobileMenu);
   };
   //#endregion Event listeners
 
@@ -75,8 +84,21 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
         </NavLink>
       </div>
 
+      {!isSideMenuOpen && (
+        <span
+          className={styles.triggerMenuButton}
+          onClick={handleTriggerShowMobileMenu}
+        >
+          {getTranslatedText(staticText?.menu)}
+        </span>
+      )}
+
       <div className={styles.right}>
-        <ul className={styles.optionsList}>
+        <ul
+          className={
+            showMobileMenu ? styles.mobileOptionsList : styles.optionsList
+          }
+        >
           <InputSelect
             options={
               mainLanguages?.map((language) => ({
@@ -87,7 +109,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
                 { label: "fr", value: "fr" },
               ]
             }
-            label={getTranslatedText(staticText?.header.language)}
+            label={getTranslatedText(staticText?.language)}
             value={{
               label: userPreferenceLanguage,
               value: userPreferenceLanguage,
@@ -108,14 +130,14 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
 
           <li className={styles.option}>
             <NavLink className={styles.optionATag} to="/">
-              {getTranslatedText(staticText?.header.home)}
+              {getTranslatedText(staticText?.home)}
             </NavLink>
           </li>
 
           {withChat && isLoggedIn && (
             <li className={styles.option}>
               <NavLink className={styles.optionATag} to="/chat">
-                {getTranslatedText(staticText?.header.chat)}
+                {getTranslatedText(staticText?.chat)}
               </NavLink>
             </li>
           )}

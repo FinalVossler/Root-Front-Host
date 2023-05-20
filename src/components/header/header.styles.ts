@@ -83,8 +83,71 @@ const useStyles = createUseStyles((theme: Theme) => ({
   optionATag: {
     display: "flex",
   },
+  mobileOptionsList: {
+    extend: "optionsList",
+  },
+  triggerMenuButton: {
+    color: theme.lightTextColor,
+    zIndex: 1,
+    margin: "auto",
+    display: "none",
+    cursor: "pointer",
+    transition: "all 2ms ease-in-out",
+
+    "&:hover": {
+      color: theme.primary,
+    },
+  },
   "@media (max-width: 800px)": {
+    triggerMenuButton: {
+      display: "flex",
+    },
+    mobileOptionsList: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "flex-start",
+      top: "0px",
+      position: "fixed",
+      width: "100%",
+      margin: "0px",
+      backgroundColor: theme.contentBackgroundColor,
+      paddingTop: "80px",
+      paddingLeft: "100px",
+      height: "100%",
+      alignItems: "center",
+
+      "& li, >div": {
+        boxSizing: "border-box",
+        border: "1px solid " + theme.lightTextColor,
+        margin: 0,
+        width: "90%",
+        height: 70,
+        display: "flex",
+        alignItems: "center",
+      },
+      "& >div": {
+        paddingLeft: 50,
+        paddingRight: 50,
+      },
+      "& a": {
+        padding: 0,
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        width: "100%",
+        paddingLeft: 50,
+        paddingRight: 50,
+      },
+      "& svg": {
+        margin: 0,
+        padding: 0,
+      },
+    },
+    optionsList: {
+      display: "none",
+    },
     headerContainer: {
+      padding: 0,
       justifyContent: "flex-end",
     },
     headerTitle: {
@@ -92,21 +155,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     },
     option: {
       fontSize: 15,
-      margin: 5,
-    },
-  },
-  "@media (max-width: 400px)": {
-    right: {
-      width: "100%",
-    },
-    optionsList: {
-      width: "100%",
-      justifyContent: "space-around",
-      padding: 0,
-    },
-    option: {
-      margin: 7,
-      fontSize: 13,
+      margin: 0,
     },
   },
 }));

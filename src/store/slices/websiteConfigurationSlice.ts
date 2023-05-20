@@ -72,6 +72,7 @@ export interface IWebsiteConfiguration {
       language: ITranslatedText[];
       home: ITranslatedText[];
       chat: ITranslatedText[];
+      menu: ITranslatedText[];
     };
     registration: {
       title: ITranslatedText[];
@@ -543,6 +544,10 @@ const initialState: IWebsiteConfigurationState = {
       chat: [
         { language: "en", text: "Chat" },
         { language: "fr", text: "Chat" },
+      ],
+      menu: [
+        { language: "en", text: "Menu" },
+        { language: "fr", text: "Menu" },
       ],
     },
     registration: {

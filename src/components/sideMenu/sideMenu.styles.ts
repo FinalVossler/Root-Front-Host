@@ -53,9 +53,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
       width: "100%",
     },
     menuIconMenuOpen: {
-      right: 10,
-      left: "initial",
-      top: 8,
+      left: 10,
+      top: 19,
     },
   },
 }));
