@@ -209,6 +209,8 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
         {getTranslatedText(props.modelField.field.name, props.language)}
       </span>
 
+      {/* TODO required checkbox */}
+
       <div className={styles.conditionsContainer}>
         <div className={styles.conditionsTitleContainer}>
           <span className={styles.conditionsTitle}>
@@ -224,7 +226,6 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
 
         {props.modelField.conditions?.map(
           (condition: IModelFieldCondition, conditionIndex) => {
-            console.log("condition", condition);
             return (
               <div key={conditionIndex} className={styles.singleCondition}>
                 <MdDelete

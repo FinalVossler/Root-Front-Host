@@ -22,12 +22,12 @@ import useCreateEntity, {
 } from "../../../hooks/apiHooks/useCreateEntity";
 import {
   IModel,
+  IModelField,
   ModelFieldConditionType,
 } from "../../../store/slices/modelSlice";
 import { FieldType } from "../../../store/slices/fieldSlice";
 import Input from "../../input";
 import Textarea from "../../textarea";
-import { useParams } from "react-router-dom";
 import IFile from "../../../globalTypes/IFile";
 import EntityFieldFiles from "./entityFieldFiles";
 import uploadFiles from "../../../utils/uploadFiles";
@@ -91,7 +91,43 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
         entityFieldValues: [],
         language,
       },
-      validationSchema: Yup.object().shape({}),
+      validationSchema: Yup.object().shape({
+        entityFieldValues: Yup.mixed().test("required fields", () => {
+          let valid: boolean = true;
+
+          model?.modelFields.forEach((modelField: IModelField) => {
+            const entityFieldValue = formik.values.entityFieldValues.find(
+              (e) => e.fieldId === modelField.field._id
+            );
+
+            if (modelField.required) {
+              if (!entityFieldValue) {
+                valid = false;
+              } else {
+                if (modelField.field.type === FieldType.File) {
+                  if (
+                    (!entityFieldValue.newFiles ||
+                      entityFieldValue.newFiles.length === 0) &&
+                    (!entityFieldValue.selectedExistingFiles ||
+                      entityFieldValue.selectedExistingFiles.length === 0)
+                  ) {
+                    valid = false;
+                  }
+                } else {
+                  if (
+                    entityFieldValue.value === null ||
+                    entityFieldValue.value === undefined ||
+                    entityFieldValue.value === ""
+                  ) {
+                    valid = false;
+                  }
+                }
+              }
+            }
+          });
+          return valid;
+        }),
+      }),
       onSubmit: async (values: IEntityEditorFormForm) => {
         setUploadFilesLoading(true);
 

@@ -41,6 +41,7 @@ const EntityEditor = (props: IEntityEditor) => {
   return (
     <Modal handleClose={handleCloseModal} open={modelModalOpen}>
       <EntityEditorForm
+        entity={props.entity}
         modelId={actualModelId}
         open={props.open}
         setOpen={props.setOpen}
