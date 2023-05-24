@@ -78,6 +78,9 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
   const [modelModalOpen, setModelModalOpen] = React.useState<boolean>(false);
   const [uploadFilesLoading, setUploadFilesLoading] =
     React.useState<boolean>(false);
+  const [erroredRequiredFields, setErroredRequiredFields] = React.useState<
+    IModelField[]
+  >([]);
   //#endregion Local state
 
   const styles = useStyles({ theme });
@@ -92,8 +95,10 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
         language,
       },
       validationSchema: Yup.object().shape({
-        entityFieldValues: Yup.mixed().test("required fields", () => {
+        entityFieldValues: Yup.mixed().test("required fields", "", () => {
           let valid: boolean = true;
+
+          const newErroredRequiredFields: IModelField[] = [];
 
           model?.modelFields.forEach((modelField: IModelField) => {
             const entityFieldValue = formik.values.entityFieldValues.find(
@@ -123,8 +128,13 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
                   }
                 }
               }
+              if (!valid) {
+                newErroredRequiredFields.push(modelField);
+              }
             }
           });
+
+          setErroredRequiredFields(newErroredRequiredFields);
           return valid;
         }),
       }),
@@ -397,6 +407,13 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
                     ? "number"
                     : "text",
               }}
+              error={
+                erroredRequiredFields.find(
+                  (mf) => mf.field._id === modelField.field._id
+                )
+                  ? getTranslatedText(staticText?.required)
+                  : ""
+              }
             />
           );
         }
@@ -484,6 +501,17 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
           getLanguages()[0]
         }
       />
+
+      {/* Errored required fields error text */}
+      {formik.touched.entityFieldValues && erroredRequiredFields.length > 0 && (
+        <span className={styles.erroredFields}>
+          {getTranslatedText(staticText?.required) +
+            ": " +
+            erroredRequiredFields
+              .map((modelField) => getTranslatedText(modelField.field.name))
+              .join(",")}
+        </span>
+      )}
 
       {!loading && !props.readOnly && (
         <Button

@@ -20,6 +20,7 @@ import InputSelect from "../../inputSelect";
 import { Option } from "../../inputSelect/InputSelect";
 import { MdDelete, MdTextFields } from "react-icons/md";
 import Input from "../../input";
+import Checkbox from "../../checkbox";
 
 interface ISortableModelField {
   modelField: IModelField;
@@ -140,6 +141,19 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
 
     props.setSelectedModelFields(newSelectedModelFields);
   };
+
+  const handleCheckOrUncheckRequired = (required: boolean) => {
+    const newSelectedModelFields = props.selectedModelFields.map(
+      (modelField: IModelField, index: number) => {
+        if (index === props.modelFieldIndex) {
+          modelField.required = required;
+        }
+        return modelField;
+      }
+    );
+
+    props.setSelectedModelFields(newSelectedModelFields);
+  };
   //#endregion Event listeners
 
   //#region View
@@ -209,7 +223,13 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
         {getTranslatedText(props.modelField.field.name, props.language)}
       </span>
 
-      {/* TODO required checkbox */}
+      <div className={styles.fieldConfigurationContainer}>
+        <Checkbox
+          label={getTranslatedText(staticText?.required)}
+          checked={Boolean(props.modelField.required)}
+          onChange={handleCheckOrUncheckRequired}
+        />
+      </div>
 
       <div className={styles.conditionsContainer}>
         <div className={styles.conditionsTitleContainer}>

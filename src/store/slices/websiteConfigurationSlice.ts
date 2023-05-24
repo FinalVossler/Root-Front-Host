@@ -114,6 +114,7 @@ export interface IWebsiteConfiguration {
       field: ITranslatedText[];
       conditionType: ITranslatedText[];
       valueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear: ITranslatedText[];
+      required: ITranslatedText[];
     };
     models: {
       createModel: ITranslatedText[];
@@ -756,6 +757,16 @@ const initialState: IWebsiteConfigurationState = {
             text: "Valeur inférieure ou égale à (la valeur de l'année actuelle + la valeur du champ), et supérieur ou égal à la valeur de l'année actuelle",
           },
         ],
+      required: [
+        {
+          language: "en",
+          text: "Required",
+        },
+        {
+          language: "fr",
+          text: "Requis",
+        },
+      ],
     },
     models: {
       createModel: [

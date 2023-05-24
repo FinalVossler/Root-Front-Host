@@ -32,11 +32,15 @@ const useStyles = createUseStyles((theme: Theme) => ({
     extend: "deleteModelFieldButton",
     right: 30,
   },
+  fieldConfigurationContainer: {
+    width: "100%",
+    alignItems: "flex-start",
+    flexDirection: "column",
+  },
   conditionsContainer: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    marginTop: 20,
     width: "100%",
   },
   conditionsTitleContainer: {

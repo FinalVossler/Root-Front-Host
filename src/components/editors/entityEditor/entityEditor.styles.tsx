@@ -63,6 +63,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     margin: "auto",
     marginTop: 10,
   },
+  erroredFields: {
+    color: theme.errorColor,
+  },
   "@media (max-width: 850px)": {
     createEntityModalContainer: {
       width: "70vw",
