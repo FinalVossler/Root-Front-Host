@@ -1,16 +1,20 @@
 import { AxiosResponse } from "axios";
 import React from "react";
+import IFile from "../../globalTypes/IFile";
 
 import { useAppDispatch } from "../../store/hooks";
 import { entitySlice, IEntity } from "../../store/slices/entitySlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 
+export type EntityFieldValueCommand = {
+  fieldId: string;
+  value: string;
+  files: IFile[];
+};
+
 export type EntityCreateCommand = {
   modelId: string;
-  entityFieldValues: {
-    fieldId: string;
-    value: string;
-  }[];
+  entityFieldValues: EntityFieldValueCommand[];
   language: string;
 };
 

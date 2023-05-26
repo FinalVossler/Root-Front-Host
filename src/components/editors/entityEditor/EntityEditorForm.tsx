@@ -97,14 +97,11 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
       validationSchema: Yup.object().shape({
         entityFieldValues: Yup.mixed().test("required fields", "", () => {
           let valid: boolean = true;
-
           const newErroredRequiredFields: IModelField[] = [];
-
           model?.modelFields.forEach((modelField: IModelField) => {
             const entityFieldValue = formik.values.entityFieldValues.find(
               (e) => e.fieldId === modelField.field._id
             );
-
             if (modelField.required) {
               if (!entityFieldValue) {
                 valid = false;
@@ -133,7 +130,6 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
               }
             }
           });
-
           setErroredRequiredFields(newErroredRequiredFields);
           return valid;
         }),
@@ -177,7 +173,11 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
         if (props.entity) {
           const command: EntityUpdateCommand = {
             _id: props.entity._id,
-            entityFieldValues: values.entityFieldValues,
+            entityFieldValues: values.entityFieldValues.map((e) => ({
+              fieldId: e.fieldId,
+              files: e.files || [],
+              value: e.value,
+            })),
             language: values.language,
             modelId: values.modelId,
           };
@@ -185,7 +185,11 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
           await updateEntity(command);
         } else {
           const command: EntityCreateCommand = {
-            entityFieldValues: values.entityFieldValues,
+            entityFieldValues: values.entityFieldValues.map((e) => ({
+              fieldId: e.fieldId,
+              files: e.files || [],
+              value: e.value,
+            })),
             language: values.language,
             modelId: values.modelId,
           };

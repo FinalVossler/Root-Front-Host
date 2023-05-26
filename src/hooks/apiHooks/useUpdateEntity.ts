@@ -4,14 +4,12 @@ import { AxiosResponse } from "axios";
 import { useAppDispatch } from "../../store/hooks";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 import { entitySlice, IEntity } from "../../store/slices/entitySlice";
+import { EntityFieldValueCommand } from "./useCreateEntity";
 
 export type EntityUpdateCommand = {
   _id: string;
   modelId: string;
-  entityFieldValues: {
-    fieldId: string;
-    value: string;
-  }[];
+  entityFieldValues: EntityFieldValueCommand[];
   language: string;
 };
 
