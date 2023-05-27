@@ -10,6 +10,7 @@ import fieldReducer from "./slices/fieldSlice";
 import modelReducer from "./slices/modelSlice";
 import entityReducer from "./slices/entitySlice";
 import roleReducer from "./slices/roleSlice";
+import notificationReducer from "./slices/notificationSlice";
 
 export const store = configureStore({
   reducer: {
@@ -23,6 +24,7 @@ export const store = configureStore({
     model: modelReducer,
     entity: entityReducer,
     role: roleReducer,
+    notification: notificationReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

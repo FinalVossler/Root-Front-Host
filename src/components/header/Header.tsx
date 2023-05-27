@@ -15,6 +15,7 @@ import InputSelect from "../inputSelect";
 import { userPreferenceSlice } from "../../store/slices/userPreferencesSlice";
 import { Option } from "../inputSelect/InputSelect";
 import HeaderInbox from "../headerInbox";
+import HeaderNotifications from "../headerNotifications";
 
 interface IHeader {
   scrolledDown: boolean;
@@ -145,6 +146,8 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
           {withChat && isLoggedIn && location.pathname !== "/chat" && (
             <HeaderInbox />
           )}
+
+          {withRegistration && isLoggedIn && <HeaderNotifications />}
 
           {withRegistration && !isLoggedIn && (
             <li className={styles.option + " " + styles.headerIcon}>
