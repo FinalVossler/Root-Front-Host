@@ -38,7 +38,6 @@ const SingleEntityPage: React.FunctionComponent<ISingleEntityPage> = (
   const styles = useStyles({ theme });
   const isLoggedIn: boolean = useIsLoggedIn();
   const { getEntity, loading } = useGetEntity();
-  const getTranslatedText = useGetTranslatedText();
 
   React.useEffect(() => {
     const handleGetEntity = async () => {
@@ -50,8 +49,6 @@ const SingleEntityPage: React.FunctionComponent<ISingleEntityPage> = (
 
         const entity: IEntity = await getEntity(command);
         setEntity(entity);
-
-        console.log("entity", entity);
       }
     };
 

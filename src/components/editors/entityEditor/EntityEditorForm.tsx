@@ -95,44 +95,48 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
         language,
       },
       validationSchema: Yup.object().shape({
-        entityFieldValues: Yup.mixed().test("required fields", "", () => {
-          let valid: boolean = true;
-          const newErroredRequiredFields: IModelField[] = [];
-          model?.modelFields.forEach((modelField: IModelField) => {
-            const entityFieldValue = formik.values.entityFieldValues.find(
-              (e) => e.fieldId === modelField.field._id
-            );
-            if (modelField.required) {
-              if (!entityFieldValue) {
-                valid = false;
-              } else {
-                if (modelField.field.type === FieldType.File) {
-                  if (
-                    (!entityFieldValue.newFiles ||
-                      entityFieldValue.newFiles.length === 0) &&
-                    (!entityFieldValue.selectedExistingFiles ||
-                      entityFieldValue.selectedExistingFiles.length === 0)
-                  ) {
-                    valid = false;
-                  }
+        entityFieldValues: Yup.mixed().test(
+          "required fields",
+          "",
+          (entityFieldValues: IEntityFieldValueForm[]) => {
+            let valid: boolean = true;
+            const newErroredRequiredFields: IModelField[] = [];
+            model?.modelFields.forEach((modelField: IModelField) => {
+              const entityFieldValue = entityFieldValues.find(
+                (e) => e.fieldId === modelField.field._id
+              );
+              if (modelField.required) {
+                if (!entityFieldValue) {
+                  valid = false;
                 } else {
-                  if (
-                    entityFieldValue.value === null ||
-                    entityFieldValue.value === undefined ||
-                    entityFieldValue.value === ""
-                  ) {
-                    valid = false;
+                  if (modelField.field.type === FieldType.File) {
+                    if (
+                      (!entityFieldValue.newFiles ||
+                        entityFieldValue.newFiles.length === 0) &&
+                      (!entityFieldValue.selectedExistingFiles ||
+                        entityFieldValue.selectedExistingFiles.length === 0)
+                    ) {
+                      valid = false;
+                    }
+                  } else {
+                    if (
+                      entityFieldValue.value === null ||
+                      entityFieldValue.value === undefined ||
+                      entityFieldValue.value === ""
+                    ) {
+                      valid = false;
+                    }
                   }
                 }
+                if (!valid) {
+                  newErroredRequiredFields.push(modelField);
+                }
               }
-              if (!valid) {
-                newErroredRequiredFields.push(modelField);
-              }
-            }
-          });
-          setErroredRequiredFields(newErroredRequiredFields);
-          return valid;
-        }),
+            });
+            setErroredRequiredFields(newErroredRequiredFields);
+            return valid;
+          }
+        ),
       }),
       onSubmit: async (values: IEntityEditorFormForm) => {
         setUploadFilesLoading(true);

@@ -2,8 +2,6 @@ import React from "react";
 import EmojiPicker from "emoji-picker-react";
 import { AiOutlineSend } from "react-icons/ai";
 import { HiEmojiHappy } from "react-icons/hi";
-import { socketConnect } from "socket.io-react";
-import { Socket } from "socket.io-client";
 import {
   AiFillFileAdd,
   AiFillFilePdf,
@@ -17,7 +15,6 @@ import { Theme } from "../../../config/theme";
 import useStyles from "./chatInput.styles";
 import { IUser } from "../../../store/slices/userSlice";
 import { useAppSelector } from "../../../store/hooks";
-import ChatMessagesEnum from "../../../globalTypes/ChatMessagesEnum";
 import {
   getConversationConversationalistsFromConversationId,
   IMessage,
@@ -31,7 +28,6 @@ import useMarkMessagesAsRead, {
 
 interface IChatInput {
   conversationId: string;
-  socket: Socket;
   handleAddMessage: (message: IMessage) => void;
 }
 
@@ -114,7 +110,6 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
     const createdMessage: IMessage = await sendMessage(command, files);
 
     props.handleAddMessage(createdMessage);
-    props.socket.emit(ChatMessagesEnum.Send, createdMessage);
     if (messageRef.current?.innerHTML) {
       messageRef.current.innerHTML = "";
     }
@@ -228,4 +223,4 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
   );
 };
 
-export default React.memo(socketConnect(ChatInput));
+export default React.memo(ChatInput);

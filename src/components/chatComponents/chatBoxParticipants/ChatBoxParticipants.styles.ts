@@ -36,10 +36,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
     height: 25,
     borderRadius: "50%",
     marginRight: 5,
+    color: theme.lightTextColor,
   },
   participantName: {
     color: theme.lightTextColor,
     fontWeight: "bold",
+    position: "relative",
+    top: 2,
   },
   "@media (max-width: 850px)": {},
 }));

@@ -148,7 +148,7 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
 
                 return (
                   <div
-                    key={index}
+                    key={message._id}
                     onClick={() => handleSelectConversationFromMessage(message)}
                     className={styles.conversationContainer}
                   >

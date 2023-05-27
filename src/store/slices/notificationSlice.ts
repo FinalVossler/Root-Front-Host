@@ -2,14 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import IFile from "../../globalTypes/IFile";
 import ITranslatedText from "../../globalTypes/ITranslatedText";
-import { IUser } from "./userSlice";
 
 export interface INotification {
   _id: string;
   text: ITranslatedText[];
   link: string;
   image?: IFile;
-  notifiedUser: IUser;
+  to: string[];
   clicked?: boolean;
 
   createdAt: string;
@@ -51,6 +50,19 @@ export const notificationSlice = createSlice({
       state.notifications.push(action.payload.notification);
       state.total++;
       state.totalUnclicked++;
+    },
+    setNotificationToClicked: (
+      state: INotificationState,
+      action: PayloadAction<{ notificationId: string }>
+    ) => {
+      state.notifications = state.notifications.map((notification) => ({
+        ...notification,
+        clicked:
+          notification._id === action.payload.notificationId ? true : false,
+      }));
+      if (state.totalUnclicked > 0) {
+        state.totalUnclicked--;
+      }
     },
   },
 });

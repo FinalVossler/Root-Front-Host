@@ -47,7 +47,7 @@ const Input: React.FunctionComponent<IInput> = (props: IInput) => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (props.formik && props.name) {
+    if (props.formik && props.name && !props.onChange) {
       props.formik.setFieldValue(props.name, e.target.value);
     }
     if (props.onChange) {
@@ -110,7 +110,8 @@ const Input: React.FunctionComponent<IInput> = (props: IInput) => {
 
       <span className={styles.inputError}>
         {/* @ts-ignore */}
-        {props.formik?.touched[props.name] && props.formik.errors[props.name]}
+        {props.formik?.touched[props.name] &&
+          props.formik?.errors[props.name || ""]}
         {props.error?.toString()}
       </span>
     </div>

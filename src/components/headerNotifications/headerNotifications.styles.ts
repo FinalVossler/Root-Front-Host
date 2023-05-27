@@ -61,6 +61,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     justifyContent: "center",
     marginLeft: 20,
     color: theme.lightTextColor,
+    flex: 1,
   },
   "@media (max-width: 800px)": {
     notificationPopup: {

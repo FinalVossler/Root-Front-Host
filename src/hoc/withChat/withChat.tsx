@@ -56,7 +56,7 @@ const withChat = (Component: React.FunctionComponent<any>) =>
           })
         );
       });
-    }, [props.socket]);
+    }, [props.socket.on, withChat]);
 
     return <Component {...props} />;
   });

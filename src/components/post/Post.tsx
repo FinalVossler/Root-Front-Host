@@ -95,7 +95,6 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
     return <ChildrenContainer post={post} />;
   }
   if (post.design === PostDesign.Spacing) {
-    console.log("post code", post);
     return (
       <Spacing height={post.code ? post.code : getTranslatedText(post.title)} />
     );

@@ -1,11 +1,11 @@
 import React from "react";
 import Loading from "react-loading";
+import { TbMoodEmpty } from "react-icons/tb";
 
 import { Theme } from "../../config/theme";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
-import useStyles from "./headerNotifications.styles";
 import UserProfilePicture from "../userProfilePicture";
 import { SizeEnum } from "../userProfilePicture/UserProfilePicture";
 import { IUser } from "../../store/slices/userSlice";
@@ -19,14 +19,20 @@ import useGetNotifications, {
   NotificationsGetCommand,
 } from "../../hooks/apiHooks/useGetNotifications";
 import { MdNotifications } from "react-icons/md";
+import useSetNotificationToClicked from "../../hooks/apiHooks/useSetNotificationToClicked";
+import HeaderOptionNotificationSignal from "../headerOptionNotificationSignal";
+
+import useStyles from "./headerNotifications.styles";
+import withNotifications from "../../hoc/withNotifications";
 
 interface IHeaderNotifications {}
 
 const LIMIT = 99;
 
-const HeaderInbox: React.FunctionComponent<IHeaderNotifications> = (
+const HeaderNotifications: React.FunctionComponent<IHeaderNotifications> = (
   props: IHeaderNotifications
 ) => {
+  //#region Store
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
@@ -35,6 +41,10 @@ const HeaderInbox: React.FunctionComponent<IHeaderNotifications> = (
   );
   const total = useAppSelector((state) => state.notification.total);
   const user: IUser = useAppSelector((state) => state.user.user);
+  const totalUnclicked: number = useAppSelector(
+    (state) => state.notification.totalUnclicked
+  );
+  //#endregion Store
 
   const [notificationsOpen, setNotificationsOpen] =
     React.useState<boolean>(false);
@@ -48,7 +58,9 @@ const HeaderInbox: React.FunctionComponent<IHeaderNotifications> = (
     setNotificationsOpen(false);
   });
   const { getNotifications, loading } = useGetNotifications();
+  const { setNotificationToClicked } = useSetNotificationToClicked();
 
+  //#region Hooks
   React.useEffect(() => {
     // Reset everything when the component has just loaded to not have a snapping event
     if (notificationsOpen) {
@@ -56,7 +68,7 @@ const HeaderInbox: React.FunctionComponent<IHeaderNotifications> = (
         notificationSlice.actions.setNotifications({
           notifications: [],
           total: 0,
-          totalUnclicked: 0,
+          totalUnclicked,
         })
       );
     }
@@ -64,7 +76,7 @@ const HeaderInbox: React.FunctionComponent<IHeaderNotifications> = (
 
   // Load notifications on component mount
   React.useEffect(() => {
-    if (notificationsOpen) {
+    if (user._id) {
       const command: NotificationsGetCommand = {
         paginationCommand: {
           limit: LIMIT,
@@ -74,12 +86,20 @@ const HeaderInbox: React.FunctionComponent<IHeaderNotifications> = (
       };
       getNotifications(command);
     }
-  }, [notificationsOpen, page]);
+  }, [notificationsOpen, page, user]);
+  //#endregion Hooks
 
+  //#region Event listeners
   const handleOpenNotifications = () =>
     setNotificationsOpen(!notificationsOpen);
 
   const handlePageChange = (page: number) => setPage(page);
+  const handleClickNotification = (notification: INotification) => {
+    if (!notification.clicked) {
+      setNotificationToClicked({ notificationId: notification._id });
+    }
+  };
+  //#endregion Event listeners
 
   return (
     <div
@@ -92,13 +112,20 @@ const HeaderInbox: React.FunctionComponent<IHeaderNotifications> = (
         className={styles.notificationIcon}
       />
 
+      <HeaderOptionNotificationSignal numberOfNotifications={totalUnclicked} />
+
       {notificationsOpen && (
         <div className={styles.notificationPopup}>
           {loading && <Loading className={styles.headerNotificationLoading} />}
           {!loading &&
             notifications.map((notification: INotification, index: number) => {
               return (
-                <a target="_blank" href={notification.link}>
+                <a
+                  key={index}
+                  target="_blank"
+                  href={notification.link}
+                  onClick={() => handleClickNotification(notification)}
+                >
                   <div key={index} className={styles.notificationContainer}>
                     {notification.image?.url && (
                       <UserProfilePicture
@@ -115,6 +142,7 @@ const HeaderInbox: React.FunctionComponent<IHeaderNotifications> = (
               );
             })}
 
+          {!loading && notifications.length === 0 && <TbMoodEmpty />}
           <Pagination
             total={total}
             page={page}
@@ -127,4 +155,4 @@ const HeaderInbox: React.FunctionComponent<IHeaderNotifications> = (
   );
 };
 
-export default HeaderInbox;
+export default withNotifications(HeaderNotifications);

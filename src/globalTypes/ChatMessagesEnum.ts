@@ -1,7 +1,6 @@
 enum ChatMessagesEnum {
-  Send = "Send",
-  Receive = "Receive",
-  Delete = "Delete",
+  Receive = "ChantReceive",
+  Delete = "ChatDelete",
 }
 
 export default ChatMessagesEnum;

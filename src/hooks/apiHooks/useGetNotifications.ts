@@ -24,6 +24,8 @@ const useGetNotifications = () => {
 
   const getNotifications = (command: NotificationsGetCommand) =>
     new Promise((resolve, reject) => {
+      setLoading(true);
+
       axios
         .request<
           AxiosResponse<{
