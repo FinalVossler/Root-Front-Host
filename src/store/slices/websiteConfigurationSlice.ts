@@ -165,6 +165,7 @@ export interface IWebsiteConfiguration {
       language: ITranslatedText[];
       required: ITranslatedText[];
       visit: ITranslatedText[];
+      success: ITranslatedText[];
     };
     contact: {
       firstNameRequired: ITranslatedText[];
@@ -957,6 +958,10 @@ const initialState: IWebsiteConfigurationState = {
       visit: [
         { text: "visit", language: "en" },
         { text: "Visiter", language: "fr" },
+      ],
+      success: [
+        { text: "Success", language: "en" },
+        { text: "Succès", language: "fr" },
       ],
     },
     contact: {

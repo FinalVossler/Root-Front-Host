@@ -53,8 +53,8 @@ export interface IEntityEditorFormForm {
 
 export interface IEntityEditorForm {
   entity?: IEntity;
-  open?: boolean;
-  setOpen?: (boolean) => void;
+  open: boolean;
+  setOpen: (boolean) => void;
   modelId?: string;
   readOnly?: boolean;
 }
@@ -75,7 +75,6 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
   const user: IUser = useAppSelector((state) => state.user.user);
 
   //#region Local state
-  const [modelModalOpen, setModelModalOpen] = React.useState<boolean>(false);
   const [uploadFilesLoading, setUploadFilesLoading] =
     React.useState<boolean>(false);
   const [erroredRequiredFields, setErroredRequiredFields] = React.useState<
@@ -201,19 +200,11 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
           await createEntity(command);
         }
 
-        if (props.setOpen) {
-          props.setOpen(false);
-        }
+        props.setOpen(false);
       },
     });
 
   //#region Effects
-  React.useEffect(() => {
-    if (props.open !== undefined && modelModalOpen !== props.open) {
-      setModelModalOpen(props.open);
-    }
-  }, [props.open]);
-
   React.useEffect(() => {
     formik.resetForm({
       values: {
@@ -249,9 +240,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
   };
 
   const handleCloseModal = () => {
-    if (props.setOpen) {
-      props.setOpen(false);
-    } else setModelModalOpen(false);
+    props.setOpen(false);
   };
   //#endregion Event listeners
 

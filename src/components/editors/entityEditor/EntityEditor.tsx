@@ -8,38 +8,27 @@ import EntityEditorForm from "./EntityEditorForm";
 
 export interface IEntityEditor {
   entity?: IEntity;
-  open?: boolean;
-  setOpen?: (boolean) => void;
+  open: boolean;
+  setOpen: (boolean) => void;
   // This one is used for when we use the entity editor as a post (the editor could exist in any page)
   modelId?: string;
 }
 
 const EntityEditor = (props: IEntityEditor) => {
   const { modelId } = useParams();
-  const actualModelId = props.modelId ?? modelId;
-
-  //#region Local state
-  const [modelModalOpen, setModelModalOpen] = React.useState<boolean>(false);
-  //#endregion Local state
-
-  //#region Effects
-  React.useEffect(() => {
-    if (props.open !== undefined && modelModalOpen !== props.open) {
-      setModelModalOpen(props.open);
-    }
-  }, [props.open]);
-  //#endregion Effects
+  const actualModelId = React.useMemo(
+    () => props.modelId ?? modelId,
+    [modelId, props.modelId]
+  );
 
   //#region Event listeners
   const handleCloseModal = () => {
-    if (props.setOpen) {
-      props.setOpen(false);
-    } else setModelModalOpen(false);
+    props.setOpen(false);
   };
   //#endregion Event listeners
 
   return (
-    <Modal handleClose={handleCloseModal} open={modelModalOpen}>
+    <Modal handleClose={handleCloseModal} open={props.open}>
       <EntityEditorForm
         entity={props.entity}
         modelId={actualModelId}

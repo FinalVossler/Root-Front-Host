@@ -10,13 +10,10 @@ import useGetEntity, {
 } from "../../hooks/apiHooks/useGetEntity";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
-import { IModel, IModelField } from "../../store/slices/modelSlice";
+import { IModel } from "../../store/slices/modelSlice";
 
 import useStyles from "./singleEntityPage.styles";
 import { IEntity } from "../../store/slices/entitySlice";
-import { FieldType } from "../../store/slices/fieldSlice";
-import Input from "../../components/input";
-import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import EntityEditorForm from "../../components/editors/entityEditor/EntityEditorForm";
 
 interface ISingleEntityPage {}
@@ -63,7 +60,13 @@ const SingleEntityPage: React.FunctionComponent<ISingleEntityPage> = (
 
       {!loading && entity && (
         <div className={styles.entityValuesContainer}>
-          <EntityEditorForm modelId={modelId} entity={entity} readOnly />
+          <EntityEditorForm
+            modelId={modelId}
+            entity={entity}
+            readOnly
+            open={false}
+            setOpen={() => {}}
+          />
         </div>
       )}
     </div>
