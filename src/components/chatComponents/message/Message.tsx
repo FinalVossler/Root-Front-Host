@@ -42,8 +42,6 @@ const Message: React.FunctionComponent<IMessageComponent> = (
   }, [user, props.message]);
 
   const handleModalConfirm = () => {
-    props.socket.emit(ChatMessagesEnum.Delete, props.message);
-
     setDeleteLoading(true);
     axios
       .request({
@@ -54,7 +52,6 @@ const Message: React.FunctionComponent<IMessageComponent> = (
         },
       })
       .then(() => {
-        props.socket.emit(ChatMessagesEnum.Delete, props.message);
         toast.success("Deleted");
         const conversationId: string = getConversationId([...props.message.to]);
 

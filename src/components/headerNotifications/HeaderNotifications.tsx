@@ -24,6 +24,7 @@ import HeaderOptionNotificationSignal from "../headerOptionNotificationSignal";
 
 import useStyles from "./headerNotifications.styles";
 import withNotifications from "../../hoc/withNotifications";
+import { Link } from "react-router-dom";
 
 interface IHeaderNotifications {}
 
@@ -95,6 +96,7 @@ const HeaderNotifications: React.FunctionComponent<IHeaderNotifications> = (
 
   const handlePageChange = (page: number) => setPage(page);
   const handleClickNotification = (notification: INotification) => {
+    setNotificationsOpen(false);
     if (!notification.clicked) {
       setNotificationToClicked({ notificationId: notification._id });
     }
@@ -119,14 +121,27 @@ const HeaderNotifications: React.FunctionComponent<IHeaderNotifications> = (
           {loading && <Loading className={styles.headerNotificationLoading} />}
           {!loading &&
             notifications.map((notification: INotification, index: number) => {
+              let linkArray = notification.link
+                .replace("https://", "")
+                ?.replace("http://", "")
+                ?.split("/");
+              linkArray.shift();
+              let link: string = linkArray.join("/") || "";
+
               return (
-                <a
+                <Link
                   key={index}
-                  target="_blank"
-                  href={notification.link}
+                  to={"/" + link}
                   onClick={() => handleClickNotification(notification)}
                 >
-                  <div key={index} className={styles.notificationContainer}>
+                  <div
+                    key={index}
+                    className={
+                      notification.clicked
+                        ? styles.notificationContainer
+                        : styles.notificationContainerUnclicked
+                    }
+                  >
                     {notification.image?.url && (
                       <UserProfilePicture
                         url={notification.image?.url}
@@ -138,7 +153,7 @@ const HeaderNotifications: React.FunctionComponent<IHeaderNotifications> = (
                       {getTranslatedText(notification?.text)}
                     </div>
                   </div>
-                </a>
+                </Link>
               );
             })}
 

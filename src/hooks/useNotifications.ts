@@ -8,14 +8,17 @@ const useNotifications = () => {
   const conversations: Conversation[] = useAppSelector(
     (state) => state.chat.conversations
   );
+  const totalUnclickedNotifications: number = useAppSelector(
+    (state) => state.notification.totalUnclicked
+  );
 
   const numberOfNotifications: number = React.useMemo(
     () =>
       conversations.reduce(
         (acc, conversation) => acc + conversation.totalUnreadMessages,
         0
-      ),
-    [userId, conversations]
+      ) + totalUnclickedNotifications,
+    [userId, conversations, totalUnclickedNotifications]
   );
 
   React.useEffect(() => {

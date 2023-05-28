@@ -34,6 +34,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.lightTextColor,
     minHeight: 35,
     boxSizing: "border-box",
+    paddingRight: 40,
 
     "&:focus": {
       outline: "0px solid transparent",

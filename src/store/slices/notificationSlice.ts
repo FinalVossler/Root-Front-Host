@@ -47,7 +47,10 @@ export const notificationSlice = createSlice({
       state: INotificationState,
       action: PayloadAction<{ notification: INotification }>
     ) => {
-      state.notifications.push(action.payload.notification);
+      state.notifications = [
+        ...state.notifications,
+        action.payload.notification,
+      ];
       state.total++;
       state.totalUnclicked++;
     },
@@ -58,7 +61,9 @@ export const notificationSlice = createSlice({
       state.notifications = state.notifications.map((notification) => ({
         ...notification,
         clicked:
-          notification._id === action.payload.notificationId ? true : false,
+          notification._id === action.payload.notificationId
+            ? true
+            : notification.clicked,
       }));
       if (state.totalUnclicked > 0) {
         state.totalUnclicked--;

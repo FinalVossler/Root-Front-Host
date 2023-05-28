@@ -14,6 +14,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginLeft: 20,
     position: "relative",
     maxWidth: "90%",
+    marginRight: 10,
   },
   otherMessageContainer: {
     extend: "messageContainer",

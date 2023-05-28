@@ -30,4 +30,4 @@ const HeaderOptionNotificationSignal: React.FunctionComponent<IHeaderOptionNotif
     );
   };
 
-export default HeaderOptionNotificationSignal;
+export default React.memo(HeaderOptionNotificationSignal);

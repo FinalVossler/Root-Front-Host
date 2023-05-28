@@ -181,6 +181,18 @@ export const chatSlice = createSlice({
         };
         state.conversations.push(newConversation);
       }
+
+      // Add the conversation to the selected conversations for the popping up of a new chatbox in the app
+      if (
+        messages[messages.length - 1].from !== action.payload.currentUser._id
+      ) {
+        if (state.selectedConversationIds?.indexOf(conversationId) === -1) {
+          state.selectedConversationIds?.push(conversationId);
+        }
+        if (!state.selectedConversationIds) {
+          state.selectedConversationIds = [conversationId];
+        }
+      }
     },
     deleteMessage: (
       state: IChatState,

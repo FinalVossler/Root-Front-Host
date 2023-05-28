@@ -29,9 +29,9 @@ const SingleEntityPage: React.FunctionComponent<ISingleEntityPage> = (
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
-  const model: IModel | undefined = useAppSelector((state) =>
-    state.model.models.find((model) => model._id === modelId)
-  );
+  const model: IModel | undefined = useAppSelector(
+    (state) => state.model.models
+  ).find((model) => model._id === modelId);
 
   const [entity, setEntity] = React.useState<IEntity>();
 
@@ -53,7 +53,7 @@ const SingleEntityPage: React.FunctionComponent<ISingleEntityPage> = (
     };
 
     handleGetEntity();
-  }, [model]);
+  }, [modelId, model, entityId]);
 
   if (!isLoggedIn) return null;
 

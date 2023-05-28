@@ -42,6 +42,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     cursor: "pointer",
     borderRadius: 10,
     boxSizing: "border-box",
+    marginBottom: 10,
 
     "&:hover": {
       backgroundColor: theme.darkerPrimary,
@@ -54,6 +55,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
         borderColor: theme.lightTextColor + "!important",
       },
     },
+  },
+  notificationContainerUnclicked: {
+    extend: "notificationContainer",
+    backgroundColor: theme.primary,
+    color: theme.lightTextColor,
   },
   notificationText: {
     display: "flex",
