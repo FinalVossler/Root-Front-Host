@@ -9,7 +9,7 @@ export interface INotification {
   link: string;
   image?: IFile;
   to: string[];
-  clicked?: boolean;
+  clickedBy: string[];
 
   createdAt: string;
   updatedAt: string;
@@ -52,22 +52,41 @@ export const notificationSlice = createSlice({
         action.payload.notification,
       ];
       state.total++;
+      console.log("state total unclicked", state.totalUnclicked);
       state.totalUnclicked++;
     },
-    setNotificationToClicked: (
+    setNotificationToClickedBy: (
       state: INotificationState,
-      action: PayloadAction<{ notificationId: string }>
+      action: PayloadAction<{ notificationId: string; userId: string }>
     ) => {
       state.notifications = state.notifications.map((notification) => ({
         ...notification,
-        clicked:
+        clickedBy:
           notification._id === action.payload.notificationId
-            ? true
-            : notification.clicked,
+            ? [
+                ...notification.clickedBy?.filter(
+                  (id) => id !== action.payload.userId
+                ),
+                action.payload.userId,
+              ]
+            : notification.clickedBy,
       }));
       if (state.totalUnclicked > 0) {
         state.totalUnclicked--;
       }
+    },
+    markAllUserNotificationAsClicked: (
+      state: INotificationState,
+      action: PayloadAction<string>
+    ) => {
+      state.totalUnclicked = 0;
+      state.notifications = state.notifications.map((not) => ({
+        ...not,
+        clickedBy: [
+          ...not.clickedBy.filter((userId) => userId !== action.payload),
+          action.payload,
+        ],
+      }));
     },
   },
 });

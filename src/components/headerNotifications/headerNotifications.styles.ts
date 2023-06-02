@@ -10,6 +10,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.lightTextColor,
     fill: theme.primary + "!important",
   },
+  notificationIconContainer: {
+    cursor: "pointer",
+  },
   notificationIcon: {
     fontSize: 26,
     color: theme.lightTextColor,

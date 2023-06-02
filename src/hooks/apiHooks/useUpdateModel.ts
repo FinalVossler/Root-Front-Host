@@ -4,8 +4,9 @@ import { AxiosResponse } from "axios";
 import { useAppDispatch } from "../../store/hooks";
 import {
   IModel,
-  IModelField,
-  ModelFieldConditionType,
+  ModelEventTriggerEnum,
+  ModelEventTypeEnum,
+  ModelFieldConditionTypeEnum,
   modelSlice,
 } from "../../store/slices/modelSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
@@ -18,9 +19,23 @@ export type ModelUpdateCommand = {
     required: boolean;
     conditions?: {
       fieldId: string;
-      conditionType: ModelFieldConditionType;
+      conditionType: ModelFieldConditionTypeEnum;
       value: number | string;
     }[];
+  }[];
+  modelEvents: {
+    eventTrigger: ModelEventTriggerEnum;
+    eventType: ModelEventTypeEnum;
+
+    // Redirection options
+    redirectionUrl: string;
+    redirectionToSelf: boolean;
+
+    // API call options
+    requestMethod: string;
+    requestUrl: string;
+    requestDataIsCreatedEntity: boolean;
+    requestData: string;
   }[];
   language: string;
 };

@@ -3,6 +3,7 @@ import "suneditor/dist/css/suneditor.min.css";
 import ReactLoading from "react-loading";
 import * as Yup from "yup";
 import { MdTextFields } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 import useStyles from "./entityEditor.styles";
 import { Theme } from "../../../config/theme";
@@ -23,7 +24,8 @@ import useCreateEntity, {
 import {
   IModel,
   IModelField,
-  ModelFieldConditionType,
+  ModelFieldConditionTypeEnum,
+  ModelEventTypeEnum,
 } from "../../../store/slices/modelSlice";
 import { FieldType } from "../../../store/slices/fieldSlice";
 import Input from "../../input";
@@ -34,6 +36,7 @@ import uploadFiles from "../../../utils/uploadFiles";
 import { Option } from "../../inputSelect/InputSelect";
 import { IUser } from "../../../store/slices/userSlice";
 import { StaticPermission } from "../../../store/slices/roleSlice";
+import useAxios from "../../../hooks/useAxios";
 
 export interface IEntityFieldValueForm {
   fieldId: string;
@@ -86,6 +89,8 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
   const getTranslatedText = useGetTranslatedText();
   const { createEntity, loading: createLoading } = useCreateEntity();
   const { updateEntity, loading: updateLoading } = useUpdateEntity();
+  const axios = useAxios();
+  const navigate = useNavigate();
   const formik: FormikProps<IEntityEditorFormForm> =
     useFormik<IEntityEditorFormForm>({
       initialValues: {
@@ -173,6 +178,8 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
 
         setUploadFilesLoading(false);
 
+        let createdOrUpdateEntity: IEntity | null = null;
+
         if (props.entity) {
           const command: EntityUpdateCommand = {
             _id: props.entity._id,
@@ -185,7 +192,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
             modelId: values.modelId,
           };
 
-          await updateEntity(command);
+          createdOrUpdateEntity = await updateEntity(command);
         } else {
           const command: EntityCreateCommand = {
             entityFieldValues: values.entityFieldValues.map((e) => ({
@@ -197,10 +204,44 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
             modelId: values.modelId,
           };
 
-          await createEntity(command);
+          createdOrUpdateEntity = await createEntity(command);
         }
 
         props.setOpen(false);
+
+        // Model events trigger
+        model?.modelEvents?.forEach((modelEvent) => {
+          switch (modelEvent.eventType) {
+            case ModelEventTypeEnum.Redirection: {
+              if (modelEvent.redirectionToSelf) {
+                navigate(
+                  "/entities/" + model._id + "/" + createdOrUpdateEntity?._id
+                );
+              } else if (modelEvent.redirectionUrl) {
+                window.location.href = modelEvent.redirectionUrl;
+              }
+              break;
+            }
+
+            case ModelEventTypeEnum.ApiCall: {
+              let bodyData: any = {};
+              if (modelEvent.requestDataIsCreatedEntity) {
+                bodyData = createdOrUpdateEntity;
+              } else {
+                try {
+                  bodyData = JSON.parse(modelEvent.requestData);
+                } catch (e) {
+                  bodyData = {};
+                }
+              }
+              axios.request({
+                url: modelEvent.requestUrl,
+                method: modelEvent.requestMethod,
+                data: bodyData,
+              });
+            }
+          }
+        });
       },
     });
 
@@ -305,36 +346,36 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
             }
             if (efv) {
               switch (condition.conditionType) {
-                case ModelFieldConditionType.Equal:
+                case ModelFieldConditionTypeEnum.Equal:
                   if (efv.value !== condition.value) {
                     conditionsMet = false;
                   }
                   break;
-                case ModelFieldConditionType.InferiorTo: {
+                case ModelFieldConditionTypeEnum.InferiorTo: {
                   if (efv.value >= condition.value) {
                     conditionsMet = false;
                   }
                   break;
                 }
-                case ModelFieldConditionType.SuperiorTo: {
+                case ModelFieldConditionTypeEnum.SuperiorTo: {
                   if (efv.value <= condition.value) {
                     conditionsMet = false;
                   }
                   break;
                 }
-                case ModelFieldConditionType.InferiorOrEqualTo: {
+                case ModelFieldConditionTypeEnum.InferiorOrEqualTo: {
                   if (efv.value > condition.value) {
                     conditionsMet = false;
                   }
                   break;
                 }
-                case ModelFieldConditionType.SuperiorOrEqualTo: {
+                case ModelFieldConditionTypeEnum.SuperiorOrEqualTo: {
                   if (efv.value < condition.value) {
                     conditionsMet = false;
                   }
                   break;
                 }
-                case ModelFieldConditionType.ValueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear: {
+                case ModelFieldConditionTypeEnum.ValueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear: {
                   if (condition.field?.type !== FieldType.Number) {
                     conditionsMet = false;
                   }

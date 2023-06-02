@@ -16,17 +16,22 @@ interface IWithNotifications {
 const withNotifications = (Component: React.FunctionComponent<any>) =>
   socketConnect((props: IWithNotifications) => {
     const dispatch = useAppDispatch();
+    const notificationsListener = React.useRef<any>(null);
 
     // Listening to incoming messages
     React.useEffect(() => {
       if (!props.socket.on) return;
 
-      props.socket.on(
-        NotificationMessageEnum.Receive,
-        (notification: INotification) => {
-          dispatch(notificationSlice.actions.addNotification({ notification }));
-        }
-      );
+      if (notificationsListener.current === null) {
+        notificationsListener.current = props.socket.on(
+          NotificationMessageEnum.Receive,
+          (notification: INotification) => {
+            dispatch(
+              notificationSlice.actions.addNotification({ notification })
+            );
+          }
+        );
+      }
     }, [props.socket.on]);
 
     return <Component {...props} />;

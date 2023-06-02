@@ -18,11 +18,18 @@ import useCreateModel, {
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import InputSelect from "../../inputSelect";
 import getLanguages from "../../../utils/getLanguages";
-import { IModel, IModelField } from "../../../store/slices/modelSlice";
+import {
+  IModel,
+  IModelEvent,
+  IModelField,
+  ModelEventTriggerEnum,
+  ModelEventTypeEnum,
+} from "../../../store/slices/modelSlice";
 import useUpdateModel, {
   ModelUpdateCommand,
 } from "../../../hooks/apiHooks/useUpdateModel";
-import FieldsEditor from "../../fieldsEditor";
+import ModelFieldsEditor from "./fieldsEditor";
+import ModelEventsEditor from "./modelEventsEditor";
 
 export interface IModelEditor {
   model?: IModel;
@@ -30,9 +37,10 @@ export interface IModelEditor {
   setOpen?: (boolean) => void;
 }
 
-interface IModelForm {
+export interface IModelForm {
   name: string;
   modelFields: IModelField[];
+  modelEvents: IModelEvent[];
   language: string;
 }
 
@@ -60,6 +68,7 @@ const ModelEditor = (props: IModelEditor) => {
       name: "",
       modelFields: [],
       language,
+      modelEvents: [],
     },
     validationSchema: Yup.object().shape({
       name: Yup.string().required(
@@ -82,6 +91,16 @@ const ModelEditor = (props: IModelEditor) => {
                   value: condition.value,
                 })) || [],
             })) || [],
+          modelEvents: values.modelEvents.map((modelEvent) => ({
+            eventTrigger: modelEvent.eventTrigger,
+            eventType: modelEvent.eventType,
+            redirectionToSelf: modelEvent.redirectionToSelf,
+            redirectionUrl: modelEvent.redirectionUrl,
+            requestMethod: modelEvent.requestMethod,
+            requestUrl: modelEvent.requestUrl,
+            requestDataIsCreatedEntity: modelEvent.requestDataIsCreatedEntity,
+            requestData: modelEvent.requestData,
+          })),
           language: values.language,
         };
 
@@ -100,6 +119,9 @@ const ModelEditor = (props: IModelEditor) => {
                   value: condition.value,
                 })) || [],
             })) || [],
+          modelEvents: values.modelEvents.map((modelEvent) => ({
+            ...modelEvent,
+          })),
           language: values.language,
         };
 
@@ -118,6 +140,7 @@ const ModelEditor = (props: IModelEditor) => {
       setModelModalOpen(props.open);
     }
   }, [props.open]);
+  // Initialize form based on model prop
   React.useEffect(() => {
     formik.resetForm({
       values: {
@@ -132,6 +155,20 @@ const ModelEditor = (props: IModelEditor) => {
                 conditionType: condition.conditionType,
                 field: condition.field,
               })) || [],
+          })) || [],
+        modelEvents:
+          props.model?.modelEvents?.map((modelEvent) => ({
+            eventTrigger:
+              modelEvent.eventTrigger || ModelEventTriggerEnum.OnCreate,
+            eventType: modelEvent.eventType || ModelEventTypeEnum.ApiCall,
+            redirectionToSelf: Boolean(modelEvent.redirectionToSelf),
+            redirectionUrl: modelEvent.redirectionUrl || "",
+            requestMethod: modelEvent.requestMethod || "POST",
+            requestUrl: modelEvent.requestUrl || "",
+            requestData: modelEvent.requestData || "",
+            requestDataIsCreatedEntity: Boolean(
+              modelEvent.requestDataIsCreatedEntity
+            ),
           })) || [],
         language: formik.values.language,
       },
@@ -193,7 +230,9 @@ const ModelEditor = (props: IModelEditor) => {
           }
         />
 
-        <FieldsEditor
+        <ModelEventsEditor formik={formik} />
+
+        <ModelFieldsEditor
           model={props.model}
           setSelectedModelFields={handleModelFieldsChange}
           language={formik.values.language}

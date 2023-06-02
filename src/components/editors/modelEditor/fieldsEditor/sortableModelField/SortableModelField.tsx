@@ -4,23 +4,23 @@ import { BsHandIndexFill } from "react-icons/bs";
 import { AiFillDelete } from "react-icons/ai";
 import { useSortable } from "@dnd-kit/sortable";
 
-import { Theme } from "../../../config/theme";
-import { useAppSelector } from "../../../store/hooks";
-import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
+import { Theme } from "../../../../../config/theme";
+import { useAppSelector } from "../../../../../store/hooks";
+import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 
 import {
   IModelField,
   IModelFieldCondition,
-  ModelFieldConditionType,
-} from "../../../store/slices/modelSlice";
+  ModelFieldConditionTypeEnum,
+} from "../../../../../store/slices/modelSlice";
 
 import useStyles from "./sortableModel.styles";
 import { BiPlus } from "react-icons/bi";
-import InputSelect from "../../inputSelect";
-import { Option } from "../../inputSelect/InputSelect";
+import InputSelect from "../../../../inputSelect";
+import { Option } from "../../../../inputSelect/InputSelect";
 import { MdDelete, MdTextFields } from "react-icons/md";
-import Input from "../../input";
-import Checkbox from "../../checkbox";
+import Input from "../../../../input";
+import Checkbox from "../../../../checkbox";
 
 interface ISortableModelField {
   modelField: IModelField;
@@ -50,7 +50,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
   //#region Event listeners
   const handleAddCondition = () => {
     const newCondition: IModelFieldCondition = {
-      conditionType: ModelFieldConditionType.Equal,
+      conditionType: ModelFieldConditionTypeEnum.Equal,
       field: undefined,
       value: "",
     };
@@ -79,7 +79,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
     props.setSelectedModelFields(newSelectedModelFields);
   };
   const handleChangeConditionType = (
-    conditionType: ModelFieldConditionType,
+    conditionType: ModelFieldConditionTypeEnum,
     conditionIndex: number
   ) => {
     const newSelectedModelFields = props.selectedModelFields.map(
@@ -163,30 +163,30 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
   const conditionsOptions: Option[] = [
     {
       label: getTranslatedText(staticText?.equal),
-      value: ModelFieldConditionType.Equal,
+      value: ModelFieldConditionTypeEnum.Equal,
     },
     {
       label: getTranslatedText(staticText?.inferiorTo),
-      value: ModelFieldConditionType.InferiorTo,
+      value: ModelFieldConditionTypeEnum.InferiorTo,
     },
     {
       label: getTranslatedText(staticText?.superiorTo),
-      value: ModelFieldConditionType.SuperiorTo,
+      value: ModelFieldConditionTypeEnum.SuperiorTo,
     },
     {
       label: getTranslatedText(staticText?.inferiorOrEqualTo),
-      value: ModelFieldConditionType.InferiorOrEqualTo,
+      value: ModelFieldConditionTypeEnum.InferiorOrEqualTo,
     },
     {
       label: getTranslatedText(staticText?.superiorOrEqualTo),
-      value: ModelFieldConditionType.SuperiorOrEqualTo,
+      value: ModelFieldConditionTypeEnum.SuperiorOrEqualTo,
     },
     {
       label: getTranslatedText(
         staticText?.valueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear
       ),
       value:
-        ModelFieldConditionType.ValueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear,
+        ModelFieldConditionTypeEnum.ValueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear,
     },
   ];
   const fieldsOptions: Option[] = props.selectedModelFields
@@ -270,7 +270,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
                   options={conditionsOptions}
                   onChange={(option: Option) =>
                     handleChangeConditionType(
-                      option.value as ModelFieldConditionType,
+                      option.value as ModelFieldConditionTypeEnum,
                       conditionIndex
                     )
                   }

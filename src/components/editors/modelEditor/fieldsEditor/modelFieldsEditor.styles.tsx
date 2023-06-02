@@ -1,11 +1,19 @@
 import { createUseStyles } from "react-jss";
 
-import { Theme } from "../../config/theme";
+import { Theme } from "../../../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
   fieldsEditorContainer: {
     width: "100%",
     position: "relative",
+    marginTop: 20,
+    display: "flex",
+    flexDirection: "column",
+  },
+  fieldsTitle: {
+    color: theme.lighterPrimary,
+    fontSize: 25,
+    marginBottom: 10,
   },
   fieldsContainer: {
     display: "flex",

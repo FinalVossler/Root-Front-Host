@@ -8,11 +8,13 @@ export interface IModel {
   _id: string;
   name: ITranslatedText[];
   modelFields: IModelField[];
+  modelEvents?: IModelEvent[];
 
   createdAt: string;
   updatedAt: string;
 }
 
+//#endregion model fields
 export interface IModelField {
   field: IField;
   required: boolean;
@@ -22,7 +24,7 @@ export interface IModelField {
   uuid: string;
 }
 
-export enum ModelFieldConditionType {
+export enum ModelFieldConditionTypeEnum {
   SuperiorTo = "SuperiorTo",
   SuperiorOrEqualTo = "SuperiorOrEqualTo",
   InferiorTo = "InferiorTo",
@@ -33,9 +35,38 @@ export enum ModelFieldConditionType {
 
 export interface IModelFieldCondition {
   field?: IField;
-  conditionType: ModelFieldConditionType;
+  conditionType: ModelFieldConditionTypeEnum;
   value: number | string;
 }
+
+//#endregion model fields
+
+//#region model events
+export interface IModelEvent {
+  eventTrigger: ModelEventTriggerEnum;
+  eventType: ModelEventTypeEnum;
+
+  // Redirection options
+  redirectionUrl: string;
+  redirectionToSelf: boolean;
+
+  // API call options
+  requestMethod: string;
+  requestUrl: string;
+  requestDataIsCreatedEntity: boolean;
+  requestData: string;
+}
+
+export enum ModelEventTypeEnum {
+  ApiCall = "ApiCall",
+  Redirection = "Redirection",
+}
+
+export enum ModelEventTriggerEnum {
+  OnCreate = "OnCreate",
+  OnUpdate = "OnUpdate",
+}
+//#endregion model events
 
 export interface IModelState {
   models: IModel[];

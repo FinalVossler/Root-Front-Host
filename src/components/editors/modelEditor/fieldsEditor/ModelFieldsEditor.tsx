@@ -2,15 +2,15 @@ import React from "react";
 import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 
-import { Theme } from "../../config/theme";
-import { useAppSelector } from "../../store/hooks";
-import SearchInput from "../searchInput";
-import useSearchFields from "../../hooks/apiHooks/useSearchFields";
-import useGetTranslatedText from "../../hooks/useGetTranslatedText";
+import { Theme } from "../../../../config/theme";
+import { useAppSelector } from "../../../../store/hooks";
+import SearchInput from "../../../searchInput";
+import useSearchFields from "../../../../hooks/apiHooks/useSearchFields";
+import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 
-import useStyles from "./fieldsEditor.styles";
-import { IField } from "../../store/slices/fieldSlice";
-import { IModel, IModelField } from "../../store/slices/modelSlice";
+import useStyles from "./modelFieldsEditor.styles";
+import { IField } from "../../../../store/slices/fieldSlice";
+import { IModel, IModelField } from "../../../../store/slices/modelSlice";
 import SortableModelField from "./sortableModelField";
 
 interface IFieldsEditor {
@@ -20,7 +20,7 @@ interface IFieldsEditor {
   language?: string;
 }
 
-const FieldsEditor = (props: IFieldsEditor) => {
+const ModelFieldsEditor = (props: IFieldsEditor) => {
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.fields
   );
@@ -67,6 +67,9 @@ const FieldsEditor = (props: IFieldsEditor) => {
 
   return (
     <div className={styles.fieldsEditorContainer}>
+      <span className={styles.fieldsTitle}>
+        {getTranslatedText(staticText?.fields)}:
+      </span>
       <SearchInput
         inputProps={{
           placeholder:
@@ -104,4 +107,4 @@ const FieldsEditor = (props: IFieldsEditor) => {
   );
 };
 
-export default React.memo(FieldsEditor);
+export default React.memo(ModelFieldsEditor);

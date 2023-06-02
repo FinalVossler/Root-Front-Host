@@ -25,7 +25,7 @@ const useCreateEntity = () => {
   const dispatch = useAppDispatch();
 
   const createEntity = (command: EntityCreateCommand) =>
-    new Promise(async (resolve, reject) => {
+    new Promise<IEntity>(async (resolve, reject) => {
       setLoading(true);
 
       axios
@@ -39,7 +39,7 @@ const useCreateEntity = () => {
           dispatch(
             entitySlice.actions.addEntity({ entity, modelId: command.modelId })
           );
-          resolve(null);
+          resolve(entity);
         })
         .finally(() => setLoading(false))
         .catch((e) => reject(e));

@@ -139,7 +139,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
   return (
     <div className={styles.elementsContainer}>
       <div className={styles.buttonsContainer}>
-        {props.canCreate && (
+        {props.canCreate && !props.loading && (
           <BiAddToQueue
             className={styles.addIcon}
             color={theme.primary}

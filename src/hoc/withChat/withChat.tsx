@@ -23,39 +23,50 @@ const withChat = (Component: React.FunctionComponent<any>) =>
     );
 
     const dispatch = useAppDispatch();
+    const incomingMessagesListener = React.useRef<any>(null);
+    const deleteMessagesListener = React.useRef<any>(null);
 
     // Listening to incoming messages
     React.useEffect(() => {
       if (!props.socket.on || !withChat) return;
 
-      props.socket.on(ChatMessagesEnum.Receive, (message: IMessage) => {
-        dispatch(
-          chatSlice.actions.addMessages({
-            messages: [message],
-            currentUser: user,
-          })
+      if (incomingMessagesListener.current === null) {
+        incomingMessagesListener.current = props.socket.on(
+          ChatMessagesEnum.Receive,
+          (message: IMessage) => {
+            dispatch(
+              chatSlice.actions.addMessages({
+                messages: [message],
+                currentUser: user,
+              })
+            );
+
+            if (message.from !== user._id) {
+              dispatch(
+                chatSlice.actions.incrementConversationTotalUnreadMessages({
+                  usersIds: [...message.to],
+                  by: 1,
+                })
+              );
+            }
+          }
         );
+      }
+      if (deleteMessagesListener.current === null) {
+        deleteMessagesListener.current = props.socket.on(
+          ChatMessagesEnum.Delete,
+          (message: IMessage) => {
+            const conversationId: string = getConversationId(message.to);
 
-        if (message.from !== user._id) {
-          dispatch(
-            chatSlice.actions.incrementConversationTotalUnreadMessages({
-              usersIds: [...message.to],
-              by: 1,
-            })
-          );
-        }
-      });
-
-      props.socket.on(ChatMessagesEnum.Delete, (message: IMessage) => {
-        const conversationId: string = getConversationId(message.to);
-
-        dispatch(
-          chatSlice.actions.deleteMessage({
-            conversationId,
-            messageId: message._id,
-          })
+            dispatch(
+              chatSlice.actions.deleteMessage({
+                conversationId,
+                messageId: message._id,
+              })
+            );
+          }
         );
-      });
+      }
     }, [props.socket.on, withChat]);
 
     return <Component {...props} />;

@@ -73,6 +73,7 @@ export interface IWebsiteConfiguration {
       home: ITranslatedText[];
       chat: ITranslatedText[];
       menu: ITranslatedText[];
+      markAllUserNotificationAsClicked: ITranslatedText[];
     };
     registration: {
       title: ITranslatedText[];
@@ -115,6 +116,7 @@ export interface IWebsiteConfiguration {
       conditionType: ITranslatedText[];
       valueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear: ITranslatedText[];
       required: ITranslatedText[];
+      fields: ITranslatedText[];
     };
     models: {
       createModel: ITranslatedText[];
@@ -124,6 +126,20 @@ export interface IWebsiteConfiguration {
       submit: ITranslatedText[];
       language: ITranslatedText[];
       nameIsRequired: ITranslatedText[];
+      eventTrigger: ITranslatedText[];
+      onCreate: ITranslatedText[];
+      onUpdate: ITranslatedText[];
+      eventType: ITranslatedText[];
+      apiCall: ITranslatedText[];
+      redirection: ITranslatedText[];
+      addEvent: ITranslatedText[];
+      events: ITranslatedText[];
+      requestMethod: ITranslatedText[];
+      requestUrl: ITranslatedText[];
+      redirectionUrl: ITranslatedText[];
+      redirectionToSelf: ITranslatedText[];
+      requestData: ITranslatedText[];
+      requestDataIsCreatedEntity: ITranslatedText[];
     };
     elements: {
       actions: ITranslatedText[];
@@ -551,6 +567,10 @@ const initialState: IWebsiteConfigurationState = {
         { language: "en", text: "Menu" },
         { language: "fr", text: "Menu" },
       ],
+      markAllUserNotificationAsClicked: [
+        { language: "en", text: "Mark all as read" },
+        { language: "fr", text: "Marquer tout comme lu" },
+      ],
     },
     registration: {
       title: [
@@ -768,6 +788,10 @@ const initialState: IWebsiteConfigurationState = {
           text: "Requis",
         },
       ],
+      fields: [
+        { language: "en", text: "Fields" },
+        { language: "fr", text: "Champs" },
+      ],
     },
     models: {
       createModel: [
@@ -797,6 +821,68 @@ const initialState: IWebsiteConfigurationState = {
       nameIsRequired: [
         { language: "en", text: "Name is required" },
         { language: "fr", text: "Le nom est requis" },
+      ],
+      eventTrigger: [
+        { language: "en", text: "Event trigger" },
+        { language: "fr", text: "Déclencheur" },
+      ],
+      onCreate: [
+        { language: "en", text: "On create" },
+        { language: "fr", text: "À la création" },
+      ],
+      onUpdate: [
+        { language: "en", text: "On update" },
+        { language: "fr", text: "À la mise à jour" },
+      ],
+      eventType: [
+        { language: "en", text: "Event type" },
+        { language: "fr", text: "Type de l'évènement" },
+      ],
+      apiCall: [
+        { language: "en", text: "API call" },
+        { language: "fr", text: "Appel à une API" },
+      ],
+      redirection: [
+        { language: "en", text: "Redirection" },
+        { language: "fr", text: "Redirection" },
+      ],
+      addEvent: [
+        { language: "en", text: "Add event" },
+        { language: "fr", text: "Ajouter un évènement" },
+      ],
+      events: [
+        { language: "en", text: "Events" },
+        { language: "fr", text: "Évènement" },
+      ],
+      requestMethod: [
+        { language: "en", text: "Request method" },
+        { language: "fr", text: "Type de la requête" },
+      ],
+      requestUrl: [
+        { language: "en", text: "Request URL" },
+        { language: "fr", text: "Url de la requête" },
+      ],
+      requestData: [
+        { language: "en", text: "Request Data" },
+        { language: "fr", text: "Données de la requête" },
+      ],
+      requestDataIsCreatedEntity: [
+        {
+          language: "en",
+          text: "The request data is the same as the created/updated data",
+        },
+        {
+          language: "fr",
+          text: "Le corps de la requête contient les données de l'entité créée our mise à jour.",
+        },
+      ],
+      redirectionUrl: [
+        { language: "en", text: "Redirection Url" },
+        { language: "fr", text: "Url de redirection" },
+      ],
+      redirectionToSelf: [
+        { language: "en", text: "Redirection to self" },
+        { language: "fr", text: "Redirection vers soi" },
       ],
     },
     elements: {

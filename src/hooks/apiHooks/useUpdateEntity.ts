@@ -20,7 +20,7 @@ const useUpdateEntity = () => {
   const dispatch = useAppDispatch();
 
   const updateEntity = (command: EntityUpdateCommand) =>
-    new Promise(async (resolve, reject) => {
+    new Promise<IEntity>(async (resolve, reject) => {
       setLoading(true);
 
       axios
@@ -37,9 +37,11 @@ const useUpdateEntity = () => {
               entity,
             })
           );
-          resolve(null);
+          resolve(entity);
         })
-        .finally(() => setLoading(false))
+        .finally(() => {
+          setLoading(false);
+        })
         .catch((e) => reject(e));
     });
 

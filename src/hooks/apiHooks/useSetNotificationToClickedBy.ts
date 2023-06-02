@@ -1,19 +1,23 @@
 import { AxiosResponse } from "axios";
 import React from "react";
+
 import { useAppDispatch } from "../../store/hooks";
 import { notificationSlice } from "../../store/slices/notificationSlice";
+import { IUser } from "../../store/slices/userSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 
-const useSetNotificationToClicked = () => {
+const useSetNotificationToClickedBy = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
-  const setNotificationToClicked = ({
+  const setNotificationToClickedBy = ({
     notificationId,
+    currentUser,
   }: {
     notificationId: string;
+    currentUser: IUser;
   }) =>
     new Promise<AxiosResponse<void>>((resolve, reject) => {
       setLoading(true);
@@ -21,15 +25,16 @@ const useSetNotificationToClicked = () => {
       axios
         .request({
           method: "POST",
-          url: "/notifications/setNotificationToClicked",
+          url: "/notifications/setNotificationToClickedBy",
           data: {
             notificationId,
           },
         })
         .then((_) => {
           dispatch(
-            notificationSlice.actions.setNotificationToClicked({
+            notificationSlice.actions.setNotificationToClickedBy({
               notificationId,
+              userId: currentUser._id,
             })
           );
         })
@@ -38,7 +43,7 @@ const useSetNotificationToClicked = () => {
         });
     });
 
-  return { setNotificationToClicked, loading };
+  return { setNotificationToClickedBy, loading };
 };
 
-export default useSetNotificationToClicked;
+export default useSetNotificationToClickedBy;

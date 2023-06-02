@@ -19,12 +19,14 @@ import useGetNotifications, {
   NotificationsGetCommand,
 } from "../../hooks/apiHooks/useGetNotifications";
 import { MdNotifications } from "react-icons/md";
-import useSetNotificationToClicked from "../../hooks/apiHooks/useSetNotificationToClicked";
+import useSetNotificationToClickedBy from "../../hooks/apiHooks/useSetNotificationToClickedBy";
 import HeaderOptionNotificationSignal from "../headerOptionNotificationSignal";
 
 import useStyles from "./headerNotifications.styles";
 import withNotifications from "../../hoc/withNotifications";
 import { Link } from "react-router-dom";
+import Button from "../button";
+import useMarkAllUserNotificationsAsClicked from "../../hooks/apiHooks/useMarkAllUserNotificationsAsClicked";
 
 interface IHeaderNotifications {}
 
@@ -45,6 +47,9 @@ const HeaderNotifications: React.FunctionComponent<IHeaderNotifications> = (
   const totalUnclicked: number = useAppSelector(
     (state) => state.notification.totalUnclicked
   );
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.header
+  );
   //#endregion Store
 
   const [notificationsOpen, setNotificationsOpen] =
@@ -59,7 +64,9 @@ const HeaderNotifications: React.FunctionComponent<IHeaderNotifications> = (
     setNotificationsOpen(false);
   });
   const { getNotifications, loading } = useGetNotifications();
-  const { setNotificationToClicked } = useSetNotificationToClicked();
+  const { setNotificationToClickedBy } = useSetNotificationToClickedBy();
+  const { markAllUserNotificationAsClicked, loading: markAllAsReadLoading } =
+    useMarkAllUserNotificationsAsClicked();
 
   //#region Hooks
   React.useEffect(() => {
@@ -97,9 +104,15 @@ const HeaderNotifications: React.FunctionComponent<IHeaderNotifications> = (
   const handlePageChange = (page: number) => setPage(page);
   const handleClickNotification = (notification: INotification) => {
     setNotificationsOpen(false);
-    if (!notification.clicked) {
-      setNotificationToClicked({ notificationId: notification._id });
+    if (notification.clickedBy.indexOf(user._id) === -1) {
+      setNotificationToClickedBy({
+        notificationId: notification._id,
+        currentUser: user,
+      });
     }
+  };
+  const handleMarkAllUserNotificationAsClicked = () => {
+    markAllUserNotificationAsClicked();
   };
   //#endregion Event listeners
 
@@ -109,16 +122,32 @@ const HeaderNotifications: React.FunctionComponent<IHeaderNotifications> = (
       ref={notificationsRef as React.RefObject<HTMLDivElement>}
       {...props}
     >
-      <MdNotifications
+      <div
+        className={styles.notificationIconContainer}
         onClick={handleOpenNotifications}
-        className={styles.notificationIcon}
-      />
+      >
+        <MdNotifications className={styles.notificationIcon} />
 
-      <HeaderOptionNotificationSignal numberOfNotifications={totalUnclicked} />
+        <HeaderOptionNotificationSignal
+          numberOfNotifications={totalUnclicked}
+        />
+      </div>
 
       {notificationsOpen && (
         <div className={styles.notificationPopup}>
-          {loading && <Loading className={styles.headerNotificationLoading} />}
+          {(loading || markAllAsReadLoading) && (
+            <Loading className={styles.headerNotificationLoading} />
+          )}
+
+          {totalUnclicked > 0 && !markAllAsReadLoading && (
+            <Button
+              style={{ marginBottom: 10 }}
+              onClick={handleMarkAllUserNotificationAsClicked}
+            >
+              {getTranslatedText(staticText?.markAllUserNotificationAsClicked)}
+            </Button>
+          )}
+
           {!loading &&
             notifications.map((notification: INotification, index: number) => {
               let linkArray = notification.link
@@ -137,7 +166,7 @@ const HeaderNotifications: React.FunctionComponent<IHeaderNotifications> = (
                   <div
                     key={index}
                     className={
-                      notification.clicked
+                      notification.clickedBy.indexOf(user._id) !== -1
                         ? styles.notificationContainer
                         : styles.notificationContainerUnclicked
                     }
@@ -170,4 +199,4 @@ const HeaderNotifications: React.FunctionComponent<IHeaderNotifications> = (
   );
 };
 
-export default withNotifications(HeaderNotifications);
+export default withNotifications(React.memo(HeaderNotifications));

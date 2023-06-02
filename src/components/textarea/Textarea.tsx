@@ -1,5 +1,6 @@
 import { FormikProps } from "formik";
 import React from "react";
+import debounce from "lodash.debounce";
 
 import { Theme } from "../../config/theme";
 
@@ -25,6 +26,13 @@ const Textarea: React.FunctionComponent<IInput> = (props: IInput) => {
     (state) => state.websiteConfiguration.theme
   );
   const styles = useStyles({ theme });
+  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
+
+  React.useEffect(() => {
+    if (textareaRef.current !== null && props.debounce) {
+      textareaRef.current.value = props.value;
+    }
+  }, [props.value]);
 
   //#region Event listeners
   const handleFocus = (e: any) => {
@@ -42,6 +50,8 @@ const Textarea: React.FunctionComponent<IInput> = (props: IInput) => {
       props.onChange(e);
     }
   };
+
+  const debouncedChange = debounce(handleChange, 500);
 
   const additionalProps = props.debounce
     ? {}
@@ -63,11 +73,12 @@ const Textarea: React.FunctionComponent<IInput> = (props: IInput) => {
       {((props.name && props.formik?.values[props.name]) !== undefined ||
         props.value !== undefined) && (
         <textarea
+          ref={textareaRef}
           onBlur={handleFocus}
           onFocus={handleFocus}
           className={styles.textarea}
           name={props.name}
-          onChange={handleChange}
+          onChange={props.debounce ? debouncedChange : handleChange}
           rows={5}
           {...props.textareaProps}
           {...additionalProps}
