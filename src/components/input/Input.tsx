@@ -55,7 +55,7 @@ const Input: React.FunctionComponent<IInput> = (props: IInput) => {
     }
   };
 
-  const debouncedChange = debounce(handleChange, 500);
+  const debouncedChange = debounce(handleChange, 600);
 
   const additionalProps = props.debounce
     ? {}

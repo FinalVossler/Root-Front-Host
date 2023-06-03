@@ -126,6 +126,8 @@ export interface IWebsiteConfiguration {
       submit: ITranslatedText[];
       language: ITranslatedText[];
       nameIsRequired: ITranslatedText[];
+    };
+    events: {
       eventTrigger: ITranslatedText[];
       onCreate: ITranslatedText[];
       onUpdate: ITranslatedText[];
@@ -140,6 +142,10 @@ export interface IWebsiteConfiguration {
       redirectionToSelf: ITranslatedText[];
       requestData: ITranslatedText[];
       requestDataIsCreatedEntity: ITranslatedText[];
+      headers: ITranslatedText[];
+      addHeader: ITranslatedText[];
+      key: ITranslatedText[];
+      value: ITranslatedText[];
     };
     elements: {
       actions: ITranslatedText[];
@@ -822,6 +828,8 @@ const initialState: IWebsiteConfigurationState = {
         { language: "en", text: "Name is required" },
         { language: "fr", text: "Le nom est requis" },
       ],
+    },
+    events: {
       eventTrigger: [
         { language: "en", text: "Event trigger" },
         { language: "fr", text: "Déclencheur" },
@@ -883,6 +891,22 @@ const initialState: IWebsiteConfigurationState = {
       redirectionToSelf: [
         { language: "en", text: "Redirection to self" },
         { language: "fr", text: "Redirection vers soi" },
+      ],
+      headers: [
+        { language: "en", text: "Headers" },
+        { language: "fr", text: "Headers" },
+      ],
+      addHeader: [
+        { language: "en", text: "Add header" },
+        { language: "fr", text: "Ajouter un header" },
+      ],
+      key: [
+        { language: "en", text: "Key" },
+        { language: "fr", text: "Clé" },
+      ],
+      value: [
+        { language: "en", text: "Value" },
+        { language: "fr", text: "Valeur" },
       ],
     },
     elements: {

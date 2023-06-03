@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IEvent } from "../../globalTypes/IEvent";
 
 import ITranslatedText from "../../globalTypes/ITranslatedText";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
@@ -8,7 +9,7 @@ export interface IModel {
   _id: string;
   name: ITranslatedText[];
   modelFields: IModelField[];
-  modelEvents?: IModelEvent[];
+  modelEvents?: IEvent[];
 
   createdAt: string;
   updatedAt: string;
@@ -40,33 +41,6 @@ export interface IModelFieldCondition {
 }
 
 //#endregion model fields
-
-//#region model events
-export interface IModelEvent {
-  eventTrigger: ModelEventTriggerEnum;
-  eventType: ModelEventTypeEnum;
-
-  // Redirection options
-  redirectionUrl: string;
-  redirectionToSelf: boolean;
-
-  // API call options
-  requestMethod: string;
-  requestUrl: string;
-  requestDataIsCreatedEntity: boolean;
-  requestData: string;
-}
-
-export enum ModelEventTypeEnum {
-  ApiCall = "ApiCall",
-  Redirection = "Redirection",
-}
-
-export enum ModelEventTriggerEnum {
-  OnCreate = "OnCreate",
-  OnUpdate = "OnUpdate",
-}
-//#endregion model events
 
 export interface IModelState {
   models: IModel[];

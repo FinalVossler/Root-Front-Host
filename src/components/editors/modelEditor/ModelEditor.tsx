@@ -18,18 +18,18 @@ import useCreateModel, {
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import InputSelect from "../../inputSelect";
 import getLanguages from "../../../utils/getLanguages";
-import {
-  IModel,
-  IModelEvent,
-  IModelField,
-  ModelEventTriggerEnum,
-  ModelEventTypeEnum,
-} from "../../../store/slices/modelSlice";
+import { IModel, IModelField } from "../../../store/slices/modelSlice";
 import useUpdateModel, {
   ModelUpdateCommand,
 } from "../../../hooks/apiHooks/useUpdateModel";
 import ModelFieldsEditor from "./fieldsEditor";
-import ModelEventsEditor from "./modelEventsEditor";
+import EventsEditor from "../eventsEditor";
+import {
+  EventTriggerEnum,
+  EventTypeEnum,
+  IEvent,
+  IEventRequestHeader,
+} from "../../../globalTypes/IEvent";
 
 export interface IModelEditor {
   model?: IModel;
@@ -40,7 +40,7 @@ export interface IModelEditor {
 export interface IModelForm {
   name: string;
   modelFields: IModelField[];
-  modelEvents: IModelEvent[];
+  modelEvents: IEvent[];
   language: string;
 }
 
@@ -100,6 +100,7 @@ const ModelEditor = (props: IModelEditor) => {
             requestUrl: modelEvent.requestUrl,
             requestDataIsCreatedEntity: modelEvent.requestDataIsCreatedEntity,
             requestData: modelEvent.requestData,
+            requestHeaders: modelEvent.requestHeaders,
           })),
           language: values.language,
         };
@@ -158,9 +159,8 @@ const ModelEditor = (props: IModelEditor) => {
           })) || [],
         modelEvents:
           props.model?.modelEvents?.map((modelEvent) => ({
-            eventTrigger:
-              modelEvent.eventTrigger || ModelEventTriggerEnum.OnCreate,
-            eventType: modelEvent.eventType || ModelEventTypeEnum.ApiCall,
+            eventTrigger: modelEvent.eventTrigger || EventTriggerEnum.OnCreate,
+            eventType: modelEvent.eventType || EventTypeEnum.ApiCall,
             redirectionToSelf: Boolean(modelEvent.redirectionToSelf),
             redirectionUrl: modelEvent.redirectionUrl || "",
             requestMethod: modelEvent.requestMethod || "POST",
@@ -169,6 +169,15 @@ const ModelEditor = (props: IModelEditor) => {
             requestDataIsCreatedEntity: Boolean(
               modelEvent.requestDataIsCreatedEntity
             ),
+            requestHeaders:
+              [
+                ...modelEvent.requestHeaders.map<IEventRequestHeader>(
+                  (header: IEventRequestHeader) => ({
+                    key: header.key,
+                    value: header.value,
+                  })
+                ),
+              ] || [],
           })) || [],
         language: formik.values.language,
       },
@@ -230,7 +239,7 @@ const ModelEditor = (props: IModelEditor) => {
           }
         />
 
-        <ModelEventsEditor formik={formik} />
+        <EventsEditor formik={formik} fieldName={"modelEvents"} />
 
         <ModelFieldsEditor
           model={props.model}

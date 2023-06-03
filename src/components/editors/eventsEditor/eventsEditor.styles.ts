@@ -1,9 +1,9 @@
 import { createUseStyles } from "react-jss";
 
-import { Theme } from "../../../../config/theme";
+import { Theme } from "../../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
-  modelEventsEditorContainer: {
+  eventsEditorContainer: {
     display: "flex",
     flexDirection: "column",
   },
@@ -12,7 +12,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     fontSize: 25,
     marginBottom: 10,
   },
-  singleModelEvent: {
+  singleEvent: {
     position: "relative",
     border: "1px solid " + theme.lightTextColor,
     marginBottom: 10,
@@ -53,6 +53,33 @@ const useStyles = createUseStyles((theme: Theme) => ({
     right: 5,
     fontSize: 20,
     cursor: "pointer",
+  },
+  eventsContainer: {
+    border: "1px solid " + theme.lightTextColor,
+    padding: 10,
+    display: "flex",
+    flexDirection: "column",
+  },
+  headerTitle: {
+    color: theme.lightTextColor,
+    fontSize: 20,
+    marginBottom: 15,
+  },
+  singleHeader: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-around",
+    border: "1px solid " + theme.lightTextColor,
+    padding: 10,
+    position: "relative",
+    paddingTop: 40,
+    marginBottom: 10,
+  },
+  addHeaderIcon: {
+    marginLeft: 10,
+  },
+  headerDeleteIcon: {
+    extend: "deleteIcon",
   },
 }));
 

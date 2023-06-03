@@ -25,7 +25,6 @@ import {
   IModel,
   IModelField,
   ModelFieldConditionTypeEnum,
-  ModelEventTypeEnum,
 } from "../../../store/slices/modelSlice";
 import { FieldType } from "../../../store/slices/fieldSlice";
 import Input from "../../input";
@@ -37,6 +36,7 @@ import { Option } from "../../inputSelect/InputSelect";
 import { IUser } from "../../../store/slices/userSlice";
 import { StaticPermission } from "../../../store/slices/roleSlice";
 import useAxios from "../../../hooks/useAxios";
+import { EventTypeEnum } from "../../../globalTypes/IEvent";
 
 export interface IEntityFieldValueForm {
   fieldId: string;
@@ -212,7 +212,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
         // Model events trigger
         model?.modelEvents?.forEach((modelEvent) => {
           switch (modelEvent.eventType) {
-            case ModelEventTypeEnum.Redirection: {
+            case EventTypeEnum.Redirection: {
               if (modelEvent.redirectionToSelf) {
                 navigate(
                   "/entities/" + model._id + "/" + createdOrUpdateEntity?._id
@@ -223,7 +223,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
               break;
             }
 
-            case ModelEventTypeEnum.ApiCall: {
+            case EventTypeEnum.ApiCall: {
               let bodyData: any = {};
               if (modelEvent.requestDataIsCreatedEntity) {
                 bodyData = createdOrUpdateEntity;
@@ -234,10 +234,15 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
                   bodyData = {};
                 }
               }
+              const headers = {};
+              modelEvent.requestHeaders.map((header) => {
+                headers[header.key] = header.value;
+              });
               axios.request({
                 url: modelEvent.requestUrl,
                 method: modelEvent.requestMethod,
                 data: bodyData,
+                headers,
               });
             }
           }

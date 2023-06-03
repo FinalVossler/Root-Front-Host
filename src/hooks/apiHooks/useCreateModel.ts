@@ -1,13 +1,18 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
+import {
+  EventTriggerEnum,
+  EventTypeEnum,
+  IEvent,
+  IEventRequestHeader,
+} from "../../globalTypes/IEvent";
+
 import { useAppDispatch } from "../../store/hooks";
 import {
   modelSlice,
   IModel,
   ModelFieldConditionTypeEnum,
-  ModelEventTypeEnum,
-  ModelEventTriggerEnum,
 } from "../../store/slices/modelSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 
@@ -22,20 +27,7 @@ export type ModelCreateCommand = {
       value: number | string;
     }[];
   }[];
-  modelEvents: {
-    eventTrigger: ModelEventTriggerEnum;
-    eventType: ModelEventTypeEnum;
-
-    // Redirection options
-    redirectionUrl: string;
-    redirectionToSelf: boolean;
-
-    // API call options
-    requestMethod: string;
-    requestUrl: string;
-    requestDataIsCreatedEntity: boolean;
-    requestData: string;
-  }[];
+  modelEvents: IEvent[];
   language: string;
 };
 
