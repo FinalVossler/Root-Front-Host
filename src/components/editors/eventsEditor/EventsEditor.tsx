@@ -11,7 +11,6 @@ import { useAppSelector } from "../../../store/hooks";
 import Button from "../../button";
 import Checkbox from "../../checkbox";
 import Input from "../../input";
-import { IModelForm } from "../modelEditor/ModelEditor";
 
 import useStyles from "./eventsEditor.styles";
 import Textarea from "../../textarea/Textarea";
@@ -25,8 +24,9 @@ import { CgAdd } from "react-icons/cg";
 import { HiKey } from "react-icons/hi";
 
 interface IEventsEditor {
-  formik: FormikProps<IModelForm>;
-  fieldName: string; // example: modelEvents
+  formik: FormikProps<any>;
+  fieldName: string; // example: modelEvents or fieldEvents
+  activeTriggers?: EventTriggerEnum[];
 }
 
 const EventsEditor: React.FunctionComponent<IEventsEditor> = (
@@ -115,22 +115,44 @@ const EventsEditor: React.FunctionComponent<IEventsEditor> = (
               <span className={styles.eventTriggerTitle}>
                 {getTranslatedText(staticText?.eventTrigger)}:
               </span>
-              <Checkbox
-                label={getTranslatedText(staticText?.onCreate)}
-                checked={event.eventTrigger === EventTriggerEnum.OnCreate}
-                onChange={() =>
-                  handleTriggerChange(index, EventTriggerEnum.OnCreate)
-                }
-                labelStyles={{ width: 100 }}
-              />
-              <Checkbox
-                label={getTranslatedText(staticText?.onUpdate)}
-                checked={event.eventTrigger === EventTriggerEnum.OnUpdate}
-                onChange={() =>
-                  handleTriggerChange(index, EventTriggerEnum.OnUpdate)
-                }
-                labelStyles={{ width: 100 }}
-              />
+              {(!props.activeTriggers ||
+                props.activeTriggers?.indexOf(EventTriggerEnum.OnCreate) !==
+                  -1) && (
+                <Checkbox
+                  label={getTranslatedText(staticText?.onCreate)}
+                  checked={event.eventTrigger === EventTriggerEnum.OnCreate}
+                  onChange={() =>
+                    handleTriggerChange(index, EventTriggerEnum.OnCreate)
+                  }
+                  labelStyles={{ width: 100 }}
+                />
+              )}
+
+              {(!props.activeTriggers ||
+                props.activeTriggers?.indexOf(EventTriggerEnum.OnUpdate) !==
+                  -1) && (
+                <Checkbox
+                  label={getTranslatedText(staticText?.onUpdate)}
+                  checked={event.eventTrigger === EventTriggerEnum.OnUpdate}
+                  onChange={() =>
+                    handleTriggerChange(index, EventTriggerEnum.OnUpdate)
+                  }
+                  labelStyles={{ width: 100 }}
+                />
+              )}
+
+              {(!props.activeTriggers ||
+                props.activeTriggers?.indexOf(EventTriggerEnum.OnClick) !==
+                  -1) && (
+                <Checkbox
+                  label={getTranslatedText(staticText?.onClick)}
+                  checked={event.eventTrigger === EventTriggerEnum.OnClick}
+                  onChange={() =>
+                    handleTriggerChange(index, EventTriggerEnum.OnClick)
+                  }
+                  labelStyles={{ width: 100 }}
+                />
+              )}
 
               <span className={styles.eventTypeTitle}>
                 {getTranslatedText(staticText?.eventType)}:

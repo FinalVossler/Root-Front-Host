@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import _ from "lodash";
 
+import { IEvent } from "../../globalTypes/IEvent";
 import ITranslatedText from "../../globalTypes/ITranslatedText";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 
@@ -10,6 +11,7 @@ export enum FieldType {
   Paragraph = "Paragraph",
   File = "File",
   Selector = "Selector",
+  Button = "Button",
 }
 
 export type FieldOption = {
@@ -22,6 +24,7 @@ export interface IField {
   name: ITranslatedText[];
   type: FieldType;
   options?: FieldOption[];
+  fieldEvents: IEvent[];
 
   createdAt: string;
   updatedAt: string;

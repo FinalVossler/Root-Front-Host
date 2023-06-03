@@ -131,6 +131,7 @@ export interface IWebsiteConfiguration {
       eventTrigger: ITranslatedText[];
       onCreate: ITranslatedText[];
       onUpdate: ITranslatedText[];
+      onClick: ITranslatedText[];
       eventType: ITranslatedText[];
       apiCall: ITranslatedText[];
       redirection: ITranslatedText[];
@@ -841,6 +842,10 @@ const initialState: IWebsiteConfigurationState = {
       onUpdate: [
         { language: "en", text: "On update" },
         { language: "fr", text: "À la mise à jour" },
+      ],
+      onClick: [
+        { language: "en", text: "On click" },
+        { language: "fr", text: "Au clique" },
       ],
       eventType: [
         { language: "en", text: "Event type" },

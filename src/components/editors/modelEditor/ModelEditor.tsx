@@ -239,7 +239,14 @@ const ModelEditor = (props: IModelEditor) => {
           }
         />
 
-        <EventsEditor formik={formik} fieldName={"modelEvents"} />
+        <EventsEditor
+          formik={formik}
+          fieldName={"modelEvents"}
+          activeTriggers={[
+            EventTriggerEnum.OnCreate,
+            EventTriggerEnum.OnUpdate,
+          ]}
+        />
 
         <ModelFieldsEditor
           model={props.model}

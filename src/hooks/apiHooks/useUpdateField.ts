@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 import React from "react";
+import { IEvent } from "../../globalTypes/IEvent";
 
 import { useAppDispatch } from "../../store/hooks";
 import { fieldSlice, IField } from "../../store/slices/fieldSlice";
@@ -9,11 +10,12 @@ export type FieldUpdateCommand = {
   _id: string;
   name: string;
   type: IField["type"];
-  language: string;
   options?: {
     label: string;
     value: string;
   }[];
+  fieldEvents: IEvent[];
+  language: string;
 };
 
 const useUpdateField = () => {

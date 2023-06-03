@@ -24,6 +24,8 @@ import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import InputSelect from "../../inputSelect";
 import getLanguages from "../../../utils/getLanguages";
 import { BiLabel } from "react-icons/bi";
+import EventsEditor from "../eventsEditor/EventsEditor";
+import { EventTriggerEnum, IEvent } from "../../../globalTypes/IEvent";
 
 export interface IFieldEditor {
   field?: IField;
@@ -36,11 +38,12 @@ type FieldOptionForm = {
   value: string;
 };
 
-interface IFieldForm {
+export interface IFieldForm {
   name: string;
   type: IField["type"];
-  language: string;
   options: FieldOptionForm[];
+  fieldEvents: IEvent[];
+  language: string;
 }
 
 const FieldEditor = (props: IFieldEditor) => {
@@ -66,8 +69,9 @@ const FieldEditor = (props: IFieldEditor) => {
     initialValues: {
       name: "",
       type: FieldType.Text,
-      language,
       options: [],
+      fieldEvents: [],
+      language,
     },
     onSubmit: async (values: IFieldForm) => {
       if (props.field) {
@@ -77,6 +81,7 @@ const FieldEditor = (props: IFieldEditor) => {
           type: values.type,
           language: values.language,
           options: values.options,
+          fieldEvents: values.fieldEvents,
         };
 
         await updateField(command);
@@ -86,6 +91,7 @@ const FieldEditor = (props: IFieldEditor) => {
           type: values.type,
           language: values.language,
           options: values.options,
+          fieldEvents: values.fieldEvents,
         };
 
         await createField(command);
@@ -110,7 +116,6 @@ const FieldEditor = (props: IFieldEditor) => {
       values: {
         name: getTranslatedText(props.field?.name, formik.values.language),
         type: props.field?.type || FieldType.Text,
-        language: formik.values.language,
         options:
           (props.field?.options &&
             props.field?.options.map((option) => ({
@@ -118,6 +123,8 @@ const FieldEditor = (props: IFieldEditor) => {
               value: option.value,
             }))) ||
           [],
+        fieldEvents: props.field?.fieldEvents || [],
+        language: formik.values.language,
       },
     });
   }, [props.field, formik.values.language]);
@@ -270,6 +277,14 @@ const FieldEditor = (props: IFieldEditor) => {
               );
             })}
           </div>
+        )}
+
+        {formik.values.type === FieldType.Button && (
+          <EventsEditor
+            fieldName="fieldEvents"
+            formik={formik}
+            activeTriggers={[EventTriggerEnum.OnClick]}
+          />
         )}
 
         {!loading && (
