@@ -27,6 +27,7 @@ interface IEventsEditor {
   formik: FormikProps<any>;
   fieldName: string; // example: modelEvents or fieldEvents
   activeTriggers?: EventTriggerEnum[];
+  defaultEventTriggerOnAdd: EventTriggerEnum;
 }
 
 const EventsEditor: React.FunctionComponent<IEventsEditor> = (
@@ -48,7 +49,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditor> = (
   ) => {
     e.preventDefault();
     const newEvent: IEvent = {
-      eventTrigger: EventTriggerEnum.OnCreate,
+      eventTrigger: props.defaultEventTriggerOnAdd,
       eventType: EventTypeEnum.Redirection,
       redirectionToSelf: false,
       redirectionUrl: "",
@@ -105,6 +106,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditor> = (
 
       {props.formik.values[props.fieldName].map(
         (event: IEvent, index: number) => {
+          console.log("index", index);
           return (
             <div key={index} className={styles.singleEvent}>
               <MdDelete

@@ -246,6 +246,7 @@ const ModelEditor = (props: IModelEditor) => {
             EventTriggerEnum.OnCreate,
             EventTriggerEnum.OnUpdate,
           ]}
+          defaultEventTriggerOnAdd={EventTriggerEnum.OnCreate}
         />
 
         <ModelFieldsEditor

@@ -284,6 +284,7 @@ const FieldEditor = (props: IFieldEditor) => {
             fieldName="fieldEvents"
             formik={formik}
             activeTriggers={[EventTriggerEnum.OnClick]}
+            defaultEventTriggerOnAdd={EventTriggerEnum.OnClick}
           />
         )}
 

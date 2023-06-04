@@ -5,7 +5,6 @@ import * as Yup from "yup";
 import { MdTextFields } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-import useStyles from "./entityEditor.styles";
 import { Theme } from "../../../config/theme";
 import Button from "../../button";
 import { useAppSelector } from "../../../store/hooks";
@@ -36,7 +35,14 @@ import { Option } from "../../inputSelect/InputSelect";
 import { IUser } from "../../../store/slices/userSlice";
 import { StaticPermission } from "../../../store/slices/roleSlice";
 import useAxios from "../../../hooks/useAxios";
-import { EventTypeEnum } from "../../../globalTypes/IEvent";
+import {
+  EventTriggerEnum,
+  EventTypeEnum,
+  IEvent,
+} from "../../../globalTypes/IEvent";
+
+import useStyles from "./entityEditor.styles";
+import sendEventApiCall from "../../../utils/sendEventApiCall";
 
 export interface IEntityFieldValueForm {
   fieldId: string;
@@ -224,25 +230,10 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
             }
 
             case EventTypeEnum.ApiCall: {
-              let bodyData: any = {};
-              if (modelEvent.requestDataIsCreatedEntity) {
-                bodyData = createdOrUpdateEntity;
-              } else {
-                try {
-                  bodyData = JSON.parse(modelEvent.requestData);
-                } catch (e) {
-                  bodyData = {};
-                }
-              }
-              const headers = {};
-              modelEvent.requestHeaders.map((header) => {
-                headers[header.key] = header.value;
-              });
-              axios.request({
-                url: modelEvent.requestUrl,
-                method: modelEvent.requestMethod,
-                data: bodyData,
-                headers,
+              sendEventApiCall({
+                axios,
+                createdOrUpdateEntity,
+                event: modelEvent,
               });
             }
           }
@@ -307,7 +298,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
         </div>
       )}
 
-      {model?.modelFields.map((modelField, index) => {
+      {model?.modelFields.map((modelField, modelFieldIndex) => {
         // Check if we can show the field based on role field permissions first:
         const foundFieldPermissions = user.role?.entityPermissions
           .find(
@@ -435,7 +426,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
         ) {
           return (
             <Input
-              key={index}
+              key={modelFieldIndex}
               Icon={MdTextFields}
               formik={formik}
               name="entityFieldValues"
@@ -464,7 +455,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
         if (modelField.field.type === FieldType.Paragraph) {
           return (
             <Textarea
-              key={index}
+              key={modelFieldIndex}
               formik={formik}
               name="entityFieldValues"
               value={value}
@@ -481,7 +472,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
         if (modelField.field.type === FieldType.File) {
           return (
             <EntityFieldFiles
-              key={index}
+              key={modelFieldIndex}
               entityFieldValue={entityFieldValue}
               formik={formik}
               modelField={modelField}
@@ -498,7 +489,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
             })) || [];
           return (
             <InputSelect
-              key={index}
+              key={modelFieldIndex}
               label={getTranslatedText(modelField.field.name)}
               options={
                 modelField.field.options?.map((op) => ({
@@ -530,6 +521,42 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
                 );
               }}
             />
+          );
+        }
+        if (modelField.field.type === FieldType.Button) {
+          return (
+            <Button
+              key={modelFieldIndex}
+              style={{ marginTop: 5, marginBottom: 20 }}
+              onClick={async (
+                e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+              ) => {
+                e.preventDefault();
+                modelField.field.fieldEvents
+                  .filter(
+                    (fieldEvent) =>
+                      fieldEvent.eventTrigger === EventTriggerEnum.OnClick
+                  )
+                  .forEach(async (fieldEvent: IEvent) => {
+                    switch (fieldEvent.eventType) {
+                      case EventTypeEnum.Redirection: {
+                        window.location.href = fieldEvent.redirectionUrl;
+                        break;
+                      }
+                      case EventTypeEnum.ApiCall: {
+                        await sendEventApiCall({
+                          event: fieldEvent,
+                          createdOrUpdateEntity: null,
+                          axios,
+                        });
+                        break;
+                      }
+                    }
+                  });
+              }}
+            >
+              {getTranslatedText(modelField.field.name)}
+            </Button>
           );
         }
       })}

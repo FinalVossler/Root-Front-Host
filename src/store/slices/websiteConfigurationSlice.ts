@@ -876,8 +876,8 @@ const initialState: IWebsiteConfigurationState = {
         { language: "fr", text: "Url de la requête" },
       ],
       requestData: [
-        { language: "en", text: "Request Data" },
-        { language: "fr", text: "Données de la requête" },
+        { language: "en", text: "Request Data (JSON)" },
+        { language: "fr", text: "Données de la requête (JSON)" },
       ],
       requestDataIsCreatedEntity: [
         {
