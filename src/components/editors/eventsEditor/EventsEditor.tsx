@@ -22,6 +22,12 @@ import {
 } from "../../../globalTypes/IEvent";
 import { CgAdd } from "react-icons/cg";
 import { HiKey } from "react-icons/hi";
+import {
+  BsArrowDown,
+  BsArrowDownShort,
+  BsArrowUp,
+  BsArrowUpShort,
+} from "react-icons/bs";
 
 interface IEventsEditor {
   formik: FormikProps<any>;
@@ -33,12 +39,18 @@ interface IEventsEditor {
 const EventsEditor: React.FunctionComponent<IEventsEditor> = (
   props: IEventsEditor
 ) => {
+  //#region store
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.events
   );
+  //#endregion store
+
+  //#region state
+  const [open, setOpen] = React.useState<boolean>(true);
+  //#endregion state
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
@@ -98,375 +110,393 @@ const EventsEditor: React.FunctionComponent<IEventsEditor> = (
     props.formik.setFieldValue(props.fieldName, newEvents);
   };
 
+  const handleTriggerOpenEvents = () => setOpen(!open);
+
   return (
     <div className={styles.eventsEditorContainer}>
-      <span className={styles.eventsTitle}>
+      <span onClick={handleTriggerOpenEvents} className={styles.eventsTitle}>
+        {!open ? (
+          <BsArrowDownShort className={styles.triggerArrow} />
+        ) : (
+          <BsArrowUpShort className={styles.triggerArrow} />
+        )}{" "}
         {getTranslatedText(staticText?.events)}
       </span>
 
-      {props.formik.values[props.fieldName].map(
-        (event: IEvent, index: number) => {
-          console.log("index", index);
-          return (
-            <div key={index} className={styles.singleEvent}>
-              <MdDelete
-                onClick={(e) => handleDeleteEvent(index)}
-                className={styles.deleteIcon}
-              />
-
-              <span className={styles.eventTriggerTitle}>
-                {getTranslatedText(staticText?.eventTrigger)}:
-              </span>
-              {(!props.activeTriggers ||
-                props.activeTriggers?.indexOf(EventTriggerEnum.OnCreate) !==
-                  -1) && (
-                <Checkbox
-                  label={getTranslatedText(staticText?.onCreate)}
-                  checked={event.eventTrigger === EventTriggerEnum.OnCreate}
-                  onChange={() =>
-                    handleTriggerChange(index, EventTriggerEnum.OnCreate)
-                  }
-                  labelStyles={{ width: 100 }}
+      {open &&
+        props.formik.values[props.fieldName].map(
+          (event: IEvent, index: number) => {
+            return (
+              <div key={index} className={styles.singleEvent}>
+                <span className={styles.eventIndex}>
+                  {getTranslatedText(staticText?.event)} {index + 1}
+                </span>
+                <MdDelete
+                  onClick={(e) => handleDeleteEvent(index)}
+                  className={styles.deleteIcon}
                 />
-              )}
 
-              {(!props.activeTriggers ||
-                props.activeTriggers?.indexOf(EventTriggerEnum.OnUpdate) !==
-                  -1) && (
-                <Checkbox
-                  label={getTranslatedText(staticText?.onUpdate)}
-                  checked={event.eventTrigger === EventTriggerEnum.OnUpdate}
-                  onChange={() =>
-                    handleTriggerChange(index, EventTriggerEnum.OnUpdate)
-                  }
-                  labelStyles={{ width: 100 }}
-                />
-              )}
+                <span className={styles.eventTriggerTitle}>
+                  {getTranslatedText(staticText?.eventTrigger)}:
+                </span>
 
-              {(!props.activeTriggers ||
-                props.activeTriggers?.indexOf(EventTriggerEnum.OnClick) !==
-                  -1) && (
-                <Checkbox
-                  label={getTranslatedText(staticText?.onClick)}
-                  checked={event.eventTrigger === EventTriggerEnum.OnClick}
-                  onChange={() =>
-                    handleTriggerChange(index, EventTriggerEnum.OnClick)
-                  }
-                  labelStyles={{ width: 100 }}
-                />
-              )}
-
-              <span className={styles.eventTypeTitle}>
-                {getTranslatedText(staticText?.eventType)}:
-              </span>
-              <Checkbox
-                label={getTranslatedText(staticText?.apiCall)}
-                checked={event.eventType === EventTypeEnum.ApiCall}
-                onChange={() =>
-                  handleEventTypeChange(index, EventTypeEnum.ApiCall)
-                }
-                labelStyles={{ width: 100 }}
-              />
-              <Checkbox
-                label={getTranslatedText(staticText?.redirection)}
-                checked={event.eventType === EventTypeEnum.Redirection}
-                onChange={() =>
-                  handleEventTypeChange(index, EventTypeEnum.Redirection)
-                }
-                labelStyles={{ width: 100 }}
-              />
-
-              {event.eventType === EventTypeEnum.ApiCall && (
-                <div className={styles.confContainer}>
-                  <span className={styles.apiTitle}>
-                    {getTranslatedText(staticText?.apiCall)}
-                  </span>
-
-                  <Input
-                    Icon={AiFillApi}
-                    value={event.requestMethod}
-                    inputProps={{
-                      placeholder: getTranslatedText(staticText?.requestMethod),
-                    }}
-                    debounce
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      const newEvents = props.formik.values[
-                        props.fieldName
-                      ].map((el, i) => {
-                        return {
-                          ...el,
-                          requestMethod:
-                            index == i ? e.target.value : el.requestMethod,
-                        };
-                      });
-
-                      props.formik.setFieldValue(props.fieldName, newEvents);
-                    }}
-                    label={getTranslatedText(staticText?.requestMethod)}
-                  />
-                  <Input
-                    value={event.requestUrl}
-                    Icon={AiFillApi}
-                    inputProps={{
-                      placeholder: getTranslatedText(staticText?.requestUrl),
-                    }}
-                    debounce
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      const newEvents = props.formik.values[
-                        props.fieldName
-                      ].map((el, i) => {
-                        return {
-                          ...el,
-                          requestUrl:
-                            index == i ? e.target.value : el.requestUrl,
-                        };
-                      });
-
-                      props.formik.setFieldValue(props.fieldName, newEvents);
-                    }}
-                    label={getTranslatedText(staticText?.requestUrl)}
-                  />
-                  <Textarea
-                    label={getTranslatedText(staticText?.requestData)}
-                    value={event.requestData}
-                    textareaProps={{
-                      placeholder: getTranslatedText(staticText?.requestData),
-                    }}
-                    debounce
-                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
-                      const newEvents = props.formik.values[
-                        props.fieldName
-                      ].map((el, i) => {
-                        return {
-                          ...el,
-                          requestData:
-                            index == i ? e.target.value : el.requestData,
-                        };
-                      });
-
-                      props.formik.setFieldValue(props.fieldName, newEvents);
-                    }}
-                  />
+                {(!props.activeTriggers ||
+                  props.activeTriggers?.indexOf(EventTriggerEnum.OnCreate) !==
+                    -1) && (
                   <Checkbox
-                    label={getTranslatedText(
-                      staticText?.requestDataIsCreatedEntity
-                    )}
-                    checked={event.requestDataIsCreatedEntity === true}
-                    onChange={(checked: boolean) => {
-                      const newEvents = props.formik.values[
-                        props.fieldName
-                      ].map((el, i) => {
-                        return {
-                          ...el,
-                          requestDataIsCreatedEntity:
-                            index == i
-                              ? checked
-                              : el.requestDataIsCreatedEntity,
-                        };
-                      });
-
-                      props.formik.setFieldValue(props.fieldName, newEvents);
-                    }}
+                    label={getTranslatedText(staticText?.onCreate)}
+                    checked={event.eventTrigger === EventTriggerEnum.OnCreate}
+                    onChange={() =>
+                      handleTriggerChange(index, EventTriggerEnum.OnCreate)
+                    }
+                    labelStyles={{ width: 100 }}
                   />
+                )}
 
-                  <div className={styles.eventsContainer}>
-                    <span className={styles.headerTitle}>
-                      {getTranslatedText(staticText?.headers)}:
+                {(!props.activeTriggers ||
+                  props.activeTriggers?.indexOf(EventTriggerEnum.OnUpdate) !==
+                    -1) && (
+                  <Checkbox
+                    label={getTranslatedText(staticText?.onUpdate)}
+                    checked={event.eventTrigger === EventTriggerEnum.OnUpdate}
+                    onChange={() =>
+                      handleTriggerChange(index, EventTriggerEnum.OnUpdate)
+                    }
+                    labelStyles={{ width: 100 }}
+                  />
+                )}
+
+                {(!props.activeTriggers ||
+                  props.activeTriggers?.indexOf(EventTriggerEnum.OnClick) !==
+                    -1) && (
+                  <Checkbox
+                    label={getTranslatedText(staticText?.onClick)}
+                    checked={event.eventTrigger === EventTriggerEnum.OnClick}
+                    onChange={() =>
+                      handleTriggerChange(index, EventTriggerEnum.OnClick)
+                    }
+                    labelStyles={{ width: 100 }}
+                  />
+                )}
+
+                <span className={styles.eventTypeTitle}>
+                  {getTranslatedText(staticText?.eventType)}:
+                </span>
+                <Checkbox
+                  label={getTranslatedText(staticText?.apiCall)}
+                  checked={event.eventType === EventTypeEnum.ApiCall}
+                  onChange={() =>
+                    handleEventTypeChange(index, EventTypeEnum.ApiCall)
+                  }
+                  labelStyles={{ width: 100 }}
+                />
+                <Checkbox
+                  label={getTranslatedText(staticText?.redirection)}
+                  checked={event.eventType === EventTypeEnum.Redirection}
+                  onChange={() =>
+                    handleEventTypeChange(index, EventTypeEnum.Redirection)
+                  }
+                  labelStyles={{ width: 100 }}
+                />
+
+                {event.eventType === EventTypeEnum.ApiCall && (
+                  <div className={styles.confContainer}>
+                    <span className={styles.apiTitle}>
+                      {getTranslatedText(staticText?.apiCall)}
                     </span>
 
-                    {event.requestHeaders?.map(
-                      (header: IEventRequestHeader, headerIndex: number) => {
-                        return (
-                          <div className={styles.singleHeader}>
-                            <MdDelete
-                              onClick={(_) => {
-                                const newEvents: IEvent[] = [
-                                  ...props.formik.values[props.fieldName],
-                                ];
-                                newEvents[index].requestHeaders.splice(
-                                  headerIndex,
-                                  1
-                                );
-                                props.formik.setFieldValue(
-                                  props.fieldName,
-                                  newEvents
-                                );
-                              }}
-                              className={styles.headerDeleteIcon}
-                            />
-
-                            <Input
-                              inputProps={{
-                                placeholder: getTranslatedText(staticText?.key),
-                              }}
-                              Icon={HiKey}
-                              value={header.key}
-                              debounce
-                              onChange={(
-                                e: React.ChangeEvent<HTMLInputElement>
-                              ) => {
-                                const newEvents = props.formik.values[
-                                  props.fieldName
-                                ].map((el: IEvent, i) => {
-                                  return {
-                                    ...el,
-                                    requestHeaders:
-                                      index == i
-                                        ? el.requestHeaders.map(
-                                            (
-                                              header: IEventRequestHeader,
-                                              i: number
-                                            ) => {
-                                              return {
-                                                key:
-                                                  i === headerIndex
-                                                    ? e.target.value
-                                                    : header.key,
-                                                value: header.value,
-                                              };
-                                            }
-                                          )
-                                        : el.requestHeaders,
-                                  };
-                                });
-
-                                props.formik.setFieldValue(
-                                  props.fieldName,
-                                  newEvents
-                                );
-                              }}
-                            />
-                            <Input
-                              inputProps={{
-                                placeholder: getTranslatedText(
-                                  staticText?.value
-                                ),
-                              }}
-                              value={header.value}
-                              debounce
-                              Icon={BiText}
-                              onChange={(
-                                e: React.ChangeEvent<HTMLInputElement>
-                              ) => {
-                                const newEvents = props.formik.values[
-                                  props.fieldName
-                                ].map((el: IEvent, i) => {
-                                  return {
-                                    ...el,
-                                    requestHeaders:
-                                      index == i
-                                        ? el.requestHeaders.map(
-                                            (
-                                              header: IEventRequestHeader,
-                                              i: number
-                                            ) => {
-                                              return {
-                                                key: header.key,
-                                                value:
-                                                  i === headerIndex
-                                                    ? e.target.value
-                                                    : header.value,
-                                              };
-                                            }
-                                          )
-                                        : el.requestHeaders,
-                                  };
-                                });
-
-                                props.formik.setFieldValue(
-                                  props.fieldName,
-                                  newEvents
-                                );
-                              }}
-                            />
-                          </div>
-                        );
-                      }
-                    )}
-
-                    <Button
-                      onClick={(
-                        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-                      ) => {
-                        e.preventDefault();
-                        const newHeader: IEventRequestHeader = {
-                          key: "",
-                          value: "",
-                        };
+                    <Input
+                      Icon={AiFillApi}
+                      value={event.requestMethod}
+                      inputProps={{
+                        placeholder: getTranslatedText(
+                          staticText?.requestMethod
+                        ),
+                      }}
+                      debounce
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         const newEvents = props.formik.values[
                           props.fieldName
-                        ].map((el: IEvent, i) => {
+                        ].map((el, i) => {
                           return {
                             ...el,
-                            requestHeaders:
-                              index == i
-                                ? [...(el.requestHeaders ?? []), newHeader]
-                                : el.requestHeaders,
+                            requestMethod:
+                              index == i ? e.target.value : el.requestMethod,
                           };
                         });
 
                         props.formik.setFieldValue(props.fieldName, newEvents);
                       }}
-                    >
-                      {getTranslatedText(staticText?.addHeader)}{" "}
-                      <CgAdd className={styles.addHeaderIcon} />
-                    </Button>
+                      label={getTranslatedText(staticText?.requestMethod)}
+                    />
+                    <Input
+                      value={event.requestUrl}
+                      Icon={AiFillApi}
+                      inputProps={{
+                        placeholder: getTranslatedText(staticText?.requestUrl),
+                      }}
+                      debounce
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        const newEvents = props.formik.values[
+                          props.fieldName
+                        ].map((el, i) => {
+                          return {
+                            ...el,
+                            requestUrl:
+                              index == i ? e.target.value : el.requestUrl,
+                          };
+                        });
+
+                        props.formik.setFieldValue(props.fieldName, newEvents);
+                      }}
+                      label={getTranslatedText(staticText?.requestUrl)}
+                    />
+                    <Textarea
+                      label={getTranslatedText(staticText?.requestData)}
+                      value={event.requestData}
+                      textareaProps={{
+                        placeholder: getTranslatedText(staticText?.requestData),
+                      }}
+                      debounce
+                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                        const newEvents = props.formik.values[
+                          props.fieldName
+                        ].map((el, i) => {
+                          return {
+                            ...el,
+                            requestData:
+                              index == i ? e.target.value : el.requestData,
+                          };
+                        });
+
+                        props.formik.setFieldValue(props.fieldName, newEvents);
+                      }}
+                    />
+                    <Checkbox
+                      label={getTranslatedText(
+                        staticText?.requestDataIsCreatedEntity
+                      )}
+                      checked={event.requestDataIsCreatedEntity === true}
+                      onChange={(checked: boolean) => {
+                        const newEvents = props.formik.values[
+                          props.fieldName
+                        ].map((el, i) => {
+                          return {
+                            ...el,
+                            requestDataIsCreatedEntity:
+                              index == i
+                                ? checked
+                                : el.requestDataIsCreatedEntity,
+                          };
+                        });
+
+                        props.formik.setFieldValue(props.fieldName, newEvents);
+                      }}
+                    />
+
+                    <div className={styles.eventsContainer}>
+                      <span className={styles.headerTitle}>
+                        {getTranslatedText(staticText?.headers)}:
+                      </span>
+
+                      {event.requestHeaders?.map(
+                        (header: IEventRequestHeader, headerIndex: number) => {
+                          return (
+                            <div className={styles.singleHeader}>
+                              <MdDelete
+                                onClick={(_) => {
+                                  const newEvents: IEvent[] = [
+                                    ...props.formik.values[props.fieldName],
+                                  ];
+                                  newEvents[index].requestHeaders.splice(
+                                    headerIndex,
+                                    1
+                                  );
+                                  props.formik.setFieldValue(
+                                    props.fieldName,
+                                    newEvents
+                                  );
+                                }}
+                                className={styles.headerDeleteIcon}
+                              />
+
+                              <Input
+                                inputProps={{
+                                  placeholder: getTranslatedText(
+                                    staticText?.key
+                                  ),
+                                }}
+                                Icon={HiKey}
+                                value={header.key}
+                                debounce
+                                onChange={(
+                                  e: React.ChangeEvent<HTMLInputElement>
+                                ) => {
+                                  const newEvents = props.formik.values[
+                                    props.fieldName
+                                  ].map((el: IEvent, i) => {
+                                    return {
+                                      ...el,
+                                      requestHeaders:
+                                        index == i
+                                          ? el.requestHeaders.map(
+                                              (
+                                                header: IEventRequestHeader,
+                                                i: number
+                                              ) => {
+                                                return {
+                                                  key:
+                                                    i === headerIndex
+                                                      ? e.target.value
+                                                      : header.key,
+                                                  value: header.value,
+                                                };
+                                              }
+                                            )
+                                          : el.requestHeaders,
+                                    };
+                                  });
+
+                                  props.formik.setFieldValue(
+                                    props.fieldName,
+                                    newEvents
+                                  );
+                                }}
+                              />
+                              <Input
+                                inputProps={{
+                                  placeholder: getTranslatedText(
+                                    staticText?.value
+                                  ),
+                                }}
+                                value={header.value}
+                                debounce
+                                Icon={BiText}
+                                onChange={(
+                                  e: React.ChangeEvent<HTMLInputElement>
+                                ) => {
+                                  const newEvents = props.formik.values[
+                                    props.fieldName
+                                  ].map((el: IEvent, i) => {
+                                    return {
+                                      ...el,
+                                      requestHeaders:
+                                        index == i
+                                          ? el.requestHeaders.map(
+                                              (
+                                                header: IEventRequestHeader,
+                                                i: number
+                                              ) => {
+                                                return {
+                                                  key: header.key,
+                                                  value:
+                                                    i === headerIndex
+                                                      ? e.target.value
+                                                      : header.value,
+                                                };
+                                              }
+                                            )
+                                          : el.requestHeaders,
+                                    };
+                                  });
+
+                                  props.formik.setFieldValue(
+                                    props.fieldName,
+                                    newEvents
+                                  );
+                                }}
+                              />
+                            </div>
+                          );
+                        }
+                      )}
+
+                      <Button
+                        onClick={(
+                          e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+                        ) => {
+                          e.preventDefault();
+                          const newHeader: IEventRequestHeader = {
+                            key: "",
+                            value: "",
+                          };
+                          const newEvents = props.formik.values[
+                            props.fieldName
+                          ].map((el: IEvent, i) => {
+                            return {
+                              ...el,
+                              requestHeaders:
+                                index == i
+                                  ? [...(el.requestHeaders ?? []), newHeader]
+                                  : el.requestHeaders,
+                            };
+                          });
+
+                          props.formik.setFieldValue(
+                            props.fieldName,
+                            newEvents
+                          );
+                        }}
+                      >
+                        {getTranslatedText(staticText?.addHeader)}{" "}
+                        <CgAdd className={styles.addHeaderIcon} />
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              )}
-              {event.eventType === EventTypeEnum.Redirection && (
-                <div className={styles.confContainer}>
-                  <span className={styles.redirectionTitle}>
-                    {getTranslatedText(staticText?.redirection)}
-                  </span>
+                )}
+                {event.eventType === EventTypeEnum.Redirection && (
+                  <div className={styles.confContainer}>
+                    <span className={styles.redirectionTitle}>
+                      {getTranslatedText(staticText?.redirection)}
+                    </span>
 
-                  <Input
-                    Icon={AiFillApi}
-                    value={event.redirectionUrl}
-                    inputProps={{
-                      placeholder: getTranslatedText(
-                        staticText?.redirectionUrl
-                      ),
-                    }}
-                    debounce
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                      const newEvents = props.formik.values[
-                        props.fieldName
-                      ].map((el, i) => {
-                        return {
-                          ...el,
-                          redirectionUrl:
-                            index == i ? e.target.value : el.redirectionUrl,
-                        };
-                      });
+                    <Input
+                      Icon={AiFillApi}
+                      value={event.redirectionUrl}
+                      inputProps={{
+                        placeholder: getTranslatedText(
+                          staticText?.redirectionUrl
+                        ),
+                      }}
+                      debounce
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                        const newEvents = props.formik.values[
+                          props.fieldName
+                        ].map((el, i) => {
+                          return {
+                            ...el,
+                            redirectionUrl:
+                              index == i ? e.target.value : el.redirectionUrl,
+                          };
+                        });
 
-                      props.formik.setFieldValue(props.fieldName, newEvents);
-                    }}
-                    label={getTranslatedText(staticText?.redirectionUrl)}
-                  />
-                  <Checkbox
-                    checked={event.redirectionToSelf}
-                    onChange={(checked: boolean) => {
-                      const newEvents = props.formik.values[
-                        props.fieldName
-                      ].map((el, i) => {
-                        return {
-                          ...el,
-                          redirectionToSelf:
-                            index === i ? checked : el.redirectionToSelf,
-                        };
-                      });
+                        props.formik.setFieldValue(props.fieldName, newEvents);
+                      }}
+                      label={getTranslatedText(staticText?.redirectionUrl)}
+                    />
+                    <Checkbox
+                      checked={event.redirectionToSelf}
+                      onChange={(checked: boolean) => {
+                        const newEvents = props.formik.values[
+                          props.fieldName
+                        ].map((el, i) => {
+                          return {
+                            ...el,
+                            redirectionToSelf:
+                              index === i ? checked : el.redirectionToSelf,
+                          };
+                        });
 
-                      props.formik.setFieldValue(props.fieldName, newEvents);
-                    }}
-                    label={getTranslatedText(staticText?.redirectionToSelf)}
-                  />
-                </div>
-              )}
-            </div>
-          );
-        }
-      )}
+                        props.formik.setFieldValue(props.fieldName, newEvents);
+                      }}
+                      label={getTranslatedText(staticText?.redirectionToSelf)}
+                    />
+                  </div>
+                )}
+              </div>
+            );
+          }
+        )}
 
       <Button onClick={handleAddEvent}>
         {getTranslatedText(staticText?.addEvent)}{" "}

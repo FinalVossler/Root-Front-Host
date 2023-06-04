@@ -137,6 +137,7 @@ export interface IWebsiteConfiguration {
       redirection: ITranslatedText[];
       addEvent: ITranslatedText[];
       events: ITranslatedText[];
+      event: ITranslatedText[];
       requestMethod: ITranslatedText[];
       requestUrl: ITranslatedText[];
       redirectionUrl: ITranslatedText[];
@@ -865,6 +866,10 @@ const initialState: IWebsiteConfigurationState = {
       ],
       events: [
         { language: "en", text: "Events" },
+        { language: "fr", text: "Évènements" },
+      ],
+      event: [
+        { language: "en", text: "Event" },
         { language: "fr", text: "Évènement" },
       ],
       requestMethod: [
