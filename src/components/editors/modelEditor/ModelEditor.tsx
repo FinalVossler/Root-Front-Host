@@ -22,7 +22,7 @@ import { IModel, IModelField } from "../../../store/slices/modelSlice";
 import useUpdateModel, {
   ModelUpdateCommand,
 } from "../../../hooks/apiHooks/useUpdateModel";
-import ModelFieldsEditor from "./fieldsEditor";
+import ModelFieldsEditor from "./modelFieldsEditor";
 import EventsEditor from "../eventsEditor";
 import {
   EventTriggerEnum,
@@ -30,6 +30,8 @@ import {
   IEvent,
   IEventRequestHeader,
 } from "../../../globalTypes/IEvent";
+import ModelStatesEditor from "./modelStatesEditor";
+import ITranslatedText from "../../../globalTypes/ITranslatedText";
 
 export interface IModelEditor {
   model?: IModel;
@@ -41,6 +43,8 @@ export interface IModelForm {
   name: string;
   modelFields: IModelField[];
   modelEvents: IEvent[];
+  states: string[];
+  subStates: string[];
   language: string;
 }
 
@@ -69,6 +73,8 @@ const ModelEditor = (props: IModelEditor) => {
       modelFields: [],
       language,
       modelEvents: [],
+      states: [],
+      subStates: [],
     },
     validationSchema: Yup.object().shape({
       name: Yup.string().required(
@@ -102,6 +108,8 @@ const ModelEditor = (props: IModelEditor) => {
             requestData: modelEvent.requestData,
             requestHeaders: modelEvent.requestHeaders,
           })),
+          states: values.states,
+          subStates: values.subStates,
           language: values.language,
         };
 
@@ -123,6 +131,8 @@ const ModelEditor = (props: IModelEditor) => {
           modelEvents: values.modelEvents.map((modelEvent) => ({
             ...modelEvent,
           })),
+          states: values.states,
+          subStates: values.subStates,
           language: values.language,
         };
 
@@ -179,6 +189,20 @@ const ModelEditor = (props: IModelEditor) => {
                 ),
               ] || [],
           })) || [],
+        states:
+          props.model?.states?.map((state: ITranslatedText[]) =>
+            state.length > 0
+              ? state.find((el) => el.language === formik.values.language)
+                  ?.text || state[0].text
+              : ""
+          ) || [],
+        subStates:
+          props.model?.subStates?.map((subState: ITranslatedText[]) =>
+            subState.length > 0
+              ? subState.find((el) => el.language === formik.values.language)
+                  ?.text || subState[0].text
+              : ""
+          ) || [],
         language: formik.values.language,
       },
     });
@@ -249,11 +273,17 @@ const ModelEditor = (props: IModelEditor) => {
           defaultEventTriggerOnAdd={EventTriggerEnum.OnCreate}
         />
 
+        <br />
+
         <ModelFieldsEditor
           model={props.model}
           setSelectedModelFields={handleModelFieldsChange}
           language={formik.values.language}
         />
+
+        <br />
+
+        <ModelStatesEditor formik={formik} />
 
         {!loading && (
           <Button

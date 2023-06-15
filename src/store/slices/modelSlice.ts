@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IEvent } from "../../globalTypes/IEvent";
 
+import { IEvent } from "../../globalTypes/IEvent";
 import ITranslatedText from "../../globalTypes/ITranslatedText";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { IField } from "./fieldSlice";
@@ -10,6 +10,8 @@ export interface IModel {
   name: ITranslatedText[];
   modelFields: IModelField[];
   modelEvents?: IEvent[];
+  states?: ITranslatedText[][];
+  subStates?: ITranslatedText[][];
 
   createdAt: string;
   updatedAt: string;

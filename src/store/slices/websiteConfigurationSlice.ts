@@ -126,6 +126,13 @@ export interface IWebsiteConfiguration {
       submit: ITranslatedText[];
       language: ITranslatedText[];
       nameIsRequired: ITranslatedText[];
+      addState: ITranslatedText[];
+      states: ITranslatedText[];
+      addSubState: ITranslatedText[];
+      subStates: ITranslatedText[];
+      parentStates: ITranslatedText[];
+      state: ITranslatedText[];
+      subState: ITranslatedText[];
     };
     events: {
       eventTrigger: ITranslatedText[];
@@ -829,6 +836,34 @@ const initialState: IWebsiteConfigurationState = {
       nameIsRequired: [
         { language: "en", text: "Name is required" },
         { language: "fr", text: "Le nom est requis" },
+      ],
+      addState: [
+        { language: "en", text: "Add State" },
+        { language: "fr", text: "Ajout un état" },
+      ],
+      states: [
+        { language: "en", text: "States" },
+        { language: "fr", text: "Les états" },
+      ],
+      subStates: [
+        { language: "en", text: "Sub-states" },
+        { language: "fr", text: "Sous-états" },
+      ],
+      addSubState: [
+        { language: "en", text: "Add sub-states" },
+        { language: "fr", text: "Ajouter des sous-états" },
+      ],
+      parentStates: [
+        { language: "en", text: "Parent states" },
+        { language: "fr", text: "Les états parents" },
+      ],
+      state: [
+        { language: "en", text: "State" },
+        { language: "fr", text: "État" },
+      ],
+      subState: [
+        { language: "en", text: "Sub-state" },
+        { language: "fr", text: "Les sous-états" },
       ],
     },
     events: {

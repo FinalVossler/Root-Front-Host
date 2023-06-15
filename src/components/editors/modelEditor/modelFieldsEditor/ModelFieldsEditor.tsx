@@ -12,6 +12,7 @@ import useStyles from "./modelFieldsEditor.styles";
 import { IField } from "../../../../store/slices/fieldSlice";
 import { IModel, IModelField } from "../../../../store/slices/modelSlice";
 import SortableModelField from "./sortableModelField";
+import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 
 interface IFieldsEditor {
   setSelectedModelFields: (modelFields: IModelField[]) => any;
@@ -27,6 +28,8 @@ const ModelFieldsEditor = (props: IFieldsEditor) => {
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
+
+  const [openFields, setOpenFields] = React.useState(false);
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
@@ -63,46 +66,59 @@ const ModelFieldsEditor = (props: IFieldsEditor) => {
       setSelectedModelFields(newselectedModelFields);
     }
   }
+  const handleTriggerOpenFields = () => {
+    setOpenFields(!openFields);
+  };
   //#endregion Event listeners
 
   return (
     <div className={styles.fieldsEditorContainer}>
-      <span className={styles.fieldsTitle}>
-        {getTranslatedText(staticText?.fields)}:
+      <span onClick={handleTriggerOpenFields} className={styles.fieldsTitle}>
+        {!openFields ? (
+          <BsArrowDownShort className={styles.triggerArrow} />
+        ) : (
+          <BsArrowUpShort className={styles.triggerArrow} />
+        )}{" "}
+        {getTranslatedText(staticText?.fields)}
       </span>
-      <SearchInput
-        inputProps={{
-          placeholder:
-            props.placeholder || getTranslatedText(staticText?.searchFields),
-        }}
-        searchPromise={handleSearchFieldsPromise}
-        getElementTitle={(field: IField) => getTranslatedText(field.name)}
-        onElementClick={handleSelectField}
-      />
 
-      <div className={styles.fieldsContainer}>
-        <DndContext onDragEnd={handleDragEnd}>
-          <SortableContext
-            items={selectedModelFields.map((modelField) => modelField.uuid)}
-          >
-            {selectedModelFields.map(
-              (modelField: IModelField, modelFieldIndex: number) => {
-                return (
-                  <SortableModelField
-                    key={modelFieldIndex}
-                    handleDeleteModelField={handleDeleteModelField}
-                    modelField={modelField}
-                    modelFieldIndex={modelFieldIndex}
-                    language={props.language}
-                    selectedModelFields={selectedModelFields}
-                    setSelectedModelFields={setSelectedModelFields}
-                  />
-                );
-              }
-            )}
-          </SortableContext>
-        </DndContext>
-      </div>
+      {openFields && (
+        <SearchInput
+          inputProps={{
+            placeholder:
+              props.placeholder || getTranslatedText(staticText?.searchFields),
+          }}
+          searchPromise={handleSearchFieldsPromise}
+          getElementTitle={(field: IField) => getTranslatedText(field.name)}
+          onElementClick={handleSelectField}
+        />
+      )}
+
+      {openFields && (
+        <div className={styles.fieldsContainer}>
+          <DndContext onDragEnd={handleDragEnd}>
+            <SortableContext
+              items={selectedModelFields.map((modelField) => modelField.uuid)}
+            >
+              {selectedModelFields.map(
+                (modelField: IModelField, modelFieldIndex: number) => {
+                  return (
+                    <SortableModelField
+                      key={modelFieldIndex}
+                      handleDeleteModelField={handleDeleteModelField}
+                      modelField={modelField}
+                      modelFieldIndex={modelFieldIndex}
+                      language={props.language}
+                      selectedModelFields={selectedModelFields}
+                      setSelectedModelFields={setSelectedModelFields}
+                    />
+                  );
+                }
+              )}
+            </SortableContext>
+          </DndContext>
+        </div>
+      )}
     </div>
   );
 };

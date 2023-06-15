@@ -49,7 +49,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditor> = (
   //#endregion store
 
   //#region state
-  const [open, setOpen] = React.useState<boolean>(true);
+  const [open, setOpen] = React.useState<boolean>(false);
   //#endregion state
 
   const styles = useStyles({ theme });
@@ -498,10 +498,12 @@ const EventsEditor: React.FunctionComponent<IEventsEditor> = (
           }
         )}
 
-      <Button onClick={handleAddEvent}>
-        {getTranslatedText(staticText?.addEvent)}{" "}
-        <BiPlus className={styles.plusButton} />
-      </Button>
+      {open && (
+        <Button onClick={handleAddEvent}>
+          {getTranslatedText(staticText?.addEvent)}{" "}
+          <BiPlus className={styles.plusButton} />
+        </Button>
+      )}
     </div>
   );
 };

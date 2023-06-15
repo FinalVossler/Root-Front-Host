@@ -6,7 +6,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
   fieldsEditorContainer: {
     width: "100%",
     position: "relative",
-    marginTop: 20,
     display: "flex",
     flexDirection: "column",
   },
@@ -14,6 +13,15 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.lighterPrimary,
     fontSize: 25,
     marginBottom: 10,
+
+    cursor: "pointer",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  triggerArrow: {
+    position: "relative",
+    bottom: 2,
   },
   fieldsContainer: {
     display: "flex",

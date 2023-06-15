@@ -23,6 +23,9 @@ export type ModelUpdateCommand = {
     }[];
   }[];
   modelEvents: IEvent[];
+  states: string[];
+  subStates: string[];
+
   language: string;
 };
 
