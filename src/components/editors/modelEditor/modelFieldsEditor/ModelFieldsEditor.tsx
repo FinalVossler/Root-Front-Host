@@ -13,12 +13,15 @@ import { IField } from "../../../../store/slices/fieldSlice";
 import { IModel, IModelField } from "../../../../store/slices/modelSlice";
 import SortableModelField from "./sortableModelField";
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
+import { FormikProps } from "formik";
+import { IModelForm } from "../ModelEditor";
 
 interface IFieldsEditor {
   setSelectedModelFields: (modelFields: IModelField[]) => any;
   placeholder?: string;
   model?: IModel;
   language?: string;
+  formik: FormikProps<IModelForm>;
 }
 
 const ModelFieldsEditor = (props: IFieldsEditor) => {
@@ -111,6 +114,7 @@ const ModelFieldsEditor = (props: IFieldsEditor) => {
                       language={props.language}
                       selectedModelFields={selectedModelFields}
                       setSelectedModelFields={setSelectedModelFields}
+                      model={props.model}
                     />
                   );
                 }

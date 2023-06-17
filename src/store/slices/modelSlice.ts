@@ -10,8 +10,8 @@ export interface IModel {
   name: ITranslatedText[];
   modelFields: IModelField[];
   modelEvents?: IEvent[];
-  states?: ITranslatedText[][];
-  subStates?: ITranslatedText[][];
+  states?: IModelState[];
+  subStates?: IModelState[];
 
   createdAt: string;
   updatedAt: string;
@@ -22,6 +22,7 @@ export interface IModelField {
   field: IField;
   required: boolean;
   conditions?: IModelFieldCondition[];
+  states?: IModelState[];
 
   // used for frontend sorting only
   uuid: string;
@@ -41,16 +42,28 @@ export interface IModelFieldCondition {
   conditionType: ModelFieldConditionTypeEnum;
   value: number | string;
 }
-
 //#endregion model fields
 
+//#region model states
+export enum ModelStateType {
+  ParentState = "ParentState",
+  SubState = "SubState",
+}
+
 export interface IModelState {
+  _id: string;
+  name: ITranslatedText[];
+  stateType: ModelStateType;
+}
+//#endregion model states
+
+export interface IModelStoreState {
   models: IModel[];
   total: number;
   searchedModels: PaginationResponse<IModel>;
 }
 
-const initialState: IModelState = {
+const initialState: IModelStoreState = {
   models: [],
   total: 0,
   searchedModels: {
@@ -64,7 +77,7 @@ export const modelSlice = createSlice({
   name: "model",
   reducers: {
     setModels: (
-      state: IModelState,
+      state: IModelStoreState,
       action: PayloadAction<{ models: IModel[]; total: number }>
     ) => {
       const models: IModel[] = action.payload.models;
@@ -72,18 +85,21 @@ export const modelSlice = createSlice({
       state.models = models;
       state.total = total;
     },
-    addModel: (state: IModelState, action: PayloadAction<IModel>) => {
+    addModel: (state: IModelStoreState, action: PayloadAction<IModel>) => {
       const model: IModel = action.payload;
       state.models.unshift(model);
     },
-    updateModel: (state: IModelState, action: PayloadAction<IModel>) => {
+    updateModel: (state: IModelStoreState, action: PayloadAction<IModel>) => {
       const model: IModel = action.payload;
       state.models = state.models.map((m) => (m._id === model._id ? model : m));
       state.searchedModels.data = state.searchedModels.data.map((m) =>
         m._id === model._id ? model : m
       );
     },
-    deleteModels: (state: IModelState, action: PayloadAction<string[]>) => {
+    deleteModels: (
+      state: IModelStoreState,
+      action: PayloadAction<string[]>
+    ) => {
       const modelsIds: string[] = action.payload;
       state.models = state.models.filter(
         (f) => modelsIds.indexOf(f._id) === -1
@@ -94,7 +110,7 @@ export const modelSlice = createSlice({
       );
     },
     setSearchedModels: (
-      state: IModelState,
+      state: IModelStoreState,
       action: PayloadAction<PaginationResponse<IModel>>
     ) => {
       state.searchedModels = action.payload;

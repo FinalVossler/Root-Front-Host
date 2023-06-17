@@ -4,8 +4,10 @@ import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
 
 import { Theme } from "../../../../config/theme";
+import { ModelStateUpdateCommand } from "../../../../hooks/apiHooks/useUpdateModel";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../store/hooks";
+import { ModelStateType } from "../../../../store/slices/modelSlice";
 import Button from "../../../button";
 import Input from "../../../input";
 import { IModelForm } from "../ModelEditor";
@@ -41,23 +43,40 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    props.formik.setFieldValue("states", [...props.formik.values.states, ""]);
+    props.formik.setFieldValue("states", [
+      ...props.formik.values.states,
+      {
+        name: "",
+        stateType: ModelStateType.ParentState,
+        language: props.formik.values.language,
+      },
+    ]);
   };
   const handleAddModelSubState = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    props.formik.setFieldValue("subStates", [
+    props.formik.setFieldValue("states", [
       ...props.formik.values.subStates,
-      "",
+      {
+        name: "",
+        stateType: ModelStateType.ParentState,
+        language: props.formik.values.language,
+      },
     ]);
   };
   const handleStateChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     stateIndex: number
   ) => {
-    const newStates = props.formik.values.states.map((state, index) =>
-      stateIndex === index ? e.target.value : state
+    const newStates = props.formik.values.states.map(
+      (state: ModelStateUpdateCommand, index) =>
+        stateIndex === index
+          ? {
+              ...state,
+              name: e.target.value,
+            }
+          : state
     );
     props.formik.setFieldValue("states", newStates);
   };
@@ -65,8 +84,14 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
     e: React.ChangeEvent<HTMLInputElement>,
     stateIndex: number
   ) => {
-    const newSubStates = props.formik.values.subStates.map((subState, index) =>
-      stateIndex === index ? e.target.value : subState
+    const newSubStates = props.formik.values.subStates.map(
+      (state: ModelStateUpdateCommand, index) =>
+        stateIndex === index
+          ? {
+              ...state,
+              name: e.target.value,
+            }
+          : state
     );
     props.formik.setFieldValue("subStates", newSubStates);
   };
@@ -102,15 +127,14 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
             <div className={styles.statesContainer}>
               {props.formik.values.states.map((state, stateIndex) => {
                 return (
-                  <div className={styles.singleStateContainer}>
+                  <div key={stateIndex} className={styles.singleStateContainer}>
                     <Input
-                      key={stateIndex}
                       onChange={(e) => handleStateChange(e, stateIndex)}
                       label={getTranslatedText(staticText?.state)}
                       inputProps={{
                         placeholder: getTranslatedText(staticText?.state),
                       }}
-                      value={state}
+                      value={state.name}
                       debounce
                     />
                     <MdDelete
@@ -141,7 +165,7 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
                       inputProps={{
                         placeholder: getTranslatedText(staticText?.subState),
                       }}
-                      value={state}
+                      value={state.name}
                       debounce
                     />
                     <MdDelete

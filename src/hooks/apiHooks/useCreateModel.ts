@@ -1,20 +1,22 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import {
-  EventTriggerEnum,
-  EventTypeEnum,
-  IEvent,
-  IEventRequestHeader,
-} from "../../globalTypes/IEvent";
+import { IEvent } from "../../globalTypes/IEvent";
 
 import { useAppDispatch } from "../../store/hooks";
 import {
   modelSlice,
   IModel,
   ModelFieldConditionTypeEnum,
+  ModelStateType,
 } from "../../store/slices/modelSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
+
+type ModelStateCreateCommand = {
+  name: string;
+  stateType: ModelStateType;
+  language: string;
+};
 
 export type ModelCreateCommand = {
   name: string;
@@ -26,10 +28,11 @@ export type ModelCreateCommand = {
       conditionType: ModelFieldConditionTypeEnum;
       value: number | string;
     }[];
+    modelStatesIds: string[];
   }[];
   modelEvents: IEvent[];
-  states: string[];
-  subStates: string[];
+  states: ModelStateCreateCommand[];
+  subStates: ModelStateCreateCommand[];
 
   language: string;
 };

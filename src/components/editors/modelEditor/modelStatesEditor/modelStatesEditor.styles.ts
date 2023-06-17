@@ -39,9 +39,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
   deleteState: {
     position: "absolute",
     top: 0,
-    right: 0,
+    right: -2,
     cursor: "pointer",
     color: theme.errorColor,
+    fontSize: 20,
   },
   "@media (max-width: 850px)": {
     createModelModalContainer: {

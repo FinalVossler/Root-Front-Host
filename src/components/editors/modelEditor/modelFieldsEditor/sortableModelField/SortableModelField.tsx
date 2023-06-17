@@ -9,8 +9,10 @@ import { useAppSelector } from "../../../../../store/hooks";
 import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 
 import {
+  IModel,
   IModelField,
   IModelFieldCondition,
+  IModelState,
   ModelFieldConditionTypeEnum,
 } from "../../../../../store/slices/modelSlice";
 
@@ -21,6 +23,7 @@ import { Option } from "../../../../inputSelect/InputSelect";
 import { MdDelete, MdTextFields } from "react-icons/md";
 import Input from "../../../../input";
 import Checkbox from "../../../../checkbox";
+import { ModelStateUpdateCommand } from "../../../../../hooks/apiHooks/useUpdateModel";
 
 interface ISortableModelField {
   modelField: IModelField;
@@ -29,6 +32,7 @@ interface ISortableModelField {
   language?: string;
   selectedModelFields: IModelField[];
   setSelectedModelFields: (modelFields: IModelField[]) => any;
+  model?: IModel;
 }
 
 const SortableModelField: React.FunctionComponent<ISortableModelField> = (
@@ -147,6 +151,34 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
       (modelField: IModelField, index: number) => {
         if (index === props.modelFieldIndex) {
           modelField.required = required;
+        }
+        return modelField;
+      }
+    );
+
+    props.setSelectedModelFields(newSelectedModelFields);
+  };
+  const handleTriggerStateForField = (modelState: IModelState) => {
+    const newSelectedModelFields = props.selectedModelFields.map(
+      (modelField: IModelField, index: number) => {
+        if (index === props.modelFieldIndex) {
+          const modelStateExists: boolean = Boolean(
+            modelField.states?.find((state) => state._id === modelState._id)
+          );
+          if (modelStateExists) {
+            return {
+              ...modelField,
+              states:
+                modelField.states?.filter(
+                  (state) => state._id !== modelState._id
+                ) || [],
+            };
+          } else {
+            return {
+              ...modelField,
+              states: [...(modelField.states || []), modelState],
+            };
+          }
         }
         return modelField;
       }
@@ -292,6 +324,29 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
           }
         )}
       </div>
+
+      {props.model?.states && props.model?.states?.length > 0 && (
+        <div className={styles.modelFieldStatesConfigurationContainer}>
+          <h3 className={styles.statesConfigurationHint}>
+            {getTranslatedText(staticText?.statesConfigurationHint)}
+          </h3>
+          {props.model?.states?.map((state, stateIndex) => {
+            return (
+              <Checkbox
+                key={stateIndex}
+                label={getTranslatedText(state.name)}
+                onChange={() => handleTriggerStateForField(state)}
+                labelStyles={{
+                  width: 250,
+                }}
+                checked={Boolean(
+                  props.modelField.states?.find((el) => el._id === state._id)
+                )}
+              />
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

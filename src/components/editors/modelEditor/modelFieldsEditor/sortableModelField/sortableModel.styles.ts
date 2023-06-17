@@ -90,6 +90,15 @@ const useStyles = createUseStyles((theme: Theme) => ({
     fontSize: 20,
     zIndex: 10,
   },
+  modelFieldStatesConfigurationContainer: {
+    display: "flex",
+    marginTop: 10,
+    flexDirection: "column",
+    width: "100%",
+  },
+  statesConfigurationHint: {
+    color: theme.lightTextColor,
+  },
   "@media (max-width: 850px)": {},
 }));
 

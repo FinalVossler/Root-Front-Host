@@ -6,9 +6,17 @@ import {
   IModel,
   ModelFieldConditionTypeEnum,
   modelSlice,
+  ModelStateType,
 } from "../../store/slices/modelSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 import { IEvent } from "../../globalTypes/IEvent";
+
+export type ModelStateUpdateCommand = {
+  _id?: string;
+  name: string;
+  stateType: ModelStateType;
+  language: string;
+};
 
 export type ModelUpdateCommand = {
   _id: string;
@@ -21,10 +29,11 @@ export type ModelUpdateCommand = {
       conditionType: ModelFieldConditionTypeEnum;
       value: number | string;
     }[];
+    modelStatesIds: string[];
   }[];
   modelEvents: IEvent[];
-  states: string[];
-  subStates: string[];
+  states: ModelStateUpdateCommand[];
+  subStates: ModelStateUpdateCommand[];
 
   language: string;
 };

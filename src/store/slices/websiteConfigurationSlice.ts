@@ -117,6 +117,8 @@ export interface IWebsiteConfiguration {
       valueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear: ITranslatedText[];
       required: ITranslatedText[];
       fields: ITranslatedText[];
+      contributesInFilling: ITranslatedText[];
+      statesConfigurationHint: ITranslatedText[];
     };
     models: {
       createModel: ITranslatedText[];
@@ -163,6 +165,10 @@ export interface IWebsiteConfiguration {
       deleteDescription: ITranslatedText[];
       copyTitle: ITranslatedText[];
       copyDescription: ITranslatedText[];
+      search: ITranslatedText[];
+      view: ITranslatedText[];
+      table: ITranslatedText[];
+      board: ITranslatedText[];
     };
     pages: {
       deletePageMessage: ITranslatedText[];
@@ -745,7 +751,7 @@ const initialState: IWebsiteConfigurationState = {
       conditions: [
         {
           language: "en",
-          text: "Show Conditions",
+          text: "Conditions",
         },
         {
           language: "fr",
@@ -806,6 +812,20 @@ const initialState: IWebsiteConfigurationState = {
       fields: [
         { language: "en", text: "Fields" },
         { language: "fr", text: "Champs" },
+      ],
+      contributesInFilling: [
+        { language: "en", text: "Contributes in filing" },
+        { language: "fr", text: "Contribue à remplir" },
+      ],
+      statesConfigurationHint: [
+        {
+          language: "en",
+          text: "States configuration: Field contributes in filling wich states?",
+        },
+        {
+          language: "fr",
+          text: "Configuration des états des entités: Le champ contribue dans le remplissage de quel état ?",
+        },
       ],
     },
     models: {
@@ -990,6 +1010,22 @@ const initialState: IWebsiteConfigurationState = {
           language: "fr",
           text: "Êtes-vous sûr de vouloir copier ce(s) élément(s) ?",
         },
+      ],
+      search: [
+        { language: "en", text: "Search" },
+        { language: "fr", text: "Chercher des éléments" },
+      ],
+      view: [
+        { language: "en", text: "View" },
+        { language: "fr", text: "Vue" },
+      ],
+      table: [
+        { language: "en", text: "Table" },
+        { language: "fr", text: "Lignes " },
+      ],
+      board: [
+        { language: "en", text: "Board" },
+        { language: "fr", text: "Cartes " },
       ],
     },
     pages: {

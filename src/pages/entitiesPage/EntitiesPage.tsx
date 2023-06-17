@@ -184,6 +184,7 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
         canDelete={hasEntityPermission(StaticPermission.Delete, modelId || "")}
         searchResult={searchResult || { data: [], total: 0 }}
         setSearchResult={handleSetSearchResult}
+        isForEntities={true}
       />
     </div>
   );
