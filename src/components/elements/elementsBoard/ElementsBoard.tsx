@@ -67,27 +67,29 @@ const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
                 .map((entity: IEntity, entityIndex: number) => {
                   return (
                     <div key={entityIndex} className={styles.entityCard}>
-                      {mainModelFields.map(
-                        (modelField, modelFieldIndex: number) => {
-                          return (
-                            <span
-                              className={styles.entityMainFieldValue}
-                              key={modelFieldIndex}
-                            >
-                              <span className={styles.fieldLabel}>
-                                {getTranslatedText(modelField.field.name)}:
+                      <div className={styles.mainModelFields}>
+                        {mainModelFields.map(
+                          (modelField, modelFieldIndex: number) => {
+                            return (
+                              <span
+                                className={styles.entityMainFieldValue}
+                                key={modelFieldIndex}
+                              >
+                                <span className={styles.fieldLabel}>
+                                  {getTranslatedText(modelField.field.name)}:
+                                </span>
+                                {getTranslatedText(
+                                  entity.entityFieldValues.find(
+                                    (el) =>
+                                      el.field._id.toString() ===
+                                      modelField.field._id.toString()
+                                  )?.value
+                                ) || ""}
                               </span>
-                              {getTranslatedText(
-                                entity.entityFieldValues.find(
-                                  (el) =>
-                                    el.field._id.toString() ===
-                                    modelField.field._id.toString()
-                                )?.value
-                              ) || ""}
-                            </span>
-                          );
-                        }
-                      )}
+                            );
+                          }
+                        )}
+                      </div>
                       <div className={styles.subStates}>
                         {model.subStates &&
                           model.subStates?.map(
