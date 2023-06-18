@@ -38,94 +38,107 @@ const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
   const mainModelFields: IModelField[] = model.modelFields.filter(
     (modelField) => Boolean(modelField.mainField)
   );
+  const entitiesThatShouldntBeShownAgain: IEntity[] = [];
   //#endregion View
   return (
     <div className={styles.elementsBoardContainer}>
       {model.states &&
-        model.states?.map((modelState: IModelState, modelStateIndex) => {
-          const stateConcernedFields: IModelField[] =
-            getModelStateConcernedFields({ model, modelState });
+        [...(model.states || [])]
+          .reverse()
+          .map((modelState: IModelState, modelStateIndex) => {
+            const stateConcernedFields: IModelField[] =
+              getModelStateConcernedFields({ model, modelState });
 
-          return (
-            <div key={modelStateIndex} className={styles.stateContainer}>
-              <h3 className={styles.modelStateName}>
-                {getTranslatedText(modelState.name)}
-              </h3>
+            return (
+              <div key={modelStateIndex} className={styles.stateContainer}>
+                <h3 className={styles.modelStateName}>
+                  {getTranslatedText(modelState.name)}
+                </h3>
 
-              {props.entities
-                // Only show the entities that meet the model state conditions
-                .filter((entity) => {
-                  let meetsModelStateCondition: boolean =
-                    doesEntityMeetModelStateCondition({
-                      entity,
-                      stateConcernedFields,
-                      getTranslatedText,
-                    });
+                {props.entities
+                  // Only show the entities that meet the model state conditions
+                  .filter((entity) => {
+                    let meetsModelStateCondition: boolean =
+                      doesEntityMeetModelStateCondition({
+                        entity,
+                        stateConcernedFields,
+                        getTranslatedText,
+                      });
 
-                  return meetsModelStateCondition;
-                })
-                .map((entity: IEntity, entityIndex: number) => {
-                  return (
-                    <div key={entityIndex} className={styles.entityCard}>
-                      <div className={styles.mainModelFields}>
-                        {mainModelFields.map(
-                          (modelField, modelFieldIndex: number) => {
-                            return (
-                              <span
-                                className={styles.entityMainFieldValue}
-                                key={modelFieldIndex}
-                              >
-                                <span className={styles.fieldLabel}>
-                                  {getTranslatedText(modelField.field.name)}:
-                                </span>
-                                {getTranslatedText(
-                                  entity.entityFieldValues.find(
-                                    (el) =>
-                                      el.field._id.toString() ===
-                                      modelField.field._id.toString()
-                                  )?.value
-                                ) || ""}
-                              </span>
-                            );
-                          }
-                        )}
-                      </div>
-                      <div className={styles.subStates}>
-                        {model.subStates &&
-                          model.subStates?.map(
-                            (subState: IModelState, subStateIndex: number) => {
-                              const concernedFields: IModelField[] =
-                                getModelStateConcernedFields({
-                                  model,
-                                  modelState: subState,
-                                });
-                              const stateConditionsMet: boolean =
-                                doesEntityMeetModelStateCondition({
-                                  entity,
-                                  stateConcernedFields: concernedFields,
-                                  getTranslatedText,
-                                });
+                    return (
+                      meetsModelStateCondition &&
+                      !entitiesThatShouldntBeShownAgain.find(
+                        (e) => e._id === entity._id
+                      )
+                    );
+                  })
+                  .map((entity: IEntity, entityIndex: number) => {
+                    if (modelState.exlusive)
+                      entitiesThatShouldntBeShownAgain.push(entity);
+                    return (
+                      <div key={entityIndex} className={styles.entityCard}>
+                        <div className={styles.mainModelFields}>
+                          {mainModelFields.map(
+                            (modelField, modelFieldIndex: number) => {
                               return (
                                 <span
-                                  key={subStateIndex}
-                                  className={
-                                    stateConditionsMet
-                                      ? styles.filledSubState
-                                      : styles.subState
-                                  }
+                                  className={styles.entityMainFieldValue}
+                                  key={modelFieldIndex}
                                 >
-                                  {getTranslatedText(subState.name)}
+                                  <span className={styles.fieldLabel}>
+                                    {getTranslatedText(modelField.field.name)}:
+                                  </span>
+                                  {getTranslatedText(
+                                    entity.entityFieldValues.find(
+                                      (el) =>
+                                        el.field._id.toString() ===
+                                        modelField.field._id.toString()
+                                    )?.value
+                                  ) || ""}
                                 </span>
                               );
                             }
                           )}
+                        </div>
+                        <div className={styles.subStates}>
+                          {model.subStates &&
+                            model.subStates?.map(
+                              (
+                                subState: IModelState,
+                                subStateIndex: number
+                              ) => {
+                                const concernedFields: IModelField[] =
+                                  getModelStateConcernedFields({
+                                    model,
+                                    modelState: subState,
+                                  });
+                                const stateConditionsMet: boolean =
+                                  doesEntityMeetModelStateCondition({
+                                    entity,
+                                    stateConcernedFields: concernedFields,
+                                    getTranslatedText,
+                                  });
+                                return (
+                                  <span
+                                    key={subStateIndex}
+                                    className={
+                                      stateConditionsMet
+                                        ? styles.filledSubState
+                                        : styles.subState
+                                    }
+                                  >
+                                    {getTranslatedText(subState.name)}
+                                  </span>
+                                );
+                              }
+                            )}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-            </div>
-          );
-        })}
+                    );
+                  })}
+              </div>
+            );
+          })}
     </div>
   );
 };

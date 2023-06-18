@@ -15,6 +15,7 @@ import useAuthorizedAxios from "../useAuthorizedAxios";
 type ModelStateCreateCommand = {
   name: string;
   stateType: ModelStateType;
+  exclusive: boolean;
   language: string;
 };
 

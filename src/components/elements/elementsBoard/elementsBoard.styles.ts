@@ -5,6 +5,7 @@ import { Theme } from "../../../config/theme";
 const useStyles = createUseStyles((theme: Theme) => ({
   elementsBoardContainer: {
     display: "flex",
+    flexDirection: "row-reverse",
     marginRight: 10,
     overflow: "scroll",
     padding: 10,
@@ -41,11 +42,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     border: "1px solid " + theme.lightTextColor,
     color: theme.lightTextColor,
     padding: 5,
-    width: 250,
+    width: "100%",
     height: 150,
-    marginRight: 10,
     marginBottom: 10,
     borderRadius: 5,
+    boxSizing: "border-box",
   },
   subStates: {
     display: "flex",

@@ -137,6 +137,7 @@ export interface IWebsiteConfiguration {
       parentStates: ITranslatedText[];
       state: ITranslatedText[];
       subState: ITranslatedText[];
+      exclusive: ITranslatedText[];
     };
     events: {
       eventTrigger: ITranslatedText[];
@@ -900,6 +901,10 @@ const initialState: IWebsiteConfigurationState = {
       subState: [
         { language: "en", text: "Sub-state" },
         { language: "fr", text: "Les sous-états" },
+      ],
+      exclusive: [
+        { language: "en", text: "Is an exclusive state" },
+        { language: "fr", text: "Is an exclusive state" },
       ],
     },
     events: {

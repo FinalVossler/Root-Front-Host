@@ -34,6 +34,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
   singleStateContainer: {
     position: "relative",
     width: "100%",
+    border: "1px solid " + theme.lightTextColor,
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 10,
+    paddingTop: 25,
   },
   deleteState: {
     position: "absolute",

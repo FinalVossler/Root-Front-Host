@@ -55,6 +55,8 @@ export interface IModelState {
   _id: string;
   name: ITranslatedText[];
   stateType: ModelStateType;
+  // Means that it will block entities from showing in other states
+  exlusive?: boolean;
 }
 //#endregion model states
 

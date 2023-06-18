@@ -199,6 +199,7 @@ const ModelEditor = (props: IModelEditor) => {
             language: formik.values.language,
             name: getTranslatedText(modelState.name, formik.values.language),
             stateType: modelState.stateType,
+            exclusive: Boolean(modelState.exlusive),
           })) || [],
         subStates:
           props.model?.subStates?.map((modelSubState) => ({
@@ -206,6 +207,7 @@ const ModelEditor = (props: IModelEditor) => {
             language: formik.values.language,
             name: getTranslatedText(modelSubState.name, formik.values.language),
             stateType: modelSubState.stateType,
+            exclusive: Boolean(modelSubState.exlusive),
           })) || [],
         language: formik.values.language,
       },

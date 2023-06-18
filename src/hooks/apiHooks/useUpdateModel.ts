@@ -15,6 +15,7 @@ export type ModelStateUpdateCommand = {
   _id?: string;
   name: string;
   stateType: ModelStateType;
+  exclusive: boolean;
   language: string;
 };
 

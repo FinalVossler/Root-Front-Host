@@ -10,6 +10,7 @@ import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../store/hooks";
 import { ModelStateType } from "../../../../store/slices/modelSlice";
 import Button from "../../../button";
+import Checkbox from "../../../checkbox";
 import Input from "../../../input";
 import { IModelForm } from "../ModelEditor";
 
@@ -49,6 +50,7 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
       {
         name: "",
         stateType: ModelStateType.ParentState,
+        exclusive: false,
         language: props.formik.values.language,
       },
     ]);
@@ -62,6 +64,7 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
       {
         name: "",
         stateType: ModelStateType.ParentState,
+        exclusive: false,
         language: props.formik.values.language,
       },
     ]);
@@ -76,6 +79,18 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
           ? {
               ...state,
               name: e.target.value,
+            }
+          : state
+    );
+    props.formik.setFieldValue("states", newStates);
+  };
+  const handleExclusiveChange = (exclusive: boolean, stateIndex: number) => {
+    const newStates = props.formik.values.states.map(
+      (state: ModelStateUpdateCommand, index) =>
+        stateIndex === index
+          ? {
+              ...state,
+              exclusive,
             }
           : state
     );
@@ -139,6 +154,16 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
                       value={state.name}
                       debounce
                     />
+                    <Checkbox
+                      label={getTranslatedText(staticText?.exclusive)}
+                      onChange={(checked) =>
+                        handleExclusiveChange(checked, stateIndex)
+                      }
+                      labelStyles={{
+                        width: 165,
+                      }}
+                      checked={Boolean(state.exclusive)}
+                    />
                     <MdDelete
                       onClick={() => handleDeleteState(stateIndex)}
                       className={styles.deleteState}
@@ -159,7 +184,10 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
             <div className={styles.statesContainer}>
               {props.formik.values.subStates.map((state, subStateIndex) => {
                 return (
-                  <div className={styles.singleStateContainer}>
+                  <div
+                    key={subStateIndex}
+                    className={styles.singleStateContainer}
+                  >
                     <Input
                       Icon={FaNetworkWired}
                       key={subStateIndex}
