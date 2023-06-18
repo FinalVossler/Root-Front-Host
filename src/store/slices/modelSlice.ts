@@ -23,6 +23,7 @@ export interface IModelField {
   required: boolean;
   conditions?: IModelFieldCondition[];
   states?: IModelState[];
+  mainField?: boolean;
 
   // used for frontend sorting only
   uuid: string;

@@ -1,6 +1,7 @@
 import { FormikProps } from "formik";
 import React from "react";
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
+import { FaNetworkWired } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 
 import { Theme } from "../../../../config/theme";
@@ -56,7 +57,7 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    props.formik.setFieldValue("states", [
+    props.formik.setFieldValue("subStates", [
       ...props.formik.values.subStates,
       {
         name: "",
@@ -129,6 +130,7 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
                 return (
                   <div key={stateIndex} className={styles.singleStateContainer}>
                     <Input
+                      Icon={FaNetworkWired}
                       onChange={(e) => handleStateChange(e, stateIndex)}
                       label={getTranslatedText(staticText?.state)}
                       inputProps={{
@@ -159,6 +161,7 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
                 return (
                   <div className={styles.singleStateContainer}>
                     <Input
+                      Icon={FaNetworkWired}
                       key={subStateIndex}
                       onChange={(e) => handleSubStateChange(e, subStateIndex)}
                       label={getTranslatedText(staticText?.subState)}

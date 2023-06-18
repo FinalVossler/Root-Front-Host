@@ -7,7 +7,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
     paddingBottom: 15,
-    maxHeight: "calc(100vh - 200px)",
     position: "relative",
     width: "100%",
   },

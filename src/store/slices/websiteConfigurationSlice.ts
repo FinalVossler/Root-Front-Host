@@ -110,7 +110,7 @@ export interface IWebsiteConfiguration {
       inferiorTo: ITranslatedText[];
       inferiorOrEqualTo: ITranslatedText[];
       equal: ITranslatedText[];
-      conditions: ITranslatedText[];
+      addCondition: ITranslatedText[];
       condition: ITranslatedText[];
       field: ITranslatedText[];
       conditionType: ITranslatedText[];
@@ -119,6 +119,8 @@ export interface IWebsiteConfiguration {
       fields: ITranslatedText[];
       contributesInFilling: ITranslatedText[];
       statesConfigurationHint: ITranslatedText[];
+      subStatesConfigurationHint: ITranslatedText[];
+      mainField: ITranslatedText[];
     };
     models: {
       createModel: ITranslatedText[];
@@ -748,14 +750,14 @@ const initialState: IWebsiteConfigurationState = {
           text: "Égal",
         },
       ],
-      conditions: [
+      addCondition: [
         {
           language: "en",
-          text: "Conditions",
+          text: "Add Condition",
         },
         {
           language: "fr",
-          text: "Conditions d'apparition",
+          text: "Ajouter une condition",
         },
       ],
       condition: [
@@ -787,6 +789,10 @@ const initialState: IWebsiteConfigurationState = {
           language: "fr",
           text: "Opérateur",
         },
+      ],
+      mainField: [
+        { language: "en", text: "Main Field?" },
+        { language: "fr", text: "Champ Principal ?" },
       ],
       valueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear:
         [
@@ -824,7 +830,17 @@ const initialState: IWebsiteConfigurationState = {
         },
         {
           language: "fr",
-          text: "Configuration des états des entités: Le champ contribue dans le remplissage de quel état ?",
+          text: "Configuration des états des entités: Le champ contribue dans le remplissage de quels états ?",
+        },
+      ],
+      subStatesConfigurationHint: [
+        {
+          language: "en",
+          text: "Sub-states configuration: Field contributes in filling wich sub-states?",
+        },
+        {
+          language: "fr",
+          text: "Configuration des sous-états des entités: Le champ contribue dans le remplissage de quels sous-états ?",
         },
       ],
     },

@@ -29,6 +29,7 @@ export type ModelCreateCommand = {
       value: number | string;
     }[];
     modelStatesIds: string[];
+    mainField: boolean;
   }[];
   modelEvents: IEvent[];
   states: ModelStateCreateCommand[];

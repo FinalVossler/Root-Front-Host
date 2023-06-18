@@ -40,6 +40,7 @@ import {
   EventTypeEnum,
   IEvent,
 } from "../../../globalTypes/IEvent";
+import areEntityFieldConditionsMet from "../../../utils/areEntityFieldConditionsMet";
 
 import useStyles from "./entityEditor.styles";
 import sendEventApiCall from "../../../utils/sendEventApiCall";
@@ -327,73 +328,12 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
           !props.readOnly;
 
         // Check if we can show the field based on conditions second
-        if (modelField.conditions && modelField.conditions?.length > 0) {
-          let conditionsMet: boolean = true;
+        const conditionsMet: boolean = areEntityFieldConditionsMet({
+          modelField,
+          entityFieldValuesFromForm: formik.values.entityFieldValues,
+        });
 
-          modelField.conditions.forEach((condition) => {
-            const efv: IEntityFieldValueForm | undefined =
-              formik.values.entityFieldValues.find(
-                (entityFieldValue) =>
-                  entityFieldValue.fieldId === condition.field?._id
-              );
-
-            if (!efv?.value) {
-              conditionsMet = false;
-            }
-            if (efv) {
-              switch (condition.conditionType) {
-                case ModelFieldConditionTypeEnum.Equal:
-                  if (efv.value !== condition.value) {
-                    conditionsMet = false;
-                  }
-                  break;
-                case ModelFieldConditionTypeEnum.InferiorTo: {
-                  if (efv.value >= condition.value) {
-                    conditionsMet = false;
-                  }
-                  break;
-                }
-                case ModelFieldConditionTypeEnum.SuperiorTo: {
-                  if (efv.value <= condition.value) {
-                    conditionsMet = false;
-                  }
-                  break;
-                }
-                case ModelFieldConditionTypeEnum.InferiorOrEqualTo: {
-                  if (efv.value > condition.value) {
-                    conditionsMet = false;
-                  }
-                  break;
-                }
-                case ModelFieldConditionTypeEnum.SuperiorOrEqualTo: {
-                  if (efv.value < condition.value) {
-                    conditionsMet = false;
-                  }
-                  break;
-                }
-                case ModelFieldConditionTypeEnum.ValueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear: {
-                  if (condition.field?.type !== FieldType.Number) {
-                    conditionsMet = false;
-                  }
-                  const currentYear: number = new Date().getFullYear();
-
-                  if (
-                    condition.value < currentYear ||
-                    currentYear + parseInt(efv.value) <
-                      parseInt(condition.value.toString())
-                  ) {
-                    conditionsMet = false;
-                  }
-                  break;
-                }
-              }
-            } else {
-              conditionsMet = false;
-            }
-          });
-
-          if (!conditionsMet) return null;
-        }
+        if (!conditionsMet) return null;
 
         const entityFieldValue: IEntityFieldValueForm | undefined =
           formik.values.entityFieldValues.find(

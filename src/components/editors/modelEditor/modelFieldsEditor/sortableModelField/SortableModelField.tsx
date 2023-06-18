@@ -23,7 +23,6 @@ import { Option } from "../../../../inputSelect/InputSelect";
 import { MdDelete, MdTextFields } from "react-icons/md";
 import Input from "../../../../input";
 import Checkbox from "../../../../checkbox";
-import { ModelStateUpdateCommand } from "../../../../../hooks/apiHooks/useUpdateModel";
 
 interface ISortableModelField {
   modelField: IModelField;
@@ -158,6 +157,18 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
 
     props.setSelectedModelFields(newSelectedModelFields);
   };
+  const handleCheckOrUncheckMainField = (mainField: boolean) => {
+    const newSelectedModelFields = props.selectedModelFields.map(
+      (modelField: IModelField, index: number) => {
+        if (index === props.modelFieldIndex) {
+          modelField.mainField = mainField;
+        }
+        return modelField;
+      }
+    );
+
+    props.setSelectedModelFields(newSelectedModelFields);
+  };
   const handleTriggerStateForField = (modelState: IModelState) => {
     const newSelectedModelFields = props.selectedModelFields.map(
       (modelField: IModelField, index: number) => {
@@ -261,12 +272,17 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
           checked={Boolean(props.modelField.required)}
           onChange={handleCheckOrUncheckRequired}
         />
+        <Checkbox
+          label={getTranslatedText(staticText?.mainField)}
+          checked={Boolean(props.modelField.mainField)}
+          onChange={handleCheckOrUncheckMainField}
+        />
       </div>
 
       <div className={styles.conditionsContainer}>
         <div className={styles.conditionsTitleContainer}>
           <span className={styles.conditionsTitle}>
-            {getTranslatedText(staticText?.conditions)}
+            {getTranslatedText(staticText?.addCondition)}
           </span>
           <div className={styles.conditionButtons}>
             <BiPlus
@@ -331,6 +347,28 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
             {getTranslatedText(staticText?.statesConfigurationHint)}
           </h3>
           {props.model?.states?.map((state, stateIndex) => {
+            return (
+              <Checkbox
+                key={stateIndex}
+                label={getTranslatedText(state.name)}
+                onChange={() => handleTriggerStateForField(state)}
+                labelStyles={{
+                  width: 250,
+                }}
+                checked={Boolean(
+                  props.modelField.states?.find((el) => el._id === state._id)
+                )}
+              />
+            );
+          })}
+        </div>
+      )}
+      {props.model?.subStates && props.model?.subStates?.length > 0 && (
+        <div className={styles.modelFieldStatesConfigurationContainer}>
+          <h3 className={styles.statesConfigurationHint}>
+            {getTranslatedText(staticText?.subStatesConfigurationHint)}
+          </h3>
+          {props.model?.subStates?.map((state, stateIndex) => {
             return (
               <Checkbox
                 key={stateIndex}

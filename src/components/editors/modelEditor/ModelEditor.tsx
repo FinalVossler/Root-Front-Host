@@ -97,6 +97,7 @@ const ModelEditor = (props: IModelEditor) => {
                   value: condition.value,
                 })) || [],
               modelStatesIds: modelField.states?.map((el) => el._id) || [],
+              mainField: modelField.mainField || false,
             })) || [],
           modelEvents: values.modelEvents.map((modelEvent) => ({
             eventTrigger: modelEvent.eventTrigger,
@@ -129,6 +130,7 @@ const ModelEditor = (props: IModelEditor) => {
                   value: condition.value,
                 })) || [],
               modelStatesIds: modelField.states?.map((el) => el._id) || [],
+              mainField: modelField.mainField || false,
             })) || [],
           modelEvents: values.modelEvents.map((modelEvent) => ({
             ...modelEvent,

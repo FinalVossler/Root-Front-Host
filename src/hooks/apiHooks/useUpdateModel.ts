@@ -30,6 +30,7 @@ export type ModelUpdateCommand = {
       value: number | string;
     }[];
     modelStatesIds: string[];
+    mainField: boolean;
   }[];
   modelEvents: IEvent[];
   states: ModelStateUpdateCommand[];

@@ -21,6 +21,7 @@ import PaginationResponse from "../../globalTypes/PaginationResponse";
 import PaginationCommand from "../../globalTypes/PaginationCommand";
 import InputSelect from "../inputSelect";
 import { Option } from "../inputSelect/InputSelect";
+import ElementsBoard from "./elementsBoard";
 
 export type Column = {
   label: string;
@@ -64,6 +65,7 @@ interface IElements {
   searchResult: PaginationResponse<any>;
   setSearchResult: (result: PaginationResponse<any>) => void;
   isForEntities?: boolean;
+  modelId?: string;
 }
 
 const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
@@ -261,6 +263,13 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
           label={getTranslatedText(staticText?.view)}
           onChange={handleViewTypeChange}
           value={viewTypeOptions.find((el) => el.value === viewType.toString())}
+        />
+      )}
+
+      {viewType === ViewType.Board && props.isForEntities && (
+        <ElementsBoard
+          modelId={props.modelId?.toString() || ""}
+          entities={props.elements as IEntity[]}
         />
       )}
 

@@ -185,6 +185,7 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
         searchResult={searchResult || { data: [], total: 0 }}
         setSearchResult={handleSetSearchResult}
         isForEntities={true}
+        modelId={modelId}
       />
     </div>
   );
