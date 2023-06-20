@@ -15,6 +15,7 @@ export type EntityFieldValueCommand = {
 export type EntityCreateCommand = {
   modelId: string;
   entityFieldValues: EntityFieldValueCommand[];
+  assignedUsersIds: string[];
   language: string;
 };
 

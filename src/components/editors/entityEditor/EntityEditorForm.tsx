@@ -20,11 +20,7 @@ import useUpdateEntity, {
 import useCreateEntity, {
   EntityCreateCommand,
 } from "../../../hooks/apiHooks/useCreateEntity";
-import {
-  IModel,
-  IModelField,
-  ModelFieldConditionTypeEnum,
-} from "../../../store/slices/modelSlice";
+import { IModel, IModelField } from "../../../store/slices/modelSlice";
 import { FieldType } from "../../../store/slices/fieldSlice";
 import Input from "../../input";
 import Textarea from "../../textarea";
@@ -33,7 +29,7 @@ import EntityFieldFiles from "./entityFieldFiles";
 import uploadFiles from "../../../utils/uploadFiles";
 import { Option } from "../../inputSelect/InputSelect";
 import { IUser } from "../../../store/slices/userSlice";
-import { StaticPermission } from "../../../store/slices/roleSlice";
+import { IRole, StaticPermission } from "../../../store/slices/roleSlice";
 import useAxios from "../../../hooks/useAxios";
 import {
   EventTriggerEnum,
@@ -44,6 +40,14 @@ import areEntityFieldConditionsMet from "../../../utils/areEntityFieldConditions
 
 import useStyles from "./entityEditor.styles";
 import sendEventApiCall from "../../../utils/sendEventApiCall";
+import useGetRoles, {
+  RolesGetCommand,
+} from "../../../hooks/apiHooks/useGetRoles";
+import SearchInput from "../../searchInput";
+import useSearchUsersByRole from "../../../hooks/apiHooks/useSearchUsersByRole";
+import UserProfilePicture, {
+  SizeEnum,
+} from "../../userProfilePicture/UserProfilePicture";
 
 export interface IEntityFieldValueForm {
   fieldId: string;
@@ -58,6 +62,7 @@ export interface IEntityFieldValueForm {
 export interface IEntityEditorFormForm {
   modelId: string;
   entityFieldValues: IEntityFieldValueForm[];
+  assignedUsers: IUser[];
   language: string;
 }
 
@@ -83,6 +88,8 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
     state.model.models.find((m) => m._id === props.modelId)
   );
   const user: IUser = useAppSelector((state) => state.user.user);
+  const roles: IRole[] = useAppSelector((state) => state.role.roles);
+  const [assignedUsers, setAssignedUsers] = React.useState<IUser[]>([]);
 
   //#region Local state
   const [uploadFilesLoading, setUploadFilesLoading] =
@@ -98,12 +105,16 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
   const { updateEntity, loading: updateLoading } = useUpdateEntity();
   const axios = useAxios();
   const navigate = useNavigate();
+  const { getRoles } = useGetRoles();
+  const { handleSearchUsersByRolePromise } = useSearchUsersByRole();
+
   const formik: FormikProps<IEntityEditorFormForm> =
     useFormik<IEntityEditorFormForm>({
       initialValues: {
         modelId: props.modelId || props.entity?.model._id || "",
         entityFieldValues: [],
         language,
+        assignedUsers: [],
       },
       validationSchema: Yup.object().shape({
         entityFieldValues: Yup.mixed().test(
@@ -195,6 +206,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
               files: e.files || [],
               value: e.value,
             })),
+            assignedUsersIds: values.assignedUsers.map((u) => u._id),
             language: values.language,
             modelId: values.modelId,
           };
@@ -207,6 +219,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
               files: e.files || [],
               value: e.value,
             })),
+            assignedUsersIds: values.assignedUsers.map((u) => u._id),
             language: values.language,
             modelId: values.modelId,
           };
@@ -243,6 +256,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
     });
 
   //#region Effects
+  // Resetting form
   React.useEffect(() => {
     formik.resetForm({
       values: {
@@ -264,11 +278,23 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
             };
             return entityFieldValueForm;
           }) || [],
+        assignedUsers: props.entity?.assignedUsers || [],
         modelId: props.modelId || props.entity?.model._id || "",
         language: formik.values.language,
       },
     });
   }, [props.entity, formik.values.language, model]);
+
+  // Loading roles (useful for entity user assignment)
+  React.useEffect(() => {
+    const command: RolesGetCommand = {
+      paginationCommand: {
+        limit: 999,
+        page: 1,
+      },
+    };
+    getRoles(command);
+  }, []);
   //#endregion Effects
 
   //#region Event listeners
@@ -499,6 +525,62 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
             </Button>
           );
         }
+      })}
+
+      <h3 className={styles.userAssignmentTitle}>
+        {getTranslatedText(staticText?.userAssignment)}
+      </h3>
+      {roles.map((role: IRole, roleIndex: number) => {
+        return (
+          <div
+            key={roleIndex}
+            className={styles.assignedUsersByRoleInputContainer}
+          >
+            <SearchInput
+              searchPromise={handleSearchUsersByRolePromise(
+                role._id.toString()
+              )}
+              label={getTranslatedText(role?.name) + ":"}
+              getElementTitle={(user: IUser) =>
+                user.firstName + " " + user.lastName
+              }
+              inputProps={{
+                placeholder: getTranslatedText(staticText?.searchUsers),
+              }}
+              onElementClick={(user: IUser) => {
+                if (
+                  !formik.values.assignedUsers.some(
+                    (u) => u._id.toString() === user._id.toString()
+                  )
+                ) {
+                  formik.setFieldValue("assignedUsers", [
+                    ...formik.values.assignedUsers,
+                    user,
+                  ]);
+                }
+              }}
+            />
+
+            {formik.values.assignedUsers
+              .filter((u) => u.role?._id.toString() === role._id.toString())
+              .map((user: IUser, userIndex: number) => {
+                return (
+                  <div
+                    key={userIndex}
+                    className={styles.assignedUsersByRoleContainer}
+                  >
+                    <UserProfilePicture
+                      url={user.profilePicture?.url}
+                      size={SizeEnum.Average}
+                    />
+                    <span className={styles.assignedUsername}>
+                      {user.firstName + " " + user.lastName}
+                    </span>
+                  </div>
+                );
+              })}
+          </div>
+        );
       })}
 
       <InputSelect

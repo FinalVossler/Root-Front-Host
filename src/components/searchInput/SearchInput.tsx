@@ -88,7 +88,11 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
       setShowSearchResult(true);
   };
 
-  const handleElementClick = (el: any) => {
+  const handleElementClick = (
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+    el: any
+  ) => {
+    e.preventDefault();
     if (props.onElementClick) {
       props.onElementClick(el);
       setShowSearchResult(false);
@@ -121,7 +125,7 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
           <div className={styles.searchResultBox}>
             {searchResult?.data.map((el, i) => (
               <span
-                onClick={() => handleElementClick(el)}
+                onClick={(e) => handleElementClick(e, el)}
                 className={styles.singleResult}
                 key={i}
               >

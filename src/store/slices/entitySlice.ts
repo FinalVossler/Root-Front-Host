@@ -1,15 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import IFile from "../../globalTypes/IFile";
 
+import IFile from "../../globalTypes/IFile";
 import ITranslatedText from "../../globalTypes/ITranslatedText";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { IField } from "./fieldSlice";
 import { IModel } from "./modelSlice";
+import { IUser } from "./userSlice";
 
 export interface IEntity {
   _id: string;
   model: IModel;
   entityFieldValues: IEntityFieldValue[];
+  assignedUsers?: IUser[];
 
   createdAt: string;
   updatedAt: string;

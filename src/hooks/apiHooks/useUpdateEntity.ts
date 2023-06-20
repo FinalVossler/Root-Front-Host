@@ -10,6 +10,7 @@ export type EntityUpdateCommand = {
   _id: string;
   modelId: string;
   entityFieldValues: EntityFieldValueCommand[];
+  assignedUsersIds: string[];
   language: string;
 };
 

@@ -66,6 +66,28 @@ const useStyles = createUseStyles((theme: Theme) => ({
   erroredFields: {
     color: theme.errorColor,
   },
+  assignedUsersByRoleInputContainer: {
+    display: "flex",
+    flexDirection: "column",
+    border: "1px solid " + theme.lightTextColor,
+    padding: 10,
+    paddingBottom: 0,
+    marginBottom: 10,
+  },
+  assignedUsersByRoleContainer: {
+    display: "flex",
+    color: theme.lightTextColor,
+    marginLeft: 20,
+    marginBottom: 10,
+    alignItems: "center",
+  },
+  assignedUsername: {
+    marginLeft: 10,
+  },
+  userAssignmentTitle: {
+    color: theme.primary,
+    fontSize: 20,
+  },
   "@media (max-width: 850px)": {
     createEntityModalContainer: {
       width: "70vw",
