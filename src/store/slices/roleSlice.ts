@@ -35,6 +35,10 @@ export interface IEntityPermission {
   permissions: StaticPermission[];
   entityFieldPermissions: IFieldPermission[];
   entityEventNotifications: IEntityEventNotification[];
+  entityUserAssignmentPermissionsByRole?: {
+    canAssignToUserFromSameRole: boolean;
+    otherRoles: IRole[];
+  };
 }
 
 export enum Permission {

@@ -28,6 +28,11 @@ type EntityPermissionUpdateCommand = {
     fieldId: string;
     permissions: StaticPermission[];
   }[];
+  entityUserAssignmentPermissionsByRole: {
+    // used to also add the current role that's just been added
+    canAssignToUserFromSameRole: boolean;
+    otherRolesIds: string[];
+  };
   entityEventNotifications: EntityEventNotificationUpdateCommand[];
 };
 

@@ -40,6 +40,7 @@ import useSearchModels from "../../../hooks/apiHooks/useSearchModels";
 import Checkbox from "../../checkbox";
 import { IField } from "../../../store/slices/fieldSlice";
 import RoleEntityEventsNotification from "./roleEntityEventsNotification/RoleEntityEventsNotification";
+import RoleEntityUserAssignmentPermissions from "./roleEntityUserAssignmentPermissions";
 
 export interface IRoleEditor {
   role?: IRole;
@@ -63,6 +64,11 @@ interface IRoleFormEntityPermission {
     permissions: StaticPermission[];
   }[];
   entityEventNotifications: IEntityEventNotificationForm[];
+  entityUserAssignmentPermissionsByRole: {
+    // used to also add the current role that's just been added
+    canAssignToUserFromSameRole: boolean;
+    otherRolesIds: string[];
+  };
 }
 
 export interface IRoleForm {
@@ -88,6 +94,8 @@ const RoleEditor = (props: IRoleEditor) => {
   const [showFieldPermissions, setShowFieldPermissions] =
     React.useState<boolean>(false);
   const [showEventNotifications, setShowEventNotifications] =
+    React.useState<boolean>(false);
+  const [showUserAssignment, setShowUserAssignment] =
     React.useState<boolean>(false);
 
   //#endregion Local state
@@ -137,6 +145,8 @@ const RoleEditor = (props: IRoleEditor) => {
                     language: values.language,
                   })
                 ),
+              entityUserAssignmentPermissionsByRole:
+                entityPermission.entityUserAssignmentPermissionsByRole,
               language: values.language,
             })
           ),
@@ -168,6 +178,8 @@ const RoleEditor = (props: IRoleEditor) => {
                     language: values.language,
                   })
                 ),
+              entityUserAssignmentPermissionsByRole:
+                entityPermission.entityUserAssignmentPermissionsByRole,
               language: values.language,
             })
           ),
@@ -240,6 +252,15 @@ const RoleEditor = (props: IRoleEditor) => {
                     trigger: entityEventNotification.trigger,
                   })
                 ),
+              entityUserAssignmentPermissionsByRole: {
+                canAssignToUserFromSameRole:
+                  entityPermission.entityUserAssignmentPermissionsByRole
+                    ?.canAssignToUserFromSameRole || true,
+                otherRolesIds:
+                  entityPermission.entityUserAssignmentPermissionsByRole?.otherRoles?.map(
+                    (r) => r._id
+                  ) || [],
+              },
             };
           }) || formik.values.entityPermissions,
       },
@@ -269,6 +290,7 @@ const RoleEditor = (props: IRoleEditor) => {
     );
 
     if (!foundEntityPermission) {
+      // We create a new entity permission for this model
       const newEntityPermission: IRoleFormEntityPermission = {
         model: model,
         permissions: [
@@ -282,6 +304,10 @@ const RoleEditor = (props: IRoleEditor) => {
           permissions: [StaticPermission.Read, StaticPermission.Update],
         })),
         entityEventNotifications: [],
+        entityUserAssignmentPermissionsByRole: {
+          canAssignToUserFromSameRole: true,
+          otherRolesIds: [],
+        },
       };
       formik.setFieldValue("entityPermissions", [
         ...currentPermissions,
@@ -403,6 +429,31 @@ const RoleEditor = (props: IRoleEditor) => {
               permissions: entityPermission.permissions,
               entityFieldPermissions: entityPermission.entityFieldPermissions,
               entityEventNotifications: entityEventNotifications,
+            };
+          } else return entityPermission;
+        }
+      );
+
+      formik.setFieldValue("entityPermissions", newEntityPermissions);
+    };
+  const handleApplyUserAssignmentPermissions =
+    (modelId: string) =>
+    (userAssignmentPermissions: {
+      // used to also add the current role that's just been added
+      canAssignToUserFromSameRole: boolean;
+      otherRolesIds: string[];
+    }) => {
+      const newEntityPermissions = formik.values.entityPermissions.map(
+        (entityPermission: IRoleFormEntityPermission) => {
+          if (entityPermission.model._id === modelId) {
+            return {
+              ...entityPermission,
+              model: entityPermission.model,
+              permissions: entityPermission.permissions,
+              entityFieldPermissions: entityPermission.entityFieldPermissions,
+              entityEventNotifications:
+                entityPermission.entityEventNotifications,
+              entityUserAssignmentPermissionsByRole: userAssignmentPermissions,
             };
           } else return entityPermission;
         }
@@ -653,6 +704,32 @@ const RoleEditor = (props: IRoleEditor) => {
                         entityPermission.entityEventNotifications
                       }
                       handleApplyEventNotifications={handleApplyEventNotifications(
+                        entityPermission.model._id
+                      )}
+                    />
+                  )}
+
+                  <span
+                    onClick={() => setShowUserAssignment(!showUserAssignment)}
+                    className={styles.entityEventNotificationsTitle}
+                  >
+                    {getTranslatedText(
+                      staticText?.assignmentConfigurationTitle
+                    )}
+                    {!showUserAssignment && (
+                      <MdArrowDownward className={styles.arrowIcon} />
+                    )}
+                    {showUserAssignment && (
+                      <MdArrowUpward className={styles.arrowIcon} />
+                    )}
+                  </span>
+
+                  {showUserAssignment && (
+                    <RoleEntityUserAssignmentPermissions
+                      entityUserAssignmentPermissionsByRole={
+                        entityPermission.entityUserAssignmentPermissionsByRole
+                      }
+                      handleApplyUserAssignmentPermissions={handleApplyUserAssignmentPermissions(
                         entityPermission.model._id
                       )}
                     />

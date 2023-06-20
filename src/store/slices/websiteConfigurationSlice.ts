@@ -313,6 +313,9 @@ export interface IWebsiteConfiguration {
       eventTitle: ITranslatedText[];
       eventDescription: ITranslatedText[];
       eventType: ITranslatedText[];
+      canAssignToUserFromSameRole: ITranslatedText[];
+      roles: ITranslatedText[];
+      assignmentConfigurationTitle: ITranslatedText[];
     };
     chat: {
       title: ITranslatedText[];
@@ -1582,6 +1585,37 @@ const initialState: IWebsiteConfigurationState = {
         {
           language: "fr",
           text: "Type de l'évènement",
+        },
+      ],
+      canAssignToUserFromSameRole: [
+        {
+          language: "en",
+          text: "Can assign to users from the same role",
+        },
+        {
+          language: "fr",
+          text: "On peut assigner aux utilisateurs ayant le même rôle",
+        },
+      ],
+
+      roles: [
+        {
+          language: "en",
+          text: "Other roles to which this role can assign usrs",
+        },
+        {
+          language: "fr",
+          text: "Autres rôles auxquel l'utilisateur ayant ce rôle peut assigner cette entité",
+        },
+      ],
+      assignmentConfigurationTitle: [
+        {
+          language: "en",
+          text: "User Assignment configuration",
+        },
+        {
+          language: "fr",
+          text: "Configuration sur l'assignmnt des utilisateurs",
         },
       ],
     },

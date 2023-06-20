@@ -12,7 +12,11 @@ export type RolesSearchCommand = {
   paginationCommand: PaginationCommand;
 };
 
-const useSearchRoles = () => {
+const useSearchRoles = (
+  { setStoreAfterSearch }: { setStoreAfterSearch: boolean } = {
+    setStoreAfterSearch: true,
+  }
+) => {
   const [selectedRoles, setSelectedRoles] = React.useState<IRole[]>([]);
 
   const axios = useAuthorizedAxios();
@@ -36,7 +40,9 @@ const useSearchRoles = () => {
         })
         .then((res) => {
           resolve(res.data.data);
-          dispatch(roleSlice.actions.setSearchedRoles(res.data.data));
+          if (setStoreAfterSearch) {
+            dispatch(roleSlice.actions.setSearchedRoles(res.data.data));
+          }
         });
     });
 
