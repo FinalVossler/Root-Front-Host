@@ -2,7 +2,7 @@ import React from "react";
 import "suneditor/dist/css/suneditor.min.css";
 import ReactLoading from "react-loading";
 import * as Yup from "yup";
-import { MdTextFields } from "react-icons/md";
+import { MdDelete, MdTextFields } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 import { Theme } from "../../../config/theme";
@@ -600,6 +600,16 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
                       key={userIndex}
                       className={styles.assignedUsersByRoleContainer}
                     >
+                      <MdDelete
+                        onClick={() => {
+                          formik.setFieldValue("assignedUsers", [
+                            formik.values.assignedUsers.filter(
+                              (user) => user._id !== user._id
+                            ),
+                          ]);
+                        }}
+                        className={styles.deleteAssignedUserIcon}
+                      />
                       <UserProfilePicture
                         url={user.profilePicture?.url}
                         size={SizeEnum.Average}

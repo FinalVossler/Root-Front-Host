@@ -80,9 +80,18 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginLeft: 20,
     marginBottom: 10,
     alignItems: "center",
+    position: "relative",
   },
   assignedUsername: {
     marginLeft: 10,
+  },
+  deleteAssignedUserIcon: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    cursor: "pointer",
+    color: theme.errorColor,
+    fontSize: 20,
   },
   userAssignmentTitle: {
     color: theme.primary,
