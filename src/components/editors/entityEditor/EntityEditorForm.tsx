@@ -28,8 +28,12 @@ import IFile from "../../../globalTypes/IFile";
 import EntityFieldFiles from "./entityFieldFiles";
 import uploadFiles from "../../../utils/uploadFiles";
 import { Option } from "../../inputSelect/InputSelect";
-import { IUser } from "../../../store/slices/userSlice";
-import { IRole, StaticPermission } from "../../../store/slices/roleSlice";
+import { IUser, SuperRole } from "../../../store/slices/userSlice";
+import {
+  IEntityPermission,
+  IRole,
+  StaticPermission,
+} from "../../../store/slices/roleSlice";
 import useAxios from "../../../hooks/useAxios";
 import {
   EventTriggerEnum,
@@ -530,58 +534,85 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
       <h3 className={styles.userAssignmentTitle}>
         {getTranslatedText(staticText?.userAssignment)}
       </h3>
-      {roles.map((role: IRole, roleIndex: number) => {
-        return (
-          <div
-            key={roleIndex}
-            className={styles.assignedUsersByRoleInputContainer}
-          >
-            <SearchInput
-              searchPromise={handleSearchUsersByRolePromise(
-                role._id.toString()
-              )}
-              label={getTranslatedText(role?.name) + ":"}
-              getElementTitle={(user: IUser) =>
-                user.firstName + " " + user.lastName
-              }
-              inputProps={{
-                placeholder: getTranslatedText(staticText?.searchUsers),
-              }}
-              onElementClick={(user: IUser) => {
-                if (
-                  !formik.values.assignedUsers.some(
-                    (u) => u._id.toString() === user._id.toString()
-                  )
-                ) {
-                  formik.setFieldValue("assignedUsers", [
-                    ...formik.values.assignedUsers,
-                    user,
-                  ]);
-                }
-              }}
-            />
+      {roles
+        .filter((role) => {
+          if (user.superRole === SuperRole.SuperAdmin) {
+            return true;
+          }
 
-            {formik.values.assignedUsers
-              .filter((u) => u.role?._id.toString() === role._id.toString())
-              .map((user: IUser, userIndex: number) => {
-                return (
-                  <div
-                    key={userIndex}
-                    className={styles.assignedUsersByRoleContainer}
-                  >
-                    <UserProfilePicture
-                      url={user.profilePicture?.url}
-                      size={SizeEnum.Average}
-                    />
-                    <span className={styles.assignedUsername}>
-                      {user.firstName + " " + user.lastName}
-                    </span>
-                  </div>
-                );
-              })}
-          </div>
-        );
-      })}
+          const userPermissionsOnEntity: IEntityPermission | undefined =
+            user.role?.entityPermissions.find(
+              (e) => e.model._id.toString() === model?._id.toString()
+            );
+
+          if (!userPermissionsOnEntity) {
+            return false;
+          } else {
+            if (
+              userPermissionsOnEntity.entityUserAssignmentPermissionsByRole
+                ?.canAssignToUserFromSameRole &&
+              role._id.toString() === user.role?._id.toString()
+            ) {
+              return true;
+            } else {
+              return userPermissionsOnEntity.entityUserAssignmentPermissionsByRole?.otherRoles.some(
+                (otherRole) => otherRole._id.toString() === role._id.toString()
+              );
+            }
+          }
+        })
+        .map((role: IRole, roleIndex: number) => {
+          return (
+            <div
+              key={roleIndex}
+              className={styles.assignedUsersByRoleInputContainer}
+            >
+              <SearchInput
+                searchPromise={handleSearchUsersByRolePromise(
+                  role._id.toString()
+                )}
+                label={getTranslatedText(role?.name) + ":"}
+                getElementTitle={(user: IUser) =>
+                  user.firstName + " " + user.lastName
+                }
+                inputProps={{
+                  placeholder: getTranslatedText(staticText?.searchUsers),
+                }}
+                onElementClick={(user: IUser) => {
+                  if (
+                    !formik.values.assignedUsers.some(
+                      (u) => u._id.toString() === user._id.toString()
+                    )
+                  ) {
+                    formik.setFieldValue("assignedUsers", [
+                      ...formik.values.assignedUsers,
+                      user,
+                    ]);
+                  }
+                }}
+              />
+
+              {formik.values.assignedUsers
+                .filter((u) => u.role?._id.toString() === role._id.toString())
+                .map((user: IUser, userIndex: number) => {
+                  return (
+                    <div
+                      key={userIndex}
+                      className={styles.assignedUsersByRoleContainer}
+                    >
+                      <UserProfilePicture
+                        url={user.profilePicture?.url}
+                        size={SizeEnum.Average}
+                      />
+                      <span className={styles.assignedUsername}>
+                        {user.firstName + " " + user.lastName}
+                      </span>
+                    </div>
+                  );
+                })}
+            </div>
+          );
+        })}
 
       <InputSelect
         label={getTranslatedText(staticText?.language)}
