@@ -120,6 +120,21 @@ const RoleEntityEventsNotification: React.FunctionComponent<IRoleEntityEventsNot
                   }
                   labelStyles={{ width: 100 }}
                 />
+                <Checkbox
+                  label={getTranslatedText(staticText?.onAssigned)}
+                  checked={
+                    entityEventNotification.trigger ===
+                    EntityEventNotificationTrigger.OnAssigned
+                  }
+                  onChange={() =>
+                    handleFieldChange(
+                      EntityEventNotificationTrigger.OnAssigned,
+                      index,
+                      "trigger"
+                    )
+                  }
+                  labelStyles={{ width: 100 }}
+                />
                 <Input
                   onChange={(e) =>
                     handleFieldChange(e.target.value, index, "title")

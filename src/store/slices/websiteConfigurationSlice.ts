@@ -310,6 +310,7 @@ export interface IWebsiteConfiguration {
       entityEventNotifications: ITranslatedText[];
 
       onCreate: ITranslatedText[];
+      onAssigned: ITranslatedText[];
 
       addEvent: ITranslatedText[];
       eventTitle: ITranslatedText[];
@@ -1555,6 +1556,16 @@ const initialState: IWebsiteConfigurationState = {
         {
           language: "fr",
           text: "Suite à la création",
+        },
+      ],
+      onAssigned: [
+        {
+          language: "en",
+          text: "On assigned",
+        },
+        {
+          language: "fr",
+          text: "À l'assignation",
         },
       ],
       addEvent: [

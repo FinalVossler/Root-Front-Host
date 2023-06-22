@@ -8,6 +8,7 @@ import { IModel } from "./modelSlice";
 
 export enum EntityEventNotificationTrigger {
   OnCreate = "OnCreate",
+  OnAssigned = "OnAssigned",
 }
 
 export interface IEntityEventNotification {
