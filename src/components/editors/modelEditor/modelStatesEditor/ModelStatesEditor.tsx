@@ -1,20 +1,27 @@
 import { FormikProps } from "formik";
 import React from "react";
-import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
+import {
+  BsArrowDownShort,
+  BsArrowUpShort,
+  BsHandIndexFill,
+} from "react-icons/bs";
 import { FaNetworkWired } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { arrayMove, SortableContext, useSortable } from "@dnd-kit/sortable";
+import { DndContext, DragEndEvent } from "@dnd-kit/core";
+import { CSS } from "@dnd-kit/utilities";
 
 import { Theme } from "../../../../config/theme";
-import { ModelStateUpdateCommand } from "../../../../hooks/apiHooks/useUpdateModel";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../store/hooks";
 import { ModelStateType } from "../../../../store/slices/modelSlice";
 import Button from "../../../button";
 import Checkbox from "../../../checkbox";
 import Input from "../../../input";
-import { IModelForm } from "../ModelEditor";
+import { IModelForm, ModelFormState } from "../ModelEditor";
 
 import useStyles from "./modelStatesEditor.styles";
+import uuid from "react-uuid";
 
 interface IModelStatesEditor {
   formik: FormikProps<IModelForm>;
@@ -52,6 +59,7 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
         stateType: ModelStateType.ParentState,
         exclusive: false,
         language: props.formik.values.language,
+        uuid: uuid(),
       },
     ]);
   };
@@ -74,7 +82,7 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
     stateIndex: number
   ) => {
     const newStates = props.formik.values.states.map(
-      (state: ModelStateUpdateCommand, index) =>
+      (state: ModelFormState, index) =>
         stateIndex === index
           ? {
               ...state,
@@ -86,7 +94,7 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
   };
   const handleExclusiveChange = (exclusive: boolean, stateIndex: number) => {
     const newStates = props.formik.values.states.map(
-      (state: ModelStateUpdateCommand, index) =>
+      (state: ModelFormState, index) =>
         stateIndex === index
           ? {
               ...state,
@@ -96,12 +104,27 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
     );
     props.formik.setFieldValue("states", newStates);
   };
+  const handleSubStateExclusiveChange = (
+    exclusive: boolean,
+    stateIndex: number
+  ) => {
+    const newStates = props.formik.values.subStates.map(
+      (state: ModelFormState, index) =>
+        stateIndex === index
+          ? {
+              ...state,
+              exclusive,
+            }
+          : state
+    );
+    props.formik.setFieldValue("subStates", newStates);
+  };
   const handleSubStateChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     stateIndex: number
   ) => {
     const newSubStates = props.formik.values.subStates.map(
-      (state: ModelStateUpdateCommand, index) =>
+      (state: ModelFormState, index) =>
         stateIndex === index
           ? {
               ...state,
@@ -121,6 +144,29 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
     newSubStates.splice(index, 1);
     props.formik.setFieldValue("subStates", newSubStates);
   };
+
+  const handleDragEnd =
+    (stateOrSubState = "states") =>
+    (event: DragEndEvent) => {
+      const { active, over } = event;
+
+      if (over && active.id !== over.id) {
+        const oldIndex = props.formik.values[stateOrSubState]
+          .map((state: ModelFormState) => state.uuid)
+          .indexOf(active.id as string);
+        const newIndex = props.formik.values[stateOrSubState]
+          .map((state: ModelFormState) => state.uuid)
+          .indexOf(over.id as string);
+
+        const newStates = arrayMove(
+          props.formik.values[stateOrSubState],
+          oldIndex,
+          newIndex
+        );
+
+        props.formik.setFieldValue(stateOrSubState, newStates);
+      }
+    };
   //#endregion Event listeners
 
   return (
@@ -141,36 +187,26 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
           </h3>
           {props.formik.values.states?.length > 0 && (
             <div className={styles.statesContainer}>
-              {props.formik.values.states.map((state, stateIndex) => {
-                return (
-                  <div key={stateIndex} className={styles.singleStateContainer}>
-                    <Input
-                      Icon={FaNetworkWired}
-                      onChange={(e) => handleStateChange(e, stateIndex)}
-                      label={getTranslatedText(staticText?.state)}
-                      inputProps={{
-                        placeholder: getTranslatedText(staticText?.state),
-                      }}
-                      value={state.name}
-                      debounce
-                    />
-                    <Checkbox
-                      label={getTranslatedText(staticText?.exclusive)}
-                      onChange={(checked) =>
-                        handleExclusiveChange(checked, stateIndex)
-                      }
-                      labelStyles={{
-                        width: 165,
-                      }}
-                      checked={Boolean(state.exclusive)}
-                    />
-                    <MdDelete
-                      onClick={() => handleDeleteState(stateIndex)}
-                      className={styles.deleteState}
-                    />
-                  </div>
-                );
-              })}
+              <DndContext onDragEnd={handleDragEnd("states")}>
+                <SortableContext
+                  items={props.formik.values.states.map(
+                    (modelState) => modelState.uuid
+                  )}
+                >
+                  {props.formik.values.states.map((state, stateIndex) => {
+                    return (
+                      <SortableModelState
+                        key={stateIndex}
+                        state={state}
+                        stateIndex={stateIndex}
+                        onStateChange={handleStateChange}
+                        onExclusiveChange={handleExclusiveChange}
+                        onDeleteState={handleDeleteState}
+                      />
+                    );
+                  })}
+                </SortableContext>
+              </DndContext>
             </div>
           )}
           <Button onClick={handleAddModelState}>
@@ -182,30 +218,26 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
           </h3>
           {props.formik.values.subStates.length > 0 && (
             <div className={styles.statesContainer}>
-              {props.formik.values.subStates.map((state, subStateIndex) => {
-                return (
-                  <div
-                    key={subStateIndex}
-                    className={styles.singleStateContainer}
-                  >
-                    <Input
-                      Icon={FaNetworkWired}
-                      key={subStateIndex}
-                      onChange={(e) => handleSubStateChange(e, subStateIndex)}
-                      label={getTranslatedText(staticText?.subState)}
-                      inputProps={{
-                        placeholder: getTranslatedText(staticText?.subState),
-                      }}
-                      value={state.name}
-                      debounce
-                    />
-                    <MdDelete
-                      onClick={() => handleDeleteSubState(subStateIndex)}
-                      className={styles.deleteState}
-                    />
-                  </div>
-                );
-              })}
+              <DndContext onDragEnd={handleDragEnd("subStates")}>
+                <SortableContext
+                  items={props.formik.values.subStates.map(
+                    (modelSubState) => modelSubState.uuid
+                  )}
+                >
+                  {props.formik.values.subStates.map((subState, stateIndex) => {
+                    return (
+                      <SortableModelState
+                        key={stateIndex}
+                        state={subState}
+                        stateIndex={stateIndex}
+                        onStateChange={handleSubStateChange}
+                        onExclusiveChange={handleSubStateExclusiveChange}
+                        onDeleteState={handleDeleteSubState}
+                      />
+                    );
+                  })}
+                </SortableContext>
+              </DndContext>
             </div>
           )}
           <Button onClick={handleAddModelSubState}>
@@ -213,6 +245,77 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
           </Button>
         </>
       )}
+    </div>
+  );
+};
+
+interface ISortableModelState {
+  state: ModelFormState;
+  stateIndex: number;
+  onStateChange: (
+    e: React.ChangeEvent<HTMLInputElement>,
+    stateIndex: number
+  ) => void;
+  onExclusiveChange: (checked: boolean, stateIndex: number) => void;
+  onDeleteState: (stateIndex: number) => void;
+}
+const SortableModelState: React.FunctionComponent<ISortableModelState> = (
+  props: ISortableModelState
+) => {
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.models
+  );
+
+  const styles = useStyles({ theme });
+  const getTranslatedText = useGetTranslatedText();
+  const { attributes, listeners, setNodeRef, transform } = useSortable({
+    id: props.state.uuid,
+  });
+
+  const sorteStyles = {
+    transform: CSS.Transform.toString(transform),
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={sorteStyles}
+      className={styles.singleStateContainer}
+    >
+      <Input
+        Icon={FaNetworkWired}
+        onChange={(e) => props.onStateChange(e, props.stateIndex)}
+        label={getTranslatedText(staticText?.state)}
+        inputProps={{
+          placeholder: getTranslatedText(staticText?.state),
+        }}
+        value={props.state.name}
+        debounce
+      />
+      <Checkbox
+        label={getTranslatedText(staticText?.exclusive)}
+        onChange={(checked) =>
+          props.onExclusiveChange(checked, props.stateIndex)
+        }
+        labelStyles={{
+          width: 165,
+        }}
+        checked={Boolean(props.state.exclusive)}
+      />
+      <MdDelete
+        onClick={() => props.onDeleteState(props.stateIndex)}
+        className={styles.deleteState}
+      />
+
+      <BsHandIndexFill
+        color={theme.primary}
+        className={styles.sortableModelStateHandle}
+        {...attributes}
+        {...listeners}
+      />
     </div>
   );
 };

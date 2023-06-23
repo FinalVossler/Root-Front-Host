@@ -38,15 +38,23 @@ const useStyles = createUseStyles((theme: Theme) => ({
     padding: 10,
     marginBottom: 10,
     borderRadius: 10,
-    paddingTop: 25,
+    paddingTop: 30,
   },
   deleteState: {
     position: "absolute",
-    top: 0,
+    top: 5,
     right: -2,
     cursor: "pointer",
     color: theme.errorColor,
     fontSize: 20,
+  },
+  sortableModelStateHandle: {
+    position: "absolute",
+    top: 5,
+    right: 20,
+    fontSize: 20,
+    cursor: "pointer",
+    zIndex: 3,
   },
   "@media (max-width: 850px)": {
     createModelModalContainer: {

@@ -18,7 +18,11 @@ import useCreateModel, {
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import InputSelect from "../../inputSelect";
 import getLanguages from "../../../utils/getLanguages";
-import { IModel, IModelField } from "../../../store/slices/modelSlice";
+import {
+  IModel,
+  IModelField,
+  ModelStateType,
+} from "../../../store/slices/modelSlice";
 import useUpdateModel, {
   ModelUpdateCommand,
   ModelStateUpdateCommand,
@@ -32,6 +36,7 @@ import {
   IEventRequestHeader,
 } from "../../../globalTypes/IEvent";
 import ModelStatesEditor from "./modelStatesEditor";
+import uuid from "react-uuid";
 
 export interface IModelEditor {
   model?: IModel;
@@ -39,12 +44,23 @@ export interface IModelEditor {
   setOpen?: (boolean) => void;
 }
 
+export type ModelFormState = {
+  _id?: string;
+  name: string;
+  stateType: ModelStateType;
+  exclusive: boolean;
+  language: string;
+
+  // used for frontend sorting only
+  uuid: string;
+};
+
 export interface IModelForm {
   name: string;
   modelFields: IModelField[];
   modelEvents: IEvent[];
-  states: ModelStateUpdateCommand[];
-  subStates: ModelStateUpdateCommand[];
+  states: ModelFormState[];
+  subStates: ModelFormState[];
   language: string;
 }
 
@@ -110,8 +126,20 @@ const ModelEditor = (props: IModelEditor) => {
             requestData: modelEvent.requestData,
             requestHeaders: modelEvent.requestHeaders,
           })),
-          states: values.states,
-          subStates: values.subStates,
+          states: values.states.map((state) => ({
+            exclusive: state.exclusive,
+            language: values.language,
+            name: state.name,
+            stateType: state.stateType,
+            _id: state._id,
+          })),
+          subStates: values.subStates.map((state) => ({
+            exclusive: state.exclusive,
+            language: values.language,
+            name: state.name,
+            stateType: state.stateType,
+            _id: state._id,
+          })),
           language: values.language,
         };
 
@@ -135,8 +163,20 @@ const ModelEditor = (props: IModelEditor) => {
           modelEvents: values.modelEvents.map((modelEvent) => ({
             ...modelEvent,
           })),
-          states: values.states,
-          subStates: values.subStates,
+          states: values.states.map((state) => ({
+            exclusive: state.exclusive,
+            language: values.language,
+            name: state.name,
+            stateType: state.stateType,
+            _id: state._id,
+          })),
+          subStates: values.subStates.map((state) => ({
+            exclusive: state.exclusive,
+            language: values.language,
+            name: state.name,
+            stateType: state.stateType,
+            _id: state._id,
+          })),
           language: values.language,
         };
 
@@ -200,6 +240,7 @@ const ModelEditor = (props: IModelEditor) => {
             name: getTranslatedText(modelState.name, formik.values.language),
             stateType: modelState.stateType,
             exclusive: Boolean(modelState.exlusive),
+            uuid: uuid(),
           })) || [],
         subStates:
           props.model?.subStates?.map((modelSubState) => ({
@@ -208,6 +249,7 @@ const ModelEditor = (props: IModelEditor) => {
             name: getTranslatedText(modelSubState.name, formik.values.language),
             stateType: modelSubState.stateType,
             exclusive: Boolean(modelSubState.exlusive),
+            uuid: uuid(),
           })) || [],
         language: formik.values.language,
       },
