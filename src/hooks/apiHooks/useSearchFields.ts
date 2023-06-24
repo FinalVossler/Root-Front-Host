@@ -36,6 +36,7 @@ const useSearchFields = (model: IModel | undefined) => {
               value: condition.value,
               conditionType: condition.conditionType,
               field: condition.field,
+              modelState: condition.modelState,
             })) || [],
         })) || [];
 

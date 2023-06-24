@@ -25,9 +25,10 @@ export type ModelCreateCommand = {
     fieldId: string;
     required: boolean;
     conditions?: {
-      fieldId: string;
+      fieldId?: string;
       conditionType: ModelFieldConditionTypeEnum;
       value: number | string;
+      modelStateId?: string;
     }[];
     modelStatesIds: string[];
     mainField: boolean;

@@ -361,6 +361,8 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
         const conditionsMet: boolean = areEntityFieldConditionsMet({
           modelField,
           entityFieldValuesFromForm: formik.values.entityFieldValues,
+          model,
+          getTranslatedText: getTranslatedText,
         });
 
         if (!conditionsMet) return null;

@@ -29,10 +29,13 @@ import useUpdatePage, {
 } from "../../../hooks/apiHooks/useUpdatePage";
 import useHasPermission from "../../../hooks/useHasPermission";
 import { Permission } from "../../../store/slices/roleSlice";
+import Checkbox from "../../checkbox";
 
 interface IPageEditorForm {
   title: string;
   posts: string[];
+  showInHeader: boolean;
+  showInSideMenu: boolean;
   language: string;
 }
 
@@ -66,6 +69,8 @@ const PageEditor = (props: IPageEditor) => {
         values: {
           title: getTranslatedText(props.page.title),
           posts: props.page.posts.map((post) => post._id),
+          showInHeader: Boolean(props.page?.showInHeader),
+          showInSideMenu: Boolean(props.page?.showInSideMenu),
           // Set the language to the navigator's language if the title contains a translated text in the same language as the navigator.
           // Else, set the language to the title's language
           language: props.page.title.find(
@@ -83,6 +88,8 @@ const PageEditor = (props: IPageEditor) => {
     initialValues: {
       posts: [],
       title: "",
+      showInHeader: true,
+      showInSideMenu: false,
       language,
     },
     validationSchema: Yup.object().shape({
@@ -95,6 +102,8 @@ const PageEditor = (props: IPageEditor) => {
         command = {
           posts: values.posts,
           title: values.title,
+          showInHeader: values.showInHeader,
+          showInSideMenu: values.showInSideMenu,
           _id: props.page._id,
           language: values.language,
         };
@@ -103,6 +112,8 @@ const PageEditor = (props: IPageEditor) => {
         command = {
           posts: values.posts,
           title: values.title,
+          showInHeader: values.showInHeader,
+          showInSideMenu: values.showInSideMenu,
           language: values.language,
         };
         await createPage(command);
@@ -180,6 +191,18 @@ const PageEditor = (props: IPageEditor) => {
             inputProps={{
               placeholder: getTranslatedText(staticText?.title),
             }}
+          />
+
+          <Checkbox
+            label={getTranslatedText(staticText?.showInHeader)}
+            formik={formik}
+            name="showInHeader"
+          />
+
+          <Checkbox
+            label={getTranslatedText(staticText?.showInSideMenu)}
+            formik={formik}
+            name="showInSideMenu"
           />
 
           <InputSelect

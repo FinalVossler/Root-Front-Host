@@ -25,7 +25,6 @@ import {
 } from "../../../store/slices/modelSlice";
 import useUpdateModel, {
   ModelUpdateCommand,
-  ModelStateUpdateCommand,
 } from "../../../hooks/apiHooks/useUpdateModel";
 import ModelFieldsEditor from "./modelFieldsEditor";
 import EventsEditor from "../eventsEditor";
@@ -110,7 +109,8 @@ const ModelEditor = (props: IModelEditor) => {
                 modelField.conditions?.map((condition) => ({
                   fieldId: condition.field?._id || "",
                   conditionType: condition.conditionType,
-                  value: condition.value,
+                  value: condition.value ?? "",
+                  modelStateId: condition.modelState?._id,
                 })) || [],
               modelStatesIds: modelField.states?.map((el) => el._id) || [],
               mainField: modelField.mainField || false,
@@ -155,7 +155,8 @@ const ModelEditor = (props: IModelEditor) => {
                 modelField.conditions?.map((condition) => ({
                   fieldId: condition.field?._id || "",
                   conditionType: condition.conditionType,
-                  value: condition.value,
+                  value: condition.value ?? "",
+                  modelStateId: condition.modelState?._id,
                 })) || [],
               modelStatesIds: modelField.states?.map((el) => el._id) || [],
               mainField: modelField.mainField || false,
@@ -209,6 +210,7 @@ const ModelEditor = (props: IModelEditor) => {
                 value: condition.value,
                 conditionType: condition.conditionType,
                 field: condition.field,
+                modelState: condition.modelState,
               })) || [],
           })) || [],
         modelEvents:

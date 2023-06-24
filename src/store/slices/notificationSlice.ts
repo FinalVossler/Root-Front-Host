@@ -52,7 +52,6 @@ export const notificationSlice = createSlice({
         action.payload.notification,
       ];
       state.total++;
-      console.log("state total unclicked", state.totalUnclicked);
       state.totalUnclicked++;
     },
     setNotificationToClickedBy: (

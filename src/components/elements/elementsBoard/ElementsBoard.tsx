@@ -60,9 +60,10 @@ const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
                   .filter((entity) => {
                     let meetsModelStateCondition: boolean =
                       doesEntityMeetModelStateCondition({
-                        entity,
+                        entityFieldValues: entity.entityFieldValues,
                         stateConcernedFields,
                         getTranslatedText,
+                        model,
                       });
 
                     return (
@@ -114,9 +115,10 @@ const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
                                   });
                                 const stateConditionsMet: boolean =
                                   doesEntityMeetModelStateCondition({
-                                    entity,
+                                    entityFieldValues: entity.entityFieldValues,
                                     stateConcernedFields: concernedFields,
                                     getTranslatedText,
+                                    model,
                                   });
                                 return (
                                   <span

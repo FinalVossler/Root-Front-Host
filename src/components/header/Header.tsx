@@ -119,6 +119,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
             style={{ marginBottom: 0 }}
           />
           {pages.map((page) => {
+            if (page.showInHeader === false) return null;
             if (getTranslatedText(page.title) === "") return null;
             return (
               <li key={page._id} className={styles.option}>

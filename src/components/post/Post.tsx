@@ -25,6 +25,7 @@ import Video from "../postsComponents/video";
 import PostAsEntityEditor from "../postsComponents/postAsEntityEditor";
 
 import useStyles from "./post.styles";
+import EntitiesList from "../../pages/entitiesPage/entitiesList";
 
 interface IUserPosts {
   post: IPost;
@@ -54,6 +55,9 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
 
   if (post.design === PostDesign.ModelForm) {
     return <PostAsEntityEditor post={post} />;
+  }
+  if (post.design === PostDesign.ModelList && Boolean(post.code)) {
+    return <EntitiesList modelId={post.code || ""} />;
   }
 
   if (post.design === PostDesign.Card) {

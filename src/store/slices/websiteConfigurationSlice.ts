@@ -121,6 +121,7 @@ export interface IWebsiteConfiguration {
       statesConfigurationHint: ITranslatedText[];
       subStatesConfigurationHint: ITranslatedText[];
       mainField: ITranslatedText[];
+      fieldShowWhenStateIsAchieved: ITranslatedText[];
     };
     models: {
       createModel: ITranslatedText[];
@@ -182,6 +183,8 @@ export interface IWebsiteConfiguration {
       addPage: ITranslatedText[];
       title: ITranslatedText[];
       language: ITranslatedText[];
+      showInHeader: ITranslatedText[];
+      showInSideMenu: ITranslatedText[];
     };
     posts: {
       haveSomethingInMind: ITranslatedText[];
@@ -850,6 +853,16 @@ const initialState: IWebsiteConfigurationState = {
           text: "Configuration des sous-états des entités: Le champ contribue dans le remplissage de quels sous-états ?",
         },
       ],
+      fieldShowWhenStateIsAchieved: [
+        {
+          language: "en",
+          text: "Field shown when the following state is achieved",
+        },
+        {
+          language: "fr",
+          text: "The champ apparait quand ces les conditions de cet état ont été remplises",
+        },
+      ],
     },
     models: {
       createModel: [
@@ -1093,6 +1106,14 @@ const initialState: IWebsiteConfigurationState = {
       updatePage: [
         { language: "en", text: "Update Page" },
         { language: "fr", text: "Mettre à jour la page" },
+      ],
+      showInHeader: [
+        { language: "en", text: "Show in header" },
+        { language: "fr", text: "Montrer dans l'entête" },
+      ],
+      showInSideMenu: [
+        { language: "en", text: "Show in side menu" },
+        { language: "fr", text: "Montrer dans le menu de Côté" },
       ],
     },
     posts: {

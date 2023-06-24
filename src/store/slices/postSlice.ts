@@ -29,6 +29,7 @@ export enum PostDesign {
   Card2 = "Card2",
   Video = "Video",
   ModelForm = "ModelForm",
+  ModelList = "ModelList",
 }
 
 export interface IPost {

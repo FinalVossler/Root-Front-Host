@@ -10,6 +10,8 @@ export interface IPage {
   title: ITranslatedText[];
   slug: string;
   posts: IPost[];
+  showInHeader?: boolean;
+  showInSideMenu?: boolean;
 }
 
 interface IPageState {

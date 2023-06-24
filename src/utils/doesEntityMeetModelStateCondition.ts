@@ -1,32 +1,45 @@
-import { IEntity } from "../store/slices/entitySlice";
+import { IEntityFieldValueForm } from "../components/editors/entityEditor/EntityEditorForm";
+import { IEntityFieldValue } from "../store/slices/entitySlice";
 import { FieldType } from "../store/slices/fieldSlice";
-import { IModelField } from "../store/slices/modelSlice";
+import { IModel, IModelField } from "../store/slices/modelSlice";
 import areEntityFieldConditionsMet from "./areEntityFieldConditionsMet";
 
 const doesEntityMeetModelStateCondition = ({
   stateConcernedFields,
-  entity,
+  entityFieldValues,
+  entityFieldValuesFromForm,
   getTranslatedText,
+  model,
 }: {
   stateConcernedFields: IModelField[];
-  entity: IEntity;
+  entityFieldValues?: IEntityFieldValue[];
+  entityFieldValuesFromForm?: IEntityFieldValueForm[];
   getTranslatedText: any;
+  model: IModel;
 }): boolean => {
   let meetsModelStateCondition: boolean = true;
+
+  if (stateConcernedFields.length === 0) return false;
 
   stateConcernedFields.forEach((modelField: IModelField) => {
     // Only consider this field if it's supposed to be shown by field conditions
     const entityFieldConditionsMet: boolean = areEntityFieldConditionsMet({
       modelField,
-      entityFieldValues: entity.entityFieldValues,
+      entityFieldValues,
+      entityFieldValuesFromForm,
       getTranslatedText,
+      model,
     });
 
     if (!entityFieldConditionsMet) return;
 
-    const entityFieldValue: any = entity.entityFieldValues.find(
-      (el) => el.field._id.toString() === modelField.field._id.toString()
-    )?.value;
+    const entityFieldValue: any = entityFieldValues
+      ? entityFieldValues.find(
+          (el) => el.field._id.toString() === modelField.field._id.toString()
+        )?.value
+      : entityFieldValuesFromForm?.find(
+          (el) => el.fieldId === modelField.field._id.toString()
+        )?.value;
 
     if (
       entityFieldValue === undefined ||

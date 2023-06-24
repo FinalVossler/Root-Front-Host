@@ -21,9 +21,11 @@ import { IModel } from "../../store/slices/modelSlice";
 import { IUser, SuperRole } from "../../store/slices/userSlice";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { FaPager } from "react-icons/fa";
-import { RiUserStarFill } from "react-icons/ri";
+import { RiPagesLine, RiUserStarFill } from "react-icons/ri";
 import useHasPermission from "../../hooks/useHasPermission";
 import { Permission, StaticPermission } from "../../store/slices/roleSlice";
+import { IPage } from "../../store/slices/pageSlice";
+import { useNavigate } from "react-router-dom";
 
 interface ISideMenu {}
 
@@ -45,6 +47,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
     (state) => state.userPreferences.sideMenuExtendedModels
   );
   const user: IUser = useAppSelector((state) => state.user.user);
+  const pages: IPage[] = useAppSelector((state) => state.page.pages);
 
   const [configurationModalOpen, setConfigurationModalOpen] =
     React.useState<boolean>(false);
@@ -55,6 +58,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
   const { getModels } = useGetModels();
   const isLoggedIn: boolean = useIsLoggedIn();
   const { hasPermission } = useHasPermission();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (models.length === 0) {
@@ -91,6 +95,17 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
       {isSideMenuOpen && (
         <div className={styles.sideMenuContent}>
           <span className={styles.appName}>{title}</span>
+          {pages.map((page: IPage) => {
+            if (!page.showInSideMenu) return null;
+            return (
+              <SideMenuOption
+                key={page._id}
+                Icon={RiPagesLine}
+                title={getTranslatedText(page.title)}
+                link={"/" + page.slug}
+              />
+            );
+          })}
           {hasPermission(Permission.EditConfiguration) && (
             <SideMenuOption
               Icon={BsFillGearFill}

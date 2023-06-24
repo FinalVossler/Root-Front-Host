@@ -36,12 +36,14 @@ export enum ModelFieldConditionTypeEnum {
   InferiorOrEqualTo = "InferiorOrEqualTo",
   Equal = "Equal",
   ValueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear = "ValueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear",
+  StateConditionsMet = "StateConditionsMet",
 }
 
 export interface IModelFieldCondition {
   field?: IField;
   conditionType: ModelFieldConditionTypeEnum;
-  value: number | string;
+  value?: number | string;
+  modelState?: IModelState;
 }
 //#endregion model fields
 

@@ -56,6 +56,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
       conditionType: ModelFieldConditionTypeEnum.Equal,
       field: undefined,
       value: "",
+      modelState: undefined,
     };
     props.setSelectedModelFields(
       props.selectedModelFields.map((modelField, index) => {
@@ -169,6 +170,30 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
 
     props.setSelectedModelFields(newSelectedModelFields);
   };
+  const handleSelectConditionStates = (
+    modelStateOption: Option,
+    conditionIndex: number
+  ) => {
+    const newSelectedModelFields = props.selectedModelFields.map(
+      (modelField: IModelField, index: number) => {
+        if (index === props.modelFieldIndex) {
+          if (
+            modelField.conditions &&
+            modelField.conditions?.length > conditionIndex
+          ) {
+            modelField.conditions[conditionIndex].modelState =
+              props.model?.states?.find(
+                (state) =>
+                  state._id.toString() === modelStateOption.value.toString()
+              );
+          }
+        }
+        return modelField;
+      }
+    );
+
+    props.setSelectedModelFields(newSelectedModelFields);
+  };
   const handleTriggerStateForField = (modelState: IModelState) => {
     const newSelectedModelFields = props.selectedModelFields.map(
       (modelField: IModelField, index: number) => {
@@ -231,6 +256,10 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
       value:
         ModelFieldConditionTypeEnum.ValueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear,
     },
+    {
+      label: getTranslatedText(staticText?.fieldShowWhenStateIsAchieved),
+      value: ModelFieldConditionTypeEnum.StateConditionsMet,
+    },
   ];
   const fieldsOptions: Option[] = props.selectedModelFields
     .filter(
@@ -243,6 +272,11 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
         value: selectedModelField.field._id,
       };
     });
+  const modelStatesOptions: Option[] =
+    props.model?.states?.map((modelState) => ({
+      label: getTranslatedText(modelState.name),
+      value: getTranslatedText(modelState._id.toString()),
+    })) || [];
   //#endregion View
 
   return (
@@ -335,6 +369,23 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
                   }}
                   debounce
                 />
+                {condition.conditionType ===
+                  ModelFieldConditionTypeEnum.StateConditionsMet && (
+                  <InputSelect
+                    label={getTranslatedText(
+                      staticText?.fieldShowWhenStateIsAchieved
+                    )}
+                    value={modelStatesOptions.find(
+                      (option) =>
+                        option.value.toString() ===
+                        condition.modelState?._id.toString()
+                    )}
+                    options={modelStatesOptions}
+                    onChange={(option) =>
+                      handleSelectConditionStates(option, conditionIndex)
+                    }
+                  />
+                )}
               </div>
             );
           }
