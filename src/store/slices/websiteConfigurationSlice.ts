@@ -211,6 +211,7 @@ export interface IWebsiteConfiguration {
       success: ITranslatedText[];
       userAssignment: ITranslatedText[];
       searchUsers: ITranslatedText[];
+      states: ITranslatedText[];
     };
     contact: {
       firstNameRequired: ITranslatedText[];
@@ -1209,6 +1210,10 @@ const initialState: IWebsiteConfigurationState = {
       searchUsers: [
         { text: "Search users", language: "en" },
         { text: "Chercher des utilisateurs", language: "fr" },
+      ],
+      states: [
+        { language: "en", text: "States" },
+        { language: "fr", text: "États" },
       ],
     },
     contact: {

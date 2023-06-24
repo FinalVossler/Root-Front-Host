@@ -1,4 +1,6 @@
 import React from "react";
+import { FaDirections } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 import { Theme } from "../../../config/theme";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
@@ -78,6 +80,13 @@ const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
                       entitiesThatShouldntBeShownAgain.push(entity);
                     return (
                       <div key={entityIndex} className={styles.entityCard}>
+                        <Link
+                          target="_blank"
+                          to={"/entities/" + props.modelId + "/" + entity._id}
+                        >
+                          <FaDirections className={styles.visitEntityIcon} />
+                        </Link>
+
                         <div className={styles.mainModelFields}>
                           {mainModelFields.map(
                             (modelField, modelFieldIndex: number) => {

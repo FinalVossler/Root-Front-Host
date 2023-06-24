@@ -52,6 +52,7 @@ import useSearchUsersByRole from "../../../hooks/apiHooks/useSearchUsersByRole";
 import UserProfilePicture, {
   SizeEnum,
 } from "../../userProfilePicture/UserProfilePicture";
+import EntityEditorStates from "./entityEditorStates/EntityEditorStates";
 
 export interface IEntityFieldValueForm {
   fieldId: string;
@@ -646,6 +647,10 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
               .map((modelField) => getTranslatedText(modelField.field.name))
               .join(",")}
         </span>
+      )}
+
+      {props.entity && props.modelId && (
+        <EntityEditorStates entity={props.entity} modelId={props.modelId} />
       )}
 
       {!loading && !props.readOnly && (

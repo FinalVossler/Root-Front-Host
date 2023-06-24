@@ -43,10 +43,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.lightTextColor,
     padding: 5,
     width: "100%",
-    height: 150,
+    height: 200,
     marginBottom: 10,
     borderRadius: 5,
     boxSizing: "border-box",
+    position: "relative",
   },
   subStates: {
     display: "flex",
@@ -70,6 +71,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
   fieldLabel: {
     marginRight: 10,
     color: theme.primary,
+  },
+  visitEntityIcon: {
+    cursor: "pointer",
+    position: "absolute",
+    color: theme.lightTextColor,
+    right: 5,
+    fontSize: 20,
   },
   "@media (max-width: 850px)": {},
 }));
