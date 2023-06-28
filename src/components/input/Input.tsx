@@ -101,6 +101,9 @@ const Input: React.FunctionComponent<IInput> = (props: IInput) => {
             className={props.label ? styles.inputWithLabel : styles.input}
             name={props.name}
             onChange={props.debounce ? debouncedChange : handleChange}
+            style={{
+              paddingLeft: props.Icon ? 37 : 10,
+            }}
             {...props.inputProps}
             {...additionalProps}
           />

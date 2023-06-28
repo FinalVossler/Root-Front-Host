@@ -122,6 +122,13 @@ export interface IWebsiteConfiguration {
       subStatesConfigurationHint: ITranslatedText[];
       mainField: ITranslatedText[];
       fieldShowWhenStateIsAchieved: ITranslatedText[];
+      columnName: ITranslatedText[];
+      rowName: ITranslatedText[];
+      rows: ITranslatedText[];
+      yearTable: ITranslatedText[];
+      addColumn: ITranslatedText[];
+      addRow: ITranslatedText[];
+      tableName: ITranslatedText[];
     };
     models: {
       createModel: ITranslatedText[];
@@ -862,6 +869,76 @@ const initialState: IWebsiteConfigurationState = {
         {
           language: "fr",
           text: "The champ apparait quand ces les conditions de cet état ont été remplises",
+        },
+      ],
+      columnName: [
+        {
+          language: "en",
+          text: "Column name",
+        },
+        {
+          language: "fr",
+          text: "Le nom de la colonne",
+        },
+      ],
+      rowName: [
+        {
+          language: "en",
+          text: "Row name",
+        },
+        {
+          language: "fr",
+          text: "Le nom de la ligne",
+        },
+      ],
+      rows: [
+        {
+          language: "en",
+          text: "Rows",
+        },
+        {
+          language: "fr",
+          text: "Lignes",
+        },
+      ],
+      yearTable: [
+        {
+          language: "en",
+          text: "Year table",
+        },
+        {
+          language: "fr",
+          text: "Table d'années",
+        },
+      ],
+      addColumn: [
+        {
+          language: "en",
+          text: "Add column",
+        },
+        {
+          language: "fr",
+          text: "Ajouter une colonne",
+        },
+      ],
+      addRow: [
+        {
+          language: "en",
+          text: "Add row",
+        },
+        {
+          language: "fr",
+          text: "Ajouter une ligne",
+        },
+      ],
+      tableName: [
+        {
+          language: "en",
+          text: "Table name",
+        },
+        {
+          language: "fr",
+          text: "Nome de la table",
         },
       ],
     },

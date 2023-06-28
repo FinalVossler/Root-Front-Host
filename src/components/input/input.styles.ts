@@ -45,7 +45,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
   input: {
     border: "none",
     padding: 13,
-    paddingLeft: 37,
     fontSize: 17,
     transition: "all .2s ease-int-out",
     color: theme.lightTextColor,

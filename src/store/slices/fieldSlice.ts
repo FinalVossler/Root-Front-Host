@@ -12,6 +12,7 @@ export enum FieldType {
   File = "File",
   Selector = "Selector",
   Button = "Button",
+  Table = "Table",
 }
 
 export type FieldOption = {
@@ -19,12 +20,23 @@ export type FieldOption = {
   label: ITranslatedText[];
 };
 
+export interface IFieldTableElement {
+  _id: string;
+  name: ITranslatedText[];
+}
+
 export interface IField {
   _id: string;
   name: ITranslatedText[];
   type: FieldType;
   options?: FieldOption[];
   fieldEvents: IEvent[];
+  tableOptions?: {
+    name: ITranslatedText[];
+    columns: IFieldTableElement[];
+    rows: IFieldTableElement[];
+    yearTable: boolean;
+  };
 
   createdAt: string;
   updatedAt: string;

@@ -19,7 +19,7 @@ const doesEntityMeetModelStateCondition = ({
 }): boolean => {
   let meetsModelStateCondition: boolean = true;
 
-  if (stateConcernedFields.length === 0) return false;
+  // if (stateConcernedFields.length === 0) return false;
 
   stateConcernedFields.forEach((modelField: IModelField) => {
     // Only consider this field if it's supposed to be shown by field conditions

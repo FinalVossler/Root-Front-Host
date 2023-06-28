@@ -16,9 +16,11 @@ import { FormikProps, useFormik } from "formik";
 import { FieldType, IField } from "../../../store/slices/fieldSlice";
 import useCreateField, {
   FieldCreateCommand,
+  FieldTableElementCreateCommand,
 } from "../../../hooks/apiHooks/useCreateField";
 import useUpdateField, {
   FieldUpdateCommand,
+  FieldTableElementUpdateCommand,
 } from "../../../hooks/apiHooks/useUpdateField";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import InputSelect from "../../inputSelect";
@@ -26,6 +28,8 @@ import getLanguages from "../../../utils/getLanguages";
 import { BiLabel } from "react-icons/bi";
 import EventsEditor from "../eventsEditor/EventsEditor";
 import { EventTriggerEnum, IEvent } from "../../../globalTypes/IEvent";
+import FieldTableEditor from "./fieldTableEditor";
+import uuid from "react-uuid";
 
 export interface IFieldEditor {
   field?: IField;
@@ -38,11 +42,25 @@ type FieldOptionForm = {
   value: string;
 };
 
+export type FieldTableElementForm = {
+  _id?: string;
+  name: string;
+  language: string;
+
+  uuid: string;
+};
+
 export interface IFieldForm {
   name: string;
   type: IField["type"];
   options: FieldOptionForm[];
   fieldEvents: IEvent[];
+  tableOptions: {
+    name: string;
+    columns: FieldTableElementForm[];
+    rows: FieldTableElementForm[];
+    yearTable: boolean;
+  };
   language: string;
 }
 
@@ -71,6 +89,13 @@ const FieldEditor = (props: IFieldEditor) => {
       type: FieldType.Text,
       options: [],
       fieldEvents: [],
+      tableOptions: {
+        name: "",
+        columns: [],
+        rows: [],
+        yearTable: false,
+      },
+
       language,
     },
     onSubmit: async (values: IFieldForm) => {
@@ -82,6 +107,20 @@ const FieldEditor = (props: IFieldEditor) => {
           language: values.language,
           options: values.options,
           fieldEvents: values.fieldEvents,
+          tableOptions: {
+            name: values.tableOptions.name,
+            columns: values.tableOptions.columns.map((c) => ({
+              _id: c._id,
+              language: values.language,
+              name: c.name,
+            })),
+            rows: values.tableOptions.rows.map((r) => ({
+              _id: r._id,
+              language: values.language,
+              name: r.name,
+            })),
+            yearTable: values.tableOptions.yearTable,
+          },
         };
 
         await updateField(command);
@@ -92,6 +131,18 @@ const FieldEditor = (props: IFieldEditor) => {
           language: values.language,
           options: values.options,
           fieldEvents: values.fieldEvents,
+          tableOptions: {
+            name: values.name,
+            columns: values.tableOptions.columns.map((c) => ({
+              language: values.language,
+              name: c.name,
+            })),
+            rows: values.tableOptions.rows.map((r) => ({
+              language: values.language,
+              name: r.name,
+            })),
+            yearTable: values.tableOptions.yearTable,
+          },
         };
 
         await createField(command);
@@ -124,6 +175,31 @@ const FieldEditor = (props: IFieldEditor) => {
             }))) ||
           [],
         fieldEvents: props.field?.fieldEvents || [],
+        tableOptions: {
+          name: getTranslatedText(props.field?.tableOptions?.name),
+          columns:
+            props.field?.tableOptions?.columns.map((c) => ({
+              _id: c._id,
+              language: formik.values.language,
+              name: getTranslatedText(c.name, formik.values.language),
+              uuid:
+                formik.values.tableOptions.columns.find(
+                  (c) => c._id?.toString() === c._id?.toString()
+                )?.uuid || uuid(),
+            })) || [],
+          rows:
+            props.field?.tableOptions?.rows.map((r) => ({
+              _id: r._id,
+              language: formik.values.language,
+              name: getTranslatedText(r.name, formik.values.language),
+              uuid:
+                formik.values.tableOptions.rows.find(
+                  (r) => r._id?.toString() === r._id?.toString()
+                )?.uuid || uuid(),
+            })) || [],
+          yearTable: props.field?.tableOptions?.yearTable || false,
+        },
+
         language: formik.values.language,
       },
     });
@@ -278,6 +354,8 @@ const FieldEditor = (props: IFieldEditor) => {
             })}
           </div>
         )}
+
+        <FieldTableEditor formik={formik} />
 
         {formik.values.type === FieldType.Button && (
           <EventsEditor

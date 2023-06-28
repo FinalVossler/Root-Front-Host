@@ -6,6 +6,11 @@ import { useAppDispatch } from "../../store/hooks";
 import { fieldSlice, IField } from "../../store/slices/fieldSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 
+export type FieldTableElementCreateCommand = {
+  name: string;
+  language: string;
+};
+
 export type FieldCreateCommand = {
   name: string;
   type: IField["type"];
@@ -14,6 +19,12 @@ export type FieldCreateCommand = {
     value: string;
   }[];
   fieldEvents: IEvent[];
+  tableOptions: {
+    name: string;
+    columns: FieldTableElementCreateCommand[];
+    rows: FieldTableElementCreateCommand[];
+    yearTable: boolean;
+  };
   language: string;
 };
 
