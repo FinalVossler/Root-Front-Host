@@ -53,6 +53,7 @@ import UserProfilePicture, {
   SizeEnum,
 } from "../../userProfilePicture/UserProfilePicture";
 import EntityEditorStates from "./entityEditorStates/EntityEditorStates";
+import EntityEditorTableField from "./entityEditorTableField";
 
 export interface IEntityFieldValueForm {
   fieldId: string;
@@ -341,8 +342,8 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
               entityFieldPermission.field._id === modelField.field._id
           );
 
-        // By default, if we don't find the field permission in the db for the role, then all the permissions should apply
         if (
+          // By default, if we don't find the field permission in the db for the role, then all the permissions should apply
           foundFieldPermissions &&
           foundFieldPermissions.permissions.indexOf(StaticPermission.Read) ===
             -1
@@ -350,7 +351,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
           return null;
         }
 
-        // By default, if we don't find the field permission in the db for the role, then all the permissions should apply
+        // Check if we can edit
         const canEdit =
           (foundFieldPermissions === undefined ||
             foundFieldPermissions?.permissions.indexOf(
@@ -493,6 +494,18 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
                   }) || []
                 );
               }}
+            />
+          );
+        }
+        if (modelField.field.type === FieldType.Table) {
+          return (
+            <EntityEditorTableField
+              key={modelFieldIndex}
+              canEdit={canEdit}
+              entityFieldValue={entityFieldValue}
+              modelField={modelField}
+              entity={formik.values}
+              modelId={props.modelId}
             />
           );
         }

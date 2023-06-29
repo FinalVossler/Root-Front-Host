@@ -37,6 +37,7 @@ export enum ModelFieldConditionTypeEnum {
   Equal = "Equal",
   ValueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear = "ValueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear",
   StateConditionsMet = "StateConditionsMet",
+  IfYearTableThenNumberOfYearsInTheFutureIsEqualToValueOfField = "IfYearTableThenNumberOfYearsInTheFutureIsEqualToValueOfField",
 }
 
 export interface IModelFieldCondition {

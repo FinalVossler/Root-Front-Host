@@ -122,6 +122,8 @@ export interface IWebsiteConfiguration {
       subStatesConfigurationHint: ITranslatedText[];
       mainField: ITranslatedText[];
       fieldShowWhenStateIsAchieved: ITranslatedText[];
+      ifYearTableThenNumberOfYearsInTheFutureIsEqualToValueOfField: ITranslatedText[];
+
       columnName: ITranslatedText[];
       rowName: ITranslatedText[];
       rows: ITranslatedText[];
@@ -869,6 +871,16 @@ const initialState: IWebsiteConfigurationState = {
         {
           language: "fr",
           text: "The champ apparait quand ces les conditions de cet état ont été remplises",
+        },
+      ],
+      ifYearTableThenNumberOfYearsInTheFutureIsEqualToValueOfField: [
+        {
+          language: "en",
+          text: "If it's a year table, then the number of years to show in the future is equal to the valud of the field",
+        },
+        {
+          language: "fr",
+          text: "Si c'est un tableau pour les années, donc le nombre d'années à montrer dans le future est égal à la valeur du champ sélectionné",
         },
       ],
       columnName: [

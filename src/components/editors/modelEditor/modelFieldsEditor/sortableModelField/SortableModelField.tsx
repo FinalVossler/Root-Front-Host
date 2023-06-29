@@ -23,6 +23,7 @@ import { Option } from "../../../../inputSelect/InputSelect";
 import { MdDelete, MdTextFields } from "react-icons/md";
 import Input from "../../../../input";
 import Checkbox from "../../../../checkbox";
+import { FieldType } from "../../../../../store/slices/fieldSlice";
 
 interface ISortableModelField {
   modelField: IModelField;
@@ -261,6 +262,17 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
       value: ModelFieldConditionTypeEnum.StateConditionsMet,
     },
   ];
+  // Add the year condition option if it's a field of type table
+  if (props.modelField.field?.type === FieldType.Table) {
+    conditionsOptions.push({
+      label: getTranslatedText(
+        staticText?.ifYearTableThenNumberOfYearsInTheFutureIsEqualToValueOfField
+      ),
+      value:
+        ModelFieldConditionTypeEnum.IfYearTableThenNumberOfYearsInTheFutureIsEqualToValueOfField,
+    });
+  }
+
   const fieldsOptions: Option[] = props.selectedModelFields
     .filter(
       (selectedModelField: IModelField) =>
