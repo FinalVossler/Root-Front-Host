@@ -11,17 +11,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
   fieldTableEditorTable: {
     marginTop: 10,
   },
-  columnOrRow: {
-    position: "relative",
-  },
-  sortHandle: {
-    color: theme.primary,
-    cursor: "pointer",
-    position: "absolute",
-    right: 0,
-    zIndex: 1,
-    top: 1,
-  },
 }));
 
 export default useStyles;

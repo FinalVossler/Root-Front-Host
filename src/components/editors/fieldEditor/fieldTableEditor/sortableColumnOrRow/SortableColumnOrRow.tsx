@@ -3,14 +3,14 @@ import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-import { FieldTableElementUpdateCommand } from "../../../../hooks/apiHooks/useUpdateField";
-import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
-import { useAppSelector } from "../../../../store/hooks";
-import Input from "../../../input";
-import { FieldTableElementForm, IFieldForm } from "../FieldEditor";
+import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
+import { useAppSelector } from "../../../../../store/hooks";
+import Input from "../../../../input";
+import { FieldTableElementForm, IFieldForm } from "../../FieldEditor";
 import { BsHandIndexFill } from "react-icons/bs";
 
-import useStyles from "./fieldTableEditor.styles";
+import useStyles from "./sortableColumnOrRow.styles";
+import { MdDelete } from "react-icons/md";
 
 export enum ColumnOrRow {
   Column = "Column",
@@ -42,7 +42,7 @@ const SortableColumnOrRow: React.FunctionComponent<ISortableColumnOrRow> = (
     e: React.ChangeEvent<HTMLInputElement>,
     columnOrRowIndex: number
   ) => {
-    const newRows: FieldTableElementUpdateCommand[] =
+    const newRows: FieldTableElementForm[] =
       props.formik.values.tableOptions[
         props.isColumnOrRow === ColumnOrRow.Column ? "columns" : "rows"
       ].map((columnOrRow, index) => {
@@ -62,17 +62,31 @@ const SortableColumnOrRow: React.FunctionComponent<ISortableColumnOrRow> = (
     e: React.ChangeEvent<HTMLInputElement>,
     rowIndex: number
   ) => {
-    const newRows: FieldTableElementUpdateCommand[] =
-      props.formik.values.tableOptions.rows.map((rown, index) => {
+    const newRows: FieldTableElementForm[] =
+      props.formik.values.tableOptions.rows.map((row, index) => {
         if (index === rowIndex) {
-          const newRow = { ...rown, name: e.target.value };
+          const newRow = { ...row, name: e.target.value };
           return newRow;
-        } else return rown;
+        } else return row;
       }) || [];
 
     props.formik.setFieldValue("tableOptions", {
       ...props.formik.values.tableOptions,
       rows: newRows,
+    });
+  };
+
+  const handleDeleteColumnOrRow = (columnOrRow: ColumnOrRow) => {
+    const propName = columnOrRow === ColumnOrRow.Row ? "rows" : "columns";
+
+    const newColumnsOrRows: FieldTableElementForm[] = [
+      ...props.formik.values.tableOptions[propName],
+    ];
+    newColumnsOrRows.splice(props.index, 1);
+
+    props.formik.setFieldValue("tableOptions", {
+      ...props.formik.values.tableOptions,
+      [propName]: newColumnsOrRows,
     });
   };
   //#endregion event listners
@@ -92,6 +106,11 @@ const SortableColumnOrRow: React.FunctionComponent<ISortableColumnOrRow> = (
             placeholder: getTranslatedText(staticText?.columnName),
           }}
           value={props.columnOrRow.name}
+        />
+
+        <MdDelete
+          className={styles.deleteIcon}
+          onClick={() => handleDeleteColumnOrRow(ColumnOrRow.Column)}
         />
 
         <BsHandIndexFill
@@ -115,6 +134,11 @@ const SortableColumnOrRow: React.FunctionComponent<ISortableColumnOrRow> = (
             value={props.columnOrRow.name}
           />
 
+          <MdDelete
+            className={styles.deleteIcon}
+            onClick={() => handleDeleteColumnOrRow(ColumnOrRow.Row)}
+          />
+
           <BsHandIndexFill
             className={styles.sortHandle}
             {...attributes}
@@ -123,8 +147,12 @@ const SortableColumnOrRow: React.FunctionComponent<ISortableColumnOrRow> = (
         </td>
 
         {props.formik.values.tableOptions.columns.map(
-          (column: FieldTableElementUpdateCommand, columnIndex: number) => {
-            return <td key={columnIndex}></td>;
+          (column: FieldTableElementForm, columnIndex: number) => {
+            return (
+              <td key={columnIndex}>
+                <Input inputProps={{ disabled: true }} value="" />
+              </td>
+            );
           }
         )}
       </tr>

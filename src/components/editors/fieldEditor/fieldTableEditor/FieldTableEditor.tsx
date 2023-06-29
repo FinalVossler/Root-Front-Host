@@ -14,7 +14,9 @@ import Checkbox from "../../../checkbox";
 import { FieldTableElementForm, IFieldForm } from "../FieldEditor";
 
 import useStyles from "./fieldTableEditor.styles";
-import SortableColumnOrRow, { ColumnOrRow } from "./SortableColumnOrRow";
+import SortableColumnOrRow, {
+  ColumnOrRow,
+} from "./sortableColumnOrRow/SortableColumnOrRow";
 import Input from "../../../input";
 
 interface IFieldTableEditor {
@@ -158,7 +160,7 @@ const FieldTableEditor: React.FunctionComponent<IFieldTableEditor> = (
           </tr>
         </thead>
         <tbody>
-          <DndContext onDragEnd={handleDragEnd(ColumnOrRow.Column)}>
+          <DndContext onDragEnd={handleDragEnd(ColumnOrRow.Row)}>
             <SortableContext
               items={props.formik.values.tableOptions.rows.map(
                 (column) => column.uuid
