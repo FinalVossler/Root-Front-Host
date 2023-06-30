@@ -4,9 +4,10 @@ import { Theme } from "../../../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
   entityEditorStatesContainer: {
-    marginTop: 20,
+    marginTop: 0,
+    marginBottom: 20,
   },
-  entityEditorStatesTitle: { fontSize: 30 },
+  entityEditorStatesTitle: { fontSize: 30, color: theme.lightTextColor },
   stateContainer: {
     width: "50%",
     padding: 40,

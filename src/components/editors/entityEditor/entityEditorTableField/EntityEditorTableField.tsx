@@ -1,6 +1,6 @@
 import { FormikProps } from "formik";
 import React from "react";
-import { TbDatabaseOff } from "react-icons/tb";
+
 import { Theme } from "../../../../config/theme";
 import {
   IEntityTableFieldCaseValueCommand,
