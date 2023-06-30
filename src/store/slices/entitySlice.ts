@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import IFile from "../../globalTypes/IFile";
 import ITranslatedText from "../../globalTypes/ITranslatedText";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
-import { IField } from "./fieldSlice";
+import { IField, IFieldTableElement } from "./fieldSlice";
 import { IModel } from "./modelSlice";
 import { IUser } from "./userSlice";
 
@@ -21,6 +21,23 @@ export interface IEntityFieldValue {
   field: IField;
   value: ITranslatedText[];
   files: IFile[];
+
+  tableValues?: IEntityTableFieldCaseValue[];
+  yearTableValues?: IEntityYearTableFieldRowValues[];
+}
+
+export interface IEntityTableFieldCaseValue {
+  column: IFieldTableElement;
+  row: IFieldTableElement;
+  value: ITranslatedText[];
+}
+
+export interface IEntityYearTableFieldRowValues {
+  row: IFieldTableElement;
+  values: {
+    year: number;
+    value: ITranslatedText[];
+  }[];
 }
 
 export interface IEntityState {

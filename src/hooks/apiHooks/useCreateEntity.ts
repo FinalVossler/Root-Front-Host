@@ -6,10 +6,27 @@ import { useAppDispatch } from "../../store/hooks";
 import { entitySlice, IEntity } from "../../store/slices/entitySlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 
+export type IEntityTableFieldCaseValueCommand = {
+  columnId: string;
+  rowId: string;
+  value: string;
+};
+
+export type IEntityYearTableFieldRowValuesCommand = {
+  rowId: string;
+  values: {
+    year: number;
+    value: string;
+  }[];
+};
+
 export type EntityFieldValueCommand = {
   fieldId: string;
   value: string;
   files: IFile[];
+
+  tableValues: IEntityTableFieldCaseValueCommand[];
+  yearTableValues: IEntityYearTableFieldRowValuesCommand[];
 };
 
 export type EntityCreateCommand = {

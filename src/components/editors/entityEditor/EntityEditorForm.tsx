@@ -54,12 +54,19 @@ import UserProfilePicture, {
 } from "../../userProfilePicture/UserProfilePicture";
 import EntityEditorStates from "./entityEditorStates/EntityEditorStates";
 import EntityEditorTableField from "./entityEditorTableField";
+import {
+  IEntityTableFieldCaseValueCommand,
+  IEntityYearTableFieldRowValuesCommand,
+} from "../../../hooks/apiHooks/useCreateEntity";
 
 export interface IEntityFieldValueForm {
   fieldId: string;
   value: string;
   selectedExistingFiles?: IFile[];
   newFiles?: File[];
+
+  tableValues: IEntityTableFieldCaseValueCommand[];
+  yearTableValues: IEntityYearTableFieldRowValuesCommand[];
 
   // The combined result of selectedExistingFiles and newFiels after uploading the newFiles
   files?: IFile[];
@@ -211,6 +218,8 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
               fieldId: e.fieldId,
               files: e.files || [],
               value: e.value,
+              tableValues: e.tableValues,
+              yearTableValues: e.yearTableValues,
             })),
             assignedUsersIds: values.assignedUsers.map((u) => u._id),
             language: values.language,
@@ -224,6 +233,8 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
               fieldId: e.fieldId,
               files: e.files || [],
               value: e.value,
+              tableValues: e.tableValues,
+              yearTableValues: e.yearTableValues,
             })),
             assignedUsersIds: values.assignedUsers.map((u) => u._id),
             language: values.language,
@@ -281,6 +292,26 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
                 entityFieldValue?.value,
                 formik.values.language
               ),
+              tableValues:
+                entityFieldValue?.tableValues?.map((tableValue) => ({
+                  columnId: tableValue.column._id,
+                  rowId: tableValue.row._id,
+                  value: getTranslatedText(
+                    tableValue.value,
+                    formik.values.language
+                  ),
+                })) || [],
+              yearTableValues:
+                entityFieldValue?.yearTableValues?.map((yearTableValue) => ({
+                  rowId: yearTableValue.row._id,
+                  values: yearTableValue.values.map((yearTableValue) => ({
+                    year: yearTableValue.year,
+                    value: getTranslatedText(
+                      yearTableValue.value,
+                      formik.values.language
+                    ),
+                  })),
+                })) || [],
             };
             return entityFieldValueForm;
           }) || [],
@@ -504,7 +535,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
               canEdit={canEdit}
               entityFieldValue={entityFieldValue}
               modelField={modelField}
-              entity={formik.values}
+              formik={formik}
               modelId={props.modelId}
             />
           );
