@@ -11,7 +11,6 @@ const getTranslatedText =
 
     if (!translatedTexts) return "";
 
-    console.log("translatedTexts", translatedTexts);
     const result: ITranslatedText | undefined = translatedTexts.find(
       (el) => el.language === language
     );

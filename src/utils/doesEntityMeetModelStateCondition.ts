@@ -86,12 +86,17 @@ const doesEntityMeetModelStateCondition = ({
                 meetsModelStateCondition = false;
                 return;
               }
-              tableValue.values.forEach((value) => {
-                if (!checkValueFilled(value.value, getTranslatedText)) {
+              let yearToTest = new Date().getFullYear() + 1;
+              while (yearToTest <= new Date().getFullYear() + years) {
+                const value = tableValue.values.find(
+                  (val) => val.year === yearToTest
+                )?.value;
+                if (!value || !checkValueFilled(value, getTranslatedText)) {
                   meetsModelStateCondition = false;
                   return;
                 }
-              });
+                yearToTest++;
+              }
             });
           }
         }
@@ -130,12 +135,17 @@ const doesEntityMeetModelStateCondition = ({
                 meetsModelStateCondition = false;
                 return;
               }
-              tableValue.values.forEach((value) => {
-                if (!checkValueFilled(value.value, getTranslatedText)) {
+              let yearToTest = new Date().getFullYear() + 1;
+              while (yearToTest <= new Date().getFullYear() + years) {
+                const value = tableValue.values.find(
+                  (val) => val.year === yearToTest
+                )?.value;
+                if (!value || !checkValueFilled(value, getTranslatedText)) {
                   meetsModelStateCondition = false;
                   return;
                 }
-              });
+                yearToTest++;
+              }
             });
           }
         }

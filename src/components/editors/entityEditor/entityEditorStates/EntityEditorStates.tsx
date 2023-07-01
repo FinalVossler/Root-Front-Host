@@ -8,6 +8,7 @@ import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { IEntity } from "../../../../store/slices/entitySlice";
 import doesEntityMeetModelStateCondition from "../../../../utils/doesEntityMeetModelStateCondition";
 import getModelStateConcernedFields from "../../../../utils/getModelStateConcernedFields";
+import { BiCheck } from "react-icons/bi";
 
 export interface IEntityEditorStates {
   entity: IEntity;
@@ -65,7 +66,10 @@ const EntityEditorStates = (props: IEntityEditorStates) => {
                   : styles.stateContainer
               }
             >
-              {getTranslatedText(state.name)}
+              {getTranslatedText(state.name)}{" "}
+              {stateConditionsAreMet && (
+                <BiCheck className={styles.checkIcon} />
+              )}
             </div>
           );
         })}

@@ -1,13 +1,14 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 import { IEvent } from "../../globalTypes/IEvent";
+import ITranslatedText from "../../globalTypes/ITranslatedText";
 
 import { useAppDispatch } from "../../store/hooks";
 import { fieldSlice, IField } from "../../store/slices/fieldSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 
 export type FieldTableElementCreateCommand = {
-  name: string;
+  name: string | ITranslatedText[];
   language: string;
 };
 

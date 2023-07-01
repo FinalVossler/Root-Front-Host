@@ -5,7 +5,7 @@ import { Theme } from "../../../../config/theme";
 const useStyles = createUseStyles((theme: Theme) => ({
   entityEditorStatesContainer: {
     marginTop: 0,
-    marginBottom: 20,
+    marginBottom: 40,
   },
   entityEditorStatesTitle: { fontSize: 30, color: theme.lightTextColor },
   stateContainer: {
@@ -21,6 +21,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
   stateContainerConditionMet: {
     extend: "stateContainer",
     background: theme.secondary,
+  },
+  checkIcon: {
+    position: "relative",
+    top: 5,
   },
   "@media (max-width: 850px)": {},
 }));
