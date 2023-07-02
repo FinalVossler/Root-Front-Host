@@ -34,6 +34,7 @@ interface IConfigurationForm extends Theme {
   mainLanguages?: string[];
   withChat?: boolean;
   withRegistration?: boolean;
+  withTaskManagement?: boolean;
   tabIcon?: IFile;
   tabIconAsYetToDownloadFile?: File;
 }
@@ -77,6 +78,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
         mainLanguages: websiteConfiguration.mainLanguages,
         withChat: websiteConfiguration.withChat,
         withRegistration: websiteConfiguration.withRegistration,
+        withTaskManagement: websiteConfiguration.withTaskManagement,
 
         darkTextColor: websiteConfiguration.theme.darkTextColor,
         lightTextColor: websiteConfiguration.theme.lightTextColor,
@@ -117,6 +119,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
           ),
           withChat: Yup.boolean(),
           withRegistration: Yup.boolean(),
+          withTaskManagement: Yup.boolean(),
         }),
         onSubmit: async (values: IConfigurationForm) => {
           let tabIcon: IFile | undefined = undefined;
@@ -139,6 +142,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             mainLanguages: values.mainLanguages || ["en", "fr"],
             withChat: values.withChat || false,
             withRegistration: values.withRegistration || false,
+            withTaskManagement: values.withTaskManagement || false,
             tabIcon,
 
             theme: {
@@ -256,6 +260,15 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             name="withRegistration"
             formik={formik}
             label={getTranslatedText(staticText?.withRegistration)}
+            inputProps={{
+              disabled: actualLoading,
+            }}
+          />
+
+          <Checkbox
+            name="withTaskManagement"
+            formik={formik}
+            label={getTranslatedText(staticText?.withTaskManagement)}
             inputProps={{
               disabled: actualLoading,
             }}

@@ -15,6 +15,7 @@ export type WebsiteConfigurationUpdateCommand = {
   mainLanguages: string[];
   withChat: boolean;
   withRegistration: boolean;
+  withTaskManagement: boolean;
   theme: Theme;
   tabIcon?: IFile;
 };

@@ -48,11 +48,18 @@ export interface IEntityState {
     searchResult: PaginationResponse<IEntity>;
   }[];
   total: number;
+
+  assignedEntitiesByModel: {
+    total: number;
+    entities: IEntity[];
+    modelId: string;
+  }[];
 }
 
 const initialState: IEntityState = {
   entitiesByModel: [],
   total: 0,
+  assignedEntitiesByModel: [],
 };
 
 export const entitySlice = createSlice({
@@ -166,6 +173,28 @@ export const entitySlice = createSlice({
           entities: [],
           total: 0,
           searchResult: action.payload.searchResult,
+        });
+      }
+    },
+    setAssignedEntitiesByModel: (
+      state: IEntityState,
+      action: PayloadAction<{
+        entities: IEntity[];
+        modelId: string;
+        total: number;
+      }>
+    ) => {
+      const modelEntities = state.entitiesByModel.find(
+        (el) => el.modelId === action.payload.modelId
+      );
+      if (modelEntities) {
+        modelEntities.entities = [...action.payload.entities.reverse()];
+        modelEntities.total = action.payload.total;
+      } else {
+        state.assignedEntitiesByModel.push({
+          modelId: action.payload.modelId,
+          entities: [...action.payload.entities],
+          total: action.payload.total,
         });
       }
     },

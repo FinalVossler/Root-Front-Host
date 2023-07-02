@@ -14,6 +14,7 @@ export interface IWebsiteConfiguration {
   mainLanguages?: string[];
   withChat?: boolean;
   withRegistration?: boolean;
+  withTaskManagement?: boolean;
   theme: Theme;
   tabIcon?: IFile;
   staticText?: {
@@ -92,6 +93,7 @@ export interface IWebsiteConfiguration {
       configuration: ITranslatedText[];
       users: ITranslatedText[];
       roles: ITranslatedText[];
+      tasksManagement: ITranslatedText[];
     };
     fields: {
       createField: ITranslatedText[];
@@ -221,6 +223,9 @@ export interface IWebsiteConfiguration {
       userAssignment: ITranslatedText[];
       searchUsers: ITranslatedText[];
       states: ITranslatedText[];
+      createdAt: ITranslatedText[];
+      assignedTo: ITranslatedText[];
+      taskType: ITranslatedText[];
     };
     contact: {
       firstNameRequired: ITranslatedText[];
@@ -257,6 +262,7 @@ export interface IWebsiteConfiguration {
       revertThemeConfigurationToDefault: ITranslatedText[];
       update: ITranslatedText[];
       withRegistration: ITranslatedText[];
+      withTaskManagement: ITranslatedText[];
 
       darkTextColor: ITranslatedText[];
       lightTextColor: ITranslatedText[];
@@ -354,6 +360,7 @@ interface IWebsiteConfigurationState {
   mainLanguages?: string[];
   withChat?: boolean;
   withRegistration?: boolean;
+  withTaskManagement?: boolean;
   theme: Theme;
   tabIcon?: IFile;
 
@@ -369,6 +376,7 @@ const initialState: IWebsiteConfigurationState = {
   mainLanguages: ["en", "fr"],
   withChat: false,
   withRegistration: false,
+  withTaskManagement: false,
   theme,
   tabIcon: undefined,
 
@@ -673,6 +681,10 @@ const initialState: IWebsiteConfigurationState = {
       roles: [
         { language: "en", text: "Roles" },
         { language: "fr", text: "Rôles" },
+      ],
+      tasksManagement: [
+        { language: "en", text: "Tasks Management" },
+        { language: "fr", text: "Gestion de tâches" },
       ],
     },
     fields: {
@@ -1304,6 +1316,19 @@ const initialState: IWebsiteConfigurationState = {
         { language: "en", text: "States" },
         { language: "fr", text: "États" },
       ],
+      createdAt: [
+        { language: "en", text: "Created at" },
+        { language: "fr", text: "Créée en" },
+      ],
+      assignedTo: [
+        { language: "en", text: "Assigned to" },
+        { language: "fr", text: "Assigné à" },
+      ],
+
+      taskType: [
+        { language: "en", text: "Task type" },
+        { language: "fr", text: "Type de la tâche" },
+      ],
     },
     contact: {
       address: [
@@ -1433,6 +1458,13 @@ const initialState: IWebsiteConfigurationState = {
         { text: "With Registraton", language: "en" },
         {
           text: "Avec la capactié de créer un compte utilisateur",
+          language: "fr",
+        },
+      ],
+      withTaskManagement: [
+        { text: "With Task Management", language: "en" },
+        {
+          text: "Avec la gestion de tâches",
           language: "fr",
         },
       ],
@@ -1800,6 +1832,7 @@ export const websiteConfigurationSlice = createSlice({
       state.mainLanguages = action.payload.mainLanguages;
       state.withChat = action.payload.withChat;
       state.withRegistration = action.payload.withRegistration;
+      state.withTaskManagement = action.payload.withTaskManagement;
       state.theme = action.payload.theme;
       state.tabIcon = action.payload.tabIcon;
 

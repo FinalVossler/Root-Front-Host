@@ -8,8 +8,6 @@ import { Column } from "../../../components/elements/Elements";
 import { Theme } from "../../../config/theme";
 import PaginationCommand from "../../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../../globalTypes/PaginationResponse";
-import withChat from "../../../hoc/withChat";
-import withWrapper from "../../../hoc/wrapper";
 import useDeleteEntities from "../../../hooks/apiHooks/useDeleteEntities";
 import useGetEntitiesByModel from "../../../hooks/apiHooks/useGetEntitiesByModel";
 import useGetModels from "../../../hooks/apiHooks/useGetModels";
@@ -25,7 +23,7 @@ import {
   IEntityFieldValue,
 } from "../../../store/slices/entitySlice";
 import { FieldType } from "../../../store/slices/fieldSlice";
-import { IModel } from "../../../store/slices/modelSlice";
+import { IModel, IModelField } from "../../../store/slices/modelSlice";
 import { StaticPermission } from "../../../store/slices/roleSlice";
 
 import useStyles from "./entitiesList.styles";
@@ -119,29 +117,9 @@ const EntitiesList: React.FunctionComponent<IEntitiesList> = (
       return {
         label: getTranslatedText(modelField.field.name),
         name: "",
-        render: (entity: IEntity) => {
-          const entityFieldValue: IEntityFieldValue | undefined =
-            entity.entityFieldValues.find(
-              (entityField) => entityField.field._id === modelField.field._id
-            );
-
-          if (
-            entityFieldValue &&
-            entityFieldValue?.field.type !== FieldType.File
-          ) {
-            return <div>{getTranslatedText(entityFieldValue?.value)}</div>;
-          }
-          if (
-            entityFieldValue &&
-            entityFieldValue.field.type === FieldType.File
-          ) {
-            return (
-              <div>{entityFieldValue.files.map((f) => f.name).join(", ")}</div>
-            );
-          }
-
-          return <div></div>;
-        },
+        render: (entity: IEntity) => (
+          <EntityFieldValueComponent entity={entity} modelField={modelField} />
+        ),
       };
     }) || [];
 
@@ -204,5 +182,31 @@ const EntitiesList: React.FunctionComponent<IEntitiesList> = (
     />
   );
 };
+
+interface IEntityFieldValueComponent {
+  modelField: IModelField;
+  entity: IEntity;
+}
+
+export const EntityFieldValueComponent: React.FunctionComponent<IEntityFieldValueComponent> =
+  (props: IEntityFieldValueComponent) => {
+    const getTranslatedText = useGetTranslatedText();
+
+    const entityFieldValue: IEntityFieldValue | undefined =
+      props.entity.entityFieldValues.find(
+        (entityField) =>
+          entityField.field._id.toString() ===
+          props.modelField.field._id.toString()
+      );
+
+    if (entityFieldValue && entityFieldValue?.field.type !== FieldType.File) {
+      return <div>{getTranslatedText(entityFieldValue?.value)}</div>;
+    }
+    if (entityFieldValue && entityFieldValue.field.type === FieldType.File) {
+      return <div>{entityFieldValue.files.map((f) => f.name).join(", ")}</div>;
+    }
+
+    return <div></div>;
+  };
 
 export default EntitiesList;

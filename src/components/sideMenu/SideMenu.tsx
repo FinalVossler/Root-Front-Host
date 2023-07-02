@@ -26,6 +26,7 @@ import useHasPermission from "../../hooks/useHasPermission";
 import { Permission, StaticPermission } from "../../store/slices/roleSlice";
 import { IPage } from "../../store/slices/pageSlice";
 import { useNavigate } from "react-router-dom";
+import { BiTask } from "react-icons/bi";
 
 interface ISideMenu {}
 
@@ -35,6 +36,9 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
   );
   const title: string | undefined = useAppSelector(
     (state) => state.websiteConfiguration.title
+  );
+  const withTaskManagement: boolean | undefined = useAppSelector(
+    (state) => state.websiteConfiguration.withTaskManagement
   );
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.sideMenu
@@ -118,6 +122,13 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
             title={getTranslatedText(staticText?.profile)}
             link={"/profile/" + user._id}
           />
+          {withTaskManagement && (
+            <SideMenuOption
+              Icon={BiTask}
+              title={getTranslatedText(staticText?.tasksManagement)}
+              link={"/tasks/"}
+            />
+          )}
           {hasPermission(Permission.ReadPage) && (
             <SideMenuOption
               Icon={FaPager}
