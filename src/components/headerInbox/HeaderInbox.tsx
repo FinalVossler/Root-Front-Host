@@ -134,6 +134,7 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
               placeholder: getTranslatedText(staticText?.searchContacts),
               style: {
                 width: "100%",
+                paddingLeft: 37,
               },
             }}
           />
