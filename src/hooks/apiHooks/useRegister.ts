@@ -4,6 +4,7 @@ import { useAppDispatch } from "../../store/hooks";
 
 import { IUser, userSlice } from "../../store/slices/userSlice";
 import useAxios from "../useAxios";
+import { useNavigate } from "react-router-dom";
 
 export type UserRegisterCommand = {
   firstName: IUser["firstName"];
@@ -17,6 +18,7 @@ const useRegister = () => {
 
   const axios = useAxios();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const register = (command: UserRegisterCommand) =>
     new Promise((resolve, reject) => {
@@ -33,14 +35,13 @@ const useRegister = () => {
         .then((res) => {
           const { user, token, expiresIn } = res.data.data;
           dispatch(
-            dispatch(
-              userSlice.actions.setUserAndTokenInformation({
-                user,
-                token,
-                expiresIn,
-              })
-            )
-          );
+            userSlice.actions.setUserAndTokenInformation({
+              user,
+              token,
+              expiresIn,
+            })
+          )
+          navigate('/profile')
           resolve(null);
         })
         .catch((e) => reject(e))

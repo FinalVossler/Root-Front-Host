@@ -12,7 +12,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     alignItems: "center",
     justifyContent: "flex-end",
     display: "flex",
-    border: "1px solid " + theme.lightTextColor,
+    border: "1px solid " + theme.primary,
     marginBottom: 40,
   },
   actionIcon: {
@@ -31,7 +31,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     extend: "actionIcon",
   },
   elementsTable: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     maxWidth: "100%",
   },
   tableHeader: {},
@@ -44,7 +44,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     maxWidth: 400,
     boxSizing: "border-box",
     textAlign: "center",
-    border: "1px solid " + theme.lightTextColor,
+    border: "1px solid " + theme.darkTextColor,
   },
   actions: {
     display: "flex",

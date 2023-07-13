@@ -14,7 +14,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     border: "none",
     padding: 20,
     fontSize: 17,
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     backgroundColor: theme.boxColor,
     borderRadius: 5,
     width: 20,
@@ -23,7 +23,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   label: {
     marginRight: 10,
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
   },
   "@media (max-width: 800px)": {},
 }));

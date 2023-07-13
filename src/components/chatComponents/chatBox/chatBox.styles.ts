@@ -20,7 +20,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     height: 470,
     backgroundColor: theme.backgroundColor,
     marginRight: 20,
-    border: "1px solid " + theme.lightTextColor,
+    border: "1px solid " + theme.darkTextColor,
     boxSizing: "border-box",
     boxShadow: theme.boxShadow,
   },
@@ -32,7 +32,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "column",
     alignItems: "flex-start",
     overflowY: "auto",
-    borderTop: "1px solid " + theme.lightTextColor,
+    borderTop: "1px solid " + theme.darkTextColor,
     paddingTop: 5,
   },
   loadMoreButtonContainer: {

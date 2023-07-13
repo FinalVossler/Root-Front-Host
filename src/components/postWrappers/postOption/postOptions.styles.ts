@@ -12,6 +12,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   postOptionsButton: {
     fontSize: 25,
     cursor: "pointer",
+    color: theme.darkTextColor
   },
   optionsContainer: {
     boxShadow: theme.boxShadow,
@@ -19,6 +20,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "column",
     width: 200,
     backgroundColor: theme.lightTextColor,
+    color: theme.primary,
+    border: "1px solid " + theme.primary,
     position: "absolute",
     right: 0,
     padding: 10,
@@ -26,8 +29,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   option: {
     fontSize: 15,
-    color: theme.primary,
     cursor: "pointer",
+    backgroundColor: theme.lightTextColor,
+    color: theme.primary,
     border: "1px solid " + theme.primary,
     padding: 5,
     borderRadius: 5,

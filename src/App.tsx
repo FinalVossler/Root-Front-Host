@@ -3,13 +3,12 @@ import { ThemeProvider } from "react-jss";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 
 import SocketProvider from "./providers/SocketProvider";
 import HomePage from "./pages/homePage";
 import ProfilePage from "./pages/profilePage";
 import ChatPage from "./pages/chatPage";
+import LoginOrRegistrationPage from './pages/loginOrRegistrationPage'
 
 import useGetAndSetUser from "./hooks/apiHooks/useGetAndSetUser";
 import PaymentPage from "./pages/paymentPage";
@@ -31,11 +30,6 @@ import RolesPage from "./pages/rolesPage";
 import SingleEntityPage from "./pages/singleEntityPage";
 import TasksPage from "./pages/tasksPage";
 
-const stripePromise = loadStripe(
-  // @ts-ignore
-  process.env.REACT_APP_STRIPE_PUBLISHABLE_SECRET
-);
-
 function App() {
   const pages: IPage[] = useAppSelector((state) => state.page.pages);
 
@@ -51,11 +45,6 @@ function App() {
     getPages();
     getWebsiteConfiguration();
   }, []);
-
-  const stripeOptions = {
-    // @ts-ignore
-    // clientSecret: process.env.REACT_APP_STRIPE_CLIENT_SECRET,
-  };
 
   const router = createBrowserRouter([
     ...pages.map((page) => ({
@@ -73,6 +62,10 @@ function App() {
     {
       path: "/profile",
       element: <ProfilePage />,
+    },
+    {
+      path: '/auth',
+      element: <LoginOrRegistrationPage />
     },
     {
       path: "/submission",
@@ -125,7 +118,7 @@ function App() {
     return null;
 
   return (
-    <Elements stripe={stripePromise} options={stripeOptions}>
+    // <Elements stripe={stripePromise} options={stripeOptions}>
       <SocketProvider>
         <ThemeProvider theme={theme}>
           <ToastContainer hideProgressBar position="bottom-right" />
@@ -133,7 +126,7 @@ function App() {
           <RouterProvider router={router}></RouterProvider>
         </ThemeProvider>
       </SocketProvider>
-    </Elements>
+    // </Elements>
   );
 }
 

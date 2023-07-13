@@ -14,7 +14,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: "50%",
-    backgroundColor: theme.secondary,
+    backgroundColor: theme.lightTextColor,
     width: 70,
     height: 70,
 

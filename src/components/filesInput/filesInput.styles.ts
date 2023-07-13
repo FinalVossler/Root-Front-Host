@@ -10,7 +10,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginBottom: 10,
   },
   fileInputLabel: {
-    color: theme.primary,
+    color: theme.darkTextColor,
     cursor: "pointer",
     fontSize: 30,
   },
@@ -69,7 +69,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     fontSize: 30,
   },
   fileName: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     textAlign: "center",
   },
   chooseFilesButton: {
@@ -90,7 +90,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     justifyContent: "center",
   },
   isShowingIcon: {
-    color: theme.primary,
+    color: theme.darkTextColor,
     fontSize: 40,
     top: 10,
     position: "relative",

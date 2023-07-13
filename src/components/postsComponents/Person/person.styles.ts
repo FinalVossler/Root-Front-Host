@@ -9,7 +9,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     height: 350,
     margin: "auto",
     flexDirection: "column",
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     alignItems: "center",
     marginTop: 10,
     marginBottom: 10,
@@ -39,7 +39,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     textAlign: "center",
   },
   cvButton: {
-    border: "1px solid " + theme.lightTextColor,
+    border: "1px solid " + theme.primary,
     marginTop: 30,
     paddingTop: 13,
     paddingBottom: 13,
@@ -53,11 +53,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     fontWeight: "bold",
     textAlign: "center",
     textDecoration: "none",
-    color: theme.lightTextColor,
+    color: theme.primary,
 
     "&:hover": {
-      backgroundColor: theme.lightTextColor,
-      color: theme.primary,
+      backgroundColor: theme.primary,
+      color: theme.lightTextColor,
     },
   },
   "@media (max-width: 800px)": {},

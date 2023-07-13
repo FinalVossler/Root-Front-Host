@@ -29,19 +29,19 @@ const useStyles = createUseStyles((theme: Theme) => ({
     extend: "headerContainer",
     backgroundColor: theme.backgroundColor,
 
-    boxShadow: "1px 2px 20px 0.1px black",
+    boxShadow: "0px 0px 0px 0px black",
 
     height: 60,
     "& a": {
-      color: theme.lightTextColor,
+      color: theme.darkTextColor,
     },
 
     "& h2": {
-      color: theme.lightTextColor,
+      color: theme.darkTextColor,
     },
   },
   headerTitle: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     fontWeight: 600,
     fontSize: 30,
     textDecoration: "none",
@@ -62,21 +62,21 @@ const useStyles = createUseStyles((theme: Theme) => ({
     listStyle: "none",
   },
   option: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     margin: "20px",
     textDecoration: "none",
     whiteSpace: "nowrap",
 
     "& a": {
       textDecoration: "none",
-      color: theme.lightTextColor,
+      color: theme.darkTextColor,
       padding: 10,
       borderRadius: 10,
 
       transition: "all .2s ease-in-out",
 
       "&:hover": {
-        boxShadow: "1px 2px 20px 10px black",
+        boxShadow: "0px 0px 100px 0px" + theme.primary,
       },
     },
   },
@@ -87,7 +87,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     extend: "optionsList",
   },
   triggerMenuButton: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     zIndex: 1,
     margin: "auto",
     display: "none",
@@ -98,7 +98,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
       color: theme.primary,
     },
   },
+  "@media (max-width: 1200px)": {
+    left: {
+      display: 'none'
+    }
+  },
   "@media (max-width: 800px)": {
+
     triggerMenuButton: {
       display: "flex",
     },
@@ -118,7 +124,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
 
       "& li, >div": {
         boxSizing: "border-box",
-        border: "1px solid " + theme.lightTextColor,
+        border: "1px solid " + theme.darkTextColor,
         margin: 0,
         width: "90%",
         height: 70,
@@ -156,6 +162,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     option: {
       fontSize: 15,
       margin: 0,
+      color: theme.primary
     },
   },
 }));

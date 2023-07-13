@@ -55,7 +55,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   fileName: {
     textAlign: "center",
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
   },
   loadingContainer: {
     display: "flex",

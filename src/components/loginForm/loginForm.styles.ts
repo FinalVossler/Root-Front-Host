@@ -3,7 +3,7 @@ import { createUseStyles } from "react-jss";
 import { Theme } from "../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
-  loginContainer: {
+  loginFormContainer: {
     display: "flex",
     flexDirection: "column",
     margin: "auto",

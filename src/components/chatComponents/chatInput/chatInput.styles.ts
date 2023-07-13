@@ -24,6 +24,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     maxHeight: "50vh",
     overflow: "scroll",
     position: "relative",
+    boxShadow: '0 0 10px 4px ' + theme.primary
   },
   chatInput: {
     flex: 1,
@@ -31,11 +32,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     padding: 10,
     backgroundColor: "transparent",
     paddingLeft: 20,
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     minHeight: 35,
     boxSizing: "border-box",
     paddingRight: 40,
-
+    
     "&:focus": {
       outline: "0px solid transparent",
     },

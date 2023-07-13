@@ -12,7 +12,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginTop: 20,
     width: "80%",
     margin: "auto",
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     marginBottom: 20,
     maxWidth: 1100,
   },

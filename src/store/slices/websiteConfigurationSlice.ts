@@ -625,7 +625,7 @@ const initialState: IWebsiteConfigurationState = {
     },
     registration: {
       title: [
-        { language: "en", text: "Register" },
+        { language: "en", text: "Create an account" },
         { language: "fr", text: "Créer un compte" },
       ],
       confirmPasswordPlaceholder: [
@@ -1473,7 +1473,7 @@ const initialState: IWebsiteConfigurationState = {
         { text: "Couleur du texte sombre", language: "fr" },
       ],
       backgroundColor: [
-        { text: "Background couleur", language: "en" },
+        { text: "Background color", language: "en" },
         { text: "Couleur de l'arrière-plan", language: "fr" },
       ],
       borderColor: [
@@ -1509,7 +1509,7 @@ const initialState: IWebsiteConfigurationState = {
         { text: "Couloeur du texte adoucie", language: "fr" },
       ],
       lighterPrimary: [
-        { text: "Lighter text color", language: "en" },
+        { text: "Lighter primary", language: "en" },
         { text: "Couleur du text encore plus adoucie", language: "fr" },
       ],
       primary: [

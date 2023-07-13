@@ -15,10 +15,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
     boxSizing: "border-box",
   },
   title: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
   },
   description: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
   },
   loading: {
     margin: "auto",

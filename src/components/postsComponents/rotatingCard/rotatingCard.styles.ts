@@ -8,7 +8,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "column",
     width: 350,
     backgroundColor: theme.contentBackgroundColor,
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     height: 400,
     padding: 30,
     boxSizing: "border-box",

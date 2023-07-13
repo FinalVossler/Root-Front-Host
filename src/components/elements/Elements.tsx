@@ -165,6 +165,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
       value: ViewType.Board,
     },
   ];
+  
   return (
     <div className={styles.elementsContainer}>
       <div className={styles.buttonsContainer}>

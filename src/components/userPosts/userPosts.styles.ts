@@ -7,7 +7,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     padding: 20,
     paddingTop: 0,
     borderRadius: 10,

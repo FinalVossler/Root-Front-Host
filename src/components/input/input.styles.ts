@@ -37,7 +37,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     },
   },
   label: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     marginRight: 10,
     textAlign: "start",
     width: 170,
@@ -47,14 +47,14 @@ const useStyles = createUseStyles((theme: Theme) => ({
     padding: 13,
     fontSize: 17,
     transition: "all .2s ease-int-out",
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     backgroundColor: theme.boxColor,
     borderRadius: 5,
     boxSizing: "border-box",
     width: "100%",
 
     "&::placeholder": {
-      color: theme.lightTextColor,
+      color: theme.darkTextColor,
       opacity: 0.5,
     },
   },

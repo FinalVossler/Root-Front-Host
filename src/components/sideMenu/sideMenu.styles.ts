@@ -4,7 +4,6 @@ import { Theme } from "../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
   sideMenuContainer: {
-    backgroundColor: theme.contentBackgroundColor,
     height: "100vh",
     zIndex: 6,
     transition: "all .2s ease-in-out",

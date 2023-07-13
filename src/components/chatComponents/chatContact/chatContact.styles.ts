@@ -32,7 +32,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     fontSize: 40,
   },
   contactName: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     fontSize: 15,
     marginLeft: 10,
   },

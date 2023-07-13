@@ -8,7 +8,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     height: 100,
     width: 100,
     borderRadius: "50%",
-    borderColor: theme.primary,
+    borderColor: theme.secondary,
     borderWidth: 5,
     borderStyle: "solid",
     cursor: "pointer",
@@ -24,6 +24,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     backgroundOrigin: "inherit",
     "&:hover": {
       backgroundColor: theme.primary,
+      borderColor: theme.primary,
     },
   },
   verBig: {

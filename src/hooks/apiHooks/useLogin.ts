@@ -17,7 +17,7 @@ const useLogin = () => {
   const axios = useAxios();
   const dispatch = useAppDispatch();
 
-  const login = (command: UserLoginCommand) =>
+  const login = (command: UserLoginCommand, callback: () => void) =>
     new Promise((resolve, reject) => {
       setLoading(true);
       axios
@@ -32,6 +32,9 @@ const useLogin = () => {
           dispatch(userSlice.actions.setUserAndTokenInformation(res.data.data));
           toast.success("Welcome back :)");
           resolve(null);
+          if (callback) {
+            callback();
+          }
         })
         .finally(() => setLoading(false))
         .catch((e) => reject(e));

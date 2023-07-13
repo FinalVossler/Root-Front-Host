@@ -5,7 +5,6 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import { Theme } from "../../config/theme";
 
-import useStyles from "./header.styles";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { IUser, userSlice } from "../../store/slices/userSlice";
 import { IPage } from "../../store/slices/pageSlice";
@@ -17,11 +16,12 @@ import { Option } from "../inputSelect/InputSelect";
 import HeaderInbox from "../headerInbox";
 import HeaderNotifications from "../headerNotifications";
 
+import useStyles from "./header.styles";
+
 interface IHeader {
   scrolledDown: boolean;
 }
 const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
-  const user: IUser = useAppSelector((state) => state.user.user);
   const pages = useAppSelector<IPage[]>((state) => state.page.pages);
   const websiteTitle: string | undefined = useAppSelector(
     (state) => state.websiteConfiguration.title
@@ -45,7 +45,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
-  const isSideMenuOpen: boolean = useAppSelector(
+  const isSideMenuOpen: boolean = useAppSelector (
     (state) => state.userPreferences.isSideMenuOpen
   );
 
@@ -61,7 +61,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
   //#region Event listeners
   const handleLogout = () => {
     dispatch(userSlice.actions.logout());
-    navigate("/profile");
+    navigate("/auth");
   };
   const handleChangeLanguage = (option: Option) => {
     dispatch(userPreferenceSlice.actions.setLanguage(option.value));
@@ -118,6 +118,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
             onChange={handleChangeLanguage}
             style={{ marginBottom: 0 }}
           />
+
           {pages.map((page) => {
             if (page.showInHeader === false) return null;
             if (getTranslatedText(page.title) === "") return null;
@@ -154,7 +155,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
             <li className={styles.option + " " + styles.headerIcon}>
               <NavLink
                 className={styles.optionATag}
-                to={"/profile/" + user._id}
+                to={"/auth"}
               >
                 <CgProfile />
               </NavLink>
@@ -166,7 +167,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
               <NavLink
                 onClick={handleLogout}
                 className={styles.optionATag}
-                to="#"
+                to="/auth"
               >
                 <AiOutlineLogout />
               </NavLink>

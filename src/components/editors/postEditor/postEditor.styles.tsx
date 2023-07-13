@@ -26,7 +26,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginBottom: "10px",
   },
   createPostTitle: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
   },
   closeButton: {
     cursor: "pointer",

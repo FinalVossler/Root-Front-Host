@@ -4,7 +4,7 @@ import { Theme } from "../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
   paginationContainer: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",

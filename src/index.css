@@ -35,12 +35,12 @@ embed img {
 }
 
 .react-select__control {
-  background-color: #3f3c51 !important;
+  background-color: #ffffff !important;
 }
 
 .react-select__input-container input,
 .react-select__single-value {
-  color: white !important;
+  color: #4c4c4d !important;
 }
 
 a {
@@ -55,7 +55,7 @@ a {
   cursor: pointer;
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid white;
+  border: 1px solid #4c4c4d;
   border-radius: 5px;
   padding-right: 10px;
   padding-left: 10px;

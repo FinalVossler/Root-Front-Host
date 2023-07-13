@@ -8,14 +8,16 @@ const useStyles = createUseStyles((theme: Theme) => ({
     alignItems: "center",
     width: "100%",
     boxSizing: "border-box",
-    borderBottom: "2px solid " + theme.lightTextColor,
     padding: 20,
     cursor: "pointer",
     transition: "all .1s ease-in-out",
+    color: theme.darkTextColor,
 
     "&:hover": {
-      backgroundColor: theme.secondary,
       borderColor: theme.primary,
+      color: theme.primary,
+      background: "linear-gradient(to right, " + theme.contentBackgroundColor + ", " + theme.boxColor + ")",
+      borderLeft: "10px solid " + theme.primary,
     },
 
     "&:hover $optionTitle": {
@@ -31,11 +33,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   optionIcon: {
     fontSize: 30,
-    color: theme.lightTextColor,
+    color: theme.primary,
   },
   optionTitle: {
     marginLeft: 10,
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     fontSize: 22,
   },
   triggerSubOptionsButton: {

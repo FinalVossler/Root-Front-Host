@@ -12,13 +12,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   inboxIcon: {
     fontSize: 26,
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     cursor: "pointer",
     margin: 20,
     padding: 5,
   },
   inboxPopup: {
-    backgroundColor: theme.secondary,
+    backgroundColor: theme.contentBackgroundColor,
     color: theme.lightTextColor,
     boxShadow: theme.boxShadow,
     position: "absolute",
@@ -38,6 +38,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
     paddingLeft: 0,
     paddingTop: 10,
   },
+
+  userNameAndLastMessage: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    marginLeft: 20,
+  },
   conversationContainer: {
     padding: 10,
     alignItems: "center",
@@ -46,9 +53,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderRadius: 10,
     width: "95%",
     boxSizing: "border-box",
+    backgroundColor: theme.lightTextColor,
+    border: '1px solid ' + theme.primary,
+    marginBottom: 5,
+    color: theme.primary,
 
     "&:hover": {
-      backgroundColor: theme.darkerPrimary,
+      backgroundColor: theme.primary,
       color: theme.lightTextColor,
 
       "& svg": {
@@ -57,13 +68,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
       "& div": {
         borderColor: theme.lightTextColor + "!important",
       },
+      '& userNameAndLastName': {
+        color: theme.lightTextColor + "!important",
+      }
     },
-  },
-  userNameAndLastMessage: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    marginLeft: 20,
   },
   userName: {},
   messageContent: {

@@ -11,18 +11,18 @@ import { Theme } from "../../config/theme";
 
 import { useAppSelector } from "../../store/hooks";
 
-import useStyles from "./login.styles";
+import useStyles from "./loginForm.styles";
 import useLogin, { UserLoginCommand } from "../../hooks/apiHooks/useLogin";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
-import useSendChangePasswordRequest from "../../hooks/apiHooks/useSendChangePasswordRequest";
+import { useNavigate } from "react-router-dom";
 
-interface ILoginForm {
+interface ILoginFormForm {
   email: string;
   password: string;
 }
 
-interface ILogin {}
-const Registration: React.FunctionComponent<ILogin> = (props: ILogin) => {
+interface ILoginForm {}
+const LoginForm: React.FunctionComponent<ILoginForm> = (props: ILoginForm) => {
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
@@ -31,8 +31,9 @@ const Registration: React.FunctionComponent<ILogin> = (props: ILogin) => {
   );
   const { login, loading } = useLogin();
   const getTranslatedText = useGetTranslatedText();
+  const navigate = useNavigate();
 
-  const formik: FormikProps<ILoginForm> = useFormik<ILoginForm>({
+  const formik: FormikProps<ILoginFormForm> = useFormik<ILoginFormForm>({
     initialValues: {
       email: "",
       password: "",
@@ -45,13 +46,15 @@ const Registration: React.FunctionComponent<ILogin> = (props: ILogin) => {
         .required("Password is required")
         .min(6, "Password length should be at least 6 characters"),
     }),
-    onSubmit: async (values: ILoginForm) => {
+    onSubmit: async (values: ILoginFormForm) => {
       const command: UserLoginCommand = {
         email: values.email,
         password: values.password,
       };
 
-      await login(command);
+      await login(command, () => {
+        navigate('/profile')
+      });
     },
   });
 
@@ -63,7 +66,7 @@ const Registration: React.FunctionComponent<ILogin> = (props: ILogin) => {
   const styles = useStyles({ theme });
   return (
     <>
-      <form onSubmit={handleSubmit} className={styles.loginContainer}>
+      <form onSubmit={handleSubmit} className={styles.loginFormContainer}>
         <h2 className={styles.loginTitle}>
           {getTranslatedText(staticText?.login.title)}
         </h2>
@@ -96,4 +99,4 @@ const Registration: React.FunctionComponent<ILogin> = (props: ILogin) => {
   );
 };
 
-export default Registration;
+export default LoginForm;

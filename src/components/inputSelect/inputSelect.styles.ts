@@ -11,7 +11,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     alignItems: "center",
   },
   selectLabel: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     marginRight: 10,
     width: 170,
 

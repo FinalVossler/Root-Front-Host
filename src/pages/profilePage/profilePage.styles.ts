@@ -9,21 +9,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "100%",
     backgroundColor: theme.backgroundColor,
   },
-  switchFormContainer: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    color: theme.lightTextColor,
-  },
-  switchFormButton: {
-    color: theme.primary,
-    border: "none",
-    backgroundColor: "transparent",
-    cursor: "pointer",
-    fontWeight: "bold",
-    fontSize: 20,
-  },
   connectedUserContainer: {
     display: "flex",
     justifyContent: "space-between",
@@ -31,6 +16,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "90%",
     alignItems: "flex-start",
     position: "relative",
+    marginTop: 100
   },
   postsAndEditor: {
     display: "flex",

@@ -25,7 +25,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "column",
   },
   userRoleContainer: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     marginBottom: 10,
   },
   role: {

@@ -7,7 +7,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    backgroundColor: theme.secondary,
+    backgroundColor: theme.primary,
     padding: 20,
     marginBottom: 10,
     borderRadius: 10,
@@ -15,12 +15,15 @@ const useStyles = createUseStyles((theme: Theme) => ({
     position: "relative",
     maxWidth: "90%",
     marginRight: 10,
+    alignSelf: "flex-end",
+
   },
   otherMessageContainer: {
     extend: "messageContainer",
-    backgroundColor: theme.primary,
-    alignSelf: "flex-end",
+    backgroundColor: theme.secondary,
     marginRight: 20,
+    alignSelf: "flex-start",
+
   },
   filesContainer: {
     display: "flex",

@@ -15,7 +15,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   notificationIcon: {
     fontSize: 26,
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     cursor: "pointer",
     margin: 20,
     padding: 5,

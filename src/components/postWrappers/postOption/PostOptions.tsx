@@ -65,7 +65,6 @@ const PostWrapper: React.FunctionComponent<IPostOptions> = (
   return (
     <div className={styles.postOptionsContainer}>
       <BsThreeDots
-        color={theme.lightTextColor}
         onClick={handlePostOptionsOpen}
         className={styles.postOptionsButton}
       />
@@ -77,6 +76,7 @@ const PostWrapper: React.FunctionComponent<IPostOptions> = (
           <div
             className={styles.option}
             onClick={() => setDeletePostModalOpen(true)}
+            style={{ marginBottom: 5 }}
           >
             Delete
           </div>

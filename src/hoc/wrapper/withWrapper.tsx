@@ -8,7 +8,7 @@ import useStyles from "./withWrapper.styles";
 import { useAppSelector } from "../../store/hooks";
 import SideMenu from "../../components/sideMenu/SideMenu";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
-import { IUser, SuperRole } from "../../store/slices/userSlice";
+import { IUser } from "../../store/slices/userSlice";
 
 const withWrapper =
   (
@@ -22,7 +22,6 @@ const withWrapper =
     const theme: Theme = useAppSelector(
       (state) => state.websiteConfiguration.theme
     );
-    const user: IUser = useAppSelector((state) => state.user.user);
 
     const [scrolledDown, setScrolledDown] = React.useState(
       window.scrollY >= 80
