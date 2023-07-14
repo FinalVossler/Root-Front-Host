@@ -8,7 +8,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     height: 100,
     width: 100,
     borderRadius: "50%",
-    borderColor: theme.secondary,
+    borderColor: theme.darkerPrimary,
     borderWidth: 5,
     borderStyle: "solid",
     cursor: "pointer",

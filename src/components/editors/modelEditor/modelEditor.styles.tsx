@@ -11,6 +11,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     position: "relative",
     overflow: "auto",
     paddingRight: 45,
+    paddingLeft: 5,
     width: "60vw",
   },
   createModelHeader: {

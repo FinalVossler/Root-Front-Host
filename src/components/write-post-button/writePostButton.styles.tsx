@@ -11,7 +11,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   placeholder: {
     display: "flex",
     alignItems: "center",
-    backgroundColor: theme.primary,
+    backgroundColor: theme.darkerPrimary,
     height: 40,
     padding: 15,
     opacity: 0.7,
@@ -20,7 +20,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flex: 1,
     cursor: "pointer",
     boxShadow: theme.boxShadow,
-    color: theme.darkTextColor,
+    color: theme.lightTextColor,
 
     "&:hover": {
       opacity: ".9",
