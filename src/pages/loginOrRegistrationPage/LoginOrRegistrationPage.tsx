@@ -12,6 +12,7 @@ import SendChangePasswordRequestForm from "../../components/sendChangePasswordRe
 
 import useStyles from "./loginOrRegistrationPage.styles";
 import IFile from "../../globalTypes/IFile";
+import { useNavigate } from "react-router-dom";
 
 enum ActiveForm {
   Register = "Register",
@@ -43,10 +44,17 @@ const LoginOrRegistrationPage: React.FunctionComponent<ILoginOrRegistrationPage>
   const styles = useStyles({ theme });
   const isLoggedIn: boolean = useIsLoggedIn();
   const getTranslatedText = useGetTranslatedText();
+  const navigate = useNavigate();
 
   const handleSwitchToForgotPasswordForm = () => {
     setActiveForm(ActiveForm.ForgotPassword);
   };
+
+  React.useEffect(() => {
+    if (isLoggedIn) {
+      navigate('/profile');
+    }
+  }, [isLoggedIn])
 
   return (
     <div className={styles.loginOrRegistrationPageContainer}>
