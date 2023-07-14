@@ -13,13 +13,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
     paddingTop: 10,
     marginTop: 0,
     paddingBottom: 40,
-    backgroundColor: theme.contentBackgroundColor,
+    backgroundColor: "transparent",
     boxSizing: "border-box",
-    boxShadow: theme.boxShadow
+    boxShadow: theme.boxShadow,
   },
   profileFormTitle: {
     fontSize: 30,
-    color: theme.primary,
+    color: theme.darkTextColor,
   },
   profileForm: {
     display: "flex",

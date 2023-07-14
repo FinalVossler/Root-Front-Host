@@ -14,7 +14,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     backgroundColor: theme.primary,
     height: 40,
     padding: 15,
-    opacity: ".5",
+    opacity: 0.7,
     marginLeft: 10,
     borderRadius: 20,
     flex: 1,

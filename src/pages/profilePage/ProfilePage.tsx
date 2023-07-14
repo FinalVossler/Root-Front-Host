@@ -47,7 +47,7 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
   const [activeForm, setActiveForm] = React.useState<ActiveForm>(
     ActiveForm.Register
   );
-  const [showProfileForm, setShowProfileForm] = React.useState(true);
+  const [showProfileForm, setShowProfileForm] = React.useState(false);
 
   const styles = useStyles({ theme });
   const isLoggedIn: boolean = useIsLoggedIn();
@@ -83,7 +83,6 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
           <BsFillGearFill
             onClick={handleTriggerShowProfileForm}
             className={styles.configurationIcon}
-            color={theme.primary}
           />
         )}
         {showProfileForm && actualUser._id === currentUser._id && (

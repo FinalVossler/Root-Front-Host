@@ -16,7 +16,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "90%",
     alignItems: "flex-start",
     position: "relative",
-    marginTop: 100
+    marginTop: 100,
   },
   postsAndEditor: {
     display: "flex",
@@ -44,7 +44,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   configurationIcon: {
     position: "absolute",
-    left: 0,
+    left: 5,
+    top: 5,
     fontSize: 20,
     cursor: "pointer",
   },
