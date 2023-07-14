@@ -43,11 +43,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
     right: 10,
     fontSize: 20,
     top: 8,
+    color: theme.darkTextColor,
   },
   deleteIcon: {
     extend: "goIcon",
     right: 35,
     cursor: "pointer",
+    color: theme.errorColor,
   },
   pageEditorContainer: {
     backgroundColor: theme.subContentBackgroundColor,

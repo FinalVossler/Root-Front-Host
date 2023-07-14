@@ -100,7 +100,7 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
                   className={styles.deleteIcon}
                   onClick={() => handleDeleteIconClick(page)}
                 >
-                  <AiFillDelete color={theme.secondary} />
+                  <AiFillDelete />
                 </span>
               )}
 
@@ -109,7 +109,7 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
                 target="_blank"
                 className={styles.goIcon}
               >
-                <FaDirections color={theme.secondary} />
+                <FaDirections />
               </a>
 
               {hasPermission(Permission.UpdatePage) && (

@@ -67,6 +67,7 @@ const PostWrapper: React.FunctionComponent<IPostOptions> = (
       <BsThreeDots
         onClick={handlePostOptionsOpen}
         className={styles.postOptionsButton}
+        style={{ display: optionsOpen ? "none" : "flex" }}
       />
       {optionsOpen && (
         <div

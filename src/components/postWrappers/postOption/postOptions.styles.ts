@@ -7,12 +7,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
     position: "absolute",
     right: 10,
     top: 10,
-    zIndex: 4,
+    zIndex: 10,
   },
   postOptionsButton: {
     fontSize: 25,
     cursor: "pointer",
-    color: theme.darkTextColor
+    color: theme.darkTextColor,
   },
   optionsContainer: {
     boxShadow: theme.boxShadow,
