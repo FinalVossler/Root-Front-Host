@@ -57,13 +57,11 @@ const LoginOrRegistrationPage: React.FunctionComponent<ILoginOrRegistrationPage>
       </div>
 
       <div className={styles.right}>
-
-
         {logo1 && <div style={{
           background: 'url(' + logo1.url + ')' + ' center center'
         }} className={styles.logo1} />}
 
-        {activeForm === ActiveForm.Register &&
+        {(activeForm === ActiveForm.Register || !activeForm) &&
           !isLoggedIn &&
           withRegistration && <RegistrationForm />}
 
