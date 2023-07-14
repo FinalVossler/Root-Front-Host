@@ -18,21 +18,21 @@ export type Theme = {
 
 const theme: Theme = {
   darkTextColor: "#4c4c4d",
-  lightTextColor: "white",
+  lightTextColor: "FFFFFF",
 
-  primary: "#9885ec",
-  darkerPrimary: "#795ef0",
-  lighterPrimary: "#b0a2f1",
-  secondary: "#27125e",
+  primary: "#4BE3AE",
+  darkerPrimary: "#4BE3AE",
+  lighterPrimary: "#ecf2f0",
+  secondary: "#7aeaaf",
   errorColor: "red",
-  borderColor: "#e0e0e0",
-  formMaxWidth: "400px",
-  transparentBackground: "#0a0b1399",
-  backgroundColor: "#131222",
-  contentBackgroundColor: "#0a0b13",
-  subContentBackgroundColor: "#08041e",
-  boxColor: "#3f3c51",
-  boxShadow: "1px 2px 5px 4px black",
+  borderColor: "#9f9f9f",
+  formMaxWidth: "550px",
+  transparentBackground: "#FFFFFF",
+  backgroundColor: "#F5FDFB",
+  contentBackgroundColor: "#d3f8eb",
+  subContentBackgroundColor: "#FFFFFF",
+  boxColor: "#FFFFFF",
+  boxShadow: "0px 1px 4px rgba(0, 0, 0, 0.25)",
 };
 
 export default theme;

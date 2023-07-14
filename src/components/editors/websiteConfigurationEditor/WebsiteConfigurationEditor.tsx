@@ -36,7 +36,11 @@ interface IConfigurationForm extends Theme {
   withRegistration?: boolean;
   withTaskManagement?: boolean;
   tabIcon?: IFile;
+  logo1?: IFile;
+  logo2?: IFile;
   tabIconAsYetToDownloadFile?: File;
+  logo1AsYetToDownloadFile?: File;
+  logo2AsYetToDownloadFile?: File;
 }
 
 interface IWebsiteConfigurationEditor {
@@ -56,7 +60,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
       (state) => state.websiteConfiguration.staticText?.websiteConfiguration
     );
 
-    const [uploadingTabIconLoading, setUploadingTabIconLoading] =
+    const [uploadingFilesLoading, setUploadingFilesLoading] =
       React.useState<boolean>(false);
 
     const styles = useStyles({ theme });
@@ -99,6 +103,10 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
         boxShadow: websiteConfiguration.theme.boxShadow,
         tabIcon: websiteConfiguration.tabIcon,
         tabIconAsYetToDownloadFile: undefined,
+        logo1: websiteConfiguration.logo1,
+        logo1AsYetToDownloadFile: undefined,
+        logo2: websiteConfiguration.logo2,
+        logo2AsYetToDownloadFile: undefined,
       };
     };
     const formik: FormikProps<IConfigurationForm> =
@@ -122,17 +130,54 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
           withTaskManagement: Yup.boolean(),
         }),
         onSubmit: async (values: IConfigurationForm) => {
-          let tabIcon: IFile | undefined = undefined;
-          if (formik.values.tabIcon) {
-            tabIcon = formik.values.tabIcon;
-          }
-          if (formik.values.tabIconAsYetToDownloadFile) {
-            setUploadingTabIconLoading(true);
-            tabIcon = await uploadFile(
-              formik.values.tabIconAsYetToDownloadFile
-            );
-            setUploadingTabIconLoading(false);
-          }
+          const filesUploadPromises: Promise<IFile | undefined>[] = []
+
+          setUploadingFilesLoading(true);
+
+          filesUploadPromises.push(new Promise(async (resolve, reject) => {
+            let tabIcon: IFile | undefined = undefined;
+            if (formik.values.tabIcon) {
+              tabIcon = formik.values.tabIcon;
+            }
+            
+            if (formik.values.tabIconAsYetToDownloadFile) {
+              tabIcon = await uploadFile(
+                formik.values.tabIconAsYetToDownloadFile
+              );
+            }
+            resolve(tabIcon);
+          }))
+          filesUploadPromises.push(new Promise(async (resolve, reject) => {
+            let logo1: IFile | undefined = undefined;
+            if (formik.values.logo1) {
+              logo1 = formik.values.logo1;
+            }
+            
+            if (formik.values.logo1AsYetToDownloadFile) {
+              logo1 = await uploadFile(
+                formik.values.logo1AsYetToDownloadFile
+              );
+            }
+            resolve(logo1);
+          }));
+
+          filesUploadPromises.push(new Promise(async (resolve, reject) => {
+            let logo2: IFile | undefined = undefined;
+            if (formik.values.logo2) {
+              logo2 = formik.values.logo2;
+            }
+            
+            if (formik.values.logo2AsYetToDownloadFile) {
+              logo2 = await uploadFile(
+                formik.values.logo2AsYetToDownloadFile
+              );
+            }
+            resolve(logo2);
+          }))
+
+          const [tabIcon, logo1, logo2] = await Promise.all(filesUploadPromises)
+          setUploadingFilesLoading(false);
+          console.log('logo1', logo1)
 
           const command: WebsiteConfigurationUpdateCommand = {
             email: values.email || "",
@@ -144,6 +189,8 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             withRegistration: values.withRegistration || false,
             withTaskManagement: values.withTaskManagement || false,
             tabIcon,
+            logo1,
+            logo2,
 
             theme: {
               darkTextColor: values.darkTextColor,
@@ -176,7 +223,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
       });
     }, [websiteConfiguration]);
 
-    const actualLoading = loading || uploadingTabIconLoading;
+    const actualLoading = loading || uploadingFilesLoading;
     return (
       <Modal
         handleClose={() => props.setConfigurationModalOpen(false)}
@@ -302,6 +349,68 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
             }}
             allowMany={false}
             label={getTranslatedText(staticText?.tabIcon)}
+            typeOfFiles={TypeOfFiles.UnownedFiles}
+          />
+
+          <FilesInput
+            disabled={actualLoading}
+            files={
+              formik.values.logo1AsYetToDownloadFile
+                ? [formik.values.logo1AsYetToDownloadFile]
+                : []
+            }
+            setFiles={(files: File[]) => {
+              formik.setFieldValue(
+                "logo1AsYetToDownloadFile",
+                files.length > 0 ? files[0] : null
+              );
+              formik.setFieldValue("logo1", null);
+            }}
+            selectedExistingFiles={
+              formik.values.logo1 ? [formik.values.logo1] : []
+            }
+            setSelectedExistingFiles={(existingFiles: IFile[]) => {
+              formik.setFieldValue(
+                "logo1",
+                existingFiles.length > 0
+                  ? existingFiles[existingFiles.length - 1]
+                  : null
+              );
+              formik.setFieldValue("logo1AsYetToDownloadFile", null);
+            }}
+            allowMany={false}
+            label={getTranslatedText(staticText?.logo1)}
+            typeOfFiles={TypeOfFiles.UnownedFiles}
+          />
+        
+          <FilesInput
+            disabled={actualLoading}
+            files={
+              formik.values.logo2AsYetToDownloadFile
+                ? [formik.values.logo2AsYetToDownloadFile]
+                : []
+            }
+            setFiles={(files: File[]) => {
+              formik.setFieldValue(
+                "logo2AsYetToDownloadFile",
+                files.length > 0 ? files[0] : null
+              );
+              formik.setFieldValue("logo2", null);
+            }}
+            selectedExistingFiles={
+              formik.values.logo2 ? [formik.values.logo2] : []
+            }
+            setSelectedExistingFiles={(existingFiles: IFile[]) => {
+              formik.setFieldValue(
+                "logo2",
+                existingFiles.length > 0
+                  ? existingFiles[existingFiles.length - 1]
+                  : null
+              );
+              formik.setFieldValue("logo2AsYetToDownloadFile", null);
+            }}
+            allowMany={false}
+            label={getTranslatedText(staticText?.logo2)}
             typeOfFiles={TypeOfFiles.UnownedFiles}
           />
 

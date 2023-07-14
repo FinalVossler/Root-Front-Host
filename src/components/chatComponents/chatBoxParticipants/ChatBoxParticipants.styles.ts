@@ -13,6 +13,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderRadius: 5,
     alignSelf: "flex-start",
     marginTop: 10,
+    boxShadow: theme.boxShadow
   },
   participantContainer: {
     display: "flex",

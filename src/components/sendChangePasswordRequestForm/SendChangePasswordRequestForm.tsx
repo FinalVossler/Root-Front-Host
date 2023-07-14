@@ -10,9 +10,10 @@ import { Theme } from "../../config/theme";
 
 import { useAppSelector } from "../../store/hooks";
 
-import useStyles from "./login.styles";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useSendChangePasswordRequest from "../../hooks/apiHooks/useSendChangePasswordRequest";
+
+import useStyles from "./SendChangePasswordRequestForm.styles";
 
 interface ISendChangePasswordRequestForm {
   email: string;
@@ -54,7 +55,7 @@ const Registration: React.FunctionComponent<ISendChangePasswordRequest> = (
   const styles = useStyles({ theme });
   return (
     <>
-      <form onSubmit={handleSubmit} className={styles.loginContainer}>
+      <form onSubmit={handleSubmit} className={styles.SendChangePasswordRequestContainer}>
         <h2 className={styles.sendChangePasswordRequestTitle}>
           {getTranslatedText(staticText?.sendChangePasswordRequestTitle)}
         </h2>

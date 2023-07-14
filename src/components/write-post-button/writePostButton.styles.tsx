@@ -19,7 +19,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderRadius: 20,
     flex: 1,
     cursor: "pointer",
-    color: theme.lightTextColor,
+    boxShadow: theme.boxShadow,
+    color: theme.darkTextColor,
 
     "&:hover": {
       opacity: ".9",

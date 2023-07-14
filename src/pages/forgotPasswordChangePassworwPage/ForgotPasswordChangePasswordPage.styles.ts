@@ -15,19 +15,21 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
     maxWidth: theme.formMaxWidth,
-    width: "70%",
+    width: "80%",
     borderRadius: 20,
-    padding: 40,
+    padding: 10,
     paddingTop: 10,
-    backgroundColor: theme.contentBackgroundColor,
+    paddingBottom: 5,
+    backgroundColor: 'transparent',
     margin: "auto",
     marginBottom: 0,
-    marginTop: 150,
+    marginTop: 5
   },
-
   changePasswordTitle: {
     fontSize: 30,
-    color: theme.primary,
+    color: theme.darkTextColor,
+    textAlign: 'center',
+    marginTop: 0
   },
 }));
 

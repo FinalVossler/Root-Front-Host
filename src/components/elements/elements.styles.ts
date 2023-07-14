@@ -14,6 +14,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     border: "1px solid " + theme.primary,
     marginBottom: 40,
+    boxShadow: theme.boxShadow,
+    borderRadius: 5
   },
   actionIcon: {
     fontSize: 30,

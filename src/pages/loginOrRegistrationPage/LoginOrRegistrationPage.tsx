@@ -11,6 +11,7 @@ import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import SendChangePasswordRequestForm from "../../components/sendChangePasswordRequestForm";
 
 import useStyles from "./loginOrRegistrationPage.styles";
+import IFile from "../../globalTypes/IFile";
 
 enum ActiveForm {
   Register = "Register",
@@ -32,6 +33,7 @@ const LoginOrRegistrationPage: React.FunctionComponent<ILoginOrRegistrationPage>
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
+  const logo1: IFile | undefined = useAppSelector(state => state.websiteConfiguration.logo1);
   //#endregion store
 
   const [activeForm, setActiveForm] = React.useState<ActiveForm>(
@@ -55,8 +57,10 @@ const LoginOrRegistrationPage: React.FunctionComponent<ILoginOrRegistrationPage>
 
         <br />
         <br />
-        <br />
-        <br />
+
+        {logo1 && <div style={{
+          background: 'url(' + logo1.url + ')' + ' center center'
+        }} className={styles.logo1} />}
 
         {activeForm === ActiveForm.Register &&
           !isLoggedIn &&
@@ -69,7 +73,6 @@ const LoginOrRegistrationPage: React.FunctionComponent<ILoginOrRegistrationPage>
           <SendChangePasswordRequestForm />
         )}
 
-        <br />
         <br />
 
         {!isLoggedIn && withRegistration && (

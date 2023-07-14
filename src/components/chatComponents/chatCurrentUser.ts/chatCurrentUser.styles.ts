@@ -11,8 +11,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     boxSizing: "border-box",
     paddingBottom: 20,
     paddingTop: 20,
-    backgroundColor: theme.backgroundColor,
+    backgroundColor: theme.primary,
     cursor: "pointer",
+    borderRadius: 5,
   },
   currentUserAvatar: {
     width: 80,

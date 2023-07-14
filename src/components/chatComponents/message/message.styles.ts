@@ -15,8 +15,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     position: "relative",
     maxWidth: "90%",
     marginRight: 10,
+    boxShadow: theme.boxShadow,
     alignSelf: "flex-end",
-
   },
   otherMessageContainer: {
     extend: "messageContainer",

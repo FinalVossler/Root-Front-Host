@@ -20,7 +20,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     height: 470,
     backgroundColor: theme.backgroundColor,
     marginRight: 20,
-    border: "1px solid " + theme.darkTextColor,
     boxSizing: "border-box",
     boxShadow: theme.boxShadow,
   },
@@ -32,8 +31,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "column",
     alignItems: "flex-start",
     overflowY: "auto",
-    borderTop: "1px solid " + theme.darkTextColor,
-    paddingTop: 5,
+    borderTop: "2px solid " + theme.secondary,
+    paddingTop: 10,
   },
   loadMoreButtonContainer: {
     display: "flex",
@@ -60,6 +59,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     top: 17,
     fontSize: 25,
     cursor: "pointer",
+    boxShadow: theme.boxShadow,
+    borderRadius: '50%',
+    boxSizing: 'border-box',
   },
   "@media (max-width: 850px)": {
     noConversationSelectedChatBoxContainer: {

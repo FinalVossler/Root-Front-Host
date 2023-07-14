@@ -12,10 +12,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     paddingRight: 20,
     paddingLeft: 20,
     boxSizing: "border-box",
+    boxShadow: theme.boxShadow,
 
     position: "fixed",
     top: "0%",
-    zIndex: 10,
+    zIndex: 5,
     transition: "all .2s ease-in-out",
     height: 80,
     width: "-webkit-fill-available",
@@ -28,8 +29,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
   headerContainerScrolled: {
     extend: "headerContainer",
     backgroundColor: theme.backgroundColor,
+    boxShadow: theme.boxShadow,
 
-    boxShadow: "0px 0px 0px 0px black",
 
     height: 60,
     "& a": {
@@ -155,6 +156,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     headerContainer: {
       padding: 0,
       justifyContent: "flex-end",
+      height: 60
     },
     headerTitle: {
       display: "none",

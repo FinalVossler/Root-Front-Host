@@ -7,7 +7,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     position: "absolute",
     right: 10,
     top: 10,
-    zIndex: 9,
+    zIndex: 4,
   },
   postOptionsButton: {
     fontSize: 25,

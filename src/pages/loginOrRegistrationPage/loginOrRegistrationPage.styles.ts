@@ -23,6 +23,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: 'column',
     alignItems: 'center'
   },
+  logo1: {
+    width: '140px!important',
+    height: '160px!important',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  },
   switchFormContainer: {
     display: "flex",
     flexDirection: "row",
@@ -36,7 +42,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     backgroundColor: "transparent",
     cursor: "pointer",
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 15,
   },
   "@media (max-width: 930px)": {
     

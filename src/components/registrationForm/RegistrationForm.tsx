@@ -92,22 +92,25 @@ const Registration: React.FunctionComponent<IRegistrationForm> = (
       <h2 className={styles.registrationTitle}>
         {getTranslatedText(staticText?.title)}:
       </h2>
-      <Input
-        Icon={CgProfile}
-        name="firstName"
-        formik={formik}
-        inputProps={{
-          placeholder: getTranslatedText(staticText?.firstNamePlaceholder),
-        }}
-      />
-      <Input
-        inputProps={{
-          placeholder: getTranslatedText(staticText?.lastNamePlaceholder),
-        }}
-        Icon={CgProfile}
-        name="lastName"
-        formik={formik}
-      />
+
+      <div className={styles.firstNameAndLastName}>
+        <Input
+          Icon={CgProfile}
+          name="firstName"
+          formik={formik}
+          inputProps={{
+            placeholder: getTranslatedText(staticText?.firstNamePlaceholder),
+          }}
+        />
+        <Input
+          inputProps={{
+            placeholder: getTranslatedText(staticText?.lastNamePlaceholder),
+          }}
+          Icon={CgProfile}
+          name="lastName"
+          formik={formik}
+        />
+      </div>
       <Input
         Icon={AiOutlineMail}
         inputProps={{

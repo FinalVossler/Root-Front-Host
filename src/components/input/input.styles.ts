@@ -8,6 +8,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "column",
     position: "relative",
     marginBottom: 10,
+    flex: 1,
 
     "& svg": {
       color: theme.primary,
@@ -52,11 +53,15 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderRadius: 5,
     boxSizing: "border-box",
     width: "100%",
+    boxShadow: theme.boxShadow,
 
     "&::placeholder": {
       color: theme.darkTextColor,
       opacity: 0.5,
     },
+    "&:focus-visible": {
+      outline: '2px solid ' + theme.secondary
+    }
   },
   inputWithLabel: {
     extend: "input",

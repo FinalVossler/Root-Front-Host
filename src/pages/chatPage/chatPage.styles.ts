@@ -34,16 +34,16 @@ const useStyles = createUseStyles((theme: Theme) => ({
     height: 320,
   },
   welcomeText: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     fontSize: 30,
     marginBottom: 10,
     letterSpacing: 0.1,
   },
   welcomeTextUserName: {
-    color: theme.primary,
+    color: theme.lightTextColor,
   },
   chatDirectionText: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     fontSize: 20,
     letterSpacing: 1,
     textAlign: "center",

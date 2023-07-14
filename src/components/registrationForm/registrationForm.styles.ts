@@ -7,19 +7,27 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
     maxWidth: theme.formMaxWidth,
-    width: "70%",
+    width: "80%",
     borderRadius: 20,
-    padding: 40,
+    padding: 10,
     paddingTop: 10,
-    paddingBottom: 40,
-    backgroundColor: theme.contentBackgroundColor,
+    paddingBottom: 5,
+    backgroundColor: 'transparent',
     margin: "auto",
     marginBottom: 0,
-    marginTop: 50,
+    marginTop: 5
   },
   registrationTitle: {
     fontSize: 30,
-    color: theme.primary,
+    color: theme.darkTextColor,
+    textAlign: 'center',
+    marginTop: 0
+  },
+  firstNameAndLastName: {
+    display: 'flex',
+    alignItems: 'center',
+    widht: '100%',
+    gap: 15
   },
   "@media (max-width: 800px)": {},
 }));

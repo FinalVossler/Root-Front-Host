@@ -7,7 +7,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "row",
     position: "relative",
-    backgroundColor: theme.boxColor,
+    backgroundColor: theme.secondary,
     height: 60,
     alignItems: "center",
     padding: 10,
@@ -17,6 +17,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginRight: 10,
     marginLeft: 10,
     cursor: "pointer",
+    boxShadow: theme.boxShadow
   },
   chatSelectedContactContainer: {
     extend: "chatContactContainer",
@@ -28,7 +29,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   defaultAvatar: {
     extend: "chatAvatar",
-    color: theme.primary,
+    color: theme.darkTextColor,
     fontSize: 40,
   },
   contactName: {

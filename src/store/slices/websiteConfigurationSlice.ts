@@ -17,6 +17,8 @@ export interface IWebsiteConfiguration {
   withTaskManagement?: boolean;
   theme: Theme;
   tabIcon?: IFile;
+  logo1?: IFile;
+  logo2?: IFile;
   staticText?: {
     profile: {
       alreadyHaveAnAccount: ITranslatedText[];
@@ -281,6 +283,8 @@ export interface IWebsiteConfiguration {
       boxColor: ITranslatedText[];
       boxShadow: ITranslatedText[];
       tabIcon: ITranslatedText[];
+      logo1: ITranslatedText[];
+      logo2: ITranslatedText[];
     };
     roles: {
       editConfiguration: ITranslatedText[];
@@ -363,6 +367,8 @@ interface IWebsiteConfigurationState {
   withTaskManagement?: boolean;
   theme: Theme;
   tabIcon?: IFile;
+  logo1?: IFile;
+  logo2?: IFile;
 
   staticText?: IWebsiteConfiguration["staticText"];
 }
@@ -379,6 +385,8 @@ const initialState: IWebsiteConfigurationState = {
   withTaskManagement: false,
   theme,
   tabIcon: undefined,
+  logo1: undefined,
+  logo2: undefined,
 
   staticText: {
     profile: {
@@ -566,11 +574,11 @@ const initialState: IWebsiteConfigurationState = {
     login: {
       title: [
         {
-          text: "Login",
+          text: "Sign in to your account",
           language: "en",
         },
         {
-          text: "Connexion",
+          text: "Connectez-vous à votre compte",
           language: "fr",
         },
       ],
@@ -1532,6 +1540,14 @@ const initialState: IWebsiteConfigurationState = {
         { text: "Tab Icon", language: "en" },
         { text: "Icône de l'onglet ", language: "fr" },
       ],
+      logo1: [
+        { text: "Main Logo", language: "en" },
+        { text: "Logo principale", language: "fr" },
+      ],
+      logo2: [
+        { text: "Secondary logo", language: "en" },
+        { text: "Logo secondaire", language: "fr" },
+      ]
     },
 
     roles: {
@@ -1835,6 +1851,8 @@ export const websiteConfigurationSlice = createSlice({
       state.withTaskManagement = action.payload.withTaskManagement;
       state.theme = action.payload.theme;
       state.tabIcon = action.payload.tabIcon;
+      state.logo1 = action.payload.logo1;
+      state.logo2 = action.payload.logo2;
 
       // We override the initial values defined here by whatever is stored in the database
       // But we keep the values that aren't stored in the db.

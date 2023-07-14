@@ -18,6 +18,8 @@ export type WebsiteConfigurationUpdateCommand = {
   withTaskManagement: boolean;
   theme: Theme;
   tabIcon?: IFile;
+  logo1?: IFile;
+  logo2?: IFile;
 };
 
 const useUpdateWebsiteConfiguration = () => {

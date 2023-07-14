@@ -8,12 +8,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "column",
     justifyContent: "space-between",
     position: "relative",
-    backgroundColor: theme.subContentBackgroundColor,
+    backgroundColor: theme.contentBackgroundColor,
     height: "100%",
     width: 300,
     minWidth: 300,
-    overflow: "scroll",
     paddingRight: 10,
+    borderRadius: 5,
 
     "& .rc-pagination": {
       marginRight: 10,
@@ -29,6 +29,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   top: {
     width: "100%",
+    overflow: 'scroll'
   },
   contactsTitle: {
     paddingTop: 20,
@@ -41,6 +42,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "100%",
     overflow: "scroll",
     display: "flex",
+    paddingTop: 2,
     flexDirection: "column",
   },
   chatContactsContainerConversationSelected: {

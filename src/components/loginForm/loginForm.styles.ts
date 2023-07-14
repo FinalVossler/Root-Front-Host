@@ -6,20 +6,22 @@ const useStyles = createUseStyles((theme: Theme) => ({
   loginFormContainer: {
     display: "flex",
     flexDirection: "column",
-    margin: "auto",
     maxWidth: theme.formMaxWidth,
-    width: "70%",
+    width: "80%",
     borderRadius: 20,
-    padding: 40,
+    padding: 10,
     paddingTop: 10,
-    paddingBottom: 40,
-    backgroundColor: theme.contentBackgroundColor,
+    paddingBottom: 5,
+    backgroundColor: 'transparent',
+    margin: "auto",
     marginBottom: 0,
-    marginTop: 50,
+    marginTop: 5
   },
   loginTitle: {
     fontSize: 30,
-    color: theme.primary,
+    color: theme.darkTextColor,
+    textAlign: 'center',
+    marginTop: 0
   },
   "@media (max-width: 800px)": {},
 }));
