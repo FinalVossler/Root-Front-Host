@@ -85,7 +85,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
   const [selectedElement, setSelectedElement] = React.useState<Element | null>(
     null
   );
-  const [viewType, setViewType] = React.useState<ViewType>(ViewType.Table);
+  const [viewType, setViewType] = React.useState<ViewType>(ViewType.Board);
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
