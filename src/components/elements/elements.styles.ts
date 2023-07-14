@@ -16,7 +16,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   viewTabsContainer: {
     display: "flex",
-    width: "120%",
+    width: "124%",
     backgroundColor: theme.lightTextColor,
     marginBottom: 10,
     position: "relative",

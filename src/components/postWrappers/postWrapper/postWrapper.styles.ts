@@ -6,14 +6,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
   postWrapperContainer: {
     flex: 1,
     width: "100%",
-    backgroundColor: theme.contentBackgroundColor,
-    padding: 40,
     boxSizing: "border-box",
     marginBottom: 20,
     borderRadius: 10,
-    boxShadow: theme.boxShadow,
-    overflow: "auto",
+    overflow: "hidden",
     position: "relative",
+    border: "1px solid " + theme.borderColor,
+    padding: 10,
   },
   "@media (max-width: 800px)": {
     postWrapperContainer: {
