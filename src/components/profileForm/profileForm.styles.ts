@@ -15,6 +15,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     paddingBottom: 40,
     backgroundColor: theme.contentBackgroundColor,
     boxSizing: "border-box",
+    boxShadow: theme.boxShadow
   },
   profileFormTitle: {
     fontSize: 30,

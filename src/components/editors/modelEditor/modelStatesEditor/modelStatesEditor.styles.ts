@@ -11,7 +11,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "100%",
   },
   statesTitle: {
-    color: theme.lighterPrimary,
+    color: theme.darkTextColor,
     fontSize: 25,
     marginBottom: 10,
 
@@ -25,7 +25,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     bottom: 2,
   },
   statesTypeTitle: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
   },
   statesContainer: {
     display: "flex",
@@ -34,7 +34,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   singleStateContainer: {
     position: "relative",
     width: "100%",
-    border: "1px solid " + theme.lightTextColor,
+    border: "1px solid " + theme.darkTextColor,
     padding: 10,
     marginBottom: 10,
     borderRadius: 10,

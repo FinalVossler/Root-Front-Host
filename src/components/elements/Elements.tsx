@@ -82,8 +82,9 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
   const [selectedElementsIds, setSelectedElementsIds] = React.useState<
     string[]
   >([]);
-  const [selectedElement, setSelectedElement] =
-    React.useState<Element | null>(null);
+  const [selectedElement, setSelectedElement] = React.useState<Element | null>(
+    null
+  );
   const [viewType, setViewType] = React.useState<ViewType>(ViewType.Table);
 
   const styles = useStyles({ theme });
@@ -140,12 +141,8 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
     setSelectedElementsIds([]);
     props.onPageChange(1);
   };
-  const handleViewTypeChange = (option: Option) => {
-    setViewType(
-      ViewType.Table.toString() === option.value
-        ? ViewType.Table
-        : ViewType.Board
-    );
+  const handleViewTypeChange = (viewType: ViewType) => {
+    setViewType(viewType);
   };
   //#endregion Event listeners
 
@@ -155,25 +152,37 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
       ? props.searchResult.data
       : props.elements;
 
-  const viewTypeOptions: Option[] = [
-    {
-      label: getTranslatedText(staticText?.table),
-      value: ViewType.Table,
-    },
-    {
-      label: getTranslatedText(staticText?.board),
-      value: ViewType.Board,
-    },
-  ];
-  
   return (
     <div className={styles.elementsContainer}>
+      {props.isForEntities && (
+        <div className={styles.viewTabsContainer}>
+          <span
+            className={
+              viewType === ViewType.Board
+                ? styles.selectedViewTab
+                : styles.viewTab
+            }
+            onClick={() => handleViewTypeChange(ViewType.Board)}
+          >
+            {getTranslatedText(staticText?.board)}
+          </span>
+
+          <span
+            className={
+              viewType === ViewType.Table
+                ? styles.selectedViewTab
+                : styles.viewTab
+            }
+            onClick={() => handleViewTypeChange(ViewType.Table)}
+          >
+            {getTranslatedText(staticText?.table)}
+          </span>
+        </div>
+      )}
+
       <div className={styles.buttonsContainer}>
         {props.canCreate && !props.loading && (
-          <BiAddToQueue
-            className={styles.addIcon}
-            onClick={handleOpenEditor}
-          />
+          <BiAddToQueue className={styles.addIcon} onClick={handleOpenEditor} />
         )}
 
         {props.copyPromise &&
@@ -254,15 +263,6 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
           inputProps={{
             placeholder: getTranslatedText(staticText?.search),
           }}
-        />
-      )}
-
-      {props.isForEntities && (
-        <InputSelect
-          options={viewTypeOptions}
-          label={getTranslatedText(staticText?.view)}
-          onChange={handleViewTypeChange}
-          value={viewTypeOptions.find((el) => el.value === viewType.toString())}
         />
       )}
 

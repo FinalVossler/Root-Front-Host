@@ -12,7 +12,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     paddingRight: 20,
     paddingLeft: 20,
     boxSizing: "border-box",
-    boxShadow: theme.boxShadow,
 
     position: "fixed",
     top: "0%",
@@ -30,7 +29,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     extend: "headerContainer",
     backgroundColor: theme.backgroundColor,
     boxShadow: theme.boxShadow,
-
 
     height: 60,
     "& a": {
@@ -61,10 +59,14 @@ const useStyles = createUseStyles((theme: Theme) => ({
     alignItems: "center",
     flexDirection: "row",
     listStyle: "none",
+    bottom: 6,
+    position: "relative",
+    marginBottom: 0,
   },
   option: {
     color: theme.darkTextColor,
     margin: "20px",
+    position: "relative",
     textDecoration: "none",
     whiteSpace: "nowrap",
 
@@ -101,11 +103,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   "@media (max-width: 1200px)": {
     left: {
-      display: 'none'
-    }
+      display: "none",
+    },
   },
   "@media (max-width: 800px)": {
-
     triggerMenuButton: {
       display: "flex",
     },
@@ -156,7 +157,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     headerContainer: {
       padding: 0,
       justifyContent: "flex-end",
-      height: 60
+      height: 60,
     },
     headerTitle: {
       display: "none",
@@ -164,7 +165,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     option: {
       fontSize: 15,
       margin: 0,
-      color: theme.primary
+      color: theme.primary,
     },
   },
 }));

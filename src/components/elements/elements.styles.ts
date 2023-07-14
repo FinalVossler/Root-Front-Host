@@ -5,16 +5,42 @@ import { Theme } from "../../config/theme";
 const useStyles = createUseStyles((theme: Theme) => ({
   elementsContainer: {
     width: "90%",
-    marginTop: 100,
+    marginTop: 80,
   },
   buttonsContainer: {
     width: "100%",
     alignItems: "center",
     justifyContent: "flex-end",
     display: "flex",
-    // border: "1px solid " + theme.darkTextColor,
-    // boxShadow: theme.boxShadow,
-    borderRadius: 5
+    borderRadius: 5,
+  },
+  viewTabsContainer: {
+    display: "flex",
+    width: "120%",
+    backgroundColor: theme.lightTextColor,
+    marginBottom: 10,
+    position: "relative",
+    left: "-10%",
+    borderTop: "1px solid " + theme.darkTextColor,
+  },
+  viewTab: {
+    flex: 1,
+    height: 40,
+    textAlign: "center",
+    transition: ".1s all ease-in-out",
+    cursor: "pointer",
+    fontSize: 20,
+    paddingTop: 10,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    borderBottom: "4px solid " + theme.lightTextColor,
+  },
+  selectedViewTab: {
+    extend: "viewTab",
+    color: theme.darkerPrimary,
+    borderBottom: "4px solid " + theme.darkerPrimary,
+    fontWeight: "bold",
   },
   actionIcon: {
     fontSize: 30,

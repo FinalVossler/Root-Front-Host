@@ -8,7 +8,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "column",
   },
   eventsTitle: {
-    color: theme.lighterPrimary,
+    color: theme.darkTextColor,
     fontSize: 25,
     marginBottom: 10,
 
@@ -19,7 +19,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   singleEvent: {
     position: "relative",
-    border: "1px solid " + theme.lightTextColor,
+    border: "1px solid " + theme.darkTextColor,
     marginBottom: 10,
     padding: 10,
     paddingTop: 45,
@@ -30,8 +30,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     position: "absolute",
     top: 0,
     left: 0,
-    border: "2px solid " + theme.lightTextColor,
-    color: theme.lightTextColor,
+    border: "2px solid " + theme.darkTextColor,
+    color: theme.darkTextColor,
     height: 15,
     textAlign: "center",
     borderBottomRightRadius: "50%",
@@ -56,7 +56,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   confContainer: {
     margin: 10,
-    border: "1px solid " + theme.lightTextColor,
+    border: "1px solid " + theme.darkTextColor,
     padding: 10,
   },
   apiTitle: {
@@ -75,13 +75,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
     cursor: "pointer",
   },
   eventsContainer: {
-    border: "1px solid " + theme.lightTextColor,
+    border: "1px solid " + theme.darkTextColor,
     padding: 10,
     display: "flex",
     flexDirection: "column",
   },
   headerTitle: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     fontSize: 20,
     marginBottom: 15,
   },
@@ -89,7 +89,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-around",
-    border: "1px solid " + theme.lightTextColor,
+    border: "1px solid " + theme.darkTextColor,
     padding: 10,
     position: "relative",
     paddingTop: 40,

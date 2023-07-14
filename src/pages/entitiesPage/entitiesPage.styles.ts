@@ -11,6 +11,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     alignItems: "center",
     minHeight: "100vh",
     paddingBottom: 300,
+    overflow: "hidden",
   },
 }));
 

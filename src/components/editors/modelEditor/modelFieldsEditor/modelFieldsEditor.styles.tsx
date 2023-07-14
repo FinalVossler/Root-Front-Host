@@ -10,7 +10,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "column",
   },
   fieldsTitle: {
-    color: theme.lighterPrimary,
+    color: theme.darkTextColor,
     fontSize: 25,
     marginBottom: 10,
 
