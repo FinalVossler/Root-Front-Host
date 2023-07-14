@@ -1408,7 +1408,7 @@ const initialState: IWebsiteConfigurationState = {
     },
     existingFiles: {
       noFilesFound: [
-        { text: "Now files found", language: "en" },
+        { text: "No files found", language: "en" },
         { text: "Pas de fichiers trouvés", language: "fr" },
       ],
     },

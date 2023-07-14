@@ -21,7 +21,7 @@ const theme: Theme = {
   lightTextColor: "FFFFFF",
 
   primary: "#4BE3AE",
-  darkerPrimary: "#4BE3AE",
+  darkerPrimary: "#2DB39E",
   lighterPrimary: "#ecf2f0",
   secondary: "#7aeaaf",
   errorColor: "red",

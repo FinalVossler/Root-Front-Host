@@ -15,7 +15,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     boxSizing: 'border-box',
     backgroundColor: '',
     height: '100vh',
-    background: "linear-gradient(" + theme.darkerPrimary + ", " + theme.lighterPrimary + ")"
+    background: "linear-gradient(to right top, " + theme.darkerPrimary + ", " + theme.primary + ")"
   },
   right: {
     width: '50%',

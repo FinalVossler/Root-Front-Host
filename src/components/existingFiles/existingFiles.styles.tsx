@@ -20,7 +20,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     height: "100%",
     alignItems: "center",
     justifyContent: "center",
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
+    padding: 10
   },
   singleFileContainer: {
     cursor: "pointer",

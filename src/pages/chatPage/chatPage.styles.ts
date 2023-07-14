@@ -40,7 +40,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     letterSpacing: 0.1,
   },
   welcomeTextUserName: {
-    color: theme.lightTextColor,
+    color: theme.darkerPrimary,
   },
   chatDirectionText: {
     color: theme.darkTextColor,

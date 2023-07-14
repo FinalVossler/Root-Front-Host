@@ -18,14 +18,12 @@ const useAxios = () => {
     },
     (error: ErrorResponseDto) => {
       const message: string = error.response.data.error.message;
-      console.log('huhu', error)
 
       // If unauthorized, then we logout the user
       if (message == "Unauthorized") {
         dispatch(userSlice.actions.logout());
         toast.error("Offline");
       } else {
-        console.log('huhu')
         toast.error(message);
       }
 

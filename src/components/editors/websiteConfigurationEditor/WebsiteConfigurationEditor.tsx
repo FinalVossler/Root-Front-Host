@@ -177,7 +177,6 @@ const WebsiteConfigurationEditor: React.FunctionComponent<IWebsiteConfigurationE
 
           const [tabIcon, logo1, logo2] = await Promise.all(filesUploadPromises)
           setUploadingFilesLoading(false);
-          console.log('logo1', logo1)
 
           const command: WebsiteConfigurationUpdateCommand = {
             email: values.email || "",

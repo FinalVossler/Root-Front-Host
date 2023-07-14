@@ -37,7 +37,6 @@ const useLogin = () => {
           }
         })
         .finally(() => setLoading(false))
-        .catch((e) => reject(e));
     });
 
   return { login, loading };
