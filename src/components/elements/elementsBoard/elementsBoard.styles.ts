@@ -11,11 +11,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
     padding: 10,
     paddingBottom: 40,
     fontSize: 14,
+    justifyContent: "flex-end",
 
     borderRadius: 10,
   },
   stateContainer: {
     minWidth: 205,
+
     display: "flex",
     flexDirection: "column",
     backgroundColor: "transparent",
@@ -44,8 +46,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     border: "1px solid " + theme.lightTextColor,
     color: theme.lightTextColor,
     padding: 5,
-    width: "100%",
     height: 264,
+    width: 205,
     marginBottom: 10,
     borderRadius: 5,
     boxSizing: "border-box",
