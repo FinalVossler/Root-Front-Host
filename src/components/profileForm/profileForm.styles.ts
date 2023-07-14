@@ -13,7 +13,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     paddingTop: 10,
     marginTop: 0,
     paddingBottom: 40,
-    backgroundColor: "transparent",
+    backgroundColor: theme.lightTextColor,
     boxSizing: "border-box",
     boxShadow: theme.boxShadow,
   },

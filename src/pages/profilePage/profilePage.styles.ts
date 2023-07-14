@@ -48,6 +48,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     top: 5,
     fontSize: 20,
     cursor: "pointer",
+    color: theme.darkerPrimary,
   },
   "@media (max-width: 930px)": {
     profileAndPages: {
