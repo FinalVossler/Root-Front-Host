@@ -4,12 +4,12 @@ import { Theme } from "../../../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
   entityEditorTableFieldContainer: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     marginTop: 10,
     marginBottom: 20,
   },
   tableTd: {
-    border: "1px solid " + theme.lightTextColor,
+    border: "1px solid " + theme.darkTextColor,
     height: 50,
     padding: 13,
   },

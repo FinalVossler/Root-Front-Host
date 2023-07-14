@@ -12,6 +12,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     overflow: "auto",
     paddingRight: 45,
     width: "60vw",
+    paddingLeft: 2
   },
   createFieldHeader: {
     display: "flex",

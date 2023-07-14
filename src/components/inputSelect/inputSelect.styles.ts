@@ -20,6 +20,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
   select: {
     flex: 1,
     backgroundColor: theme.contentBackgroundColor,
+
+    '& input': {
+      '&:focus-visible': {
+        outline: '2px solid ' + theme.secondary
+      }
+    }
   },
   "@media (max-width: 800px)": {},
 }));

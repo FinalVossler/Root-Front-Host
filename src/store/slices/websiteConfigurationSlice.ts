@@ -51,6 +51,8 @@ export interface IWebsiteConfiguration {
       passwordsDontMatch: ITranslatedText[];
       visit: ITranslatedText[];
       role: ITranslatedText[];
+      welcome: ITranslatedText[];
+      solutionDescription: ITranslatedText[]
     };
     changePassword: {
       required: ITranslatedText[];
@@ -509,6 +511,14 @@ const initialState: IWebsiteConfigurationState = {
       visit: [
         { text: "visit", language: "en" },
         { text: "Visiter", language: "fr" },
+      ],
+      welcome: [
+        { text: "Hi there", language: "en" },
+        { text: "Bienvenue", language: "fr" },
+      ],
+      solutionDescription: [
+        { text: "About the MarketMaven solution", language: "en" },
+        { text: "Détails sur la solution de MarketMaven", language: "fr" },
       ],
     },
     changePassword: {

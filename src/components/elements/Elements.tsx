@@ -172,7 +172,6 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
         {props.canCreate && !props.loading && (
           <BiAddToQueue
             className={styles.addIcon}
-            color={theme.primary}
             onClick={handleOpenEditor}
           />
         )}

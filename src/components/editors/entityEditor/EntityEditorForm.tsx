@@ -102,7 +102,6 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
   );
   const user: IUser = useAppSelector((state) => state.user.user);
   const roles: IRole[] = useAppSelector((state) => state.role.roles);
-  const [assignedUsers, setAssignedUsers] = React.useState<IUser[]>([]);
 
   //#region Local state
   const [uploadFilesLoading, setUploadFilesLoading] =

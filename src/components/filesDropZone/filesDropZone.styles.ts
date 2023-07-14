@@ -14,7 +14,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.primary,
   },
   dropHereText: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
   },
   "@media (max-width: 800px)": {},
 }));

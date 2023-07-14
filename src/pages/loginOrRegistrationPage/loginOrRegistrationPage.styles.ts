@@ -7,6 +7,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "row",
     width: "100%",
+    height: '100vh',
     backgroundColor: theme.backgroundColor,
   },
   left: {
@@ -21,13 +22,29 @@ const useStyles = createUseStyles((theme: Theme) => ({
     boxSizing: 'border-box',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingTop: 70
+  },
+  welcome: {
+    color: theme.lightTextColor,
+    marginTop: 230,
+    paddingLeft: 100,
+    fontSize: 55,
+    marginBottom: 20
+  },
+  solutionDescription: {
+    marginTop: 0,
+    color: theme.lightTextColor,
+    paddingLeft: 100,
+    fontSize: 35,
+    width: '60%'
+
   },
   logo1: {
-    width: '140px!important',
-    height: '160px!important',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    width: '120px!important',
+    height: '135px!important',
+    backgroundSize: '120px!important',
+    backgroundPosition: 'center!important',
   },
   switchFormContainer: {
     display: "flex",
@@ -45,7 +62,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
     fontSize: 15,
   },
   "@media (max-width: 930px)": {
-    
+    left: {
+      display: 'none'
+    },
+    right: {
+    paddingTop: 50,
+    width: '100%',
+    },
   },
 }));
 

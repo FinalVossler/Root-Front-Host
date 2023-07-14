@@ -4,7 +4,7 @@ import { Theme } from "../../../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
   label: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     fontSize: 20,
     marginBottom: 5,
   },

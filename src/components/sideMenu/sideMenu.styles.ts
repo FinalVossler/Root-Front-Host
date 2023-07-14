@@ -21,6 +21,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     transition: "all .2s ease-in-out",
     zIndex: 7,
   },
+  websiteLogo2: {
+    
+  },
   menuIconMenuOpen: {
     extend: "menuIcon",
     left: "100%",

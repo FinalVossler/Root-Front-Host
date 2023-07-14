@@ -6,7 +6,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    color: "white",
+    color: theme.darkTextColor
   },
   tableCase: {
     padding: 10,

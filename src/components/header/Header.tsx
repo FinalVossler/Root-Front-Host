@@ -6,7 +6,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Theme } from "../../config/theme";
 
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { IUser, userSlice } from "../../store/slices/userSlice";
+import { userSlice } from "../../store/slices/userSlice";
 import { IPage } from "../../store/slices/pageSlice";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
@@ -17,6 +17,7 @@ import HeaderInbox from "../headerInbox";
 import HeaderNotifications from "../headerNotifications";
 
 import useStyles from "./header.styles";
+import IFile from "../../globalTypes/IFile";
 
 interface IHeader {
   scrolledDown: boolean;

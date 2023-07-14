@@ -51,12 +51,13 @@ const LoginOrRegistrationPage: React.FunctionComponent<ILoginOrRegistrationPage>
   return (
     <div className={styles.loginOrRegistrationPageContainer}>
 
-      <div className={styles.left}></div>
+      <div className={styles.left}>
+        <h2 className={styles.welcome}>{getTranslatedText(staticText?.welcome).toUpperCase()}</h2>
+        <h3 className={styles.solutionDescription}>{getTranslatedText(staticText?.solutionDescription)}</h3>
+      </div>
 
       <div className={styles.right}>
 
-        <br />
-        <br />
 
         {logo1 && <div style={{
           background: 'url(' + logo1.url + ')' + ' center center'

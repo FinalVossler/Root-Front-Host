@@ -12,16 +12,15 @@ const useStyles = createUseStyles((theme: Theme) => ({
     alignItems: "center",
     justifyContent: "flex-end",
     display: "flex",
-    border: "1px solid " + theme.primary,
-    marginBottom: 40,
-    boxShadow: theme.boxShadow,
+    // border: "1px solid " + theme.darkTextColor,
+    // boxShadow: theme.boxShadow,
     borderRadius: 5
   },
   actionIcon: {
     fontSize: 30,
     cursor: "pointer",
     margin: 10,
-    color: theme.primary,
+    color: theme.darkTextColor,
   },
   addIcon: {
     extend: "actionIcon",
@@ -62,7 +61,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     extend: "tableColumn",
   },
   editIcon: {
-    color: theme.primary,
+    color: theme.darkTextColor,
     cursor: "pointer",
     fontSize: 20,
   },

@@ -27,6 +27,7 @@ import { Permission, StaticPermission } from "../../store/slices/roleSlice";
 import { IPage } from "../../store/slices/pageSlice";
 import { useNavigate } from "react-router-dom";
 import { BiTask } from "react-icons/bi";
+import IFile from "../../globalTypes/IFile";
 
 interface ISideMenu {}
 
@@ -37,6 +38,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
   const title: string | undefined = useAppSelector(
     (state) => state.websiteConfiguration.title
   );
+  const websiteLogo2: IFile | undefined = useAppSelector(state => state.websiteConfiguration.logo2);
   const withTaskManagement: boolean | undefined = useAppSelector(
     (state) => state.websiteConfiguration.withTaskManagement
   );
@@ -98,7 +100,8 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
 
       {isSideMenuOpen && (
         <div className={styles.sideMenuContent}>
-          <span className={styles.appName}>{title}</span>
+          {websiteLogo2 && <img src={websiteLogo2.url} className={styles.websiteLogo2} />}
+          {!websiteLogo2 && <span className={styles.appName}>{title}</span>}
           {pages.map((page: IPage) => {
             if (!page.showInSideMenu) return null;
             return (

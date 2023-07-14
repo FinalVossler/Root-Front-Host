@@ -7,15 +7,15 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginTop: 0,
     marginBottom: 40,
   },
-  entityEditorStatesTitle: { fontSize: 30, color: theme.lightTextColor },
+  entityEditorStatesTitle: { fontSize: 30, color: theme.darkTextColor },
   stateContainer: {
     width: "50%",
     padding: 40,
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     margin: "auto",
     fontSize: 30,
     textAlign: "center",
-    border: "1px solid " + theme.lightTextColor,
+    border: "1px solid " + theme.darkTextColor,
     boxSizing: "border-box",
   },
   stateContainerConditionMet: {
