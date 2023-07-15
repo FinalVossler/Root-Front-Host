@@ -1,6 +1,6 @@
 import React from "react";
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { Theme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
@@ -31,6 +31,7 @@ const SideMenuOption: React.FunctionComponent<ISideMenuOption> = (
   );
 
   const styles = useStyles({ theme });
+  const location = useLocation();
 
   return (
     <React.Fragment>
@@ -42,7 +43,14 @@ const SideMenuOption: React.FunctionComponent<ISideMenuOption> = (
         }
         onClick={props.triggerExtended}
       >
-        <div onClick={props.onClick} className={styles.sideMenuOptionContainer}>
+        <div
+          onClick={props.onClick}
+          className={
+            props.link === location.pathname
+              ? styles.selectedSideMenuOption
+              : styles.sideMenuOptionContainer
+          }
+        >
           <props.Icon className={styles.optionIcon} />
           <span className={styles.optionTitle}>{props.title}</span>
           {props.subOptions && props.subOptions.length > 0 && (
@@ -85,10 +93,17 @@ const SubOption = (props: { subOption: SubOption }) => {
   );
 
   const styles = useStyles({ theme });
+  const location = useLocation();
 
   return (
     <Link to={props.subOption.link}>
-      <div className={styles.subOption}>
+      <div
+        className={
+          location.pathname === props.subOption.link
+            ? styles.selectedSubOption
+            : styles.subOption
+        }
+      >
         <props.subOption.Icon className={styles.subOptionIcon} />
         <span className={styles.optionTitle}>{props.subOption.title}</span>
       </div>

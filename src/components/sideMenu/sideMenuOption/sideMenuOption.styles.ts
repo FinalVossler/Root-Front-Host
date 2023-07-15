@@ -16,7 +16,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
     "&:hover": {
       borderColor: theme.primary,
       color: theme.primary,
-      background: "linear-gradient(to right, " + theme.contentBackgroundColor + ", " + theme.boxColor + ")",
+      background:
+        "linear-gradient(to right, " +
+        theme.contentBackgroundColor +
+        ", " +
+        theme.boxColor +
+        ")",
       borderLeft: "10px solid " + theme.primary,
     },
 
@@ -28,6 +33,28 @@ const useStyles = createUseStyles((theme: Theme) => ({
       color: theme.primary,
     },
     "&:hover svg": {
+      color: theme.primary,
+    },
+  },
+  selectedSideMenuOption: {
+    extend: "sideMenuOptionContainer",
+    borderColor: theme.primary,
+    color: theme.primary,
+    background:
+      "linear-gradient(to right, " +
+      theme.contentBackgroundColor +
+      ", " +
+      theme.boxColor +
+      ")",
+    borderLeft: "10px solid " + theme.primary,
+
+    "& $optionTitle": {
+      color: theme.primary,
+    },
+    "& $optionIcon": {
+      color: theme.primary,
+    },
+    "& svg": {
       color: theme.primary,
     },
   },
@@ -59,6 +86,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderBottom: "1px solid " + theme.lightTextColor,
     display: "flex",
     alignItems: "center",
+  },
+  selectedSubOption: {
+    extend: "selectedSideMenuOption",
   },
   subOptionIcon: {
     extend: "optionIcon",
