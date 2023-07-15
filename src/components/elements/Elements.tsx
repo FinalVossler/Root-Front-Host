@@ -1,5 +1,5 @@
 import React from "react";
-import { BiAddToQueue, BiCopy } from "react-icons/bi";
+import { BiCopy, BiHide, BiShow } from "react-icons/bi";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import ColumnResizer from "react-table-column-resizer";
 import Loading from "react-loading";
@@ -26,6 +26,7 @@ export type Column = {
   label: string;
   name: string;
   render?: (any) => any;
+  defaultHide?: boolean;
 };
 
 export type Element = IField | IModel | IEntity | IUser | IRole;
@@ -87,6 +88,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
   const [viewType, setViewType] = React.useState<ViewType>(
     props.isForEntities ? ViewType.Board : ViewType.Table
   );
+  const [hiddenColumns, setHiddenColumns] = React.useState<Column[]>([]);
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
@@ -101,8 +103,20 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
     setSelectedElementsIds([]);
   }, [props.elements]);
 
+  React.useEffect(() => {
+    setHiddenColumns(props.columns.filter((el) => el.defaultHide));
+  }, [props.columns]);
+
   //#region Event listeners
   const handleOpenEditor = () => setEditorOpen(true);
+  const handleHideColumn = (column: Column) => {
+    if (!hiddenColumns.some((el) => el.name === column.name)) {
+      setHiddenColumns([...hiddenColumns, column]);
+    }
+  };
+  const handleShowColumn = (column: Column) => {
+    setHiddenColumns(hiddenColumns.filter((el) => el.name !== column.name));
+  };
   const handleToggleElementSelect = (
     e: React.ChangeEvent<HTMLInputElement>,
     element: Element
@@ -286,22 +300,44 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
         />
       )}
 
+      <div className={styles.hiddenColumns}>
+        {hiddenColumns.map((col, i) => {
+          return (
+            <div
+              className={styles.hiddenColumn}
+              onClick={() => handleShowColumn(col)}
+              key={i}
+            >
+              {getTranslatedText(col.label)}
+              <BiShow className={styles.showIcon} />
+            </div>
+          );
+        })}
+      </div>
+
       {viewType === ViewType.Table && (
         <table className={styles.elementsTable}>
           <thead className={styles.tableHeader}>
             <tr className={styles.tableRow}>
               {props.columns.map((column, index) => {
+                if (hiddenColumns.some((el) => el.name === column.name)) {
+                  return null;
+                }
                 return (
                   <React.Fragment key={index}>
-                    <th className={styles.tableColumn} key={index}>
+                    <th className={styles.tableHeaderColumn} key={index}>
                       {column.label}
+                      <BiHide
+                        className={styles.hideColumnButton}
+                        onClick={() => handleHideColumn(column)}
+                      />
                     </th>
                     <ColumnResizer className="columnResizer" minWidth={0} />
                   </React.Fragment>
                 );
               })}
               {props.canUpdate && (
-                <th className={styles.tableColumn}>
+                <th className={styles.tableHeaderColumn}>
                   {getTranslatedText(staticText?.edit)}
                 </th>
               )}
@@ -309,7 +345,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                 <ColumnResizer className="columnResizer" minWidth={0} />
               )}
               {props.canDelete && (
-                <th className={styles.tableColumn}>
+                <th className={styles.tableHeaderColumn}>
                   <div className={styles.actions}>
                     {getTranslatedText(staticText?.actions)}
                     <input
@@ -327,13 +363,10 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                   </div>
                 </th>
               )}
-              {props.canDelete && (
-                <ColumnResizer className="columnResizer" minWidth={0} />
-              )}
             </tr>
           </thead>
 
-          <tbody>
+          <tbody className={styles.tbody}>
             {props.loading && (
               <tr>
                 <td>
@@ -347,6 +380,9 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                 return (
                   <tr className={styles.tableRow} key={index}>
                     {props.columns.map((column, columnIndex) => {
+                      if (hiddenColumns.some((el) => el.name === column.name)) {
+                        return null;
+                      }
                       return (
                         <React.Fragment key={columnIndex}>
                           <td className={styles.tableColumn} key={columnIndex}>

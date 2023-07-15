@@ -116,10 +116,11 @@ const EntitiesList: React.FunctionComponent<IEntitiesList> = (
     model?.modelFields.map((modelField) => {
       return {
         label: getTranslatedText(modelField.field.name),
-        name: "",
+        name: modelField.field._id,
         render: (entity: IEntity) => (
           <EntityFieldValueComponent entity={entity} modelField={modelField} />
         ),
+        defaultHide: !Boolean(modelField.mainField),
       };
     }) || [];
 
@@ -188,25 +189,26 @@ interface IEntityFieldValueComponent {
   entity: IEntity;
 }
 
-export const EntityFieldValueComponent: React.FunctionComponent<IEntityFieldValueComponent> =
-  (props: IEntityFieldValueComponent) => {
-    const getTranslatedText = useGetTranslatedText();
+export const EntityFieldValueComponent: React.FunctionComponent<
+  IEntityFieldValueComponent
+> = (props: IEntityFieldValueComponent) => {
+  const getTranslatedText = useGetTranslatedText();
 
-    const entityFieldValue: IEntityFieldValue | undefined =
-      props.entity.entityFieldValues.find(
-        (entityField) =>
-          entityField.field._id.toString() ===
-          props.modelField.field._id.toString()
-      );
+  const entityFieldValue: IEntityFieldValue | undefined =
+    props.entity.entityFieldValues.find(
+      (entityField) =>
+        entityField.field._id.toString() ===
+        props.modelField.field._id.toString()
+    );
 
-    if (entityFieldValue && entityFieldValue?.field.type !== FieldType.File) {
-      return <div>{getTranslatedText(entityFieldValue?.value)}</div>;
-    }
-    if (entityFieldValue && entityFieldValue.field.type === FieldType.File) {
-      return <div>{entityFieldValue.files.map((f) => f.name).join(", ")}</div>;
-    }
+  if (entityFieldValue && entityFieldValue?.field.type !== FieldType.File) {
+    return <div>{getTranslatedText(entityFieldValue?.value)}</div>;
+  }
+  if (entityFieldValue && entityFieldValue.field.type === FieldType.File) {
+    return <div>{entityFieldValue.files.map((f) => f.name).join(", ")}</div>;
+  }
 
-    return <div></div>;
-  };
+  return <div></div>;
+};
 
 export default EntitiesList;

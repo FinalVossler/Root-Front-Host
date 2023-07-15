@@ -61,6 +61,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   elementsTable: {
     color: theme.darkTextColor,
     maxWidth: "100%",
+    overflow: "scroll",
   },
   tableHeader: {},
   tableRow: {
@@ -72,8 +73,17 @@ const useStyles = createUseStyles((theme: Theme) => ({
     maxWidth: 400,
     boxSizing: "border-box",
     textAlign: "center",
-    border: "1px solid " + theme.darkTextColor,
+    fontSize: 16,
   },
+  tableHeaderColumn: {
+    extend: "tableColumn",
+    fontSize: 20,
+    fontWeight: "bold",
+    color: theme.darkerPrimary,
+    whiteSpace: "nowrap",
+    borderBottom: "2px solid " + theme.darkerPrimary,
+  },
+  tbody: {},
   actions: {
     display: "flex",
     width: "100%",
@@ -95,6 +105,32 @@ const useStyles = createUseStyles((theme: Theme) => ({
   actionCheckbox: {
     extend: "checkbox",
     marginLeft: 10,
+  },
+  hiddenColumns: {
+    display: "flex",
+    flex: 1,
+    overflow: "scroll",
+    alignItems: "center",
+    paddingBottom: 15,
+  },
+  hideColumnButton: {
+    color: theme.errorColor,
+    position: "relative",
+    top: 4,
+    marginLeft: 10,
+    cursor: "pointer",
+  },
+  hiddenColumn: {
+    boxShadow: theme.boxShadow,
+    margin: 5,
+    cursor: "pointer",
+    padding: 10,
+    display: "flex",
+    alignItems: "center",
+    whiteSpace: "nowrap",
+  },
+  showIcon: {
+    marginLeft: 5,
   },
   "@media (max-width: 800px)": {},
 }));
