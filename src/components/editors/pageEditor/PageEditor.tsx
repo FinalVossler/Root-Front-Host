@@ -175,7 +175,9 @@ const PageEditor = (props: IPageEditor) => {
         >
           <div className={styles.createPageHeader}>
             <h2 className={styles.createPageTitle}>
-              {getTranslatedText(staticText?.createPage)}
+              {props.page
+                ? getTranslatedText(staticText?.updatePage)
+                : getTranslatedText(staticText?.addPage)}
             </h2>
 
             <ImCross
