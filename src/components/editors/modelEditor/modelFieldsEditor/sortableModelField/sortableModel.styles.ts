@@ -26,7 +26,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     zIndex: 3,
   },
   fieldName: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
+    fontSize: 20,
   },
   sortModelFieldHandle: {
     extend: "deleteModelFieldButton",
@@ -97,7 +98,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "100%",
   },
   statesConfigurationHint: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
   },
   "@media (max-width: 850px)": {},
 }));

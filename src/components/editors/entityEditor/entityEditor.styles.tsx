@@ -39,7 +39,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     justifyContent: "center",
     backgroundColor: theme.primary,
-    color: theme.darkTextColor,
+    color: theme.lightTextColor,
     padding: 10,
     border: "none",
     borderRadius: 5,

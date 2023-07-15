@@ -11,6 +11,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
   addFilesContainer: {
     display: "flex",
     flexDirection: "column",
+    marginBottom: 20,
+    border: "1px solid " + theme.darkTextColor,
+    padding: 10,
+    boxSizing: "border-box",
+    borderRadius: 5,
   },
   filesButtonsContainer: {
     display: "flex",
@@ -23,8 +28,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     fontSize: 40,
   },
   chooseFilesButton: {
-    fontSize: 45,
+    fontSize: 100,
     cursor: "pointer",
+    color: theme.primary,
   },
   newFilesContainer: {
     display: "flex",

@@ -448,7 +448,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
               error={
                 erroredRequiredFields.find(
                   (mf) => mf.field._id === modelField.field._id
-                )
+                ) && Boolean(formik.touched.entityFieldValues)
                   ? getTranslatedText(staticText?.required)
                   : ""
               }

@@ -29,12 +29,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
   cardTitle: {
     fontSize: 30,
     textAlign: "center",
-    color: theme.darkTextColor,
+    color: theme.lightTextColor,
     margin: 10,
   },
   cardDescription: {
     fontSize: 15,
-    color: theme.darkTextColor,
+    color: theme.lightTextColor,
     textAlign: "center",
     lineHeight: 2,
     fontWeight: 400,

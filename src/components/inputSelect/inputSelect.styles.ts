@@ -19,13 +19,33 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   select: {
     flex: 1,
-    backgroundColor: theme.contentBackgroundColor,
+    backgroundColor: theme.lightTextColor,
+    "& .react-select__control": {
+      border: "none",
+      boxShadow: theme.boxShadow,
+      height: 47,
+    },
 
-    '& input': {
-      '&:focus-visible': {
-        outline: '2px solid ' + theme.secondary
-      }
-    }
+    "& .select__indicator": {
+      color: theme.darkTextColor,
+    },
+
+    "& .react-select__indicator-separator": {
+      backgroundColor: theme.darkTextColor,
+    },
+
+    "& input": {
+      "&:focus-visible": {
+        outline: "2px solid " + theme.secondary,
+      },
+    },
+  },
+  dislabedSelect: {
+    extend: "select",
+
+    "& .react-select__control": {
+      backgroundColor: theme.secondary + "!important",
+    },
   },
   "@media (max-width: 800px)": {},
 }));

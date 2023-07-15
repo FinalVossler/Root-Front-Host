@@ -5,6 +5,7 @@ import { useAppDispatch } from "../../store/hooks";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 import { entitySlice, IEntity } from "../../store/slices/entitySlice";
 import { EntityFieldValueCommand } from "./useCreateEntity";
+import { toast } from "react-toastify";
 
 export type EntityUpdateCommand = {
   _id: string;
@@ -39,6 +40,7 @@ const useUpdateEntity = () => {
             })
           );
           resolve(entity);
+          toast.success("");
         })
         .finally(() => {
           setLoading(false);

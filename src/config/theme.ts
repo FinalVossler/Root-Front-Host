@@ -26,7 +26,7 @@ const theme: Theme = {
   secondary: "#7aeaaf",
   errorColor: "red",
   borderColor: "#9f9f9f",
-  formMaxWidth: "550px",
+  formMaxWidth: "470px",
   transparentBackground: "#FFFFFF",
   backgroundColor: "#F5FDFB",
   contentBackgroundColor: "#d3f8eb",

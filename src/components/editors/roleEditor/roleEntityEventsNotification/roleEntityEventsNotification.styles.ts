@@ -6,7 +6,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   roleEntityEventNotificationContainer: {},
   singleEventNotification: {
     position: "relative",
-    border: "1px solid " + theme.lightTextColor,
+    border: "1px solid " + theme.darkTextColor,
     marginBottom: 10,
     padding: 10,
     paddingTop: 20,

@@ -63,7 +63,7 @@ const SingleEntityPage: React.FunctionComponent<ISingleEntityPage> = (
           <EntityEditorForm
             modelId={modelId}
             entity={entity}
-            readOnly
+            // readOnly
             open={false}
             setOpen={() => {}}
           />

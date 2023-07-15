@@ -7,7 +7,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "100%",
     marginTop: 10,
     position: "relative",
-    marginBottom: 10,
   },
   fileInputLabel: {
     color: theme.darkTextColor,

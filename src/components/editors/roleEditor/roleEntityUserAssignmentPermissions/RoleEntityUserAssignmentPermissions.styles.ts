@@ -15,7 +15,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   selectedRoleContainer: {
     marginTop: 10,
     marginBottom: 10,
-    border: "1px solid " + theme.lightTextColor,
+    border: "1px solid " + theme.darkTextColor,
     padding: 10,
 
     position: "relative",
@@ -28,7 +28,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.errorColor,
   },
   roleName: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
   },
 }));
 

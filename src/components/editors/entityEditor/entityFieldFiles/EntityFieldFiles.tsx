@@ -183,7 +183,6 @@ const EntityFieldFiles = (props: IEntityFieldFiles) => {
         <AiOutlineFileSearch
           className={styles.chooseFilesButton}
           onClick={() => setExistingFilesOpen(true)}
-          color={theme.primary}
         />
 
         <FilesDropZone onDrop={handleDropFiles} disabled={props.disabled} />

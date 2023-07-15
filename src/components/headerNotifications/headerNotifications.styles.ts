@@ -21,7 +21,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     padding: 5,
   },
   notificationPopup: {
-    backgroundColor: theme.secondary,
+    backgroundColor: theme.lightTextColor,
     color: theme.lightTextColor,
     boxShadow: theme.boxShadow,
     position: "absolute",
@@ -46,6 +46,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderRadius: 10,
     boxSizing: "border-box",
     marginBottom: 10,
+    color: theme.darkTextColor,
 
     "&:hover": {
       backgroundColor: theme.darkerPrimary,
@@ -62,14 +63,14 @@ const useStyles = createUseStyles((theme: Theme) => ({
   notificationContainerUnclicked: {
     extend: "notificationContainer",
     backgroundColor: theme.primary,
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
   },
   notificationText: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     marginLeft: 20,
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     flex: 1,
   },
   "@media (max-width: 800px)": {

@@ -67,7 +67,13 @@ const Input: React.FunctionComponent<IInput> = (props: IInput) => {
       };
   //#endregion Event listeners
 
-  const iconStyles = props.iconColor ? { color: props.iconColor } : {};
+  const iconStyles = props.iconColor
+    ? { color: props.iconColor }
+    : {
+        color: props.inputProps?.disabled
+          ? theme.lightTextColor
+          : theme.primary,
+      };
   return (
     <div
       className={

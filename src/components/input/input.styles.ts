@@ -60,8 +60,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
       opacity: 0.5,
     },
     "&:focus-visible": {
-      outline: '2px solid ' + theme.secondary
-    }
+      outline: "2px solid " + theme.secondary,
+    },
   },
   inputWithLabel: {
     extend: "input",
@@ -70,7 +70,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
   inputIcon: {
     position: "absolute",
     fontSize: 25,
-    color: theme.primary,
     top: 10,
     left: 6,
     cursor: "pointer",

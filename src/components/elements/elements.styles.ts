@@ -14,6 +14,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     borderRadius: 5,
     marginBottom: 10,
+    marginTop: 20,
   },
   viewTabsContainer: {
     display: "flex",

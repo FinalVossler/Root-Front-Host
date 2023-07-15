@@ -27,7 +27,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   headerContainerScrolled: {
     extend: "headerContainer",
-    backgroundColor: theme.backgroundColor,
+    backgroundColor: theme.transparentBackground,
     boxShadow: theme.boxShadow,
 
     height: 60,
