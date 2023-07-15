@@ -57,6 +57,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   copyIcon: {
     extend: "actionIcon",
+    color: theme.primary,
   },
   elementsTable: {
     color: theme.darkTextColor,
