@@ -20,6 +20,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
     cursor: "pointer",
     transition: ".2s all ease-in-out",
     alignItems: "center",
+    background:
+      "linear-gradient(to right, " +
+      theme.darkerPrimary +
+      ", " +
+      theme.primary +
+      ")",
   },
   disabledButtonContainer: {
     extend: "buttonContainer",

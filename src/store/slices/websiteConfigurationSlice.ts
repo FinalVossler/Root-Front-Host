@@ -52,7 +52,7 @@ export interface IWebsiteConfiguration {
       visit: ITranslatedText[];
       role: ITranslatedText[];
       welcome: ITranslatedText[];
-      solutionDescription: ITranslatedText[]
+      solutionDescription: ITranslatedText[];
     };
     changePassword: {
       required: ITranslatedText[];
@@ -188,6 +188,7 @@ export interface IWebsiteConfiguration {
       view: ITranslatedText[];
       table: ITranslatedText[];
       board: ITranslatedText[];
+      add: ITranslatedText[];
     };
     pages: {
       deletePageMessage: ITranslatedText[];
@@ -1187,6 +1188,10 @@ const initialState: IWebsiteConfigurationState = {
         { language: "en", text: "Board" },
         { language: "fr", text: "Cartes " },
       ],
+      add: [
+        { language: "en", text: "Add" },
+        { language: "fr", text: "Ajouter " },
+      ],
     },
     pages: {
       deletePageMessage: [
@@ -1557,7 +1562,7 @@ const initialState: IWebsiteConfigurationState = {
       logo2: [
         { text: "Secondary logo", language: "en" },
         { text: "Logo secondaire", language: "fr" },
-      ]
+      ],
     },
 
     roles: {

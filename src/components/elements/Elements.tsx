@@ -19,9 +19,8 @@ import { IRole } from "../../store/slices/roleSlice";
 import SearchInput from "../searchInput";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import PaginationCommand from "../../globalTypes/PaginationCommand";
-import InputSelect from "../inputSelect";
-import { Option } from "../inputSelect/InputSelect";
 import ElementsBoard from "./elementsBoard";
+import Button from "../button";
 
 export type Column = {
   label: string;
@@ -85,7 +84,9 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
   const [selectedElement, setSelectedElement] = React.useState<Element | null>(
     null
   );
-  const [viewType, setViewType] = React.useState<ViewType>(ViewType.Board);
+  const [viewType, setViewType] = React.useState<ViewType>(
+    props.isForEntities ? ViewType.Board : ViewType.Table
+  );
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
@@ -181,8 +182,32 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
       )}
 
       <div className={styles.buttonsContainer}>
+        {props.searchPromise && (
+          <SearchInput
+            getElementTitle={props.getElementName}
+            searchPromise={props.searchPromise}
+            setSearchResult={props.setSearchResult}
+            showSearchResult={false}
+            inputProps={{
+              placeholder: getTranslatedText(staticText?.search),
+              style: {
+                marginRight: 10,
+                position: "relative",
+                top: 8,
+                height: 42,
+              },
+            }}
+          />
+        )}
+
         {props.canCreate && !props.loading && (
-          <BiAddToQueue className={styles.addIcon} onClick={handleOpenEditor} />
+          // <BiAddToQueue className={styles.addIcon} onClick={handleOpenEditor} />
+          <Button
+            onClick={handleOpenEditor}
+            style={{ paddingLeft: 40, paddingRight: 40 }}
+          >
+            {getTranslatedText(staticText?.add)}
+          </Button>
         )}
 
         {props.copyPromise &&
@@ -253,18 +278,6 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
           element={selectedElement}
         />
       </div>
-
-      {props.searchPromise && (
-        <SearchInput
-          getElementTitle={props.getElementName}
-          searchPromise={props.searchPromise}
-          setSearchResult={props.setSearchResult}
-          showSearchResult={false}
-          inputProps={{
-            placeholder: getTranslatedText(staticText?.search),
-          }}
-        />
-      )}
 
       {viewType === ViewType.Board && props.isForEntities && (
         <ElementsBoard

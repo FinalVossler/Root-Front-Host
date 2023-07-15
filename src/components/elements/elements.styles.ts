@@ -13,6 +13,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     justifyContent: "flex-end",
     display: "flex",
     borderRadius: 5,
+    marginBottom: 10,
   },
   viewTabsContainer: {
     display: "flex",
@@ -48,7 +49,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     margin: 10,
     color: theme.darkTextColor,
   },
-  addIcon: {
+  addButton: {
     extend: "actionIcon",
   },
   deleteIcon: {
