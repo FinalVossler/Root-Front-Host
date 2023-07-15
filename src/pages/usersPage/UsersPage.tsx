@@ -19,6 +19,7 @@ import withChat from "../../hoc/withChat";
 import useHasPermission from "../../hooks/useHasPermission";
 import { Permission } from "../../store/slices/roleSlice";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
+import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 
 interface IUsersPage {}
 
@@ -121,6 +122,7 @@ const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
         canDelete={hasPermission(Permission.DeletePage)}
         searchResult={searchResult}
         setSearchResult={handleSetSearchResult}
+        elementsLocalStorageConfName={LocalStorageConfNameEnum.USERS}
       />
     </div>
   );

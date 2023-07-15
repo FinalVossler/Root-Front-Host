@@ -16,6 +16,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    overflow: "hidden",
 
     backgroundSize: "cover",
     backgroundBlendMode: "screen",

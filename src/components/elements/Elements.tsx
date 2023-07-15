@@ -21,6 +21,12 @@ import PaginationResponse from "../../globalTypes/PaginationResponse";
 import PaginationCommand from "../../globalTypes/PaginationCommand";
 import ElementsBoard from "./elementsBoard";
 import Button from "../button";
+import {
+  LocalStorageConfNameEnum,
+  IElementsConf,
+  getLocalStorageElementsConf,
+  updateLocalStorageElementsConf,
+} from "../../utils/localStorage";
 
 export type Column = {
   label: string;
@@ -66,6 +72,7 @@ interface IElements {
   setSearchResult: (result: PaginationResponse<any>) => void;
   isForEntities?: boolean;
   modelId?: string;
+  elementsLocalStorageConfName: LocalStorageConfNameEnum | string;
 }
 
 const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
@@ -103,19 +110,49 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
     setSelectedElementsIds([]);
   }, [props.elements]);
 
+  // Load hidden columns from local storage. If not found, then we set the default hide
   React.useEffect(() => {
-    setHiddenColumns(props.columns.filter((el) => el.defaultHide));
+    const conf: IElementsConf | null = getLocalStorageElementsConf(
+      props.elementsLocalStorageConfName
+    );
+    if (conf) {
+      setHiddenColumns(
+        props.columns.filter(
+          (el) => conf.hiddenColumnNames.indexOf(el.name) !== -1
+        )
+      );
+    } else {
+      setHiddenColumns(props.columns.filter((el) => el.defaultHide));
+    }
   }, [props.columns]);
 
   //#region Event listeners
   const handleOpenEditor = () => setEditorOpen(true);
   const handleHideColumn = (column: Column) => {
     if (!hiddenColumns.some((el) => el.name === column.name)) {
-      setHiddenColumns([...hiddenColumns, column]);
+      const newHiddenColumns = [...hiddenColumns, column];
+      setHiddenColumns(newHiddenColumns);
+      updateLocalStorageConf({ hiddenColumns: newHiddenColumns });
     }
   };
   const handleShowColumn = (column: Column) => {
-    setHiddenColumns(hiddenColumns.filter((el) => el.name !== column.name));
+    const newHiddenColumns = hiddenColumns.filter(
+      (el) => el.name !== column.name
+    );
+    setHiddenColumns(newHiddenColumns);
+    updateLocalStorageConf({ hiddenColumns: newHiddenColumns });
+  };
+  const updateLocalStorageConf = ({
+    hiddenColumns,
+  }: {
+    hiddenColumns: Column[];
+  }) => {
+    updateLocalStorageElementsConf({
+      confName: props.elementsLocalStorageConfName,
+      value: {
+        hiddenColumnNames: hiddenColumns.map((el) => el.name),
+      },
+    });
   };
   const handleToggleElementSelect = (
     e: React.ChangeEvent<HTMLInputElement>,

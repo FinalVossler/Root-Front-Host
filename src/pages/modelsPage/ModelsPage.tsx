@@ -17,6 +17,7 @@ import { IModel, modelSlice } from "../../store/slices/modelSlice";
 import { Permission } from "../../store/slices/roleSlice";
 
 import useStyles from "./modelsPage.styles";
+import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 
 interface IModelsPage {}
 
@@ -104,6 +105,7 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
         canDelete={hasPermission(Permission.DeleteModel)}
         searchResult={searchResult}
         setSearchResult={handleSetSearchResult}
+        elementsLocalStorageConfName={LocalStorageConfNameEnum.MODELS}
       />
     </div>
   );

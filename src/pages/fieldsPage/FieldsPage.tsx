@@ -18,6 +18,7 @@ import { fieldSlice, IField } from "../../store/slices/fieldSlice";
 import { Permission } from "../../store/slices/roleSlice";
 
 import useStyles from "./fieldsPage.styles";
+import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 
 interface IFieldsPage {}
 
@@ -127,6 +128,7 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
         searchPromise={handleSearchFieldsPromise}
         searchResult={searchResult}
         setSearchResult={handleSetSearchResult}
+        elementsLocalStorageConfName={LocalStorageConfNameEnum.FIELDS}
       />
     </div>
   );

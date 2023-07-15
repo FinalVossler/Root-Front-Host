@@ -14,6 +14,7 @@ import useHasPermission from "../../hooks/useHasPermission";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { IRole, Permission, roleSlice } from "../../store/slices/roleSlice";
+import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 
 import useStyles from "./rolesPage.styles";
 
@@ -92,6 +93,7 @@ const RolesPage: React.FunctionComponent<IRolesPage> = (props: IRolesPage) => {
         canDelete={hasPermission(Permission.DeleteRole)}
         searchResult={searchResult}
         setSearchResult={handleSetSearchResult}
+        elementsLocalStorageConfName={LocalStorageConfNameEnum.ROLES}
       />
     </div>
   );

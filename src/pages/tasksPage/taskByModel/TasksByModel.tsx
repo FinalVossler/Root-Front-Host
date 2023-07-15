@@ -14,6 +14,9 @@ import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import { IEntity } from "../../../store/slices/entitySlice";
 import { IUser } from "../../../store/slices/userSlice";
 import { EntityFieldValueComponent } from "../../entitiesPage/entitiesList/EntitiesList";
+import moment from "moment";
+import UserProfilePicture from "../../../components/userProfilePicture";
+import { SizeEnum } from "../../../components/userProfilePicture/UserProfilePicture";
 
 const LIMIT = 99;
 
@@ -96,23 +99,30 @@ const TasksByModel: React.FunctionComponent<ITasksByModel> = (
 
   return (
     <div className={styles.tasksByModelContainer}>
-      <table>
-        <thead>
-          <tr>
-            <td className={styles.tableCase}>
+      <table className={styles.tasksByModelTable}>
+        <thead className={styles.tableHeader}>
+          <tr className={styles.tableRow}>
+            <td className={styles.tableHeaderColumn}>
               {getTranslatedText(staticText?.assignedTo)}
             </td>
             {model.modelFields
               .filter((modelField) => modelField.mainField)
               .map((modelField, modelFieldIndex: number) => {
                 return (
-                  <td className={styles.tableCase} key={modelFieldIndex}>
+                  <td
+                    className={styles.tableHeaderColumn}
+                    key={modelFieldIndex}
+                  >
                     {getTranslatedText(modelField.field.name)}
                   </td>
                 );
               })}
-            <td>{getTranslatedText(staticText?.createdAt)}</td>
-            <td>{getTranslatedText(staticText?.taskType)}</td>
+            <td className={styles.tableHeaderColumn}>
+              {getTranslatedText(staticText?.createdAt)}
+            </td>
+            <td className={styles.tableHeaderColumn}>
+              {getTranslatedText(staticText?.taskType)}
+            </td>
           </tr>
         </thead>
 
@@ -129,16 +139,26 @@ const TasksByModel: React.FunctionComponent<ITasksByModel> = (
                     {entity.assignedUsers.map(
                       (user: IUser, userIndex: number) => {
                         return (
-                          <tr key={userIndex}>
-                            <td className={styles.tableCase}>
-                              {user.firstName} {user.lastName}
+                          <tr className={styles.tableRow} key={userIndex}>
+                            <td className={styles.tableColumn}>
+                              <div className={styles.subColumnContainer}>
+                                <UserProfilePicture
+                                  size={SizeEnum.Small}
+                                  url={user.profilePicture?.url}
+                                />{" "}
+                                <span
+                                  className={styles.userFirstNameAndLastName}
+                                >
+                                  {user.firstName} {user.lastName}
+                                </span>
+                              </div>
                             </td>
                             {model.modelFields
                               ?.filter((modelField) => modelField.mainField)
                               .map((modelField, modelFieldIndex: number) => {
                                 return (
                                   <td
-                                    className={styles.tableCase}
+                                    className={styles.tableColumn}
                                     key={modelFieldIndex}
                                   >
                                     <EntityFieldValueComponent
@@ -148,8 +168,12 @@ const TasksByModel: React.FunctionComponent<ITasksByModel> = (
                                   </td>
                                 );
                               })}
-                            <td>{entity.createdAt}</td>
-                            <td>{getTranslatedText(user.role?.name)}</td>
+                            <td className={styles.tableColumn}>
+                              {moment(entity.createdAt).format("YYYY/MM/DD")}
+                            </td>
+                            <td className={styles.tableColumn}>
+                              {getTranslatedText(user.role?.name)}
+                            </td>
                           </tr>
                         );
                       }
