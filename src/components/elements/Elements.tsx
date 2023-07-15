@@ -300,20 +300,22 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
         />
       )}
 
-      <div className={styles.hiddenColumns}>
-        {hiddenColumns.map((col, i) => {
-          return (
-            <div
-              className={styles.hiddenColumn}
-              onClick={() => handleShowColumn(col)}
-              key={i}
-            >
-              {getTranslatedText(col.label)}
-              <BiShow className={styles.showIcon} />
-            </div>
-          );
-        })}
-      </div>
+      {hiddenColumns.length > 0 && (
+        <div className={styles.hiddenColumns}>
+          {hiddenColumns.map((col, i) => {
+            return (
+              <div
+                className={styles.hiddenColumn}
+                onClick={() => handleShowColumn(col)}
+                key={i}
+              >
+                {getTranslatedText(col.label)}
+                <BiShow className={styles.showIcon} />
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {viewType === ViewType.Table && (
         <table className={styles.elementsTable}>
