@@ -1,6 +1,7 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 const webpack = require("webpack");
+const path = require("path");
 
 const deps = require("./package.json").dependencies;
 module.exports = (_, argv) => {
@@ -11,9 +12,16 @@ module.exports = (_, argv) => {
   }
 
   return {
+    entry: {
+      app: "./src/index.ts",
+    },
     output: {
+      path: path.join(__dirname, "dist"),
+      filename: "[name].js",
+      sourceMapFilename: "[name].js.map",
       publicPath: "http://localhost:3000/",
     },
+    devtool: "source-map",
 
     resolve: {
       extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],

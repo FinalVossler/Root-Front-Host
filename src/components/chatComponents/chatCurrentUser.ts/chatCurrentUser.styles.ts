@@ -11,9 +11,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
     boxSizing: "border-box",
     paddingBottom: 20,
     paddingTop: 20,
-    backgroundColor: theme.primary,
+    backgroundColor: theme.lightTextColor,
     cursor: "pointer",
     borderRadius: 5,
+    boxShadow: theme.boxShadow,
   },
   currentUserAvatar: {
     width: 80,
@@ -28,7 +29,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   currentUserName: {
     fontSize: 20,
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
   },
   "@media (max-width: 800px)": {},
 }));
