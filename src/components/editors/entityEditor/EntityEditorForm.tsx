@@ -543,7 +543,15 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
           return (
             <Button
               key={modelFieldIndex}
-              style={{ marginTop: 5, marginBottom: 20 }}
+              style={{
+                marginBottom: 20,
+                width: 300,
+                margin: "auto",
+                marginTop: 20,
+                height: 100,
+                paddingTop: 25,
+                paddingBottom: 25,
+              }}
               onClick={async (
                 e: React.MouseEvent<HTMLButtonElement, MouseEvent>
               ) => {

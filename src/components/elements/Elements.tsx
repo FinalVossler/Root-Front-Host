@@ -337,7 +337,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
         />
       )}
 
-      {hiddenColumns.length > 0 && (
+      {viewType === ViewType.Table && hiddenColumns.length > 0 && (
         <div className={styles.hiddenColumns}>
           {hiddenColumns.map((col, i) => {
             return (
