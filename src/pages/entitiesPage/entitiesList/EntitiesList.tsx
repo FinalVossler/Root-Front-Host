@@ -133,6 +133,7 @@ const EntitiesList: React.FunctionComponent<IEntitiesList> = (
       return (
         <Link
           target="_blank"
+          rel="noreferrer"
           to={"/entities/" + props.modelId + "/" + entity._id}
         >
           <FaDirections />

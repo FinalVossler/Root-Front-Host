@@ -107,6 +107,7 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
               <a
                 href={"/" + page.slug}
                 target="_blank"
+                rel="noreferrer"
                 className={styles.goIcon}
               >
                 <FaDirections />
