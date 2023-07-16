@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;300;400;500;700&display=swap");
+
+body {
+  margin: 0;
+  font-family: "Josefin Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll;
+}
+
+body::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.EmojiPickerReact {
+  position: absolute !important;
+  bottom: 95px;
+}
+
+embed img {
+  width: 100%;
+}
+
+/* React select needs its menu to show on top of all other elements */
+.react-select__menu {
+  z-index: 99 !important;
+}
+
+.react-select__control {
+  background-color: #ffffff !important;
+}
+
+.react-select__input-container input,
+.react-select__single-value {
+  color: #4c4c4d !important;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Pagination styling for component: src/components/pagination/Pagination.tsx */
+.rc-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #4c4c4d;
+  border-radius: 5px;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.rc-pagination li {
+  margin: 10px;
+}
+
+.rc-pagination-item-active {
+  font-size: 30px;
+  margin-left: 20px !important;
+  color: red;
+}
+
+.rc-pagination-next,
+.rc-pagination-prev {
+  display: none;
+}
+
+ul {
+  padding-inline-start: 0px;
+}
