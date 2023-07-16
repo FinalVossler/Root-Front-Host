@@ -13,7 +13,7 @@ module.exports = (_, argv) => {
 
   return {
     output: {
-      publicPath: argv.mode === "development" ? "http://localhost:3000/" : "",
+      publicPath: argv.mode === "development" ? "http://localhost:3000/" : "/",
     },
 
     resolve: {

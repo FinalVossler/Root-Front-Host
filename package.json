@@ -48,8 +48,6 @@
     "@dnd-kit/core": "^6.0.8",
     "@dnd-kit/sortable": "^7.0.2",
     "@reduxjs/toolkit": "^1.9.1",
-    "@stripe/react-stripe-js": "^1.16.4",
-    "@stripe/stripe-js": "^1.46.0",
     "@types/react-dom": "^18.2.7",
     "@uploadcare/upload-client": "^6.2.1",
     "axios": "^1.2.2",

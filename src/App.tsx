@@ -13,7 +13,6 @@ import LoginOrRegistrationPage from "./pages/loginOrRegistrationPage";
 import { store } from "./store/store";
 
 import useGetAndSetUser from "./hooks/apiHooks/useGetAndSetUser";
-import PaymentPage from "./pages/paymentPage";
 
 import theme from "./config/theme";
 import useNotifications from "./hooks/useNotifications";
@@ -71,11 +70,6 @@ function App() {
       path: "/auth",
       element: <LoginOrRegistrationPage />,
     },
-    {
-      path: "/submission",
-      element: <PaymentPage />,
-    },
-
     {
       path: "/chat",
       element: <ChatPage />,
