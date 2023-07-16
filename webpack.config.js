@@ -22,6 +22,11 @@ module.exports = (_, argv) => {
       publicPath: "http://localhost:3000/",
     },
     devtool: "source-map",
+    performance: {
+      hints: false,
+      maxEntrypointSize: 512000,
+      maxAssetSize: 512000,
+    },
 
     resolve: {
       extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
