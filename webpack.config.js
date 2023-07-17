@@ -62,7 +62,7 @@ module.exports = (_, argv) => {
 
     plugins: [
       new CopyPlugin({
-        patterns: [{ from: "public", to: "dist" }],
+        patterns: [{ from: "./public", to: "./dist" }],
       }),
       new webpack.DefinePlugin({
         "process.env": JSON.stringify(process.env),
