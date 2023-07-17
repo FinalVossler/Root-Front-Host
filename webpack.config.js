@@ -85,7 +85,7 @@ module.exports = (_, argv) => {
         },
       }),
       new HtmlWebPackPlugin({
-        template: "./public/index.html",
+        template: "./src/index.html",
       }),
     ],
   };
