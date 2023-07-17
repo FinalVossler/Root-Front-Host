@@ -2,7 +2,7 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 const webpack = require("webpack");
 const path = require("path");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 const deps = require("./package.json").dependencies;
 module.exports = (_, argv) => {
@@ -61,11 +61,9 @@ module.exports = (_, argv) => {
     },
 
     plugins: [
-      new CopyWebpackPlugin([
-        // Copy directory contents to {output}/to/directory/
-        //{ from: 'from/directory', to: 'to/directory' },
-        { from: "public", to: "dist" },
-      ]),
+      new CopyPlugin({
+        patterns: [{ from: "public", to: "dist" }],
+      }),
       new webpack.DefinePlugin({
         "process.env": JSON.stringify(process.env),
       }),
