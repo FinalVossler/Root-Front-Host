@@ -1,6 +1,6 @@
 {
-  "short_name": "Base",
-  "name": "Base",
+  "short_name": "Root",
+  "name": "Root",
   "icons": [
     {
       "src": "favicon.ico",
