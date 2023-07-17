@@ -14,6 +14,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     border: "1px solid " + theme.borderColor,
     padding: 10,
     boxShadow: theme.boxShadow,
+    minHeight: 100,
   },
   "@media (max-width: 800px)": {
     postWrapperContainer: {

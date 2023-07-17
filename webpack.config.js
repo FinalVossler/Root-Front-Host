@@ -12,9 +12,15 @@ module.exports = (_, argv) => {
   }
 
   return {
+    entry: {
+      app: "./src/index.ts",
+    },
     output: {
+      path: path.join(__dirname, "dist"),
+      filename: "[name].js",
       publicPath: argv.mode === "development" ? "http://localhost:3000/" : "/",
     },
+    devtool: "source-map",
 
     resolve: {
       extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
@@ -27,6 +33,11 @@ module.exports = (_, argv) => {
 
     module: {
       rules: [
+        {
+          test: /\.m?js$/,
+          enforce: "pre",
+          use: ["source-map-loader"],
+        },
         {
           test: /\.m?js/,
           type: "javascript/auto",

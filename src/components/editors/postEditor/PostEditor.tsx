@@ -39,7 +39,7 @@ import { BiCode } from "react-icons/bi";
 interface IPostEditor {
   post?: IPost;
   open?: boolean;
-  setOpen?: (boolean) => void;
+  setOpen?: (open: boolean) => void;
 }
 
 const PostEditor = (props: IPostEditor) => {
@@ -69,8 +69,9 @@ const PostEditor = (props: IPostEditor) => {
   const [selectedExistingFiles, setSelectedExistingFiles] = React.useState<
     IFile[]
   >([]);
-  const [sunEditor, setSunEditor] =
-    React.useState<SunEditorCore | undefined>(undefined);
+  const [sunEditor, setSunEditor] = React.useState<SunEditorCore | undefined>(
+    undefined
+  );
   //#endregion Local state
 
   const styles = useStyles({ theme });
@@ -85,6 +86,7 @@ const PostEditor = (props: IPostEditor) => {
     }
   }, [props.open]);
 
+  // Initialize form based on post prop and language
   React.useEffect(() => {
     if (props.post && sunEditor) {
       setTitle(getTranslatedText(props.post?.title, language));
@@ -93,10 +95,20 @@ const PostEditor = (props: IPostEditor) => {
       setChildren(props.post.children.map((c) => c._id));
       setDesign(props.post?.design);
       setSelectedExistingFiles(props.post?.files);
-      if (sunEditor)
+      if (sunEditor) {
         sunEditor?.setContents(getTranslatedText(props.post.content, language));
+      }
+    } else {
+      sunEditor?.setContents("");
     }
   }, [props.post, sunEditor, language]);
+
+  // Destroy the suneditor after we leave
+  React.useEffect(() => {
+    return () => {
+      sunEditor?.destroy();
+    };
+  }, []);
 
   // Autofocus prop is not working. So we manually focus the editor when the modal shows
   React.useEffect(() => {
@@ -163,7 +175,6 @@ const PostEditor = (props: IPostEditor) => {
       setDesign(PostDesign.Default);
       setVisibility(PostVisibility.Public);
       setSelectedExistingFiles([]);
-      sunEditor?.setContents("");
     }
 
     setFiles([]);

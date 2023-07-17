@@ -34,7 +34,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     textAlign: "center",
   },
   occupation: {
-    // fontWeight: "lighter",
     fontSize: 16,
     textAlign: "center",
     color: theme.darkTextColor,
