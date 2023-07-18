@@ -7,7 +7,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "row-reverse",
     marginRight: 10,
-    overflow: "scroll",
+    overflow: "auto",
     padding: 10,
     paddingBottom: 40,
     fontSize: 14,

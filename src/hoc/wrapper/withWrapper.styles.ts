@@ -9,7 +9,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   headerAndContent: {
     display: "flex",
     height: "100vh",
-    overflow: "scroll",
+    overflow: "auto",
     backgroundColor: theme.backgroundColor,
     position: "relative",
     flex: 1,

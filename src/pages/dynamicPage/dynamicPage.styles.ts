@@ -10,7 +10,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "100%",
     alignItems: "center",
     minHeight: "100vh",
-    overflow: "scroll",
+    overflow: "auto",
   },
 }));
 

@@ -63,7 +63,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   elementsTable: {
     color: theme.darkTextColor,
     maxWidth: "100%",
-    overflow: "scroll",
+    overflow: "auto",
   },
   tableHeader: {},
   tableRow: {
@@ -111,7 +111,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   hiddenColumns: {
     display: "flex",
     flex: 1,
-    overflow: "scroll",
+    overflow: "auto",
     alignItems: "center",
     paddingBottom: 15,
   },

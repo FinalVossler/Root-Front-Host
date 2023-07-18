@@ -26,7 +26,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "100%",
     boxSizing: "border-box",
     height: 360,
-    overflow: "scroll",
+    overflow: "auto",
   },
   deletePostButton: {
     position: "absolute",

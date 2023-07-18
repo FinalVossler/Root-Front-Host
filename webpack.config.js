@@ -3,10 +3,12 @@ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPl
 const webpack = require("webpack");
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 const deps = require("./package.json").dependencies;
 module.exports = (_, argv) => {
-  if (argv.mode === "development") {
+  const isDevelopment = argv.mode === "development";
+  if (isDevelopment) {
     require("dotenv").config({ path: `./.env.development` });
   } else {
     require("dotenv").config();
@@ -30,10 +32,25 @@ module.exports = (_, argv) => {
     devServer: {
       port: 3000,
       historyApiFallback: true,
+      hot: true,
     },
 
     module: {
       rules: [
+        {
+          test: /\.[jt]sx?$/,
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: require.resolve("babel-loader"),
+              options: {
+                plugins: [
+                  isDevelopment && require.resolve("react-refresh/babel"),
+                ].filter(Boolean),
+              },
+            },
+          ],
+        },
         {
           test: /\.m?js$/,
           enforce: "pre",
@@ -61,6 +78,7 @@ module.exports = (_, argv) => {
     },
 
     plugins: [
+      isDevelopment && new ReactRefreshWebpackPlugin(),
       new CopyPlugin({
         patterns: [{ from: "./public", to: "./" }],
       }),
@@ -68,9 +86,11 @@ module.exports = (_, argv) => {
         "process.env": JSON.stringify(process.env),
       }),
       new ModuleFederationPlugin({
-        name: "Test",
+        name: "host",
         filename: "remoteEntry.js",
-        remotes: {},
+        remotes: {
+          // header: "header@http://localhost:8888/remoteEntry.js",
+        },
         exposes: {},
         shared: {
           ...deps,
@@ -87,6 +107,6 @@ module.exports = (_, argv) => {
       new HtmlWebPackPlugin({
         template: "./src/index.html",
       }),
-    ],
+    ].filter(Boolean),
   };
 };
