@@ -127,11 +127,11 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
                 title="PESTEL Analysis"
                 data={[
                   { score: 8, text: "Political" },
-                  { score: 8, text: "Economic" },
-                  { score: 8, text: "Social" },
-                  { score: 8, text: "Technological" },
-                  { score: 8, text: "Environmental" },
-                  { score: 8, text: "Legal" },
+                  { score: 4, text: "Economic" },
+                  { score: 10, text: "Social" },
+                  { score: 6, text: "Technological" },
+                  { score: 9, text: "Environmental" },
+                  { score: 2, text: "Legal" },
                 ]}
                 downloadReportButtonText="Download Report"
                 maxScore={12}
