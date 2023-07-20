@@ -11,7 +11,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   tasksByModelTable: {
     color: theme.darkTextColor,
     maxWidth: "100%",
-    overflow: "scroll",
+    overflow: "auto",
   },
   tableHeader: {},
   tableRow: {

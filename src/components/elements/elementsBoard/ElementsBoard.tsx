@@ -82,6 +82,7 @@ const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
                       <div key={entityIndex} className={styles.entityCard}>
                         <Link
                           target="_blank"
+                          rel="noreferrer"
                           to={"/entities/" + props.modelId + "/" + entity._id}
                         >
                           <FaDirections className={styles.visitEntityIcon} />

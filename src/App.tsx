@@ -3,15 +3,16 @@ import { ThemeProvider } from "react-jss";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Provider } from "react-redux";
 
 import SocketProvider from "./providers/SocketProvider";
 import HomePage from "./pages/homePage";
 import ProfilePage from "./pages/profilePage";
 import ChatPage from "./pages/chatPage";
-import LoginOrRegistrationPage from './pages/loginOrRegistrationPage'
+import LoginOrRegistrationPage from "./pages/loginOrRegistrationPage";
+import { store } from "./store/store";
 
 import useGetAndSetUser from "./hooks/apiHooks/useGetAndSetUser";
-import PaymentPage from "./pages/paymentPage";
 
 import theme from "./config/theme";
 import useNotifications from "./hooks/useNotifications";
@@ -29,6 +30,8 @@ import UsersPage from "./pages/usersPage";
 import RolesPage from "./pages/rolesPage";
 import SingleEntityPage from "./pages/singleEntityPage";
 import TasksPage from "./pages/tasksPage";
+
+import "./index.css";
 
 function App() {
   const pages: IPage[] = useAppSelector((state) => state.page.pages);
@@ -64,14 +67,9 @@ function App() {
       element: <ProfilePage />,
     },
     {
-      path: '/auth',
-      element: <LoginOrRegistrationPage />
+      path: "/auth",
+      element: <LoginOrRegistrationPage />,
     },
-    {
-      path: "/submission",
-      element: <PaymentPage />,
-    },
-
     {
       path: "/chat",
       element: <ChatPage />,
@@ -118,7 +116,7 @@ function App() {
     return null;
 
   return (
-    // <Elements stripe={stripePromise} options={stripeOptions}>
+    <Provider store={store}>
       <SocketProvider>
         <ThemeProvider theme={theme}>
           <ToastContainer hideProgressBar position="bottom-right" />
@@ -126,7 +124,7 @@ function App() {
           <RouterProvider router={router}></RouterProvider>
         </ThemeProvider>
       </SocketProvider>
-    // </Elements>
+    </Provider>
   );
 }
 

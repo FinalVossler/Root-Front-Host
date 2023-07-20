@@ -25,13 +25,13 @@ interface IContactForm {
   message: string;
 }
 
-interface IContactFormProps extends React.PropsWithChildren {
+interface IContactFormProps {
   post?: IPost;
 }
 
-const ContactForm: React.FunctionComponent<IContactFormProps> = (
-  props: IContactFormProps
-) => {
+const ContactForm: React.FunctionComponent<
+  React.PropsWithChildren<IContactFormProps>
+> = (props: React.PropsWithChildren<IContactFormProps>) => {
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

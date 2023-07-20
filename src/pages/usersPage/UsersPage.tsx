@@ -98,7 +98,11 @@ const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
             name: "",
             render: (user: IUser) => {
               return (
-                <Link target="_blank" to={"/profile/" + user._id}>
+                <Link
+                  rel="noreferrer"
+                  target="_blank"
+                  to={"/profile/" + user._id}
+                >
                   <FaDirections />
                 </Link>
               );

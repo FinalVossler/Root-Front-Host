@@ -192,6 +192,7 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
                 className={styles.postFileContainer}
                 href={file.url}
                 target="_blank"
+                rel="noreferrer"
               >
                 {file.isImage && (
                   <div

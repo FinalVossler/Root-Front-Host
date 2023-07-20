@@ -50,7 +50,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     height: 130,
     boxSizing: "border-box",
 
-    overflow: "scroll",
+    overflow: "auto",
   },
   fileName: {
     fontSize: 15,

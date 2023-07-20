@@ -22,9 +22,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginRight: 20,
     minHeight: 35,
     maxHeight: "50vh",
-    overflow: "scroll",
+    overflow: "auto",
     position: "relative",
-    boxShadow: '0 0 10px 4px ' + theme.primary
+    boxShadow: "0 0 10px 4px " + theme.primary,
   },
   chatInput: {
     flex: 1,
@@ -36,7 +36,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     minHeight: 35,
     boxSizing: "border-box",
     paddingRight: 40,
-    
     "&:focus": {
       outline: "0px solid transparent",
     },
@@ -84,7 +83,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    overflow: "scroll",
+    overflow: "auto",
     paddingLeft: 20,
     maxWidth: "15%",
     flexWrap: "wrap",

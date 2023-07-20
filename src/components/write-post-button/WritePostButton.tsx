@@ -32,7 +32,7 @@ const WritePostButton = (props: IButton) => {
       <UserProfilePicture url={profilePicture?.url} size={SizeEnum.Big} />
 
       <div onClick={props.onClick} className={styles.placeholder}>
-        {getTranslatedText(staticText?.haveSomethingInMind)}
+        {getTranslatedText(staticText?.haveSomethingInMind)}What
       </div>
     </div>
   );

@@ -37,6 +37,7 @@ const Person: React.FunctionComponent<IPerson> = (props: IPerson) => {
 
       <a
         target="_blank"
+        rel="noreferrer"
         href={props.cvLink || ""}
         className={styles.cvButton}
         download

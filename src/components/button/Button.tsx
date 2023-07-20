@@ -5,11 +5,11 @@ import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./button.styles";
 
-interface IButton
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    React.PropsWithChildren {}
+interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-const Button: React.FunctionComponent<IButton> = (props: IButton) => {
+const Button: React.FunctionComponent<React.PropsWithChildren<IButton>> = (
+  props: React.PropsWithChildren<IButton>
+) => {
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

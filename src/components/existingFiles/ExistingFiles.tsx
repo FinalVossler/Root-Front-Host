@@ -177,6 +177,7 @@ const ExistingFiles = (props: IExistingFiles) => {
                 download={file.name}
                 onClick={handleDownloadFile}
                 target="_blank"
+                rel="noreferrer"
               >
                 <BiDownload />
               </a>

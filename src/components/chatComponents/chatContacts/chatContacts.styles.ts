@@ -20,7 +20,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
       marginLeft: 10,
       paddingLeft: 15,
       maxWidth: 340,
-      overflow: "scroll",
+      overflow: "auto",
     },
 
     "& li": {
@@ -29,7 +29,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   top: {
     width: "100%",
-    overflow: 'scroll'
+    overflow: "auto",
   },
   contactsTitle: {
     paddingTop: 20,
@@ -40,7 +40,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   chatContactsListContainer: {
     width: "100%",
-    overflow: "scroll",
+    overflow: "auto",
     display: "flex",
     paddingTop: 2,
     flexDirection: "column",
