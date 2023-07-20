@@ -23,7 +23,6 @@ module.exports = (_, argv) => {
       filename: "[name].js",
       publicPath: argv.mode === "development" ? "http://localhost:3000/" : "/",
     },
-    devtool: "source-map",
 
     resolve: {
       extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
@@ -34,6 +33,7 @@ module.exports = (_, argv) => {
       historyApiFallback: true,
       hot: true,
     },
+    devtool: "source-map",
 
     module: {
       rules: [
@@ -89,7 +89,9 @@ module.exports = (_, argv) => {
         name: "host",
         filename: "remoteEntry.js",
         remotes: {
-          // header: "header@http://localhost:8888/remoteEntry.js",
+          pestel: isDevelopment
+            ? "pestel@http://localhost:3001/remoteEntry.js"
+            : "prestel@https://erikusa-pestel.netlify.app/remoteEntry.js",
         },
         exposes: {},
         shared: {

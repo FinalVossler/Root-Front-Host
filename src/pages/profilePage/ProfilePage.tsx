@@ -1,5 +1,6 @@
 import React from "react";
 import { BsFillGearFill } from "react-icons/bs";
+import { ErrorBoundary } from "react-error-boundary";
 
 import ProfileForm from "../../components/profileForm";
 
@@ -13,12 +14,12 @@ import PostEditor from "../../components/editors/postEditor";
 import UserPosts from "../../components/userPosts";
 import { useAppSelector } from "../../store/hooks";
 import { IUser } from "../../store/slices/userSlice";
-import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { useParams } from "react-router-dom";
 import useGetUser from "../../hooks/apiHooks/useGetUser";
 import UserProfilePicture from "../../components/userProfilePicture";
 import { SizeEnum } from "../../components/userProfilePicture/UserProfilePicture";
 import withChat from "../../hoc/withChat";
+const Pestel = React.lazy(() => import("pestel/Pestel"));
 
 enum ActiveForm {
   Register = "Register",
@@ -103,6 +104,11 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
               </span>
             </div>
           )}
+          <ErrorBoundary fallback={<div>Pestel Micro-Frontend</div>}>
+            <React.Suspense fallback={<div>loading</div>}>
+              <Pestel />
+            </React.Suspense>
+          </ErrorBoundary>
           <UserPosts user={actualUser} />
         </div>
       </div>
