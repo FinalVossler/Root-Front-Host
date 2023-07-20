@@ -91,7 +91,7 @@ module.exports = (_, argv) => {
         remotes: {
           pestel: isDevelopment
             ? "pestel@http://localhost:3001/remoteEntry.js"
-            : "prestel@https://erikusa-pestel.netlify.app/remoteEntry.js",
+            : "pestel@https://erikusa-pestel.netlify.app/remoteEntry.js",
         },
         exposes: {},
         shared: {
