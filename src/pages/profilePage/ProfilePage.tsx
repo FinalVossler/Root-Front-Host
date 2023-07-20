@@ -105,47 +105,47 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
             </div>
           )}
 
-          <ErrorBoundary fallback={<div>Pestel Micro-Frontend Errored</div>}>
-            <React.Suspense fallback={<div>loading</div>}>
-              <Pestel
-                theme={{
-                  borderColor: theme.borderColor,
-                  cancelButtonColor: theme.lightTextColor,
-                  cancelButtonTextColor: theme.darkTextColor,
-                  confirmButtonLeftColor: theme.darkerPrimary,
-                  confirmButtonRightColor: theme.primary,
-                  confirmButtonTextColor: theme.lightTextColor,
-                  dotColor: "#3BCBB2",
-                  downloadReportButtonColor: "#E59010",
-                  downloadReportTextColor: theme.lightTextColor,
-                  textColor: theme.darkTextColor,
-                  titleTextColor: theme.darkTextColor,
-                  buttonBoxShadow: theme.boxShadow,
-                }}
-                cancelButtonText="Back"
-                confirmButtonText="Confirm"
-                title="PESTEL Analysis"
-                data={[
-                  { score: 8, text: "Political" },
-                  { score: 4, text: "Economic" },
-                  { score: 10, text: "Social" },
-                  { score: 6, text: "Technological" },
-                  { score: 9, text: "Environmental" },
-                  { score: 2, text: "Legal" },
-                ]}
-                downloadReportButtonText="Download Report"
-                maxScore={12}
-                onCancel={() => {}}
-                onConfirm={() => {}}
-                productText="Product Name: Product A"
-                countryText="Country: France"
-              />
-            </React.Suspense>
-            <br />
-            <br />
-            <br />
-            <br />
-          </ErrorBoundary>
+          {/* <ErrorBoundary fallback={<div>Pestel Micro-Frontend Errored</div>}> */}
+          <React.Suspense fallback={<div>loading</div>}>
+            <Pestel
+              theme={{
+                borderColor: theme.borderColor,
+                cancelButtonColor: theme.lightTextColor,
+                cancelButtonTextColor: theme.darkTextColor,
+                confirmButtonLeftColor: theme.darkerPrimary,
+                confirmButtonRightColor: theme.primary,
+                confirmButtonTextColor: theme.lightTextColor,
+                dotColor: "#3BCBB2",
+                downloadReportButtonColor: "#E59010",
+                downloadReportTextColor: theme.lightTextColor,
+                textColor: theme.darkTextColor,
+                titleTextColor: theme.darkTextColor,
+                buttonBoxShadow: theme.boxShadow,
+              }}
+              cancelButtonText="Back"
+              confirmButtonText="Confirm"
+              title="PESTEL Analysis"
+              data={[
+                { score: 8, text: "Political" },
+                { score: 4, text: "Economic" },
+                { score: 10, text: "Social" },
+                { score: 6, text: "Technological" },
+                { score: 9, text: "Environmental" },
+                { score: 2, text: "Legal" },
+              ]}
+              downloadReportButtonText="Download Report"
+              maxScore={12}
+              onCancel={() => {}}
+              onConfirm={() => {}}
+              productText="Product Name: Product A"
+              countryText="Country: France"
+            />
+          </React.Suspense>
+          <br />
+          <br />
+          <br />
+          <br />
+          {/* </ErrorBoundary> */}
           <UserPosts user={actualUser} />
         </div>
       </div>
