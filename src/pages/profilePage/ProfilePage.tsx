@@ -104,9 +104,42 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
               </span>
             </div>
           )}
-          <ErrorBoundary fallback={<div>Pestel Micro-Frontend</div>}>
+
+          <ErrorBoundary fallback={<div>Pestel Micro-Frontend Errored</div>}>
             <React.Suspense fallback={<div>loading</div>}>
-              <Pestel />
+              <Pestel
+                theme={{
+                  borderColor: theme.borderColor,
+                  cancelButtonColor: theme.lightTextColor,
+                  cancelButtonTextColor: theme.darkTextColor,
+                  confirmButtonLeftColor: theme.darkerPrimary,
+                  confirmButtonRightColor: theme.primary,
+                  confirmButtonTextColor: theme.lightTextColor,
+                  dotColor: "#3BCBB2",
+                  downloadReportButtonColor: "#E59010",
+                  downloadReportTextColor: theme.darkTextColor,
+                  textColor: theme.darkTextColor,
+                  titleTextColor: theme.darkTextColor,
+                  buttonBoxShadow: theme.boxShadow,
+                }}
+                cancelButtonText="Back"
+                confirmButtonText="Confirm"
+                title="PESTEL Analysis"
+                data={[
+                  { score: 8, text: "Political" },
+                  { score: 8, text: "Economic" },
+                  { score: 8, text: "Social" },
+                  { score: 8, text: "Technological" },
+                  { score: 8, text: "Environmental" },
+                  { score: 8, text: "Legal" },
+                ]}
+                downloadReportButtonText="Download Report"
+                maxScore={12}
+                onCancel={() => {}}
+                onConfirm={() => {}}
+                productText="Product Name: Product A"
+                countryText="Country: France"
+              />
             </React.Suspense>
           </ErrorBoundary>
           <UserPosts user={actualUser} />
