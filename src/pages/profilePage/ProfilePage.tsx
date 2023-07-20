@@ -117,7 +117,7 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
                   confirmButtonTextColor: theme.lightTextColor,
                   dotColor: "#3BCBB2",
                   downloadReportButtonColor: "#E59010",
-                  downloadReportTextColor: theme.darkTextColor,
+                  downloadReportTextColor: theme.lightTextColor,
                   textColor: theme.darkTextColor,
                   titleTextColor: theme.darkTextColor,
                   buttonBoxShadow: theme.boxShadow,
@@ -141,6 +141,10 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
                 countryText="Country: France"
               />
             </React.Suspense>
+            <br />
+            <br />
+            <br />
+            <br />
           </ErrorBoundary>
           <UserPosts user={actualUser} />
         </div>
