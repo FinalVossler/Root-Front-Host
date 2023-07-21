@@ -23,7 +23,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     "& .react-select__control": {
       border: "none",
       boxShadow: theme.boxShadow,
-      height: 47,
+      minHeight: 47,
     },
 
     "& .select__indicator": {

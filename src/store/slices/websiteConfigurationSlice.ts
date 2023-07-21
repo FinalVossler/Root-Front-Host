@@ -907,7 +907,7 @@ const initialState: IWebsiteConfigurationState = {
       ifYearTableThenNumberOfYearsInTheFutureIsEqualToValueOfField: [
         {
           language: "en",
-          text: "If it's a year table, then the number of years to show in the future is equal to the valud of the field",
+          text: "If it's a year table, then the number of years to show in the future is equal to the value of the field",
         },
         {
           language: "fr",
@@ -1878,6 +1878,7 @@ export const websiteConfigurationSlice = createSlice({
           state.staticText = action.payload.staticText;
         } else {
           Object.keys(action.payload.staticText).forEach((key) => {
+            //@ts-ignore
             Object.keys(action.payload.staticText?.[key]).forEach(
               (childKey) => {
                 if (!state.staticText) {
@@ -1886,7 +1887,10 @@ export const websiteConfigurationSlice = createSlice({
                   state.staticText = {
                     ...state.staticText,
                     [key]: {
+                      //@ts-ignore
                       ...state.staticText?.[key],
+                      //@ts-ignore
+
                       [childKey]: action.payload.staticText?.[key][childKey],
                     },
                   };
