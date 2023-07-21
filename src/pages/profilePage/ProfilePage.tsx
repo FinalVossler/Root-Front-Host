@@ -1,6 +1,6 @@
 import React from "react";
 import { BsFillGearFill } from "react-icons/bs";
-import { ErrorBoundary } from "react-error-boundary";
+// import { ErrorBoundary } from "react-error-boundary";
 
 import ProfileForm from "../../components/profileForm";
 
@@ -19,7 +19,7 @@ import useGetUser from "../../hooks/apiHooks/useGetUser";
 import UserProfilePicture from "../../components/userProfilePicture";
 import { SizeEnum } from "../../components/userProfilePicture/UserProfilePicture";
 import withChat from "../../hoc/withChat";
-const Pestel = React.lazy(() => import("pestel/Pestel"));
+// const Pestel = React.lazy(() => import("pestel/Pestel"));
 
 enum ActiveForm {
   Register = "Register",
@@ -105,7 +105,7 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
             </div>
           )}
 
-          <ErrorBoundary fallback={<div>Pestel Micro-Frontend Errored</div>}>
+          {/* <ErrorBoundary fallback={<div>Pestel Micro-Frontend Errored</div>}>
             <React.Suspense fallback={<div>loading</div>}>
               <Pestel
                 theme={{
@@ -145,7 +145,7 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
             <br />
             <br />
             <br />
-          </ErrorBoundary>
+          </ErrorBoundary> */}
           <UserPosts user={actualUser} />
         </div>
       </div>
