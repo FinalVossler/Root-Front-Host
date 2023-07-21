@@ -62,6 +62,10 @@ const PostWrapper: React.FunctionComponent<IPostOptions> = (
   };
   //#endregion Event listeners
 
+  if (props.post.posterId.toString() !== user._id.toString()) {
+    return null;
+  }
+
   return (
     <div className={styles.postOptionsContainer}>
       <BsThreeDots

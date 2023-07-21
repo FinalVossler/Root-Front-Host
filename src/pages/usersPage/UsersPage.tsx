@@ -11,7 +11,7 @@ import useGetUsers from "../../hooks/apiHooks/useGetUsers";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { IUser, userSlice } from "../../store/slices/userSlice";
+import { IUser, SuperRole, userSlice } from "../../store/slices/userSlice";
 
 import useStyles from "./usersPage.styles";
 import useSearchUsers from "../../hooks/apiHooks/useSearchUsers";
@@ -91,7 +91,11 @@ const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
           {
             label: getTranslatedText(staticText?.role),
             name: "",
-            render: (user: IUser) => getTranslatedText(user.role?.name),
+            render: (user: IUser) =>
+              (user.superRole === SuperRole.SuperAdmin
+                ? user.superRole +
+                  (Boolean(getTranslatedText(user.role?.name)) ? " + " : "")
+                : "") + getTranslatedText(user.role?.name),
           },
           {
             label: getTranslatedText(staticText?.visit),

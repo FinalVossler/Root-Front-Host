@@ -1687,7 +1687,7 @@ const initialState: IWebsiteConfigurationState = {
         { language: "fr", text: "Lire un rôle" },
       ],
       deleteRole: [
-        { language: "en", text: "Delete rôle" },
+        { language: "en", text: "Delete role" },
         { language: "fr", text: "Supprimer un rôle" },
       ],
       create: [

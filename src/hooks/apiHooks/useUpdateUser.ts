@@ -40,9 +40,8 @@ const useUpdateUser = () => {
           toast.success(getTranslatedText(staticText?.userInformationUpdated));
           if (currentUser._id === command._id) {
             dispatch(userSlice.actions.setUser(res.data.data));
-          } else {
-            dispatch(userSlice.actions.updateUser(res.data.data));
           }
+          dispatch(userSlice.actions.updateUser(res.data.data));
           resolve(null);
         })
         .finally(() => {
