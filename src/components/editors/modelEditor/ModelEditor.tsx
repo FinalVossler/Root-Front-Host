@@ -40,7 +40,7 @@ import uuid from "react-uuid";
 export interface IModelEditor {
   model?: IModel;
   open?: boolean;
-  setOpen?: (boolean) => void;
+  setOpen?: (open: boolean) => void;
 }
 
 export type ModelFormState = {

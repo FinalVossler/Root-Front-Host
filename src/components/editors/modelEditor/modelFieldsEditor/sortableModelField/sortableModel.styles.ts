@@ -48,8 +48,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     alignItems: "center",
     width: "100%",
-    color: theme.lightTextColor,
-    backgroundColor: theme.primary,
+    color: theme.primary,
+    backgroundColor: theme.lightTextColor,
+    border: "1px solid " + theme.primary,
     flex: 1,
     paddingLeft: 10,
     boxSizing: "border-box",
@@ -58,14 +59,18 @@ const useStyles = createUseStyles((theme: Theme) => ({
     position: "relative",
     justifyContent: "space-between",
     padding: 5,
+    transition: "all .1s ease-in-out",
+
+    "&:hover": {
+      color: theme.lightTextColor,
+      backgroundColor: theme.primary,
+    },
   },
   conditionsTitle: {
     display: "flex",
-    color: theme.lightTextColor,
     marginRight: 10,
   },
   conditionAdd: {
-    color: theme.lightTextColor,
     fontSize: 25,
   },
   conditionButtons: {

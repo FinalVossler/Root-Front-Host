@@ -134,7 +134,7 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
                   { score: 2, text: "Legal" },
                 ]}
                 downloadReportButtonText="Download Report"
-                maxScore={12}
+                maxScore={10}
                 onCancel={() => {}}
                 onConfirm={() => {}}
                 productText="Product Name: Product A"

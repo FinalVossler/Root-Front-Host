@@ -142,23 +142,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderBottom: "1px solid " + theme.primary,
     paddingBottom: 5,
   },
-  entityFieldPermissionsTitle: {
-    color: theme.primary,
-    cursor: "pointer",
-    marginBottom: 20,
-    fontSize: 30,
-  },
-  arrowIcon: {
-    position: "relative",
-    top: 7,
-    marginLeft: 10,
-  },
-  entityEventNotificationsTitle: {
-    color: theme.primary,
-    cursor: "pointer",
-    marginBottom: 20,
-    fontSize: 30,
-  },
   "@media (max-width: 850px)": {
     createRoleModalContainer: {
       width: "70vw",

@@ -24,6 +24,7 @@ import { MdDelete, MdTextFields } from "react-icons/md";
 import Input from "../../../../input";
 import Checkbox from "../../../../checkbox";
 import { FieldType } from "../../../../../store/slices/fieldSlice";
+import ExtendSection from "../../../../extendSection";
 
 interface ISortableModelField {
   modelField: IModelField;
@@ -44,6 +45,10 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.fields
   );
+
+  const [showConditions, setShowConditions] = React.useState<boolean>(false);
+  const [showStatesConfiguration, setShowStatesConfiguration] =
+    React.useState<boolean>(false);
 
   const styles = useStyles({ theme });
   const { attributes, listeners, setNodeRef, transform } = useSortable({
@@ -325,129 +330,146 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
         />
       </div>
 
-      <div className={styles.conditionsContainer}>
-        <div className={styles.conditionsTitleContainer}>
-          <span className={styles.conditionsTitle}>
-            {getTranslatedText(staticText?.addCondition)}
-          </span>
-          <div className={styles.conditionButtons}>
-            <BiPlus
-              className={styles.conditionAdd}
-              onClick={handleAddCondition}
-            />
+      <ExtendSection
+        onClick={() => setShowConditions(!showConditions)}
+        title={getTranslatedText(staticText?.conditions)}
+        isSectionShown={showConditions}
+      />
+      {showConditions && (
+        <div className={styles.conditionsContainer}>
+          <div
+            onClick={handleAddCondition}
+            className={styles.conditionsTitleContainer}
+          >
+            <span className={styles.conditionsTitle}>
+              {getTranslatedText(staticText?.addCondition)}
+            </span>
+            <div className={styles.conditionButtons}>
+              <BiPlus className={styles.conditionAdd} />
+            </div>
           </div>
-        </div>
 
-        {props.modelField.conditions?.map(
-          (condition: IModelFieldCondition, conditionIndex) => {
-            return (
-              <div key={conditionIndex} className={styles.singleCondition}>
-                <MdDelete
-                  className={styles.deleteConditionIcon}
-                  onClick={() => handleDeleteCondition(conditionIndex)}
-                />
-                <InputSelect
-                  label={getTranslatedText(staticText?.field)}
-                  value={fieldsOptions.find(
-                    (option) => option.value === condition.field?._id
-                  )}
-                  options={fieldsOptions}
-                  onChange={(option) =>
-                    handleChangeConditionField(option.value, conditionIndex)
-                  }
-                />
-                <InputSelect
-                  label={getTranslatedText(staticText?.conditionType)}
-                  value={conditionsOptions.find(
-                    (option) => option.value === condition.conditionType
-                  )}
-                  options={conditionsOptions}
-                  onChange={(option: Option) =>
-                    handleChangeConditionType(
-                      option.value as ModelFieldConditionTypeEnum,
-                      conditionIndex
-                    )
-                  }
-                />
-                <Input
-                  label={getTranslatedText(staticText?.value)}
-                  value={condition.value}
-                  onChange={(e) =>
-                    handleChangeConditionValue(e.target.value, conditionIndex)
-                  }
-                  Icon={MdTextFields}
-                  inputProps={{
-                    placeholder: getTranslatedText(staticText?.value),
-                  }}
-                  debounce
-                />
-                {condition.conditionType ===
-                  ModelFieldConditionTypeEnum.StateConditionsMet && (
+          {props.modelField.conditions?.map(
+            (condition: IModelFieldCondition, conditionIndex) => {
+              return (
+                <div key={conditionIndex} className={styles.singleCondition}>
+                  <MdDelete
+                    className={styles.deleteConditionIcon}
+                    onClick={() => handleDeleteCondition(conditionIndex)}
+                  />
                   <InputSelect
-                    label={getTranslatedText(
-                      staticText?.fieldShowWhenStateIsAchieved
+                    label={getTranslatedText(staticText?.field)}
+                    value={fieldsOptions.find(
+                      (option) => option.value === condition.field?._id
                     )}
-                    value={modelStatesOptions.find(
-                      (option) =>
-                        option.value.toString() ===
-                        condition.modelState?._id.toString()
-                    )}
-                    options={modelStatesOptions}
+                    options={fieldsOptions}
                     onChange={(option) =>
-                      handleSelectConditionStates(option, conditionIndex)
+                      handleChangeConditionField(option.value, conditionIndex)
                     }
                   />
-                )}
-              </div>
-            );
-          }
-        )}
-      </div>
+                  <InputSelect
+                    label={getTranslatedText(staticText?.conditionType)}
+                    value={conditionsOptions.find(
+                      (option) => option.value === condition.conditionType
+                    )}
+                    options={conditionsOptions}
+                    onChange={(option: Option) =>
+                      handleChangeConditionType(
+                        option.value as ModelFieldConditionTypeEnum,
+                        conditionIndex
+                      )
+                    }
+                  />
+                  <Input
+                    label={getTranslatedText(staticText?.value)}
+                    value={condition.value}
+                    onChange={(e) =>
+                      handleChangeConditionValue(e.target.value, conditionIndex)
+                    }
+                    Icon={MdTextFields}
+                    inputProps={{
+                      placeholder: getTranslatedText(staticText?.value),
+                    }}
+                    debounce
+                  />
+                  {condition.conditionType ===
+                    ModelFieldConditionTypeEnum.StateConditionsMet && (
+                    <InputSelect
+                      label={getTranslatedText(
+                        staticText?.fieldShowWhenStateIsAchieved
+                      )}
+                      value={modelStatesOptions.find(
+                        (option) =>
+                          option.value.toString() ===
+                          condition.modelState?._id.toString()
+                      )}
+                      options={modelStatesOptions}
+                      onChange={(option) =>
+                        handleSelectConditionStates(option, conditionIndex)
+                      }
+                    />
+                  )}
+                </div>
+              );
+            }
+          )}
+        </div>
+      )}
 
-      {props.model?.states && props.model?.states?.length > 0 && (
-        <div className={styles.modelFieldStatesConfigurationContainer}>
-          <h3 className={styles.statesConfigurationHint}>
-            {getTranslatedText(staticText?.statesConfigurationHint)}
-          </h3>
-          {props.model?.states?.map((state, stateIndex) => {
-            return (
-              <Checkbox
-                key={stateIndex}
-                label={getTranslatedText(state.name)}
-                onChange={() => handleTriggerStateForField(state)}
-                labelStyles={{
-                  width: 250,
-                }}
-                checked={Boolean(
-                  props.modelField.states?.find((el) => el._id === state._id)
-                )}
-              />
-            );
-          })}
-        </div>
-      )}
-      {props.model?.subStates && props.model?.subStates?.length > 0 && (
-        <div className={styles.modelFieldStatesConfigurationContainer}>
-          <h3 className={styles.statesConfigurationHint}>
-            {getTranslatedText(staticText?.subStatesConfigurationHint)}
-          </h3>
-          {props.model?.subStates?.map((state, stateIndex) => {
-            return (
-              <Checkbox
-                key={stateIndex}
-                label={getTranslatedText(state.name)}
-                onChange={() => handleTriggerStateForField(state)}
-                labelStyles={{
-                  width: 250,
-                }}
-                checked={Boolean(
-                  props.modelField.states?.find((el) => el._id === state._id)
-                )}
-              />
-            );
-          })}
-        </div>
-      )}
+      <ExtendSection
+        onClick={() => setShowStatesConfiguration(!showStatesConfiguration)}
+        title={getTranslatedText(staticText?.statesContributions)}
+        isSectionShown={showStatesConfiguration}
+      />
+
+      {showStatesConfiguration &&
+        props.model?.states &&
+        props.model?.states?.length > 0 && (
+          <div className={styles.modelFieldStatesConfigurationContainer}>
+            <h3 className={styles.statesConfigurationHint}>
+              {getTranslatedText(staticText?.statesConfigurationHint)}
+            </h3>
+            {props.model?.states?.map((state, stateIndex) => {
+              return (
+                <Checkbox
+                  key={stateIndex}
+                  label={getTranslatedText(state.name)}
+                  onChange={() => handleTriggerStateForField(state)}
+                  labelStyles={{
+                    width: 250,
+                  }}
+                  checked={Boolean(
+                    props.modelField.states?.find((el) => el._id === state._id)
+                  )}
+                />
+              );
+            })}
+          </div>
+        )}
+      {showStatesConfiguration &&
+        props.model?.subStates &&
+        props.model?.subStates?.length > 0 && (
+          <div className={styles.modelFieldStatesConfigurationContainer}>
+            <h3 className={styles.statesConfigurationHint}>
+              {getTranslatedText(staticText?.subStatesConfigurationHint)}
+            </h3>
+            {props.model?.subStates?.map((state, stateIndex) => {
+              return (
+                <Checkbox
+                  key={stateIndex}
+                  label={getTranslatedText(state.name)}
+                  onChange={() => handleTriggerStateForField(state)}
+                  labelStyles={{
+                    width: 250,
+                  }}
+                  checked={Boolean(
+                    props.modelField.states?.find((el) => el._id === state._id)
+                  )}
+                />
+              );
+            })}
+          </div>
+        )}
     </div>
   );
 };

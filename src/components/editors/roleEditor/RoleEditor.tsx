@@ -41,11 +41,12 @@ import Checkbox from "../../checkbox";
 import { IField } from "../../../store/slices/fieldSlice";
 import RoleEntityEventsNotification from "./roleEntityEventsNotification/RoleEntityEventsNotification";
 import RoleEntityUserAssignmentPermissions from "./roleEntityUserAssignmentPermissions";
+import ExtendSection from "../../extendSection";
 
 export interface IRoleEditor {
   role?: IRole;
   open?: boolean;
-  setOpen?: (boolean) => void;
+  setOpen?: (open: boolean) => void;
 }
 
 export interface IEntityEventNotificationForm {
@@ -468,6 +469,7 @@ const RoleEditor = (props: IRoleEditor) => {
     (permission) => {
       return {
         label: getTranslatedText(
+          //@ts-ignore
           staticText?.[lowerCaseFirstLetter(permission)]
         ),
         value: permission,
@@ -604,20 +606,15 @@ const RoleEditor = (props: IRoleEditor) => {
                     }
                   />
 
-                  <span
+                  <ExtendSection
                     onClick={() =>
                       setShowFieldPermissions(!showFieldPermissions)
                     }
-                    className={styles.entityFieldPermissionsTitle}
-                  >
-                    {getTranslatedText(staticText?.entityFieldPermissions)}
-                    {!showFieldPermissions && (
-                      <MdArrowDownward className={styles.arrowIcon} />
+                    title={getTranslatedText(
+                      staticText?.entityFieldPermissions
                     )}
-                    {showFieldPermissions && (
-                      <MdArrowUpward className={styles.arrowIcon} />
-                    )}
-                  </span>
+                    isSectionShown={showFieldPermissions}
+                  />
 
                   {showFieldPermissions &&
                     entityPermission.model.modelFields.map(
@@ -682,20 +679,15 @@ const RoleEditor = (props: IRoleEditor) => {
                       }
                     )}
 
-                  <span
+                  <ExtendSection
                     onClick={() =>
                       setShowEventNotifications(!showEventNotifications)
                     }
-                    className={styles.entityEventNotificationsTitle}
-                  >
-                    {getTranslatedText(staticText?.entityEventNotifications)}
-                    {!showEventNotifications && (
-                      <MdArrowDownward className={styles.arrowIcon} />
+                    title={getTranslatedText(
+                      staticText?.entityEventNotifications
                     )}
-                    {showEventNotifications && (
-                      <MdArrowUpward className={styles.arrowIcon} />
-                    )}
-                  </span>
+                    isSectionShown={showEventNotifications}
+                  />
 
                   {showEventNotifications && (
                     <RoleEntityEventsNotification
@@ -709,20 +701,13 @@ const RoleEditor = (props: IRoleEditor) => {
                     />
                   )}
 
-                  <span
+                  <ExtendSection
                     onClick={() => setShowUserAssignment(!showUserAssignment)}
-                    className={styles.entityEventNotificationsTitle}
-                  >
-                    {getTranslatedText(
+                    title={getTranslatedText(
                       staticText?.assignmentConfigurationTitle
                     )}
-                    {!showUserAssignment && (
-                      <MdArrowDownward className={styles.arrowIcon} />
-                    )}
-                    {showUserAssignment && (
-                      <MdArrowUpward className={styles.arrowIcon} />
-                    )}
-                  </span>
+                    isSectionShown={showUserAssignment}
+                  />
 
                   {showUserAssignment && (
                     <RoleEntityUserAssignmentPermissions

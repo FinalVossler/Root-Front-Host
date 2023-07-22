@@ -31,7 +31,7 @@ import {
 export type Column = {
   label: string;
   name: string;
-  render?: (any) => any;
+  render?: (param: any) => any;
   defaultHide?: boolean;
 };
 
@@ -358,20 +358,28 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
         <table className={styles.elementsTable}>
           <thead className={styles.tableHeader}>
             <tr className={styles.tableRow}>
-              {props.columns.map((column, index) => {
+              {props.columns.map((column, columnIndex) => {
                 if (hiddenColumns.some((el) => el.name === column.name)) {
                   return null;
                 }
                 return (
-                  <React.Fragment key={index}>
-                    <th className={styles.tableHeaderColumn} key={index}>
+                  <React.Fragment key={columnIndex}>
+                    <th className={styles.tableHeaderColumn} key={columnIndex}>
                       {column.label}
                       <BiHide
                         className={styles.hideColumnButton}
                         onClick={() => handleHideColumn(column)}
                       />
                     </th>
-                    <ColumnResizer className="columnResizer" minWidth={0} />
+                    <ColumnResizer
+                      disabled={false}
+                      maxWidth={null}
+                      id={columnIndex}
+                      resizeStart={() => {}}
+                      resizeEnd={() => {}}
+                      className="columnResizer"
+                      minWidth={0}
+                    />
                   </React.Fragment>
                 );
               })}
@@ -381,7 +389,15 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                 </th>
               )}
               {props.canUpdate && (
-                <ColumnResizer className="columnResizer" minWidth={0} />
+                <ColumnResizer
+                  disabled={false}
+                  maxWidth={null}
+                  id={999}
+                  resizeStart={() => {}}
+                  resizeEnd={() => {}}
+                  className="columnResizer"
+                  minWidth={0}
+                />
               )}
               {props.canDelete && (
                 <th className={styles.tableHeaderColumn}>
@@ -415,9 +431,9 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
             )}
 
             {!props.loading &&
-              elements.map((element, index) => {
+              elements.map((element, elementIndex) => {
                 return (
-                  <tr className={styles.tableRow} key={index}>
+                  <tr className={styles.tableRow} key={elementIndex}>
                     {props.columns.map((column, columnIndex) => {
                       if (hiddenColumns.some((el) => el.name === column.name)) {
                         return null;
@@ -430,6 +446,11 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                               : getTranslatedText(element[column.name])}
                           </td>
                           <ColumnResizer
+                            disabled={false}
+                            maxWidth={null}
+                            id={elementIndex + 10000}
+                            resizeStart={() => {}}
+                            resizeEnd={() => {}}
                             className="columnResizer"
                             minWidth={0}
                           />
@@ -446,7 +467,15 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                     )}
 
                     {props.canUpdate && (
-                      <ColumnResizer className="columnResizer" minWidth={0} />
+                      <ColumnResizer
+                        disabled={false}
+                        maxWidth={null}
+                        id={elementIndex + 10001}
+                        resizeStart={() => {}}
+                        resizeEnd={() => {}}
+                        className="columnResizer"
+                        minWidth={0}
+                      />
                     )}
 
                     {props.canDelete && (
@@ -464,7 +493,15 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                       </td>
                     )}
                     {props.canDelete && (
-                      <ColumnResizer className="columnResizer" minWidth={0} />
+                      <ColumnResizer
+                        disabled={false}
+                        maxWidth={null}
+                        id={elementIndex + 10002}
+                        resizeStart={() => {}}
+                        resizeEnd={() => {}}
+                        className="columnResizer"
+                        minWidth={0}
+                      />
                     )}
                   </tr>
                 );

@@ -137,6 +137,9 @@ export interface IWebsiteConfiguration {
       addColumn: ITranslatedText[];
       addRow: ITranslatedText[];
       tableName: ITranslatedText[];
+
+      conditions: ITranslatedText[];
+      statesContributions: ITranslatedText[];
     };
     models: {
       createModel: ITranslatedText[];
@@ -983,6 +986,26 @@ const initialState: IWebsiteConfigurationState = {
         {
           language: "fr",
           text: "Nome de la table",
+        },
+      ],
+      conditions: [
+        {
+          language: "en",
+          text: "Visibility conditions",
+        },
+        {
+          language: "fr",
+          text: "Conditions de visibilité",
+        },
+      ],
+      statesContributions: [
+        {
+          language: "en",
+          text: "States contributions",
+        },
+        {
+          language: "fr",
+          text: "Contributions sur les états",
         },
       ],
     },
