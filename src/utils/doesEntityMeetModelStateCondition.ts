@@ -17,6 +17,7 @@ import {
   ModelFieldConditionTypeEnum,
 } from "../store/slices/modelSlice";
 import areEntityFieldConditionsMet from "./areEntityFieldConditionsMet";
+import isValidUrl from "./isValidUrl";
 
 const doesEntityMeetModelStateCondition = ({
   stateConcernedFields,
@@ -226,7 +227,9 @@ const doesEntityMeetModelStateCondition = ({
             modelField.field.type === FieldType.Number) &&
             (getTranslatedText(entityFieldValue) === "" ||
               getTranslatedText(entityFieldValue) === null ||
-              getTranslatedText(entityFieldValue) === undefined))
+              getTranslatedText(entityFieldValue) === undefined)) ||
+          (modelField.field.type === FieldType.IFrame &&
+            !isValidUrl(entityFieldValue))
         ) {
           meetsModelStateCondition = false;
         }
@@ -239,7 +242,7 @@ const doesEntityMeetModelStateCondition = ({
 
 const checkValueFilled = (
   value: ITranslatedText[] | string,
-  getTranslatedText
+  getTranslatedText: any
 ): boolean => {
   if (
     value === undefined ||

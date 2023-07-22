@@ -13,6 +13,7 @@ export enum FieldType {
   Selector = "Selector",
   Button = "Button",
   Table = "Table",
+  IFrame = "IFrame",
 }
 
 export type FieldOption = {

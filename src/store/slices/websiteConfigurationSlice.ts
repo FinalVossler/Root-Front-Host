@@ -231,6 +231,7 @@ export interface IWebsiteConfiguration {
       createdAt: ITranslatedText[];
       assignedTo: ITranslatedText[];
       taskType: ITranslatedText[];
+      mustBeValidUrl: ITranslatedText[];
     };
     contact: {
       firstNameRequired: ITranslatedText[];
@@ -1351,6 +1352,11 @@ const initialState: IWebsiteConfigurationState = {
       taskType: [
         { language: "en", text: "Task type" },
         { language: "fr", text: "Type de la tâche" },
+      ],
+
+      mustBeValidUrl: [
+        { language: "en", text: "Must be a valid URL" },
+        { language: "fr", text: "Doit être un Url valide" },
       ],
     },
     contact: {

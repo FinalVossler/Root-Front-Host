@@ -1,5 +1,5 @@
 import { FormikProps } from "formik";
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import debounce from "lodash.debounce";
 import classnames from "classnames";
 
@@ -8,7 +8,7 @@ import { Theme } from "../../config/theme";
 import useStyles from "./input.styles";
 import { useAppSelector } from "../../store/hooks";
 
-export interface IInput extends React.PropsWithChildren {
+export interface IInput {
   Icon?: any;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
   name?: string;
@@ -19,11 +19,13 @@ export interface IInput extends React.PropsWithChildren {
   debounce?: boolean;
   onFocus?: (e: React.FocusEvent<HTMLInputElement, Element>) => any;
   label?: string;
-  onIconClick?: (any) => void;
+  onIconClick?: (somehting: any) => void;
   iconColor?: string;
   containerProps?: any;
 }
-const Input: React.FunctionComponent<IInput> = (props: IInput) => {
+const Input: React.FunctionComponent<PropsWithChildren<IInput>> = (
+  props: PropsWithChildren<IInput>
+) => {
   const [isFocused, setIsFocused] = React.useState(false);
 
   const theme: Theme = useAppSelector(

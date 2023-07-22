@@ -5,10 +5,10 @@ import { Theme } from "../../config/theme";
 const useStyles = createUseStyles((theme: Theme) => ({
   inputSelectContainer: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     position: "relative",
     marginBottom: 10,
-    alignItems: "center",
+    alignItems: "flex-start",
   },
   selectLabel: {
     color: theme.darkTextColor,
@@ -18,8 +18,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     textAlign: "start",
   },
   select: {
-    flex: 1,
     backgroundColor: theme.lightTextColor,
+    flex: 1,
+
     "& .react-select__control": {
       border: "none",
       boxShadow: theme.boxShadow,
@@ -47,7 +48,27 @@ const useStyles = createUseStyles((theme: Theme) => ({
       backgroundColor: theme.secondary + "!important",
     },
   },
-  "@media (max-width: 800px)": {},
+
+  inputError: {
+    color: theme.errorColor,
+    marginTop: 5,
+  },
+
+  labelAndInputSelectContainer: {
+    display: "flex",
+    alignItems: "center",
+    width: "100%",
+  },
+  "@media (max-width: 800px)": {
+    labelAndInputSelectContainer: {
+      flexDirection: "column",
+      width: "100%",
+      alignItems: "flex-start",
+    },
+    select: {
+      width: "100%",
+    },
+  },
 }));
 
 export default useStyles;

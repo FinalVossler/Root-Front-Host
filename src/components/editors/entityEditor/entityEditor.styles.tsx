@@ -97,9 +97,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.primary,
     fontSize: 20,
   },
+  fieldIframe: {},
   "@media (max-width: 850px)": {
     createEntityModalContainer: {
       width: "70vw",
+      paddingRight: 10,
+      paddingLeft: 10,
     },
   },
 }));

@@ -86,7 +86,7 @@ const areEntityFieldConditionsMet = ({
             const currentYear: number = new Date().getFullYear();
 
             if (
-              (condition.value ?? "") < currentYear ||
+              (condition.value ?? "").toString() < currentYear.toString() ||
               currentYear + parseInt(value) <
                 parseInt((condition.value ?? "").toString())
             ) {

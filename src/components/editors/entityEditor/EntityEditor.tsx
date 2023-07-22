@@ -1,15 +1,15 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import "suneditor/dist/css/suneditor.min.css";
 
 import Modal from "../../modal";
 import { IEntity } from "../../../store/slices/entitySlice";
-import { useParams } from "react-router-dom";
 import EntityEditorForm from "./EntityEditorForm";
 
 export interface IEntityEditor {
   entity?: IEntity;
   open: boolean;
-  setOpen: (boolean) => void;
+  setOpen: (open: boolean) => void;
   // This one is used for when we use the entity editor as a post (the editor could exist in any page)
   modelId?: string;
 }
@@ -34,6 +34,7 @@ const EntityEditor = (props: IEntityEditor) => {
         modelId={actualModelId}
         open={props.open}
         setOpen={props.setOpen}
+        inModal
       />
     </Modal>
   );

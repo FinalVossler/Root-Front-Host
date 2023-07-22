@@ -34,7 +34,7 @@ import uuid from "react-uuid";
 export interface IFieldEditor {
   field?: IField;
   open?: boolean;
-  setOpen?: (boolean) => void;
+  setOpen?: (open: boolean) => void;
 }
 
 type FieldOptionForm = {

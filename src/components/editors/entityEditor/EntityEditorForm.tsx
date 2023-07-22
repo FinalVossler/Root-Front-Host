@@ -58,6 +58,7 @@ import {
   IEntityTableFieldCaseValueCommand,
   IEntityYearTableFieldRowValuesCommand,
 } from "../../../hooks/apiHooks/useCreateEntity";
+import isValidUrl from "../../../utils/isValidUrl";
 
 export interface IEntityFieldValueForm {
   fieldId: string;
@@ -79,12 +80,18 @@ export interface IEntityEditorFormForm {
   language: string;
 }
 
+export interface IErroredField {
+  modelField: IModelField;
+  errorText: string;
+}
+
 export interface IEntityEditorForm {
   entity?: IEntity;
   open: boolean;
-  setOpen: (boolean) => void;
+  setOpen: (open: boolean) => void;
   modelId?: string;
   readOnly?: boolean;
+  inModal?: boolean;
 }
 
 const EntityEditorForm = (props: IEntityEditorForm) => {
@@ -106,9 +113,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
   //#region Local state
   const [uploadFilesLoading, setUploadFilesLoading] =
     React.useState<boolean>(false);
-  const [erroredRequiredFields, setErroredRequiredFields] = React.useState<
-    IModelField[]
-  >([]);
+  const [erroredFields, setErroredFields] = React.useState<IErroredField[]>([]);
   //#endregion Local state
 
   const styles = useStyles({ theme });
@@ -130,18 +135,19 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
       },
       validationSchema: Yup.object().shape({
         entityFieldValues: Yup.mixed().test(
-          "required fields",
+          "entity fields validation",
           "",
           (entityFieldValues: IEntityFieldValueForm[]) => {
-            let valid: boolean = true;
-            const newErroredRequiredFields: IModelField[] = [];
+            let allValid: boolean = true;
+            const newErroredFields: IErroredField[] = [];
             model?.modelFields.forEach((modelField: IModelField) => {
+              let fieldValid: boolean = true;
               const entityFieldValue = entityFieldValues.find(
                 (e) => e.fieldId === modelField.field._id
               );
               if (modelField.required) {
                 if (!entityFieldValue) {
-                  valid = false;
+                  fieldValid = false;
                 } else {
                   if (modelField.field.type === FieldType.File) {
                     if (
@@ -150,7 +156,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
                       (!entityFieldValue.selectedExistingFiles ||
                         entityFieldValue.selectedExistingFiles.length === 0)
                     ) {
-                      valid = false;
+                      fieldValid = false;
                     }
                   } else {
                     if (
@@ -158,17 +164,44 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
                       entityFieldValue.value === undefined ||
                       entityFieldValue.value === ""
                     ) {
-                      valid = false;
+                      fieldValid = false;
+                    }
+                  }
+                  if (modelField.field.type === FieldType.IFrame) {
+                    if (!isValidUrl(entityFieldValue.value)) {
+                      fieldValid = false;
                     }
                   }
                 }
-                if (!valid) {
-                  newErroredRequiredFields.push(modelField);
+                if (!fieldValid) {
+                  newErroredFields.push({
+                    errorText:
+                      getTranslatedText(modelField.field.name) +
+                      ": " +
+                      getTranslatedText(staticText?.required),
+                    modelField,
+                  });
                 }
               }
+              if (
+                modelField.field.type === FieldType.IFrame &&
+                Boolean(entityFieldValue?.value) &&
+                !isValidUrl(entityFieldValue?.value)
+              ) {
+                fieldValid = false;
+                newErroredFields.push({
+                  errorText:
+                    getTranslatedText(modelField.field.name) +
+                    ": " +
+                    getTranslatedText(staticText?.mustBeValidUrl),
+                  modelField,
+                });
+              }
+
+              allValid = allValid && fieldValid;
             });
-            setErroredRequiredFields(newErroredRequiredFields);
-            return valid;
+            setErroredFields(newErroredFields);
+            return allValid;
           }
         ),
       }),
@@ -357,7 +390,12 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
               : getTranslatedText(staticText?.createEntity)}
           </h2>
 
-          <ImCross onClick={handleCloseModal} className={styles.closeButton} />
+          {props.inModal && (
+            <ImCross
+              onClick={handleCloseModal}
+              className={styles.closeButton}
+            />
+          )}
         </div>
       )}
 
@@ -376,18 +414,20 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
           // By default, if we don't find the field permission in the db for the role, then all the permissions should apply
           foundFieldPermissions &&
           foundFieldPermissions.permissions.indexOf(StaticPermission.Read) ===
-            -1
+            -1 &&
+          user.superRole !== SuperRole.SuperAdmin
         ) {
           return null;
         }
 
         // Check if we can edit
         const canEdit =
-          (foundFieldPermissions === undefined ||
-            foundFieldPermissions?.permissions.indexOf(
-              StaticPermission.Update
-            ) !== -1) &&
-          !props.readOnly;
+          foundFieldPermissions === undefined ||
+          foundFieldPermissions?.permissions.indexOf(
+            StaticPermission.Update
+          ) !== -1 ||
+          user.superRole === SuperRole.SuperAdmin;
+        !props.readOnly;
 
         // Check if we can show the field based on conditions second
         const conditionsMet: boolean = areEntityFieldConditionsMet({
@@ -426,33 +466,45 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
 
         if (
           modelField.field.type === FieldType.Text ||
-          modelField.field.type === FieldType.Number
+          modelField.field.type === FieldType.Number ||
+          modelField.field.type === FieldType.IFrame
         ) {
           return (
-            <Input
-              key={modelFieldIndex}
-              Icon={MdTextFields}
-              formik={formik}
-              name="entityFieldValues"
-              value={value}
-              label={getTranslatedText(modelField.field.name)}
-              onChange={handleOnChange}
-              inputProps={{
-                disabled: !canEdit,
-                placeholder: getTranslatedText(modelField.field.name),
-                type:
-                  modelField.field.type === FieldType.Number
-                    ? "number"
-                    : "text",
-              }}
-              error={
-                erroredRequiredFields.find(
-                  (mf) => mf.field._id === modelField.field._id
-                ) && Boolean(formik.touched.entityFieldValues)
-                  ? getTranslatedText(staticText?.required)
-                  : ""
-              }
-            />
+            <React.Fragment>
+              <Input
+                key={modelFieldIndex}
+                Icon={MdTextFields}
+                formik={formik}
+                name="entityFieldValues"
+                value={value}
+                label={getTranslatedText(modelField.field.name)}
+                onChange={handleOnChange}
+                inputProps={{
+                  disabled: !canEdit,
+                  placeholder: getTranslatedText(modelField.field.name),
+                  type:
+                    modelField.field.type === FieldType.Number
+                      ? "number"
+                      : "text",
+                }}
+                error={
+                  (Boolean(formik.touched.entityFieldValues) &&
+                    erroredFields.find(
+                      (erroredField) =>
+                        erroredField.modelField.field._id ===
+                        modelField.field._id
+                    )?.errorText) ||
+                  ""
+                }
+              />
+              {modelField.field.type === FieldType.IFrame &&
+                isValidUrl(value) && (
+                  <iframe
+                    src={value + "&output=embed"}
+                    className={styles.fieldIframe}
+                  ></iframe>
+                )}
+            </React.Fragment>
           );
         }
 
@@ -524,6 +576,14 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
                   }) || []
                 );
               }}
+              error={
+                (Boolean(formik.touched.entityFieldValues) &&
+                  erroredFields.find(
+                    (erroredField) =>
+                      erroredField.modelField.field._id === modelField.field._id
+                  )?.errorText) ||
+                ""
+              }
             />
           );
         }
@@ -544,10 +604,9 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
             <Button
               key={modelFieldIndex}
               style={{
-                marginBottom: 20,
                 width: 300,
                 margin: "auto",
-                marginTop: 20,
+                marginBottom: 20,
                 height: 100,
                 paddingTop: 25,
                 paddingBottom: 25,
@@ -689,19 +748,17 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
         }
       />
 
-      {/* Errored required fields error text */}
-      {formik.touched.entityFieldValues && erroredRequiredFields.length > 0 && (
-        <span className={styles.erroredFields}>
-          {getTranslatedText(staticText?.required) +
-            ": " +
-            erroredRequiredFields
-              .map((modelField) => getTranslatedText(modelField.field.name))
-              .join(",")}
-        </span>
-      )}
-
       {props.entity && props.modelId && (
         <EntityEditorStates entity={props.entity} modelId={props.modelId} />
+      )}
+
+      {/* Errored fields error text */}
+      {formik.touched.entityFieldValues && erroredFields.length > 0 && (
+        <span className={styles.erroredFields}>
+          {erroredFields
+            .map((erroredField) => getTranslatedText(erroredField.errorText))
+            .join(", ")}
+        </span>
       )}
 
       {!loading && !props.readOnly && (

@@ -24,6 +24,7 @@ interface IInputSelect {
   style?: React.CSSProperties;
   disabled?: boolean;
   placeholder?: string;
+  error?: string;
 }
 
 const InputSelect: React.FunctionComponent<IInputSelect> = (
@@ -60,35 +61,44 @@ const InputSelect: React.FunctionComponent<IInputSelect> = (
 
   return (
     <div className={styles.inputSelectContainer} style={props.style || {}}>
-      {props.label && (
-        <span className={styles.selectLabel}>{props.label}:</span>
-      )}
-      <Select
-        isMulti={props.isMulti}
-        onChange={props.isMulti ? handleOnMultiChange : handleOnChange}
-        options={props.options}
-        isDisabled={props.disabled}
-        placeholder={props.placeholder}
-        value={
-          props.formik && props.name && !props.isMulti
-            ? props.options.find(
-                (option) =>
-                  option.value === props.formik?.values[props.name || ""]
-              )
-            : props.formik && props.name && props.isMulti
-            ? props.options.filter((option) =>
-                Boolean(
-                  props.formik?.values[props.name || ""].find(
-                    (selectedOption) =>
-                      selectedOption.toString() === option.value.toString()
+      <div className={styles.labelAndInputSelectContainer}>
+        {props.label && (
+          <span className={styles.selectLabel}>{props.label}:</span>
+        )}
+        <Select
+          isMulti={props.isMulti}
+          onChange={props.isMulti ? handleOnMultiChange : handleOnChange}
+          options={props.options}
+          isDisabled={props.disabled}
+          placeholder={props.placeholder}
+          value={
+            props.formik && props.name && !props.isMulti
+              ? props.options.find(
+                  (option) =>
+                    option.value === props.formik?.values[props.name || ""]
+                )
+              : props.formik && props.name && props.isMulti
+              ? props.options.filter((option) =>
+                  Boolean(
+                    props.formik?.values[props.name || ""].find(
+                      (selectedOption: string) =>
+                        selectedOption.toString() === option.value.toString()
+                    )
                   )
                 )
-              )
-            : props.value
-        }
-        className={props.disabled ? styles.dislabedSelect : styles.select}
-        classNamePrefix="react-select"
-      />
+              : props.value
+          }
+          className={props.disabled ? styles.dislabedSelect : styles.select}
+          classNamePrefix="react-select"
+        />
+      </div>
+
+      <span className={styles.inputError}>
+        {/* @ts-ignore */}
+        {props.formik?.touched[props.name] &&
+          props.formik?.errors[props.name || ""]}
+        {props.error?.toString()}
+      </span>
     </div>
   );
 };
