@@ -40,11 +40,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
   notificationContainer: {
     position: "absolute",
     top: "10px",
-    left: "3px",
+    right: "30px",
   },
   notificationIcon: {
     position: "absolute",
-    color: theme.primary,
+    color: theme.errorColor,
     backgroundColor: theme.backgroundColor,
     borderRadius: 10,
     padding: 5,
@@ -52,7 +52,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   notificationNumber: {
     position: "absolute",
-    color: "white",
+    color: theme.errorColor,
     fontSize: "20px",
     left: "15px",
     top: "-5px",

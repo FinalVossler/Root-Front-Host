@@ -1,5 +1,6 @@
 import React from "react";
 import { Socket } from "socket.io-client";
+//@ts-ignore
 import { socketConnect } from "socket.io-react";
 
 import ChatMessagesEnum from "../../globalTypes/ChatMessagesEnum";
