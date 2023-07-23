@@ -67,6 +67,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.darkTextColor,
     fontSize: 22,
   },
+
+  subOptionTitle: {
+    extend: "optionTitle",
+    fontSize: 15,
+  },
   triggerSubOptionsButton: {
     fontSize: 30,
     color: theme.primary,
@@ -82,13 +87,14 @@ const useStyles = createUseStyles((theme: Theme) => ({
     extend: "sideMenuOptionContainer",
 
     color: theme.lightTextColor,
-    padding: 10,
+    padding: 5,
     borderBottom: "1px solid " + theme.lightTextColor,
     display: "flex",
     alignItems: "center",
   },
   selectedSubOption: {
     extend: "selectedSideMenuOption",
+    padding: 5,
   },
   subOptionIcon: {
     extend: "optionIcon",

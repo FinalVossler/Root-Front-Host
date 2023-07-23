@@ -40,7 +40,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     height: "100vh",
     zIndex: 6,
     overflow: "auto",
-    paddingBottom: 50,
   },
   appName: {
     color: theme.primary,

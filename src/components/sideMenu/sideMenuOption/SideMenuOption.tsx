@@ -105,7 +105,7 @@ const SubOption = (props: { subOption: SubOption }) => {
         }
       >
         <props.subOption.Icon className={styles.subOptionIcon} />
-        <span className={styles.optionTitle}>{props.subOption.title}</span>
+        <span className={styles.subOptionTitle}>{props.subOption.title}</span>
       </div>
     </Link>
   );
