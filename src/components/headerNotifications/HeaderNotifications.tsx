@@ -136,7 +136,10 @@ const HeaderNotifications: React.FunctionComponent<IHeaderNotifications> = (
       {notificationsOpen && (
         <div className={styles.notificationPopup}>
           {(loading || markAllAsReadLoading) && (
-            <Loading className={styles.headerNotificationLoading} />
+            <Loading
+              color={theme.primary}
+              className={styles.headerNotificationLoading}
+            />
           )}
 
           {totalUnclicked > 0 && !markAllAsReadLoading && (

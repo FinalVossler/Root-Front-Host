@@ -425,7 +425,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
             {props.loading && (
               <tr>
                 <td>
-                  <Loading />
+                  <Loading color={theme.primary} />
                 </td>
               </tr>
             )}

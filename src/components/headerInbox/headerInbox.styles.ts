@@ -7,7 +7,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     position: "relative",
   },
   headerInboxLoading: {
-    color: theme.lightTextColor,
+    color: theme.primary,
     fill: theme.primary + "!important",
   },
   inboxIcon: {
@@ -54,7 +54,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "95%",
     boxSizing: "border-box",
     backgroundColor: theme.lightTextColor,
-    border: '1px solid ' + theme.primary,
+    border: "1px solid " + theme.primary,
     marginBottom: 5,
     color: theme.primary,
 
@@ -68,9 +68,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
       "& div": {
         borderColor: theme.lightTextColor + "!important",
       },
-      '& userNameAndLastName': {
+      "& userNameAndLastName": {
         color: theme.lightTextColor + "!important",
-      }
+      },
     },
   },
   userName: {},

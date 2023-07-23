@@ -78,7 +78,7 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
         loading={deleteLoading}
       />
 
-      {deleteLoading && <Loading />}
+      {deleteLoading && <Loading color={theme.primary} />}
 
       {!deleteLoading &&
         pages.map((page: IPage, i: number) => {

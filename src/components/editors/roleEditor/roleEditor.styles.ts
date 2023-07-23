@@ -31,7 +31,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     position: "absolute",
     top: 3,
     right: 5,
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     fontSize: 25,
     borderRadius: 10,
   },

@@ -138,7 +138,12 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
               },
             }}
           />
-          {loading && <Loading className={styles.headerInboxLoading} />}
+          {loading && (
+            <Loading
+              color={theme.primary}
+              className={styles.headerInboxLoading}
+            />
+          )}
           {!loading &&
             lastConversationsLastMessages.map(
               (message: IPopulatedMessage, index: number) => {

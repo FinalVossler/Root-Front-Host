@@ -7,7 +7,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     position: "relative",
   },
   headerNotificationLoading: {
-    color: theme.lightTextColor,
     fill: theme.primary + "!important",
   },
   notificationIconContainer: {

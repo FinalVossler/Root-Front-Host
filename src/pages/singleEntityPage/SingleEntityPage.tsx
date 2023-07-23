@@ -56,7 +56,7 @@ const SingleEntityPage: React.FunctionComponent<ISingleEntityPage> = (
 
   return (
     <div className={styles.singleEntityPageContainer}>
-      {loading && <Loading />}
+      {loading && <Loading color={theme.primary} />}
 
       {!loading && entity && (
         <div className={styles.entityValuesContainer}>

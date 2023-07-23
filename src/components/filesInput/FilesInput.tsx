@@ -216,7 +216,7 @@ const FilesInput = (props: IFilesInput) => {
       )}
       {props.disabled && (
         <div className={styles.filesInputDisabledLayer}>
-          <Loading />
+          <Loading color={theme.primary} />
         </div>
       )}
     </div>

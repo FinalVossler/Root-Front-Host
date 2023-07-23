@@ -188,7 +188,7 @@ const TasksByModel: React.FunctionComponent<ITasksByModel> = (
         </tbody>
       </table>
 
-      {loading && <Loading />}
+      {loading && <Loading color={theme.primary} />}
 
       <Pagination
         total={total || 0}
