@@ -1,5 +1,7 @@
 import React from "react";
 import Loading from "react-loading";
+import { MdNotifications } from "react-icons/md";
+import { IoMdNotificationsOutline } from "react-icons/io";
 import { TbMoodEmpty } from "react-icons/tb";
 
 import { Theme } from "../../config/theme";
@@ -18,7 +20,6 @@ import {
 import useGetNotifications, {
   NotificationsGetCommand,
 } from "../../hooks/apiHooks/useGetNotifications";
-import { MdNotifications } from "react-icons/md";
 import useSetNotificationToClickedBy from "../../hooks/apiHooks/useSetNotificationToClickedBy";
 import HeaderOptionNotificationSignal from "../headerOptionNotificationSignal";
 
@@ -126,7 +127,7 @@ const HeaderNotifications: React.FunctionComponent<IHeaderNotifications> = (
         className={styles.notificationIconContainer}
         onClick={handleOpenNotifications}
       >
-        <MdNotifications className={styles.notificationIcon} />
+        <IoMdNotificationsOutline className={styles.notificationIcon} />
 
         <HeaderOptionNotificationSignal
           numberOfNotifications={totalUnclicked}

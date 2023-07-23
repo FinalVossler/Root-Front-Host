@@ -107,9 +107,3 @@ finance
 go or no go
 
 création automatique
-
-1- CMS => hard
-2- Blog
-3- section changes on the sctucture
-4- 1 page
-5- Try it now representation de la plateforme

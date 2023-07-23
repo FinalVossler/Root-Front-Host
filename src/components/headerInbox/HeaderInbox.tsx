@@ -1,5 +1,5 @@
 import React from "react";
-import { BsFillChatDotsFill } from "react-icons/bs";
+import { BsChatDots } from "react-icons/bs";
 import Loading from "react-loading";
 
 import { Theme } from "../../config/theme";
@@ -115,10 +115,7 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
       ref={inboxRef as React.RefObject<HTMLDivElement>}
       {...props}
     >
-      <BsFillChatDotsFill
-        onClick={handleOpenInbox}
-        className={styles.inboxIcon}
-      />
+      <BsChatDots onClick={handleOpenInbox} className={styles.inboxIcon} />
 
       {inboxOpen && (
         <div className={styles.inboxPopup}>
