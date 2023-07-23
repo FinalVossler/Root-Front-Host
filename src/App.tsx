@@ -99,7 +99,11 @@ function App() {
       element: <ForgotPasswordChangePasswordPage />,
     },
     {
-      path: "/users/",
+      path: "/users",
+      element: <UsersPage />,
+    },
+    {
+      path: "/users/:roleId",
       element: <UsersPage />,
     },
     {

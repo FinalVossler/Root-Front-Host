@@ -21,9 +21,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     transition: "all .2s ease-in-out",
     zIndex: 7,
   },
-  websiteLogo2: {
-    
-  },
+  websiteLogo2: {},
   menuIconMenuOpen: {
     extend: "menuIcon",
     left: "100%",
@@ -41,6 +39,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     position: "relative",
     height: "100vh",
     zIndex: 6,
+    overflow: "auto",
+    paddingBottom: 50,
   },
   appName: {
     color: theme.primary,

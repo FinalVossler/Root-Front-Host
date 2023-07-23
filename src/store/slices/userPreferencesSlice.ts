@@ -4,12 +4,14 @@ interface IUserPreferencesState {
   language: string;
   isSideMenuOpen: boolean;
   sideMenuExtendedModels: boolean;
+  sideMenuExtendedUserRoles: boolean;
 }
 
 const initialState: IUserPreferencesState = {
   language: "en",
   isSideMenuOpen: true,
   sideMenuExtendedModels: false,
+  sideMenuExtendedUserRoles: false,
 };
 
 export const userPreferenceSlice = createSlice({
@@ -33,6 +35,12 @@ export const userPreferenceSlice = createSlice({
       action: PayloadAction<void>
     ) => {
       state.sideMenuExtendedModels = !state.sideMenuExtendedModels;
+    },
+    triggerExtendedUserRoles: (
+      state: IUserPreferencesState,
+      action: PayloadAction<void>
+    ) => {
+      state.sideMenuExtendedUserRoles = !state.sideMenuExtendedUserRoles;
     },
   },
 });

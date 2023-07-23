@@ -1,5 +1,9 @@
 import React from "react";
-import { AiOutlineMenuUnfold, AiOutlineMenuFold } from "react-icons/ai";
+import {
+  AiOutlineMenuUnfold,
+  AiOutlineMenuFold,
+  AiOutlineUsergroupDelete,
+} from "react-icons/ai";
 import { SiThemodelsresource } from "react-icons/si";
 import { BsFillGearFill, BsPerson } from "react-icons/bs";
 import { MdTextFields } from "react-icons/md";
@@ -23,11 +27,16 @@ import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { FaPager } from "react-icons/fa";
 import { RiPagesLine, RiUserStarFill } from "react-icons/ri";
 import useHasPermission from "../../hooks/useHasPermission";
-import { Permission, StaticPermission } from "../../store/slices/roleSlice";
+import {
+  IRole,
+  Permission,
+  StaticPermission,
+} from "../../store/slices/roleSlice";
 import { IPage } from "../../store/slices/pageSlice";
 import { useNavigate } from "react-router-dom";
 import { BiTask } from "react-icons/bi";
 import IFile from "../../globalTypes/IFile";
+import useGetRoles, { RolesGetCommand } from "../../hooks/apiHooks/useGetRoles";
 
 interface ISideMenu {}
 
@@ -38,7 +47,9 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
   const title: string | undefined = useAppSelector(
     (state) => state.websiteConfiguration.title
   );
-  const websiteLogo2: IFile | undefined = useAppSelector(state => state.websiteConfiguration.logo2);
+  const websiteLogo2: IFile | undefined = useAppSelector(
+    (state) => state.websiteConfiguration.logo2
+  );
   const withTaskManagement: boolean | undefined = useAppSelector(
     (state) => state.websiteConfiguration.withTaskManagement
   );
@@ -52,8 +63,12 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
   const sideMenuExtendedModels: boolean = useAppSelector(
     (state) => state.userPreferences.sideMenuExtendedModels
   );
+  const sideMenuExtendedUserRoles: boolean = useAppSelector(
+    (state) => state.userPreferences.sideMenuExtendedUserRoles
+  );
   const user: IUser = useAppSelector((state) => state.user.user);
   const pages: IPage[] = useAppSelector((state) => state.page.pages);
+  const roles: IRole[] = useAppSelector((state) => state.role.roles);
 
   const [configurationModalOpen, setConfigurationModalOpen] =
     React.useState<boolean>(false);
@@ -65,6 +80,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
   const isLoggedIn: boolean = useIsLoggedIn();
   const { hasPermission } = useHasPermission();
   const navigate = useNavigate();
+  const { getRoles, loading: getRolesLoading } = useGetRoles();
 
   React.useEffect(() => {
     if (models.length === 0) {
@@ -75,6 +91,22 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
         },
       };
       getModels(command);
+    }
+  }, []);
+
+  // Get the roles in order to show users by roles
+  React.useEffect(() => {
+    if (
+      user.superRole === SuperRole.SuperAdmin ||
+      user.role?.permissions.indexOf(Permission.ReadRole)
+    ) {
+      const command: RolesGetCommand = {
+        paginationCommand: {
+          limit: 9999,
+          page: 1,
+        },
+      };
+      getRoles(command);
     }
   }, []);
 
@@ -100,7 +132,9 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
 
       {isSideMenuOpen && (
         <div className={styles.sideMenuContent}>
-          {websiteLogo2 && <img src={websiteLogo2.url} className={styles.websiteLogo2} />}
+          {websiteLogo2 && (
+            <img src={websiteLogo2.url} className={styles.websiteLogo2} />
+          )}
           {!websiteLogo2 && <span className={styles.appName}>{title}</span>}
           {pages.map((page: IPage) => {
             if (!page.showInSideMenu) return null;
@@ -173,6 +207,22 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
               link="/users"
               Icon={BsPerson}
               title={getTranslatedText(staticText?.users)}
+              extended={sideMenuExtendedUserRoles}
+              triggerExtended={() =>
+                dispatch(userPreferenceSlice.actions.triggerExtendedUserRoles())
+              }
+              subOptions={
+                user.superRole === SuperRole.SuperAdmin ||
+                user.role?.permissions.indexOf(Permission.ReadRole) !== -1
+                  ? roles.map((role) => {
+                      return {
+                        Icon: AiOutlineUsergroupDelete,
+                        link: "/users/" + role._id.toString(),
+                        title: getTranslatedText(role.name),
+                      };
+                    })
+                  : []
+              }
             />
           )}
           {hasPermission(Permission.ReadRole) && (

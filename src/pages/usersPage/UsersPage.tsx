@@ -1,6 +1,6 @@
 import React from "react";
 import { FaDirections } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import Elements from "../../components/elements";
 import UserEditor from "../../components/editors/userEditor";
@@ -39,6 +39,7 @@ const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
+  const { roleId } = useParams();
   const { getUsers, loading } = useGetUsers();
   const isLoggedIn: boolean = useIsLoggedIn();
   const { deleteUsers, loading: deleteLoading } = useDeleteUsers();
@@ -51,8 +52,9 @@ const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
         limit,
         page,
       },
+      roleId,
     });
-  }, [page]);
+  }, [page, roleId]);
 
   const handlePageChange = (page: number) => {
     setPage(page);

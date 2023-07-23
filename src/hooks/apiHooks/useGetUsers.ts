@@ -10,6 +10,7 @@ import useAuthorizedAxios from "../useAuthorizedAxios";
 
 export type UsersGetCommand = {
   paginationCommand: PaginationCommand;
+  roleId?: string;
 };
 
 const useGetUsers = () => {
