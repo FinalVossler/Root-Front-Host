@@ -32,6 +32,7 @@ import SingleEntityPage from "./pages/singleEntityPage";
 import TasksPage from "./pages/tasksPage";
 
 import "./index.css";
+import MicroFrontendsPage from "./pages/microFrontendsPage/MicroFrontendsPage";
 
 function App() {
   const pages: IPage[] = useAppSelector((state) => state.page.pages);
@@ -113,6 +114,10 @@ function App() {
     {
       path: "/tasks/",
       element: <TasksPage />,
+    },
+    {
+      path: "/microFrontends/",
+      element: <MicroFrontendsPage />,
     },
   ]);
 

@@ -98,6 +98,7 @@ export interface IWebsiteConfiguration {
       users: ITranslatedText[];
       roles: ITranslatedText[];
       tasksManagement: ITranslatedText[];
+      microFrontends: ITranslatedText[];
     };
     fields: {
       createField: ITranslatedText[];
@@ -140,6 +141,16 @@ export interface IWebsiteConfiguration {
 
       conditions: ITranslatedText[];
       statesContributions: ITranslatedText[];
+    };
+    microFrontends: {
+      updateMicroFrontend: ITranslatedText[];
+      createMicroFrontend: ITranslatedText[];
+      name: ITranslatedText[];
+      remoteEntry: ITranslatedText[];
+      components: ITranslatedText[];
+      addComponent: ITranslatedText[];
+      componentName: ITranslatedText[];
+      submit: ITranslatedText[];
     };
     models: {
       createModel: ITranslatedText[];
@@ -332,6 +343,10 @@ export interface IWebsiteConfiguration {
       readUser: ITranslatedText[];
       updateUser: ITranslatedText[];
       deleteUser: ITranslatedText[];
+
+      createMicroFrontend: ITranslatedText[];
+      updateMicroFrontend: ITranslatedText[];
+      deleteMicroFrontend: ITranslatedText[];
 
       readRole: ITranslatedText[];
       deleteRole: ITranslatedText[];
@@ -709,6 +724,10 @@ const initialState: IWebsiteConfigurationState = {
         { language: "en", text: "Tasks Management" },
         { language: "fr", text: "Gestion de tâches" },
       ],
+      microFrontends: [
+        { language: "en", text: "Micro-Frontends" },
+        { language: "fr", text: "Micro-Frontends" },
+      ],
     },
     fields: {
       createField: [
@@ -1007,6 +1026,40 @@ const initialState: IWebsiteConfigurationState = {
           language: "fr",
           text: "Contributions sur les états",
         },
+      ],
+    },
+    microFrontends: {
+      createMicroFrontend: [
+        { language: "en", text: "Create a Micro-Frontend" },
+        { language: "fr", text: "Créer un Micro-Frontend" },
+      ],
+      updateMicroFrontend: [
+        { language: "en", text: "Update a Micro-Frontend" },
+        { language: "fr", text: "Mettre à jour un Micro-Frontend" },
+      ],
+      name: [
+        { language: "en", text: "Name" },
+        { language: "fr", text: "Nom" },
+      ],
+      remoteEntry: [
+        { language: "en", text: "Remote Entry" },
+        { language: "fr", text: "Entrée en remote" },
+      ],
+      components: [
+        { language: "en", text: "Components" },
+        { language: "fr", text: "Composants" },
+      ],
+      addComponent: [
+        { language: "en", text: "Add component" },
+        { language: "fr", text: "Ajouter un composant" },
+      ],
+      componentName: [
+        { language: "en", text: "Component name" },
+        { language: "fr", text: "Nom du composant" },
+      ],
+      submit: [
+        { language: "en", text: "Submit" },
+        { language: "fr", text: "Soumettre" },
       ],
     },
     models: {
@@ -1718,6 +1771,19 @@ const initialState: IWebsiteConfigurationState = {
       deleteRole: [
         { language: "en", text: "Delete role" },
         { language: "fr", text: "Supprimer un rôle" },
+      ],
+
+      createMicroFrontend: [
+        { language: "en", text: "Create Micro-Frontend" },
+        { language: "fr", text: "Créer un Micro-Frontend" },
+      ],
+      updateMicroFrontend: [
+        { language: "en", text: "Update Micro-Frontend" },
+        { language: "fr", text: "Mettre à jour un Micro-Frontend" },
+      ],
+      deleteMicroFrontend: [
+        { language: "en", text: "Delete Micro-Frontend" },
+        { language: "fr", text: "Supprimer un Micro-Frontend" },
       ],
       create: [
         { language: "en", text: "Create" },

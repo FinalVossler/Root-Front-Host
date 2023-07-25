@@ -107,3 +107,12 @@ finance
 go or no go
 
 création automatique
+
+---
+
+the order of columns is predefined
+for hiding columns (clique droit avec des options)
+
+PESTEL ANALYSIS score
+differencier entre les types de molécules
+world bank PESTEL reports:

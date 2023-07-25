@@ -27,6 +27,7 @@ import {
   getLocalStorageElementsConf,
   updateLocalStorageElementsConf,
 } from "../../utils/localStorage";
+import { IMicroFrontend } from "../../store/slices/microFrontendSlice";
 
 export type Column = {
   label: string;
@@ -35,7 +36,13 @@ export type Column = {
   defaultHide?: boolean;
 };
 
-export type Element = IField | IModel | IEntity | IUser | IRole;
+export type Element =
+  | IField
+  | IModel
+  | IEntity
+  | IUser
+  | IRole
+  | IMicroFrontend;
 
 enum ViewType {
   Table = "Table",
@@ -72,7 +79,7 @@ interface IElements {
   setSearchResult: (result: PaginationResponse<any>) => void;
   isForEntities?: boolean;
   modelId?: string;
-  elementsLocalStorageConfName: LocalStorageConfNameEnum | string;
+  elementsLocalStorageConfName: LocalStorageConfNameEnum;
 }
 
 const Elements: React.FunctionComponent<IElements> = (props: IElements) => {

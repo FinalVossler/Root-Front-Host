@@ -232,6 +232,13 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
               title={getTranslatedText(staticText?.roles)}
             />
           )}
+          {hasPermission(Permission.ReadMicroFrontend) && (
+            <SideMenuOption
+              Icon={MdTextFields}
+              title={getTranslatedText(staticText?.microFrontends)}
+              link="/microFrontends"
+            />
+          )}
         </div>
       )}
 

@@ -28,5 +28,3 @@ sachant que j'ai mis à jour webpack et réglé des problèmes d'import qui n'é
   -Hot reload
   -à envisager: hot module replacement sans prise en compte du state: webpack peut le faire par luis même avec une petite configuration
   -Encore mieux: hot module replacement avec prise en compte du state: @pmmmwh/react-refresh-webpack-plugin replaced react-hot-loader
-
-3- estimation 5 jours

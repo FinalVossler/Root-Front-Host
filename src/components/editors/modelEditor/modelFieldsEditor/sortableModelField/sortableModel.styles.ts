@@ -98,7 +98,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   modelFieldStatesConfigurationContainer: {
     display: "flex",
-    marginTop: 10,
+    marginTop: -20,
     flexDirection: "column",
     width: "100%",
   },

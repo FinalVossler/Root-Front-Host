@@ -5,6 +5,7 @@ export enum LocalStorageConfNameEnum {
   MODELS = "MODELS",
   USERS = "USERS",
   ROLES = "ROLES",
+  MICRO_FRONTENDS = "MICRO_FRONTENDS",
 }
 
 // For the "Elements" component
@@ -22,7 +23,9 @@ export const updateLocalStorageElementsConf = ({
   window.localStorage.setItem(confName, JSON.stringify(value));
 };
 
-export const getLocalStorageElementsConf = (confName): IElementsConf | null => {
+export const getLocalStorageElementsConf = (
+  confName: LocalStorageConfNameEnum
+): IElementsConf | null => {
   let resultFromStorage = window.localStorage.getItem(confName);
 
   if (resultFromStorage) {

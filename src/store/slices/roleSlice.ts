@@ -71,6 +71,11 @@ export enum Permission {
   ReadRole = "ReadRole",
   UpdateRole = "UpdateRole",
   DeleteRole = "DeleteRole",
+
+  ReadMicroFrontend = "ReadMicroFrontend",
+  CreateMicroFrontend = "CreateMicroFrontend",
+  UpdateMicroFrontend = "UpdateMicroFrontend",
+  DeleteMicroFrontend = "DeleteMicroFrontend",
 }
 
 export interface IRole {
