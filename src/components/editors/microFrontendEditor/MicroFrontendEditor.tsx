@@ -140,6 +140,9 @@ const MicroFrontendEditor = (props: IMicroFrontendEditor) => {
         onSubmit={handleSubmit}
         className={styles.createMicroFrontendModalContainer}
       >
+        <h2 className={styles.microFrontendsWarning}>
+          {getTranslatedText(staticText?.warning)}
+        </h2>
         <div className={styles.createMicroFrontendHeader}>
           <h2 className={styles.createMicroFrontendTitle}>
             {props.microFrontend

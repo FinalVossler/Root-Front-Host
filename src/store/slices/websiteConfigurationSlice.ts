@@ -151,6 +151,7 @@ export interface IWebsiteConfiguration {
       addComponent: ITranslatedText[];
       componentName: ITranslatedText[];
       submit: ITranslatedText[];
+      warning: ITranslatedText[];
     };
     models: {
       createModel: ITranslatedText[];
@@ -1060,6 +1061,17 @@ const initialState: IWebsiteConfigurationState = {
       submit: [
         { language: "en", text: "Submit" },
         { language: "fr", text: "Soumettre" },
+      ],
+
+      warning: [
+        {
+          language: "en",
+          text: "WARNING: The appplication will need to be rebuilt for every change or creation in this editor",
+        },
+        {
+          language: "fr",
+          text: "ATTENTION: L'application doit être redéployéé pour chaque changement ou ajoué attribué ici",
+        },
       ],
     },
     models: {

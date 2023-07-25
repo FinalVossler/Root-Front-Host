@@ -14,6 +14,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "60vw",
     paddingLeft: 2,
   },
+
+  microFrontendsWarning: {
+    color: theme.errorColor,
+    textAlign: "center",
+  },
   createMicroFrontendHeader: {
     display: "flex",
     alignItems: "center",
