@@ -9,11 +9,16 @@ import {
 } from "../../store/slices/microFrontendSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 
+export type MicroFrontendComponentUpdateCommand = {
+  _id?: string;
+  name: string;
+};
+
 export type MicroFrontendUpdateCommand = {
   _id: string;
   name: string;
   remoteEntry: string;
-  components: string[];
+  components: MicroFrontendComponentUpdateCommand[];
 };
 
 const useUpdateMicroFrontend = () => {

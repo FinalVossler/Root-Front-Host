@@ -3,11 +3,19 @@ import _ from "lodash";
 
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 
+export interface IMicroFrontendComponent {
+  _id: string;
+  name: string;
+
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface IMicroFrontend {
   _id: string;
   name: string;
   remoteEntry: string;
-  components: string[];
+  components: IMicroFrontendComponent[];
 
   createdAt: string;
   updatedAt: string;

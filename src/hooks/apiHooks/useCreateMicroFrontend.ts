@@ -8,10 +8,14 @@ import {
 } from "../../store/slices/microFrontendSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 
+type MicroFrontendComponentCreateCommand = {
+  name: string;
+};
+
 export type MicroFrontendCreateCommand = {
   name: string;
   remoteEntry: string;
-  components: string[];
+  components: MicroFrontendComponentCreateCommand[];
 };
 
 const useCreateMicroFrontend = () => {

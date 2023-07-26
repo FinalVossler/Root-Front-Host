@@ -16,6 +16,7 @@ import { IMicroFrontend } from "../../../store/slices/microFrontendSlice";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import { BiLabel } from "react-icons/bi";
 import useUpdateMicroFrontend, {
+  MicroFrontendComponentUpdateCommand,
   MicroFrontendUpdateCommand,
 } from "../../../hooks/apiHooks/useUpdateMicroFrontend";
 import useCreateMicroFrontend, {
@@ -31,13 +32,10 @@ export interface IMicroFrontendEditor {
 export interface IMicroFrontendForm {
   name: string;
   remoteEntry: string;
-  components: string[];
+  components: MicroFrontendComponentUpdateCommand[];
 }
 
 const MicroFrontendEditor = (props: IMicroFrontendEditor) => {
-  const language: string = useAppSelector(
-    (state) => state.userPreferences.language
-  );
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
@@ -112,7 +110,14 @@ const MicroFrontendEditor = (props: IMicroFrontendEditor) => {
   //#region Event listeners
 
   const handleAddComponent = () => {
-    formik.setFieldValue("components", [...formik.values.components, ""]);
+    const newComponent: MicroFrontendComponentUpdateCommand = {
+      name: "",
+      _id: undefined,
+    };
+    formik.setFieldValue("components", [
+      ...formik.values.components,
+      newComponent,
+    ]);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -192,15 +197,20 @@ const MicroFrontendEditor = (props: IMicroFrontendEditor) => {
                 />
                 <Input
                   label={getTranslatedText(staticText?.componentName)}
+                  value={component.name}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     formik.setFieldValue(
                       "components",
                       formik.values.components.map((component, i) =>
-                        i !== componentIndex ? component : e.target.value
+                        i !== componentIndex
+                          ? component
+                          : {
+                              ...component,
+                              name: e.target.value,
+                            }
                       )
                     );
                   }}
-                  value={component}
                   Icon={BiLabel}
                 />
               </div>

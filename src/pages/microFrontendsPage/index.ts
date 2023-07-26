@@ -1,3 +1,3 @@
-import FieldsPage from "./FieldsPage";
+import MicroFrontendsPage from "./MicroFrontendsPage";
 
-export default FieldsPage;
+export default MicroFrontendsPage;

@@ -112,7 +112,7 @@ const MicroFrontendsPage: React.FunctionComponent<IMicroFrontendsPage> = (
             name: "components",
             render: (microFrontend: IMicroFrontend) => {
               if (microFrontend.components) {
-                return microFrontend.components.join(", ");
+                return microFrontend.components.map((el) => el.name).join(", ");
               } else return "";
             },
           },
