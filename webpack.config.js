@@ -4,9 +4,10 @@ const webpack = require("webpack");
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+const { default: axios } = require("axios");
 
 const deps = require("./package.json").dependencies;
-module.exports = (_, argv) => {
+module.exports = async (_, argv) => {
   const isDevelopment = argv.mode === "development";
   if (isDevelopment) {
     require("dotenv").config({ path: `./.env.development` });
@@ -88,11 +89,7 @@ module.exports = (_, argv) => {
       new ModuleFederationPlugin({
         name: "host",
         filename: "remoteEntry.js",
-        remotes: {
-          pestel: isDevelopment
-            ? "pestel@http://localhost:3001/remoteEntry.js"
-            : "pestel@https://erikusa-pestel.netlify.app/remoteEntry.js",
-        },
+        remotes: {},
         exposes: {},
         shared: {
           ...deps,

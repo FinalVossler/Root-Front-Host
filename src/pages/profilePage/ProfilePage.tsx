@@ -1,6 +1,5 @@
 import React from "react";
 import { BsFillGearFill } from "react-icons/bs";
-import { ErrorBoundary } from "react-error-boundary";
 
 import ProfileForm from "../../components/profileForm";
 
@@ -20,51 +19,23 @@ import UserProfilePicture from "../../components/userProfilePicture";
 import { SizeEnum } from "../../components/userProfilePicture/UserProfilePicture";
 import withChat from "../../hoc/withChat";
 
-enum ActiveForm {
-  Register = "Register",
-  Login = "Login",
-  ForgotPassword = "ForgotPassword",
-}
-
 interface IProfilePage {}
 const ProfilePage: React.FunctionComponent<IProfilePage> = (
   props: IProfilePage
 ) => {
   const { userId } = useParams();
-  const [PestelComponent, setPestelComponent] =
-    React.useState<React.LazyExoticComponent<React.ComponentType<any>> | null>(
-      null
-    );
-
-  React.useEffect(() => {
-    const loadComponent = async () => {
-      const Pestel = await React.lazy(() => import("pestel/Pestel"));
-      setPestelComponent(Pestel);
-    };
-
-    loadComponent();
-  }, []);
 
   const currentUser: IUser = useAppSelector<IUser>((state) => state.user.user);
-  const withRegistration: boolean | undefined = useAppSelector(
-    (state) => state.websiteConfiguration.withRegistration
-  );
-  const staticText = useAppSelector(
-    (state) => state.websiteConfiguration.staticText?.profile
-  );
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 
   const [fetchedUser, setFetchedUser] = React.useState<IUser | null>(null);
-  const [activeForm, setActiveForm] = React.useState<ActiveForm>(
-    ActiveForm.Register
-  );
   const [showProfileForm, setShowProfileForm] = React.useState(false);
 
   const styles = useStyles({ theme });
   const isLoggedIn: boolean = useIsLoggedIn();
-  const { getUser, loading: getUserLoading } = useGetUser();
+  const { getUser } = useGetUser();
 
   React.useEffect(() => {
     const fetchUser = async () => {
@@ -115,50 +86,6 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
                 {actualUser.firstName + " " + actualUser.lastName}
               </span>
             </div>
-          )}
-
-          {PestelComponent && (
-            <ErrorBoundary fallback={<div>Pestel Micro-Frontend Errored</div>}>
-              <React.Suspense fallback={<div>loading</div>}>
-                <PestelComponent
-                  theme={{
-                    borderColor: theme.borderColor,
-                    cancelButtonColor: theme.lightTextColor,
-                    cancelButtonTextColor: theme.darkTextColor,
-                    confirmButtonLeftColor: theme.darkerPrimary,
-                    confirmButtonRightColor: theme.primary,
-                    confirmButtonTextColor: theme.lightTextColor,
-                    dotColor: "#3BCBB2",
-                    downloadReportButtonColor: "#E59010",
-                    downloadReportTextColor: theme.lightTextColor,
-                    textColor: theme.darkTextColor,
-                    titleTextColor: theme.darkTextColor,
-                    buttonBoxShadow: theme.boxShadow,
-                  }}
-                  cancelButtonText="Back"
-                  confirmButtonText="Confirm"
-                  title="PESTEL Analysis"
-                  data={[
-                    { score: 8, text: "Political" },
-                    { score: 4, text: "Economic" },
-                    { score: 10, text: "Social" },
-                    { score: 6, text: "Technological" },
-                    { score: 9, text: "Environmental" },
-                    { score: 2, text: "Legal" },
-                  ]}
-                  downloadReportButtonText="Download Report"
-                  maxScore={10}
-                  onCancel={() => {}}
-                  onConfirm={() => {}}
-                  productText="Product Name: Product A"
-                  countryText="Country: France"
-                />
-              </React.Suspense>
-              <br />
-              <br />
-              <br />
-              <br />
-            </ErrorBoundary>
           )}
           <UserPosts user={actualUser} />
         </div>

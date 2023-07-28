@@ -3,6 +3,7 @@ import "suneditor/dist/css/suneditor.min.css";
 import { MdTitle } from "react-icons/md";
 import ReactLoading from "react-loading";
 import { AiFillDelete, AiOutlineAppstoreAdd } from "react-icons/ai";
+import * as Yup from "yup";
 
 import useStyles from "./microFrontendEditor.styles";
 import Modal from "../../modal";
@@ -61,6 +62,10 @@ const MicroFrontendEditor = (props: IMicroFrontendEditor) => {
         remoteEntry: "",
         components: [],
       },
+      validationSchema: Yup.object().shape({
+        name: Yup.string().required(),
+        remoteEntry: Yup.string().required(),
+      }),
       onSubmit: async (values: IMicroFrontendForm) => {
         if (props.microFrontend) {
           const command: MicroFrontendUpdateCommand = {
