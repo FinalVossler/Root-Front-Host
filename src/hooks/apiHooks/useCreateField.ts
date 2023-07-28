@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import React from "react";
-import { IEvent } from "../../globalTypes/IEvent";
+import { EventCommand, IEvent } from "../../globalTypes/IEvent";
 import ITranslatedText from "../../globalTypes/ITranslatedText";
 
 import { useAppDispatch } from "../../store/hooks";
@@ -19,7 +19,7 @@ export type FieldCreateCommand = {
     label: string;
     value: string;
   }[];
-  fieldEvents: IEvent[];
+  fieldEvents: EventCommand[];
   tableOptions: {
     name: string;
     columns: FieldTableElementCreateCommand[];

@@ -101,6 +101,22 @@ const useStyles = createUseStyles((theme: Theme) => ({
   headerDeleteIcon: {
     extend: "deleteIcon",
   },
+  selectedMicroFrontendContainer: {
+    display: "flex",
+    flexDirection: "column",
+    position: "relative",
+    border: "1px solid " + theme.darkTextColor,
+    padding: 10,
+  },
+  microFrontendName: {},
+  unselectMicroFrontendButton: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    color: theme.errorColor,
+    cursor: "pointer",
+    fontSize: 20,
+  },
 }));
 
 export default useStyles;

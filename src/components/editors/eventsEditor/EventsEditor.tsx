@@ -28,6 +28,10 @@ import {
   BsArrowUp,
   BsArrowUpShort,
 } from "react-icons/bs";
+import useGetMicroFrontends from "../../../hooks/apiHooks/useGetMicroFrontends";
+import SearchInput from "../../searchInput";
+import { IMicroFrontend } from "../../../store/slices/microFrontendSlice";
+import useSearchMicroFrontends from "../../../hooks/apiHooks/useSearchMicroFrontends";
 
 interface IEventsEditor {
   formik: FormikProps<any>;
@@ -54,6 +58,12 @@ const EventsEditor: React.FunctionComponent<IEventsEditor> = (
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
+  const {
+    handleSearchMicroFrontendsPromise,
+    handleSelectMicroFrontend,
+    selectedMicroFrontends,
+    setSelectedMicroFrontends,
+  } = useSearchMicroFrontends();
 
   //#region Event listeners
   const handleAddEvent = (
@@ -110,7 +120,23 @@ const EventsEditor: React.FunctionComponent<IEventsEditor> = (
     props.formik.setFieldValue(props.fieldName, newEvents);
   };
 
+  const handleSelectOrUnselectMicroFrontend = (
+    index: number,
+    microFrontend: IMicroFrontend | null
+  ) => {
+    const newEvents = props.formik.values[props.fieldName].map(
+      (event: IEvent, i) => {
+        return {
+          ...event,
+          microFrontend: index === i ? microFrontend : event.microFrontend,
+        };
+      }
+    );
+    props.formik.setFieldValue(props.fieldName, newEvents);
+  };
+
   const handleTriggerOpenEvents = () => setOpen(!open);
+  //#endregion event listeners
 
   return (
     <div className={styles.eventsEditorContainer}>
@@ -195,6 +221,21 @@ const EventsEditor: React.FunctionComponent<IEventsEditor> = (
                   checked={event.eventType === EventTypeEnum.Redirection}
                   onChange={() =>
                     handleEventTypeChange(index, EventTypeEnum.Redirection)
+                  }
+                  labelStyles={{ width: 100 }}
+                />
+                <Checkbox
+                  label={getTranslatedText(
+                    staticText?.microFrontendRedirection
+                  )}
+                  checked={
+                    event.eventType === EventTypeEnum.MicroFrontendRedirection
+                  }
+                  onChange={() =>
+                    handleEventTypeChange(
+                      index,
+                      EventTypeEnum.MicroFrontendRedirection
+                    )
                   }
                   labelStyles={{ width: 100 }}
                 />
@@ -490,6 +531,29 @@ const EventsEditor: React.FunctionComponent<IEventsEditor> = (
                         props.formik.setFieldValue(props.fieldName, newEvents);
                       }}
                       label={getTranslatedText(staticText?.redirectionToSelf)}
+                    />
+                  </div>
+                )}
+                {event.eventType === EventTypeEnum.MicroFrontendRedirection && (
+                  <SearchInput
+                    getElementTitle={(el: IMicroFrontend) => el.name}
+                    searchPromise={handleSearchMicroFrontendsPromise}
+                    label={getTranslatedText(staticText?.searchMicroFrontends)}
+                    onElementClick={(microFrontend: IMicroFrontend) =>
+                      handleSelectOrUnselectMicroFrontend(index, microFrontend)
+                    }
+                  />
+                )}
+                {event.microFrontend && (
+                  <div className={styles.selectedMicroFrontendContainer}>
+                    <span className={styles.microFrontendName}>
+                      {event.microFrontend?.name}
+                    </span>
+                    <MdDelete
+                      className={styles.unselectMicroFrontendButton}
+                      onClick={() =>
+                        handleSelectOrUnselectMicroFrontend(index, null)
+                      }
                     />
                   </div>
                 )}

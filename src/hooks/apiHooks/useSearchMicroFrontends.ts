@@ -15,7 +15,7 @@ export type MicroFrontendsSearchCommand = {
   paginationCommand: PaginationCommand;
 };
 
-const useSearchUsers = () => {
+const useSearchMicroFrontends = () => {
   const [selectedMicroFrontends, setSelectedMicroFrontends] = React.useState<
     IMicroFrontend[]
   >([]);
@@ -62,4 +62,4 @@ const useSearchUsers = () => {
   };
 };
 
-export default useSearchUsers;
+export default useSearchMicroFrontends;

@@ -16,11 +16,9 @@ import { FormikProps, useFormik } from "formik";
 import { FieldType, IField } from "../../../store/slices/fieldSlice";
 import useCreateField, {
   FieldCreateCommand,
-  FieldTableElementCreateCommand,
 } from "../../../hooks/apiHooks/useCreateField";
 import useUpdateField, {
   FieldUpdateCommand,
-  FieldTableElementUpdateCommand,
 } from "../../../hooks/apiHooks/useUpdateField";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import InputSelect from "../../inputSelect";
@@ -106,7 +104,10 @@ const FieldEditor = (props: IFieldEditor) => {
           type: values.type,
           language: values.language,
           options: values.options,
-          fieldEvents: values.fieldEvents,
+          fieldEvents: values.fieldEvents.map((event) => ({
+            ...event,
+            microFrontendId: event.microFrontend?._id,
+          })),
           tableOptions: {
             name: values.tableOptions.name,
             columns: values.tableOptions.columns.map((c) => ({
@@ -130,7 +131,10 @@ const FieldEditor = (props: IFieldEditor) => {
           type: values.type,
           language: values.language,
           options: values.options,
-          fieldEvents: values.fieldEvents,
+          fieldEvents: values.fieldEvents.map((e) => ({
+            ...e,
+            microFrontendId: e.microFrontend?._id,
+          })),
           tableOptions: {
             name: values.name,
             columns: values.tableOptions.columns.map((c) => ({

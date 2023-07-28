@@ -191,6 +191,8 @@ export interface IWebsiteConfiguration {
       addHeader: ITranslatedText[];
       key: ITranslatedText[];
       value: ITranslatedText[];
+      microFrontendRedirection: ITranslatedText[];
+      searchMicroFrontends: ITranslatedText[];
     };
     elements: {
       actions: ITranslatedText[];
@@ -1222,6 +1224,14 @@ const initialState: IWebsiteConfigurationState = {
       value: [
         { language: "en", text: "Value" },
         { language: "fr", text: "Valeur" },
+      ],
+      microFrontendRedirection: [
+        { language: "en", text: "Redirection to MicroFrontend" },
+        { language: "fr", text: "Redirection vers un Micro-Frontend" },
+      ],
+      searchMicroFrontends: [
+        { language: "en", text: "Search a MicroFrontend" },
+        { language: "fr", text: "Rechercher un Micro-Frontend" },
       ],
     },
     elements: {
