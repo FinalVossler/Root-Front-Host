@@ -125,6 +125,8 @@ const ModelEditor = (props: IModelEditor) => {
             requestDataIsCreatedEntity: modelEvent.requestDataIsCreatedEntity,
             requestData: modelEvent.requestData,
             requestHeaders: modelEvent.requestHeaders,
+            microFrontendId: modelEvent.microFrontend?._id,
+            microFrontendComponentId: modelEvent.microFrontendComponentId,
           })),
           states: values.states.map((state) => ({
             exclusive: state.exclusive,
@@ -163,6 +165,7 @@ const ModelEditor = (props: IModelEditor) => {
             })) || [],
           modelEvents: values.modelEvents.map((modelEvent) => ({
             ...modelEvent,
+            microFrontendId: modelEvent.microFrontend?._id,
           })),
           states: values.states.map((state) => ({
             exclusive: state.exclusive,

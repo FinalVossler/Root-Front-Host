@@ -18,12 +18,10 @@ const useDynamicScript = (args) => {
     setFailed(false);
 
     element.onload = () => {
-      console.log(`Dynamic Script Loaded: ${args.url}`);
       setReady(true);
     };
 
     element.onerror = () => {
-      console.error(`Dynamic Script Error: ${args.url}`);
       setReady(false);
       setFailed(true);
     };
@@ -31,7 +29,6 @@ const useDynamicScript = (args) => {
     document.head.appendChild(element);
 
     return () => {
-      console.log(`Dynamic Script Removed: ${args.url}`);
       document.head.removeChild(element);
     };
   }, [args.url]);

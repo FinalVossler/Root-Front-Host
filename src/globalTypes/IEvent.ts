@@ -16,6 +16,7 @@ export interface IEvent {
   requestHeaders: IEventRequestHeader[];
 
   microFrontend?: IMicroFrontend;
+  microFrontendComponentId?: string;
 }
 
 export enum EventTriggerEnum {
@@ -50,4 +51,5 @@ export type EventCommand = {
   requestHeaders: IEventRequestHeader[];
 
   microFrontendId?: string;
+  microFrontendComponentId?: string;
 };

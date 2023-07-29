@@ -33,6 +33,7 @@ import TasksPage from "./pages/tasksPage";
 
 import "./index.css";
 import MicroFrontendsPage from "./pages/microFrontendsPage/MicroFrontendsPage";
+import MicroFrontendPage from "./pages/microFrontendPage";
 
 function App() {
   const pages: IPage[] = useAppSelector((state) => state.page.pages);
@@ -114,6 +115,14 @@ function App() {
     {
       path: "/tasks/",
       element: <TasksPage />,
+    },
+    {
+      path: "/microFrontend/:microFrontendId/:entityId/:componentName",
+      element: <MicroFrontendPage />,
+    },
+    {
+      path: "/microFrontend/:microFrontendId/:componentName",
+      element: <MicroFrontendPage />,
     },
     {
       path: "/microFrontends/",

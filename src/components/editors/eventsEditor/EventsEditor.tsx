@@ -22,16 +22,12 @@ import {
 } from "../../../globalTypes/IEvent";
 import { CgAdd } from "react-icons/cg";
 import { HiKey } from "react-icons/hi";
-import {
-  BsArrowDown,
-  BsArrowDownShort,
-  BsArrowUp,
-  BsArrowUpShort,
-} from "react-icons/bs";
-import useGetMicroFrontends from "../../../hooks/apiHooks/useGetMicroFrontends";
+import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import SearchInput from "../../searchInput";
 import { IMicroFrontend } from "../../../store/slices/microFrontendSlice";
 import useSearchMicroFrontends from "../../../hooks/apiHooks/useSearchMicroFrontends";
+import InputSelect from "../../inputSelect";
+import { Option } from "../../inputSelect/InputSelect";
 
 interface IEventsEditor {
   formik: FormikProps<any>;
@@ -58,12 +54,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditor> = (
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
-  const {
-    handleSearchMicroFrontendsPromise,
-    handleSelectMicroFrontend,
-    selectedMicroFrontends,
-    setSelectedMicroFrontends,
-  } = useSearchMicroFrontends();
+  const { handleSearchMicroFrontendsPromise } = useSearchMicroFrontends();
 
   //#region Event listeners
   const handleAddEvent = (
@@ -124,11 +115,32 @@ const EventsEditor: React.FunctionComponent<IEventsEditor> = (
     index: number,
     microFrontend: IMicroFrontend | null
   ) => {
-    const newEvents = props.formik.values[props.fieldName].map(
+    const newEvents: IEvent = props.formik.values[props.fieldName].map(
       (event: IEvent, i) => {
         return {
           ...event,
           microFrontend: index === i ? microFrontend : event.microFrontend,
+          microFrontendComponentId:
+            index === i &&
+            microFrontend?.components &&
+            microFrontend?.components?.length > 0
+              ? microFrontend.components[0]._id
+              : event.microFrontendComponentId,
+        };
+      }
+    );
+    props.formik.setFieldValue(props.fieldName, newEvents);
+  };
+  const handleSelectMicroFrontendComponent = (
+    index: number,
+    option: Option
+  ) => {
+    const newEvents = props.formik.values[props.fieldName].map(
+      (event: IEvent, i): IEvent => {
+        return {
+          ...event,
+          microFrontendComponentId:
+            index === i ? option.value : event.microFrontendComponentId,
         };
       }
     );
@@ -553,6 +565,35 @@ const EventsEditor: React.FunctionComponent<IEventsEditor> = (
                       className={styles.unselectMicroFrontendButton}
                       onClick={() =>
                         handleSelectOrUnselectMicroFrontend(index, null)
+                      }
+                    />
+
+                    <InputSelect
+                      label={getTranslatedText(staticText?.components)}
+                      options={event.microFrontend.components.map(
+                        (component) => {
+                          return {
+                            label: component.name,
+                            value: component._id,
+                          };
+                        }
+                      )}
+                      value={{
+                        label:
+                          event.microFrontend.components.find(
+                            (el) =>
+                              el._id.toString() ===
+                              event.microFrontendComponentId
+                          )?.name || "",
+                        value:
+                          event.microFrontend.components.find(
+                            (el) =>
+                              el._id.toString() ===
+                              event.microFrontendComponentId
+                          )?._id || "",
+                      }}
+                      onChange={(option) =>
+                        handleSelectMicroFrontendComponent(index, option)
                       }
                     />
                   </div>

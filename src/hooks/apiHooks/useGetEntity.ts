@@ -5,24 +5,19 @@ import { IEntity } from "../../store/slices/entitySlice";
 
 import useAuthorizedAxios from "../useAuthorizedAxios";
 
-export type EntitiesGetEntityCommand = {
-  entityId: string;
-  modelId: string;
-};
-
 const useGetEntity = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const axios = useAuthorizedAxios();
 
-  const getEntity = (command: EntitiesGetEntityCommand) =>
+  const getEntity = (entityId: string) =>
     new Promise<IEntity>((resolve, reject) => {
       setLoading(true);
       axios
         .request<AxiosResponse<IEntity>>({
           method: "GET",
           url: "/entities/getEntity",
-          params: command,
+          params: { entityId },
         })
         .then((res) => {
           resolve(res.data.data);

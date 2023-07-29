@@ -193,6 +193,7 @@ export interface IWebsiteConfiguration {
       value: ITranslatedText[];
       microFrontendRedirection: ITranslatedText[];
       searchMicroFrontends: ITranslatedText[];
+      components: ITranslatedText[];
     };
     elements: {
       actions: ITranslatedText[];
@@ -1232,6 +1233,10 @@ const initialState: IWebsiteConfigurationState = {
       searchMicroFrontends: [
         { language: "en", text: "Search a MicroFrontend" },
         { language: "fr", text: "Rechercher un Micro-Frontend" },
+      ],
+      components: [
+        { language: "en", text: "Components" },
+        { language: "fr", text: "Composants" },
       ],
     },
     elements: {

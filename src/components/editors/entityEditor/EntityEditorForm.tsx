@@ -279,28 +279,52 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
         props.setOpen(false);
 
         // Model events trigger
-        model?.modelEvents?.forEach((modelEvent) => {
-          switch (modelEvent.eventType) {
-            case EventTypeEnum.Redirection: {
-              if (modelEvent.redirectionToSelf) {
-                navigate(
-                  "/entities/" + model._id + "/" + createdOrUpdateEntity?._id
-                );
-              } else if (modelEvent.redirectionUrl) {
-                window.location.href = modelEvent.redirectionUrl;
+        model?.modelEvents
+          ?.filter(
+            (modelEvent) =>
+              (modelEvent.eventTrigger === EventTriggerEnum.OnCreate &&
+                !props.entity) ||
+              (modelEvent.eventTrigger === EventTriggerEnum.OnUpdate &&
+                Boolean(props.entity))
+          )
+          .forEach((modelEvent) => {
+            console.log("model event", modelEvent);
+            switch (modelEvent.eventType) {
+              case EventTypeEnum.Redirection: {
+                if (modelEvent.redirectionToSelf) {
+                  navigate(
+                    "/entities/" + model._id + "/" + createdOrUpdateEntity?._id
+                  );
+                } else if (modelEvent.redirectionUrl) {
+                  window.location.href = modelEvent.redirectionUrl;
+                }
+                break;
               }
-              break;
-            }
 
-            case EventTypeEnum.ApiCall: {
-              sendEventApiCall({
-                axios,
-                createdOrUpdateEntity,
-                event: modelEvent,
-              });
+              case EventTypeEnum.ApiCall: {
+                sendEventApiCall({
+                  axios,
+                  createdOrUpdateEntity,
+                  event: modelEvent,
+                });
+              }
+
+              case EventTypeEnum.MicroFrontendRedirection: {
+                if (modelEvent.microFrontend?._id) {
+                  navigate(
+                    "/microFrontend/" +
+                      modelEvent.microFrontend?._id +
+                      "/" +
+                      modelEvent.microFrontend.components.find(
+                        (el) =>
+                          el._id.toString() ===
+                          modelEvent.microFrontendComponentId
+                      )?.name
+                  );
+                }
+              }
             }
-          }
-        });
+          });
       },
     });
 
@@ -621,6 +645,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
                       fieldEvent.eventTrigger === EventTriggerEnum.OnClick
                   )
                   .forEach(async (fieldEvent: IEvent) => {
+                    console.log("event", fieldEvent);
                     switch (fieldEvent.eventType) {
                       case EventTypeEnum.Redirection: {
                         window.location.href = fieldEvent.redirectionUrl;
@@ -633,6 +658,22 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
                           axios,
                         });
                         break;
+                      }
+                      case EventTypeEnum.MicroFrontendRedirection: {
+                        if (fieldEvent.microFrontend?._id && props.entity) {
+                          navigate(
+                            "/microFrontend/" +
+                              fieldEvent.microFrontend?._id +
+                              "/" +
+                              props.entity._id +
+                              "/" +
+                              fieldEvent.microFrontend.components.find(
+                                (el) =>
+                                  el._id.toString() ===
+                                  fieldEvent.microFrontendComponentId
+                              )?.name
+                          );
+                        }
                       }
                     }
                   });

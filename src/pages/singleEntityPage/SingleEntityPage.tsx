@@ -5,9 +5,7 @@ import Loading from "react-loading";
 import { Theme } from "../../config/theme";
 import withChat from "../../hoc/withChat";
 import withWrapper from "../../hoc/wrapper";
-import useGetEntity, {
-  EntitiesGetEntityCommand,
-} from "../../hooks/apiHooks/useGetEntity";
+import useGetEntity from "../../hooks/apiHooks/useGetEntity";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
 import { IModel } from "../../store/slices/modelSlice";
@@ -39,12 +37,7 @@ const SingleEntityPage: React.FunctionComponent<ISingleEntityPage> = (
   React.useEffect(() => {
     const handleGetEntity = async () => {
       if (model && model._id && entityId && modelId) {
-        const command: EntitiesGetEntityCommand = {
-          entityId,
-          modelId,
-        };
-
-        const entity: IEntity = await getEntity(command);
+        const entity: IEntity = await getEntity(entityId);
         setEntity(entity);
       }
     };
