@@ -4,8 +4,9 @@ import { Theme } from "../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
   elementsContainer: {
-    width: "90%",
-    marginTop: 80,
+    width: "100%",
+    boxSizing: "border-box",
+    padding: "0px 50px",
   },
   buttonsContainer: {
     width: "100%",
@@ -17,12 +18,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginTop: 20,
   },
   viewTabsContainer: {
+    marginTop: 80,
+
     display: "flex",
-    width: "124%",
+    width: "100%",
     backgroundColor: theme.lightTextColor,
     marginBottom: 10,
     position: "relative",
-    left: "-10%",
     borderTop: "1px solid " + theme.darkTextColor,
   },
   viewTab: {

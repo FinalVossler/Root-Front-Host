@@ -24,7 +24,7 @@ export const updateLocalStorageElementsConf = ({
 };
 
 export const getLocalStorageElementsConf = (
-  confName: LocalStorageConfNameEnum
+  confName: LocalStorageConfNameEnum | string
 ): IElementsConf | null => {
   let resultFromStorage = window.localStorage.getItem(confName);
 

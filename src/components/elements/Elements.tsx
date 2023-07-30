@@ -79,7 +79,7 @@ interface IElements {
   setSearchResult: (result: PaginationResponse<any>) => void;
   isForEntities?: boolean;
   modelId?: string;
-  elementsLocalStorageConfName: LocalStorageConfNameEnum;
+  elementsLocalStorageConfName: LocalStorageConfNameEnum | string;
 }
 
 const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
@@ -212,7 +212,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
       : props.elements;
 
   return (
-    <div className={styles.elementsContainer}>
+    <React.Fragment>
       {props.isForEntities && (
         <div className={styles.viewTabsContainer}>
           <span
@@ -238,49 +238,84 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
           </span>
         </div>
       )}
+      <div className={styles.elementsContainer}>
+        <div
+          className={styles.buttonsContainer}
+          style={{ marginTop: props.isForEntities ? 0 : 90 }}
+        >
+          {props.searchPromise && (
+            <SearchInput
+              getElementTitle={props.getElementName}
+              searchPromise={props.searchPromise}
+              setSearchResult={props.setSearchResult}
+              showSearchResult={false}
+              inputProps={{
+                placeholder: getTranslatedText(staticText?.search),
+                style: {
+                  marginRight: 10,
+                  position: "relative",
+                  top: 8,
+                  height: 42,
+                },
+              }}
+            />
+          )}
 
-      <div className={styles.buttonsContainer}>
-        {props.searchPromise && (
-          <SearchInput
-            getElementTitle={props.getElementName}
-            searchPromise={props.searchPromise}
-            setSearchResult={props.setSearchResult}
-            showSearchResult={false}
-            inputProps={{
-              placeholder: getTranslatedText(staticText?.search),
-              style: {
-                marginRight: 10,
-                position: "relative",
-                top: 8,
-                height: 42,
-              },
-            }}
-          />
-        )}
+          {props.canCreate && !props.loading && (
+            // <BiAddToQueue className={styles.addIcon} onClick={handleOpenEditor} />
+            <Button
+              onClick={handleOpenEditor}
+              style={{ paddingLeft: 40, paddingRight: 40 }}
+            >
+              {getTranslatedText(staticText?.add)}
+            </Button>
+          )}
 
-        {props.canCreate && !props.loading && (
-          // <BiAddToQueue className={styles.addIcon} onClick={handleOpenEditor} />
-          <Button
-            onClick={handleOpenEditor}
-            style={{ paddingLeft: 40, paddingRight: 40 }}
-          >
-            {getTranslatedText(staticText?.add)}
-          </Button>
-        )}
+          {props.copyPromise &&
+            props.canCreate &&
+            selectedElementsIds.length > 0 && (
+              <React.Fragment>
+                <BiCopy
+                  className={styles.copyIcon}
+                  onClick={() => setCopyModalOpen(true)}
+                />
+                <ConfirmationModal
+                  title={getTranslatedText(staticText?.copyTitle)}
+                  description={
+                    getTranslatedText(staticText?.copyDescription) +
+                    " " +
+                    selectedElementsIds
+                      .map((selectedElementId) => {
+                        const element: Element | undefined = elements.find(
+                          (el) => el._id === selectedElementId
+                        );
+                        return element ? props.getElementName(element) : "";
+                      })
+                      .join(", ")
+                  }
+                  loading={props.copyLoading || false}
+                  modalOpen={copyModalOpen}
+                  onConfirm={handleCopy}
+                  setModalOpen={setCopyModalOpen}
+                />
+              </React.Fragment>
+            )}
 
-        {props.copyPromise &&
-          props.canCreate &&
-          selectedElementsIds.length > 0 && (
+          {selectedElementsIds.length > 0 && (
             <React.Fragment>
-              <BiCopy
-                className={styles.copyIcon}
-                onClick={() => setCopyModalOpen(true)}
-              />
+              {props.canDelete && (
+                <AiFillDelete
+                  onClick={() => setDeleteModalOpen(true)}
+                  color={theme.primary}
+                  className={styles.deleteIcon}
+                />
+              )}
+
               <ConfirmationModal
-                title={getTranslatedText(staticText?.copyTitle)}
+                title={getTranslatedText(staticText?.deleteTitle)}
                 description={
-                  getTranslatedText(staticText?.copyDescription) +
-                  " " +
+                  getTranslatedText(staticText?.deleteDescription) +
+                  ": " +
                   selectedElementsIds
                     .map((selectedElementId) => {
                       const element: Element | undefined = elements.find(
@@ -290,244 +325,221 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                     })
                     .join(", ")
                 }
-                loading={props.copyLoading || false}
-                modalOpen={copyModalOpen}
-                onConfirm={handleCopy}
-                setModalOpen={setCopyModalOpen}
+                loading={props.deleteLoading}
+                modalOpen={deleteModalOpen}
+                onConfirm={handleDelete}
+                setModalOpen={setDeleteModalOpen}
               />
             </React.Fragment>
           )}
 
-        {selectedElementsIds.length > 0 && (
-          <React.Fragment>
-            {props.canDelete && (
-              <AiFillDelete
-                onClick={() => setDeleteModalOpen(true)}
-                color={theme.primary}
-                className={styles.deleteIcon}
-              />
-            )}
+          <props.Editor
+            open={editorOpen}
+            setOpen={setEditorOpen}
+            element={selectedElement}
+          />
+        </div>
 
-            <ConfirmationModal
-              title={getTranslatedText(staticText?.deleteTitle)}
-              description={
-                getTranslatedText(staticText?.deleteDescription) +
-                ": " +
-                selectedElementsIds
-                  .map((selectedElementId) => {
-                    const element: Element | undefined = elements.find(
-                      (el) => el._id === selectedElementId
-                    );
-                    return element ? props.getElementName(element) : "";
-                  })
-                  .join(", ")
-              }
-              loading={props.deleteLoading}
-              modalOpen={deleteModalOpen}
-              onConfirm={handleDelete}
-              setModalOpen={setDeleteModalOpen}
-            />
-          </React.Fragment>
+        {viewType === ViewType.Board && props.isForEntities && (
+          <ElementsBoard
+            modelId={props.modelId?.toString() || ""}
+            entities={props.elements as IEntity[]}
+          />
         )}
 
-        <props.Editor
-          open={editorOpen}
-          setOpen={setEditorOpen}
-          element={selectedElement}
+        {viewType === ViewType.Table && hiddenColumns.length > 0 && (
+          <div className={styles.hiddenColumns}>
+            {hiddenColumns.map((col, i) => {
+              return (
+                <div
+                  className={styles.hiddenColumn}
+                  onClick={() => handleShowColumn(col)}
+                  key={i}
+                >
+                  {getTranslatedText(col.label)}
+                  <BiShow className={styles.showIcon} />
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {viewType === ViewType.Table && (
+          <table className={styles.elementsTable}>
+            <thead className={styles.tableHeader}>
+              <tr className={styles.tableRow}>
+                {props.columns.map((column, columnIndex) => {
+                  if (hiddenColumns.some((el) => el.name === column.name)) {
+                    return null;
+                  }
+                  return (
+                    <React.Fragment key={columnIndex}>
+                      <th
+                        className={styles.tableHeaderColumn}
+                        key={columnIndex}
+                      >
+                        {column.label}
+                        <BiHide
+                          className={styles.hideColumnButton}
+                          onClick={() => handleHideColumn(column)}
+                        />
+                      </th>
+                      <ColumnResizer
+                        disabled={false}
+                        maxWidth={null}
+                        id={columnIndex}
+                        resizeStart={() => {}}
+                        resizeEnd={() => {}}
+                        className="columnResizer"
+                        minWidth={0}
+                      />
+                    </React.Fragment>
+                  );
+                })}
+                {props.canUpdate && (
+                  <th className={styles.tableHeaderColumn}>
+                    {getTranslatedText(staticText?.edit)}
+                  </th>
+                )}
+                {props.canUpdate && (
+                  <ColumnResizer
+                    disabled={false}
+                    maxWidth={null}
+                    id={999}
+                    resizeStart={() => {}}
+                    resizeEnd={() => {}}
+                    className="columnResizer"
+                    minWidth={0}
+                  />
+                )}
+                {props.canDelete && (
+                  <th className={styles.tableHeaderColumn}>
+                    <div className={styles.actions}>
+                      {getTranslatedText(staticText?.actions)}
+                      <input
+                        className={styles.actionCheckbox}
+                        type="checkbox"
+                        checked={selectedElementsIds.length === elements.length}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setSelectedElementsIds(
+                            elements.length !== selectedElementsIds.length
+                              ? elements.map((el) => el._id)
+                              : []
+                          )
+                        }
+                      />
+                    </div>
+                  </th>
+                )}
+              </tr>
+            </thead>
+
+            <tbody className={styles.tbody}>
+              {props.loading && (
+                <tr>
+                  <td>
+                    <Loading color={theme.primary} />
+                  </td>
+                </tr>
+              )}
+
+              {!props.loading &&
+                elements.map((element, elementIndex) => {
+                  return (
+                    <tr className={styles.tableRow} key={elementIndex}>
+                      {props.columns.map((column, columnIndex) => {
+                        if (
+                          hiddenColumns.some((el) => el.name === column.name)
+                        ) {
+                          return null;
+                        }
+                        return (
+                          <React.Fragment key={columnIndex}>
+                            <td
+                              className={styles.tableColumn}
+                              key={columnIndex}
+                            >
+                              {column.render
+                                ? column.render(element)
+                                : getTranslatedText(element[column.name])}
+                            </td>
+                            <ColumnResizer
+                              disabled={false}
+                              maxWidth={null}
+                              id={elementIndex + 10000}
+                              resizeStart={() => {}}
+                              resizeEnd={() => {}}
+                              className="columnResizer"
+                              minWidth={0}
+                            />
+                          </React.Fragment>
+                        );
+                      })}
+                      {props.canUpdate && (
+                        <td className={styles.tableColumn}>
+                          <AiFillEdit
+                            onClick={() => handleEdit(element)}
+                            className={styles.editIcon}
+                          />
+                        </td>
+                      )}
+
+                      {props.canUpdate && (
+                        <ColumnResizer
+                          disabled={false}
+                          maxWidth={null}
+                          id={elementIndex + 10001}
+                          resizeStart={() => {}}
+                          resizeEnd={() => {}}
+                          className="columnResizer"
+                          minWidth={0}
+                        />
+                      )}
+
+                      {props.canDelete && (
+                        <td className={styles.actionColumn}>
+                          <input
+                            className={styles.checkbox}
+                            type="checkbox"
+                            checked={
+                              selectedElementsIds.indexOf(element._id) !== -1
+                            }
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) => handleToggleElementSelect(e, element)}
+                          />
+                        </td>
+                      )}
+                      {props.canDelete && (
+                        <ColumnResizer
+                          disabled={false}
+                          maxWidth={null}
+                          id={elementIndex + 10002}
+                          resizeStart={() => {}}
+                          resizeEnd={() => {}}
+                          className="columnResizer"
+                          minWidth={0}
+                        />
+                      )}
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+        )}
+
+        <Pagination
+          total={
+            props.searchResult.data.length > 0
+              ? props.searchResult.total
+              : props.total
+          }
+          limit={props.limit}
+          page={props.page}
+          onPageChange={props.onPageChange}
         />
       </div>
-
-      {viewType === ViewType.Board && props.isForEntities && (
-        <ElementsBoard
-          modelId={props.modelId?.toString() || ""}
-          entities={props.elements as IEntity[]}
-        />
-      )}
-
-      {viewType === ViewType.Table && hiddenColumns.length > 0 && (
-        <div className={styles.hiddenColumns}>
-          {hiddenColumns.map((col, i) => {
-            return (
-              <div
-                className={styles.hiddenColumn}
-                onClick={() => handleShowColumn(col)}
-                key={i}
-              >
-                {getTranslatedText(col.label)}
-                <BiShow className={styles.showIcon} />
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-      {viewType === ViewType.Table && (
-        <table className={styles.elementsTable}>
-          <thead className={styles.tableHeader}>
-            <tr className={styles.tableRow}>
-              {props.columns.map((column, columnIndex) => {
-                if (hiddenColumns.some((el) => el.name === column.name)) {
-                  return null;
-                }
-                return (
-                  <React.Fragment key={columnIndex}>
-                    <th className={styles.tableHeaderColumn} key={columnIndex}>
-                      {column.label}
-                      <BiHide
-                        className={styles.hideColumnButton}
-                        onClick={() => handleHideColumn(column)}
-                      />
-                    </th>
-                    <ColumnResizer
-                      disabled={false}
-                      maxWidth={null}
-                      id={columnIndex}
-                      resizeStart={() => {}}
-                      resizeEnd={() => {}}
-                      className="columnResizer"
-                      minWidth={0}
-                    />
-                  </React.Fragment>
-                );
-              })}
-              {props.canUpdate && (
-                <th className={styles.tableHeaderColumn}>
-                  {getTranslatedText(staticText?.edit)}
-                </th>
-              )}
-              {props.canUpdate && (
-                <ColumnResizer
-                  disabled={false}
-                  maxWidth={null}
-                  id={999}
-                  resizeStart={() => {}}
-                  resizeEnd={() => {}}
-                  className="columnResizer"
-                  minWidth={0}
-                />
-              )}
-              {props.canDelete && (
-                <th className={styles.tableHeaderColumn}>
-                  <div className={styles.actions}>
-                    {getTranslatedText(staticText?.actions)}
-                    <input
-                      className={styles.actionCheckbox}
-                      type="checkbox"
-                      checked={selectedElementsIds.length === elements.length}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        setSelectedElementsIds(
-                          elements.length !== selectedElementsIds.length
-                            ? elements.map((el) => el._id)
-                            : []
-                        )
-                      }
-                    />
-                  </div>
-                </th>
-              )}
-            </tr>
-          </thead>
-
-          <tbody className={styles.tbody}>
-            {props.loading && (
-              <tr>
-                <td>
-                  <Loading color={theme.primary} />
-                </td>
-              </tr>
-            )}
-
-            {!props.loading &&
-              elements.map((element, elementIndex) => {
-                return (
-                  <tr className={styles.tableRow} key={elementIndex}>
-                    {props.columns.map((column, columnIndex) => {
-                      if (hiddenColumns.some((el) => el.name === column.name)) {
-                        return null;
-                      }
-                      return (
-                        <React.Fragment key={columnIndex}>
-                          <td className={styles.tableColumn} key={columnIndex}>
-                            {column.render
-                              ? column.render(element)
-                              : getTranslatedText(element[column.name])}
-                          </td>
-                          <ColumnResizer
-                            disabled={false}
-                            maxWidth={null}
-                            id={elementIndex + 10000}
-                            resizeStart={() => {}}
-                            resizeEnd={() => {}}
-                            className="columnResizer"
-                            minWidth={0}
-                          />
-                        </React.Fragment>
-                      );
-                    })}
-                    {props.canUpdate && (
-                      <td className={styles.tableColumn}>
-                        <AiFillEdit
-                          onClick={() => handleEdit(element)}
-                          className={styles.editIcon}
-                        />
-                      </td>
-                    )}
-
-                    {props.canUpdate && (
-                      <ColumnResizer
-                        disabled={false}
-                        maxWidth={null}
-                        id={elementIndex + 10001}
-                        resizeStart={() => {}}
-                        resizeEnd={() => {}}
-                        className="columnResizer"
-                        minWidth={0}
-                      />
-                    )}
-
-                    {props.canDelete && (
-                      <td className={styles.actionColumn}>
-                        <input
-                          className={styles.checkbox}
-                          type="checkbox"
-                          checked={
-                            selectedElementsIds.indexOf(element._id) !== -1
-                          }
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            handleToggleElementSelect(e, element)
-                          }
-                        />
-                      </td>
-                    )}
-                    {props.canDelete && (
-                      <ColumnResizer
-                        disabled={false}
-                        maxWidth={null}
-                        id={elementIndex + 10002}
-                        resizeStart={() => {}}
-                        resizeEnd={() => {}}
-                        className="columnResizer"
-                        minWidth={0}
-                      />
-                    )}
-                  </tr>
-                );
-              })}
-          </tbody>
-        </table>
-      )}
-
-      <Pagination
-        total={
-          props.searchResult.data.length > 0
-            ? props.searchResult.total
-            : props.total
-        }
-        limit={props.limit}
-        page={props.page}
-        onPageChange={props.onPageChange}
-      />
-    </div>
+    </React.Fragment>
   );
 };
 

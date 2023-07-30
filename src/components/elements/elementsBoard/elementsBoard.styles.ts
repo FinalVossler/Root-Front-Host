@@ -8,8 +8,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "row-reverse",
     marginRight: 10,
     overflow: "auto",
-    padding: 10,
+    paddingTop: 10,
     paddingBottom: 40,
+    paddingLeft: 50,
     fontSize: 14,
     justifyContent: "flex-end",
 

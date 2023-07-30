@@ -180,28 +180,51 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
               link="/fields"
             />
           )}
-          <SideMenuOption
-            link="/models"
-            Icon={SiThemodelsresource}
-            title={getTranslatedText(staticText?.models)}
-            extended={sideMenuExtendedModels}
-            triggerExtended={() =>
-              dispatch(userPreferenceSlice.actions.triggerExtendModels())
-            }
-            subOptions={models
-              .filter(
-                (m) =>
-                  user.superRole === SuperRole.SuperAdmin ||
-                  user.role?.entityPermissions
-                    .find((e) => e.model._id === m._id)
-                    ?.permissions.find((p) => p === StaticPermission.Read)
-              )
-              .map((model) => ({
-                Icon: SiElement,
-                link: "/entities/" + model._id,
-                title: getTranslatedText(model.name),
-              }))}
-          />
+          {hasPermission(Permission.ReadModel) && (
+            <SideMenuOption
+              link="/models"
+              Icon={SiThemodelsresource}
+              title={getTranslatedText(staticText?.models)}
+              extended={sideMenuExtendedModels}
+              triggerExtended={() =>
+                dispatch(userPreferenceSlice.actions.triggerExtendModels())
+              }
+              subOptions={models
+                .filter(
+                  (m) =>
+                    user.superRole === SuperRole.SuperAdmin ||
+                    user.role?.entityPermissions
+                      .find((e) => e.model._id === m._id)
+                      ?.permissions.find((p) => p === StaticPermission.Read)
+                )
+                .map((model) => ({
+                  Icon: SiElement,
+                  link: "/entities/" + model._id,
+                  title: getTranslatedText(model.name),
+                }))}
+            />
+          )}
+          {!hasPermission(Permission.ReadModel) &&
+            user.role?.entityPermissions.map(
+              (entityPermission, entityPermissionIndex) => {
+                if (
+                  entityPermission.permissions.indexOf(
+                    StaticPermission.Read
+                  ) !== -1
+                ) {
+                  return (
+                    <SideMenuOption
+                      key={entityPermissionIndex}
+                      title={getTranslatedText(entityPermission.model.name)}
+                      link={"/entities/" + entityPermission.model._id}
+                      Icon={SiElement}
+                    />
+                  );
+                } else {
+                  return null;
+                }
+              }
+            )}
           {hasPermission(Permission.ReadUser) && (
             <SideMenuOption
               link="/users"
