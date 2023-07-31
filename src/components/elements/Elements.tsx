@@ -28,6 +28,7 @@ import {
   updateLocalStorageElementsConf,
 } from "../../utils/localStorage";
 import { IMicroFrontend } from "../../store/slices/microFrontendSlice";
+import ColumnOptions from "./columnOptions/ColumnOptions";
 
 export type Column = {
   label: string;
@@ -262,7 +263,6 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
           )}
 
           {props.canCreate && !props.loading && (
-            // <BiAddToQueue className={styles.addIcon} onClick={handleOpenEditor} />
             <Button
               onClick={handleOpenEditor}
               style={{ paddingLeft: 40, paddingRight: 40 }}
@@ -379,9 +379,8 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                         key={columnIndex}
                       >
                         {column.label}
-                        <BiHide
-                          className={styles.hideColumnButton}
-                          onClick={() => handleHideColumn(column)}
+                        <ColumnOptions
+                          handleHideColumn={() => handleHideColumn(column)}
                         />
                       </th>
                       <ColumnResizer

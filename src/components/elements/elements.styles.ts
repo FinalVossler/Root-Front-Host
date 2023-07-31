@@ -86,6 +86,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.darkerPrimary,
     whiteSpace: "nowrap",
     borderBottom: "2px solid " + theme.darkerPrimary,
+    alignItems: "center",
+    flexDirection: "row",
+    display: "flex",
   },
   tbody: {},
   actions: {
@@ -116,13 +119,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     overflow: "auto",
     alignItems: "center",
     paddingBottom: 15,
-  },
-  hideColumnButton: {
-    color: theme.errorColor,
-    position: "relative",
-    top: 4,
-    marginLeft: 10,
-    cursor: "pointer",
   },
   hiddenColumn: {
     boxShadow: theme.boxShadow,
