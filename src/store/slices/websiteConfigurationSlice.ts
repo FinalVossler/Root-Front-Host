@@ -234,6 +234,7 @@ export interface IWebsiteConfiguration {
       files: ITranslatedText[];
       code: ITranslatedText[];
       codePlaceholder: ITranslatedText[];
+      postUsedInPageAndCantBePrivate: ITranslatedText[];
     };
     entities: {
       createEntity: ITranslatedText[];
@@ -1400,6 +1401,16 @@ const initialState: IWebsiteConfigurationState = {
       codePlaceholder: [
         { language: "en", text: "Model Id, etc..." },
         { language: "fr", text: "Id du modèle, etc..." },
+      ],
+      postUsedInPageAndCantBePrivate: [
+        {
+          language: "en",
+          text: "This post is used in a page and can't be set to private.",
+        },
+        {
+          language: "fr",
+          text: "Ce poste est déjà utilisé dans une page et ne peux pas être mis à privé.",
+        },
       ],
     },
     entities: {

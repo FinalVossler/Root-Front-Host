@@ -35,6 +35,7 @@ import useUpdatePost, {
 import FilesInput from "../../filesInput";
 import { TypeOfFiles } from "../../existingFiles/ExistingFiles";
 import { BiCode } from "react-icons/bi";
+import { IPage } from "../../../store/slices/pageSlice";
 
 interface IPostEditor {
   post?: IPost;
@@ -44,6 +45,7 @@ interface IPostEditor {
 
 const PostEditor = (props: IPostEditor) => {
   const user: IUser = useAppSelector((state) => state.user.user);
+  const pages: IPage[] = useAppSelector((state) => state.page.pages);
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
@@ -94,6 +96,7 @@ const PostEditor = (props: IPostEditor) => {
       setSubtTitle(getTranslatedText(props.post.subTitle, language));
       setChildren(props.post.children.map((c) => c._id));
       setDesign(props.post?.design);
+      setVisibility(props.post?.visibility);
       setSelectedExistingFiles(props.post?.files);
       if (sunEditor) {
         sunEditor?.setContents(getTranslatedText(props.post.content, language));
@@ -134,6 +137,20 @@ const PostEditor = (props: IPostEditor) => {
     ) {
       return toast.error(
         getTranslatedText(staticText?.iNeedATitleOrADescription)
+      );
+    }
+
+    if (
+      props.post &&
+      visibility === PostVisibility.Private &&
+      pages.find((page) =>
+        page.posts.find(
+          (post) => post._id.toString() === props.post?._id.toString()
+        )
+      )
+    ) {
+      return toast.error(
+        getTranslatedText(staticText?.postUsedInPageAndCantBePrivate)
       );
     }
 
