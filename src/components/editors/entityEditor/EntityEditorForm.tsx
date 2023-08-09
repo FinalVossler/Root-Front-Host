@@ -288,7 +288,6 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
                 Boolean(props.entity))
           )
           .forEach((modelEvent) => {
-            console.log("model event", modelEvent);
             switch (modelEvent.eventType) {
               case EventTypeEnum.Redirection: {
                 if (modelEvent.redirectionToSelf) {
@@ -645,7 +644,6 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
                       fieldEvent.eventTrigger === EventTriggerEnum.OnClick
                   )
                   .forEach(async (fieldEvent: IEvent) => {
-                    console.log("event", fieldEvent);
                     switch (fieldEvent.eventType) {
                       case EventTypeEnum.Redirection: {
                         window.location.href = fieldEvent.redirectionUrl;

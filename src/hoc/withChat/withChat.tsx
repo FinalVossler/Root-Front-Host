@@ -11,6 +11,7 @@ import {
   IMessage,
 } from "../../store/slices/chatSlice";
 import { IUser } from "../../store/slices/userSlice";
+import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 
 interface IChat {
   socket: Socket;
@@ -26,10 +27,23 @@ const withChat = (Component: React.FunctionComponent<any>) =>
     const dispatch = useAppDispatch();
     const incomingMessagesListener = React.useRef<any>(null);
     const deleteMessagesListener = React.useRef<any>(null);
+    const isLoggedIn = useIsLoggedIn();
+
+    // If the user disconnects, the listeners should be reset. Because they still contain the older socket instance
+    React.useEffect(() => {
+      if (!isLoggedIn) {
+        if (incomingMessagesListener.current !== null) {
+          incomingMessagesListener.current = null;
+        }
+        if (deleteMessagesListener.current !== null) {
+          deleteMessagesListener.current = null;
+        }
+      }
+    }, [isLoggedIn]);
 
     // Listening to incoming messages
     React.useEffect(() => {
-      if (!props.socket.on || !withChat) return;
+      if (!props.socket.on || !withChat || !isLoggedIn) return;
 
       if (incomingMessagesListener.current === null) {
         incomingMessagesListener.current = props.socket.on(
@@ -68,7 +82,7 @@ const withChat = (Component: React.FunctionComponent<any>) =>
           }
         );
       }
-    }, [props.socket.on, withChat]);
+    }, [props.socket.on, withChat, isLoggedIn]);
 
     return <Component {...props} />;
   });

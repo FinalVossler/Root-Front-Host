@@ -1,7 +1,6 @@
 import React from "react";
 
 import { Theme } from "../../config/theme";
-import withChat from "../../hoc/withChat";
 import withWrapper from "../../hoc/wrapper";
 import { useAppSelector } from "../../store/hooks";
 import { IModel } from "../../store/slices/modelSlice";
@@ -28,7 +27,7 @@ const TasksPage: React.FunctionComponent<ITasksPage> = (props: ITasksPage) => {
   );
 };
 
-export default withWrapper(withChat(React.memo(TasksPage)), {
+export default withWrapper(React.memo(TasksPage), {
   withFooter: false,
   withSideMenu: true,
 });

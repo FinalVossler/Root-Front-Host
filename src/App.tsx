@@ -1,20 +1,15 @@
 import React from "react";
-import { ThemeProvider } from "react-jss";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Provider } from "react-redux";
 
-import SocketProvider from "./providers/SocketProvider";
 import HomePage from "./pages/homePage";
 import ProfilePage from "./pages/profilePage";
 import ChatPage from "./pages/chatPage";
 import LoginOrRegistrationPage from "./pages/loginOrRegistrationPage";
-import { store } from "./store/store";
 
 import useGetAndSetUser from "./hooks/apiHooks/useGetAndSetUser";
 
-import theme from "./config/theme";
 import useNotifications from "./hooks/useNotifications";
 import { IPage } from "./store/slices/pageSlice";
 import { useAppSelector } from "./store/hooks";
@@ -30,10 +25,11 @@ import UsersPage from "./pages/usersPage";
 import RolesPage from "./pages/rolesPage";
 import SingleEntityPage from "./pages/singleEntityPage";
 import TasksPage from "./pages/tasksPage";
-
-import "./index.css";
 import MicroFrontendsPage from "./pages/microFrontendsPage/MicroFrontendsPage";
 import MicroFrontendPage from "./pages/microFrontendPage";
+import withChat from "./hoc/withChat";
+
+import "./index.css";
 
 function App() {
   const pages: IPage[] = useAppSelector((state) => state.page.pages);
@@ -134,16 +130,11 @@ function App() {
     return null;
 
   return (
-    <Provider store={store}>
-      <SocketProvider>
-        <ThemeProvider theme={theme}>
-          <ToastContainer hideProgressBar position="bottom-right" />
-
-          <RouterProvider router={router}></RouterProvider>
-        </ThemeProvider>
-      </SocketProvider>
-    </Provider>
+    <React.Fragment>
+      <ToastContainer hideProgressBar position="bottom-right" />
+      <RouterProvider router={router}></RouterProvider>
+    </React.Fragment>
   );
 }
 
-export default App;
+export default withChat(App);

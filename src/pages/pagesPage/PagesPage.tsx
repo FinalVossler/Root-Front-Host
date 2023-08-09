@@ -13,7 +13,6 @@ import ConfirmationModal from "../../components/confirmationModal";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import withWrapper from "../../hoc/wrapper";
-import withChat from "../../hoc/withChat";
 import useHasPermission from "../../hooks/useHasPermission";
 import { Permission } from "../../store/slices/roleSlice";
 
@@ -128,7 +127,7 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
   );
 };
 
-export default withWrapper(withChat(React.memo(PagesPage)), {
+export default withWrapper(React.memo(PagesPage), {
   withFooter: false,
   withSideMenu: true,
 });

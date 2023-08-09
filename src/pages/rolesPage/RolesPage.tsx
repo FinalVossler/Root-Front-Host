@@ -4,7 +4,6 @@ import RoleEditor from "../../components/editors/roleEditor";
 import Elements from "../../components/elements";
 import { Theme } from "../../config/theme";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
-import withChat from "../../hoc/withChat";
 import withWrapper from "../../hoc/wrapper";
 import useDeleteRoles from "../../hooks/apiHooks/useDeleteRoles";
 import useGetRoles from "../../hooks/apiHooks/useGetRoles";
@@ -99,7 +98,7 @@ const RolesPage: React.FunctionComponent<IRolesPage> = (props: IRolesPage) => {
   );
 };
 
-export default withWrapper(withChat(React.memo(RolesPage)), {
+export default withWrapper(React.memo(RolesPage), {
   withFooter: false,
   withSideMenu: true,
 });

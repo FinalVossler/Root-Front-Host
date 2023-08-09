@@ -15,17 +15,22 @@ const SocketWrapper: React.FunctionComponent<
 
   React.useEffect(() => {
     if (!user || user._id === "") {
+      if (socket && typeof socket.disconnect === "function") {
+        socket.disconnect();
+      }
       return;
     }
 
-    const newSocket = io(
-      // @ts-ignore
-      process.env.REACT_APP_BACKEND_URL?.replace(/^http/, "ws"),
-      {
-        query: { userId: user._id },
-      }
-    );
-    setSocket(newSocket);
+    if (!socket || socket.disconnected) {
+      const newSocket = io(
+        // @ts-ignore
+        process.env.REACT_APP_BACKEND_URL?.replace(/^http/, "ws"),
+        {
+          query: { userId: user._id },
+        }
+      );
+      setSocket(newSocket);
+    }
   }, [user]);
 
   return <SocketProvider socket={socket}>{props.children}</SocketProvider>;

@@ -4,7 +4,6 @@ import MicroFrontendEditor from "../../components/editors/microFrontendEditor";
 import Elements from "../../components/elements";
 import { Theme } from "../../config/theme";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
-import withChat from "../../hoc/withChat";
 import withWrapper from "../../hoc/wrapper";
 import useGetMicroFrontends from "../../hooks/apiHooks/useGetMicroFrontends";
 import useSearchMicroFrontends from "../../hooks/apiHooks/useSearchMicroFrontends";
@@ -177,7 +176,7 @@ const MicroFrontendsPage: React.FunctionComponent<IMicroFrontendsPage> = (
   );
 };
 
-export default withWrapper(withChat(React.memo(MicroFrontendsPage)), {
+export default withWrapper(React.memo(MicroFrontendsPage), {
   withFooter: false,
   withSideMenu: true,
 });
