@@ -259,13 +259,10 @@ export const chatSlice = createSlice({
         state.selectedConversationIds?.filter((id) => id !== conversationId) ||
         [];
     },
-    unselectAllConversations: (
-      state: IChatState,
-      action: PayloadAction<void>
-    ) => {
+    unselectAllConversations: (state: IChatState) => {
       state.selectedConversationIds = [];
     },
-    setTotalUnreadMessages: (
+    setUserTotalUnreadMessages: (
       state: IChatState,
       action: PayloadAction<number>
     ) => {

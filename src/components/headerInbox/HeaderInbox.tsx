@@ -13,8 +13,6 @@ import {
   getConversationId,
   IPopulatedMessage,
 } from "../../store/slices/chatSlice";
-import UserProfilePicture from "../userProfilePicture";
-import { SizeEnum } from "../userProfilePicture/UserProfilePicture";
 import { IUser } from "../../store/slices/userSlice";
 import Pagination from "../pagination";
 import ChatBoxes from "../chatComponents/chatBoxes";
@@ -23,6 +21,7 @@ import SearchInput from "../searchInput";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { useLocation } from "react-router-dom";
 import useGetUserTotalUnreadMessages from "../../hooks/apiHooks/useGetUserTotalUnreadMessages";
+import HeaderInboxConversation from "./headerInboxConversation";
 
 interface IHeaderInbox {}
 
@@ -62,18 +61,15 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
   const { getLastConversationsLastMessages, loading } =
     useGetLastConversationsLastMessages();
   const { handleSearchUsersPromise } = useSearchUsers();
-  const { getTotalUnreadMessages } = useGetUserTotalUnreadMessages();
+  const { getUserTotalUnreadMessages } = useGetUserTotalUnreadMessages();
 
   React.useEffect(() => {
-    // Reset everything when the component has just loaded to not have a snapping event
-    if (inboxOpen) {
-      dispatch(
-        chatSlice.actions.setLastConversationsLastMessages({
-          messages: [],
-          total: 0,
-        })
-      );
-    }
+    dispatch(
+      chatSlice.actions.setLastConversationsLastMessages({
+        messages: [],
+        total: 0,
+      })
+    );
   }, [inboxOpen]);
 
   React.useEffect(() => {
@@ -96,20 +92,15 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
 
   // Get total unread messages
   React.useEffect(() => {
-    getTotalUnreadMessages();
+    getUserTotalUnreadMessages();
   }, []);
 
-  const handleOpenInbox = () => setInboxOpen(!inboxOpen);
+  const handleOpenInbox = () => {
+    dispatch(chatSlice.actions.setUserTotalUnreadMessages(0));
+    setInboxOpen(!inboxOpen);
+  };
 
   const handlePageChange = (page: number) => setPage(page);
-
-  const handleSelectConversationFromMessage = (message: IPopulatedMessage) => {
-    const conversationId: string = getConversationId([
-      ...message.to.map((u) => u._id),
-    ]);
-    dispatch(chatSlice.actions.addSelectedConversation({ conversationId }));
-    setInboxOpen(false);
-  };
 
   const handleSelectConversationfromUsers = (users: IUser[]) => {
     const conversationId: string = getConversationId([
@@ -156,37 +147,21 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
             />
           )}
           {!loading &&
-            lastConversationsLastMessages.map(
-              (message: IPopulatedMessage, index: number) => {
-                const otherUser: IUser =
-                  message.from._id !== user._id
-                    ? message.from
-                    : message.to.filter((to) => to._id !== user._id)[0];
+            lastConversationsLastMessages.map((message: IPopulatedMessage) => {
+              const otherUser: IUser =
+                message.from._id !== user._id
+                  ? message.from
+                  : message.to.filter((to) => to._id !== user._id)[0];
 
-                return (
-                  <div
-                    key={message._id}
-                    onClick={() => handleSelectConversationFromMessage(message)}
-                    className={styles.conversationContainer}
-                  >
-                    <UserProfilePicture
-                      url={otherUser.profilePicture?.url}
-                      size={SizeEnum.Small}
-                    />
-
-                    <div className={styles.userNameAndLastMessage}>
-                      <span className={styles.userName}>
-                        {otherUser.firstName + " " + otherUser.lastName}
-                      </span>
-                      <div
-                        className={styles.messageContent}
-                        dangerouslySetInnerHTML={{ __html: message.message }}
-                      ></div>
-                    </div>
-                  </div>
-                );
-              }
-            )}
+              return (
+                <HeaderInboxConversation
+                  key={message._id.toString()}
+                  message={message}
+                  otherUser={otherUser}
+                  setInboxOpen={setInboxOpen}
+                />
+              );
+            })}
 
           <Pagination
             total={total}

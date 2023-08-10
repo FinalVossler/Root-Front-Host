@@ -14,7 +14,7 @@ const useGetConversationTotalUnreadMessages = () => {
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
-  const getTotalUnreadMessages = (conversationId: string) =>
+  const getConversationTotalUnreadMessages = (conversationId: string) =>
     new Promise((resolve, reject) => {
       const participants: string[] =
         getConversationConversationalistsFromConversationId(conversationId);
@@ -38,7 +38,7 @@ const useGetConversationTotalUnreadMessages = () => {
         .finally(() => setLoading(false));
     });
 
-  return { getTotalUnreadMessages, loading };
+  return { getConversationTotalUnreadMessages, loading };
 };
 
 export default useGetConversationTotalUnreadMessages;

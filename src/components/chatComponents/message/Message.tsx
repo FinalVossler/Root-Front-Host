@@ -95,7 +95,6 @@ const Message: React.FunctionComponent<IMessageComponent> = (
       )}
 
       <div dangerouslySetInnerHTML={{ __html: props.message.message }}></div>
-      {props.message.createdAt}
       {props.message.files.length > 0 && (
         <div className={styles.filesContainer}>
           {props.message.files.map((file) => {

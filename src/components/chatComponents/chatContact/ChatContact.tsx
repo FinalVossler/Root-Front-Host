@@ -40,7 +40,8 @@ const ChatContact: React.FunctionComponent<IChatContact> = (
   //#region Hooks
   const dispatch = useAppDispatch();
   const styles = useStyles({ theme });
-  const { getTotalUnreadMessages } = useGetConversationTotalUnreadMessages();
+  const { getConversationTotalUnreadMessages } =
+    useGetConversationTotalUnreadMessages();
   //#endregion Hooks
 
   // Getting total unread messages of the conversation
@@ -48,7 +49,9 @@ const ChatContact: React.FunctionComponent<IChatContact> = (
     if (!userId) return;
 
     // If this isn't a selected contact, then we update the number of total unread messages from the database
-    getTotalUnreadMessages(getConversationId([userId, props.contact._id]));
+    getConversationTotalUnreadMessages(
+      getConversationId([userId, props.contact._id])
+    );
   }, [userId]);
 
   const handleSelectContact = () => {

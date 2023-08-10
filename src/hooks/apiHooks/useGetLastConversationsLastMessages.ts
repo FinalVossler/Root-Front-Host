@@ -37,20 +37,6 @@ const useGetLastConversationsLastMessages = () => {
             total: res.data.data.total,
           };
 
-          // We need to fill the contacts information that are concerned with the messages
-          // const contacts: IUser[] = [];
-          // result.messages.forEach((message) => {
-          //   message.to.map((potentialUser) => {
-          //     if (
-          //       potentialUser._id !== user._id &&
-          //       !contacts.find((c) => c._id === potentialUser._id)
-          //     ) {
-          //       contacts.push(potentialUser);
-          //     }
-          //   });
-          // });
-          // dispatch(chatSlice.actions.setContacts(contacts));
-
           dispatch(chatSlice.actions.setLastConversationsLastMessages(result));
           resolve(result);
         })

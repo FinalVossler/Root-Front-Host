@@ -11,7 +11,7 @@ const useGetUserTotalUnreadMessages = () => {
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
-  const getTotalUnreadMessages = () =>
+  const getUserTotalUnreadMessages = () =>
     new Promise((resolve, reject) => {
       setLoading(true);
       axios
@@ -20,13 +20,13 @@ const useGetUserTotalUnreadMessages = () => {
           url: "/messages/userTotalUnreadMessages",
         })
         .then((res) => {
-          dispatch(chatSlice.actions.setTotalUnreadMessages(res.data.data));
+          dispatch(chatSlice.actions.setUserTotalUnreadMessages(res.data.data));
         })
         .catch((e) => reject(e))
         .finally(() => setLoading(false));
     });
 
-  return { getTotalUnreadMessages, loading };
+  return { getUserTotalUnreadMessages, loading };
 };
 
 export default useGetUserTotalUnreadMessages;
