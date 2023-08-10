@@ -38,11 +38,10 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
     (state) => state.websiteConfiguration.theme
   );
   const unreadMessagesIds: string[] | undefined = useAppSelector((state) =>
-    state.chat.conversations
-      .find((conv) => conv.id === props.conversationId)
-      ?.messages.filter((conv) => conv.read.indexOf(user._id) === -1)
-      .map((conv) => conv._id)
-  );
+    state.chat.conversations.find((conv) => conv.id === props.conversationId)
+  )
+    ?.messages.filter((conv) => conv.read.indexOf(user._id) === -1)
+    .map((conv) => conv._id);
   //#endregion App state
 
   //#region Local state

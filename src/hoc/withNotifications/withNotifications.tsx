@@ -10,7 +10,7 @@ import {
 } from "../../store/slices/notificationSlice";
 
 interface IWithNotifications {
-  socket: Socket;
+  socket?: Socket;
 }
 
 const withNotifications = (Component: React.FunctionComponent<any>) =>
@@ -20,10 +20,10 @@ const withNotifications = (Component: React.FunctionComponent<any>) =>
 
     // Listening to incoming messages
     React.useEffect(() => {
-      if (!props.socket.on) return;
+      if (!props.socket?.on) return;
 
       if (notificationsListener.current === null) {
-        notificationsListener.current = props.socket.on(
+        notificationsListener.current = props.socket?.on(
           NotificationMessageEnum.Receive,
           (notification: INotification) => {
             dispatch(
@@ -32,7 +32,7 @@ const withNotifications = (Component: React.FunctionComponent<any>) =>
           }
         );
       }
-    }, [props.socket.on]);
+    }, [props.socket?.on]);
 
     return <Component {...props} />;
   });

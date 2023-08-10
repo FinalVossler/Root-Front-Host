@@ -14,7 +14,7 @@ import { IUser } from "../../../store/slices/userSlice";
 import useStyles from "./chatContact.styles";
 import UserProfilePicture from "../../userProfilePicture";
 import { SizeEnum } from "../../userProfilePicture/UserProfilePicture";
-import useGetTotalUnreadMessages from "../../../hooks/apiHooks/useGetTotalUnreadMessages";
+import useGetConversationTotalUnreadMessages from "../../../hooks/apiHooks/useGetConversationTotalUnreadMessages";
 
 interface IChatContact {
   contact: IUser;
@@ -40,7 +40,7 @@ const ChatContact: React.FunctionComponent<IChatContact> = (
   //#region Hooks
   const dispatch = useAppDispatch();
   const styles = useStyles({ theme });
-  const { getTotalUnreadMessages } = useGetTotalUnreadMessages();
+  const { getTotalUnreadMessages } = useGetConversationTotalUnreadMessages();
   //#endregion Hooks
 
   // Getting total unread messages of the conversation

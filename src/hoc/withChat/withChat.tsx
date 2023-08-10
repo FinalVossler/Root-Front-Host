@@ -14,7 +14,7 @@ import { IUser } from "../../store/slices/userSlice";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 
 interface IChat {
-  socket: Socket;
+  socket?: Socket;
 }
 
 const withChat = (Component: React.FunctionComponent<any>) =>
@@ -43,10 +43,10 @@ const withChat = (Component: React.FunctionComponent<any>) =>
 
     // Listening to incoming messages
     React.useEffect(() => {
-      if (!props.socket.on || !withChat || !isLoggedIn) return;
+      if (!props.socket?.on || !withChat || !isLoggedIn) return;
 
       if (incomingMessagesListener.current === null) {
-        incomingMessagesListener.current = props.socket.on(
+        incomingMessagesListener.current = props.socket?.on(
           ChatMessagesEnum.Receive,
           (message: IMessage) => {
             dispatch(
@@ -82,7 +82,7 @@ const withChat = (Component: React.FunctionComponent<any>) =>
           }
         );
       }
-    }, [props.socket.on, withChat, isLoggedIn]);
+    }, [props.socket?.on, withChat, isLoggedIn]);
 
     return <Component {...props} />;
   });

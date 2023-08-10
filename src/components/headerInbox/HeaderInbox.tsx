@@ -22,6 +22,7 @@ import useSearchUsers from "../../hooks/apiHooks/useSearchUsers";
 import SearchInput from "../searchInput";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { useLocation } from "react-router-dom";
+import useGetUserTotalUnreadMessages from "../../hooks/apiHooks/useGetUserTotalUnreadMessages";
 
 interface IHeaderInbox {}
 
@@ -43,6 +44,9 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.chat
   );
+  const totalUnreadMessages: number = useAppSelector(
+    (state) => state.chat.totalUnreadMessages
+  );
 
   const [inboxOpen, setInboxOpen] = React.useState<boolean>(false);
   const [page, setPage] = React.useState<number>(1);
@@ -58,6 +62,7 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
   const { getLastConversationsLastMessages, loading } =
     useGetLastConversationsLastMessages();
   const { handleSearchUsersPromise } = useSearchUsers();
+  const { getTotalUnreadMessages } = useGetUserTotalUnreadMessages();
 
   React.useEffect(() => {
     // Reset everything when the component has just loaded to not have a snapping event
@@ -89,6 +94,11 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
     }
   }, [inboxOpen, page]);
 
+  // Get total unread messages
+  React.useEffect(() => {
+    getTotalUnreadMessages();
+  }, []);
+
   const handleOpenInbox = () => setInboxOpen(!inboxOpen);
 
   const handlePageChange = (page: number) => setPage(page);
@@ -116,6 +126,10 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
       {...props}
     >
       <BsChatDots onClick={handleOpenInbox} className={styles.inboxIcon} />
+
+      {totalUnreadMessages > 0 && (
+        <span className={styles.notificationNumber}>{totalUnreadMessages}</span>
+      )}
 
       {inboxOpen && (
         <div className={styles.inboxPopup}>

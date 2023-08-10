@@ -8,7 +8,7 @@ import {
 } from "../../store/slices/chatSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 
-const useGetTotalUnreadMessages = () => {
+const useGetConversationTotalUnreadMessages = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const axios = useAuthorizedAxios();
@@ -23,7 +23,7 @@ const useGetTotalUnreadMessages = () => {
       axios
         .request<AxiosResponse<number>>({
           method: "POST",
-          url: "/messages/totalUnreadMessages",
+          url: "/messages/conversationTotalUnreadMessages",
           data: participants,
         })
         .then((res) => {
@@ -41,4 +41,4 @@ const useGetTotalUnreadMessages = () => {
   return { getTotalUnreadMessages, loading };
 };
 
-export default useGetTotalUnreadMessages;
+export default useGetConversationTotalUnreadMessages;

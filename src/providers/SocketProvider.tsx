@@ -11,12 +11,12 @@ const SocketWrapper: React.FunctionComponent<
 > = (props: React.PropsWithChildren<ISocketWrapper>) => {
   const user: IUser = useAppSelector((state) => state.user.user);
 
-  const [socket, setSocket] = React.useState<Socket>({} as Socket);
+  const [socket, setSocket] = React.useState<Socket | null>(null);
 
   React.useEffect(() => {
     if (!user || user._id === "") {
-      if (socket && typeof socket.disconnect === "function") {
-        socket.disconnect();
+      if (socket && typeof (socket as Socket).disconnect === "function") {
+        (socket as Socket).disconnect();
       }
       return;
     }

@@ -77,6 +77,15 @@ const useStyles = createUseStyles((theme: Theme) => ({
   messageContent: {
     opacity: 0.7,
   },
+  notificationNumber: {
+    position: "absolute",
+    color: theme.errorColor,
+    fontSize: "20px",
+    top: 13,
+    right: 20,
+    fontWeight: 900,
+    zIndex: 2,
+  },
   "@media (max-width: 800px)": {
     inboxPopup: {
       width: 300,

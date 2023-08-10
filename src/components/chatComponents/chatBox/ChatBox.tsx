@@ -50,7 +50,9 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   // We keep track of the last message in the list to know when to force scrolling down
   const [previousConversationId, setPreviousConversationId] =
     React.useState<string>();
-  const [page, setPage] = React.useState<number>(1);
+  const [page, setPage] = React.useState<number>(
+    Math.floor(messages.length / limit) + 1
+  );
   //#endregion State
 
   //#region Hooks
@@ -62,7 +64,10 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
 
   //#region Effects
   React.useEffect(() => {
-    setPage(1);
+    setPage(Math.floor(messages.length / limit) + 1);
+  }, [messages.length]);
+
+  React.useEffect(() => {
     handleLoadMessages(1);
   }, [props.conversationId]);
 
@@ -113,7 +118,6 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
 
     setTotal(total);
     setLimit(limit);
-    setPage(whichPage + 1);
   };
 
   const handleAddMessage = React.useCallback(

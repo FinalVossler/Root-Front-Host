@@ -45,6 +45,7 @@ interface IChatState {
   conversations: Conversation[];
   lastConversationsLastMessages: IPopulatedMessage[];
   totalLastConversationsLastMessages: number;
+  totalUnreadMessages: number;
 }
 
 const initialState: IChatState = {
@@ -56,6 +57,7 @@ const initialState: IChatState = {
   conversations: [],
   lastConversationsLastMessages: [],
   totalLastConversationsLastMessages: 0,
+  totalUnreadMessages: 0,
 };
 
 export const chatSlice = createSlice({
@@ -262,6 +264,12 @@ export const chatSlice = createSlice({
       action: PayloadAction<void>
     ) => {
       state.selectedConversationIds = [];
+    },
+    setTotalUnreadMessages: (
+      state: IChatState,
+      action: PayloadAction<number>
+    ) => {
+      state.totalUnreadMessages = action.payload;
     },
   },
 });
