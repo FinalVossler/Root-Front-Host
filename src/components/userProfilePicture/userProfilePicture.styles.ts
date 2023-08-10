@@ -42,6 +42,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     extend: "big",
     height: 40,
     width: 40,
+    minWidth: 39,
     borderWidth: 3,
   },
 }));
