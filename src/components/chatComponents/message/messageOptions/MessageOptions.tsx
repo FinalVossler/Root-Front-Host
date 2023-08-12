@@ -1,0 +1,109 @@
+import React from "react";
+import { BsThreeDotsVertical } from "react-icons/bs";
+
+import useStyles from "./messageOptions.styles";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
+import { Theme } from "../../../../config/theme";
+import useOnClickOutside from "../../../../hooks/useOnClickOutside";
+import ConfirmationModal from "../../../confirmationModal";
+import useAuthorizedAxios from "../../../../hooks/useAuthorizedAxios";
+import {
+  IMessage,
+  getConversationId,
+  chatSlice,
+} from "../../../../store/slices/chatSlice";
+import { toast } from "react-toastify";
+import { RxCrossCircled } from "react-icons/rx";
+import { IUser } from "../../../../store/slices/userSlice";
+import { HiOutlineEmojiHappy } from "react-icons/hi";
+
+interface IMessageOptions {
+  message: IMessage;
+}
+
+const MessageOptions: React.FunctionComponent<IMessageOptions> = (
+  props: IMessageOptions
+) => {
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
+  const user: IUser = useAppSelector((state) => state.user.user);
+
+  //#region local state
+  const [showOptions, setShowOptions] = React.useState<boolean>(false);
+  const [deleteLoading, setDeleteLoading] = React.useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
+  //#endregion local state
+
+  const styles = useStyles({ theme });
+  const optionsContainerRef = React.useRef(null);
+  useOnClickOutside(optionsContainerRef, () => setShowOptions(false));
+  const dispatch = useAppDispatch();
+  const axios = useAuthorizedAxios();
+
+  //#region event listeners
+
+  const handleDelete = () => {
+    setDeleteModalOpen(!deleteModalOpen);
+  };
+
+  const handleModalConfirm = () => {
+    setDeleteLoading(true);
+    axios
+      .request({
+        url: "/messages",
+        method: "DELETE",
+        params: {
+          messageId: props.message._id,
+        },
+      })
+      .then(() => {
+        toast.success("Deleted");
+        const conversationId: string = getConversationId([...props.message.to]);
+
+        dispatch(
+          chatSlice.actions.deleteMessage({
+            conversationId,
+            messageId: props.message._id,
+          })
+        );
+
+        setDeleteModalOpen(false);
+      })
+      .finally(() => setDeleteLoading(false));
+  };
+  //#endregion event listeners
+
+  return (
+    <div className={styles.messageOptionsContainer}>
+      <ConfirmationModal
+        onConfirm={handleModalConfirm}
+        description="This message is going to be deleted for everyone. Are you sure"
+        title="Delete message"
+        modalOpen={deleteModalOpen}
+        setModalOpen={setDeleteModalOpen}
+        loading={deleteLoading}
+      />
+
+      <HiOutlineEmojiHappy className={styles.messageOptionsIcon} />
+
+      <BsThreeDotsVertical
+        className={styles.messageOptionsIcon}
+        onClick={() => setShowOptions(!showOptions)}
+      />
+
+      {showOptions && (
+        <div ref={optionsContainerRef} className={styles.optionsContainer}>
+          {user._id === props.message.from && (
+            <RxCrossCircled
+              className={styles.deleteMessageButton}
+              onClick={handleDelete}
+            />
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default MessageOptions;

@@ -3,26 +3,44 @@ import { createUseStyles } from "react-jss";
 import { Theme } from "../../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
+  messageAndOptionsContainer: {
+    boxSizing: "border-box",
+    width: "100%",
+    display: "flex",
+    marginBottom: 10,
+    flexDirection: "row-reverse",
+    "&:hover $messageOptions": {
+      display: "flex",
+      color: theme.darkerPrimary,
+    },
+    "&:hover $otherMessageOptions": {
+      display: "flex",
+      color: theme.primary,
+    },
+  },
+  otherMessageAndOptionsContainer: {
+    extend: "messageAndOptionsContainer",
+    flexDirection: "row",
+  },
   messageContainer: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
     backgroundColor: theme.darkerPrimary,
     padding: 20,
-    marginBottom: 10,
     borderRadius: 10,
-    marginLeft: 20,
-    position: "relative",
-    maxWidth: "90%",
+    marginLeft: 10,
     marginRight: 10,
+    position: "relative",
+    maxWidth: "65%",
     boxShadow: theme.boxShadow,
-    alignSelf: "flex-end",
   },
   otherMessageContainer: {
     extend: "messageContainer",
     backgroundColor: theme.primary,
-    marginRight: 20,
-    alignSelf: "flex-start",
+  },
+  messageOptions: {
+    display: "none",
   },
   filesContainer: {
     display: "flex",
@@ -37,14 +55,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   file: {
     width: "100%",
-  },
-  deleteButton: {
-    position: "absolute",
-    right: 0,
-    fontSize: 15,
-    cursor: "pointer",
-    top: -0,
-    color: theme.errorColor,
   },
   "@media (max-width: 800px)": {},
 }));
