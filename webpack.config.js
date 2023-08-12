@@ -39,6 +39,12 @@ module.exports = async (_, argv) => {
     module: {
       rules: [
         {
+          test: /\.mp3$/,
+          use: {
+            loader: "file-loader",
+          },
+        },
+        {
           test: /\.[jt]sx?$/,
           exclude: /node_modules/,
           use: [

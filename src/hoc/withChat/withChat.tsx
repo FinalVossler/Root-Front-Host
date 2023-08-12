@@ -11,6 +11,9 @@ import {
   IMessage,
 } from "../../store/slices/chatSlice";
 import { IUser } from "../../store/slices/userSlice";
+//@ts-ignore
+import NotificationSound from "../../../public/assets/sounds/notification-sound.mp3";
+
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 
 interface IChat {
@@ -27,6 +30,7 @@ const withChat = (Component: React.FunctionComponent<any>) =>
     const dispatch = useAppDispatch();
     const incomingMessagesListener = React.useRef<any>(null);
     const deleteMessagesListener = React.useRef<any>(null);
+    const audioPlayerRef = React.useRef(null);
     const isLoggedIn = useIsLoggedIn();
 
     // If the user disconnects, the listeners should be reset. Because they still contain the older socket instance
@@ -63,6 +67,14 @@ const withChat = (Component: React.FunctionComponent<any>) =>
                   by: 1,
                 })
               );
+
+              // NEW GOOGLE RULES: if the user never clicked or interacted with the page, the play() method will throw an error
+              // because people prohibits auto playing a sound in a page without any user interaction
+              //@ts-ignore
+              if (audioPlayerRef.current) {
+                //@ts-ignore
+                audioPlayerRef.current.play().catch((e) => {});
+              }
             }
           }
         );
@@ -84,7 +96,12 @@ const withChat = (Component: React.FunctionComponent<any>) =>
       }
     }, [props.socket?.on, withChat, isLoggedIn]);
 
-    return <Component {...props} />;
+    return (
+      <React.Fragment>
+        <audio ref={audioPlayerRef} src={NotificationSound} autoPlay={false} />
+        <Component {...props} />
+      </React.Fragment>
+    );
   });
 
 export default withChat;
