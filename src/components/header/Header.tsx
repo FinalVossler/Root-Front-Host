@@ -46,7 +46,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
-  const isSideMenuOpen: boolean = useAppSelector (
+  const isSideMenuOpen: boolean = useAppSelector(
     (state) => state.userPreferences.isSideMenuOpen
   );
 
@@ -138,13 +138,13 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
             </NavLink>
           </li>
 
-          {withChat && isLoggedIn && (
+          {/* {withChat && isLoggedIn && (
             <li className={styles.option}>
               <NavLink className={styles.optionATag} to="/chat">
                 {getTranslatedText(staticText?.chat)}
               </NavLink>
             </li>
-          )}
+          )} */}
 
           {withChat && isLoggedIn && location.pathname !== "/chat" && (
             <HeaderInbox />
@@ -154,10 +154,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
 
           {withRegistration && !isLoggedIn && (
             <li className={styles.option + " " + styles.headerIcon}>
-              <NavLink
-                className={styles.optionATag}
-                to={"/auth"}
-              >
+              <NavLink className={styles.optionATag} to={"/auth"}>
                 <CgProfile />
               </NavLink>
             </li>
