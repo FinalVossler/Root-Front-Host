@@ -24,10 +24,28 @@ export interface IPopulatedMessage {
   message: string;
   read: string[];
   files: IFile[];
+  reactions?: IReaction[];
+  totalUnreadMessages?: number;
 
   createdAt: string;
   updatedAt: string;
 }
+
+export const populatedMessageToMessage = (
+  populated: IPopulatedMessage
+): IMessage => {
+  return {
+    _id: populated._id,
+    createdAt: populated.createdAt,
+    files: populated.files,
+    from: populated.from._id,
+    message: populated.message,
+    read: populated.read,
+    to: populated.to.map((el) => el._id.toString()),
+    updatedAt: populated.updatedAt,
+    reactions: populated.reactions,
+  };
+};
 
 export type Conversation = {
   // The id of a conversation is the joined state of the sorter array of the conversationalist's ids
@@ -37,7 +55,7 @@ export type Conversation = {
 };
 
 export interface IReaction {
-  _id: string;
+  _id?: string;
   user: IUser;
   reaction: ReactionEnum;
 
@@ -63,6 +81,7 @@ interface IChatState {
   conversations: Conversation[];
   lastConversationsLastMessages: IPopulatedMessage[];
   totalLastConversationsLastMessages: number;
+  alreadyLoadedLastConversationsLastMessagesFromBackend: boolean;
   totalUnreadMessages: number;
 }
 
@@ -75,6 +94,7 @@ const initialState: IChatState = {
   conversations: [],
   lastConversationsLastMessages: [],
   totalLastConversationsLastMessages: 0,
+  alreadyLoadedLastConversationsLastMessagesFromBackend: false,
   totalUnreadMessages: 0,
 };
 
@@ -166,6 +186,8 @@ export const chatSlice = createSlice({
         };
       }
 
+      state.totalUnreadMessages += action.payload.by;
+
       // Open the small chat box when we receive a new message
       if (state.selectedConversationIds?.indexOf(conversationId) === -1) {
         state.selectedConversationIds.push(conversationId);
@@ -176,9 +198,11 @@ export const chatSlice = createSlice({
       action: PayloadAction<{
         messages: IMessage[];
         currentUser: IUser;
+        populatedMessages: IPopulatedMessage[];
       }>
     ) => {
       const messages: IMessage[] = action.payload.messages;
+
       if (messages.length === 0) return;
 
       const conversationId: string = getConversationId([...messages[0].to]);
@@ -212,6 +236,31 @@ export const chatSlice = createSlice({
         if (!state.selectedConversationIds) {
           state.selectedConversationIds = [conversationId];
         }
+      }
+
+      // Add the message to the last conversation's last messages array
+      if (
+        action.payload.populatedMessages.length ===
+        action.payload.messages.length
+      ) {
+        const indexOfLastConversationLastMessageFound: number =
+          state.lastConversationsLastMessages.findIndex(
+            (m) =>
+              getConversationId([...m.to.map((el) => el._id.toString())]) ===
+              conversationId
+          );
+
+        const populatedMessageToAdd: IPopulatedMessage =
+          action.payload.populatedMessages[messages.length - 1];
+
+        if (indexOfLastConversationLastMessageFound >= 0) {
+          state.lastConversationsLastMessages.splice(
+            indexOfLastConversationLastMessageFound,
+            1
+          );
+        }
+
+        state.lastConversationsLastMessages.unshift(populatedMessageToAdd);
       }
     },
     deleteMessage: (
@@ -256,6 +305,9 @@ export const chatSlice = createSlice({
       state.lastConversationsLastMessages = messages;
       state.totalLastConversationsLastMessages = total;
     },
+    setAlreadyLoadedConversationsLastMessagesToTrue: (state: IChatState) => {
+      state.alreadyLoadedLastConversationsLastMessagesFromBackend = true;
+    },
     addSelectedConversation: (
       state: IChatState,
       action: PayloadAction<{ conversationId: string }>
@@ -299,6 +351,26 @@ export const chatSlice = createSlice({
         );
         if (message) {
           message.reactions?.push(action.payload.reaction);
+        }
+      }
+    },
+
+    // Used after receiving a react notification
+    markMessageAsUnread: (
+      state: IChatState,
+      action: PayloadAction<{ message: IMessage; user: IUser }>
+    ) => {
+      const conversation = state.conversations.find(
+        (c) => c.id === getConversationId([...action.payload.message.to])
+      );
+      if (conversation) {
+        const message = conversation.messages.find(
+          (m) => m._id.toString() === action.payload.message._id.toString()
+        );
+        if (message) {
+          message.read = message.read.filter(
+            (el) => el.toString() !== action.payload.user._id.toString()
+          );
         }
       }
     },

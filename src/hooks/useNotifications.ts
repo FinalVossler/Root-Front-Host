@@ -1,24 +1,19 @@
 import React from "react";
 
 import { useAppSelector } from "../store/hooks";
-import { Conversation } from "../store/slices/chatSlice";
 
 const useNotifications = () => {
   const userId: string = useAppSelector((state) => state.user.user._id);
-  const conversations: Conversation[] = useAppSelector(
-    (state) => state.chat.conversations
-  );
   const totalUnclickedNotifications: number = useAppSelector(
     (state) => state.notification.totalUnclicked
   );
+  const totalUnreadMessages: number = useAppSelector(
+    (state) => state.chat.totalUnreadMessages
+  );
 
   const numberOfNotifications: number = React.useMemo(
-    () =>
-      conversations.reduce(
-        (acc, conversation) => acc + conversation.totalUnreadMessages,
-        0
-      ) + totalUnclickedNotifications,
-    [userId, conversations, totalUnclickedNotifications]
+    () => totalUnreadMessages + totalUnclickedNotifications,
+    [userId, totalUnreadMessages, totalUnclickedNotifications]
   );
 
   React.useEffect(() => {

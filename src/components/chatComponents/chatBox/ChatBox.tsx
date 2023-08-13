@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MouseEventHandler } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 
 import { Theme } from "../../../config/theme";
@@ -10,6 +10,8 @@ import {
   chatSlice,
   getConversationConversationalistsFromConversationId,
   IMessage,
+  IPopulatedMessage,
+  populatedMessageToMessage,
 } from "../../../store/slices/chatSlice";
 import { IUser } from "../../../store/slices/userSlice";
 import Button from "../../button";
@@ -18,6 +20,9 @@ import ChatInput from "../chatInput";
 import Message from "../message/Message";
 
 import useStyles from "./chatBox.styles";
+import useMarkMessagesAsRead, {
+  MessageMarkMessagesAsReadByUserCommand,
+} from "../../../hooks/apiHooks/useMarkMessagesAsRead";
 
 export enum BoxType {
   SmallBox = "SmallBox",
@@ -42,6 +47,11 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
+  const unreadMessagesIds: string[] | undefined = useAppSelector((state) =>
+    state.chat.conversations.find((conv) => conv.id === props.conversationId)
+  )
+    ?.messages.filter((conv) => conv.read.indexOf(user._id) === -1)
+    .map((conv) => conv._id);
   //#endregion Store
 
   //#region State
@@ -60,6 +70,7 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   const scrollToDiv = React.useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const { loadMessages, loading: loadingMessages } = useLoadMessages();
+  const { markMessagesAsRead } = useMarkMessagesAsRead();
   //#endregion Hooks
 
   //#region Effects
@@ -121,11 +132,12 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   };
 
   const handleAddMessage = React.useCallback(
-    (message: IMessage) => {
+    (populatedMessage: IPopulatedMessage) => {
       dispatch(
         chatSlice.actions.addMessages({
-          messages: [message],
+          messages: [populatedMessageToMessage(populatedMessage)],
           currentUser: user,
+          populatedMessages: [populatedMessage],
         })
       );
     },
@@ -146,16 +158,29 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
       })
     );
   };
+
+  // Mark all unread messages as read when the chat messages box is clicked
+  const handleChatMessageBoxClick = () => {
+    if (unreadMessagesIds && unreadMessagesIds.length > 0) {
+      const command: MessageMarkMessagesAsReadByUserCommand = {
+        to: getConversationConversationalistsFromConversationId(
+          props.conversationId
+        ),
+      };
+      markMessagesAsRead(command, props.conversationId, user._id);
+    }
+  };
   //#endregion Listeners
 
   return (
     <div
       className={
         props.boxType === BoxType.SmallBox
-          ? styles.smallBoxContainer
-          : props.conversationId
-          ? styles.chatBoxContainer
-          : styles.noConversationSelectedChatBoxContainer
+          ? typeof unreadMessagesIds?.length === "number" &&
+            unreadMessagesIds?.length > 0
+            ? styles.highlightedSmallBox
+            : styles.smallBoxContainer
+          : styles.chatBoxContainer
       }
     >
       {props.boxType === BoxType.SmallBox && (
@@ -170,7 +195,10 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
         conversationId={props.conversationId}
       />
 
-      <div className={styles.chatMessagesBox}>
+      <div
+        onClick={handleChatMessageBoxClick}
+        className={styles.chatMessagesBox}
+      >
         {total > messages.length && !loadingMessages && (
           <div className={styles.loadMoreButtonContainer}>
             <Button className={styles.loadMoreButton} onClick={handleLoadMore}>
@@ -191,6 +219,7 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
       <ChatInput
         conversationId={props.conversationId}
         handleAddMessage={handleAddMessage}
+        handleChatMessageBoxClick={handleChatMessageBoxClick}
       />
     </div>
   );

@@ -7,15 +7,17 @@ import ChatMessagesEnum from "../../globalTypes/ChatMessagesEnum";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   chatSlice,
-  getConversationId,
   IMessage,
+  getConversationId,
+  IReaction,
+  IPopulatedMessage,
+  populatedMessageToMessage,
 } from "../../store/slices/chatSlice";
 import { IUser } from "../../store/slices/userSlice";
 //@ts-ignore
 import NotificationSound from "../../../public/assets/sounds/notification-sound.mp3";
 
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
-import { IReaction } from "../../store/slices/chatSlice";
 
 interface IChat {
   socket?: Socket;
@@ -57,18 +59,19 @@ const withChat = (Component: React.FunctionComponent<any>) =>
       if (incomingMessagesListener.current === null) {
         incomingMessagesListener.current = props.socket?.on(
           ChatMessagesEnum.Receive,
-          (message: IMessage) => {
+          (message: IPopulatedMessage) => {
             dispatch(
               chatSlice.actions.addMessages({
-                messages: [message],
+                messages: [populatedMessageToMessage(message)],
                 currentUser: user,
+                populatedMessages: [message],
               })
             );
 
-            if (message.from !== user._id) {
+            if (message.from._id !== user._id) {
               dispatch(
                 chatSlice.actions.incrementConversationTotalUnreadMessages({
-                  usersIds: [...message.to],
+                  usersIds: [...message.to.map((el) => el._id.toString())],
                   by: 1,
                 })
               );
@@ -94,9 +97,29 @@ const withChat = (Component: React.FunctionComponent<any>) =>
             message: IMessage;
             reaction: IReaction;
           }) => {
-            dispatch(
-              chatSlice.actions.addReactionToMessage({ message, reaction })
-            );
+            if (reaction.user._id.toString() !== user._id.toString()) {
+              dispatch(
+                chatSlice.actions.addReactionToMessage({ message, reaction })
+              );
+
+              dispatch(
+                chatSlice.actions.incrementConversationTotalUnreadMessages({
+                  usersIds: [...message.to],
+                  by: 1,
+                })
+              );
+
+              dispatch(
+                chatSlice.actions.markMessageAsUnread({ message, user })
+              );
+              // NEW GOOGLE RULES: if the user never clicked or interacted with the page, the play() method will throw an error
+              // because people prohibits auto playing a sound in a page without any user interaction
+              //@ts-ignore
+              if (audioPlayerRef.current) {
+                //@ts-ignore
+                audioPlayerRef.current.play().catch((e) => {});
+              }
+            }
           }
         );
       }

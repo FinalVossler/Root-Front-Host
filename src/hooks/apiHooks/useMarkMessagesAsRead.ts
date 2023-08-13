@@ -6,7 +6,7 @@ import useAuthorizedAxios from "../useAuthorizedAxios";
 import { AxiosResponse } from "axios";
 
 export type MessageMarkMessagesAsReadByUserCommand = {
-  messagesIds: string[];
+  to: string[];
 };
 
 const useMarkMessagesAsRead = () => {
@@ -15,34 +15,34 @@ const useMarkMessagesAsRead = () => {
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
-  const markMessageAsRead = (
+  const markMessagesAsRead = (
     command: MessageMarkMessagesAsReadByUserCommand,
     conversationId: string,
     userId: string
   ) =>
     new Promise<number>((resolve, reject) => {
       setLoading(true);
+      dispatch(
+        chatSlice.actions.markConversationMessagesAsReadByUser({
+          conversationId,
+          userId,
+        })
+      );
       axios
-        .request({
+        .request<AxiosResponse<number>>({
           method: "POST",
-          url: "/messages/markMessagesAsRead",
+          url: "/messages/markAllConversationMessagesAsReadByUser",
           data: command,
         })
-        .then((res: AxiosResponse<number>) => {
-          dispatch(
-            chatSlice.actions.markConversationMessagesAsReadByUser({
-              conversationId,
-              userId,
-            })
-          );
-          dispatch(chatSlice.actions.setUserTotalUnreadMessages(res.data));
-          resolve(res.data);
+        .then((res) => {
+          dispatch(chatSlice.actions.setUserTotalUnreadMessages(res.data.data));
+          resolve(res.data.data);
         })
         .finally(() => setLoading(false))
         .catch((e) => reject(e));
     });
 
-  return { markMessageAsRead, loading };
+  return { markMessagesAsRead, loading };
 };
 
 export default useMarkMessagesAsRead;

@@ -1,8 +1,7 @@
 import React from "react";
 import { AxiosResponse } from "axios";
 
-import useAxios from "../useAxios";
-import { IMessage } from "../../store/slices/chatSlice";
+import { IMessage, IPopulatedMessage } from "../../store/slices/chatSlice";
 import IFile from "../../globalTypes/IFile";
 import uploadFiles from "../../utils/uploadFiles";
 import useAuthorizedAxios from "../useAuthorizedAxios";
@@ -20,20 +19,20 @@ const useSendMessage = () => {
   const axios = useAuthorizedAxios();
 
   const sendMessage = (command: MessageSendCommand, files: File[]) =>
-    new Promise<IMessage>(async (resolve, reject) => {
+    new Promise<IPopulatedMessage>(async (resolve, reject) => {
       setLoading(true);
 
       const filesToSend: IFile[] = await uploadFiles(files);
       command.files = filesToSend;
 
       axios
-        .request<AxiosResponse<IMessage>>({
+        .request<AxiosResponse<IPopulatedMessage>>({
           method: "POST",
           url: "/messages",
           data: command,
         })
         .then((res) => {
-          const message: IMessage = res.data.data;
+          const message: IPopulatedMessage = res.data.data;
           resolve(message);
         })
         .catch((e) => reject(e))

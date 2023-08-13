@@ -46,6 +46,11 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
   const totalUnreadMessages: number = useAppSelector(
     (state) => state.chat.totalUnreadMessages
   );
+  const alreadyLoadedLastConversationsLastMessagesFromBackend: boolean =
+    useAppSelector(
+      (state) =>
+        state.chat.alreadyLoadedLastConversationsLastMessagesFromBackend
+    );
 
   const [inboxOpen, setInboxOpen] = React.useState<boolean>(false);
   const [page, setPage] = React.useState<number>(1);
@@ -64,15 +69,6 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
   const { getUserTotalUnreadMessages } = useGetUserTotalUnreadMessages();
 
   React.useEffect(() => {
-    dispatch(
-      chatSlice.actions.setLastConversationsLastMessages({
-        messages: [],
-        total: 0,
-      })
-    );
-  }, [inboxOpen]);
-
-  React.useEffect(() => {
     // Empty selected conversations when this component is unmounted
     return () => {
       dispatch(chatSlice.actions.unselectAllConversations());
@@ -80,7 +76,7 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
   }, []);
 
   React.useEffect(() => {
-    if (inboxOpen) {
+    if (inboxOpen && !alreadyLoadedLastConversationsLastMessagesFromBackend) {
       getLastConversationsLastMessages({
         paginationCommand: {
           limit: LIMIT,

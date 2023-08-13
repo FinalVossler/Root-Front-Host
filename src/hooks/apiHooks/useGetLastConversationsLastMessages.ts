@@ -38,6 +38,17 @@ const useGetLastConversationsLastMessages = () => {
           };
 
           dispatch(chatSlice.actions.setLastConversationsLastMessages(result));
+          result.messages.forEach((message) => {
+            dispatch(
+              chatSlice.actions.setConversationTotalUnreadMessages({
+                usersIds: [...message.to.map((u) => u._id.toString())],
+                totalUnreadMessages: message.totalUnreadMessages || 0,
+              })
+            );
+            dispatch(
+              chatSlice.actions.setAlreadyLoadedConversationsLastMessagesToTrue()
+            );
+          });
           resolve(result);
         })
         .finally(() => setLoading(false))

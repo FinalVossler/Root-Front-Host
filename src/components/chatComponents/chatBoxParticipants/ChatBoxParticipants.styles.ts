@@ -13,7 +13,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderRadius: 5,
     alignSelf: "flex-start",
     marginTop: 10,
-    boxShadow: theme.boxShadow
+    boxShadow: theme.boxShadow,
+  },
+  highlightedChatBoxParticipantsContainer: {
+    extend: "chatBoxParticipantsContainer",
   },
   participantContainer: {
     display: "flex",

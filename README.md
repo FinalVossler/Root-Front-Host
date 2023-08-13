@@ -116,3 +116,26 @@ for hiding columns (clique droit avec des options)
 PESTEL ANALYSIS score
 differencier entre les types de molécules
 world bank PESTEL reports:
+
+--
+Ok, merci pour le retour.
+
+Ce n'est plus très important, mais ma nature vocale me pousse à exprimer ce que je pense:
+
+Si vous aviez jeté un coup d'oeil plus détaillé sur mon repo Git le plus récent, et surtout le projet Root-Backend que j'avais exceptionnellement mis à "Publique" cette fois-ci malgré sa confidentialité extreme, vous auriez pu développer une meilleur idée sur mon niveau en Backend, surtout que:
+
+1- J'ai déjà 5 ans d'expérience en Backend (Donc autant que le Frontend), juste 3 ans en Node et 2 ans en DotNet; sachant que les design patterns entre le DotNet et le Node sont les même, et que le premier soit supérieur comme environnement de développement pour mieux maitriser la stack Backend que le NodeJS, ce dernier étant plus récent, plus light weight et plus facile à maitriser.
+
+2- Ce projet contient plus de 80% des fonctionnalités qui puissent exister dans un environnement en Backend (Authentification, Gestion des rôles et des permissions granulaires, Chat, visual programming (Création dynamiques de pages, postes, rôles, formulaires, champs, conditions inter-champs, utilisateurs, etc..), Real time/Socket, gestions des notifications + dynamisation du système de notifications, Dynamisation des micro-Frontend, Configuration de l'application (Thème, mode (E-commerce, Blog Posts, tableau de bord, etc...)
+
+Tout pour un projet déjà en production dans le secteur pharmaceutique, développé en parallèle, et en dehors de mes 5 ans d'expérience professionnelles.
+
+3- J'avais déjà été placé suite à des process longs d'entretiens et de tests techniques sur du live coding à des positions Senior sur du pur Backend chez Foncia, Degetel, etc... et que j'avais laissé tombé pour des opportunité moins contrariantes en terme de logistique.
+
+4- L'entretien a été trompeur vu que c'était pour une position en Frontend au début. Étant conscient de la façon dont la plupart des RH réfléchissent suite à mes expériences dans les ESN, j'ai veillé à me vendre en tant que développeur Frontend, et ne donc bien souligner que mes expériences en Frontend. J'avais par conséquence mentionné le Backend que très rapidement pour ne pas vous faire perdre du temps. En réalité, ma préférence pour le Frontend n'est pas assez considérable pour qu'elle soit un facteur de prise de décision sérieuse. Je suis pure Full-Stack, et je ne me mets pas de limites ou de contraintes personnelles entre les deux environnements.
+
+Je veille plutôt à satisfaire constamment mon besoin de travailler sur l'autre bout grâce à mes projets personnels quand mon travail ne le satisfait/permet pas.
+
+---
+
+Finalement, je n'essaie pas de vous convaincre de m'embaucher. Je pense que deux erreurs ont été commises, menant à la nature injuste de la décision qui a été prise: De (1) parce que l'entretien a été trompeur et de (2) le fait que même la deuxième position correspond presque autant que la première, objectivement, quelque soit ce qu'on a l'air de dire et que je ne trouve pas très logique vu mon expérience.

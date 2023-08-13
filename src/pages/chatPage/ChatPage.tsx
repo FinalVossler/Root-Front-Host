@@ -5,7 +5,7 @@ import ChatBox from "../../components/chatComponents/chatBox";
 
 import { Theme } from "../../config/theme";
 import withProtection from "../../hoc/protection";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { IUser } from "../../store/slices/userSlice";
 import withWrapper from "../../hoc/wrapper";
 import withChatHoc from "../../hoc/withChat";
@@ -13,6 +13,7 @@ import withChatHoc from "../../hoc/withChat";
 import useStyles from "./chatPage.styles";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { BoxType } from "../../components/chatComponents/chatBox/ChatBox";
+import { chatSlice } from "../../store/slices/chatSlice";
 
 interface IChat {}
 const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
@@ -32,6 +33,13 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    return () => {
+      dispatch(chatSlice.actions.setSelectedConversationId(undefined));
+    };
+  }, []);
 
   if (!withChat) return null;
 

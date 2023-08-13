@@ -87,7 +87,7 @@ const MessageOptions: React.FunctionComponent<IMessageOptions> = (
       messageId: props.message._id.toString(),
       reaction: emoji,
     };
-    createReaction(createReactionCommand);
+    createReaction(createReactionCommand, props.message);
   };
   //#endregion event listeners
 
@@ -166,8 +166,6 @@ const MessageOptions: React.FunctionComponent<IMessageOptions> = (
         className={styles.messageOptionsIcon}
         onClick={() => setShowOptions(!showOptions)}
       />
-
-      {createReactionLoading && <Loading color={theme.primary} />}
 
       {showOptions && (
         <div ref={optionsContainerRef} className={styles.optionsContainer}>

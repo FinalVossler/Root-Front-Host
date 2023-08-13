@@ -35,9 +35,17 @@ const useLoadMessages = () => {
           const messages: IMessage[] = res.data.data.data;
           dispatch(
             chatSlice.actions.addMessages({
-              // If we are receiving old messages in the pagination, then we reverse the result
+              // messages: messages.map((m) => ({
+              //   ...m,
+              //   // the user just loaded these messages in the chat box. They must be set as read
+              //   read:
+              //     m.read.indexOf(user._id) === -1
+              //       ? [...m.read, user._id]
+              //       : m.read,
+              // })),
               messages,
               currentUser: user,
+              populatedMessages: [],
             })
           );
           resolve(res.data.data.total);

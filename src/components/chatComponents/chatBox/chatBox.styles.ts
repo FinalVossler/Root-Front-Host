@@ -10,9 +10,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flex: 1,
     position: "relative",
   },
-  noConversationSelectedChatBoxContainer: {
-    extend: "chatBoxContainer",
-  },
   smallBoxContainer: {
     extend: "chatBoxContainer",
     width: 350,
@@ -22,6 +19,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginRight: 20,
     boxSizing: "border-box",
     boxShadow: theme.boxShadow,
+  },
+  highlightedSmallBox: {
+    extend: "smallBoxContainer",
+    backgroundColor: theme.contentBackgroundColor,
   },
   chatMessagesBox: {
     flex: 1,
@@ -60,8 +61,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     fontSize: 25,
     cursor: "pointer",
     boxShadow: theme.boxShadow,
-    borderRadius: '50%',
-    boxSizing: 'border-box',
+    borderRadius: "50%",
+    boxSizing: "border-box",
   },
   "@media (max-width: 850px)": {
     noConversationSelectedChatBoxContainer: {

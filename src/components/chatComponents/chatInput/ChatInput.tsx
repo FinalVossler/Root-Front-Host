@@ -17,18 +17,16 @@ import { IUser } from "../../../store/slices/userSlice";
 import { useAppSelector } from "../../../store/hooks";
 import {
   getConversationConversationalistsFromConversationId,
-  IMessage,
+  IPopulatedMessage,
 } from "../../../store/slices/chatSlice";
 import useSendMessage, {
   MessageSendCommand,
 } from "../../../hooks/apiHooks/useSendMessage";
-import useMarkMessagesAsRead, {
-  MessageMarkMessagesAsReadByUserCommand,
-} from "../../../hooks/apiHooks/useMarkMessagesAsRead";
 
 interface IChatInput {
   conversationId: string;
-  handleAddMessage: (message: IMessage) => void;
+  handleAddMessage: (message: IPopulatedMessage) => void;
+  handleChatMessageBoxClick?: () => void;
 }
 
 const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
@@ -37,11 +35,6 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
-  const unreadMessagesIds: string[] | undefined = useAppSelector((state) =>
-    state.chat.conversations.find((conv) => conv.id === props.conversationId)
-  )
-    ?.messages.filter((conv) => conv.read.indexOf(user._id) === -1)
-    .map((conv) => conv._id);
   //#endregion App state
 
   //#region Local state
@@ -52,7 +45,6 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
   //#region Hooks
   const styles = useStyles({ theme });
   const { sendMessage, loading } = useSendMessage();
-  const { markMessageAsRead } = useMarkMessagesAsRead();
   const messageRef: React.MutableRefObject<HTMLDivElement | undefined> =
     React.useRef<HTMLDivElement>();
   const fileRef: React.MutableRefObject<HTMLInputElement | undefined> =
@@ -106,7 +98,7 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
       files: [],
     };
 
-    const createdMessage: IMessage = await sendMessage(command, files);
+    const createdMessage: IPopulatedMessage = await sendMessage(command, files);
 
     props.handleAddMessage(createdMessage);
     if (messageRef.current?.innerHTML) {
@@ -137,20 +129,15 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
       setFiles(newFiles);
     }
   };
-
-  // Mark all unread messages as read when the input is focused
-  const handleOnFocus = (e: React.FocusEvent<HTMLDivElement, Element>) => {
-    if (unreadMessagesIds && unreadMessagesIds.length > 0) {
-      const command: MessageMarkMessagesAsReadByUserCommand = {
-        messagesIds: unreadMessagesIds,
-      };
-      markMessageAsRead(command, props.conversationId, user._id);
+  const handleChatInputClick = () => {
+    if (props.handleChatMessageBoxClick) {
+      props.handleChatMessageBoxClick();
     }
   };
   //#endregion Listeners
 
   return (
-    <div className={styles.chatInputContainer}>
+    <div onClick={handleChatInputClick} className={styles.chatInputContainer}>
       <AiFillFileAdd onClick={handleFileClick} className={styles.filesButton} />
       <input
         type="file"
@@ -202,7 +189,6 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
           className={styles.chatInput}
           contentEditable
           suppressContentEditableWarning={true}
-          onFocus={handleOnFocus}
         ></div>
 
         <button disabled={loading} className={styles.sendButton}>

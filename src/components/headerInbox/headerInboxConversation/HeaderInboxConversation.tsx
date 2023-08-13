@@ -11,7 +11,6 @@ import {
 import UserProfilePicture from "../../userProfilePicture";
 import { SizeEnum } from "../../userProfilePicture/UserProfilePicture";
 import { IUser } from "../../../store/slices/userSlice";
-import useGetConversationTotalUnreadMessages from "../../../hooks/apiHooks/useGetConversationTotalUnreadMessages";
 
 import useStyles from "./headerInboxConversation.styles";
 import { IoMdNotifications } from "react-icons/io";
@@ -38,15 +37,6 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
 
   const styles = useStyles({ theme });
   const dispatch = useAppDispatch();
-  const { getConversationTotalUnreadMessages } =
-    useGetConversationTotalUnreadMessages();
-
-  // Get total unread messages
-  React.useEffect(() => {
-    getConversationTotalUnreadMessages(
-      getConversationId([...props.message.to.map((el) => el._id.toString())])
-    );
-  }, []);
 
   const handleSelectConversationFromMessage = () => {
     const conversationId: string = getConversationId([
