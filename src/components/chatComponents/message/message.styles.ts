@@ -24,7 +24,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     backgroundColor: theme.darkerPrimary,
     padding: 20,
     borderRadius: 10,
-    marginLeft: 10,
+    marginLeft: 5,
     marginRight: 5,
     position: "relative",
     maxWidth: "57%",
