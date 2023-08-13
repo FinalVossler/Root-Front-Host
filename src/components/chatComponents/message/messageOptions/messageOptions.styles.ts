@@ -13,7 +13,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   messageOptionsIcon: {
     cursor: "pointer",
-    marginLeft: 5,
+    marginLeft: 0,
     fontSize: 20,
   },
   optionsContainer: {
@@ -44,6 +44,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     backgroundColor: theme.lightTextColor,
     padding: 10,
     top: 5,
+    left: "-50%",
     borderRadius: 5,
     zIndex: 10,
     position: "absolute",
@@ -54,7 +55,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   singleReaction: {
     cursor: "pointer",
-    margin: "0px 7px",
+    margin: "0px 1px",
   },
 }));
 

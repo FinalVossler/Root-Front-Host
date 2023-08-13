@@ -50,7 +50,10 @@ const Message: React.FunctionComponent<IMessageComponent> = (
           ownMessage ? styles.messageContainer : styles.otherMessageContainer
         }
       >
-        <div dangerouslySetInnerHTML={{ __html: props.message.message }}></div>
+        <div
+          className={styles.messageItself}
+          dangerouslySetInnerHTML={{ __html: props.message.message }}
+        ></div>
 
         {props.message.files.length > 0 && (
           <div className={styles.filesContainer}>

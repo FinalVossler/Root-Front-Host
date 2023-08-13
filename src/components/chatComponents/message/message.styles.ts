@@ -25,14 +25,17 @@ const useStyles = createUseStyles((theme: Theme) => ({
     padding: 20,
     borderRadius: 10,
     marginLeft: 10,
-    marginRight: 10,
+    marginRight: 5,
     position: "relative",
-    maxWidth: "65%",
+    maxWidth: "57%",
     boxShadow: theme.boxShadow,
   },
   otherMessageContainer: {
     extend: "messageContainer",
     backgroundColor: theme.primary,
+  },
+  messageItself: {
+    wordWrap: "break-word",
   },
   filesContainer: {
     display: "flex",

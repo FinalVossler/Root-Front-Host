@@ -116,18 +116,20 @@ const MessageOptions: React.FunctionComponent<IMessageOptions> = (
       {showEmojiPicker && (
         <div
           className={styles.emojiContainer}
-          style={{
-            right:
-              props.message.from.toString() === user._id.toString()
-                ? props.message.files.length > 0 ||
-                  props.message.message.length > 6
-                  ? -130
-                  : 0
-                : props.message.files.length > 0 ||
-                  props.message.message.length > 6
-                ? 0
-                : -130,
-          }}
+          style={
+            {
+              // right:
+              //   props.message.from.toString() === user._id.toString()
+              //     ? props.message.files.length > 0 ||
+              //       props.message.message.trim().length > 10
+              //       ? -130
+              //       : 0
+              //     : props.message.files.length > 0 ||
+              //       props.message.message.trim().length > 10
+              //     ? 0
+              //     : -130,
+            }
+          }
         >
           <span
             onClick={() => handleEmojiClick(ReactionEnum.Love)}
