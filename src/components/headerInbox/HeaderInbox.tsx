@@ -92,7 +92,6 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
   }, []);
 
   const handleOpenInbox = () => {
-    dispatch(chatSlice.actions.setUserTotalUnreadMessages(0));
     setInboxOpen(!inboxOpen);
   };
 

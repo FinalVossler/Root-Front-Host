@@ -9,13 +9,13 @@ export type MessageMarkMessagesAsReadByUserCommand = {
   to: string[];
 };
 
-const useMarkMessagesAsRead = () => {
+const useMarkAllConversationsMessagesAsReadByUser = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
-  const markMessagesAsRead = (
+  const markAllConversationMessagesAsReadByUser = (
     command: MessageMarkMessagesAsReadByUserCommand,
     conversationId: string,
     userId: string
@@ -42,7 +42,7 @@ const useMarkMessagesAsRead = () => {
         .catch((e) => reject(e));
     });
 
-  return { markMessagesAsRead, loading };
+  return { markAllConversationMessagesAsReadByUser, loading };
 };
 
-export default useMarkMessagesAsRead;
+export default useMarkAllConversationsMessagesAsReadByUser;

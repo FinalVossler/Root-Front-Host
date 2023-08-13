@@ -4,9 +4,16 @@ import React from "react";
 import PaginationCommand from "../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { chatSlice, IMessage } from "../../store/slices/chatSlice";
+import {
+  chatSlice,
+  getConversationId,
+  IMessage,
+} from "../../store/slices/chatSlice";
 import { IUser } from "../../store/slices/userSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
+import useMarkAllConversationsMessagesAsReadByUser, {
+  MessageMarkMessagesAsReadByUserCommand,
+} from "./useMarkAllConversationMessagesAsReadByUser";
 
 export type MessageGetBetweenUsersCommand = {
   paginationCommand: PaginationCommand;
@@ -20,6 +27,8 @@ const useLoadMessages = () => {
 
   const dispatch = useAppDispatch();
   const axios = useAuthorizedAxios();
+  const { markAllConversationMessagesAsReadByUser } =
+    useMarkAllConversationsMessagesAsReadByUser();
 
   const loadMessages = (command: MessageGetBetweenUsersCommand) =>
     new Promise<number>((resolve, reject) => {
@@ -35,20 +44,23 @@ const useLoadMessages = () => {
           const messages: IMessage[] = res.data.data.data;
           dispatch(
             chatSlice.actions.addMessages({
-              // messages: messages.map((m) => ({
-              //   ...m,
-              //   // the user just loaded these messages in the chat box. They must be set as read
-              //   read:
-              //     m.read.indexOf(user._id) === -1
-              //       ? [...m.read, user._id]
-              //       : m.read,
-              // })),
               messages,
               currentUser: user,
               populatedMessages: [],
             })
           );
           resolve(res.data.data.total);
+
+          // Mark all the conversations we just fetched as read
+          const markMessagesAsReadCommand: MessageMarkMessagesAsReadByUserCommand =
+            {
+              to: command.usersIds,
+            };
+          markAllConversationMessagesAsReadByUser(
+            markMessagesAsReadCommand,
+            getConversationId(command.usersIds),
+            user._id
+          );
         })
         .finally(() => setLoading(false))
         .catch((e) => reject(e));

@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from "react";
+import React from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 
 import { Theme } from "../../../config/theme";
@@ -20,9 +20,9 @@ import ChatInput from "../chatInput";
 import Message from "../message/Message";
 
 import useStyles from "./chatBox.styles";
-import useMarkMessagesAsRead, {
+import useMarkAllConversationsMessagesAsReadByUser, {
   MessageMarkMessagesAsReadByUserCommand,
-} from "../../../hooks/apiHooks/useMarkMessagesAsRead";
+} from "../../../hooks/apiHooks/useMarkAllConversationMessagesAsReadByUser";
 
 export enum BoxType {
   SmallBox = "SmallBox",
@@ -47,9 +47,10 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
-  const unreadMessagesIds: string[] | undefined = useAppSelector((state) =>
-    state.chat.conversations.find((conv) => conv.id === props.conversationId)
+  const unreadMessagesIds: string[] | undefined = useAppSelector(
+    (state) => state.chat.conversations
   )
+    .find((conv) => conv.id === props.conversationId)
     ?.messages.filter((conv) => conv.read.indexOf(user._id) === -1)
     .map((conv) => conv._id);
   //#endregion Store
@@ -70,7 +71,8 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   const scrollToDiv = React.useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const { loadMessages, loading: loadingMessages } = useLoadMessages();
-  const { markMessagesAsRead } = useMarkMessagesAsRead();
+  const { markAllConversationMessagesAsReadByUser } =
+    useMarkAllConversationsMessagesAsReadByUser();
   //#endregion Hooks
 
   //#region Effects
@@ -160,14 +162,18 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   };
 
   // Mark all unread messages as read when the chat messages box is clicked
-  const handleChatMessageBoxClick = () => {
+  const handleMarkAllConversationMessagesAsRead = () => {
     if (unreadMessagesIds && unreadMessagesIds.length > 0) {
       const command: MessageMarkMessagesAsReadByUserCommand = {
         to: getConversationConversationalistsFromConversationId(
           props.conversationId
         ),
       };
-      markMessagesAsRead(command, props.conversationId, user._id);
+      markAllConversationMessagesAsReadByUser(
+        command,
+        props.conversationId,
+        user._id
+      );
     }
   };
   //#endregion Listeners
@@ -196,7 +202,7 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
       />
 
       <div
-        onClick={handleChatMessageBoxClick}
+        onClick={handleMarkAllConversationMessagesAsRead}
         className={styles.chatMessagesBox}
       >
         {total > messages.length && !loadingMessages && (
@@ -219,7 +225,9 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
       <ChatInput
         conversationId={props.conversationId}
         handleAddMessage={handleAddMessage}
-        handleChatMessageBoxClick={handleChatMessageBoxClick}
+        handleMarkAllConversationMessagesAsRead={
+          handleMarkAllConversationMessagesAsRead
+        }
       />
     </div>
   );

@@ -26,7 +26,7 @@ import useSendMessage, {
 interface IChatInput {
   conversationId: string;
   handleAddMessage: (message: IPopulatedMessage) => void;
-  handleChatMessageBoxClick?: () => void;
+  handleMarkAllConversationMessagesAsRead?: () => void;
 }
 
 const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
@@ -35,6 +35,11 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
+  const unreadMessagesIds: string[] | undefined = useAppSelector((state) =>
+    state.chat.conversations.find((conv) => conv.id === props.conversationId)
+  )
+    ?.messages.filter((conv) => conv.read.indexOf(user._id) === -1)
+    .map((conv) => conv._id);
   //#endregion App state
 
   //#region Local state
@@ -85,6 +90,14 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
   ) => {
     e?.preventDefault();
 
+    if (
+      unreadMessagesIds &&
+      unreadMessagesIds?.length > 0 &&
+      props.handleMarkAllConversationMessagesAsRead
+    ) {
+      props.handleMarkAllConversationMessagesAsRead();
+    }
+
     const message: string | undefined = messageRef?.current?.innerHTML;
 
     if ((!message || message.trim() === "") && files.length === 0) return;
@@ -130,8 +143,13 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
     }
   };
   const handleChatInputClick = () => {
-    if (props.handleChatMessageBoxClick) {
-      props.handleChatMessageBoxClick();
+    if (props.handleMarkAllConversationMessagesAsRead) {
+      props.handleMarkAllConversationMessagesAsRead();
+    }
+  };
+  const handleOnFocus = () => {
+    if (props.handleMarkAllConversationMessagesAsRead) {
+      props.handleMarkAllConversationMessagesAsRead();
     }
   };
   //#endregion Listeners
@@ -188,6 +206,7 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
           ref={messageRef as React.RefObject<HTMLDivElement>}
           className={styles.chatInput}
           contentEditable
+          onFocus={handleOnFocus}
           suppressContentEditableWarning={true}
         ></div>
 
