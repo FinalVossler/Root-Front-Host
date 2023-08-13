@@ -15,6 +15,7 @@ import { IUser } from "../../store/slices/userSlice";
 import NotificationSound from "../../../public/assets/sounds/notification-sound.mp3";
 
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
+import { IReaction } from "../../store/slices/chatSlice";
 
 interface IChat {
   socket?: Socket;
@@ -29,6 +30,7 @@ const withChat = (Component: React.FunctionComponent<any>) =>
 
     const dispatch = useAppDispatch();
     const incomingMessagesListener = React.useRef<any>(null);
+    const incomingReactionsListener = React.useRef<any>(null);
     const deleteMessagesListener = React.useRef<any>(null);
     const audioPlayerRef = React.useRef(null);
     const isLoggedIn = useIsLoggedIn();
@@ -41,6 +43,9 @@ const withChat = (Component: React.FunctionComponent<any>) =>
         }
         if (deleteMessagesListener.current !== null) {
           deleteMessagesListener.current = null;
+        }
+        if (incomingReactionsListener.current !== null) {
+          incomingReactionsListener.current = null;
         }
       }
     }, [isLoggedIn]);
@@ -76,6 +81,22 @@ const withChat = (Component: React.FunctionComponent<any>) =>
                 audioPlayerRef.current.play().catch((e) => {});
               }
             }
+          }
+        );
+      }
+      if (incomingReactionsListener.current === null) {
+        incomingReactionsListener.current = props.socket?.on(
+          ChatMessagesEnum.ReaceiveReaction,
+          ({
+            message,
+            reaction,
+          }: {
+            message: IMessage;
+            reaction: IReaction;
+          }) => {
+            dispatch(
+              chatSlice.actions.addReactionToMessage({ message, reaction })
+            );
           }
         );
       }

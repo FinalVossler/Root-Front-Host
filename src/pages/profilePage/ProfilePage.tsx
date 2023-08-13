@@ -94,6 +94,6 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
   );
 };
 
-export default withWrapper(withChat(React.memo(ProfilePage)), {
+export default withWrapper(React.memo(ProfilePage), {
   withSideMenu: true,
 });

@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import Loading from "react-loading";
 
 import { Theme } from "../../config/theme";
-import withChat from "../../hoc/withChat";
 import withWrapper from "../../hoc/wrapper";
 import useGetEntity from "../../hooks/apiHooks/useGetEntity";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
@@ -66,7 +65,7 @@ const SingleEntityPage: React.FunctionComponent<ISingleEntityPage> = (
   );
 };
 
-export default withWrapper(withChat(React.memo(SingleEntityPage)), {
+export default withWrapper(React.memo(SingleEntityPage), {
   withFooter: false,
   withSideMenu: true,
 });

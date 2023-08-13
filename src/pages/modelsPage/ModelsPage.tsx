@@ -111,7 +111,7 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
   );
 };
 
-export default withWrapper(withChat(React.memo(ModelsPage)), {
+export default withWrapper(React.memo(ModelsPage), {
   withFooter: false,
   withSideMenu: true,
 });

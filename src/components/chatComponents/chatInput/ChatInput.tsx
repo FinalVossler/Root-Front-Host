@@ -113,6 +113,7 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
       messageRef.current.innerHTML = "";
     }
     setFiles([]);
+    setShowEmojiPicker(false);
   };
 
   const handleFileClick = () => {

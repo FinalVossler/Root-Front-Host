@@ -14,7 +14,6 @@ import UnderlinedTitle from "../../components/postsComponents/underlinedTitle";
 import ContactForm from "../../components/contactForm";
 import Person from "../../components/postsComponents/Person";
 import Video from "../../components/postsComponents/video";
-import withChat from "../../hoc/withChat";
 
 import useStyles from "./homePage.styles";
 
@@ -103,7 +102,7 @@ const Home: React.FunctionComponent<IHome> = (props: IHome) => {
   );
 };
 
-export default withWrapper(withChat(React.memo(Home)), {
+export default withWrapper(React.memo(Home), {
   withFooter: true,
   withSideMenu: true,
 });

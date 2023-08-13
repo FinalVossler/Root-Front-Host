@@ -11,11 +11,16 @@ import {
   IMessage,
   getConversationId,
   chatSlice,
+  ReactionEnum,
 } from "../../../../store/slices/chatSlice";
 import { toast } from "react-toastify";
 import { RxCrossCircled } from "react-icons/rx";
 import { IUser } from "../../../../store/slices/userSlice";
 import { HiOutlineEmojiHappy } from "react-icons/hi";
+import useCreateReaction, {
+  ReactionCreateCommand,
+} from "../../../../hooks/apiHooks/useCreateReaction";
+import Loading from "react-loading";
 
 interface IMessageOptions {
   message: IMessage;
@@ -33,6 +38,7 @@ const MessageOptions: React.FunctionComponent<IMessageOptions> = (
   const [showOptions, setShowOptions] = React.useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = React.useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = React.useState(false);
   //#endregion local state
 
   const styles = useStyles({ theme });
@@ -40,9 +46,10 @@ const MessageOptions: React.FunctionComponent<IMessageOptions> = (
   useOnClickOutside(optionsContainerRef, () => setShowOptions(false));
   const dispatch = useAppDispatch();
   const axios = useAuthorizedAxios();
+  const { createReaction, loading: createReactionLoading } =
+    useCreateReaction();
 
   //#region event listeners
-
   const handleDelete = () => {
     setDeleteModalOpen(!deleteModalOpen);
   };
@@ -72,6 +79,16 @@ const MessageOptions: React.FunctionComponent<IMessageOptions> = (
       })
       .finally(() => setDeleteLoading(false));
   };
+
+  const handleEmojiClick = async (emoji: ReactionEnum) => {
+    setShowEmojiPicker(false);
+
+    const createReactionCommand: ReactionCreateCommand = {
+      messageId: props.message._id.toString(),
+      reaction: emoji,
+    };
+    createReaction(createReactionCommand);
+  };
   //#endregion event listeners
 
   return (
@@ -85,12 +102,72 @@ const MessageOptions: React.FunctionComponent<IMessageOptions> = (
         loading={deleteLoading}
       />
 
-      <HiOutlineEmojiHappy className={styles.messageOptionsIcon} />
+      <HiOutlineEmojiHappy
+        className={styles.messageOptionsIcon}
+        onClick={() => setShowEmojiPicker(true)}
+      ></HiOutlineEmojiHappy>
+
+      {showEmojiPicker && (
+        <div
+          onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+          className={styles.emojiLayer}
+        />
+      )}
+      {showEmojiPicker && (
+        <div
+          className={styles.emojiContainer}
+          style={{
+            right:
+              props.message.from.toString() === user._id.toString()
+                ? props.message.files.length > 0 ||
+                  props.message.message.length > 6
+                  ? -130
+                  : 0
+                : props.message.files.length > 0 ||
+                  props.message.message.length > 6
+                ? 0
+                : -130,
+          }}
+        >
+          <span
+            onClick={() => handleEmojiClick(ReactionEnum.Love)}
+            className={styles.singleReaction}
+          >
+            ❤️
+          </span>
+          <span
+            onClick={() => handleEmojiClick(ReactionEnum.Laugh)}
+            className={styles.singleReaction}
+          >
+            😂
+          </span>
+          <span
+            onClick={() => handleEmojiClick(ReactionEnum.Shock)}
+            className={styles.singleReaction}
+          >
+            😮
+          </span>
+          <span
+            onClick={() => handleEmojiClick(ReactionEnum.Cry)}
+            className={styles.singleReaction}
+          >
+            😭
+          </span>
+          <span
+            onClick={() => handleEmojiClick(ReactionEnum.Angry)}
+            className={styles.singleReaction}
+          >
+            😠
+          </span>
+        </div>
+      )}
 
       <BsThreeDotsVertical
         className={styles.messageOptionsIcon}
         onClick={() => setShowOptions(!showOptions)}
       />
+
+      {createReactionLoading && <Loading color={theme.primary} />}
 
       {showOptions && (
         <div ref={optionsContainerRef} className={styles.optionsContainer}>

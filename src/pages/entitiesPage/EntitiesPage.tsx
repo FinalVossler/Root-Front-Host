@@ -2,7 +2,6 @@ import React from "react";
 import { useParams } from "react-router-dom";
 
 import { Theme } from "../../config/theme";
-import withChat from "../../hoc/withChat";
 import withWrapper from "../../hoc/wrapper";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
@@ -37,7 +36,7 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
   );
 };
 
-export default withWrapper(withChat(React.memo(EntitiesPage)), {
+export default withWrapper(React.memo(EntitiesPage), {
   withFooter: false,
   withSideMenu: true,
 });

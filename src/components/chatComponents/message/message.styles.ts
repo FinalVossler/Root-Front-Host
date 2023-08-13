@@ -8,15 +8,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "100%",
     display: "flex",
     marginBottom: 10,
+    alignItems: "center",
+
     flexDirection: "row-reverse",
-    "&:hover $messageOptions": {
-      display: "flex",
-      color: theme.darkerPrimary,
-    },
-    "&:hover $otherMessageOptions": {
-      display: "flex",
-      color: theme.primary,
-    },
+    position: "relative",
   },
   otherMessageAndOptionsContainer: {
     extend: "messageAndOptionsContainer",
@@ -39,9 +34,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     extend: "messageContainer",
     backgroundColor: theme.primary,
   },
-  messageOptions: {
-    display: "none",
-  },
   filesContainer: {
     display: "flex",
     width: "100%",
@@ -55,6 +47,21 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   file: {
     width: "100%",
+  },
+  existingReactionsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    position: "absolute",
+    bottom: -5,
+    left: -10,
+  },
+  otherExistingReactionsContainer: {
+    extend: "existingReactionsContainer",
+    left: "initial",
+    right: -10,
+  },
+  singleExistingReaction: {
+    margin: "0px 0px",
   },
   "@media (max-width: 800px)": {},
 }));

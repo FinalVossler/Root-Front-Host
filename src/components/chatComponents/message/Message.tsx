@@ -4,7 +4,7 @@ import { Socket } from "socket.io-client";
 
 import { Theme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
-import { IMessage } from "../../../store/slices/chatSlice";
+import { IMessage, ReactionEnum } from "../../../store/slices/chatSlice";
 import { IUser } from "../../../store/slices/userSlice";
 
 import useStyles from "./message.styles";
@@ -22,6 +22,9 @@ const Message: React.FunctionComponent<IMessageComponent> = (
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
+
+  const [mouseOver, setMouseOver] = React.useState<boolean>(false);
+
   const styles = useStyles({ theme });
   const ownMessage = React.useMemo(() => {
     return user._id === props.message.from;
@@ -34,6 +37,12 @@ const Message: React.FunctionComponent<IMessageComponent> = (
           ? styles.messageAndOptionsContainer
           : styles.otherMessageAndOptionsContainer
       }
+      onMouseEnter={() => {
+        setMouseOver(true);
+      }}
+      onMouseLeave={() => {
+        setMouseOver(false);
+      }}
     >
       <div
         id={"message" + props.message._id}
@@ -66,11 +75,31 @@ const Message: React.FunctionComponent<IMessageComponent> = (
             })}
           </div>
         )}
+
+        <div
+          className={
+            props.message.from === user._id.toString()
+              ? styles.existingReactionsContainer
+              : styles.otherExistingReactionsContainer
+          }
+        >
+          {props.message.reactions?.map((r, i) => (
+            <span key={i} className={styles.singleExistingReaction}>
+              {
+                {
+                  [ReactionEnum.Love]: "❤️",
+                  [ReactionEnum.Angry]: "😠",
+                  [ReactionEnum.Cry]: "😭",
+                  [ReactionEnum.Shock]: "😮",
+                  [ReactionEnum.Laugh]: "😂",
+                }[r.reaction]
+              }
+            </span>
+          ))}
+        </div>
       </div>
 
-      <div className={styles.messageOptions}>
-        <MessageOptions message={props.message} />
-      </div>
+      {mouseOver && <MessageOptions message={props.message} />}
     </div>
   );
 };

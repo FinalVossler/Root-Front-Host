@@ -11,6 +11,7 @@ export interface IMessage {
   message: string;
   read: string[];
   files: IFile[];
+  reactions?: IReaction[];
 
   createdAt: string;
   updatedAt: string;
@@ -34,6 +35,23 @@ export type Conversation = {
   messages: IMessage[];
   totalUnreadMessages: number;
 };
+
+export interface IReaction {
+  _id: string;
+  user: IUser;
+  reaction: ReactionEnum;
+
+  createdAt: string;
+  updatedAt: string;
+}
+
+export enum ReactionEnum {
+  Love = "Love",
+  Laugh = "Laugh",
+  Shock = "Shock",
+  Cry = "Cry",
+  Angry = "Angry",
+}
 
 interface IChatState {
   contacts: IUser[];
@@ -267,6 +285,22 @@ export const chatSlice = createSlice({
       action: PayloadAction<number>
     ) => {
       state.totalUnreadMessages = action.payload;
+    },
+    addReactionToMessage: (
+      state: IChatState,
+      action: PayloadAction<{ reaction: IReaction; message: IMessage }>
+    ) => {
+      const conversation = state.conversations.find(
+        (c) => c.id === getConversationId([...action.payload.message.to])
+      );
+      if (conversation) {
+        const message = conversation.messages.find(
+          (m) => m._id.toString() === action.payload.message._id.toString()
+        );
+        if (message) {
+          message.reactions?.push(action.payload.reaction);
+        }
+      }
     },
   },
 });
