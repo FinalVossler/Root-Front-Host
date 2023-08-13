@@ -89,6 +89,7 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
     e: React.FormEvent<HTMLFormElement> | null = null
   ) => {
     e?.preventDefault();
+    setShowEmojiPicker(false);
 
     if (
       unreadMessagesIds &&
@@ -118,7 +119,6 @@ const ChatInput: React.FunctionComponent<IChatInput> = (props: IChatInput) => {
       messageRef.current.innerHTML = "";
     }
     setFiles([]);
-    setShowEmojiPicker(false);
   };
 
   const handleFileClick = () => {
