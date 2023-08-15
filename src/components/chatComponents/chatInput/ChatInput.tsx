@@ -106,6 +106,9 @@ const ChatInput: React.FunctionComponent<IChatInput> = socketConnect(
       }
 
       const message: string | undefined = messageRef?.current?.innerHTML;
+      if (messageRef.current?.innerHTML) {
+        messageRef.current.innerHTML = "";
+      }
 
       if ((!message || message.trim() === "") && files.length === 0) return;
 
@@ -124,9 +127,7 @@ const ChatInput: React.FunctionComponent<IChatInput> = socketConnect(
       );
 
       props.handleAddMessage(createdMessage);
-      if (messageRef.current?.innerHTML) {
-        messageRef.current.innerHTML = "";
-      }
+
       setFiles([]);
     };
 
