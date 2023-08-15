@@ -148,10 +148,12 @@ const MessageOptions: React.FunctionComponent<IMessageOptions> = (
         </div>
       )}
 
-      <BsThreeDotsVertical
-        className={styles.messageOptionsIcon}
-        onClick={() => setShowOptions(!showOptions)}
-      />
+      {props.message.from === user._id.toString() && (
+        <BsThreeDotsVertical
+          className={styles.messageOptionsIcon}
+          onClick={() => setShowOptions(!showOptions)}
+        />
+      )}
 
       {showOptions && (
         <div ref={optionsContainerRef} className={styles.optionsContainer}>
