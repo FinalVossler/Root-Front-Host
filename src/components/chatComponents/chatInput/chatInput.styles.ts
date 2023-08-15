@@ -42,7 +42,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   sendButton: {
     width: 35,
-    height: 35,
+    height: 36.5,
     bottom: 0,
     border: "none",
     padding: 0,
