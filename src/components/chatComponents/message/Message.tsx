@@ -39,14 +39,14 @@ const Message: React.FunctionComponent<IMessageComponent> = (
     return user._id === props.message.from;
   }, [user, props.message]);
 
-  const usersWithTheirLastUnreadMessageInConversation = React.useMemo(() => {
-    return props.conversation.usersWithLastUnreadMessageInConversation?.filter(
+  const usersWithTheirLastReadMessageInConversation = React.useMemo(() => {
+    return props.conversation.usersWithLastReadMessageInConversation?.filter(
       (u) =>
         u.lastReadMessageInConversation?._id.toString() ===
           props.message._id.toString() &&
         u._id.toString() !== user._id.toString()
     );
-  }, [props.conversation.usersWithLastUnreadMessageInConversation, user]);
+  }, [props.conversation.usersWithLastReadMessageInConversation, user]);
 
   return (
     <div
@@ -134,11 +134,11 @@ const Message: React.FunctionComponent<IMessageComponent> = (
         </div>
       )}
 
-      {typeof usersWithTheirLastUnreadMessageInConversation?.length ===
+      {typeof usersWithTheirLastReadMessageInConversation?.length ===
         "number" &&
-        usersWithTheirLastUnreadMessageInConversation?.length > 0 && (
+        usersWithTheirLastReadMessageInConversation?.length > 0 && (
           <div className={styles.readByContainer}>
-            {props.conversation.usersWithLastUnreadMessageInConversation
+            {props.conversation.usersWithLastReadMessageInConversation
               ?.filter(
                 (u) =>
                   u.lastReadMessageInConversation?._id.toString() ===
@@ -148,6 +148,7 @@ const Message: React.FunctionComponent<IMessageComponent> = (
               .map((u) => {
                 return (
                   <UserProfilePicture
+                    key={u._id.toString()}
                     size={SizeEnum.VerySmall}
                     url={u.profilePicture?.url}
                   />

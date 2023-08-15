@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import IFile from "../../globalTypes/IFile";
 import compareWithCreatedAt from "../../utils/compareWithCreatedAt";
-import { IUser, UserWithLastUnreadMessageInConversation } from "./userSlice";
+import { IUser, UserWithLastReadMessageInConversation } from "./userSlice";
 import SocketTypingStateCommand from "../../globalTypes/SocketTypingStateCommand";
 
 export interface IMessage {
@@ -54,7 +54,7 @@ export type Conversation = {
   messages: IMessage[];
   totalUnreadMessages: number;
   typingUsers?: IUser[];
-  usersWithLastUnreadMessageInConversation?: UserWithLastUnreadMessageInConversation[];
+  usersWithLastReadMessageInConversation?: UserWithLastReadMessageInConversation[];
 };
 
 export interface IReaction {
@@ -403,26 +403,27 @@ export const chatSlice = createSlice({
         }
       }
     },
-    setConversationUsersWithTheirLastUnreadMessage: (
+    setConversationUsersWithTheirLastReadMessage: (
       state: IChatState,
       action: PayloadAction<{
         conversationId: string;
-        usersWithTheirLastUnreadMessageInConversation: UserWithLastUnreadMessageInConversation[];
+        usersWithTheirLastReadMessageInConversation: UserWithLastReadMessageInConversation[];
       }>
     ) => {
       const conversation: Conversation | undefined = state.conversations.find(
         (c) => c.id === action.payload.conversationId
       );
       if (conversation) {
-        conversation.usersWithLastUnreadMessageInConversation =
-          action.payload.usersWithTheirLastUnreadMessageInConversation;
+        conversation.usersWithLastReadMessageInConversation =
+          action.payload.usersWithTheirLastReadMessageInConversation;
       }
     },
     updateConversationUserLastReadMessage: (
       state: IChatState,
       action: PayloadAction<{
         lastMarkedMessageAsRead: IMessage;
-        by: IUser;
+        by?: IUser;
+        byId?: string;
       }>
     ) => {
       const conversation: Conversation | undefined = state.conversations.find(
@@ -431,9 +432,10 @@ export const chatSlice = createSlice({
           getConversationId([...action.payload.lastMarkedMessageAsRead.to])
       );
       if (conversation) {
-        conversation.usersWithLastUnreadMessageInConversation =
-          conversation.usersWithLastUnreadMessageInConversation?.map((el) =>
-            el._id.toString() === action.payload.by._id.toString()
+        conversation.usersWithLastReadMessageInConversation =
+          conversation.usersWithLastReadMessageInConversation?.map((el) =>
+            el._id.toString() ===
+            (action.payload.by?._id || action.payload.byId || "").toString()
               ? {
                   ...el,
                   lastReadMessageInConversation:

@@ -12,6 +12,7 @@ import {
   IReaction,
   IPopulatedMessage,
   populatedMessageToMessage,
+  Conversation,
 } from "../../store/slices/chatSlice";
 import { IUser } from "../../store/slices/userSlice";
 //@ts-ignore
@@ -29,6 +30,9 @@ const withChat = (Component: React.FunctionComponent<any>) =>
     const user: IUser = useAppSelector((state) => state.user.user);
     const withChat = useAppSelector(
       (state) => state.websiteConfiguration.withChat
+    );
+    const conversations: Conversation[] = useAppSelector(
+      (state) => state.chat.conversations
     );
 
     const dispatch = useAppDispatch();
@@ -80,6 +84,14 @@ const withChat = (Component: React.FunctionComponent<any>) =>
               })
             );
 
+            dispatch(
+              chatSlice.actions.updateConversationUserLastReadMessage({
+                lastMarkedMessageAsRead: populatedMessageToMessage(message),
+                byId: message.from._id.toString(),
+              })
+            );
+
+            // A message sent in another tab isn't captured in the current tab if we are the user who sent the message.
             if (message.from._id !== user._id) {
               dispatch(
                 chatSlice.actions.incrementConversationTotalUnreadMessages({
@@ -186,7 +198,7 @@ const withChat = (Component: React.FunctionComponent<any>) =>
           }
         );
       }
-    }, [props.socket?.on, withChat, isLoggedIn]);
+    }, [props.socket?.on, withChat, isLoggedIn, conversations]);
 
     return (
       <React.Fragment>

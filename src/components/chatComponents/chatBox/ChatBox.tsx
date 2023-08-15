@@ -27,7 +27,7 @@ import useMarkAllConversationsMessagesAsReadByUser, {
 import UserProfilePicture from "../../userProfilePicture";
 import { SizeEnum } from "../../userProfilePicture/UserProfilePicture";
 import { BsThreeDots } from "react-icons/bs";
-import useGetUsersWithTheirLastUnreadMessageInConversation from "../../../hooks/apiHooks/useGetUsersWithTheirLastUnreadMessageInConversation";
+import useGetUsersWithTheirLastReadMessageInConversation from "../../../hooks/apiHooks/useGetUsersWithTheirLastReadMessageInConversation";
 
 export enum BoxType {
   SmallBox = "SmallBox",
@@ -81,8 +81,8 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   const { loadMessages, loading: loadingMessages } = useLoadMessages();
   const { markAllConversationMessagesAsReadByUser } =
     useMarkAllConversationsMessagesAsReadByUser();
-  const { getUsersWithTheirLastUnreadMessageInConversation } =
-    useGetUsersWithTheirLastUnreadMessageInConversation();
+  const { getUsersWithTheirLastReadMessageInConversation } =
+    useGetUsersWithTheirLastReadMessageInConversation();
   //#endregion Hooks
 
   //#region Effects
@@ -126,7 +126,7 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
 
   // Get the concerned users with their lastly read message because we need their profile pictures for the "read messages" signals
   React.useEffect(() => {
-    getUsersWithTheirLastUnreadMessageInConversation(
+    getUsersWithTheirLastReadMessageInConversation(
       getConversationConversationalistsFromConversationId(props.conversationId)
     );
   }, [props.conversationId]);
