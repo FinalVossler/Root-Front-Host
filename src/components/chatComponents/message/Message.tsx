@@ -9,6 +9,8 @@ import { IUser } from "../../../store/slices/userSlice";
 
 import useStyles from "./message.styles";
 import MessageOptions from "./messageOptions";
+import moment from "moment";
+import getRelativeDate from "../../../utils/getRelativeDate";
 
 interface IMessageComponent {
   message: IMessage;
@@ -103,6 +105,18 @@ const Message: React.FunctionComponent<IMessageComponent> = (
       </div>
 
       {mouseOver && <MessageOptions message={props.message} />}
+
+      {mouseOver && (
+        <div
+          className={
+            props.message.from === user._id.toString()
+              ? styles.messageDate
+              : styles.otherMessageDate
+          }
+        >
+          {getRelativeDate(moment(props.message.createdAt))}
+        </div>
+      )}
     </div>
   );
 };

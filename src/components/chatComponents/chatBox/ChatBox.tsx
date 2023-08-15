@@ -8,6 +8,7 @@ import useLoadMessages, {
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   chatSlice,
+  Conversation,
   getConversationConversationalistsFromConversationId,
   IMessage,
   IPopulatedMessage,
@@ -23,6 +24,9 @@ import useStyles from "./chatBox.styles";
 import useMarkAllConversationsMessagesAsReadByUser, {
   MessageMarkMessagesAsReadByUserCommand,
 } from "../../../hooks/apiHooks/useMarkAllConversationMessagesAsReadByUser";
+import UserProfilePicture from "../../userProfilePicture";
+import { SizeEnum } from "../../userProfilePicture/UserProfilePicture";
+import { BsThreeDots } from "react-icons/bs";
 
 export enum BoxType {
   SmallBox = "SmallBox",
@@ -38,6 +42,9 @@ let lastMessageId: string | null = null;
 const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   //#region Store
   const user: IUser = useAppSelector((state) => state.user.user);
+  const conversation: Conversation | undefined = useAppSelector(
+    (state) => state.chat.conversations
+  ).find((el) => el.id === props.conversationId);
   const messages: IMessage[] =
     useAppSelector(
       (state) =>
@@ -220,6 +227,19 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
             </React.Fragment>
           );
         })}
+
+        {conversation?.typingUsers?.map((u) => (
+          <div key={u._id.toString()} className={styles.typingUserContainer}>
+            <UserProfilePicture
+              size={SizeEnum.Small}
+              url={u.profilePicture?.url}
+            />
+            <div className={styles.typingUserIndicator}>
+              <BsThreeDots color={theme.lightTextColor} />
+            </div>
+          </div>
+        ))}
+
         <div ref={scrollToDiv}></div>
       </div>
       <ChatInput

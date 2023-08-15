@@ -18,6 +18,7 @@ import { IUser } from "../../store/slices/userSlice";
 import NotificationSound from "../../../public/assets/sounds/notification-sound.mp3";
 
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
+import SocketTypingStateCommand from "../../globalTypes/SocketTypingStateCommand";
 
 interface IChat {
   socket?: Socket;
@@ -33,6 +34,7 @@ const withChat = (Component: React.FunctionComponent<any>) =>
     const dispatch = useAppDispatch();
     const incomingMessagesListener = React.useRef<any>(null);
     const incomingReactionsListener = React.useRef<any>(null);
+    const incomingTypingStatesListener = React.useRef<any>(null);
     const deleteMessagesListener = React.useRef<any>(null);
     const audioPlayerRef = React.useRef(null);
     const isLoggedIn = useIsLoggedIn();
@@ -42,6 +44,9 @@ const withChat = (Component: React.FunctionComponent<any>) =>
       if (!isLoggedIn) {
         if (incomingMessagesListener.current !== null) {
           incomingMessagesListener.current = null;
+        }
+        if (incomingTypingStatesListener.current !== null) {
+          incomingTypingStatesListener.current = null;
         }
         if (deleteMessagesListener.current !== null) {
           deleteMessagesListener.current = null;
@@ -86,6 +91,20 @@ const withChat = (Component: React.FunctionComponent<any>) =>
             }
           }
         );
+      }
+      if (incomingTypingStatesListener.current === null) {
+        incomingTypingStatesListener.current ===
+          props.socket.on(
+            ChatMessagesEnum.ReceiveTypingState,
+            (socketTypingStateCommand: SocketTypingStateCommand) => {
+              console.log("receiving typing user", socketTypingStateCommand);
+              dispatch(
+                chatSlice.actions.setConversationUserTypingState(
+                  socketTypingStateCommand
+                )
+              );
+            }
+          );
       }
       if (incomingReactionsListener.current === null) {
         incomingReactionsListener.current = props.socket?.on(

@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import IFile from "../../globalTypes/IFile";
 import compareWithCreatedAt from "../../utils/compareWithCreatedAt";
 import { IUser } from "./userSlice";
+import SocketTypingStateCommand from "../../globalTypes/SocketTypingStateCommand";
 
 export interface IMessage {
   _id: string;
@@ -52,6 +53,7 @@ export type Conversation = {
   id: string;
   messages: IMessage[];
   totalUnreadMessages: number;
+  typingUsers?: IUser[];
 };
 
 export interface IReaction {
@@ -371,6 +373,32 @@ export const chatSlice = createSlice({
           message.read = message.read.filter(
             (el) => el.toString() !== action.payload.user._id.toString()
           );
+        }
+      }
+    },
+    setConversationUserTypingState: (
+      state: IChatState,
+      action: PayloadAction<SocketTypingStateCommand>
+    ) => {
+      const command = action.payload;
+      const conversation = state.conversations.find(
+        (c) => c.id == getConversationId([...command.toUsersIds])
+      );
+      if (conversation) {
+        const foundTypingUser: boolean =
+          conversation.typingUsers?.some(
+            (u) => u._id.toString() === command.userId
+          ) || false;
+        if (command.isTyping && !foundTypingUser) {
+          conversation.typingUsers = conversation.typingUsers = [
+            ...(conversation.typingUsers || []),
+            command.user,
+          ];
+        }
+        if (!command.isTyping && foundTypingUser) {
+          conversation.typingUsers = conversation.typingUsers?.filter((u) => {
+            return u._id.toString() !== command.userId;
+          });
         }
       }
     },

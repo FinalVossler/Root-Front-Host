@@ -64,6 +64,24 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderRadius: "50%",
     boxSizing: "border-box",
   },
+  typingUserContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    margin: "0px 10px",
+  },
+  typingUserIndicator: {
+    textAlign: "center",
+    fontSize: 40,
+    marginLeft: 10,
+    borderRadius: 10,
+    backgroundColor: theme.primary,
+    color: theme.lightTextColor,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "0px 10px",
+  },
   "@media (max-width: 850px)": {
     noConversationSelectedChatBoxContainer: {
       display: "none",

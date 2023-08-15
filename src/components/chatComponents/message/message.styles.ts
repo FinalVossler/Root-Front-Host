@@ -68,6 +68,20 @@ const useStyles = createUseStyles((theme: Theme) => ({
   singleExistingReaction: {
     margin: "0px 0px",
   },
+  messageDate: {
+    backgroundColor: theme.primary,
+    color: theme.lightTextColor,
+    padding: "10px 13px",
+    borderRadius: 10,
+    opacity: 0.9,
+    marginRight: 10,
+    fontSize: 12,
+  },
+  otherMessageDate: {
+    extend: "messageDate",
+    marginLeft: 10,
+    marginRight: "initial",
+  },
   "@media (max-width: 800px)": {},
 }));
 
