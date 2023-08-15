@@ -27,6 +27,7 @@ import useMarkAllConversationsMessagesAsReadByUser, {
 import UserProfilePicture from "../../userProfilePicture";
 import { SizeEnum } from "../../userProfilePicture/UserProfilePicture";
 import { BsThreeDots } from "react-icons/bs";
+import useGetUsersWithTheirLastUnreadMessageInConversation from "../../../hooks/apiHooks/useGetUsersWithTheirLastUnreadMessageInConversation";
 
 export enum BoxType {
   SmallBox = "SmallBox",
@@ -80,6 +81,8 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   const { loadMessages, loading: loadingMessages } = useLoadMessages();
   const { markAllConversationMessagesAsReadByUser } =
     useMarkAllConversationsMessagesAsReadByUser();
+  const { getUsersWithTheirLastUnreadMessageInConversation } =
+    useGetUsersWithTheirLastUnreadMessageInConversation();
   //#endregion Hooks
 
   //#region Effects
@@ -120,6 +123,13 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
       setPreviousConversationId(props.conversationId);
     }
   }, [props.conversationId, messages, scrollToDiv.current]);
+
+  // Get the concerned users with their lastly read message because we need their profile pictures for the "read messages" signals
+  React.useEffect(() => {
+    getUsersWithTheirLastUnreadMessageInConversation(
+      getConversationConversationalistsFromConversationId(props.conversationId)
+    );
+  }, [props.conversationId]);
   //#endregion Effects
 
   //#region Listeners
@@ -184,7 +194,6 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
     }
   };
   //#endregion Listeners
-
   return (
     <div
       className={
@@ -220,11 +229,13 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
           </div>
         )}
 
-        {messages.map((message, index) => {
+        {messages.map((message) => {
           return (
-            <React.Fragment key={index}>
-              <Message message={message} key={message._id} />
-            </React.Fragment>
+            <Message
+              message={message}
+              key={message._id}
+              conversation={conversation}
+            />
           );
         })}
 

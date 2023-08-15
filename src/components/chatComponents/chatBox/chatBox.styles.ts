@@ -12,8 +12,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   smallBoxContainer: {
     extend: "chatBoxContainer",
-    width: 350,
-    minWidth: 350,
+    width: 380,
+    minWidth: 380,
     height: 470,
     backgroundColor: theme.backgroundColor,
     marginRight: 20,
@@ -34,6 +34,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     overflowY: "auto",
     borderTop: "2px solid " + theme.secondary,
     paddingTop: 10,
+    paddingBottom: 20,
+    paddingRight: 20,
   },
   loadMoreButtonContainer: {
     display: "flex",

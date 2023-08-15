@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import IFile from "../../globalTypes/IFile";
 import compareWithCreatedAt from "../../utils/compareWithCreatedAt";
-import { IUser } from "./userSlice";
+import { IUser, UserWithLastUnreadMessageInConversation } from "./userSlice";
 import SocketTypingStateCommand from "../../globalTypes/SocketTypingStateCommand";
 
 export interface IMessage {
@@ -54,6 +54,7 @@ export type Conversation = {
   messages: IMessage[];
   totalUnreadMessages: number;
   typingUsers?: IUser[];
+  usersWithLastUnreadMessageInConversation?: UserWithLastUnreadMessageInConversation[];
 };
 
 export interface IReaction {
@@ -402,6 +403,46 @@ export const chatSlice = createSlice({
         }
       }
     },
+    setConversationUsersWithTheirLastUnreadMessage: (
+      state: IChatState,
+      action: PayloadAction<{
+        conversationId: string;
+        usersWithTheirLastUnreadMessageInConversation: UserWithLastUnreadMessageInConversation[];
+      }>
+    ) => {
+      const conversation: Conversation | undefined = state.conversations.find(
+        (c) => c.id === action.payload.conversationId
+      );
+      if (conversation) {
+        conversation.usersWithLastUnreadMessageInConversation =
+          action.payload.usersWithTheirLastUnreadMessageInConversation;
+      }
+    },
+    updateConversationUserLastReadMessage: (
+      state: IChatState,
+      action: PayloadAction<{
+        lastMarkedMessageAsRead: IMessage;
+        by: IUser;
+      }>
+    ) => {
+      const conversation: Conversation | undefined = state.conversations.find(
+        (c) =>
+          c.id ===
+          getConversationId([...action.payload.lastMarkedMessageAsRead.to])
+      );
+      if (conversation) {
+        conversation.usersWithLastUnreadMessageInConversation =
+          conversation.usersWithLastUnreadMessageInConversation?.map((el) =>
+            el._id.toString() === action.payload.by._id.toString()
+              ? {
+                  ...el,
+                  lastReadMessageInConversation:
+                    action.payload.lastMarkedMessageAsRead,
+                }
+              : el
+          );
+      }
+    },
   },
 });
 
@@ -413,7 +454,7 @@ export const getConversationId = (
 
 export const getConversationConversationalistsFromConversationId = (
   conversationId: string
-) => {
+): string[] => {
   return conversationId.split(";;");
 };
 

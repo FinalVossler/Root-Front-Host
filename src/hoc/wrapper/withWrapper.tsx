@@ -8,7 +8,6 @@ import useStyles from "./withWrapper.styles";
 import { useAppSelector } from "../../store/hooks";
 import SideMenu from "../../components/sideMenu/SideMenu";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
-import { IUser } from "../../store/slices/userSlice";
 
 const withWrapper =
   (

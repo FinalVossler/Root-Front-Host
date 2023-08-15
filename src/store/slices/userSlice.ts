@@ -10,6 +10,7 @@ import {
 import IFile from "../../globalTypes/IFile";
 import { IRole } from "./roleSlice";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
+import { IMessage } from "./chatSlice";
 
 export enum SuperRole {
   SuperAdmin = "SuperAdmin",
@@ -25,6 +26,11 @@ export interface IUser {
   superRole: SuperRole;
   role?: IRole;
 }
+
+export type UserWithLastUnreadMessageInConversation = IUser & {
+  lastReadMessageInConversation: IMessage | null;
+  to: string[];
+};
 
 export type TokenInformation = {
   value: string;

@@ -82,6 +82,18 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginLeft: 10,
     marginRight: "initial",
   },
+  readByContainer: {
+    display: "flex",
+    alignItems: "center",
+    position: "absolute",
+    bottom: -10,
+    right: 10,
+    zIndex: 10,
+    backgroundColor: theme.lightTextColor,
+    padding: 2,
+    borderRadius: 5,
+    border: "1px solid " + theme.darkerPrimary,
+  },
   "@media (max-width: 800px)": {},
 }));
 

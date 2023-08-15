@@ -4,17 +4,24 @@ import { Socket } from "socket.io-client";
 
 import { Theme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
-import { IMessage, ReactionEnum } from "../../../store/slices/chatSlice";
+import {
+  Conversation,
+  IMessage,
+  ReactionEnum,
+} from "../../../store/slices/chatSlice";
 import { IUser } from "../../../store/slices/userSlice";
 
 import useStyles from "./message.styles";
 import MessageOptions from "./messageOptions";
 import moment from "moment";
 import getRelativeDate from "../../../utils/getRelativeDate";
+import UserProfilePicture from "../../userProfilePicture";
+import { SizeEnum } from "../../userProfilePicture/UserProfilePicture";
 
 interface IMessageComponent {
   message: IMessage;
   socket: Socket;
+  conversation: Conversation;
 }
 const Message: React.FunctionComponent<IMessageComponent> = (
   props: IMessageComponent
@@ -31,6 +38,15 @@ const Message: React.FunctionComponent<IMessageComponent> = (
   const ownMessage = React.useMemo(() => {
     return user._id === props.message.from;
   }, [user, props.message]);
+
+  const usersWithTheirLastUnreadMessageInConversation = React.useMemo(() => {
+    return props.conversation.usersWithLastUnreadMessageInConversation?.filter(
+      (u) =>
+        u.lastReadMessageInConversation?._id.toString() ===
+          props.message._id.toString() &&
+        u._id.toString() !== user._id.toString()
+    );
+  }, [props.conversation.usersWithLastUnreadMessageInConversation, user]);
 
   return (
     <div
@@ -117,6 +133,28 @@ const Message: React.FunctionComponent<IMessageComponent> = (
           {getRelativeDate(moment(props.message.createdAt))}
         </div>
       )}
+
+      {typeof usersWithTheirLastUnreadMessageInConversation?.length ===
+        "number" &&
+        usersWithTheirLastUnreadMessageInConversation?.length > 0 && (
+          <div className={styles.readByContainer}>
+            {props.conversation.usersWithLastUnreadMessageInConversation
+              ?.filter(
+                (u) =>
+                  u.lastReadMessageInConversation?._id.toString() ===
+                    props.message._id.toString() &&
+                  u._id.toString() !== user._id.toString()
+              )
+              .map((u) => {
+                return (
+                  <UserProfilePicture
+                    size={SizeEnum.VerySmall}
+                    url={u.profilePicture?.url}
+                  />
+                );
+              })}
+          </div>
+        )}
     </div>
   );
 };

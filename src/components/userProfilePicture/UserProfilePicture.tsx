@@ -11,6 +11,7 @@ export enum SizeEnum {
   Big = "big",
   Average = "average",
   Small = "small",
+  VerySmall = "verySmall",
 }
 
 interface IUserProfilePicture {
@@ -45,7 +46,10 @@ const UserProfilePicture = (props: IUserProfilePicture) => {
       containerClassName = styles.small;
       break;
     case SizeEnum.VeryBig:
-      containerClassName = styles.verBig;
+      containerClassName = styles.veryBig;
+      break;
+    case SizeEnum.VerySmall:
+      containerClassName = styles.verySmall;
       break;
   }
   return (
@@ -58,10 +62,11 @@ const UserProfilePicture = (props: IUserProfilePicture) => {
         <GoPerson
           size={
             {
+              [SizeEnum.VeryBig]: 150,
               [SizeEnum.Big]: 100,
               [SizeEnum.Average]: 70,
               [SizeEnum.Small]: 40,
-              [SizeEnum.VeryBig]: 150,
+              [SizeEnum.VerySmall]: 10,
             }[props.size]
           }
           color={theme.primary}

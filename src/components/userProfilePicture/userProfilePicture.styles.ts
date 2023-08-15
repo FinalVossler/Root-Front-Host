@@ -28,7 +28,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
       borderColor: theme.primary,
     },
   },
-  verBig: {
+  veryBig: {
     extend: "big",
     height: 150,
     width: 150,
@@ -44,6 +44,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: 40,
     minWidth: 39,
     borderWidth: 3,
+  },
+  verySmall: {
+    extend: "big",
+    height: 15,
+    width: 15,
+    minWidth: 9,
+    borderWidth: 1,
   },
 }));
 

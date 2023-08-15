@@ -35,6 +35,8 @@ const withChat = (Component: React.FunctionComponent<any>) =>
     const incomingMessagesListener = React.useRef<any>(null);
     const incomingReactionsListener = React.useRef<any>(null);
     const incomingTypingStatesListener = React.useRef<any>(null);
+    const incomingLastReadMessageByUserInCovnersationListener =
+      React.useRef<any>(null);
     const deleteMessagesListener = React.useRef<any>(null);
     const audioPlayerRef = React.useRef(null);
     const isLoggedIn = useIsLoggedIn();
@@ -47,6 +49,11 @@ const withChat = (Component: React.FunctionComponent<any>) =>
         }
         if (incomingTypingStatesListener.current !== null) {
           incomingTypingStatesListener.current = null;
+        }
+        if (
+          incomingLastReadMessageByUserInCovnersationListener.current !== null
+        ) {
+          incomingLastReadMessageByUserInCovnersationListener.current = null;
         }
         if (deleteMessagesListener.current !== null) {
           deleteMessagesListener.current = null;
@@ -97,11 +104,33 @@ const withChat = (Component: React.FunctionComponent<any>) =>
           props.socket.on(
             ChatMessagesEnum.ReceiveTypingState,
             (socketTypingStateCommand: SocketTypingStateCommand) => {
-              console.log("receiving typing user", socketTypingStateCommand);
               dispatch(
                 chatSlice.actions.setConversationUserTypingState(
                   socketTypingStateCommand
                 )
+              );
+            }
+          );
+      }
+
+      if (
+        incomingLastReadMessageByUserInCovnersationListener.current === null
+      ) {
+        incomingLastReadMessageByUserInCovnersationListener.current ===
+          props.socket.on(
+            ChatMessagesEnum.ReceiveLastMarkedMessageAsReadByUser,
+            ({
+              lastMarkedMessageAsRead,
+              by,
+            }: {
+              lastMarkedMessageAsRead;
+              by: IUser;
+            }) => {
+              dispatch(
+                chatSlice.actions.updateConversationUserLastReadMessage({
+                  lastMarkedMessageAsRead,
+                  by,
+                })
               );
             }
           );
