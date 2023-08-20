@@ -12,6 +12,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     paddingTop: 0,
     borderRadius: 10,
     boxSizing: "border-box",
+    zIndex: 1,
   },
   "@media (max-width: 850px)": {
     userPostsContainer: {

@@ -23,7 +23,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   file: {
     maxWidth: "100%",
-    maxHeight: "100%",
+    maxHeight: "90vh",
   },
   closeButton: {
     position: "absolute",

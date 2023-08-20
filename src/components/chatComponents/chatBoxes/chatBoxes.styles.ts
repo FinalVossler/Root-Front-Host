@@ -10,7 +10,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     bottom: 0,
     padding: 10,
     maxWidth: "100%",
-    zIndex: 7,
+    zIndex: 11,
     right: 0,
     overflow: "auto",
     top: "calc(100vh - 510px)",
