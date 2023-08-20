@@ -12,7 +12,7 @@ import {
 import { IUser } from "../../store/slices/userSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 import useMarkAllConversationsMessagesAsReadByUser, {
-  MessageMarkMessagesAsReadByUserCommand,
+  MessageMarkAllMessagesAsReadByUserCommand,
 } from "./useMarkAllConversationMessagesAsReadByUser";
 
 export type MessageGetBetweenUsersCommand = {
@@ -52,7 +52,7 @@ const useLoadMessages = () => {
           resolve(res.data.data.total);
 
           // Mark all the conversations we just fetched as read
-          const markMessagesAsReadCommand: MessageMarkMessagesAsReadByUserCommand =
+          const markMessagesAsReadCommand: MessageMarkAllMessagesAsReadByUserCommand =
             {
               to: command.usersIds,
             };

@@ -5,7 +5,7 @@ import { chatSlice } from "../../store/slices/chatSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 import { AxiosResponse } from "axios";
 
-export type MessageMarkMessagesAsReadByUserCommand = {
+export type MessageMarkAllMessagesAsReadByUserCommand = {
   to: string[];
 };
 
@@ -16,7 +16,7 @@ const useMarkAllConversationsMessagesAsReadByUser = () => {
   const dispatch = useAppDispatch();
 
   const markAllConversationMessagesAsReadByUser = (
-    command: MessageMarkMessagesAsReadByUserCommand,
+    command: MessageMarkAllMessagesAsReadByUserCommand,
     conversationId: string,
     userId: string
   ) =>

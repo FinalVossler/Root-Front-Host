@@ -22,7 +22,7 @@ import Message from "../message/Message";
 
 import useStyles from "./chatBox.styles";
 import useMarkAllConversationsMessagesAsReadByUser, {
-  MessageMarkMessagesAsReadByUserCommand,
+  MessageMarkAllMessagesAsReadByUserCommand,
 } from "../../../hooks/apiHooks/useMarkAllConversationMessagesAsReadByUser";
 import UserProfilePicture from "../../userProfilePicture";
 import { SizeEnum } from "../../userProfilePicture/UserProfilePicture";
@@ -181,7 +181,7 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   // Mark all unread messages as read when the chat messages box is clicked
   const handleMarkAllConversationMessagesAsRead = () => {
     if (unreadMessagesIds && unreadMessagesIds.length > 0) {
-      const command: MessageMarkMessagesAsReadByUserCommand = {
+      const command: MessageMarkAllMessagesAsReadByUserCommand = {
         to: getConversationConversationalistsFromConversationId(
           props.conversationId
         ),
