@@ -17,6 +17,10 @@ import moment from "moment";
 import getRelativeDate from "../../../utils/getRelativeDate";
 import UserProfilePicture from "../../userProfilePicture";
 import { SizeEnum } from "../../userProfilePicture/UserProfilePicture";
+import MessageFilePreview from "./messageFilePreview/MessageFilePreview";
+import IFile from "../../../globalTypes/IFile";
+import { CgViewSplit } from "react-icons/cg";
+import { AiFillEye } from "react-icons/ai";
 
 interface IMessageComponent {
   message: IMessage;
@@ -33,6 +37,7 @@ const Message: React.FunctionComponent<IMessageComponent> = (
   );
 
   const [mouseOver, setMouseOver] = React.useState<boolean>(false);
+  const [fileToPreview, setFileToPreview] = React.useState<IFile | null>(null);
 
   const styles = useStyles({ theme });
   const ownMessage = React.useMemo(() => {
@@ -81,6 +86,7 @@ const Message: React.FunctionComponent<IMessageComponent> = (
                   id={"file " + file.uuid}
                   key={file._id}
                   className={styles.singleFileContainer}
+                  onClick={() => setFileToPreview(file)}
                 >
                   {file.isImage && (
                     <img
@@ -90,11 +96,28 @@ const Message: React.FunctionComponent<IMessageComponent> = (
                       src={file.url}
                     />
                   )}
-                  {!file.isImage && <iframe src={file.url} />}
+                  {!file.isImage && (
+                    <React.Fragment>
+                      <iframe className={styles.file} src={file.url} />
+                      <AiFillEye
+                        className={styles.viewFileIcon}
+                        onClick={() => setFileToPreview(file)}
+                      />
+                    </React.Fragment>
+                  )}
                 </div>
               );
             })}
           </div>
+        )}
+
+        {/* File Preview */}
+        {fileToPreview && (
+          <MessageFilePreview
+            message={props.message}
+            file={fileToPreview}
+            onClose={() => setFileToPreview(null)}
+          />
         )}
 
         <div

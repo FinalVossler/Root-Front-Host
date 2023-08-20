@@ -49,6 +49,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   singleFileContainer: {
     margin: 5,
+    cursor: "pointer",
   },
   file: {
     width: "100%",
@@ -93,6 +94,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     padding: 2,
     borderRadius: 5,
     border: "1px solid " + theme.darkerPrimary,
+  },
+  viewFileIcon: {
+    cursor: "pointer",
   },
   "@media (max-width: 800px)": {},
 }));

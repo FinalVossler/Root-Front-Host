@@ -24,6 +24,9 @@ const MicroFrontendPage: React.FunctionComponent<IMicroFrontendPage> = (
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
+  const language: string = useAppSelector(
+    (state) => state.userPreferences.language
+  );
 
   //#region local state
   const [microFrontend, setMicroFrontend] =
@@ -68,6 +71,7 @@ const MicroFrontendPage: React.FunctionComponent<IMicroFrontendPage> = (
               scope={microFrontend.name}
               module={"./" + componentName}
               entityFieldValues={entity?.entityFieldValues}
+              language={language}
             />
           </React.Suspense>
         </ErrorBoundary>

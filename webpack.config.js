@@ -4,7 +4,6 @@ const webpack = require("webpack");
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
-const { default: axios } = require("axios");
 
 const deps = require("./package.json").dependencies;
 module.exports = async (_, argv) => {
