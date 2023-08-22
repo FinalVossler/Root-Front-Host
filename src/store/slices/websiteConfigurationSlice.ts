@@ -55,6 +55,7 @@ export interface IWebsiteConfiguration {
       role: ITranslatedText[];
       welcome: ITranslatedText[];
       solutionDescription: ITranslatedText[];
+      hasMessagingEmailsActivated: ITranslatedText[];
     };
     changePassword: {
       required: ITranslatedText[];
@@ -554,6 +555,16 @@ const initialState: IWebsiteConfigurationState = {
       solutionDescription: [
         { text: "About the MarketMaven solution", language: "en" },
         { text: "Détails sur la solution de MarketMaven", language: "fr" },
+      ],
+      hasMessagingEmailsActivated: [
+        {
+          text: "Has emails activated for messages notifications",
+          language: "en",
+        },
+        {
+          text: "Notifications par emails pour les messages non lus",
+          language: "fr",
+        },
       ],
     },
     changePassword: {

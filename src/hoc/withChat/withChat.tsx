@@ -116,11 +116,21 @@ const withChat = (Component: React.FunctionComponent<any>) =>
           props.socket.on(
             ChatMessagesEnum.ReceiveTypingState,
             (socketTypingStateCommand: SocketTypingStateCommand) => {
-              dispatch(
-                chatSlice.actions.setConversationUserTypingState(
-                  socketTypingStateCommand
-                )
-              );
+              if (
+                socketTypingStateCommand.userId.toString() !==
+                user._id.toString()
+              ) {
+                console.log(
+                  "socketTypingStateCommand.userId.toString()",
+                  socketTypingStateCommand.userId.toString()
+                );
+                console.log("user._id.toString()", user._id.toString());
+                dispatch(
+                  chatSlice.actions.setConversationUserTypingState(
+                    socketTypingStateCommand
+                  )
+                );
+              }
             }
           );
       }

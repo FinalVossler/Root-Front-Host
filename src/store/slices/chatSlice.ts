@@ -391,7 +391,7 @@ export const chatSlice = createSlice({
             (u) => u._id.toString() === command.userId
           ) || false;
         if (command.isTyping && !foundTypingUser) {
-          conversation.typingUsers = conversation.typingUsers = [
+          conversation.typingUsers = [
             ...(conversation.typingUsers || []),
             command.user,
           ];

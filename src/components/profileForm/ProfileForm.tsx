@@ -20,11 +20,13 @@ import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import ChangePasswordForm from "../changePasswordForm";
 
 import useStyles from "./profileForm.styles";
+import Checkbox from "../checkbox";
 
 type ProfileFormik = {
   firstName: string;
   lastName: string;
   email: string;
+  hasMessagingEmailsActivated: boolean;
 };
 
 interface IProfileForm {}
@@ -54,6 +56,7 @@ const Profile: React.FunctionComponent<IProfileForm> = (
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
+      hasMessagingEmailsActivated: Boolean(user.hasMessagingEmailsActivated),
     },
     validationSchema: Yup.object().shape({
       firstName: Yup.string().required(
@@ -72,6 +75,7 @@ const Profile: React.FunctionComponent<IProfileForm> = (
         firstName: values.firstName,
         lastName: values.lastName,
         email: values.email,
+        hasMessagingEmailsActivated: values.hasMessagingEmailsActivated,
       };
 
       await updateUser(command);
@@ -84,6 +88,7 @@ const Profile: React.FunctionComponent<IProfileForm> = (
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
+        hasMessagingEmailsActivated: Boolean(user.hasMessagingEmailsActivated),
       },
     });
   }, [user]);
@@ -133,6 +138,12 @@ const Profile: React.FunctionComponent<IProfileForm> = (
           }}
           name="email"
           formik={formik}
+        />
+
+        <Checkbox
+          name="hasMessagingEmailsActivated"
+          formik={formik}
+          label={getTranslatedText(staticText?.hasMessagingEmailsActivated)}
         />
 
         <span className={styles.userRoleContainer}>

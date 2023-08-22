@@ -25,6 +25,7 @@ export interface IUser {
   profilePicture?: IFile;
   superRole: SuperRole;
   role?: IRole;
+  hasMessagingEmailsActivated?: boolean;
 }
 
 export type UserWithLastReadMessageInConversation = IUser & {

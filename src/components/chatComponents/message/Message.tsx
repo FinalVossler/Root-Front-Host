@@ -19,7 +19,6 @@ import UserProfilePicture from "../../userProfilePicture";
 import { SizeEnum } from "../../userProfilePicture/UserProfilePicture";
 import MessageFilePreview from "./messageFilePreview/MessageFilePreview";
 import IFile from "../../../globalTypes/IFile";
-import { CgViewSplit } from "react-icons/cg";
 import { AiFillEye } from "react-icons/ai";
 
 interface IMessageComponent {
