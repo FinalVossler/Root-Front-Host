@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios";
 import React from "react";
 
 import { useAppDispatch } from "../../store/hooks";
-import { IUser, userSlice } from "../../store/slices/userSlice";
+import { IUser, SuperRole, userSlice } from "../../store/slices/userSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 
 export type UserCreateCommand = {
@@ -11,6 +11,7 @@ export type UserCreateCommand = {
   email: string;
   password: string;
   roleId?: string;
+  superRole: SuperRole;
 };
 
 const useCreateUser = () => {

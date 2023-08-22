@@ -28,6 +28,8 @@ export interface IWebsiteConfiguration {
       enterFirstName: ITranslatedText[];
       enterLastName: ITranslatedText[];
       enterEmail: ITranslatedText[];
+      superAdmin: ITranslatedText[];
+      normal: ITranslatedText[];
       superRole: ITranslatedText[];
       updateProfileInformation: ITranslatedText[];
       firstNameIsRequired: ITranslatedText[];
@@ -448,6 +450,14 @@ const initialState: IWebsiteConfigurationState = {
       enterEmail: [
         { text: "Enter email here", language: "en" },
         { text: "Veuillez entrer l'adresse email ici", language: "fr" },
+      ],
+      superAdmin: [
+        { text: "Super Admin", language: "en" },
+        { text: "Super Admin", language: "fr" },
+      ],
+      normal: [
+        { text: "Normal", language: "en" },
+        { text: "Normal", language: "fr" },
       ],
       userInformationUpdated: [
         { text: "User information updated", language: "en" },

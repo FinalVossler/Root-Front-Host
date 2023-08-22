@@ -13,7 +13,7 @@ import Button from "../../button";
 import { useAppSelector } from "../../../store/hooks";
 import Input from "../../input";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
-import { IUser } from "../../../store/slices/userSlice";
+import { IUser, SuperRole } from "../../../store/slices/userSlice";
 import useUpdateUser, {
   UserUpdateCommand,
 } from "../../../hooks/apiHooks/useUpdateUser";
@@ -25,7 +25,7 @@ import useGetRoles, {
 } from "../../../hooks/apiHooks/useGetRoles";
 import InputSelect from "../../inputSelect";
 import { IRole } from "../../../store/slices/roleSlice";
-import { Option } from "../../inputSelect/InputSelect";
+import Checkbox from "../../checkbox";
 
 export interface IUserEditor {
   user?: IUser;
@@ -40,6 +40,7 @@ interface IUserForm {
   roleId?: string;
   password: string;
   confirmPassword: string;
+  superRole: SuperRole;
 }
 
 const UserEditor = (props: IUserEditor) => {
@@ -50,6 +51,7 @@ const UserEditor = (props: IUserEditor) => {
     (state) => state.websiteConfiguration?.staticText?.profile
   );
   const roles: IRole[] = useAppSelector((state) => state.role.roles);
+  const user: IUser = useAppSelector((state) => state.user.user);
 
   //#region Local state
   const [userModalOpen, setUserModalOpen] = React.useState<boolean>(false);
@@ -68,6 +70,7 @@ const UserEditor = (props: IUserEditor) => {
       roleId: "",
       password: "",
       confirmPassword: "",
+      superRole: SuperRole.Normal,
     },
     validationSchema: Yup.object().shape({
       email: Yup.string()
@@ -96,6 +99,7 @@ const UserEditor = (props: IUserEditor) => {
           lastName: values.lastName,
           email: values.email,
           roleId: values.roleId,
+          superRole: values.superRole,
         };
 
         await updateUser(command);
@@ -106,6 +110,7 @@ const UserEditor = (props: IUserEditor) => {
           email: values.email,
           password: values.password,
           roleId: values.roleId,
+          superRole: values.superRole,
         };
 
         await createUser(command);
@@ -149,6 +154,7 @@ const UserEditor = (props: IUserEditor) => {
         password: props.user ? "********" : "",
         confirmPassword: props.user ? "********" : "",
         roleId: props.user?.role?._id,
+        superRole: props.user?.superRole || SuperRole.Normal,
       },
     });
   }, [props.user, roles]);
@@ -167,8 +173,23 @@ const UserEditor = (props: IUserEditor) => {
   };
   //#endregion Event listeners
 
+  //#region view
+  const superRolesOptions = React.useMemo(() => {
+    return [
+      {
+        label: getTranslatedText(staticText?.superAdmin),
+        value: SuperRole.SuperAdmin,
+      },
+      {
+        label: getTranslatedText(staticText?.normal),
+        value: SuperRole?.Normal,
+      },
+    ];
+  }, []);
   const loading =
     (props.user ? updateLoading : createLoading) || getRolesLoading;
+  //#endregion view
+
   return (
     <Modal handleClose={handleCloseModal} open={userModalOpen}>
       <form
@@ -214,6 +235,17 @@ const UserEditor = (props: IUserEditor) => {
             disabled: loading,
             type: "email",
           }}
+        />
+
+        <InputSelect
+          name="superRole"
+          disabled={user.superRole !== SuperRole.SuperAdmin}
+          label={getTranslatedText(staticText?.superRole)}
+          value={superRolesOptions.find(
+            (el) => el.value === formik.values.superRole
+          )}
+          options={superRolesOptions}
+          onChange={(option) => formik.setFieldValue("superRole", option.value)}
         />
 
         <InputSelect

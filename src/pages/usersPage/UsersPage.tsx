@@ -15,7 +15,6 @@ import { IUser, SuperRole, userSlice } from "../../store/slices/userSlice";
 
 import useStyles from "./usersPage.styles";
 import useSearchUsers from "../../hooks/apiHooks/useSearchUsers";
-import withChat from "../../hoc/withChat";
 import useHasPermission from "../../hooks/useHasPermission";
 import { Permission } from "../../store/slices/roleSlice";
 import PaginationResponse from "../../globalTypes/PaginationResponse";

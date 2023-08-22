@@ -3,7 +3,7 @@ import React from "react";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
-import { IUser, userSlice } from "../../store/slices/userSlice";
+import { IUser, SuperRole, userSlice } from "../../store/slices/userSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 import useGetTranslatedText from "../useGetTranslatedText";
 
@@ -13,6 +13,7 @@ export type UserUpdateCommand = {
   lastName: IUser["lastName"];
   email: IUser["email"];
   roleId?: string;
+  superRole: SuperRole;
 };
 
 const useUpdateUser = () => {
