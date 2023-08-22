@@ -14,6 +14,7 @@ import { IUser } from "../../../store/slices/userSlice";
 
 import useStyles from "./headerInboxConversation.styles";
 import { IoMdNotifications } from "react-icons/io";
+import shortenString from "../../../utils/shortenString";
 
 interface IHeaderInbox {
   message: IPopulatedMessage;
@@ -63,7 +64,9 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
         </span>
         <div
           className={styles.messageContent}
-          dangerouslySetInnerHTML={{ __html: props.message.message }}
+          dangerouslySetInnerHTML={{
+            __html: shortenString(props.message.message, 100),
+          }}
         ></div>
       </div>
 
