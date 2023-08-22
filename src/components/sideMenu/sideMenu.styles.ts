@@ -5,7 +5,7 @@ import { Theme } from "../../config/theme";
 const useStyles = createUseStyles((theme: Theme) => ({
   sideMenuContainer: {
     height: "100vh",
-    zIndex: 6,
+    zIndex: 11,
     transition: "all .2s ease-in-out",
     width: 0,
     boxSizing: "border-box",
@@ -27,19 +27,19 @@ const useStyles = createUseStyles((theme: Theme) => ({
     left: "100%",
     transition: "all .2s ease-in-out",
   },
-  openSideMenuContainer: {
-    extend: "sideMenuContainer",
-    borderRight: "1px solid " + theme.primary,
-    width: 300,
-  },
   sideMenuContent: {
     display: "flex",
     flexDirection: "column",
     width: "100%",
     position: "relative",
     height: "100vh",
-    zIndex: 6,
+    zIndex: 11,
     overflow: "auto",
+  },
+  openSideMenuContainer: {
+    extend: "sideMenuContainer",
+    borderRight: "1px solid " + theme.primary,
+    width: 300,
   },
   appName: {
     color: theme.primary,
