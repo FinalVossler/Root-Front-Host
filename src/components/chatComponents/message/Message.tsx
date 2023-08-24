@@ -7,6 +7,7 @@ import { useAppSelector } from "../../../store/hooks";
 import {
   Conversation,
   IMessage,
+  IReaction,
   ReactionEnum,
 } from "../../../store/slices/chatSlice";
 import { IUser } from "../../../store/slices/userSlice";
@@ -127,17 +128,7 @@ const Message: React.FunctionComponent<IMessageComponent> = (
           }
         >
           {props.message.reactions?.map((r, i) => (
-            <span key={i} className={styles.singleExistingReaction}>
-              {
-                {
-                  [ReactionEnum.Love]: "❤️",
-                  [ReactionEnum.Angry]: "😠",
-                  [ReactionEnum.Cry]: "😭",
-                  [ReactionEnum.Shock]: "😮",
-                  [ReactionEnum.Laugh]: "😂",
-                }[r.reaction]
-              }
-            </span>
+            <Reaction reaction={r} key={i} />
           ))}
         </div>
       </div>
@@ -181,5 +172,60 @@ const Message: React.FunctionComponent<IMessageComponent> = (
     </div>
   );
 };
+
+interface IReactionComponent {
+  reaction: IReaction;
+}
+
+const Reaction: React.FunctionComponent<IReactionComponent> = React.memo(
+  (props: IReactionComponent) => {
+    const theme: Theme = useAppSelector(
+      (state) => state.websiteConfiguration.theme
+    );
+
+    //#region local state
+    const [showReactorName, setShowReactorName] =
+      React.useState<boolean>(false);
+    //#endregion local state
+
+    const styles = useStyles({ theme });
+
+    return (
+      <span
+        className={styles.singleExistingReaction}
+        onMouseEnter={() => setShowReactorName(true)}
+        onMouseLeave={() => setShowReactorName(false)}
+      >
+        {
+          {
+            [ReactionEnum.Love]: "❤️",
+            [ReactionEnum.Angry]: "😠",
+            [ReactionEnum.Cry]: "😭",
+            [ReactionEnum.Shock]: "😮",
+            [ReactionEnum.Laugh]: "😂",
+          }[props.reaction.reaction]
+        }
+        {showReactorName && (
+          <span
+            className={styles.reactorName}
+            style={{
+              left: -(
+                ((
+                  props.reaction.user.firstName +
+                  " " +
+                  props.reaction.user.lastName
+                ).length *
+                  9) /
+                  2 || 0
+              ),
+            }}
+          >
+            {props.reaction.user.firstName + " " + props.reaction.user.lastName}
+          </span>
+        )}
+      </span>
+    );
+  }
+);
 
 export default React.memo(socketConnect(Message));

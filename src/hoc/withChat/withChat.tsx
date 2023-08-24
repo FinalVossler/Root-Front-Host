@@ -120,11 +120,6 @@ const withChat = (Component: React.FunctionComponent<any>) =>
                 socketTypingStateCommand.userId.toString() !==
                 user._id.toString()
               ) {
-                console.log(
-                  "socketTypingStateCommand.userId.toString()",
-                  socketTypingStateCommand.userId.toString()
-                );
-                console.log("user._id.toString()", user._id.toString());
                 dispatch(
                   chatSlice.actions.setConversationUserTypingState(
                     socketTypingStateCommand

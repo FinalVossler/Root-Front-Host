@@ -68,6 +68,18 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   singleExistingReaction: {
     margin: "0px 0px",
+    cursor: "pointer",
+    color: theme.primary,
+    zIndex: 15,
+  },
+  reactorName: {
+    position: "absolute",
+    top: -40,
+    textAlign: "center",
+    whiteSpace: "nowrap",
+    backgroundColor: theme.darkTextColor,
+    padding: 10,
+    borderRadius: 5,
   },
   messageDate: {
     backgroundColor: theme.primary,
