@@ -106,10 +106,25 @@ const useStyles = createUseStyles((theme: Theme) => ({
     padding: 2,
     borderRadius: 5,
     border: "1px solid " + theme.darkerPrimary,
+    "&:hover $readAt": {
+      display: "flex",
+    },
+  },
+  readAt: {
+    position: "absolute",
+    top: -40,
+    textAlign: "center",
+    whiteSpace: "nowrap",
+    backgroundColor: theme.darkTextColor,
+    padding: 10,
+    borderRadius: 5,
+    left: -10,
+    display: "none",
   },
   viewFileIcon: {
     cursor: "pointer",
   },
+  useReadProfilePicture: {},
   "@media (max-width: 800px)": {},
 }));
 

@@ -159,12 +159,24 @@ const Message: React.FunctionComponent<IMessageComponent> = (
                   u._id.toString() !== user._id.toString()
               )
               .map((u) => {
+                const readAt: string | undefined =
+                  u.lastReadMessageInConversation?.readAt
+                    ?.find((el) => el.indexOf(u._id.toString()) >= 0)
+                    ?.split("-")[1];
+
                 return (
-                  <UserProfilePicture
-                    key={u._id.toString()}
-                    size={SizeEnum.VerySmall}
-                    url={u.profilePicture?.url}
-                  />
+                  <div className={styles.useReadProfilePicture}>
+                    <UserProfilePicture
+                      key={u._id.toString()}
+                      size={SizeEnum.VerySmall}
+                      url={u.profilePicture?.url}
+                    />
+                    {readAt && (
+                      <span className={styles.readAt}>
+                        {getRelativeDate(moment(readAt))}
+                      </span>
+                    )}
+                  </div>
                 );
               })}
           </div>

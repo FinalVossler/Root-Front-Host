@@ -11,6 +11,7 @@ export interface IMessage {
   to: string[];
   message: string;
   read: string[];
+  readAt?: string[];
   files: IFile[];
   reactions?: IReaction[];
 
@@ -24,6 +25,7 @@ export interface IPopulatedMessage {
   to: IUser[];
   message: string;
   read: string[];
+  readAt: string[];
   files: IFile[];
   reactions?: IReaction[];
   totalUnreadMessages?: number;
