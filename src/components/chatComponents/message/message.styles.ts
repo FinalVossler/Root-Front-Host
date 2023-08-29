@@ -124,6 +124,14 @@ const useStyles = createUseStyles((theme: Theme) => ({
   viewFileIcon: {
     cursor: "pointer",
   },
+  senderName: {
+    color: theme.darkerPrimary,
+    fontSize: 15,
+    position: "absolute",
+    bottom: -18,
+    zIndex: 1,
+    left: 12,
+  },
   useReadProfilePicture: {},
   "@media (max-width: 800px)": {},
 }));

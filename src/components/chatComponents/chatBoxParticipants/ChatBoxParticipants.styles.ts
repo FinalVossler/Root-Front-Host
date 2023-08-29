@@ -5,8 +5,9 @@ import { Theme } from "../../../config/theme";
 const useStyles = createUseStyles((theme: Theme) => ({
   chatBoxParticipantsContainer: {
     display: "flex",
+    flexWrap: "wrap",
+    maxWidth: "80%",
     flexDirection: "row",
-    height: 40,
     alignItems: "center",
     backgroundColor: theme.primary,
     marginLeft: 20,
@@ -14,18 +15,26 @@ const useStyles = createUseStyles((theme: Theme) => ({
     alignSelf: "flex-start",
     marginTop: 10,
     boxShadow: theme.boxShadow,
+    cursor: "pointer",
+    overflow: "auto",
   },
   highlightedChatBoxParticipantsContainer: {
     extend: "chatBoxParticipantsContainer",
   },
   participantContainer: {
     display: "flex",
+    height: 40,
+
     alignItems: "center",
     padding: 5,
     paddingRight: 20,
     boxSizing: "border-box",
     alignSelf: "flex-start",
-    height: "100%",
+    borderRadius: 5,
+
+    "&:hover": {
+      backgroundColor: theme.darkerPrimary,
+    },
   },
   backArrow: {
     cursor: "pointer",

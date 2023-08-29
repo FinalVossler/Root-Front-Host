@@ -12,7 +12,11 @@ export type UsersSearchCommand = {
   paginationCommand: PaginationCommand;
 };
 
-const useSearchUsers = () => {
+const useSearchUsers = (
+  { setStoreAfterSearch }: { setStoreAfterSearch: boolean } = {
+    setStoreAfterSearch: true,
+  }
+) => {
   const [selectedUsers, setSelectedUsers] = React.useState<IUser[]>([]);
 
   const axios = useAuthorizedAxios();
@@ -36,7 +40,9 @@ const useSearchUsers = () => {
         })
         .then((res) => {
           resolve(res.data.data);
-          dispatch(userSlice.actions.setSearchedUsers(res.data.data));
+          if (setStoreAfterSearch) {
+            dispatch(userSlice.actions.setSearchedUsers(res.data.data));
+          }
         });
     });
 

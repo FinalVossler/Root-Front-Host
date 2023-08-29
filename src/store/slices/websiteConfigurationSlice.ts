@@ -378,6 +378,7 @@ export interface IWebsiteConfiguration {
       welcome: ITranslatedText[];
       welcomeText: ITranslatedText[];
       searchContacts: ITranslatedText[];
+      createGroup: ITranslatedText[];
     };
     files: {
       dropHere: ITranslatedText[];
@@ -1991,6 +1992,10 @@ const initialState: IWebsiteConfigurationState = {
       searchContacts: [
         { language: "en", text: "Search Contacts" },
         { language: "fr", text: "Rechercher des contacts" },
+      ],
+      createGroup: [
+        { language: "en", text: "Create group" },
+        { language: "fr", text: "Créer un groupe" },
       ],
     },
     files: {

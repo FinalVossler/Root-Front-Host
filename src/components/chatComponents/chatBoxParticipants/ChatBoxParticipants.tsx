@@ -13,6 +13,7 @@ import { IUser } from "../../../store/slices/userSlice";
 import useStyles from "./ChatBoxParticipants.styles";
 import { BoxType } from "../chatBox/ChatBox";
 import usegetContactsByIds from "../../../hooks/apiHooks/useGetContactsByIds";
+import ChatBoxParticipantsOptions from "../chatBoxParticipantsOptions";
 
 interface IChatBox {
   conversationId: string;
@@ -27,6 +28,8 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
     (state) => state.websiteConfiguration.theme
   );
   const [otherParticipants, setOtherParticipants] = React.useState<IUser[]>([]);
+  const [showOptions, setShowOptions] = React.useState<boolean>(false);
+
   //#endregion Store
 
   const styles = useStyles({ theme });
@@ -65,7 +68,11 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
 
       {otherParticipants.map((participant: IUser) => {
         return (
-          <div className={styles.participantContainer} key={participant._id}>
+          <div
+            onClick={() => setShowOptions(true)}
+            className={styles.participantContainer}
+            key={participant._id}
+          >
             {!participant.profilePicture?.url && (
               <CgProfile className={styles.avatar}></CgProfile>
             )}
@@ -81,6 +88,12 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
           </div>
         );
       })}
+
+      <ChatBoxParticipantsOptions
+        show={showOptions}
+        setShowOptions={setShowOptions}
+        conversationId={props.conversationId}
+      />
     </div>
   );
 };

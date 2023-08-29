@@ -65,7 +65,9 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
   });
   const { getLastConversationsLastMessages, loading } =
     useGetLastConversationsLastMessages();
-  const { handleSearchUsersPromise } = useSearchUsers();
+  const { handleSearchUsersPromise } = useSearchUsers({
+    setStoreAfterSearch: false,
+  });
   const { getUserTotalUnreadMessages } = useGetUserTotalUnreadMessages();
 
   React.useEffect(() => {

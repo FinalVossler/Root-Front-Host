@@ -44,14 +44,23 @@ const Message: React.FunctionComponent<IMessageComponent> = (
     return user._id === props.message.from;
   }, [user, props.message]);
 
-  const usersWithTheirLastReadMessageInConversation = React.useMemo(() => {
-    return props.conversation.usersWithLastReadMessageInConversation?.filter(
-      (u) =>
-        u.lastReadMessageInConversation?._id.toString() ===
-          props.message._id.toString() &&
-        u._id.toString() !== user._id.toString()
-    );
-  }, [props.conversation.usersWithLastReadMessageInConversation, user]);
+  const usersWithTheirLastReadMessageInConversationSetAsThisMessage =
+    React.useMemo(() => {
+      return props.conversation.usersWithLastReadMessageInConversation?.filter(
+        (u) =>
+          u.lastReadMessageInConversation?._id.toString() ===
+            props.message._id.toString() &&
+          u._id.toString() !== user._id.toString()
+      );
+    }, [props.conversation.usersWithLastReadMessageInConversation, user]);
+
+  const sender = React.useMemo(
+    () =>
+      props.conversation.usersWithLastReadMessageInConversation?.find(
+        (u) => u._id.toString() === props.message.from.toString()
+      ),
+    [props.message, props.conversation]
+  );
 
   return (
     <div
@@ -60,6 +69,10 @@ const Message: React.FunctionComponent<IMessageComponent> = (
           ? styles.messageAndOptionsContainer
           : styles.otherMessageAndOptionsContainer
       }
+      style={{
+        // If we are in a group conversation, and the message isn't our own, then we need a bigger margin bottom to leave space for message sender name
+        marginBottom: !ownMessage && props.message.to.length > 2 ? 20 : 10,
+      }}
       onMouseEnter={() => {
         setMouseOver(true);
       }}
@@ -67,6 +80,12 @@ const Message: React.FunctionComponent<IMessageComponent> = (
         setMouseOver(false);
       }}
     >
+      {props.message.to.length > 2 &&
+        sender?._id.toString() !== user._id.toString() && (
+          <span className={styles.senderName}>
+            {sender?.firstName + " " + sender?.lastName}
+          </span>
+        )}
       <div
         id={"message" + props.message._id}
         className={
@@ -147,9 +166,10 @@ const Message: React.FunctionComponent<IMessageComponent> = (
         </div>
       )}
 
-      {typeof usersWithTheirLastReadMessageInConversation?.length ===
+      {typeof usersWithTheirLastReadMessageInConversationSetAsThisMessage?.length ===
         "number" &&
-        usersWithTheirLastReadMessageInConversation?.length > 0 && (
+        usersWithTheirLastReadMessageInConversationSetAsThisMessage?.length >
+          0 && (
           <div className={styles.readByContainer}>
             {props.conversation.usersWithLastReadMessageInConversation
               ?.filter(
@@ -158,14 +178,14 @@ const Message: React.FunctionComponent<IMessageComponent> = (
                     props.message._id.toString() &&
                   u._id.toString() !== user._id.toString()
               )
-              .map((u) => {
+              .map((u, userIndex) => {
                 const readAt: string | undefined =
                   u.lastReadMessageInConversation?.readAt
                     ?.find((el) => el.indexOf(u._id.toString()) >= 0)
                     ?.split("-")[1];
 
                 return (
-                  <div className={styles.useReadProfilePicture}>
+                  <div className={styles.useReadProfilePicture} key={userIndex}>
                     <UserProfilePicture
                       key={u._id.toString()}
                       size={SizeEnum.VerySmall}
