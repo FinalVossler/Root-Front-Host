@@ -418,6 +418,17 @@ export const chatSlice = createSlice({
       if (conversation) {
         conversation.usersWithLastReadMessageInConversation =
           action.payload.usersWithTheirLastReadMessageInConversation;
+      } else {
+        const newConversation: Conversation = {
+          id: action.payload.conversationId,
+          messages: [],
+          totalUnreadMessages: 0,
+          typingUsers: [],
+          usersWithLastReadMessageInConversation:
+            action.payload.usersWithTheirLastReadMessageInConversation,
+        };
+
+        state.conversations.push(newConversation);
       }
     },
     updateConversationUserLastReadMessage: (

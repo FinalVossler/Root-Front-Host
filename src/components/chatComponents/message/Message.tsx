@@ -81,6 +81,7 @@ const Message: React.FunctionComponent<IMessageComponent> = (
       }}
     >
       {props.message.to.length > 2 &&
+        sender &&
         sender?._id.toString() !== user._id.toString() && (
           <span className={styles.senderName}>
             {sender?.firstName + " " + sender?.lastName}

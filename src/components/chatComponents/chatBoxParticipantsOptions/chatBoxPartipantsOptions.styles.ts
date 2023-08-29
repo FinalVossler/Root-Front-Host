@@ -13,8 +13,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     zIndex: 100,
 
     position: "absolute",
-    left: -335,
-    top: 20,
+    left: 0,
+    top: 55,
     borderRadius: 5,
     width: 300,
   },

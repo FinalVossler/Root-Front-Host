@@ -84,6 +84,7 @@ const ChatBoxParticipantsOptions: React.FunctionComponent<
         })
       );
     }
+    props.setShowOptions(false);
   };
   //#endregion event listeners
 
