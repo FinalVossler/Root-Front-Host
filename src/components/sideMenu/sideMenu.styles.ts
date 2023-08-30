@@ -5,7 +5,7 @@ import { Theme } from "../../config/theme";
 const useStyles = createUseStyles((theme: Theme) => ({
   sideMenuContainer: {
     height: "100vh",
-    zIndex: 9,
+    zIndex: 10,
     transition: "all .2s ease-in-out",
     width: 0,
     boxSizing: "border-box",

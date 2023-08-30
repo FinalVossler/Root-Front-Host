@@ -24,7 +24,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginBottom: "10px",
   },
   createRoleTitle: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
   },
   closeButton: {
     cursor: "pointer",

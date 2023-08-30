@@ -33,10 +33,10 @@ import {
   StaticPermission,
 } from "../../store/slices/roleSlice";
 import { IPage } from "../../store/slices/pageSlice";
-import { useNavigate } from "react-router-dom";
 import { BiTask } from "react-icons/bi";
 import IFile from "../../globalTypes/IFile";
 import useGetRoles, { RolesGetCommand } from "../../hooks/apiHooks/useGetRoles";
+import { websiteConfigurationSlice } from "../../store/slices/websiteConfigurationSlice";
 
 interface ISideMenu {}
 
@@ -70,16 +70,12 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
   const pages: IPage[] = useAppSelector((state) => state.page.pages);
   const roles: IRole[] = useAppSelector((state) => state.role.roles);
 
-  const [configurationModalOpen, setConfigurationModalOpen] =
-    React.useState<boolean>(false);
-
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
   const dispatch = useAppDispatch();
   const { getModels } = useGetModels();
   const isLoggedIn: boolean = useIsLoggedIn();
   const { hasPermission } = useHasPermission();
-  const navigate = useNavigate();
   const { getRoles, loading: getRolesLoading } = useGetRoles();
 
   React.useEffect(() => {
@@ -124,10 +120,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
       }
     >
       {hasPermission(Permission.EditConfiguration) && (
-        <WebsiteConfigurationEditor
-          setConfigurationModalOpen={setConfigurationModalOpen}
-          configurationModelOpen={configurationModalOpen}
-        />
+        <WebsiteConfigurationEditor />
       )}
 
       {isSideMenuOpen && (
@@ -151,7 +144,9 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
             <SideMenuOption
               Icon={BsFillGearFill}
               title={getTranslatedText(staticText?.configuration)}
-              onClick={() => setConfigurationModalOpen(!configurationModalOpen)}
+              onClick={() =>
+                dispatch(websiteConfigurationSlice.actions.setEditorOpen(true))
+              }
             />
           )}
           <SideMenuOption

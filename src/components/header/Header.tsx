@@ -17,7 +17,9 @@ import HeaderInbox from "../headerInbox";
 import HeaderNotifications from "../headerNotifications";
 
 import useStyles from "./header.styles";
-import IFile from "../../globalTypes/IFile";
+import useHasPermission from "../../hooks/useHasPermission";
+import WebsiteConfigurationEditor from "../editors/websiteConfigurationEditor";
+import { Permission } from "../../store/slices/roleSlice";
 
 interface IHeader {
   scrolledDown: boolean;
@@ -42,6 +44,9 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
   const userPreferenceLanguage: string = useAppSelector(
     (state) => state.userPreferences.language
   );
+  const websiteConfigurationEditorOpen = useAppSelector(
+    (state) => state.websiteConfiguration.ui.websiteConfigurationEditorOpen
+  );
 
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
@@ -58,6 +63,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
   const getTranslatedText = useGetTranslatedText();
   const location = useLocation();
   const navigate = useNavigate();
+  const { hasPermission } = useHasPermission();
 
   //#region Event listeners
   const handleLogout = () => {
@@ -79,7 +85,15 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
           ? styles.headerContainerScrolled
           : styles.headerContainer
       }
+      style={{
+        backgroundColor: websiteConfigurationEditorOpen
+          ? "transparent"
+          : theme.transparentBackground,
+      }}
     >
+      {hasPermission(Permission.EditConfiguration) && (
+        <WebsiteConfigurationEditor />
+      )}
       <div className={styles.left}>
         <NavLink to="/" className={styles.headerTitle}>
           {websiteTitle || "Socionics with Hamza Khalifa"}
