@@ -197,7 +197,10 @@ const Message: React.FunctionComponent<IMessageComponent> = (
                         className={styles.firstNameAndLastNameAndReadAt}
                         style={{
                           left:
-                            -((u.firstName + " " + u.lastName).length * 8) / 2,
+                            -(
+                              Math.max(u.firstName.length, u.lastName.length) *
+                              7
+                            ) / 2,
                         }}
                       >
                         <span>{u.firstName + " " + u.lastName}</span>
