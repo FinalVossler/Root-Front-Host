@@ -29,7 +29,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     cursor: "pointer",
     width: "100%",
     boxSizing: "border-box",
-    backgroundColor: theme.darkerPrimary,
+    backgroundColor: theme.lightTextColor,
     padding: 10,
     borderRadius: 5,
   },
