@@ -7,11 +7,12 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
     width: "90%",
-    backgroundColor: theme.primary,
+    backgroundColor: theme.darkerPrimary,
     padding: 20,
     borderRadius: 10,
     marginTop: 20,
     boxSizing: "border-box",
+    color: theme.lightTextColor,
   },
   postFiles: {
     display: "flex",
