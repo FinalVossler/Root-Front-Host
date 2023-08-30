@@ -52,6 +52,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginTop: 5,
     marginBottom: 5,
     color: theme.darkerPrimary,
+    display: "flex",
+    alignItems: "center",
   },
   addConversationButtonContainer: {
     display: "flex",
@@ -63,6 +65,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
   addConversationButton: {
     fontSize: 30,
     cursor: "pointer",
+  },
+  deleteNewGroupParticipantIcon: {
+    color: theme.errorColor,
+    marginLeft: 10,
   },
 }));
 

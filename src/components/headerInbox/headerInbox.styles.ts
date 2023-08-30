@@ -23,6 +23,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     boxShadow: theme.boxShadow,
     position: "absolute",
     top: 70,
+    minHeight: 200,
     right: -50,
     borderRadius: 5,
     width: 350,

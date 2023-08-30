@@ -1,5 +1,5 @@
 import React from "react";
-import { MdGroup } from "react-icons/md";
+import { MdDelete, MdGroup } from "react-icons/md";
 
 import useStyles from "./chatBoxPartipantsOptions.styles";
 import { Theme } from "../../../config/theme";
@@ -71,6 +71,12 @@ const ChatBoxParticipantsOptions: React.FunctionComponent<
       setNewGroupParticipants([...newGroupParticipants, u]);
     }
   };
+  const handleDeleteNewGroupParticipant = (u: IUser) => {
+    const newNewGroupParticipants = newGroupParticipants.filter(
+      (p) => p._id.toString() !== u._id.toString()
+    );
+    setNewGroupParticipants(newNewGroupParticipants);
+  };
   const handleAddConversation = () => {
     const newConversationId: string = getConversationId(
       newGroupParticipants
@@ -125,6 +131,10 @@ const ChatBoxParticipantsOptions: React.FunctionComponent<
           {newGroupParticipants.map((participant, i) => (
             <span className={styles.newGroupParticipant} key={i}>
               {participant.firstName + " " + participant.lastName}
+              <MdDelete
+                onClick={() => handleDeleteNewGroupParticipant(participant)}
+                className={styles.deleteNewGroupParticipantIcon}
+              />
             </span>
           ))}
 
