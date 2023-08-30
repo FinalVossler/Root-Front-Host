@@ -193,8 +193,15 @@ const Message: React.FunctionComponent<IMessageComponent> = (
                       url={u.profilePicture?.url}
                     />
                     {readAt && (
-                      <span className={styles.readAt}>
-                        {getRelativeDate(moment(readAt))}
+                      <span
+                        className={styles.firstNameAndLastNameAndReadAt}
+                        style={{
+                          left:
+                            -((u.firstName + " " + u.lastName).length * 8) / 2,
+                        }}
+                      >
+                        <span>{u.firstName + " " + u.lastName}</span>
+                        <span>{getRelativeDate(moment(readAt))}</span>
                       </span>
                     )}
                   </div>

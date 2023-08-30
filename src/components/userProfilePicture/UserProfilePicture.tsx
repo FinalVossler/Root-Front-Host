@@ -69,7 +69,7 @@ const UserProfilePicture = (props: IUserProfilePicture) => {
               [SizeEnum.VerySmall]: 10,
             }[props.size]
           }
-          color={theme.primary}
+          className={styles.defaultAvatar}
         />
       )}
     </div>

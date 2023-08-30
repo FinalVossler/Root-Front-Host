@@ -106,17 +106,22 @@ const useStyles = createUseStyles((theme: Theme) => ({
     padding: 2,
     borderRadius: 5,
     border: "1px solid " + theme.darkerPrimary,
-    "&:hover $readAt": {
+  },
+  useReadProfilePicture: {
+    position: "relative",
+    "&:hover $firstNameAndLastNameAndReadAt": {
       display: "flex",
     },
   },
-  readAt: {
+  firstNameAndLastNameAndReadAt: {
+    flexDirection: "column",
+    alignItems: "center",
     position: "absolute",
-    top: -40,
+    top: -47,
     textAlign: "center",
     whiteSpace: "nowrap",
     backgroundColor: theme.darkTextColor,
-    padding: 10,
+    padding: 5,
     borderRadius: 5,
     left: -10,
     display: "none",
@@ -132,7 +137,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     zIndex: 1,
     left: 12,
   },
-  useReadProfilePicture: {},
   "@media (max-width: 800px)": {},
 }));
 

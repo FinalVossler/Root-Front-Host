@@ -26,6 +26,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     "&:hover": {
       backgroundColor: theme.primary,
       borderColor: theme.primary,
+      color: theme.lightTextColor,
+    },
+
+    "&:hover $defaultAvatar": {
+      color: theme.lighterPrimary,
     },
   },
   veryBig: {
@@ -51,6 +56,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: 15,
     minWidth: 9,
     borderWidth: 1,
+  },
+  defaultAvatar: {
+    color: theme.primary,
   },
 }));
 
