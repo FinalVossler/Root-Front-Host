@@ -26,7 +26,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     overflow: "hidden",
   },
   userFullName: {
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     fontSize: 25,
     marginLeft: 20,
   },
