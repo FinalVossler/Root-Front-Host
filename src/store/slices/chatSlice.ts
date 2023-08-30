@@ -44,6 +44,7 @@ export const populatedMessageToMessage = (
     from: populated.from._id,
     message: populated.message,
     read: populated.read,
+    readAt: populated.readAt,
     to: populated.to.map((el) => el._id.toString()),
     updatedAt: populated.updatedAt,
     reactions: populated.reactions,
