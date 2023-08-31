@@ -40,7 +40,7 @@ const useUpdateEntity = () => {
             })
           );
           resolve(entity);
-          toast.success("");
+          toast.success("👌");
         })
         .finally(() => {
           setLoading(false);

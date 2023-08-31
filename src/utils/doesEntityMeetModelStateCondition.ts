@@ -193,7 +193,7 @@ const doesEntityMeetModelStateCondition = ({
             (el) => el.field._id.toString() === modelField.field._id.toString()
           )?.files;
 
-          if (files?.length === 0) {
+          if (!files || files?.length === 0) {
             meetsModelStateCondition = false;
             return;
           }
@@ -201,7 +201,7 @@ const doesEntityMeetModelStateCondition = ({
           const files: IFile[] | undefined = entityFieldValuesFromForm?.find(
             (el) => el.fieldId === modelField.field._id.toString()
           )?.files;
-          if (files?.length === 0) {
+          if (!files || files?.length === 0) {
             meetsModelStateCondition = false;
             return;
           }
