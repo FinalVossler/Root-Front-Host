@@ -754,11 +754,12 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
                     >
                       <MdDelete
                         onClick={() => {
-                          formik.setFieldValue("assignedUsers", [
+                          formik.setFieldValue(
+                            "assignedUsers",
                             formik.values.assignedUsers.filter(
                               (user) => user._id !== user._id
-                            ),
-                          ]);
+                            )
+                          );
                         }}
                         className={styles.deleteAssignedUserIcon}
                       />
