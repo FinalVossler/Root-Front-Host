@@ -1,6 +1,5 @@
 import React from "react";
 import Loading from "react-loading";
-import { MdNotifications } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { TbMoodEmpty } from "react-icons/tb";
 

@@ -200,7 +200,7 @@ const doesEntityMeetModelStateCondition = ({
         } else if (entityFieldValuesFromForm) {
           const files: IFile[] | undefined = entityFieldValuesFromForm?.find(
             (el) => el.fieldId === modelField.field._id.toString()
-          )?.files;
+          )?.selectedExistingFiles;
           if (!files || files?.length === 0) {
             meetsModelStateCondition = false;
             return;
