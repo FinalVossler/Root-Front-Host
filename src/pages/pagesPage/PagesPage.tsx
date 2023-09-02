@@ -12,7 +12,6 @@ import useStyles from "./pagesPage.styles";
 import ConfirmationModal from "../../components/confirmationModal";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
-import withWrapper from "../../hoc/wrapper";
 import useHasPermission from "../../hooks/useHasPermission";
 import { Permission } from "../../store/slices/roleSlice";
 
@@ -104,7 +103,7 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
               )}
 
               <a
-                href={"/" + page.slug}
+                href={"/dynamicPage/" + page.slug}
                 target="_blank"
                 rel="noreferrer"
                 className={styles.goIcon}
@@ -127,7 +126,4 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
   );
 };
 
-export default withWrapper(React.memo(PagesPage), {
-  withFooter: false,
-  withSideMenu: true,
-});
+export default React.memo(PagesPage);

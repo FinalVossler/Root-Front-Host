@@ -4,8 +4,6 @@ import ModelEditor from "../../components/editors/modelEditor";
 import Elements from "../../components/elements";
 import { Theme } from "../../config/theme";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
-import withChat from "../../hoc/withChat";
-import withWrapper from "../../hoc/wrapper";
 import useDeleteModels from "../../hooks/apiHooks/useDeleteModels";
 import useGetModels from "../../hooks/apiHooks/useGetModels";
 import useSearchModels from "../../hooks/apiHooks/useSearchModels";
@@ -111,7 +109,4 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
   );
 };
 
-export default withWrapper(React.memo(ModelsPage), {
-  withFooter: false,
-  withSideMenu: true,
-});
+export default React.memo(ModelsPage);

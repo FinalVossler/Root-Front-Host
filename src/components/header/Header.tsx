@@ -139,7 +139,10 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
             if (getTranslatedText(page.title) === "") return null;
             return (
               <li key={page._id} className={styles.option}>
-                <NavLink className={styles.optionATag} to={"/" + page.slug}>
+                <NavLink
+                  className={styles.optionATag}
+                  to={"/dynamicPage/" + page.slug}
+                >
                   {getTranslatedText(page.title)}
                 </NavLink>
               </li>

@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import Loading from "react-loading";
 
 import { Theme } from "../../config/theme";
-import withWrapper from "../../hoc/wrapper";
 import useGetEntity from "../../hooks/apiHooks/useGetEntity";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
@@ -65,7 +64,4 @@ const SingleEntityPage: React.FunctionComponent<ISingleEntityPage> = (
   );
 };
 
-export default withWrapper(React.memo(SingleEntityPage), {
-  withFooter: false,
-  withSideMenu: true,
-});
+export default React.memo(SingleEntityPage);

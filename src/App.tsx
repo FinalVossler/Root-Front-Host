@@ -1,11 +1,16 @@
 import React from "react";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  RouterProvider,
+  Routes,
+  createBrowserRouter,
+} from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import HomePage from "./pages/homePage";
-import ProfilePage from "./pages/profilePage";
-import ChatPage from "./pages/chatPage";
 import LoginOrRegistrationPage from "./pages/loginOrRegistrationPage";
 
 import useGetAndSetUser from "./hooks/apiHooks/useGetAndSetUser";
@@ -16,17 +21,9 @@ import { useAppSelector } from "./store/hooks";
 import DynamicPage from "./pages/dynamicPage";
 import useGetPages from "./hooks/apiHooks/useGetPages";
 import useGetWebwiteConfiguration from "./hooks/apiHooks/useGetWebsiteConfiguration";
-import FieldsPage from "./pages/fieldsPage";
-import ModelsPage from "./pages/modelsPage";
-import EntitiesPage from "./pages/entitiesPage";
-import PagesPage from "./pages/pagesPage";
 import ForgotPasswordChangePasswordPage from "./pages/forgotPasswordChangePassworwPage";
-import UsersPage from "./pages/usersPage";
-import RolesPage from "./pages/rolesPage";
-import SingleEntityPage from "./pages/singleEntityPage";
-import TasksPage from "./pages/tasksPage";
-import MicroFrontendsPage from "./pages/microFrontendsPage/MicroFrontendsPage";
-import MicroFrontendPage from "./pages/microFrontendPage";
+
+import AuthenticatedApp from "./AuthenticatedApp";
 import withChat from "./hoc/withChat";
 
 import "./index.css";
@@ -57,73 +54,14 @@ function App() {
       element: <HomePage />,
     },
     {
-      path: "/profile/:userId",
-      element: <ProfilePage />,
-    },
-    {
-      path: "/profile",
-      element: <ProfilePage />,
-    },
-    {
       path: "/auth",
       element: <LoginOrRegistrationPage />,
-    },
-    {
-      path: "/chat",
-      element: <ChatPage />,
-    },
-    {
-      path: "/fields",
-      element: <FieldsPage />,
-    },
-    {
-      path: "/models",
-      element: <ModelsPage />,
-    },
-    {
-      path: "/entities/:modelId",
-      element: <EntitiesPage />,
-    },
-    {
-      path: "/entities/:modelId/:entityId",
-      element: <SingleEntityPage />,
-    },
-    {
-      path: "/pages",
-      element: <PagesPage />,
     },
     {
       path: "/changePassword/:token",
       element: <ForgotPasswordChangePasswordPage />,
     },
-    {
-      path: "/users",
-      element: <UsersPage />,
-    },
-    {
-      path: "/users/:roleId",
-      element: <UsersPage />,
-    },
-    {
-      path: "/roles/",
-      element: <RolesPage />,
-    },
-    {
-      path: "/tasks/",
-      element: <TasksPage />,
-    },
-    {
-      path: "/microFrontend/:microFrontendId/:entityId/:componentName",
-      element: <MicroFrontendPage />,
-    },
-    {
-      path: "/microFrontend/:microFrontendId/:componentName",
-      element: <MicroFrontendPage />,
-    },
-    {
-      path: "/microFrontends/",
-      element: <MicroFrontendsPage />,
-    },
+    { path: "/", element: <AuthenticatedApp /> },
   ]);
 
   if (!finishedFetchingPages || !finishedFetchingWebsiteConfiguration)
@@ -132,7 +70,21 @@ function App() {
   return (
     <React.Fragment>
       <ToastContainer hideProgressBar position="bottom-right" />
-      <RouterProvider router={router}></RouterProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />}></Route>
+          <Route
+            path="/dynamicPage/:pageSlug"
+            element={<DynamicPage />}
+          ></Route>
+          <Route path="/auth" element={<LoginOrRegistrationPage />}></Route>
+          <Route
+            path="/changePassword/:token"
+            element={<ForgotPasswordChangePasswordPage />}
+          ></Route>
+          <Route path="*" element={<AuthenticatedApp />}></Route>
+        </Routes>
+      </BrowserRouter>
     </React.Fragment>
   );
 }

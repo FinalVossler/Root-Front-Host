@@ -5,7 +5,6 @@ import { Link, useParams } from "react-router-dom";
 import Elements from "../../components/elements";
 import UserEditor from "../../components/editors/userEditor";
 import { Theme } from "../../config/theme";
-import withWrapper from "../../hoc/wrapper";
 import useDeleteUsers from "../../hooks/apiHooks/useDeleteUsers";
 import useGetUsers from "../../hooks/apiHooks/useGetUsers";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
@@ -137,7 +136,4 @@ const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
   );
 };
 
-export default withWrapper(React.memo(UsersPage), {
-  withFooter: false,
-  withSideMenu: true,
-});
+export default React.memo(UsersPage);

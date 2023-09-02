@@ -4,7 +4,6 @@ import { ErrorBoundary } from "react-error-boundary";
 import { Theme } from "../../config/theme";
 import withProtection from "../../hoc/protection";
 import { useAppSelector } from "../../store/hooks";
-import withWrapper from "../../hoc/wrapper";
 import withChatHoc from "../../hoc/withChat";
 import Loading from "react-loading";
 
@@ -80,10 +79,4 @@ const MicroFrontendPage: React.FunctionComponent<IMicroFrontendPage> = (
   );
 };
 
-export default withWrapper(
-  withProtection(withChatHoc(React.memo(MicroFrontendPage))),
-  {
-    withFooter: false,
-    withSideMenu: true,
-  }
-);
+export default withProtection(withChatHoc(React.memo(MicroFrontendPage)));

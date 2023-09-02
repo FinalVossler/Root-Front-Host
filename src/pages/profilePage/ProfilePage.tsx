@@ -5,8 +5,6 @@ import ProfileForm from "../../components/profileForm";
 
 import { Theme } from "../../config/theme";
 
-import withWrapper from "../../hoc/wrapper";
-
 import useStyles from "./profilePage.styles";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import PostEditor from "../../components/editors/postEditor";
@@ -17,7 +15,6 @@ import { useParams } from "react-router-dom";
 import useGetUser from "../../hooks/apiHooks/useGetUser";
 import UserProfilePicture from "../../components/userProfilePicture";
 import { SizeEnum } from "../../components/userProfilePicture/UserProfilePicture";
-import withChat from "../../hoc/withChat";
 
 interface IProfilePage {}
 const ProfilePage: React.FunctionComponent<IProfilePage> = (
@@ -94,6 +91,4 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
   );
 };
 
-export default withWrapper(React.memo(ProfilePage), {
-  withSideMenu: true,
-});
+export default React.memo(ProfilePage);

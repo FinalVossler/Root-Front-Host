@@ -1,7 +1,6 @@
 import React from "react";
 
 import { Theme } from "../../config/theme";
-import withWrapper from "../../hoc/wrapper";
 import { useAppSelector } from "../../store/hooks";
 import { IModel } from "../../store/slices/modelSlice";
 import TasksByModel from "./taskByModel";
@@ -27,7 +26,4 @@ const TasksPage: React.FunctionComponent<ITasksPage> = (props: ITasksPage) => {
   );
 };
 
-export default withWrapper(React.memo(TasksPage), {
-  withFooter: false,
-  withSideMenu: true,
-});
+export default React.memo(TasksPage);

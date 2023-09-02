@@ -136,7 +136,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
                 key={page._id}
                 Icon={RiPagesLine}
                 title={getTranslatedText(page.title)}
-                link={"/" + page.slug}
+                link={"/dynamicPage/" + page.slug}
               />
             );
           })}

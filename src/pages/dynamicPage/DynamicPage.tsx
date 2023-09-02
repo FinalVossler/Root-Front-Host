@@ -8,22 +8,29 @@ import { useAppSelector } from "../../store/hooks";
 import { IPage } from "../../store/slices/pageSlice";
 
 import useStyles from "./dynamicPage.styles";
+import { useParams } from "react-router-dom";
 
-interface IDynamicPage {
-  page: IPage;
-}
+interface IDynamicPage {}
 
 const DynamicPage: React.FunctionComponent<IDynamicPage> = (
   props: IDynamicPage
 ) => {
+  const { pageSlug } = useParams();
+
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
+  const page: IPage | undefined = useAppSelector(
+    (state) => state.page.pages
+  ).find((page) => page.slug === pageSlug);
 
   const styles = useStyles({ theme });
+
+  if (!page) return null;
+
   return (
     <div className={styles.dynamicPageContainer}>
-      {props.page.posts.map((post, index) => {
+      {page.posts.map((post, index) => {
         return <Post key={index} post={post} />;
       })}
     </div>

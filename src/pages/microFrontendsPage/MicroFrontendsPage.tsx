@@ -4,14 +4,12 @@ import MicroFrontendEditor from "../../components/editors/microFrontendEditor";
 import Elements from "../../components/elements";
 import { Theme } from "../../config/theme";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
-import withWrapper from "../../hoc/wrapper";
 import useGetMicroFrontends from "../../hooks/apiHooks/useGetMicroFrontends";
 import useSearchMicroFrontends from "../../hooks/apiHooks/useSearchMicroFrontends";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useHasPermission from "../../hooks/useHasPermission";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import ModuleLoader from "../../moduleLoader/ModuleLoader";
 import {
   microFrontendSlice,
   IMicroFrontend,
@@ -21,7 +19,6 @@ import { Permission } from "../../store/slices/roleSlice";
 import useStyles from "./microFrontendsPage.styles";
 import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 import useDeleteMicroFrontends from "../../hooks/apiHooks/useDeleteMicroFrontends";
-import { ErrorBoundary } from "react-error-boundary";
 
 interface IMicroFrontendsPage {}
 
@@ -127,56 +124,8 @@ const MicroFrontendsPage: React.FunctionComponent<IMicroFrontendsPage> = (
         setSearchResult={handleSetSearchResult}
         elementsLocalStorageConfName={LocalStorageConfNameEnum.MICRO_FRONTENDS}
       />
-
-      {/* {microFrontends.length > 0 && microFrontends[0].components.length > 0 && (
-        <ErrorBoundary fallback={<div>Loading</div>}>
-          <React.Suspense fallback={"Loading . . . "}>
-            {microFrontends.length > 0 && (
-              <ModuleLoader
-                url={microFrontends[0].remoteEntry}
-                scope={microFrontends[0].name}
-                module={"./" + microFrontends[0].components[0].name}
-                theme={{
-                  borderColor: theme.borderColor,
-                  cancelButtonColor: theme.lightTextColor,
-                  cancelButtonTextColor: theme.darkTextColor,
-                  confirmButtonLeftColor: theme.darkerPrimary,
-                  confirmButtonRightColor: theme.primary,
-                  confirmButtonTextColor: theme.lightTextColor,
-                  dotColor: "#3BCBB2",
-                  downloadReportButtonColor: "#E59010",
-                  downloadReportTextColor: theme.lightTextColor,
-                  textColor: theme.darkTextColor,
-                  titleTextColor: theme.darkTextColor,
-                  buttonBoxShadow: theme.boxShadow,
-                }}
-                cancelButtonText="Back"
-                confirmButtonText="Confirm"
-                title="PESTEL Analysis"
-                data={[
-                  { score: 8, text: "Political" },
-                  { score: 4, text: "Economic" },
-                  { score: 10, text: "Social" },
-                  { score: 6, text: "Technological" },
-                  { score: 9, text: "Environmental" },
-                  { score: 2, text: "Legal" },
-                ]}
-                downloadReportButtonText="Download Report"
-                maxScore={10}
-                onCancel={() => {}}
-                onConfirm={() => {}}
-                productText="Product Name: Product A"
-                countryText="Country: France"
-              />
-            )}
-          </React.Suspense>
-        </ErrorBoundary>
-      )} */}
     </div>
   );
 };
 
-export default withWrapper(React.memo(MicroFrontendsPage), {
-  withFooter: false,
-  withSideMenu: true,
-});
+export default React.memo(MicroFrontendsPage);

@@ -7,7 +7,6 @@ import { Theme } from "../../config/theme";
 import withProtection from "../../hoc/protection";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { IUser } from "../../store/slices/userSlice";
-import withWrapper from "../../hoc/wrapper";
 import withChatHoc from "../../hoc/withChat";
 
 import useStyles from "./chatPage.styles";
@@ -75,7 +74,4 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
   );
 };
 
-export default withWrapper(withProtection(withChatHoc(React.memo(Chat))), {
-  withFooter: false,
-  withSideMenu: true,
-});
+export default withProtection(withChatHoc(React.memo(Chat)));

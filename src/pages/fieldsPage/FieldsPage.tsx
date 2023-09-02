@@ -4,7 +4,6 @@ import FieldEditor from "../../components/editors/fieldEditor";
 import Elements from "../../components/elements";
 import { Theme } from "../../config/theme";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
-import withWrapper from "../../hoc/wrapper";
 import useCopyFields from "../../hooks/apiHooks/useCopyFields";
 import useDeleteFields from "../../hooks/apiHooks/useDeleteFields";
 import useGetFields from "../../hooks/apiHooks/useGetFields";
@@ -133,7 +132,4 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
   );
 };
 
-export default withWrapper(React.memo(FieldsPage), {
-  withFooter: false,
-  withSideMenu: true,
-});
+export default React.memo(FieldsPage);

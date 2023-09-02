@@ -2,7 +2,6 @@ import React from "react";
 import { useParams } from "react-router-dom";
 
 import { Theme } from "../../config/theme";
-import withWrapper from "../../hoc/wrapper";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
 import EntitiesList from "./entitiesList";
@@ -36,7 +35,4 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
   );
 };
 
-export default withWrapper(React.memo(EntitiesPage), {
-  withFooter: false,
-  withSideMenu: true,
-});
+export default React.memo(EntitiesPage);
