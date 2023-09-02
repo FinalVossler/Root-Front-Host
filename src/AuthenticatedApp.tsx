@@ -19,6 +19,7 @@ import MicroFrontendPage from "./pages/microFrontendPage";
 
 import withWrapper from "./hoc/wrapper";
 import useIsLoggedIn from "./hooks/useIsLoggedIn";
+import withChat from "./hoc/withChat";
 
 function AuthenticatedApp() {
   useNotifications();
@@ -61,7 +62,9 @@ function AuthenticatedApp() {
   );
 }
 
-export default withWrapper(React.memo(AuthenticatedApp), {
-  withFooter: false,
-  withSideMenu: true,
-});
+export default withChat(
+  withWrapper(React.memo(AuthenticatedApp), {
+    withFooter: false,
+    withSideMenu: true,
+  })
+);

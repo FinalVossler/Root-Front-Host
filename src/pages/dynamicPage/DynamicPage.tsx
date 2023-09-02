@@ -9,6 +9,7 @@ import { IPage } from "../../store/slices/pageSlice";
 
 import useStyles from "./dynamicPage.styles";
 import { useParams } from "react-router-dom";
+import withChat from "../../hoc/withChat";
 
 interface IDynamicPage {}
 
@@ -37,7 +38,9 @@ const DynamicPage: React.FunctionComponent<IDynamicPage> = (
   );
 };
 
-export default withWrapper(React.memo(DynamicPage), {
-  withFooter: false,
-  withSideMenu: true,
-});
+export default withChat(
+  withWrapper(React.memo(DynamicPage), {
+    withFooter: false,
+    withSideMenu: true,
+  })
+);

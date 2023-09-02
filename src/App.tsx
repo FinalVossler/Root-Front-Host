@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  RouterProvider,
-  Routes,
-  createBrowserRouter,
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -16,21 +9,16 @@ import LoginOrRegistrationPage from "./pages/loginOrRegistrationPage";
 import useGetAndSetUser from "./hooks/apiHooks/useGetAndSetUser";
 
 import useNotifications from "./hooks/useNotifications";
-import { IPage } from "./store/slices/pageSlice";
-import { useAppSelector } from "./store/hooks";
 import DynamicPage from "./pages/dynamicPage";
 import useGetPages from "./hooks/apiHooks/useGetPages";
 import useGetWebwiteConfiguration from "./hooks/apiHooks/useGetWebsiteConfiguration";
 import ForgotPasswordChangePasswordPage from "./pages/forgotPasswordChangePassworwPage";
 
 import AuthenticatedApp from "./AuthenticatedApp";
-import withChat from "./hoc/withChat";
 
 import "./index.css";
 
 function App() {
-  const pages: IPage[] = useAppSelector((state) => state.page.pages);
-
   useGetAndSetUser();
   useNotifications();
   const { getPages, finished: finishedFetchingPages } = useGetPages();
@@ -43,26 +31,6 @@ function App() {
     getPages();
     getWebsiteConfiguration();
   }, []);
-
-  const router = createBrowserRouter([
-    ...pages.map((page) => ({
-      path: "/" + page.slug,
-      element: <DynamicPage page={page} />,
-    })),
-    {
-      path: "/",
-      element: <HomePage />,
-    },
-    {
-      path: "/auth",
-      element: <LoginOrRegistrationPage />,
-    },
-    {
-      path: "/changePassword/:token",
-      element: <ForgotPasswordChangePasswordPage />,
-    },
-    { path: "/", element: <AuthenticatedApp /> },
-  ]);
 
   if (!finishedFetchingPages || !finishedFetchingWebsiteConfiguration)
     return null;
@@ -89,4 +57,4 @@ function App() {
   );
 }
 
-export default withChat(App);
+export default App;

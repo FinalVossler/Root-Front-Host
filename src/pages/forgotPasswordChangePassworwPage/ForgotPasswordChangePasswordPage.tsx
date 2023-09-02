@@ -23,87 +23,89 @@ interface IForgotPasswordChangePasswordForm {
 }
 
 interface IForgotPasswordChangePasswordPage {}
-const ForgotPasswordChangePasswordPage: React.FunctionComponent<IForgotPasswordChangePasswordPage> =
-  (props: IForgotPasswordChangePasswordPage) => {
-    const theme: Theme = useAppSelector(
-      (state) => state.websiteConfiguration.theme
-    );
-    const staticText = useAppSelector(
-      (state) => state.websiteConfiguration.staticText?.changePassword
-    );
+const ForgotPasswordChangePasswordPage: React.FunctionComponent<
+  IForgotPasswordChangePasswordPage
+> = (props: IForgotPasswordChangePasswordPage) => {
+  const theme: Theme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.changePassword
+  );
 
-    const { token } = useParams();
-    const styles = useStyles({ theme });
-    const getTranslatedText = useGetTranslatedText();
-    const { loading, forgotPasswordChangePassword } =
-      useForgotPasswordChangePassword();
+  const { token: paramsToken } = useParams();
+  const token = decodeURIComponent(paramsToken?.replaceAll("---", ".") || "");
+  const styles = useStyles({ theme });
+  const getTranslatedText = useGetTranslatedText();
+  const { loading, forgotPasswordChangePassword } =
+    useForgotPasswordChangePassword();
 
-    const formik: FormikProps<IForgotPasswordChangePasswordForm> =
-      useFormik<IForgotPasswordChangePasswordForm>({
-        initialValues: {
-          newPassword: "",
-          confirmNewPassword: "",
-        },
-        validationSchema: Yup.object().shape({
-          confirmNewPassword: Yup.string()
-            .required(getTranslatedText(staticText?.required))
-            .test(
-              "testMatchingPasswords",
-              getTranslatedText(staticText?.passwordsMustMatch),
-              (newPassword) => newPassword === formik.values.newPassword
-            ),
-          newPassword: Yup.string().required(
-            getTranslatedText(staticText?.required)
+  const formik: FormikProps<IForgotPasswordChangePasswordForm> =
+    useFormik<IForgotPasswordChangePasswordForm>({
+      initialValues: {
+        newPassword: "",
+        confirmNewPassword: "",
+      },
+      validationSchema: Yup.object().shape({
+        confirmNewPassword: Yup.string()
+          .required(getTranslatedText(staticText?.required))
+          .test(
+            "testMatchingPasswords",
+            getTranslatedText(staticText?.passwordsMustMatch),
+            (newPassword) => newPassword === formik.values.newPassword
           ),
-        }),
-        onSubmit: async (values: IForgotPasswordChangePasswordForm) => {
-          const command: UserForgotPasswordChangePasswordCommand = {
-            newPassword: values.newPassword,
-            token: token || "",
-          };
+        newPassword: Yup.string().required(
+          getTranslatedText(staticText?.required)
+        ),
+      }),
+      onSubmit: async (values: IForgotPasswordChangePasswordForm) => {
+        const command: UserForgotPasswordChangePasswordCommand = {
+          newPassword: values.newPassword,
+          token: token || "",
+        };
 
-          await forgotPasswordChangePassword(command);
-        },
-      });
+        await forgotPasswordChangePassword(command);
+      },
+    });
 
-    return (
-      <div className={styles.forgotPasswordChangePasswordPageContainer}>
-        <form
-          className={styles.changePasswordForm}
-          onSubmit={formik.handleSubmit}
-        >
-          <h2 className={styles.changePasswordTitle}>
-            {getTranslatedText(staticText?.changePasswordTitle)}:
-          </h2>
+  return (
+    <div className={styles.forgotPasswordChangePasswordPageContainer}>
+      <form
+        className={styles.changePasswordForm}
+        onSubmit={formik.handleSubmit}
+      >
+        <h2 className={styles.changePasswordTitle}>
+          {getTranslatedText(staticText?.changePasswordTitle)}:
+        </h2>
 
-          <Input
-            Icon={MdPassword}
-            formik={formik}
-            name="newPassword"
-            inputProps={{
-              type: "password",
-              disabled: loading,
-              placeholder: getTranslatedText(staticText?.newPassword),
-            }}
-          />
-          <Input
-            Icon={MdPassword}
-            formik={formik}
-            name="confirmNewPassword"
-            inputProps={{
-              type: "password",
-              disabled: loading,
-              placeholder: getTranslatedText(staticText?.confirmPassword),
-            }}
-          />
+        <Input
+          Icon={MdPassword}
+          formik={formik}
+          name="newPassword"
+          inputProps={{
+            type: "password",
+            disabled: loading,
+            placeholder: getTranslatedText(staticText?.newPassword),
+          }}
+        />
+        <Input
+          Icon={MdPassword}
+          formik={formik}
+          name="confirmNewPassword"
+          inputProps={{
+            type: "password",
+            disabled: loading,
+            placeholder: getTranslatedText(staticText?.confirmPassword),
+          }}
+        />
 
-          <Button disabled={loading}>
-            {getTranslatedText(staticText?.send)}
-          </Button>
-        </form>
-      </div>
-    );
-  };
+        <Button disabled={loading}>
+          {getTranslatedText(staticText?.send)}
+        </Button>
+      </form>
+    </div>
+  );
+};
 
 export default withWrapper(React.memo(ForgotPasswordChangePasswordPage), {
   withFooter: true,

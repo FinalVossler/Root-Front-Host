@@ -16,6 +16,7 @@ import Person from "../../components/postsComponents/Person";
 import Video from "../../components/postsComponents/video";
 
 import useStyles from "./homePage.styles";
+import withChat from "../../hoc/withChat";
 
 interface IHome {}
 const Home: React.FunctionComponent<IHome> = (props: IHome) => {
@@ -102,7 +103,9 @@ const Home: React.FunctionComponent<IHome> = (props: IHome) => {
   );
 };
 
-export default withWrapper(React.memo(Home), {
-  withFooter: true,
-  withSideMenu: true,
-});
+export default withChat(
+  withWrapper(React.memo(Home), {
+    withFooter: true,
+    withSideMenu: true,
+  })
+);

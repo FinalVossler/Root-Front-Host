@@ -6,7 +6,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
   forgotPasswordChangePasswordPageContainer: {
     display: "flex",
     width: "100%",
+    flex: 1,
     flexDirection: "column",
+    justifyContent: "center",
     alignItems: "center",
     paddingBottom: 100,
     backgroundColor: theme.backgroundColor,
@@ -20,16 +22,16 @@ const useStyles = createUseStyles((theme: Theme) => ({
     padding: 10,
     paddingTop: 10,
     paddingBottom: 5,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     margin: "auto",
     marginBottom: 0,
-    marginTop: 5
+    marginTop: 5,
   },
   changePasswordTitle: {
     fontSize: 30,
     color: theme.darkTextColor,
-    textAlign: 'center',
-    marginTop: 0
+    textAlign: "center",
+    marginTop: 0,
   },
 }));
 
