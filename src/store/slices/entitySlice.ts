@@ -184,7 +184,7 @@ export const entitySlice = createSlice({
         total: number;
       }>
     ) => {
-      const modelEntities = state.entitiesByModel.find(
+      const modelEntities = state.assignedEntitiesByModel.find(
         (el) => el.modelId === action.payload.modelId
       );
       if (modelEntities) {
