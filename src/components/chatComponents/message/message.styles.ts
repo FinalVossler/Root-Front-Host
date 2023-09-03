@@ -38,6 +38,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   messageItself: {
     wordWrap: "break-word",
+    lineHeight: 1.4,
+    fontSize: 16.5,
   },
   filesContainer: {
     display: "flex",
