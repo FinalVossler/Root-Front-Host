@@ -52,6 +52,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
   singleFileContainer: {
     margin: 5,
     cursor: "pointer",
+    display: "flex",
+    flexDirection: "column",
   },
   file: {
     width: "100%",
@@ -138,6 +140,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
     bottom: -18,
     zIndex: 1,
     left: 12,
+  },
+  fileIcon: {
+    fontSize: 30,
+    marginBottom: 10,
   },
   "@media (max-width: 800px)": {},
 }));

@@ -21,6 +21,8 @@ import { SizeEnum } from "../../userProfilePicture/UserProfilePicture";
 import MessageFilePreview from "./messageFilePreview/MessageFilePreview";
 import IFile from "../../../globalTypes/IFile";
 import { AiFillEye } from "react-icons/ai";
+import getFileType, { FileTypeEnum } from "../../../utils/getFileType";
+import { BsFiletypeJson } from "react-icons/bs";
 
 interface IMessageComponent {
   message: IMessage;
@@ -101,14 +103,18 @@ const Message: React.FunctionComponent<IMessageComponent> = (
         {props.message.files.length > 0 && (
           <div className={styles.filesContainer}>
             {props.message.files.map((file) => {
+              const fileType = getFileType(file);
+
               return (
                 <div
                   id={"file " + file.uuid}
                   key={file._id}
                   className={styles.singleFileContainer}
-                  onClick={() => setFileToPreview(file)}
+                  onClick={() => {
+                    if (fileType === FileTypeEnum.Image) setFileToPreview(file);
+                  }}
                 >
-                  {file.isImage && (
+                  {fileType === FileTypeEnum.Image && (
                     <img
                       width="100%"
                       height="100%"
@@ -116,13 +122,23 @@ const Message: React.FunctionComponent<IMessageComponent> = (
                       src={file.url}
                     />
                   )}
-                  {!file.isImage && (
+                  {fileType !== FileTypeEnum.Image &&
+                    fileType !== FileTypeEnum.JSON && (
+                      <React.Fragment>
+                        <iframe className={styles.file} src={file.url} />
+                        <AiFillEye
+                          className={styles.viewFileIcon}
+                          onClick={() => setFileToPreview(file)}
+                        />
+                      </React.Fragment>
+                    )}
+                  {fileType === FileTypeEnum.JSON && (
                     <React.Fragment>
-                      <iframe className={styles.file} src={file.url} />
-                      <AiFillEye
-                        className={styles.viewFileIcon}
+                      <BsFiletypeJson
+                        className={styles.fileIcon}
                         onClick={() => setFileToPreview(file)}
                       />
+                      <span>{file.name}</span>
                     </React.Fragment>
                   )}
                 </div>

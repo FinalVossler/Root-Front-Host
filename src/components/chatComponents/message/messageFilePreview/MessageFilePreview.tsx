@@ -7,6 +7,7 @@ import IFile from "../../../../globalTypes/IFile";
 import useStyles from "./messageFilePreview.styles";
 import { IMessage } from "../../../../store/slices/chatSlice";
 import { CgClose } from "react-icons/cg";
+import getFileType, { FileTypeEnum } from "../../../../utils/getFileType";
 
 interface IMessageFilePreview {
   file: IFile;
@@ -23,6 +24,8 @@ const MessageFilePreview: React.FunctionComponent<IMessageFilePreview> = (
 
   const styles = useStyles({ theme });
 
+  const fileType = React.useMemo(() => getFileType(props.file), [props.file]);
+
   return (
     <div className={styles.messageFilePreviewContainer}>
       <div
@@ -38,13 +41,21 @@ const MessageFilePreview: React.FunctionComponent<IMessageFilePreview> = (
             onClick={(e) => e.stopPropagation()}
           />
         )}
-        {!props.file.isImage && (
+        {!props.file.isImage && fileType !== FileTypeEnum.JSON && (
           <iframe
             className={styles.file}
             src={props.file.url}
             height={(window.innerHeight * 90) / 100}
             width={(window.innerWidth * 95) / 100}
           />
+        )}
+        {fileType === FileTypeEnum.JSON && (
+          <iframe
+            height={0}
+            width={0}
+            style={{ opacity: 0 }}
+            src={props.file.url}
+          ></iframe>
         )}
       </div>
 
