@@ -1,10 +1,9 @@
 import React from "react";
 
 import { Theme } from "../../../config/theme";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { useAppSelector } from "../../../store/hooks";
 
 import {
-  chatSlice,
   getConversationId,
   IPopulatedMessage,
 } from "../../../store/slices/chatSlice";
@@ -12,18 +11,18 @@ import UserProfilePicture from "../../userProfilePicture";
 import { SizeEnum } from "../../userProfilePicture/UserProfilePicture";
 import { IUser } from "../../../store/slices/userSlice";
 
-import useStyles from "./headerInboxConversation.styles";
+import useStyles from "./inboxConversation.styles";
 import { IoMdNotifications } from "react-icons/io";
 import shortenString from "../../../utils/shortenString";
 
-interface IHeaderInbox {
+interface IInboxConversation {
   message: IPopulatedMessage;
   otherUser: IUser;
-  setInboxOpen: (inboxOpen: boolean) => void;
+  onSelectConversation: (conversationId: string) => void;
 }
 
-const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
-  props: IHeaderInbox
+const InboxConversation: React.FunctionComponent<IInboxConversation> = (
+  props: IInboxConversation
 ) => {
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
@@ -37,14 +36,12 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
   )?.totalUnreadMessages;
 
   const styles = useStyles({ theme });
-  const dispatch = useAppDispatch();
 
   const handleSelectConversationFromMessage = () => {
     const conversationId: string = getConversationId([
       ...props.message.to.map((u) => u._id),
     ]);
-    dispatch(chatSlice.actions.addSelectedConversation({ conversationId }));
-    props.setInboxOpen(false);
+    props.onSelectConversation(conversationId);
   };
 
   return (
@@ -83,4 +80,4 @@ const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
   );
 };
 
-export default React.memo(HeaderInbox);
+export default React.memo(InboxConversation);

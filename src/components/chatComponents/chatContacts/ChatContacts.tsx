@@ -1,5 +1,4 @@
 import React from "react";
-import Loading from "react-loading";
 
 import { Theme } from "../../../config/theme";
 import useGetChatContacts, {
@@ -9,11 +8,10 @@ import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { chatSlice } from "../../../store/slices/chatSlice";
 import { IUser } from "../../../store/slices/userSlice";
-import Pagination from "../../pagination";
-import Contact from "../chatContact/ChatContact";
 import ChatCurrentUser from "../chatCurrentUser.ts";
 
 import useStyles from "./chatContacts.styles";
+import LastConversationsLastMessages from "../lastConversationsLastMessages";
 
 const LIMIT = 10;
 
@@ -59,6 +57,10 @@ const ChatContacts: React.FunctionComponent<IChatContacts> = (
     dispatch(chatSlice.actions.setContactsPage(page));
   };
 
+  const handleSelectConversation = (conversationId: string) => {
+    dispatch(chatSlice.actions.setSelectedConversationId(conversationId));
+  };
+
   return (
     <div
       className={
@@ -67,7 +69,10 @@ const ChatContacts: React.FunctionComponent<IChatContacts> = (
           : styles.noConversationSelectedChatContactsContainer
       }
     >
-      <div className={styles.top}>
+      <LastConversationsLastMessages
+        onSelectConversation={handleSelectConversation}
+      />
+      {/* <div className={styles.top}>
         <div className={styles.contactsTitle}>
           {getTranslatedText(staticText?.title)}
         </div>
@@ -89,7 +94,7 @@ const ChatContacts: React.FunctionComponent<IChatContacts> = (
             onPageChange={handlePageChange}
           />
         )}
-      </div>
+      </div> */}
 
       <ChatCurrentUser />
     </div>

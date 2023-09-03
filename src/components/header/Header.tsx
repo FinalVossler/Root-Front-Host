@@ -13,7 +13,7 @@ import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import InputSelect from "../inputSelect";
 import { userPreferenceSlice } from "../../store/slices/userPreferencesSlice";
 import { Option } from "../inputSelect/InputSelect";
-import HeaderInbox from "../headerInbox";
+import HeaderInbox from "../chatComponents/headerInbox";
 import HeaderNotifications from "../headerNotifications";
 
 import useStyles from "./header.styles";
@@ -155,13 +155,13 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
             </NavLink>
           </li>
 
-          {/* {withChat && isLoggedIn && (
+          {withChat && isLoggedIn && (
             <li className={styles.option}>
               <NavLink className={styles.optionATag} to="/chat">
                 {getTranslatedText(staticText?.chat)}
               </NavLink>
             </li>
-          )} */}
+          )}
 
           {withChat && isLoggedIn && location.pathname !== "/chat" && (
             <HeaderInbox />
