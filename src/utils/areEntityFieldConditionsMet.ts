@@ -49,32 +49,42 @@ const areEntityFieldConditionsMet = ({
       ) {
         conditionsMet = false;
       } else {
+        let conditionValue = condition.value ?? "";
+        let fieldValue = value;
+        if (condition.field?.type === FieldType.Number) {
+          try {
+            conditionValue = parseInt(conditionValue + "");
+            fieldValue = parseInt(fieldValue + "");
+          } catch {}
+        }
+
         switch (condition.conditionType) {
           case ModelFieldConditionTypeEnum.Equal:
-            if (value !== condition.value) {
+            if (fieldValue !== conditionValue) {
               conditionsMet = false;
             }
             break;
           case ModelFieldConditionTypeEnum.InferiorTo: {
-            if (value >= (condition.value ?? "")) {
+            if (fieldValue >= conditionValue) {
               conditionsMet = false;
             }
             break;
           }
           case ModelFieldConditionTypeEnum.SuperiorTo: {
-            if (value <= (condition.value ?? "")) {
+            if (fieldValue <= conditionValue) {
               conditionsMet = false;
             }
+
             break;
           }
           case ModelFieldConditionTypeEnum.InferiorOrEqualTo: {
-            if (value > (condition.value ?? "")) {
+            if (fieldValue > conditionValue) {
               conditionsMet = false;
             }
             break;
           }
           case ModelFieldConditionTypeEnum.SuperiorOrEqualTo: {
-            if (value < (condition.value ?? "")) {
+            if (value < conditionValue) {
               conditionsMet = false;
             }
             break;
