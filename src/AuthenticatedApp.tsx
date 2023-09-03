@@ -5,7 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 import ProfilePage from "./pages/profilePage";
 import ChatPage from "./pages/chatPage";
 
-import useNotifications from "./hooks/useNotifications";
 import FieldsPage from "./pages/fieldsPage";
 import ModelsPage from "./pages/modelsPage";
 import EntitiesPage from "./pages/entitiesPage";
@@ -19,6 +18,7 @@ import MicroFrontendPage from "./pages/microFrontendPage";
 
 import withWrapper from "./hoc/wrapper";
 import useIsLoggedIn from "./hooks/useIsLoggedIn";
+import useNotifications from "./hooks/useNotifications";
 import withChat from "./hoc/withChat";
 import { DynamicPageForLoggedIn } from "./pages/dynamicPage/DynamicPage";
 

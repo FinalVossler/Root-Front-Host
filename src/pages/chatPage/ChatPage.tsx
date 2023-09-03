@@ -74,4 +74,4 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
   );
 };
 
-export default withProtection(withChatHoc(React.memo(Chat)));
+export default withProtection(React.memo(Chat));
