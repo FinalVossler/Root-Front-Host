@@ -38,6 +38,11 @@ const DynamicPage: React.FunctionComponent<IDynamicPage> = (
   );
 };
 
+// When we are logged in, we don't want the additional initialization calls of withChat and withWrapper when we visit a dynamic page.
+// These calls are already managed inside AuthenticatedApp.
+// It follows that we don't want to export this component with withChat and withWrapper
+export const DynamicPageForLoggedIn = React.memo(DynamicPage);
+
 export default withChat(
   withWrapper(React.memo(DynamicPage), {
     withFooter: false,

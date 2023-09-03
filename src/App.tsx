@@ -17,8 +17,10 @@ import ForgotPasswordChangePasswordPage from "./pages/forgotPasswordChangePasswo
 import AuthenticatedApp from "./AuthenticatedApp";
 
 import "./index.css";
+import useIsLoggedIn from "./hooks/useIsLoggedIn";
 
 function App() {
+  const isLoggedIn: boolean = useIsLoggedIn();
   useGetAndSetUser();
   useNotifications();
   const { getPages, finished: finishedFetchingPages } = useGetPages();
@@ -41,10 +43,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />}></Route>
-          <Route
-            path="/dynamicPage/:pageSlug"
-            element={<DynamicPage />}
-          ></Route>
+          {!isLoggedIn && (
+            <Route
+              path="/dynamicPage/:pageSlug"
+              element={<DynamicPage />}
+            ></Route>
+          )}
           <Route path="/auth" element={<LoginOrRegistrationPage />}></Route>
           <Route
             path="/changePassword/:token"

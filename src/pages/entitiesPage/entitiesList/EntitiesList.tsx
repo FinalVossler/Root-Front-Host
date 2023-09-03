@@ -88,7 +88,7 @@ const EntitiesList: React.FunctionComponent<IEntitiesList> = (
   React.useEffect(() => {
     getModels({
       paginationCommand: {
-        limit,
+        limit: 99999,
         page: 1,
       },
     });

@@ -20,6 +20,7 @@ import MicroFrontendPage from "./pages/microFrontendPage";
 import withWrapper from "./hoc/wrapper";
 import useIsLoggedIn from "./hooks/useIsLoggedIn";
 import withChat from "./hoc/withChat";
+import { DynamicPageForLoggedIn } from "./pages/dynamicPage/DynamicPage";
 
 function AuthenticatedApp() {
   useNotifications();
@@ -34,6 +35,10 @@ function AuthenticatedApp() {
 
   return (
     <Routes>
+      <Route
+        path="/dynamicPage/:pageSlug"
+        element={<DynamicPageForLoggedIn />}
+      ></Route>
       <Route path="/profile/:userId" element={<ProfilePage />} />
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/chat" element={<ChatPage />} />
