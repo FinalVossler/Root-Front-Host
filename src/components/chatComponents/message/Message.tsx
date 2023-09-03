@@ -262,6 +262,7 @@ const Reaction: React.FunctionComponent<IReactionComponent> = React.memo(
             [ReactionEnum.Cry]: "😭",
             [ReactionEnum.Shock]: "😮",
             [ReactionEnum.Laugh]: "😂",
+            [ReactionEnum.OK]: "👍",
           }[props.reaction.reaction]
         }
         {showReactorName && (

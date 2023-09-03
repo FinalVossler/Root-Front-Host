@@ -145,6 +145,12 @@ const MessageOptions: React.FunctionComponent<IMessageOptions> = (
           >
             😠
           </span>
+          <span
+            onClick={() => handleEmojiClick(ReactionEnum.OK)}
+            className={styles.singleReaction}
+          >
+            👍
+          </span>
         </div>
       )}
 

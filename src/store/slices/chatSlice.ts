@@ -75,6 +75,7 @@ export enum ReactionEnum {
   Shock = "Shock",
   Cry = "Cry",
   Angry = "Angry",
+  OK = "OK",
 }
 
 interface IChatState {
