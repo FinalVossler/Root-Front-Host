@@ -22,7 +22,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "column",
     justifyContent: "space-between",
     backgroundColor: theme.darkerPrimary,
-    padding: 20,
+    padding: 10,
     borderRadius: 10,
     marginRight: 10,
     marginLeft: 5,
