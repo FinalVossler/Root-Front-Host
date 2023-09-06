@@ -8,7 +8,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     justifyContent: "center",
     position: "relative",
     zIndex: 10,
-    height: 50,
+    height: 40,
     color: theme.darkerPrimary,
   },
   messageOptionsIcon: {

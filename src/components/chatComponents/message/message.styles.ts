@@ -88,7 +88,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   messageDate: {
     backgroundColor: theme.primary,
     color: theme.lightTextColor,
-    padding: "10px 13px",
+    padding: "5px 10px",
     borderRadius: 10,
     opacity: 0.9,
     marginRight: 10,
