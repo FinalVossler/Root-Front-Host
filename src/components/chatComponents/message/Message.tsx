@@ -291,7 +291,8 @@ const Reaction: React.FunctionComponent<IReactionComponent> = React.memo(
 );
 
 const getMessageWithFormattedUrls = (message: string): string => {
-  const urlRegex = /http[^\s]*/g;
+  const urlRegex =
+    /(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])/g;
 
   const matches = message.match(urlRegex);
 
