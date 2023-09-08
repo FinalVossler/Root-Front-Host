@@ -304,7 +304,11 @@ const getMessageWithFormattedUrls = (message: string): string => {
           (acc, current) =>
             acc.replace(
               current,
-              '<a target="_blank" href="' + current + '">' + current + "</a>"
+              '<a style="color: blue;" target="_blank" href="' +
+                current +
+                '">' +
+                current +
+                "</a>"
             ),
           message
         ) || ""
