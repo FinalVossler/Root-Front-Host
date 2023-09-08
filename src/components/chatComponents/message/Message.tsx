@@ -97,7 +97,9 @@ const Message: React.FunctionComponent<IMessageComponent> = (
       >
         <div
           className={styles.messageItself}
-          dangerouslySetInnerHTML={{ __html: props.message.message }}
+          dangerouslySetInnerHTML={{
+            __html: getMessageWithFormattedUrls(props.message.message),
+          }}
         ></div>
 
         {props.message.files.length > 0 && (
@@ -287,5 +289,28 @@ const Reaction: React.FunctionComponent<IReactionComponent> = React.memo(
     );
   }
 );
+
+const getMessageWithFormattedUrls = (message: string): string => {
+  const urlRegex = /http[^\s]*/g;
+
+  const matches = message.match(urlRegex);
+
+  if (matches && matches?.length > 0) {
+    return (
+      message
+        ?.match(urlRegex)
+        ?.reduce(
+          (acc, current) =>
+            acc.replace(
+              current,
+              '<a target="_blank" href="' + current + '">' + current + "</a>"
+            ),
+          message
+        ) || ""
+    );
+  } else {
+    return message;
+  }
+};
 
 export default React.memo(socketConnect(Message));
