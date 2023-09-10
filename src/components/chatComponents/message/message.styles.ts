@@ -40,6 +40,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
     wordWrap: "break-word",
     lineHeight: 1.4,
     fontSize: 16.5,
+
+    "& span": {
+      textWrap: "balance",
+    },
+    "& a": {
+      textWrap: "balance",
+    },
   },
   filesContainer: {
     display: "flex",
