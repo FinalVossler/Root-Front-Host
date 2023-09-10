@@ -42,10 +42,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
     fontSize: 16.5,
 
     "& span": {
-      textWrap: "balance",
+      textWrap: "balance!important",
     },
     "& a": {
-      textWrap: "balance",
+      textWrap: "balance!important",
     },
   },
   filesContainer: {
