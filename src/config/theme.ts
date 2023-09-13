@@ -18,7 +18,7 @@ export type Theme = {
 
 const theme: Theme = {
   darkTextColor: "#4c4c4d",
-  lightTextColor: "FFFFFF",
+  lightTextColor: "#FFFFFF",
 
   primary: "#4BE3AE",
   darkerPrimary: "#2DB39E",

@@ -71,6 +71,7 @@ const MicroFrontendPage: React.FunctionComponent<IMicroFrontendPage> = (
               module={"./" + componentName}
               entityFieldValues={entity?.entityFieldValues}
               language={language}
+              theme={theme}
             />
           </React.Suspense>
         </ErrorBoundary>
