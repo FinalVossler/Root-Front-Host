@@ -5,7 +5,7 @@ import { Theme } from "../../config/theme";
 const useStyles = createUseStyles((theme: Theme) => ({
   confirmationModalContainer: {
     display: "flex",
-    zIndex: 10,
+    zIndex: 13,
     position: "fixed",
     width: "100%",
     height: "100%",

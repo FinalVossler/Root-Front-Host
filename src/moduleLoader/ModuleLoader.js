@@ -38,13 +38,13 @@ const ModuleLoader = ({ scope, module, url, ...rest }) => {
     const Component = React.lazy(loadComponent(scope, module));
 
     return (
-      <Suspense fallback="Loading Module">
+      <Suspense fallback="Loading">
         <Component {...rest} />
       </Suspense>
     );
   } else {
-    return <div>Error loading Micro-Frontend</div>;
+    return <div></div>;
   }
 };
 
-export default ModuleLoader;
+export default React.memo(ModuleLoader);

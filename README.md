@@ -33,3 +33,7 @@ Bien évidemment, on aura le tas d'autres avantages sur les MicroFrontend que j'
 3- Ou encore un mini équivalent d'un storybook gratuit juste par la mise en place d'un MicroForntend (Et franchement le fait de mentionner le fait que ce dernier peut aussi être ajouté dans notre monolithe ne change rien au débat puisque le storybook n'est de 1 Pas notre raison principale de migration et de 2: cette méthode va à l'encontre de ce que j'ai voulu réaliser par ma toute première reflexion qui était d'encapsuler, de simplifier et de minimiser, donc c'est un peu comme aller contre la toute première premise par laquelle j'ai batit toute la logique. Cette suggestion m'a donc paru absurde quelque soit les petits hack alternatives qu'on pourrait mettre en place pour simuler un environnement simple en microFrontend, ce dernier étant plus officiel et plus consistent avec le courant de la stack Frontend actuelle dans le monde.)
 
 En gros, si vous avez des alternatives en tête, il vaut mieux ne pas les communiquer juste pour montrer que l'on sait faire autrement dans le cas ou vous même pensiez que cest alternatives ne sont pas assez signifiantes ou convaicantes. PK, parce que ça fait toute simplement perdre du temps et de l'enrgie dans des débats inutiles.
+
+2 autres dev front - étude de test + po + proxu po + ux +
+faire des dev et des tests unitaires sur + rituel agile + scrum + atelier de conception
+un gros savoir faire en react + gitlab-ci + kubernetes +

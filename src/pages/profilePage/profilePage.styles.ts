@@ -15,8 +15,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     margin: "auto",
     width: "90%",
     alignItems: "flex-start",
-    position: "relative",
     marginTop: 100,
+    position: "relative",
   },
   postsAndEditor: {
     display: "flex",

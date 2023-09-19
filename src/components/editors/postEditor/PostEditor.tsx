@@ -98,11 +98,11 @@ const PostEditor = (props: IPostEditor) => {
       setDesign(props.post?.design);
       setVisibility(props.post?.visibility);
       setSelectedExistingFiles(props.post?.files);
-      if (sunEditor) {
+      if (sunEditor && sunEditor.setContents) {
         sunEditor?.setContents(getTranslatedText(props.post.content, language));
       }
     } else {
-      sunEditor?.setContents("");
+      if (sunEditor && sunEditor.setContents) sunEditor?.setContents("");
     }
   }, [props.post, sunEditor, language]);
 
