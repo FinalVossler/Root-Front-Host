@@ -1,11 +1,11 @@
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import Loading from "react-loading";
 
 import { Theme } from "../../config/theme";
 import withProtection from "../../hoc/protection";
 import { useAppSelector } from "../../store/hooks";
 import withChatHoc from "../../hoc/withChat";
-import Loading from "react-loading";
 
 import useStyles from "./microFrontendPage.styles";
 import { IEntity } from "../../store/slices/entitySlice";
@@ -14,6 +14,7 @@ import useGetMicroFrontend from "../../hooks/apiHooks/useGetMicroFrontend";
 import { useParams } from "react-router-dom";
 import useGetEntity from "../../hooks/apiHooks/useGetEntity";
 import ModuleLoader from "../../moduleLoader/ModuleLoader";
+import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
 
 interface IMicroFrontendPage {}
 
@@ -44,6 +45,7 @@ const MicroFrontendPage: React.FunctionComponent<IMicroFrontendPage> = (
   const { getMicroFrontend, loading: getMicroFrontendLoading } =
     useGetMicroFrontend();
   const { getEntity, loading: getEntityLoading } = useGetEntity();
+  const authorizedAxios = useAuthorizedAxios();
   //#region hooks
 
   //#region effects
@@ -70,8 +72,10 @@ const MicroFrontendPage: React.FunctionComponent<IMicroFrontendPage> = (
               scope={microFrontend.name}
               module={"./" + componentName}
               entityFieldValues={entity?.entityFieldValues}
+              entity={entity}
               language={language}
               theme={theme}
+              authorizedAxios={authorizedAxios}
             />
           </React.Suspense>
         </ErrorBoundary>

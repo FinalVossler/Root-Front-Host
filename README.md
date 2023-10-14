@@ -37,3 +37,19 @@ En gros, si vous avez des alternatives en tête, il vaut mieux ne pas les commun
 2 autres dev front - étude de test + po + proxu po + ux +
 faire des dev et des tests unitaires sur + rituel agile + scrum + atelier de conception
 un gros savoir faire en react + gitlab-ci + kubernetes +
+
+---
+
+Crypto: transparent + scam
+on perdait l'idée principale + centralisation + étant le contraire + compliant + transparent
+contre le blanchiment d'argent + cleaner l'écosystème + on travaille avec la MF + certifié + déposer un dossier pour travailler avec
+les autorité à Singapoure + Client Talking issuers + banque d'investissement + plateforme de trading
+4 solutions:
+
+1- La market making as a service (monthly subscription) créer le marché autour de la cripto (créer le hamza coin, payé que par ça:
+elle n'est pas connu + pas de marché => voir des market makers)
+2- custody (wallet)
+3- Borkbrokrage => conversion d'une crytpo vers cryto
+4- treasurey management (suivie + conseil)
+
+90 = 60 à Paris

@@ -12,6 +12,7 @@ export interface IEntity {
   model: IModel;
   entityFieldValues: IEntityFieldValue[];
   assignedUsers?: IUser[];
+  customData?: string;
 
   createdAt: string;
   updatedAt: string;

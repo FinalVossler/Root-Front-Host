@@ -28,3 +28,25 @@ sachant que j'ai mis à jour webpack et réglé des problèmes d'import qui n'é
   -Hot reload
   -à envisager: hot module replacement sans prise en compte du state: webpack peut le faire par luis même avec une petite configuration
   -Encore mieux: hot module replacement avec prise en compte du state: @pmmmwh/react-refresh-webpack-plugin replaced react-hot-loader
+
+integrate APIs
+centralized way to check the market status on multiple exchances
+interact with them from a single place.
+
+engineering infrastructure
+deployment
+CICD
+9-10 backend: 4 france 2 singapore 2 new york
+Frontend: 2 senior + intermediate
+frontend design
+trading
+how do we make this application: components UI: storybook, decide the style, design system,
+
+trading client SDK =>
+Backoffice application
+internal application
+
+main focus: trading plateforme, web socket, web worker,
+
+Docker isn't necessary
+Why do you use storyboo
