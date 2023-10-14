@@ -66,6 +66,7 @@ const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
                         stateConcernedFields,
                         getTranslatedText,
                         model,
+                        entity,
                       });
 
                     return (
@@ -129,6 +130,7 @@ const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
                                     stateConcernedFields: concernedFields,
                                     getTranslatedText,
                                     model,
+                                    entity,
                                   });
                                 return (
                                   <span

@@ -458,6 +458,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
           entityFieldValuesFromForm: formik.values.entityFieldValues,
           model,
           getTranslatedText: getTranslatedText,
+          entity: props.entity,
         });
 
         if (!conditionsMet) return null;
@@ -669,7 +670,9 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
                                 (el) =>
                                   el._id.toString() ===
                                   fieldEvent.microFrontendComponentId
-                              )?.name
+                              )?.name +
+                              "/" +
+                              modelField.field._id.toString()
                           );
                         }
                       }

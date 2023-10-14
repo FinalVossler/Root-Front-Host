@@ -1,5 +1,5 @@
 import { IEntityFieldValueForm } from "../components/editors/entityEditor/EntityEditorForm";
-import { IEntityFieldValue } from "../store/slices/entitySlice";
+import { IEntity, IEntityFieldValue } from "../store/slices/entitySlice";
 import { FieldType } from "../store/slices/fieldSlice";
 import {
   IModel,
@@ -15,12 +15,14 @@ const areEntityFieldConditionsMet = ({
   entityFieldValuesFromForm,
   getTranslatedText,
   model,
+  entity,
 }: {
   modelField: IModelField;
   entityFieldValues?: IEntityFieldValue[];
   entityFieldValuesFromForm?: IEntityFieldValueForm[];
   getTranslatedText: any;
   model: IModel;
+  entity?: IEntity;
 }): boolean => {
   if (modelField.conditions && modelField.conditions?.length > 0) {
     let conditionsMet: boolean = true;
@@ -118,6 +120,7 @@ const areEntityFieldConditionsMet = ({
                     modelState: condition.modelState,
                   }),
                   model,
+                  entity,
                 });
 
               if (!entityMeetsModelStateCondition) {

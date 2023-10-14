@@ -37,11 +37,13 @@ const MicroFrontendPage: React.FunctionComponent<IMicroFrontendPage> = (
 
   //#region hooks
   const styles = useStyles({ theme });
-  const { microFrontendId, entityId, componentName } = useParams<{
-    microFrontendId: string;
-    entityId?: string;
-    componentName: string;
-  }>();
+  const { microFrontendId, entityId, componentName, buttonFieldId } =
+    useParams<{
+      microFrontendId: string;
+      entityId?: string;
+      componentName: string;
+      buttonFieldId: string;
+    }>();
   const { getMicroFrontend, loading: getMicroFrontendLoading } =
     useGetMicroFrontend();
   const { getEntity, loading: getEntityLoading } = useGetEntity();
@@ -76,6 +78,7 @@ const MicroFrontendPage: React.FunctionComponent<IMicroFrontendPage> = (
               language={language}
               theme={theme}
               authorizedAxios={authorizedAxios}
+              buttonFieldId={buttonFieldId}
             />
           </React.Suspense>
         </ErrorBoundary>

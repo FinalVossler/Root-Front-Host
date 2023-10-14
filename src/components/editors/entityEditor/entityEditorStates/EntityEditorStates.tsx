@@ -55,6 +55,7 @@ const EntityEditorStates = (props: IEntityEditorStates) => {
                 modelState: state,
               }),
               entityFieldValues: props.entity.entityFieldValues,
+              entity: props.entity,
             });
 
           return (

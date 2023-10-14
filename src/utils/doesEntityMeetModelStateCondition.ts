@@ -6,6 +6,7 @@ import {
   IEntityYearTableFieldRowValuesCommand,
 } from "../hooks/apiHooks/useCreateEntity";
 import {
+  IEntity,
   IEntityFieldValue,
   IEntityTableFieldCaseValue,
   IEntityYearTableFieldRowValues,
@@ -25,12 +26,14 @@ const doesEntityMeetModelStateCondition = ({
   entityFieldValuesFromForm,
   getTranslatedText,
   model,
+  entity,
 }: {
   stateConcernedFields: IModelField[];
   entityFieldValues?: IEntityFieldValue[];
   entityFieldValuesFromForm?: IEntityFieldValueForm[];
   getTranslatedText: any;
   model: IModel;
+  entity?: IEntity;
 }): boolean => {
   let meetsModelStateCondition: boolean = true;
 
@@ -44,9 +47,15 @@ const doesEntityMeetModelStateCondition = ({
       entityFieldValuesFromForm,
       getTranslatedText,
       model,
+      entity,
     });
 
-    if (!entityFieldConditionsMet) return;
+    // If the field can't be shown because its visibility conditions aren't met, then let alone its state conditions.
+    // If doesn't show, then it's impossible for it to be filled. Then the meet states condition should be set to false
+    if (!entityFieldConditionsMet) {
+      meetsModelStateCondition = false;
+      return;
+    }
 
     if (
       modelField.field.type === FieldType.Table &&
@@ -208,6 +217,24 @@ const doesEntityMeetModelStateCondition = ({
         } else {
           meetsModelStateCondition = false;
           return;
+        }
+      } else if (modelField.field.type === FieldType.Button) {
+        // If the field is of type button, then the value is probably set by a microFrontend, and is then residing
+        // in the entity's custom data stringified object.
+
+        if (modelField.field.type === FieldType.Button && entity) {
+          let entityFieldValue: any = null;
+
+          try {
+            entityFieldValue = JSON.parse(entity?.customData || "{}")[
+              modelField.field._id.toString()
+            ];
+            if (!entityFieldValue) {
+              meetsModelStateCondition = false;
+            }
+          } catch {
+            meetsModelStateCondition = false;
+          }
         }
       } else {
         const entityFieldValue: any = entityFieldValues

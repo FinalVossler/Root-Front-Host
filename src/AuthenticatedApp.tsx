@@ -55,7 +55,7 @@ function AuthenticatedApp() {
       <Route path="/roles/" element={<RolesPage />} />
       <Route path="/tasks/" element={<TasksPage />} />
       <Route
-        path="/microFrontend/:microFrontendId/:entityId/:componentName"
+        path="/microFrontend/:microFrontendId/:entityId/:componentName/:buttonFieldId"
         element={<MicroFrontendPage />}
       />
       <Route
