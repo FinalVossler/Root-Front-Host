@@ -47,7 +47,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     border: "1px solid " + theme.lightTextColor,
     color: theme.lightTextColor,
     padding: 5,
-    height: 264,
+    height: 274,
     width: 205,
     marginBottom: 10,
     borderRadius: 5,
