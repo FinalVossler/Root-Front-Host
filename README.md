@@ -53,3 +53,165 @@ elle n'est pas connu + pas de marché => voir des market makers)
 4- treasurey management (suivie + conseil)
 
 90 = 60 à Paris
+
+10 => x / 10
+5 => x / (10 / 5)
+0 => X
+
+1- One character move AND action by player turn.
+An action is either an attack or a spell/effect cast
+
+2- How damage is calculated:
+const damage = Math.max(attack - defense, 0) + 1
+
+3- How the hit/miss is calculated
+const doHit: boolean = Boolean(Math.random() \* 10 > agility)
+
+Najar:
+movement: 3
+attack: 6
+defense: 6
+agility: 5
+effect: none
+
+Infiltrator:
+movement: 3
+attack: 2
+defense: 2
+agility: 8
+effect: none
+
+programmer:
+movement: 3
+attack: 2
+defense: 4
+agility: 2
+effect: constant + 1 to everyone around him (range 1 case)
+
+tabbe5 metghachech
+movement: 4
+attack: 8
+defense: 4
+agility: 6
+effect: none
+
+girl archer:
+movement: 3
+attack: 3
+defense: 4
+agility: 5
+effect: can attack 3 cases away from the target
+
+Musician:
+movement: 3
+attack: 1
+defense: 5
+agility: 4
+effect: +1 attack to everyone around him (range 2 cases)
+
+potion master
+movement: 2
+attack: 2
+defense: 2
+agility: 2
+effect: + 2 to every stat to a chosen character around him for his next move (range 1)
+
+sleepy smurf
+movement: 1
+attack: 1
+defense: 9
+agility: 1
+effect: -1 on all stats to the enemies around him (range 1) because of distraction powers
+
+flyer:
+movement: 5
+attack: 5
+defense: 6
+agility: 6
+effect: none
+
+Bull distracter
+movement: 3
+attack: 3
+defense: 6
+agility: 7
+effect: none
+
+Card player
+movement: 3
+attack: 3
+defense: 3
+agility: 3
+effect: Has one/third chance of cancelling the move of an enemy nearby (range 1)
+
+------ POKEMONS
+
+botti azra9
+movement: 2
+attack: 4
+defense: 9
+agility: 2
+effect: none
+
+egg
+movement: 3
+attack: 2
+defense: 3
+agility: 6
+effect: -2 to the attack power of those around him (range 1)
+
+electric dog
+movement: 5
+attack: 5
+defense: 4
+agility: 5
+effect: none
+
+happy jumping blue
+movement: 4
+attack: 5
+defense: 5
+agility: 5
+effect: none
+
+green
+movement: 3
+attack: 3
+defense: 3
+agility: 6
+effect: none
+
+beautiful blue
+movement: 3
+attack: 3
+defense: 4
+agility: 7
+effect: none
+
+pikatchu
+movement: 3
+attack: 5
+defense: 5
+agility: 5
+effect: none
+
+semi pikatchu
+movement: 3
+attack: 3
+defense: 2
+agility: 7
+effect: none
+
+9ardoun
+movement: 4
+attack: 3
+defense: 3
+agility: 7
+effect: none
+
+long nose
+movement: 3
+attack: 6
+defense: 6
+agility: 3
+effect: none

@@ -11,7 +11,7 @@ import useStyles from "./microFrontendPage.styles";
 import { IEntity } from "../../store/slices/entitySlice";
 import { IMicroFrontend } from "../../store/slices/microFrontendSlice";
 import useGetMicroFrontend from "../../hooks/apiHooks/useGetMicroFrontend";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useGetEntity from "../../hooks/apiHooks/useGetEntity";
 import ModuleLoader from "../../moduleLoader/ModuleLoader";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
@@ -32,6 +32,7 @@ const MicroFrontendPage: React.FunctionComponent<IMicroFrontendPage> = (
   const [microFrontend, setMicroFrontend] =
     React.useState<IMicroFrontend | null>(null);
   const [entity, setEntity] = React.useState<IEntity | null>(null);
+  const navigate = useNavigate();
 
   //#endregion local state
 
@@ -59,6 +60,9 @@ const MicroFrontendPage: React.FunctionComponent<IMicroFrontendPage> = (
       getEntity(entityId).then(setEntity);
     }
   }, [microFrontendId]);
+  const handleCancel = () => {
+    navigate("/entities/" + entity?.model._id + "/" + entity?._id);
+  };
   //#endregion effects
 
   return (
@@ -79,6 +83,7 @@ const MicroFrontendPage: React.FunctionComponent<IMicroFrontendPage> = (
               theme={theme}
               authorizedAxios={authorizedAxios}
               buttonFieldId={buttonFieldId}
+              onCancel={handleCancel}
             />
           </React.Suspense>
         </ErrorBoundary>
