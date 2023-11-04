@@ -760,7 +760,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
                           formik.setFieldValue(
                             "assignedUsers",
                             formik.values.assignedUsers.filter(
-                              (user) => user._id !== user._id
+                              (u) => u._id !== user._id
                             )
                           );
                         }}
