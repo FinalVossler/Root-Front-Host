@@ -54,7 +54,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   fileName: {
     fontSize: 15,
-    color: theme.lightTextColor,
+    color: theme.darkTextColor,
     maxWidth: "100%",
     textAlign: "center",
   },
