@@ -58,6 +58,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
         borderColor: theme.lightTextColor + "!important",
       },
     },
+    "&:hover $notificationText": {
+      color: theme.lightTextColor,
+    },
   },
   notificationContainerUnclicked: {
     extend: "notificationContainer",
