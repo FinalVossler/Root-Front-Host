@@ -8,7 +8,6 @@ import useGetLastConversationsLastMessages from "../../../hooks/apiHooks/useGetL
 
 import useStyles from "./lastConversationsLastMessages.styles";
 import {
-  chatSlice,
   getConversationId,
   IPopulatedMessage,
 } from "../../../store/slices/chatSlice";

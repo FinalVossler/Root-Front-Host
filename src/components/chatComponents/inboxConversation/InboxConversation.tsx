@@ -17,6 +17,7 @@ import shortenString from "../../../utils/shortenString";
 
 interface IInboxConversation {
   message: IPopulatedMessage;
+  // Other user is optional because it could be that the other user was deleted from the DB (Problem noticed when Mahmoud deleted Yasmine)
   otherUser?: IUser;
   onSelectConversation: (conversationId: string) => void;
 }
