@@ -44,9 +44,11 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
           props.conversationId
         ).filter((id) => id !== user._id);
 
-      getContactsByIds(participantsIds).then((users: IUser[]) =>
-        setOtherParticipants(users)
-      );
+      if (participantsIds.length > 0) {
+        getContactsByIds(participantsIds).then((users: IUser[]) =>
+          setOtherParticipants(users)
+        );
+      }
     }
   }, [props.boxType, props.conversationId, contacts]);
   //#endregion Effects

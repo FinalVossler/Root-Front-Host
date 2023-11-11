@@ -17,7 +17,7 @@ import shortenString from "../../../utils/shortenString";
 
 interface IInboxConversation {
   message: IPopulatedMessage;
-  otherUser: IUser;
+  otherUser?: IUser;
   onSelectConversation: (conversationId: string) => void;
 }
 
@@ -51,13 +51,13 @@ const InboxConversation: React.FunctionComponent<IInboxConversation> = (
       className={styles.conversationContainer}
     >
       <UserProfilePicture
-        url={props.otherUser.profilePicture?.url}
+        url={props.otherUser?.profilePicture?.url}
         size={SizeEnum.Small}
       />
 
       <div className={styles.userNameAndLastMessage}>
         <span className={styles.userName}>
-          {props.otherUser.firstName + " " + props.otherUser.lastName}
+          {props.otherUser?.firstName + " " + props.otherUser?.lastName}
         </span>
         <div
           className={styles.messageContent}

@@ -215,3 +215,34 @@ attack: 6
 defense: 6
 agility: 3
 effect: none
+
+---
+
+-Home page: slide deck; link on discord
+-language: selector becomes smaller; and the language becomes capitalized
+-make the search more intelligent (not case sensitive)
+-task management, css problems
+-created on (instead of at)
+-Task type column becomes "On hold by" "En attente de"
+-Font family:
+-Tasks management tile in the side menu: "Business case status"
+-boards view table: Problem with horizontal overflow
+-Add button for a case: Becomes a sub button in the side menu (Only for those who have create permission for the entity)
+-Table board (can't click at the beginning = only works when we click down)
+-Drop system: (Remove existing files button)
+-In an entity, the states shown should be shown in an ordered workflow way (like amazon shipment tracking)
+-Table, seperation between columns
+-User assignment, only the head of marketing can assign to users from a different team (Everyone)
+
+code une base de données:
+mettre une place un serveur nodejs + express
+deux route get + post
+-post permets d'inscrire de la données dans le serveur qui sert de base de données
+body = { "key": "value" }
+get
+
+-get: localhost:3000/key return value;
+
+contraintes: on ne soucis pas de parsing
+seuls valeurs à envoyer c'est des strings
+redémarre
