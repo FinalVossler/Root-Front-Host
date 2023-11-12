@@ -15,11 +15,17 @@ import useGetWebwiteConfiguration from "./hooks/apiHooks/useGetWebsiteConfigurat
 import ForgotPasswordChangePasswordPage from "./pages/forgotPasswordChangePassworwPage";
 
 import AuthenticatedApp from "./AuthenticatedApp";
+import useIsLoggedIn from "./hooks/useIsLoggedIn";
+import { useAppSelector } from "./store/hooks";
+import { IPage } from "./store/slices/pageSlice";
 
 import "./index.css";
-import useIsLoggedIn from "./hooks/useIsLoggedIn";
 
 function App() {
+  const homePage: IPage | undefined = useAppSelector(
+    (state) => state.page.pages
+  ).find((page) => page.slug.length === 0);
+
   const isLoggedIn: boolean = useIsLoggedIn();
   useGetAndSetUser();
   useNotifications();
@@ -42,7 +48,9 @@ function App() {
       <ToastContainer hideProgressBar position="bottom-right" />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />}></Route>
+          {!homePage && <Route path="/" element={<HomePage />}></Route>}
+          {homePage && <Route path="/" element={<DynamicPage />}></Route>}
+
           {!isLoggedIn && (
             <Route
               path="/dynamicPage/:pageSlug"

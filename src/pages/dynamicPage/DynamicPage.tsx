@@ -24,14 +24,18 @@ const DynamicPage: React.FunctionComponent<IDynamicPage> = (
   const page: IPage | undefined = useAppSelector(
     (state) => state.page.pages
   ).find((page) => page.slug === pageSlug);
+  const homePage: IPage | undefined = useAppSelector(
+    (state) => state.page.pages
+  ).find((page) => page.slug.length === 0);
 
   const styles = useStyles({ theme });
 
-  if (!page) return null;
+  const actualPage = page || homePage;
+  if (!actualPage) return null;
 
   return (
     <div className={styles.dynamicPageContainer}>
-      {page.posts.map((post, index) => {
+      {actualPage.posts.map((post, index) => {
         return <Post key={index} post={post} />;
       })}
     </div>

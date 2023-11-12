@@ -22,7 +22,7 @@ export enum PostDesign {
   ChildrenContainer = "ChildrenContainer",
   RotatingCarzd = "RotatingCard",
   AnimatedTitle = "AnimatedTitle",
-  UnderlinedTitle = "UnderinedTitle",
+  UnderlinedTitle = "UnderlinedTitle",
   Footer = "Footer",
   ContactForm = "ContactForm",
   Person = "Person",
