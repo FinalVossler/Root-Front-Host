@@ -7,6 +7,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     flexDirection: "column",
     alignItems: "center",
     marginTop: 100,
+    maxWidth: "80%",
   },
   loading: {},
 }));
