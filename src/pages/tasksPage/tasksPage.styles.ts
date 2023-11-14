@@ -5,9 +5,13 @@ const useStyles = createUseStyles((theme: Theme) => ({
   tasksPageContainer: {
     display: "flex",
     flexDirection: "column",
+    backgroundColor: theme.backgroundColor,
     alignItems: "center",
-    marginTop: 100,
-    maxWidth: "80%",
+    minHeight: "100vh",
+    paddingBottom: 300,
+    marginTop: 120,
+    padding: 40,
+    maxWidth: "90%",
   },
   loading: {},
 }));

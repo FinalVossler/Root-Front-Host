@@ -5,8 +5,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
   tasksByModelContainer: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
     color: theme.darkTextColor,
+    width: "100%",
   },
   tasksByModelTable: {
     color: theme.darkTextColor,

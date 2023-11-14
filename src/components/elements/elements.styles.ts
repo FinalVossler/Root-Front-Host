@@ -7,6 +7,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: "100%",
     boxSizing: "border-box",
     padding: "0px 50px",
+    display: "flex",
+    flexDirection: "column",
   },
   buttonsContainer: {
     width: "100%",
@@ -66,6 +68,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.darkTextColor,
     maxWidth: "100%",
     overflow: "auto",
+    alignSelf: "start",
   },
   tableHeader: {},
   tableRow: {
@@ -74,10 +77,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
   tableColumn: {
     padding: 20,
     lineHeight: 1.3,
-    maxWidth: 400,
     boxSizing: "border-box",
     textAlign: "center",
     fontSize: 16,
+    maxWidth: 400,
   },
   tableHeaderColumn: {
     extend: "tableColumn",
