@@ -8,7 +8,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   headerAndContent: {
     display: "flex",
-    height: "100vh",
     overflow: "auto",
     backgroundColor: theme.backgroundColor,
     position: "relative",

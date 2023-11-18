@@ -9,7 +9,8 @@ const useStyles = createUseStyles((theme: Theme) => ({
     transition: "all .2s ease-in-out",
     width: 0,
     boxSizing: "border-box",
-    position: "relative",
+    position: "sticky",
+    top: 0,
   },
   menuIcon: {
     position: "absolute",
