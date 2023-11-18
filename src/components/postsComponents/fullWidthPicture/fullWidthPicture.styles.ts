@@ -4,7 +4,8 @@ import { Theme } from "../../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
   fullWidthPictureContainer: {
-    width: "80%",
+    minWidth: "95%",
+    minHeight: 800,
     height: 400,
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
