@@ -16,10 +16,9 @@ const FullWidthPicture: React.FunctionComponent<IFullWidthPicture> = (
 
   const styles = useStyles({ theme });
   return (
-    <div
-      className={styles.fullWidthPictureContainer}
-      style={{ backgroundImage: "url(" + props.pictureUrl + ")" }}
-    ></div>
+    <div className={styles.fullWidthPictureContainer}>
+      <img src={props.pictureUrl} className={styles.fullWidthPicture} />
+    </div>
   );
 };
 
