@@ -33,6 +33,7 @@ import Checkbox from "../../checkbox";
 
 interface IPageEditorForm {
   title: string;
+  slug?: string;
   posts: string[];
   showInHeader: boolean;
   showInSideMenu: boolean;
@@ -44,7 +45,6 @@ interface IPageEditor {
 }
 
 const PageEditor = (props: IPageEditor) => {
-  const user: IUser = useAppSelector((state) => state.user.user);
   const language: string = useAppSelector(
     (state) => state.userPreferences.language
   );
@@ -68,6 +68,7 @@ const PageEditor = (props: IPageEditor) => {
       formik.resetForm({
         values: {
           title: getTranslatedText(props.page.title),
+          slug: props.page.slug,
           posts: props.page.posts.map((post) => post._id),
           showInHeader: Boolean(props.page?.showInHeader),
           showInSideMenu: Boolean(props.page?.showInSideMenu),
@@ -88,12 +89,14 @@ const PageEditor = (props: IPageEditor) => {
     initialValues: {
       posts: [],
       title: "",
+      slug: "",
       showInHeader: true,
       showInSideMenu: false,
       language,
     },
     validationSchema: Yup.object().shape({
       // title: Yup.string().required("Title is required"),
+      slug: props.page ? Yup.string().matches(/^[^\s]+$/) : Yup.mixed(),
     }),
     onSubmit: async (values) => {
       let command: PageCreateCommand | PageUpdateCommand;
@@ -102,6 +105,7 @@ const PageEditor = (props: IPageEditor) => {
         command = {
           posts: values.posts,
           title: values.title,
+          slug: values.slug,
           showInHeader: values.showInHeader,
           showInSideMenu: values.showInSideMenu,
           _id: props.page._id,
@@ -192,6 +196,15 @@ const PageEditor = (props: IPageEditor) => {
             name="title"
             inputProps={{
               placeholder: getTranslatedText(staticText?.title),
+            }}
+          />
+
+          <Input
+            Icon={MdTitle}
+            formik={formik}
+            name="slug"
+            inputProps={{
+              placeholder: getTranslatedText(staticText?.slug),
             }}
           />
 

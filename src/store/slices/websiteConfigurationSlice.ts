@@ -219,6 +219,7 @@ export interface IWebsiteConfiguration {
       delete: ITranslatedText[];
       addPage: ITranslatedText[];
       title: ITranslatedText[];
+      slug: ITranslatedText[];
       language: ITranslatedText[];
       showInHeader: ITranslatedText[];
       showInSideMenu: ITranslatedText[];
@@ -1342,6 +1343,10 @@ const initialState: IWebsiteConfigurationState = {
       addPage: [
         { language: "en", text: "Add Page" },
         { language: "fr", text: "Ajouter une page" },
+      ],
+      slug: [
+        { language: "en", text: "Slug" },
+        { language: "fr", text: "Slug" },
       ],
       createPage: [
         { language: "en", text: "Create Page" },

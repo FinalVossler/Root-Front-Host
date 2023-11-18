@@ -8,6 +8,7 @@ import useAuthorizedAxios from "../useAuthorizedAxios";
 export type PageUpdateCommand = {
   _id: string;
   title: string;
+  slug?: string;
   posts: string[];
   showInHeader: boolean;
   showInSideMenu: boolean;
@@ -36,7 +37,7 @@ const useUpdatePage = () => {
           resolve(null);
         })
         .finally(() => setLoading(false))
-        .catch((e) => reject(expect));
+        .catch((e) => reject(e));
     });
 
   return { updatePage, loading };
