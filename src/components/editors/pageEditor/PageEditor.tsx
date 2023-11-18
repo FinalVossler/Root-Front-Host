@@ -96,7 +96,12 @@ const PageEditor = (props: IPageEditor) => {
     },
     validationSchema: Yup.object().shape({
       // title: Yup.string().required("Title is required"),
-      slug: props.page ? Yup.string().matches(/^[^\s]+$/) : Yup.mixed(),
+      slug: props.page
+        ? Yup.string().matches(
+            /^[^\s]+$/,
+            getTranslatedText(staticText?.slugError)
+          )
+        : Yup.mixed(),
     }),
     onSubmit: async (values) => {
       let command: PageCreateCommand | PageUpdateCommand;

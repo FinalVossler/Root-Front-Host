@@ -220,6 +220,7 @@ export interface IWebsiteConfiguration {
       addPage: ITranslatedText[];
       title: ITranslatedText[];
       slug: ITranslatedText[];
+      slugError: ITranslatedText[];
       language: ITranslatedText[];
       showInHeader: ITranslatedText[];
       showInSideMenu: ITranslatedText[];
@@ -1347,6 +1348,10 @@ const initialState: IWebsiteConfigurationState = {
       slug: [
         { language: "en", text: "Slug" },
         { language: "fr", text: "Slug" },
+      ],
+      slugError: [
+        { language: "en", text: "No spaces allowed" },
+        { language: "fr", text: "Espaces interdits" },
       ],
       createPage: [
         { language: "en", text: "Create Page" },
