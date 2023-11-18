@@ -246,3 +246,19 @@ get
 contraintes: on ne soucis pas de parsing
 seuls valeurs à envoyer c'est des strings
 redémarre
+
+---
+
+pas moins de 6 développeurs + tech lead + scrum master + product owner
+docker + vm + rest + micro-services
+typescriot + node + nest + mongodb + react + typescript + css
+git + linux + test unitaire
+
+ocr
+optical character recognition
+image => html
+
+sass
+data scientst c++
+librarie node js, fonction => parseimage (buff): text structuré
+pas gratuite elle fait tourner tous les CPU, RAM 5 à 10 secondes

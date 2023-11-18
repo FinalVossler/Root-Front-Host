@@ -26,6 +26,7 @@ import PostAsEntityEditor from "../postsComponents/postAsEntityEditor";
 
 import useStyles from "./post.styles";
 import EntitiesList from "../../pages/entitiesPage/entitiesList";
+import FullWidthPicture from "../postsComponents/fullWidthPicture";
 
 interface IUserPosts {
   post: IPost;
@@ -73,6 +74,15 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
       />
     );
   }
+
+  if (post.design === PostDesign.fullWidthPicture) {
+    return (
+      <FullWidthPicture
+        pictureUrl={post.files.find((f) => f.isImage)?.url || ""}
+      />
+    );
+  }
+
   if (post.design === PostDesign.TitleAndText) {
     return (
       <TitleAndText
