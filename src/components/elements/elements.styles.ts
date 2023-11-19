@@ -31,16 +31,16 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   viewTab: {
     flex: 1,
-    height: 40,
     textAlign: "center",
     transition: ".1s all ease-in-out",
     cursor: "pointer",
     fontSize: 20,
-    paddingTop: 10,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     borderBottom: "4px solid " + theme.lightTextColor,
+    boxSizing: "border-box",
+    height: 55,
   },
   selectedViewTab: {
     extend: "viewTab",
