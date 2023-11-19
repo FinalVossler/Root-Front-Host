@@ -18,6 +18,30 @@ const useStyles = createUseStyles((theme: Theme) => ({
     transition: "all .2s ease-in-out",
     height: 80,
     width: "-webkit-fill-available",
+
+    "& .react-select__control": {
+      height: 30,
+      minHeight: "initial",
+    },
+    "& .react-select__indicator": {
+      paddingTop: 0,
+      paddingBottom: 0,
+    },
+    "& .react-select__indicators": {
+      height: "initial",
+    },
+
+    "& .react-select__value-container": {
+      textAlign: "center",
+      width: 50,
+      paddingRight: 0,
+      paddingLeft: 0,
+    },
+
+    "& .react-select__single-value": {
+      top: 1.5,
+      position: "relative",
+    },
   },
   headerIcon: {
     fontSize: 26,

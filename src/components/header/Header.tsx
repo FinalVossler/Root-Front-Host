@@ -118,16 +118,16 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
           <InputSelect
             options={
               mainLanguages?.map((language) => ({
-                label: language,
+                label: language.toUpperCase(),
                 value: language,
               })) || [
-                { label: "en", value: "en" },
-                { label: "fr", value: "fr" },
+                { label: "EN", value: "en" },
+                { label: "FR", value: "fr" },
               ]
             }
             label={getTranslatedText(staticText?.language)}
             value={{
-              label: userPreferenceLanguage,
+              label: userPreferenceLanguage.toUpperCase(),
               value: userPreferenceLanguage,
             }}
             onChange={handleChangeLanguage}

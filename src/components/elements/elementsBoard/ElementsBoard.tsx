@@ -45,9 +45,8 @@ const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
   return (
     <div className={styles.elementsBoardContainer}>
       {model.states &&
-        [...(model.states || [])]
-          .reverse()
-          .map((modelState: IModelState, modelStateIndex) => {
+        [...(model.states || [])].map(
+          (modelState: IModelState, modelStateIndex) => {
             const stateConcernedFields: IModelField[] =
               getModelStateConcernedFields({ model, modelState });
 
@@ -152,7 +151,8 @@ const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
                   })}
               </div>
             );
-          })}
+          }
+        )}
     </div>
   );
 };

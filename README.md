@@ -225,7 +225,8 @@ effect: none
 -created on (instead of at)
 -Task type column becomes "On hold by" "En attente de"
 -Font family:
--Tasks management tile in the side menu: "Business case status"
+-Tasks management title in the side menu: "Business case status"
+
 -boards view table: Problem with horizontal overflow
 -Add button for a case: Becomes a sub button in the side menu (Only for those who have create permission for the entity)
 -Table board (can't click at the beginning = only works when we click down)

@@ -5,14 +5,12 @@ import { Theme } from "../../../config/theme";
 const useStyles = createUseStyles((theme: Theme) => ({
   elementsBoardContainer: {
     display: "flex",
-    flexDirection: "row-reverse",
+    flexDirection: "row",
     marginRight: 10,
     overflow: "auto",
     paddingTop: 10,
     paddingBottom: 40,
-    paddingLeft: 50,
     fontSize: 14,
-    justifyContent: "flex-end",
 
     borderRadius: 10,
   },

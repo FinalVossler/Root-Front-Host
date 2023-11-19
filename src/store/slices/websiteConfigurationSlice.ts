@@ -754,8 +754,8 @@ const initialState: IWebsiteConfigurationState = {
         { language: "fr", text: "Rôles" },
       ],
       tasksManagement: [
-        { language: "en", text: "Tasks Management" },
-        { language: "fr", text: "Gestion de tâches" },
+        { language: "en", text: "Business case Status" },
+        { language: "fr", text: "Statut de l'analyse" },
       ],
       microFrontends: [
         { language: "en", text: "Micro-Frontends" },
@@ -1491,7 +1491,7 @@ const initialState: IWebsiteConfigurationState = {
         { language: "fr", text: "États" },
       ],
       createdAt: [
-        { language: "en", text: "Created at" },
+        { language: "en", text: "Created on" },
         { language: "fr", text: "Créée en" },
       ],
       assignedTo: [
@@ -1500,8 +1500,8 @@ const initialState: IWebsiteConfigurationState = {
       ],
 
       taskType: [
-        { language: "en", text: "Task type" },
-        { language: "fr", text: "Type de la tâche" },
+        { language: "en", text: "On hold by" },
+        { language: "fr", text: "En attente de" },
       ],
 
       mustBeValidUrl: [
