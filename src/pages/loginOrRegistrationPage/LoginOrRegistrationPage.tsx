@@ -21,9 +21,9 @@ enum ActiveForm {
 }
 
 interface ILoginOrRegistrationPage {}
-const LoginOrRegistrationPage: React.FunctionComponent<ILoginOrRegistrationPage> = (
-  props: ILoginOrRegistrationPage
-) => {
+const LoginOrRegistrationPage: React.FunctionComponent<
+  ILoginOrRegistrationPage
+> = (props: ILoginOrRegistrationPage) => {
   //#region store
   const withRegistration: boolean | undefined = useAppSelector(
     (state) => state.websiteConfiguration.withRegistration
@@ -34,7 +34,15 @@ const LoginOrRegistrationPage: React.FunctionComponent<ILoginOrRegistrationPage>
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
-  const logo1: IFile | undefined = useAppSelector(state => state.websiteConfiguration.logo1);
+  const logo1: IFile | undefined = useAppSelector(
+    (state) => state.websiteConfiguration.logo1
+  );
+  const websiteTitle = useAppSelector(
+    (state) => state.websiteConfiguration.title
+  );
+  const websiteDescription = useAppSelector(
+    (state) => state.websiteConfiguration.description
+  );
   //#endregion store
 
   const [activeForm, setActiveForm] = React.useState<ActiveForm>(
@@ -52,22 +60,31 @@ const LoginOrRegistrationPage: React.FunctionComponent<ILoginOrRegistrationPage>
 
   React.useEffect(() => {
     if (isLoggedIn) {
-      navigate('/profile');
+      navigate("/profile");
     }
-  }, [isLoggedIn])
+  }, [isLoggedIn]);
 
   return (
     <div className={styles.loginOrRegistrationPageContainer}>
-
       <div className={styles.left}>
-        <h2 className={styles.welcome}>{getTranslatedText(staticText?.welcome).toUpperCase()}</h2>
-        <h3 className={styles.solutionDescription}>{getTranslatedText(staticText?.solutionDescription)}</h3>
+        <h2 className={styles.welcome}>
+          {websiteTitle || getTranslatedText(staticText?.welcome).toUpperCase()}
+        </h2>
+        <h3 className={styles.solutionDescription}>
+          {getTranslatedText(websiteDescription) ||
+            getTranslatedText(staticText?.solutionDescription)}
+        </h3>
       </div>
 
       <div className={styles.right}>
-        {logo1 && <div style={{
-          background: 'url(' + logo1.url + ')' + ' center center'
-        }} className={styles.logo1} />}
+        {logo1 && (
+          <div
+            style={{
+              background: "url(" + logo1.url + ")" + " center center",
+            }}
+            className={styles.logo1}
+          />
+        )}
 
         {(activeForm === ActiveForm.Register || !activeForm) &&
           !isLoggedIn &&
@@ -130,4 +147,4 @@ const LoginOrRegistrationPage: React.FunctionComponent<ILoginOrRegistrationPage>
   );
 };
 
-export default React.memo(LoginOrRegistrationPage)
+export default React.memo(LoginOrRegistrationPage);

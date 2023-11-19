@@ -10,6 +10,7 @@ import { websiteConfigurationSlice } from "../../store/slices/websiteConfigurati
 export type WebsiteConfigurationUpdateCommand = {
   title: string;
   email: string;
+  description: string;
   phoneNumber: string;
   tabTitle: string;
   mainLanguages: string[];
@@ -20,6 +21,7 @@ export type WebsiteConfigurationUpdateCommand = {
   tabIcon?: IFile;
   logo1?: IFile;
   logo2?: IFile;
+  language: string;
 };
 
 const useUpdateWebsiteConfiguration = () => {

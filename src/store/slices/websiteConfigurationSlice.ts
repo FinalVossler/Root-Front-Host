@@ -8,6 +8,7 @@ import changeTabIcon from "../../utils/changeTabIcon";
 export interface IWebsiteConfiguration {
   _id?: string;
   title?: string;
+  description?: string;
   email?: string;
   phoneNumber?: string;
   tabTitle?: string;
@@ -283,7 +284,9 @@ export interface IWebsiteConfiguration {
       tabTitleIsRequired: ITranslatedText[];
       websiteConfiguration: ITranslatedText[];
       globalConfiguration: ITranslatedText[];
+      language: ITranslatedText[];
       title: ITranslatedText[];
+      description: ITranslatedText[];
       email: ITranslatedText[];
       phoneNumber: ITranslatedText[];
       tabTitle: ITranslatedText[];
@@ -391,6 +394,7 @@ export interface IWebsiteConfiguration {
 interface IWebsiteConfigurationState {
   _id?: string;
   title?: string;
+  description?: string;
   email?: string;
   phoneNumber?: string;
   tabTitle?: string;
@@ -413,6 +417,7 @@ interface IWebsiteConfigurationState {
 const initialState: IWebsiteConfigurationState = {
   _id: "",
   title: "",
+  description: "",
   email: "",
   phoneNumber: "",
   tabTitle: "",
@@ -1613,9 +1618,17 @@ const initialState: IWebsiteConfigurationState = {
         { text: "Theme", language: "en" },
         { text: "Thème", language: "fr" },
       ],
+      language: [
+        { text: "Language", language: "en" },
+        { text: "Lange", language: "fr" },
+      ],
       title: [
         { text: "Title", language: "en" },
         { text: "Titre", language: "fr" },
+      ],
+      description: [
+        { text: "Description", language: "en" },
+        { text: "Description", language: "fr" },
       ],
       titleIsRequired: [
         { text: "Title is required", language: "en" },
@@ -2034,7 +2047,8 @@ export const websiteConfigurationSlice = createSlice({
     ) => {
       state.email = action.payload.email;
       state.title = action.payload.title;
-      state.phoneNumber = action.payload.phoneNumber;
+      (state.description = action.payload.description),
+        (state.phoneNumber = action.payload.phoneNumber);
       state.tabTitle = action.payload.tabTitle;
       state.mainLanguages = action.payload.mainLanguages;
       state.withChat = action.payload.withChat;

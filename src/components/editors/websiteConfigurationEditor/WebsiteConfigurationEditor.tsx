@@ -28,9 +28,15 @@ import IFile from "../../../globalTypes/IFile";
 import FilesInput from "../../filesInput";
 import uploadFile from "../../../utils/uploadFile";
 import { TypeOfFiles } from "../../existingFiles/ExistingFiles";
+import InputSelect from "../../inputSelect";
+import getLanguages from "../../../utils/getLanguages";
+import Textarea from "../../textarea/Textarea";
+import { lang } from "moment";
 
-interface IConfigurationForm extends Theme {
+interface IWebsiteConfigurationForm extends Theme {
+  language?: string;
   title?: string;
+  description?: string;
   email?: string;
   phoneNumber?: string;
   tabTitle?: string;
@@ -51,6 +57,7 @@ interface IWebsiteConfigurationEditor {}
 const WebsiteConfigurationEditor: React.FunctionComponent<
   IWebsiteConfigurationEditor
 > = (props: IWebsiteConfigurationEditor) => {
+  //#region store
   const websiteConfiguration: IWebsiteConfiguration = useAppSelector(
     (state) => state.websiteConfiguration
   );
@@ -63,10 +70,17 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
   const configurationModelOpen: boolean = useAppSelector(
     (state) => state.websiteConfiguration.ui.websiteConfigurationEditorOpen
   );
+  const language: string = useAppSelector(
+    (state) => state.userPreferences.language
+  );
+  //#endregion store
 
+  //#region local state
   const [uploadingFilesLoading, setUploadingFilesLoading] =
     React.useState<boolean>(false);
+  //#endregion local state
 
+  //#region hooks
   const styles = useStyles({ theme });
   const dispatch = useAppDispatch();
   const handleRevertThemeToDefault = () => {
@@ -77,10 +91,17 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
   const { updateWebsiteConfiguration, loading } =
     useUpdateWebsiteConfiguration();
   const getTranslatedText = useGetTranslatedText();
+  //#endregion hooks
 
   const getInitialValuesBasedOnWebsiteConfiguration = () => {
     return {
       title: websiteConfiguration.title,
+      language: formik?.values?.language || language,
+      description:
+        getTranslatedText(
+          websiteConfiguration.description,
+          formik?.values?.language || language
+        ) || "",
       email: websiteConfiguration.email,
       phoneNumber: websiteConfiguration.phoneNumber,
       tabTitle: websiteConfiguration.tabTitle,
@@ -113,8 +134,10 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
       logo2AsYetToDownloadFile: undefined,
     };
   };
-  const formik: FormikProps<IConfigurationForm> = useFormik<IConfigurationForm>(
-    {
+
+  //#region formik
+  const formik: FormikProps<IWebsiteConfigurationForm> =
+    useFormik<IWebsiteConfigurationForm>({
       initialValues: getInitialValuesBasedOnWebsiteConfiguration(),
       validationSchema: Yup.object().shape({
         title: Yup.string().required(
@@ -133,7 +156,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
         withRegistration: Yup.boolean(),
         withTaskManagement: Yup.boolean(),
       }),
-      onSubmit: async (values: IConfigurationForm) => {
+      onSubmit: async (values: IWebsiteConfigurationForm) => {
         const filesUploadPromises: Promise<IFile | undefined>[] = [];
 
         setUploadingFilesLoading(true);
@@ -188,6 +211,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           email: values.email || "",
           phoneNumber: values.phoneNumber || "",
           title: values.title || "",
+          description: values.description || "",
           tabTitle: values.tabTitle || "",
           mainLanguages: values.mainLanguages || ["en", "fr"],
           withChat: values.withChat || false,
@@ -214,21 +238,25 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
             subContentBackgroundColor: values.subContentBackgroundColor,
             boxShadow: values.boxShadow,
           },
+          language: values.language || language,
         };
 
         await updateWebsiteConfiguration(command);
 
         formik.setFieldValue("tabIconAsYetToDownloadFile", null);
       },
-    }
-  );
+    });
+  //#endregion formik
 
+  //#region effects
   React.useEffect(() => {
     formik.resetForm({
       values: getInitialValuesBasedOnWebsiteConfiguration(),
     });
-  }, [websiteConfiguration]);
+  }, [websiteConfiguration, formik.values.language]);
+  //#endregion effects
 
+  //#region view
   const actualLoading = loading || uploadingFilesLoading;
   return (
     <Modal
@@ -258,6 +286,17 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           {getTranslatedText(staticText?.globalConfiguration)}:{" "}
         </h2>
 
+        <InputSelect
+          label={getTranslatedText(staticText?.language)}
+          name="language"
+          formik={formik}
+          options={getLanguages()}
+          value={
+            getLanguages().find((el) => el.value === formik.values.language) ||
+            getLanguages()[0]
+          }
+        />
+
         <Input
           Icon={MdTitle}
           name={"title"}
@@ -266,6 +305,20 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           inputProps={{
             placeholder: getTranslatedText(staticText?.title),
             disabled: actualLoading,
+          }}
+        />
+
+        <Textarea
+          label={getTranslatedText(staticText?.description)}
+          value={formik.values.description}
+          textareaProps={{
+            placeholder: getTranslatedText(staticText?.description),
+          }}
+          name="description"
+          formik={formik}
+          debounce
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+            formik.setFieldValue("description", e.target.value);
           }}
         />
 
@@ -619,6 +672,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
       </form>
     </Modal>
   );
+  //#endregion view
 };
 
 export default React.memo(WebsiteConfigurationEditor);

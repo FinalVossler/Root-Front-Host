@@ -8,7 +8,7 @@ import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./textarea.styles";
 
-export interface IInput extends React.PropsWithChildren {
+export interface ITextarea {
   textareaProps?: React.InputHTMLAttributes<HTMLTextAreaElement>;
   name?: string;
   formik?: FormikProps<any>;
@@ -19,7 +19,9 @@ export interface IInput extends React.PropsWithChildren {
   onFocus?: (e: React.FocusEvent<HTMLTextAreaElement, Element>) => any;
   label?: string;
 }
-const Textarea: React.FunctionComponent<IInput> = (props: IInput) => {
+const Textarea: React.FunctionComponent<React.PropsWithChildren<ITextarea>> = (
+  props: React.PropsWithChildren<ITextarea>
+) => {
   const [isFocused, setIsFocused] = React.useState(false);
 
   const theme: Theme = useAppSelector(
