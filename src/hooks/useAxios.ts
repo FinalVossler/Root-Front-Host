@@ -1,3 +1,4 @@
+import React from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -8,9 +9,13 @@ import { userSlice } from "../store/slices/userSlice";
 const useAxios = () => {
   const dispatch = useAppDispatch();
 
-  const instance = axios.create({
-    baseURL: process.env.REACT_APP_BACKEND_URL,
-  });
+  const instance = React.useMemo(
+    () =>
+      axios.create({
+        baseURL: process.env.REACT_APP_BACKEND_URL,
+      }),
+    []
+  );
 
   instance.interceptors.response.use(
     (response) => {

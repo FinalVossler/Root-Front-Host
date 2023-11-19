@@ -24,8 +24,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
       minHeight: "initial",
     },
     "& .react-select__indicator": {
-      paddingTop: 0,
-      paddingBottom: 0,
+      padding: 0,
     },
     "& .react-select__indicators": {
       height: "initial",
@@ -33,7 +32,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
 
     "& .react-select__value-container": {
       textAlign: "center",
-      width: 50,
+      width: 35,
       paddingRight: 0,
       paddingLeft: 0,
     },
@@ -41,6 +40,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     "& .react-select__single-value": {
       top: 1.5,
       position: "relative",
+      fontSize: 13,
     },
   },
   headerIcon: {
