@@ -227,9 +227,9 @@ effect: none
 -Font family:
 -Tasks management title in the side menu: "Business case status"
 -boards view table: Problem with horizontal overflow
+-Table board (can't click at the beginning = only works when we click down)
 
 -Add button for a case: Becomes a sub button in the side menu (Only for those who have create permission for the entity)
--Table board (can't click at the beginning = only works when we click down)
 -Drop system: (Remove existing files button)
 -In an entity, the states shown should be shown in an ordered workflow way (like amazon shipment tracking)
 -Table, seperation between columns

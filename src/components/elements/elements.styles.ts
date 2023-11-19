@@ -73,6 +73,14 @@ const useStyles = createUseStyles((theme: Theme) => ({
   tableHeader: {},
   tableRow: {
     maxWidth: "100%",
+
+    "& .column_resizer_own_class": {
+      borderRight: "1px solid " + theme.darkerPrimary,
+    },
+
+    "& .column_resizer_own_class:last-child": {
+      border: "none",
+    },
   },
   tableColumn: {
     padding: 20,
