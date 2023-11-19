@@ -29,6 +29,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginBottom: 20,
     marginTop: 10,
     textAlign: "center",
+    height: 40,
   },
   mainModelFields: {
     display: "flex",
