@@ -86,14 +86,9 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
           : styles.headerContainer
       }
       style={{
-        backgroundColor: websiteConfigurationEditorOpen
-          ? "transparent"
-          : theme.transparentBackground,
+        backgroundColor: theme.transparentBackground,
       }}
     >
-      {hasPermission(Permission.EditConfiguration) && (
-        <WebsiteConfigurationEditor />
-      )}
       <div className={styles.left}>
         <NavLink to="/" className={styles.headerTitle}>
           {websiteTitle || "Socionics with Hamza Khalifa"}

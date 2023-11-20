@@ -4,10 +4,11 @@ import { Theme } from "../../../config/theme";
 
 const useStyles = createUseStyles((theme: Theme) => ({
   postOptionsContainer: {
-    position: "absolute",
-    right: 10,
-    top: 10,
-    zIndex: 100,
+    position: "relative",
+    display: "flex",
+    width: "100%",
+    justifyContent: "flex-end",
+    flexDirection: "row-reverse",
   },
   postOptionsButton: {
     fontSize: 25,
@@ -23,9 +24,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     color: theme.primary,
     border: "1px solid " + theme.primary,
     position: "absolute",
-    right: 0,
+    right: 20,
+    top: 20,
     padding: 10,
     borderRadius: 5,
+    zIndex: 100,
   },
   option: {
     fontSize: 15,

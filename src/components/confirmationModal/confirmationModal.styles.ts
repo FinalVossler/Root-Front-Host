@@ -5,12 +5,12 @@ import { Theme } from "../../config/theme";
 const useStyles = createUseStyles((theme: Theme) => ({
   confirmationModalContainer: {
     display: "flex",
-    zIndex: 13,
     position: "fixed",
     width: "100%",
     height: "100%",
     top: 0,
     left: 0,
+    zIndex: 100,
   },
   layer: {
     display: "flex",
@@ -19,6 +19,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     position: "fixed",
     backgroundColor: theme.darkTextColor,
     opacity: 0.4,
+    zIndex: 101,
   },
   confirmationModal: {
     minWidth: 200,
@@ -32,9 +33,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     margin: "auto",
     flexDirection: "column",
     alignItems: "center",
-    zIndex: 2,
     boxShadow: "0px 0px 10px 1px #00000024",
     width: "50%",
+    zIndex: 102,
   },
   description: {
     color: theme.darkTextColor,
