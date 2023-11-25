@@ -27,7 +27,6 @@ import { IModel, IModelField } from "../../../store/slices/modelSlice";
 import { StaticPermission } from "../../../store/slices/roleSlice";
 
 import useStyles from "./entitiesList.styles";
-import { LocalStorageConfNameEnum } from "../../../utils/localStorage";
 
 interface IEntitiesList {
   modelId: string;

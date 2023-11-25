@@ -494,9 +494,8 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
           modelField.field.type === FieldType.IFrame
         ) {
           return (
-            <React.Fragment>
+            <React.Fragment key={modelFieldIndex}>
               <Input
-                key={modelFieldIndex}
                 Icon={MdTextFields}
                 formik={formik}
                 name="entityFieldValues"
@@ -716,10 +715,10 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
             }
           }
         })
-        .map((role: IRole, roleIndex: number) => {
+        .map((role: IRole) => {
           return (
             <div
-              key={roleIndex}
+              key={role._id}
               className={styles.assignedUsersByRoleInputContainer}
             >
               <SearchInput
@@ -749,10 +748,10 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
 
               {formik.values.assignedUsers
                 .filter((u) => u.role?._id.toString() === role._id.toString())
-                .map((user: IUser, userIndex: number) => {
+                .map((user: IUser) => {
                   return (
                     <div
-                      key={userIndex}
+                      key={user._id}
                       className={styles.assignedUsersByRoleContainer}
                     >
                       <MdDelete

@@ -12,7 +12,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   selectLabel: {
     color: theme.darkTextColor,
-    marginRight: 10,
+    marginRight: 7,
     width: 170,
 
     textAlign: "start",
