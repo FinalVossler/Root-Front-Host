@@ -34,7 +34,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
     top: 60,
     color: theme.borderColor,
     textAlign: "center",
-    textWrap: "nowrap",
     width: 100,
   },
   activeStateName: {
