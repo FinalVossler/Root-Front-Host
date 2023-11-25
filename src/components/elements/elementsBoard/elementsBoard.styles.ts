@@ -63,7 +63,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   subStates: {
     display: "flex",
     flexDirection: "row",
-    margin: 26,
+    margin: 10,
     marginTop: 10,
     marginBottom: 5,
     flexWrap: "wrap",
