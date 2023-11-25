@@ -28,6 +28,7 @@ import EventsEditor from "../eventsEditor/EventsEditor";
 import { EventTriggerEnum, IEvent } from "../../../globalTypes/IEvent";
 import FieldTableEditor from "./fieldTableEditor";
 import uuid from "react-uuid";
+import Checkbox from "../../checkbox";
 
 export interface IFieldEditor {
   field?: IField;
@@ -51,6 +52,7 @@ export type FieldTableElementForm = {
 export interface IFieldForm {
   name: string;
   type: IField["type"];
+  canChooseFromExistingFiles: boolean;
   options: FieldOptionForm[];
   fieldEvents: IEvent[];
   tableOptions: {
@@ -85,6 +87,7 @@ const FieldEditor = (props: IFieldEditor) => {
     initialValues: {
       name: "",
       type: FieldType.Text,
+      canChooseFromExistingFiles: true,
       options: [],
       fieldEvents: [],
       tableOptions: {
@@ -102,6 +105,7 @@ const FieldEditor = (props: IFieldEditor) => {
           _id: props.field._id,
           name: values.name,
           type: values.type,
+          canChooseFromExistingFiles: values.canChooseFromExistingFiles,
           language: values.language,
           options: values.options,
           fieldEvents: values.fieldEvents.map((event) => ({
@@ -129,6 +133,7 @@ const FieldEditor = (props: IFieldEditor) => {
         const command: FieldCreateCommand = {
           name: values.name,
           type: values.type,
+          canChooseFromExistingFiles: values.canChooseFromExistingFiles,
           language: values.language,
           options: values.options,
           fieldEvents: values.fieldEvents.map((e) => ({
@@ -171,6 +176,8 @@ const FieldEditor = (props: IFieldEditor) => {
       values: {
         name: getTranslatedText(props.field?.name, formik.values.language),
         type: props.field?.type || FieldType.Text,
+        canChooseFromExistingFiles:
+          props.field?.canChooseFromExistingFiles || false,
         options:
           (props.field?.options &&
             props.field?.options.map((option) => ({
@@ -296,6 +303,15 @@ const FieldEditor = (props: IFieldEditor) => {
           label={getTranslatedText(staticText?.typePlaceholder)}
           value={{ value: formik.values.type, label: formik.values.type }}
         />
+
+        {formik.values.type === FieldType.File && (
+          <Checkbox
+            label={getTranslatedText(staticText?.canChooseFromExistingFiles)}
+            checked={formik.values.canChooseFromExistingFiles}
+            name="canChooseFromExistingFiles"
+            formik={formik}
+          />
+        )}
 
         <InputSelect
           label={getTranslatedText(staticText?.language)}

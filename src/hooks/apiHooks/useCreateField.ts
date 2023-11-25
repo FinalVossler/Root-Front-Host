@@ -15,6 +15,7 @@ export type FieldTableElementCreateCommand = {
 export type FieldCreateCommand = {
   name: string;
   type: IField["type"];
+  canChooseFromExistingFiles: boolean;
   options?: {
     label: string;
     value: string;

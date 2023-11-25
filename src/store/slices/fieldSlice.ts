@@ -30,6 +30,7 @@ export interface IField {
   _id: string;
   name: ITranslatedText[];
   type: FieldType;
+  canChooseFromExistingFiles?: boolean;
   options?: FieldOption[];
   fieldEvents: IEvent[];
   tableOptions?: {

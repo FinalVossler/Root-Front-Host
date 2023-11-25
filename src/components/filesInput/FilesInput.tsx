@@ -41,6 +41,7 @@ interface IFilesInput {
   disabled?: boolean;
   canAddNew?: boolean;
   typeOfFiles: TypeOfFiles;
+  canChooseFromExistingFiles?: boolean;
 }
 
 const FilesInput = (props: IFilesInput) => {
@@ -207,7 +208,7 @@ const FilesInput = (props: IFilesInput) => {
           />
         </div>
       )}
-      {existingFilesOpen && isShowing && (
+      {existingFilesOpen && isShowing && props.canChooseFromExistingFiles && (
         <ExistingFiles
           selectedExistingFiles={props.selectedExistingFiles}
           setSelectedExistingFiles={props.setSelectedExistingFiles}

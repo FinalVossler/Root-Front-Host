@@ -16,6 +16,7 @@ export type FieldUpdateCommand = {
   _id: string;
   name: string;
   type: IField["type"];
+  canChooseFromExistingFiles: boolean;
   options?: {
     label: string;
     value: string;

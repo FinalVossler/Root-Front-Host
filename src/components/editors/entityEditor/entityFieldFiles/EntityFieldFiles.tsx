@@ -180,10 +180,12 @@ const EntityFieldFiles = (props: IEntityFieldFiles) => {
         {getTranslatedText(props.modelField.field.name)}:
       </span>
       <div className={styles.filesButtonsContainer}>
-        <AiOutlineFileSearch
-          className={styles.chooseFilesButton}
-          onClick={() => setExistingFilesOpen(true)}
-        />
+        {props.modelField.field.canChooseFromExistingFiles && (
+          <AiOutlineFileSearch
+            className={styles.chooseFilesButton}
+            onClick={() => setExistingFilesOpen(true)}
+          />
+        )}
 
         <FilesDropZone onDrop={handleDropFiles} disabled={props.disabled} />
 
@@ -234,16 +236,17 @@ const EntityFieldFiles = (props: IEntityFieldFiles) => {
         })}
       </div>
 
-      {existingFilesOpen && (
-        <ExistingFiles
-          selectedExistingFiles={
-            props.entityFieldValue?.selectedExistingFiles || []
-          }
-          setSelectedExistingFiles={handleSelectedExistingFilesChange}
-          typeOfFiles={TypeOfFiles.UnownedFiles}
-          disabled={props.disabled}
-        />
-      )}
+      {existingFilesOpen &&
+        props.modelField.field.canChooseFromExistingFiles && (
+          <ExistingFiles
+            selectedExistingFiles={
+              props.entityFieldValue?.selectedExistingFiles || []
+            }
+            setSelectedExistingFiles={handleSelectedExistingFilesChange}
+            typeOfFiles={TypeOfFiles.UnownedFiles}
+            disabled={props.disabled}
+          />
+        )}
     </div>
   );
 };

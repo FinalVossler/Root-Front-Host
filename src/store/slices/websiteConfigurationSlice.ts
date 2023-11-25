@@ -109,6 +109,7 @@ export interface IWebsiteConfiguration {
       updateField: ITranslatedText[];
       namePlaceholder: ITranslatedText[];
       typePlaceholder: ITranslatedText[];
+      canChooseFromExistingFiles: ITranslatedText[];
       submit: ITranslatedText[];
       language: ITranslatedText[];
       searchFields: ITranslatedText[];
@@ -783,6 +784,13 @@ const initialState: IWebsiteConfigurationState = {
       typePlaceholder: [
         { language: "en", text: "Type" },
         { language: "fr", text: "Type" },
+      ],
+      canChooseFromExistingFiles: [
+        { language: "en", text: "Can pick from existing files" },
+        {
+          language: "fr",
+          text: "On peut choisir à partir d'un fichier existant",
+        },
       ],
       submit: [
         { language: "en", text: "Submit" },
