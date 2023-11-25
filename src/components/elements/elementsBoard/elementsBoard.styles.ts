@@ -66,7 +66,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     margin: 26,
     marginTop: 20,
     marginBottom: 15,
-    height: 200,
+    // height: 230,
   },
   subState: {
     flex: 1,
@@ -79,6 +79,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     boxShadow: theme.boxShadow,
     textAlign: "center",
     display: "flex",
+    padding: 7,
   },
   filledSubState: {
     extend: "subState",

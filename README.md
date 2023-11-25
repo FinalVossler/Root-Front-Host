@@ -231,9 +231,9 @@ effect: none
 -Table, seperation between columns
 -Drop system: (Remove existing files button)
 -User assignment, only the head of marketing can assign to users from a different team (Everyone)
+-In an entity, the states shown should be shown in an ordered workflow way (like amazon shipment tracking)
 
 -Add button for a case: Becomes a sub button in the side menu (Only for those who have create permission for the entity)
--In an entity, the states shown should be shown in an ordered workflow way (like amazon shipment tracking)
 
 code une base de données:
 mettre une place un serveur nodejs + express
