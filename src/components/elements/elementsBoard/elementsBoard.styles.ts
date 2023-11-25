@@ -43,7 +43,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
     flex: 1,
-    marginTop: 15,
+    marginTop: 25,
   },
   entityCard: {
     display: "flex",
@@ -95,12 +95,19 @@ const useStyles = createUseStyles((theme: Theme) => ({
   entityMainFieldValue: {
     color: theme.darkTextColor,
     marginBottom: 2,
-    marginLeft: 26,
-    marginRight: 26,
+    marginLeft: 15,
+    marginRight: 15,
   },
   fieldLabel: {
     marginRight: 10,
     color: theme.darkTextColor,
+  },
+  editEntityIcon: {
+    cursor: "pointer",
+    position: "absolute",
+    color: theme.darkTextColor,
+    right: 30,
+    fontSize: 20,
   },
   visitEntityIcon: {
     cursor: "pointer",

@@ -1,6 +1,7 @@
 import React from "react";
 import { FaDirections } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { BiEdit } from "react-icons/bi";
 
 import { Theme } from "../../../config/theme";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
@@ -11,6 +12,7 @@ import {
   IModelField,
   IModelState,
 } from "../../../store/slices/modelSlice";
+import { Element } from "../Elements";
 import doesEntityMeetModelStateCondition from "../../../utils/doesEntityMeetModelStateCondition";
 import getModelStateConcernedFields from "../../../utils/getModelStateConcernedFields";
 
@@ -21,6 +23,12 @@ interface IElementsBoard {
   modelId: string;
   entities: IEntity[];
   forStatusTracking: boolean;
+
+  Editor: React.FunctionComponent<{
+    open: boolean;
+    setOpen: (open: boolean) => void;
+    element?: Element | null;
+  }>;
 }
 
 const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
@@ -102,6 +110,7 @@ const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
                     modelId={props.modelId}
                     model={model}
                     mainModelFields={mainModelFields}
+                    Editor={(subProps) => <props.Editor {...subProps} />}
                   />
                   <StateTracking
                     key={entityIndex}
@@ -140,6 +149,7 @@ const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
                         modelId={props.modelId}
                         model={model}
                         mainModelFields={mainModelFields}
+                        Editor={(subProps) => <props.Editor {...subProps} />}
                       />
                     </div>
                   );
@@ -158,16 +168,33 @@ interface IEntityCardProps {
   modelId: string;
   mainModelFields: IModelField[];
   model: IModel;
+  Editor: React.FunctionComponent<{
+    open: boolean;
+    setOpen: (open: boolean) => void;
+    element?: Element | null;
+  }>;
 }
 
 const EntityCard = (props: IEntityCardProps) => {
+  const [editorOpen, setEditorOpen] = React.useState<boolean>(false);
+
   const theme = useAppSelector((state) => state.websiteConfiguration.theme);
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
 
+  const handleOpenEditor = () => {
+    setEditorOpen(true);
+  };
+
   return (
     <div className={styles.entityCard}>
+      <BiEdit onClick={handleOpenEditor} className={styles.editEntityIcon} />
+      <props.Editor
+        open={editorOpen}
+        setOpen={setEditorOpen}
+        element={props.entity}
+      />
       <Link
         target="_blank"
         rel="noreferrer"

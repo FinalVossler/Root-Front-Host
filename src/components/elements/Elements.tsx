@@ -361,6 +361,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
               modelId={props.modelId?.toString() || ""}
               entities={props.elements as IEntity[]}
               forStatusTracking={viewType === ViewType.BoardForStatusTracking}
+              Editor={(subProps) => <props.Editor {...subProps} />}
             />
           )}
 
