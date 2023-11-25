@@ -11,7 +11,7 @@ import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 
 const withWrapper =
   (
-    Component: any,
+    Component: React.FunctionComponent<any>,
     options: { withFooter?: boolean; withSideMenu?: boolean } = {
       withFooter: true,
       withSideMenu: false,

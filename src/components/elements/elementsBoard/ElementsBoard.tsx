@@ -34,125 +34,139 @@ const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
   const styles = useStyles({ theme: theme });
   const getTranslatedText = useGetTranslatedText();
 
+  //#region View
+  const mainModelFields: IModelField[] =
+    model?.modelFields.filter((modelField) => Boolean(modelField.mainField)) ||
+    [];
+  interface IBoardPattern {
+    modelState: IModelState;
+    entities: IEntity[];
+  }
+  const boardPattern: IBoardPattern[] = React.useMemo(() => {
+    if (!model) {
+      return [];
+    }
+
+    const result: IBoardPattern[] = [];
+
+    let entitiesThatShouldntBeShownAgain: IEntity[] = [];
+    [...(model.states || [])].reverse().forEach((modelState) => {
+      const stateConcernedFields: IModelField[] = getModelStateConcernedFields({
+        model,
+        modelState,
+      });
+      const stateEntities: IEntity[] = props.entities
+        // Only show the entities that meet the model state conditions
+        .filter((entity) => {
+          let meetsModelStateCondition: boolean =
+            doesEntityMeetModelStateCondition({
+              entityFieldValues: entity.entityFieldValues,
+              stateConcernedFields,
+              getTranslatedText,
+              model,
+              entity,
+            });
+
+          return (
+            meetsModelStateCondition &&
+            !entitiesThatShouldntBeShownAgain.find((e) => e._id === entity._id)
+          );
+        });
+      if (modelState.exlusive) {
+        entitiesThatShouldntBeShownAgain =
+          entitiesThatShouldntBeShownAgain.concat(stateEntities);
+      }
+      result.push({ modelState: modelState, entities: stateEntities });
+    });
+    result.reverse();
+
+    return result;
+  }, [model?.states, props.entities]);
+
   if (!model) return null;
 
-  //#region View
-  const mainModelFields: IModelField[] = model.modelFields.filter(
-    (modelField) => Boolean(modelField.mainField)
-  );
-  const entitiesThatShouldntBeShownAgain: IEntity[] = [];
   //#endregion View
   return (
     <div className={styles.elementsBoardContainer}>
-      {model.states &&
-        [...(model.states || [])].map(
-          (modelState: IModelState, modelStateIndex) => {
-            const stateConcernedFields: IModelField[] =
-              getModelStateConcernedFields({ model, modelState });
+      {boardPattern.map(({ modelState, entities }, modelStateIndex) => {
+        return (
+          <div key={modelStateIndex} className={styles.stateContainer}>
+            <h3 className={styles.modelStateName}>
+              {getTranslatedText(modelState.name)}
+            </h3>
 
-            return (
-              <div key={modelStateIndex} className={styles.stateContainer}>
-                <h3 className={styles.modelStateName}>
-                  {getTranslatedText(modelState.name)}
-                </h3>
+            {entities.map((entity: IEntity, entityIndex: number) => {
+              return (
+                <div key={entityIndex} className={styles.entityCard}>
+                  <Link
+                    target="_blank"
+                    rel="noreferrer"
+                    to={"/entities/" + props.modelId + "/" + entity._id}
+                  >
+                    <FaDirections className={styles.visitEntityIcon} />
+                  </Link>
 
-                {props.entities
-                  // Only show the entities that meet the model state conditions
-                  .filter((entity) => {
-                    let meetsModelStateCondition: boolean =
-                      doesEntityMeetModelStateCondition({
-                        entityFieldValues: entity.entityFieldValues,
-                        stateConcernedFields,
-                        getTranslatedText,
-                        model,
-                        entity,
-                      });
-
-                    return (
-                      meetsModelStateCondition &&
-                      !entitiesThatShouldntBeShownAgain.find(
-                        (e) => e._id === entity._id
-                      )
-                    );
-                  })
-                  .map((entity: IEntity, entityIndex: number) => {
-                    if (modelState.exlusive)
-                      entitiesThatShouldntBeShownAgain.push(entity);
-                    return (
-                      <div key={entityIndex} className={styles.entityCard}>
-                        <Link
-                          target="_blank"
-                          rel="noreferrer"
-                          to={"/entities/" + props.modelId + "/" + entity._id}
-                        >
-                          <FaDirections className={styles.visitEntityIcon} />
-                        </Link>
-
-                        <div className={styles.mainModelFields}>
-                          {mainModelFields.map(
-                            (modelField, modelFieldIndex: number) => {
-                              return (
-                                <span
-                                  className={styles.entityMainFieldValue}
-                                  key={modelFieldIndex}
-                                >
-                                  <span className={styles.fieldLabel}>
-                                    {getTranslatedText(modelField.field.name)}:
-                                  </span>
-                                  {getTranslatedText(
-                                    entity.entityFieldValues.find(
-                                      (el) =>
-                                        el.field._id.toString() ===
-                                        modelField.field._id.toString()
-                                    )?.value
-                                  ) || ""}
-                                </span>
-                              );
-                            }
-                          )}
-                        </div>
-                        <div className={styles.subStates}>
-                          {model.subStates &&
-                            model.subStates?.map(
-                              (
-                                subState: IModelState,
-                                subStateIndex: number
-                              ) => {
-                                const concernedFields: IModelField[] =
-                                  getModelStateConcernedFields({
-                                    model,
-                                    modelState: subState,
-                                  });
-                                const stateConditionsMet: boolean =
-                                  doesEntityMeetModelStateCondition({
-                                    entityFieldValues: entity.entityFieldValues,
-                                    stateConcernedFields: concernedFields,
-                                    getTranslatedText,
-                                    model,
-                                    entity,
-                                  });
-                                return (
-                                  <span
-                                    key={subStateIndex}
-                                    className={
-                                      stateConditionsMet
-                                        ? styles.filledSubState
-                                        : styles.subState
-                                    }
-                                  >
-                                    {getTranslatedText(subState.name)}
-                                  </span>
-                                );
+                  <div className={styles.mainModelFields}>
+                    {mainModelFields.map(
+                      (modelField, modelFieldIndex: number) => {
+                        return (
+                          <span
+                            className={styles.entityMainFieldValue}
+                            key={modelFieldIndex}
+                          >
+                            <span className={styles.fieldLabel}>
+                              {getTranslatedText(modelField.field.name)}:
+                            </span>
+                            {getTranslatedText(
+                              entity.entityFieldValues.find(
+                                (el) =>
+                                  el.field._id.toString() ===
+                                  modelField.field._id.toString()
+                              )?.value
+                            ) || ""}
+                          </span>
+                        );
+                      }
+                    )}
+                  </div>
+                  <div className={styles.subStates}>
+                    {model.subStates &&
+                      model.subStates?.map(
+                        (subState: IModelState, subStateIndex: number) => {
+                          const concernedFields: IModelField[] =
+                            getModelStateConcernedFields({
+                              model,
+                              modelState: subState,
+                            });
+                          const stateConditionsMet: boolean =
+                            doesEntityMeetModelStateCondition({
+                              entityFieldValues: entity.entityFieldValues,
+                              stateConcernedFields: concernedFields,
+                              getTranslatedText,
+                              model,
+                              entity,
+                            });
+                          return (
+                            <span
+                              key={subStateIndex}
+                              className={
+                                stateConditionsMet
+                                  ? styles.filledSubState
+                                  : styles.subState
                               }
-                            )}
-                        </div>
-                      </div>
-                    );
-                  })}
-              </div>
-            );
-          }
-        )}
+                            >
+                              {getTranslatedText(subState.name)}
+                            </span>
+                          );
+                        }
+                      )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        );
+      })}
     </div>
   );
 };
