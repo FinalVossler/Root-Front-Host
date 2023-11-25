@@ -6,7 +6,6 @@ const useStyles = createUseStyles((theme: Theme) => ({
   profileFormContainer: {
     display: "flex",
     flexDirection: "column",
-    margin: "auto",
     width: "100%",
     borderRadius: 20,
     padding: 40,

@@ -53,6 +53,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   "@media (max-width: 930px)": {
     profileAndPages: {
       width: "100%",
+      flex: "initial",
     },
     postsAndEditor: {
       alignItems: "center",
@@ -63,6 +64,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     connectedUserContainer: {
       flexDirection: "column",
       alignItems: "center",
+      justifyContent: "flex-start",
     },
   },
 }));

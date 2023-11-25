@@ -116,7 +116,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
     right: 5,
     fontSize: 20,
   },
-  "@media (max-width: 850px)": {},
+  "@media (max-width: 930px)": {
+    entityCardAndStateTrackingContainer: {
+      flexDirection: "column",
+    },
+  },
 }));
 
 export default useStyles;

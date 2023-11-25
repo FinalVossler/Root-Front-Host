@@ -20,7 +20,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     top: "50%",
     left: 0,
     transition: "all .2s ease-in-out",
-    zIndex: 7,
+    zIndex: 12,
   },
   websiteLogo2: {},
   menuIconMenuOpen: {

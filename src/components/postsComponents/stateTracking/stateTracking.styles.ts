@@ -40,6 +40,29 @@ const useStyles = createUseStyles((theme: Theme) => ({
     extend: "stateName",
     color: theme.primary,
   },
+  "@media (max-width: 930px)": {
+    stateTrackingContainer: {
+      marginTop: 20,
+      marginBottom: 70,
+      margin: 0,
+    },
+    bullet: {
+      width: 30,
+      height: 30,
+    },
+    activeBullet: {
+      width: 30,
+      height: 30,
+    },
+    stateName: {
+      fontSize: 13,
+      marginTop: -20,
+    },
+    activeStateName: {
+      fontSize: 13,
+      marginTop: -20,
+    },
+  },
 }));
 
 export default useStyles;

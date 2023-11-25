@@ -279,7 +279,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
           {props.canCreate && !props.loading && (
             <Button
               onClick={handleOpenEditor}
-              style={{ paddingLeft: 40, paddingRight: 40 }}
+              style={{ paddingLeft: 40, paddingRight: 40, marginLeft: 10 }}
             >
               {getTranslatedText(staticText?.add)}
             </Button>
