@@ -11,8 +11,16 @@ const useStyles = createUseStyles((theme: Theme) => ({
     paddingTop: 10,
     paddingBottom: 40,
     fontSize: 14,
+    marginTop: 0,
 
     borderRadius: 10,
+  },
+  entityCardAndStateTrackingContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    marginTop: 0,
   },
   stateContainer: {
     minWidth: 205,
@@ -26,7 +34,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   modelStateName: {
     color: theme.darkTextColor,
     margin: 0,
-    marginBottom: 20,
+    marginBottom: 0,
     marginTop: 10,
     textAlign: "center",
     height: 40,

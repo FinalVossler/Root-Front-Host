@@ -211,6 +211,7 @@ export interface IWebsiteConfiguration {
       view: ITranslatedText[];
       table: ITranslatedText[];
       board: ITranslatedText[];
+      statusTracking: ITranslatedText[];
       add: ITranslatedText[];
     };
     pages: {
@@ -1333,6 +1334,10 @@ const initialState: IWebsiteConfigurationState = {
       board: [
         { language: "en", text: "Board" },
         { language: "fr", text: "Cartes " },
+      ],
+      statusTracking: [
+        { language: "en", text: "Status Tracking" },
+        { language: "fr", text: "Suivi de statut" },
       ],
       add: [
         { language: "en", text: "Add" },

@@ -48,6 +48,7 @@ export type Element =
 enum ViewType {
   Table = "Table",
   Board = "Board",
+  BoardForStatusTracking = "BoardForStatusTracking",
 }
 
 interface IElements {
@@ -101,7 +102,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
     null
   );
   const [viewType, setViewType] = React.useState<ViewType>(
-    props.isForEntities ? ViewType.Board : ViewType.Table
+    props.isForEntities ? ViewType.BoardForStatusTracking : ViewType.Table
   );
   const [hiddenColumns, setHiddenColumns] = React.useState<Column[]>([]);
 
@@ -216,6 +217,19 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
     <React.Fragment>
       {props.isForEntities && (
         <div className={styles.viewTabsContainer}>
+          <span
+            className={
+              viewType === ViewType.BoardForStatusTracking
+                ? styles.selectedViewTab
+                : styles.viewTab
+            }
+            onClick={() =>
+              handleViewTypeChange(ViewType.BoardForStatusTracking)
+            }
+          >
+            {getTranslatedText(staticText?.statusTracking)}
+          </span>
+
           <span
             className={
               viewType === ViewType.Board
@@ -340,12 +354,15 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
           />
         </div>
 
-        {viewType === ViewType.Board && props.isForEntities && (
-          <ElementsBoard
-            modelId={props.modelId?.toString() || ""}
-            entities={props.elements as IEntity[]}
-          />
-        )}
+        {(viewType === ViewType.Board ||
+          viewType === ViewType.BoardForStatusTracking) &&
+          props.isForEntities && (
+            <ElementsBoard
+              modelId={props.modelId?.toString() || ""}
+              entities={props.elements as IEntity[]}
+              forStatusTracking={viewType === ViewType.BoardForStatusTracking}
+            />
+          )}
 
         {viewType === ViewType.Table && hiddenColumns.length > 0 && (
           <div className={styles.hiddenColumns}>
