@@ -1,5 +1,5 @@
 import React from "react";
-import { BiCopy, BiHide, BiShow } from "react-icons/bi";
+import { BiCopy, BiShow } from "react-icons/bi";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import ColumnResizer from "react-table-column-resizer";
 import Loading from "react-loading";

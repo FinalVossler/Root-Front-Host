@@ -144,8 +144,12 @@ const EntitiesList: React.FunctionComponent<IEntitiesList> = (
 
   return (
     <Elements
-      Editor={({ element, ...props }) => (
-        <EntityEditor {...props} entity={element as IEntity} />
+      Editor={({ element, ...subProps }) => (
+        <EntityEditor
+          {...subProps}
+          entity={element as IEntity}
+          modelId={props.modelId}
+        />
       )}
       columns={columns}
       elements={entities || []}

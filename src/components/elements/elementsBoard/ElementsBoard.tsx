@@ -1,7 +1,4 @@
 import React from "react";
-import { FaDirections } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { BiEdit } from "react-icons/bi";
 
 import { Theme } from "../../../config/theme";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
@@ -18,6 +15,7 @@ import getModelStateConcernedFields from "../../../utils/getModelStateConcernedF
 
 import useStyles from "./elementsBoard.styles";
 import StateTracking from "../../postsComponents/stateTracking";
+import EntityCard from "./EntityCard";
 
 interface IElementsBoard {
   modelId: string;
@@ -99,13 +97,15 @@ const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
   return (
     <React.Fragment>
       {props.forStatusTracking &&
-        boardPattern.map(({ modelState, entities }, modelStateIndex) => {
+        boardPattern.map(({ modelState, entities }) => {
           return (
-            <React.Fragment key={modelStateIndex}>
+            <React.Fragment key={modelState._id}>
               {entities.map((entity, entityIndex) => (
-                <div className={styles.entityCardAndStateTrackingContainer}>
+                <div
+                  key={entityIndex}
+                  className={styles.entityCardAndStateTrackingContainer}
+                >
                   <EntityCard
-                    key={entityIndex}
                     entity={entity}
                     modelId={props.modelId}
                     model={model}
@@ -113,7 +113,6 @@ const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
                     Editor={(subProps) => <props.Editor {...subProps} />}
                   />
                   <StateTracking
-                    key={entityIndex}
                     states={
                       model.states?.map((modelState) => ({
                         _id: modelState._id,
@@ -140,11 +139,13 @@ const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
                   {getTranslatedText(modelState.name)}
                 </h3>
 
-                {entities.map((entity: IEntity, entityIndex: number) => {
+                {entities.map((entity: IEntity) => {
                   return (
-                    <div className={styles.entityCardAndStateTrackingContainer}>
+                    <div
+                      key={entity._id}
+                      className={styles.entityCardAndStateTrackingContainer}
+                    >
                       <EntityCard
-                        key={entityIndex}
                         entity={entity}
                         modelId={props.modelId}
                         model={model}
@@ -160,97 +161,6 @@ const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
         </div>
       )}
     </React.Fragment>
-  );
-};
-
-interface IEntityCardProps {
-  entity: IEntity;
-  modelId: string;
-  mainModelFields: IModelField[];
-  model: IModel;
-  Editor: React.FunctionComponent<{
-    open: boolean;
-    setOpen: (open: boolean) => void;
-    element?: Element | null;
-  }>;
-}
-
-const EntityCard = (props: IEntityCardProps) => {
-  const [editorOpen, setEditorOpen] = React.useState<boolean>(false);
-
-  const theme = useAppSelector((state) => state.websiteConfiguration.theme);
-
-  const styles = useStyles({ theme });
-  const getTranslatedText = useGetTranslatedText();
-
-  const handleOpenEditor = () => {
-    setEditorOpen(true);
-  };
-
-  return (
-    <div className={styles.entityCard}>
-      <BiEdit onClick={handleOpenEditor} className={styles.editEntityIcon} />
-      <props.Editor
-        open={editorOpen}
-        setOpen={setEditorOpen}
-        element={props.entity}
-      />
-      <Link
-        target="_blank"
-        rel="noreferrer"
-        to={"/entities/" + props.modelId + "/" + props.entity._id}
-      >
-        <FaDirections className={styles.visitEntityIcon} />
-      </Link>
-
-      <div className={styles.mainModelFields}>
-        {props.mainModelFields.map((modelField, modelFieldIndex: number) => {
-          return (
-            <span className={styles.entityMainFieldValue} key={modelFieldIndex}>
-              <span className={styles.fieldLabel}>
-                {getTranslatedText(modelField.field.name)}:
-              </span>
-              {getTranslatedText(
-                props.entity.entityFieldValues.find(
-                  (el) =>
-                    el.field._id.toString() === modelField.field._id.toString()
-                )?.value
-              ) || ""}
-            </span>
-          );
-        })}
-      </div>
-      <div className={styles.subStates}>
-        {props.model.subStates &&
-          props.model.subStates?.map(
-            (subState: IModelState, subStateIndex: number) => {
-              const concernedFields: IModelField[] =
-                getModelStateConcernedFields({
-                  model: props.model,
-                  modelState: subState,
-                });
-              const stateConditionsMet: boolean =
-                doesEntityMeetModelStateCondition({
-                  entityFieldValues: props.entity.entityFieldValues,
-                  stateConcernedFields: concernedFields,
-                  getTranslatedText,
-                  model: props.model,
-                  entity: props.entity,
-                });
-              return (
-                <span
-                  key={subStateIndex}
-                  className={
-                    stateConditionsMet ? styles.filledSubState : styles.subState
-                  }
-                >
-                  {getTranslatedText(subState.name)}
-                </span>
-              );
-            }
-          )}
-      </div>
-    </div>
   );
 };
 
