@@ -20,7 +20,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     width: 35,
     height: 35,
     borderRadius: "50%",
-    backgroundColor: theme.borderColor,
+    backgroundColor: "#cbcbcb",
     position: "relative",
     display: "flex",
     justifyContent: "center",
@@ -32,7 +32,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   stateName: {
     position: "absolute",
     top: 60,
-    color: theme.borderColor,
+    color: "#cbcbcb",
     textAlign: "center",
     width: 100,
   },

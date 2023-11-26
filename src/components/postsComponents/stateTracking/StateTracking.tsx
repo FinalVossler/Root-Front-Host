@@ -33,9 +33,7 @@ const StateTracking: React.FunctionComponent<IStateTrackingProps> = (
     theme.primary +
     " " +
     percentage +
-    "%, " +
-    theme.borderColor +
-    " 0%)";
+    "%, rgb(129 129 129 / 30%) 0%)";
 
   return (
     <div
