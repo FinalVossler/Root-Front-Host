@@ -208,13 +208,16 @@ const FilesInput = (props: IFilesInput) => {
           />
         </div>
       )}
-      {existingFilesOpen && isShowing && props.canChooseFromExistingFiles && (
-        <ExistingFiles
-          selectedExistingFiles={props.selectedExistingFiles}
-          setSelectedExistingFiles={props.setSelectedExistingFiles}
-          typeOfFiles={props.typeOfFiles}
-        />
-      )}
+      {existingFilesOpen &&
+        isShowing &&
+        (props.canChooseFromExistingFiles === undefined ||
+          props.canChooseFromExistingFiles === true) && (
+          <ExistingFiles
+            selectedExistingFiles={props.selectedExistingFiles}
+            setSelectedExistingFiles={props.setSelectedExistingFiles}
+            typeOfFiles={props.typeOfFiles}
+          />
+        )}
       {props.disabled && (
         <div className={styles.filesInputDisabledLayer}>
           <Loading color={theme.primary} />
