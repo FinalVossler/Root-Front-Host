@@ -17,7 +17,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   entityCardAndStateTrackingContainer: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "flex-start",
     justifyContent: "space-between",
     marginTop: 0,

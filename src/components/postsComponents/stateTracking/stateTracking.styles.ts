@@ -14,7 +14,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginTop: 20,
     borderRadius: 20,
     marginRight: 100,
-    marginLeft: 100,
+    marginLeft: 0,
   },
   bullet: {
     width: 50,
