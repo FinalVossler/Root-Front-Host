@@ -37,6 +37,8 @@ import { BiTask } from "react-icons/bi";
 import IFile from "../../globalTypes/IFile";
 import useGetRoles, { RolesGetCommand } from "../../hooks/apiHooks/useGetRoles";
 import { websiteConfigurationSlice } from "../../store/slices/websiteConfigurationSlice";
+import EntityEditor from "../editors/entityEditor";
+import { IEntityEditor } from "../editors/entityEditor/EntityEditor";
 
 interface ISideMenu {}
 
@@ -113,6 +115,33 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
 
   if (!isLoggedIn) return null;
 
+  const modelsSubOptions = React.useMemo(
+    () =>
+      models
+        .filter(
+          (m) =>
+            user.superRole === SuperRole.SuperAdmin ||
+            user.role?.entityPermissions
+              .find((e) => e.model._id === m._id)
+              ?.permissions.find((p) => p === StaticPermission.Read)
+        )
+        .map((model) => ({
+          Icon: SiElement,
+          link: "/entities/" + model._id,
+          title: getTranslatedText(model.name),
+          Editor: (subProps: IEntityEditor) => (
+            <EntityEditor
+              {...subProps}
+              open={subProps.open}
+              setOpen={subProps.setOpen}
+              entity={undefined}
+              modelId={model._id}
+            />
+          ),
+        })),
+    [user.superRole, user.role?.entityPermissions, models]
+  );
+
   return (
     <div
       className={
@@ -184,19 +213,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
               triggerExtended={() =>
                 dispatch(userPreferenceSlice.actions.triggerExtendModels())
               }
-              subOptions={models
-                .filter(
-                  (m) =>
-                    user.superRole === SuperRole.SuperAdmin ||
-                    user.role?.entityPermissions
-                      .find((e) => e.model._id === m._id)
-                      ?.permissions.find((p) => p === StaticPermission.Read)
-                )
-                .map((model) => ({
-                  Icon: SiElement,
-                  link: "/entities/" + model._id,
-                  title: getTranslatedText(model.name),
-                }))}
+              subOptions={modelsSubOptions}
             />
           )}
           {!hasPermission(Permission.ReadModel) &&

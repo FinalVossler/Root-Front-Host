@@ -97,6 +97,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     marginBottom: 2,
     marginLeft: 15,
     marginRight: 15,
+    overflow: "hidden",
   },
   fieldLabel: {
     marginRight: 10,

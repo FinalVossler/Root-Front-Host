@@ -50,3 +50,9 @@ main focus: trading plateforme, web socket, web worker,
 
 Docker isn't necessary
 Why do you use storyboo
+
+---
+
+- investisseur qualif, AML (blanchiment d'argent), accompagnement sur la création des contrats (deux côtés) services tiers (docusign)
+  archivage sur le serveur soit en France, soit dans les pays enropéans (suivie les politiques des données)
+  6 pays avec une 70 de clients, gérer entre 100 et 5 CGP (conseil de gestion patrimoine)

@@ -20,7 +20,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     top: "50%",
     left: 0,
     transition: "all .2s ease-in-out",
-    zIndex: 12,
+    zIndex: 10,
   },
   websiteLogo2: {},
   menuIconMenuOpen: {
@@ -36,6 +36,16 @@ const useStyles = createUseStyles((theme: Theme) => ({
     height: "100vh",
     zIndex: 11,
     overflow: "auto",
+
+    "&::-webkit-scrollbar": {
+      width: 12,
+    },
+    "&::-webkit-scrollbar-thumb": {
+      background: "transparent",
+    },
+    "&::-webkit-scrollbar-track": {
+      background: "transparent",
+    },
   },
   openSideMenuContainer: {
     extend: "sideMenuContainer",

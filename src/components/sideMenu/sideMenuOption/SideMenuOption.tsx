@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactText } from "react";
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import { Link, useLocation } from "react-router-dom";
 
@@ -6,11 +6,17 @@ import { Theme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./sideMenuOption.styles";
+import { BiPlus } from "react-icons/bi";
 
 type SubOption = {
   title: string;
   link: string;
   Icon: any;
+  Editor?: React.FunctionComponent<{
+    open: boolean;
+    setOpen: (open: boolean) => void;
+    element?: Element | null;
+  }>;
 };
 
 interface ISideMenuOption {
@@ -87,7 +93,9 @@ const SideMenuOption: React.FunctionComponent<ISideMenuOption> = (
   );
 };
 
-const SubOption = (props: { subOption: SubOption }) => {
+const SubOption = React.memo((props: { subOption: SubOption }) => {
+  const [editorOpen, setEditorOpen] = React.useState<boolean>(false);
+
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
@@ -95,20 +103,46 @@ const SubOption = (props: { subOption: SubOption }) => {
   const styles = useStyles({ theme });
   const location = useLocation();
 
-  return (
-    <Link to={props.subOption.link}>
-      <div
-        className={
-          location.pathname === props.subOption.link
-            ? styles.selectedSubOption
-            : styles.subOption
-        }
-      >
-        <props.subOption.Icon className={styles.subOptionIcon} />
-        <span className={styles.subOptionTitle}>{props.subOption.title}</span>
-      </div>
-    </Link>
-  );
-};
+  const handleOpenEditor = (e: React.MouseEvent<SVGElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setEditorOpen(true);
+  };
 
-export default SideMenuOption;
+  return (
+    <React.Fragment>
+      <Link to={props.subOption.link}>
+        <div
+          className={
+            location.pathname === props.subOption.link
+              ? styles.selectedSubOption
+              : styles.subOption
+          }
+        >
+          <div className={styles.subOptionLeft}>
+            <props.subOption.Icon className={styles.subOptionIcon} />
+            <span className={styles.subOptionTitle}>
+              {props.subOption.title}
+            </span>
+          </div>
+
+          <div className={styles.subOptionRight}>
+            {props.subOption.Editor && (
+              <BiPlus onClick={handleOpenEditor} className={styles.addButton} />
+            )}
+          </div>
+        </div>
+      </Link>
+
+      {props.subOption.Editor && (
+        <props.subOption.Editor
+          open={editorOpen}
+          setOpen={setEditorOpen}
+          element={null}
+        />
+      )}
+    </React.Fragment>
+  );
+});
+
+export default React.memo(SideMenuOption);

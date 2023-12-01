@@ -91,15 +91,32 @@ const useStyles = createUseStyles((theme: Theme) => ({
     borderBottom: "1px solid " + theme.lightTextColor,
     display: "flex",
     alignItems: "center",
+    justifyContent: "space-between",
   },
   selectedSubOption: {
     extend: "selectedSideMenuOption",
+    justifyContent: "space-between",
+
     padding: 5,
   },
   subOptionIcon: {
     extend: "optionIcon",
     fontSize: 25,
     marginLeft: 40,
+  },
+  addButton: {
+    color: theme.primary,
+    right: 10,
+    fontSize: 25,
+  },
+  subOptionLeft: {
+    display: "flex",
+    alignItems: "center",
+  },
+  subOptionRight: {
+    display: "flex",
+    alignItems: "center",
+    padding: 10,
   },
   "@media (max-width: 800px)": {},
 }));
