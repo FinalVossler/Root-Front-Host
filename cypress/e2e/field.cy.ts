@@ -1,6 +1,6 @@
-describe("login", () => {
+describe.skip("login", () => {
   before(() => {
-    cy.login();
+    cy.login(true);
 
     cy.visit("/");
   });

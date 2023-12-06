@@ -112,6 +112,10 @@ export const setUserAndTokenInformationInLocalStorage = (payload: {
   );
 };
 
+export const logoutInLocalStorage = () => {
+  localStorage.removeItem(LOCAL_STORAGE_TOKEN_ITEM_NAME);
+};
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -152,7 +156,7 @@ export const userSlice = createSlice({
       };
       state.user = initialState.user;
 
-      localStorage.removeItem(LOCAL_STORAGE_TOKEN_ITEM_NAME);
+      logoutInLocalStorage();
     },
     setUsers: (
       state: IUserState,

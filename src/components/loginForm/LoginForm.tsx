@@ -53,7 +53,7 @@ const LoginForm: React.FunctionComponent<ILoginForm> = (props: ILoginForm) => {
       };
 
       await login(command, () => {
-        navigate('/profile')
+        navigate("/profile");
       });
     },
   });
@@ -66,7 +66,11 @@ const LoginForm: React.FunctionComponent<ILoginForm> = (props: ILoginForm) => {
   const styles = useStyles({ theme });
   return (
     <>
-      <form onSubmit={handleSubmit} className={styles.loginFormContainer}>
+      <form
+        onSubmit={handleSubmit}
+        className={styles.loginFormContainer}
+        data-cy="loginForm"
+      >
         <h2 className={styles.loginTitle}>
           {getTranslatedText(staticText?.login.title)}
         </h2>
@@ -78,6 +82,8 @@ const LoginForm: React.FunctionComponent<ILoginForm> = (props: ILoginForm) => {
           }}
           name="email"
           formik={formik}
+          inputDataCy="loginFormEmailInput"
+          inputErrorDataCy="loginFormEmailInputError"
         />
         <Input
           Icon={RiLockPasswordLine}
@@ -89,9 +95,11 @@ const LoginForm: React.FunctionComponent<ILoginForm> = (props: ILoginForm) => {
           }}
           name="password"
           formik={formik}
+          inputDataCy="loginFormPasswordInput"
+          inputErrorDataCy="loginFormPasswordInputError"
         />
 
-        <Button disabled={loading}>
+        <Button disabled={loading} buttonDataCy="loginFormSubmitButton">
           {getTranslatedText(staticText?.login.title)}
         </Button>
       </form>

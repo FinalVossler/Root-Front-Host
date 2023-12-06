@@ -1,7 +1,6 @@
 import { FormikProps } from "formik";
 import React, { PropsWithChildren } from "react";
 import debounce from "lodash.debounce";
-import classnames from "classnames";
 
 import { Theme } from "../../config/theme";
 
@@ -22,6 +21,8 @@ export interface IInput {
   onIconClick?: (somehting: any) => void;
   iconColor?: string;
   containerProps?: any;
+  inputDataCy?: string;
+  inputErrorDataCy?: string;
 }
 const Input: React.FunctionComponent<PropsWithChildren<IInput>> = (
   props: PropsWithChildren<IInput>
@@ -114,12 +115,18 @@ const Input: React.FunctionComponent<PropsWithChildren<IInput>> = (
             }}
             {...props.inputProps}
             {...additionalProps}
+            {...(props.inputDataCy ? { ["data-cy"]: props.inputDataCy } : {})}
           />
         )}
         {props.children}
       </div>
 
-      <span className={styles.inputError}>
+      <span
+        className={styles.inputError}
+        {...(props.inputErrorDataCy
+          ? { ["data-cy"]: props.inputErrorDataCy }
+          : {})}
+      >
         {/* @ts-ignore */}
         {props.formik?.touched[props.name] &&
           props.formik?.errors[props.name || ""]}

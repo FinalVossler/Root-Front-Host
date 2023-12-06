@@ -41,41 +41,43 @@ const Registration: React.FunctionComponent<IRegistrationForm> = (
 
   const { register, loading } = useRegister();
 
-  const formik: FormikProps<IRegistrationFormForm> = useFormik<IRegistrationFormForm>({
-    initialValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    },
-    validationSchema: Yup.object().shape({
-      firstName: Yup.string().required("Firstname is required"),
-      lastName: Yup.string().required("Lastname is required"),
-      email: Yup.string()
-        .required("Email is required")
-        .email("Please provide a valid email"),
-      password: Yup.string()
-        .required("Password is required")
-        .min(6, "Password length should be at least 6 characters"),
-      confirmPassword: Yup.string()
-        .required("Password is required")
-        .min(6, "Password length should be at least 6 characters")
-        .test({
-          test: (confirmPassword) => confirmPassword === formik.values.password,
-          message: "Password don't match",
-        }),
-    }),
-    onSubmit: async (values: IRegistrationFormForm) => {
-      const command: UserRegisterCommand = {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        password: values.password,
-      };
-      await register(command);
-    },
-  });
+  const formik: FormikProps<IRegistrationFormForm> =
+    useFormik<IRegistrationFormForm>({
+      initialValues: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      },
+      validationSchema: Yup.object().shape({
+        firstName: Yup.string().required("Firstname is required"),
+        lastName: Yup.string().required("Lastname is required"),
+        email: Yup.string()
+          .required("Email is required")
+          .email("Please provide a valid email"),
+        password: Yup.string()
+          .required("Password is required")
+          .min(6, "Password length should be at least 6 characters"),
+        confirmPassword: Yup.string()
+          .required("Password is required")
+          .min(6, "Password length should be at least 6 characters")
+          .test({
+            test: (confirmPassword) =>
+              confirmPassword === formik.values.password,
+            message: "Password don't match",
+          }),
+      }),
+      onSubmit: async (values: IRegistrationFormForm) => {
+        const command: UserRegisterCommand = {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          password: values.password,
+        };
+        await register(command);
+      },
+    });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -88,7 +90,11 @@ const Registration: React.FunctionComponent<IRegistrationForm> = (
   if (!withRegistration) return null;
 
   return (
-    <form onSubmit={handleSubmit} className={styles.registrationContainer}>
+    <form
+      onSubmit={handleSubmit}
+      className={styles.registrationContainer}
+      data-cy="registrationForm"
+    >
       <h2 className={styles.registrationTitle}>
         {getTranslatedText(staticText?.title)}:
       </h2>
@@ -101,6 +107,8 @@ const Registration: React.FunctionComponent<IRegistrationForm> = (
           inputProps={{
             placeholder: getTranslatedText(staticText?.firstNamePlaceholder),
           }}
+          inputDataCy="registrationFormFirstNameInput"
+          inputErrorDataCy="registrationFormFirstNameInputError"
         />
         <Input
           inputProps={{
@@ -109,6 +117,8 @@ const Registration: React.FunctionComponent<IRegistrationForm> = (
           Icon={CgProfile}
           name="lastName"
           formik={formik}
+          inputDataCy="registrationFormLastNameInput"
+          inputErrorDataCy="registrationFormLastNameInputError"
         />
       </div>
       <Input
@@ -119,6 +129,8 @@ const Registration: React.FunctionComponent<IRegistrationForm> = (
         }}
         name="email"
         formik={formik}
+        inputDataCy="registrationFormEmailInput"
+        inputErrorDataCy="registrationFormEmailInputError"
       />
       <Input
         Icon={RiLockPasswordLine}
@@ -128,6 +140,8 @@ const Registration: React.FunctionComponent<IRegistrationForm> = (
         }}
         name="password"
         formik={formik}
+        inputDataCy="registrationFormPasswordInput"
+        inputErrorDataCy="registrationFormPasswordInputError"
       />
       <Input
         inputProps={{
@@ -137,9 +151,11 @@ const Registration: React.FunctionComponent<IRegistrationForm> = (
         Icon={AiOutlineMail}
         name="confirmPassword"
         formik={formik}
+        inputDataCy="registrationFormConfirmPasswordInput"
+        inputErrorDataCy="registrationFormConfirmPasswordInputError"
       />
 
-      <Button disabled={loading}>
+      <Button disabled={loading} buttonDataCy="registrationFormSubmitButton">
         {getTranslatedText(staticText?.buttonText)}
       </Button>
     </form>

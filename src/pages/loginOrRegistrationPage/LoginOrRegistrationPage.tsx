@@ -121,6 +121,7 @@ const LoginOrRegistrationPage: React.FunctionComponent<
               <button
                 onClick={() => setActiveForm(ActiveForm.Login)}
                 className={styles.switchFormButton}
+                data-cy="loginButton"
               >
                 -{getTranslatedText(staticText?.loginHere)}
               </button>

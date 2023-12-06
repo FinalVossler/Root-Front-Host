@@ -5,11 +5,14 @@ import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./button.styles";
 
-interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  buttonDataCy?: string;
+}
 
-const Button: React.FunctionComponent<React.PropsWithChildren<IButton>> = (
-  props: React.PropsWithChildren<IButton>
-) => {
+const Button: React.FunctionComponent<React.PropsWithChildren<IButton>> = ({
+  buttonDataCy,
+  ...rest
+}: React.PropsWithChildren<IButton>) => {
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
@@ -19,11 +22,12 @@ const Button: React.FunctionComponent<React.PropsWithChildren<IButton>> = (
   return (
     <button
       className={
-        props.disabled ? styles.disabledButtonContainer : styles.buttonContainer
+        rest.disabled ? styles.disabledButtonContainer : styles.buttonContainer
       }
-      {...props}
+      {...(buttonDataCy ? { ["data-cy"]: buttonDataCy } : {})}
+      {...rest}
     >
-      {props.children}
+      {rest.children}
     </button>
   );
 };

@@ -147,6 +147,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
       className={
         isSideMenuOpen ? styles.openSideMenuContainer : styles.sideMenuContainer
       }
+      data-cy="sideMenu"
     >
       {hasPermission(Permission.EditConfiguration) && (
         <WebsiteConfigurationEditor />

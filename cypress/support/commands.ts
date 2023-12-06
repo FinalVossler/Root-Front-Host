@@ -4,7 +4,11 @@ import {
   setUserAndTokenInformationInLocalStorage,
 } from "../../src/store/slices/userSlice";
 
-Cypress.Commands.add("login", () => {
+Cypress.Commands.add("getByDataCy", (selector) => {
+  return cy.get("[data-cy='" + selector + "']");
+});
+
+Cypress.Commands.add("login", (updateLocalStorage?: boolean) => {
   const command: UserLoginCommand = {
     email: Cypress.env("adminEmail"),
     password: Cypress.env("adminPassword"),
@@ -24,11 +28,13 @@ Cypress.Commands.add("login", () => {
     } = res.body;
     const token = result.data.token;
 
-    setUserAndTokenInformationInLocalStorage({
-      user: result.data.user,
-      expiresIn: result.data.expiresIn,
-      token: result.data.token,
-    });
+    if (updateLocalStorage) {
+      setUserAndTokenInformationInLocalStorage({
+        user: result.data.user,
+        expiresIn: result.data.expiresIn,
+        token: result.data.token,
+      });
+    }
 
     cy.wrap(token).as("adminToken");
   });
@@ -37,7 +43,8 @@ Cypress.Commands.add("login", () => {
 declare global {
   namespace Cypress {
     interface Chainable {
-      login(): Chainable;
+      getByDataCy(selector: string): Chainable;
+      login(uploadLocalStorage?: boolean): Chainable;
     }
   }
 }
