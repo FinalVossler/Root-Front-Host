@@ -94,6 +94,24 @@ const initialState: IUserState = {
   },
 };
 
+export const setUserAndTokenInformationInLocalStorage = (payload: {
+  user: IUser;
+  token: string;
+  expiresIn: string;
+}) => {
+  const newTokenInformation = {
+    value: payload.token,
+    expiresIn: payload.expiresIn,
+    lastTokenUpdate: moment().format(TIME_FORMAT),
+  };
+
+  // update local storage
+  localStorage.setItem(
+    LOCAL_STORAGE_TOKEN_ITEM_NAME,
+    JSON.stringify(newTokenInformation)
+  );
+};
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
