@@ -203,6 +203,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
               Icon={MdTextFields}
               title={getTranslatedText(staticText?.fields)}
               link="/fields"
+              dataCy="sideMenuFieldOption"
             />
           )}
           {hasPermission(Permission.ReadModel) && (

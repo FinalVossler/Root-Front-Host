@@ -82,6 +82,7 @@ interface IElements {
   isForEntities?: boolean;
   modelId?: string;
   elementsLocalStorageConfName: LocalStorageConfNameEnum | string;
+  tableDataCy?: string;
 }
 
 const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
@@ -280,6 +281,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
             <Button
               onClick={handleOpenEditor}
               style={{ paddingLeft: 40, paddingRight: 40, marginLeft: 10 }}
+              buttonDataCy="addElementButton"
             >
               {getTranslatedText(staticText?.add)}
             </Button>
@@ -383,7 +385,10 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
         )}
 
         {viewType === ViewType.Table && (
-          <table className={styles.elementsTable}>
+          <table
+            className={styles.elementsTable}
+            {...(props.tableDataCy ? { ["data-cy"]: props.tableDataCy } : {})}
+          >
             <thead className={styles.tableHeader}>
               <tr className={styles.tableRow}>
                 {props.columns.map((column, columnIndex) => {

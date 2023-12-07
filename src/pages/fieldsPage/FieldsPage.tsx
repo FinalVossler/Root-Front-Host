@@ -82,7 +82,7 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
   if (!hasPermission(Permission.ReadField)) return null;
 
   return (
-    <div className={styles.fieldsPageContainer}>
+    <div className={styles.fieldsPageContainer} data-cy="fieldsPage">
       <Elements
         Editor={({ element, ...props }) => (
           <FieldEditor {...props} field={element as IField} />
@@ -127,6 +127,7 @@ const FieldsPage: React.FunctionComponent<IFieldsPage> = (
         searchResult={searchResult}
         setSearchResult={handleSetSearchResult}
         elementsLocalStorageConfName={LocalStorageConfNameEnum.FIELDS}
+        tableDataCy="fieldsTable"
       />
     </div>
   );

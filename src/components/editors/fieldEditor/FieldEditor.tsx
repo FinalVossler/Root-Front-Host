@@ -273,6 +273,7 @@ const FieldEditor = (props: IFieldEditor) => {
       <form
         onSubmit={handleSubmit}
         className={styles.createFieldModalContainer}
+        data-cy="fieldForm"
       >
         <div className={styles.createFieldHeader}>
           <h2 className={styles.createFieldTitle}>
@@ -291,6 +292,7 @@ const FieldEditor = (props: IFieldEditor) => {
           inputProps={{
             placeholder: getTranslatedText(staticText?.namePlaceholder),
           }}
+          inputDataCy="fieldNameInput"
         />
 
         <InputSelect
@@ -302,6 +304,7 @@ const FieldEditor = (props: IFieldEditor) => {
           formik={formik}
           label={getTranslatedText(staticText?.typePlaceholder)}
           value={{ value: formik.values.type, label: formik.values.type }}
+          selectorClassName="fieldTypeInputSelect"
         />
 
         {formik.values.type === FieldType.File && (
@@ -392,6 +395,7 @@ const FieldEditor = (props: IFieldEditor) => {
             type="submit"
             style={{}}
             className={styles.button}
+            buttonDataCy="submitFieldButton"
           >
             {getTranslatedText(staticText?.submit)}
           </Button>

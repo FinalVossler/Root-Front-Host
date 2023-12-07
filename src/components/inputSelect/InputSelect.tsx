@@ -25,6 +25,7 @@ interface IInputSelect {
   disabled?: boolean;
   placeholder?: string;
   error?: string;
+  selectorClassName?: string;
 }
 
 const InputSelect: React.FunctionComponent<IInputSelect> = (
@@ -88,8 +89,12 @@ const InputSelect: React.FunctionComponent<IInputSelect> = (
                 )
               : props.value
           }
-          className={props.disabled ? styles.dislabedSelect : styles.select}
+          className={
+            (props.disabled ? styles.dislabedSelect : styles.select) +
+            (props.selectorClassName ? " " + props.selectorClassName : "")
+          }
           classNamePrefix="react-select"
+          data-cy="inputSelect"
         />
       </div>
 

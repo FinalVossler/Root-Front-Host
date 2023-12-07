@@ -27,6 +27,7 @@ interface ISideMenuOption {
   link?: string;
   extended?: boolean;
   triggerExtended?: () => void;
+  dataCy?: string;
 }
 
 const SideMenuOption: React.FunctionComponent<ISideMenuOption> = (
@@ -56,6 +57,7 @@ const SideMenuOption: React.FunctionComponent<ISideMenuOption> = (
               ? styles.selectedSideMenuOption
               : styles.sideMenuOptionContainer
           }
+          {...(props.dataCy ? { ["data-cy"]: props.dataCy } : {})}
         >
           <props.Icon className={styles.optionIcon} />
           <span className={styles.optionTitle}>{props.title}</span>

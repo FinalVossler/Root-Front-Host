@@ -58,7 +58,9 @@ const InboxConversation: React.FunctionComponent<IInboxConversation> = (
 
       <div className={styles.userNameAndLastMessage}>
         <span className={styles.userName}>
-          {props.otherUser?.firstName + " " + props.otherUser?.lastName}
+          {(props.otherUser?.firstName || "🤷") +
+            " " +
+            (props.otherUser?.lastName || "🤷")}
         </span>
         <div
           className={styles.messageContent}

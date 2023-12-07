@@ -2,8 +2,7 @@ import React from "react";
 import Loading from "react-loading";
 
 import { Theme } from "../../../config/theme";
-import useOnClickOutside from "../../../hooks/useOnClickOutside";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { useAppSelector } from "../../../store/hooks";
 import useGetLastConversationsLastMessages from "../../../hooks/apiHooks/useGetLastConversationsLastMessages";
 
 import useStyles from "./lastConversationsLastMessages.styles";
@@ -50,7 +49,6 @@ const LastConversationsLastMessages: React.FunctionComponent<
   const [page, setPage] = React.useState<number>(1);
 
   const styles = useStyles({ theme });
-  const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
   const { getLastConversationsLastMessages, loading } =
     useGetLastConversationsLastMessages();
