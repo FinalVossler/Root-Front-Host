@@ -325,6 +325,7 @@ const FieldEditor = (props: IFieldEditor) => {
             getLanguages().find((el) => el.value === formik.values.language) ||
             getLanguages()[0]
           }
+          selectorClassName="fieldLanguageSelect"
         />
 
         {formik.values.type === FieldType.Selector && (

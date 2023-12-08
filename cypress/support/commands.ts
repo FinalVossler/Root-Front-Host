@@ -4,6 +4,17 @@ import {
   setUserAndTokenInformationInLocalStorage,
 } from "../../src/store/slices/userSlice";
 
+Cypress.Commands.add(
+  "selectInSelector",
+  (selectorClassName: string, elementIndex: number) => {
+    cy.get("." + selectorClassName)
+      .click()
+      .find(".react-select__option")
+      .eq(elementIndex)
+      .click();
+  }
+);
+
 Cypress.Commands.add("getByDataCy", (selector) => {
   return cy.get("[data-cy='" + selector + "']");
 });
@@ -45,6 +56,10 @@ declare global {
     interface Chainable {
       getByDataCy(selector: string): Chainable;
       login(uploadLocalStorage?: boolean): Chainable;
+      selectInSelector(
+        selectorClassName: string,
+        elementIndex: number
+      ): Chainable;
     }
   }
 }

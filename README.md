@@ -263,3 +263,30 @@ sass
 data scientst c++
 librarie node js, fonction => parseimage (buff): text structuré
 pas gratuite elle fait tourner tous les CPU, RAM 5 à 10 secondes
+
+---
+
+-Techniques:
+
+1- Il y a des micro-services en NodeJS?
+2- Pour les micro-services en JS, ils sont développement sous la base de quel framework ? (ORM aussi + librarie des tests)
+2- Framework de développement Backend ? Java Spring Boot ?
+3- Combien d'applications Front il y a t-il ?
+4- Framework CSS utilsé ? Styled component ou ReactJSS ou SCSS ?
+5- C'est du Typescript ?
+6- Git ou Bitbucket ?
+7- Hébérgement c'est ou ?
+8- Docker ou Kubernet, c'est utilisé ?
+9- Pour les validateurs Formik, vous utilisez Yup ?
+10- Des évolutions techniques (migrations ou montées de versions à envisager ?)
+11- Des technologies que vous comptez bientôt aborder et sur lesquelles il faut monter toute l'équipe en compétence ?
+12- Qui s'occupe du site web corporate, etc... ?
+
+-Pas technique:
+
+11- On va être ammené à parler en Anglais au quotidient ?
+10- l'application est aujourd'hui sollicitée par combien d'utilisateurs ? (Fréquence et amplitude de sollicitation)
+10- Salaire
+11- Product owner => métier + test => développeurs ? comment ça se passe ?
+
+Jira + Confluence

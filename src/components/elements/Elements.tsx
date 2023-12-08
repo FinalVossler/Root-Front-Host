@@ -502,6 +502,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                           <AiFillEdit
                             onClick={() => handleEdit(element)}
                             className={styles.editIcon}
+                            id={"editButtonFor" + element["_id"].toString()}
                           />
                         </td>
                       )}

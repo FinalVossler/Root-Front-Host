@@ -18,8 +18,6 @@ import HeaderNotifications from "../headerNotifications";
 
 import useStyles from "./header.styles";
 import useHasPermission from "../../hooks/useHasPermission";
-import WebsiteConfigurationEditor from "../editors/websiteConfigurationEditor";
-import { Permission } from "../../store/slices/roleSlice";
 
 interface IHeader {
   scrolledDown: boolean;
@@ -127,6 +125,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
             }}
             onChange={handleChangeLanguage}
             style={{ marginBottom: 0 }}
+            selectorClassName="mainLanguageSelector"
           />
 
           {pages.map((page) => {
