@@ -12,7 +12,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     overflow: "auto",
     paddingRight: 45,
     width: "60vw",
-    paddingLeft: 2
+    paddingLeft: 2,
   },
   createFieldHeader: {
     display: "flex",
@@ -30,7 +30,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     cursor: "pointer",
     position: "absolute",
     top: 3,
-    right: 5,
+    right: 15,
     color: theme.darkTextColor,
     fontSize: 25,
     borderRadius: 10,

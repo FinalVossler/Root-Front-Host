@@ -34,7 +34,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     cursor: "pointer",
     position: "absolute",
     top: 3,
-    right: 5,
+    right: 15,
     color: theme.darkTextColor,
     fontSize: 25,
     borderRadius: 10,
