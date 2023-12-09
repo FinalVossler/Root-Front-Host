@@ -60,8 +60,6 @@ describe("model", () => {
         (modelField2 as IField)?._id.toString(),
       ]);
 
-      console.log("command", command);
-
       cy.sendCreateModelRequest(
         createCreateModelCommand("Model to update", [
           (modelField1 as IField)?._id.toString(),
