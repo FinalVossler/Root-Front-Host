@@ -168,24 +168,24 @@ const Profile: React.FunctionComponent<IProfileForm> = (
 
       <br />
 
+      {changePasswordFormShowing && <ChangePasswordForm />}
+
       <Button
         disabled={actualLoading}
         onClick={() => setChangePasswordFormShowing(!changePasswordFormShowing)}
       >
         {getTranslatedText(changePasswordStaticText?.changePasswordTitle)}
-        {!changePasswordFormShowing && (
+        {changePasswordFormShowing && (
           <BsArrowDownShort
             className={styles.triggerShowChangePasswordFormIcon}
           />
         )}
-        {changePasswordFormShowing && (
+        {!changePasswordFormShowing && (
           <BsArrowUpShort
             className={styles.triggerShowChangePasswordFormIcon}
           />
         )}
       </Button>
-
-      {changePasswordFormShowing && <ChangePasswordForm />}
     </div>
   );
 };

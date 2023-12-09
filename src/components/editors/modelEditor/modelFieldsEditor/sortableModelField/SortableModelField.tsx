@@ -301,6 +301,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
       ref={setNodeRef}
       style={sorteStyles}
       className={styles.singleModelFieldContainer}
+      data-cy={"sortableModelFieldForField" + props.modelField.field._id}
     >
       <BsHandIndexFill
         color={theme.primary}
@@ -334,12 +335,26 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
         onClick={() => setShowConditions(!showConditions)}
         title={getTranslatedText(staticText?.conditions)}
         isSectionShown={showConditions}
+        dataCy={
+          "modelFieldExtendConditionsForField" +
+          props.modelField.field._id.toString()
+        }
       />
       {showConditions && (
-        <div className={styles.conditionsContainer}>
+        <div
+          className={styles.conditionsContainer}
+          data-cy={
+            "modelFieldConditionsForField" +
+            props.modelField.field._id.toString()
+          }
+        >
           <div
             onClick={handleAddCondition}
             className={styles.conditionsTitleContainer}
+            data-cy={
+              "addConditionForModelField" +
+              props.modelField.field._id.toString()
+            }
           >
             <span className={styles.conditionsTitle}>
               {getTranslatedText(staticText?.addCondition)}
@@ -352,7 +367,16 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
           {props.modelField.conditions?.map(
             (condition: IModelFieldCondition, conditionIndex) => {
               return (
-                <div key={conditionIndex} className={styles.singleCondition}>
+                <div
+                  key={conditionIndex}
+                  className={styles.singleCondition}
+                  data-cy={
+                    "condition" +
+                    conditionIndex +
+                    "ForField" +
+                    props.modelField.field._id.toString()
+                  }
+                >
                   <MdDelete
                     className={styles.deleteConditionIcon}
                     onClick={() => handleDeleteCondition(conditionIndex)}
@@ -365,6 +389,12 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
                     options={fieldsOptions}
                     onChange={(option) =>
                       handleChangeConditionField(option.value, conditionIndex)
+                    }
+                    selectorClassName={
+                      "conditionFieldSelectorForCondition" +
+                      conditionIndex +
+                      "AndModelField" +
+                      props.modelField?.field._id
                     }
                   />
                   <InputSelect
@@ -391,6 +421,12 @@ const SortableModelField: React.FunctionComponent<ISortableModelField> = (
                       placeholder: getTranslatedText(staticText?.value),
                     }}
                     debounce
+                    inputDataCy={
+                      "conditionValueForCondition" +
+                      conditionIndex +
+                      "AndModelField" +
+                      props.modelField.field._id.toString()
+                    }
                   />
                   {condition.conditionType ===
                     ModelFieldConditionTypeEnum.StateConditionsMet && (

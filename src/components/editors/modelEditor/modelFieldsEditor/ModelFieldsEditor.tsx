@@ -76,7 +76,11 @@ const ModelFieldsEditor = (props: IFieldsEditor) => {
 
   return (
     <div className={styles.fieldsEditorContainer}>
-      <span onClick={handleTriggerOpenFields} className={styles.fieldsTitle}>
+      <span
+        onClick={handleTriggerOpenFields}
+        data-cy="triggerModelFieldsShowing"
+        className={styles.fieldsTitle}
+      >
         {!openFields ? (
           <BsArrowDownShort className={styles.triggerArrow} />
         ) : (
@@ -94,11 +98,12 @@ const ModelFieldsEditor = (props: IFieldsEditor) => {
           searchPromise={handleSearchFieldsPromise}
           getElementTitle={(field: IField) => getTranslatedText(field.name)}
           onElementClick={handleSelectField}
+          inputDataCy="modelFieldsSearchFieldInput"
         />
       )}
 
       {openFields && (
-        <div className={styles.fieldsContainer}>
+        <div className={styles.fieldsContainer} data-cy="modelFieldsContainer">
           <DndContext onDragEnd={handleDragEnd}>
             <SortableContext
               items={selectedModelFields.map((modelField) => modelField.uuid)}

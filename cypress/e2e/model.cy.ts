@@ -112,6 +112,7 @@ describe("model", () => {
 
   it("should create a model", () => {
     const createdModelName: string = "Model created from Cypress";
+    const fieldConditionValue: string = "Value of field 1";
 
     cy.getByDataCy("addElementButton").should("be.visible");
     cy.getByDataCy("addElementButton").click();
@@ -119,10 +120,88 @@ describe("model", () => {
 
     cy.getByDataCy("modelNameInput").type(createdModelName);
 
+    // Adding fields
+    cy.getByDataCy("modelFieldsContainer").should("not.exist");
+    cy.getByDataCy("triggerModelFieldsShowing").click();
+    cy.getByDataCy("modelFieldsContainer").should("exist");
+    cy.getByDataCy("modelFieldsSearchFieldInput").type(
+      modelField1?.name.at(0)?.text || ""
+    );
+    // Search and Select the first field
+    cy.getByDataCy(
+      "sortableModelFieldForField" + modelField1?._id.toString()
+    ).should("not.exist");
+    cy.getByDataCy("searchResult" + modelField1?._id.toString())
+      .should("be.visible")
+      .click();
+    cy.getByDataCy("sortableModelFieldForField" + modelField1?._id.toString())
+      .should("exist")
+      .and("be.visible");
+
+    // Search and select the second field
+    cy.getByDataCy("modelFieldsSearchFieldInput")
+      .clear()
+      .type(modelField2?.name.at(0)?.text || "");
+    cy.getByDataCy("searchResult" + modelField2?._id.toString())
+      .should("be.visible")
+      .click();
+    cy.getByDataCy("sortableModelFieldForField" + modelField2?._id.toString())
+      .should("exist")
+      .and("be.visible");
+    // Conditions for field 2
+    cy.getByDataCy(
+      "modelFieldConditionsForField" + modelField2?._id.toString()
+    ).should("not.exist");
+    cy.getByDataCy(
+      "modelFieldExtendConditionsForField" + modelField2?._id.toString()
+    ).click();
+    cy.getByDataCy(
+      "modelFieldConditionsForField" + modelField2?._id.toString()
+    ).should("exist");
+    cy.getByDataCy("condition0ForField" + modelField2?._id.toString()).should(
+      "not.exist"
+    );
+    cy.getByDataCy(
+      "addConditionForModelField" + modelField2?._id.toString()
+    ).click();
+    cy.getByDataCy("condition0ForField" + modelField2?._id.toString())
+      .should("exist")
+      .and("be.visible");
+    cy.selectInSelector(
+      "conditionFieldSelectorForCondition0AndModelField" +
+        modelField2?._id.toString(),
+      0
+    );
+    cy.getByDataCy(
+      "conditionValueForCondition0AndModelField" + modelField2?._id.toString()
+    )
+      .type(fieldConditionValue)
+      .wait(2000);
+
     cy.getByDataCy("submitModelButton").click();
 
     cy.getByDataCy("modelForm").should("not.exist");
     cy.getByDataCy("modelsTable").should("contain", createdModelName);
+
+    cy.getByDataCy("sideMenu").should("contain", createdModelName);
+
+    cy.reload();
+    cy.getByDataCy("elementEditTd").first().click();
+    cy.getByDataCy("modelForm").should("be.visible");
+
+    // Make sure that all the conditions are still the same after reloading the page
+    cy.contains(fieldConditionValue).should("not.exist");
+    cy.getByDataCy("triggerModelFieldsShowing").click();
+    cy.getByDataCy(
+      "modelFieldExtendConditionsForField" + modelField2?._id.toString()
+    ).click();
+    cy.contains(fieldConditionValue).should("not.exist");
+    cy.getByDataCy("condition0ForField" + modelField2?._id.toString())
+      .should("exist")
+      .and("be.visible");
+    cy.getByDataCy(
+      "conditionValueForCondition0AndModelField" + modelField2?._id.toString()
+    ).should("have.value", fieldConditionValue);
   });
 
   it("should update a model and make sure the language is taken into consideration", () => {

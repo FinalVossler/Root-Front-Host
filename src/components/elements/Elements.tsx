@@ -500,7 +500,10 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                         );
                       })}
                       {props.canUpdate && (
-                        <td className={styles.tableColumn}>
+                        <td
+                          className={styles.tableColumn}
+                          data-cy="elementEditTd"
+                        >
                           <AiFillEdit
                             onClick={() => handleEdit(element)}
                             className={styles.editIcon}

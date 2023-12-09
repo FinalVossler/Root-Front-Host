@@ -130,6 +130,9 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
                 onClick={(e) => handleElementClick(e, el)}
                 className={styles.singleResult}
                 key={i}
+                {...(el["_id"]
+                  ? { ["data-cy"]: "searchResult" + el["_id"].toString() }
+                  : {})}
               >
                 {props.getElementTitle(el)}
               </span>

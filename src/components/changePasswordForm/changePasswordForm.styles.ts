@@ -12,16 +12,15 @@ const useStyles = createUseStyles((theme: Theme) => ({
     padding: 10,
     paddingTop: 10,
     paddingBottom: 5,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     margin: "auto",
     marginBottom: 0,
-    marginTop: 5
   },
   changePasswordFormTitle: {
     fontSize: 30,
     color: theme.darkTextColor,
-    textAlign: 'center',
-    marginTop: 0
+    textAlign: "center",
+    marginTop: 0,
   },
   changePasswordForm: {
     display: "flex",

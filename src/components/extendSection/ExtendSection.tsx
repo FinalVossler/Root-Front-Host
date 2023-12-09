@@ -10,9 +10,10 @@ interface IExtendSection {
   onClick: () => void;
   title: string;
   isSectionShown: boolean;
+  dataCy?: string;
 }
 
-const Button: React.FunctionComponent<IExtendSection> = (
+const ExtendSection: React.FunctionComponent<IExtendSection> = (
   props: IExtendSection
 ) => {
   const theme: Theme = useAppSelector(
@@ -22,7 +23,11 @@ const Button: React.FunctionComponent<IExtendSection> = (
   const styles = useStyles({ theme });
 
   return (
-    <span onClick={() => props.onClick()} className={styles.sectionTitle}>
+    <span
+      onClick={() => props.onClick()}
+      className={styles.sectionTitle}
+      {...(props.dataCy ? { ["data-cy"]: props.dataCy } : {})}
+    >
       {props.title}
       {!props.isSectionShown && (
         <MdArrowDownward className={styles.arrowIcon} />
@@ -32,4 +37,4 @@ const Button: React.FunctionComponent<IExtendSection> = (
   );
 };
 
-export default Button;
+export default ExtendSection;
