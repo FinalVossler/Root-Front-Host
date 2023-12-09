@@ -22,6 +22,7 @@ interface ISearchInput {
   setSearchResult?: any;
   label?: string;
   showSearchResult?: boolean;
+  inputDataCy?: string;
 }
 
 const LIMIT = 10;
@@ -117,6 +118,7 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
         onChange={handleValueChange}
         onFocus={handleFocus}
         label={props.label}
+        {...(props.inputDataCy ? { inputDataCy: props.inputDataCy } : {})}
       />
       {showSearchResult &&
         (props.showSearchResult === undefined ||

@@ -68,7 +68,7 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
   if (!hasPermission(Permission.ReadModel)) return null;
 
   return (
-    <div className={styles.modelsPageContainer}>
+    <div className={styles.modelsPageContainer} data-cy="modelsPage">
       <Elements
         Editor={({ element, ...props }) => (
           <ModelEditor {...props} model={element as IModel} />
@@ -104,6 +104,7 @@ const ModelsPage: React.FunctionComponent<IModelsPage> = (
         searchResult={searchResult}
         setSearchResult={handleSetSearchResult}
         elementsLocalStorageConfName={LocalStorageConfNameEnum.MODELS}
+        tableDataCy="modelsTable"
       />
     </div>
   );

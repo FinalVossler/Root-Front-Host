@@ -285,6 +285,7 @@ const ModelEditor = (props: IModelEditor) => {
       <form
         onSubmit={handleSubmit}
         className={styles.createModelModalContainer}
+        data-cy="modelForm"
       >
         <div className={styles.createModelHeader}>
           <h2 className={styles.createModelTitle}>
@@ -303,6 +304,7 @@ const ModelEditor = (props: IModelEditor) => {
           inputProps={{
             placeholder: getTranslatedText(staticText?.namePlaceholder),
           }}
+          inputDataCy="modelNameInput"
         />
 
         <InputSelect
@@ -314,6 +316,7 @@ const ModelEditor = (props: IModelEditor) => {
             getLanguages().find((el) => el.value === formik.values.language) ||
             getLanguages()[0]
           }
+          selectorClassName="modelLanguageSelect"
         />
 
         <EventsEditor
@@ -345,6 +348,7 @@ const ModelEditor = (props: IModelEditor) => {
             type="submit"
             style={{}}
             className={styles.button}
+            buttonDataCy="submitModelButton"
           >
             {getTranslatedText(staticText?.submit)}
           </Button>

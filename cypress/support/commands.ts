@@ -1,8 +1,44 @@
+import { FieldCreateCommand } from "../../src/hooks/apiHooks/useCreateField";
+import { ModelCreateCommand } from "../../src/hooks/apiHooks/useCreateModel";
 import { UserLoginCommand } from "../../src/hooks/apiHooks/useLogin";
 import {
   IUser,
   setUserAndTokenInformationInLocalStorage,
 } from "../../src/store/slices/userSlice";
+
+Cypress.Commands.add(
+  "sendCreateFieldRequest",
+  (command: FieldCreateCommand, callback) => {
+    cy.get("@adminToken").then((adminToken) => {
+      cy.request({
+        method: "POST",
+        body: command,
+        url: Cypress.env("backendUrl") + "/fields/",
+        headers: {
+          Authorization: "Bearer " + adminToken,
+        },
+      }).then(callback);
+    });
+  }
+);
+
+Cypress.Commands.add(
+  "sendCreateModelRequest",
+  (command: ModelCreateCommand, callback) => {
+    cy.get("@adminToken").then((adminToken) => {
+      cy.request({
+        method: "POST",
+        body: command,
+        url: Cypress.env("backendUrl") + "/models/",
+        headers: {
+          Authorization: "Bearer " + adminToken,
+        },
+      }).then((res) => {
+        callback(res);
+      });
+    });
+  }
+);
 
 Cypress.Commands.add(
   "selectInSelector",
@@ -60,6 +96,14 @@ declare global {
         selectorClassName: string,
         elementIndex: number
       ): Chainable;
+      sendCreateFieldRequest(
+        command: FieldCreateCommand,
+        callback: (res: any) => void
+      );
+      sendCreateModelRequest(
+        command: ModelCreateCommand,
+        callback: (res: any) => void
+      );
     }
   }
 }

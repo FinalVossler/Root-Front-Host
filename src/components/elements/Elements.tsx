@@ -274,6 +274,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                   height: 42,
                 },
               }}
+              inputDataCy="elementsSearchInput"
             />
           )}
 
@@ -324,6 +325,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                   onClick={() => setDeleteModalOpen(true)}
                   color={theme.primary}
                   className={styles.deleteIcon}
+                  id="deleteButton"
                 />
               )}
 
@@ -530,6 +532,9 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                             onChange={(
                               e: React.ChangeEvent<HTMLInputElement>
                             ) => handleToggleElementSelect(e, element)}
+                            data-cy={
+                              "tableCheckButtonFor" + element["_id"].toString()
+                            }
                           />
                         </td>
                       )}

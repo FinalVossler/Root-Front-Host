@@ -216,6 +216,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
                 dispatch(userPreferenceSlice.actions.triggerExtendModels())
               }
               subOptions={modelsSubOptions}
+              dataCy="sideMenuModelOption"
             />
           )}
           {!hasPermission(Permission.ReadModel) &&

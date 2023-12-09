@@ -1,22 +1,22 @@
-import { FieldCreateCommand } from "../../src/hooks/apiHooks/useCreateField";
-import { FieldType, IField } from "../../src/store/slices/fieldSlice";
+import { IField } from "../../src/store/slices/fieldSlice";
+import { createCreateFieldCommand } from "../fixtures/createCommands";
 
 describe("field", () => {
-  const fieldToUpdateCreateCommand: FieldCreateCommand = {
-    fieldEvents: [],
-    name: "FieldToUpdate",
-    language: "en",
-    canChooseFromExistingFiles: false,
-    tableOptions: {
-      columns: [],
-      name: "",
-      rows: [],
-      yearTable: false,
-    },
-    type: FieldType.Text,
-    options: [],
-  };
+  const fieldToUpdateCreateCommand = createCreateFieldCommand("FieldToUpdate");
+  const field1ToDeleteCreateCommand =
+    createCreateFieldCommand("Field1ToDelete");
+  const field2ToDeleteCreateCommand =
+    createCreateFieldCommand("Field2ToDelete");
+  const fieldToFindInSearchCreateCommand =
+    createCreateFieldCommand("SearchedField");
+  const fieldToNotFindInSearchCreateCommand =
+    createCreateFieldCommand("Ignored");
+
   let fieldToUpdate: IField | undefined;
+  let field1ToDelete: IField | undefined;
+  let field2ToDelete: IField | undefined;
+  let fieldToFindInSearch: IField | undefined;
+  let fieldToNotFindInSearch: IField | undefined;
 
   beforeEach(() => {
     cy.login(true);
@@ -29,21 +29,27 @@ describe("field", () => {
   });
 
   before(() => {
-    cy.get("@adminToken")
-      .then((adminToken) => {
-        cy.request({
-          method: "POST",
-          body: fieldToUpdateCreateCommand,
-          url: Cypress.env("backendUrl") + "/fields/",
-          headers: {
-            Authorization: "Bearer " + adminToken,
-          },
-        });
-      })
-      .then((res) => {
-        fieldToUpdate = //@ts-ignore
-          (res as { body: { data: IField } }).body.data;
-      });
+    cy.sendCreateFieldRequest(fieldToUpdateCreateCommand, (res) => {
+      fieldToUpdate = //@ts-ignore
+        (res as { body: { data: IField } }).body.data;
+    });
+    cy.sendCreateFieldRequest(field1ToDeleteCreateCommand, (res) => {
+      field1ToDelete = //@ts-ignore
+        (res as { body: { data: IField } }).body.data;
+    });
+    cy.sendCreateFieldRequest(field2ToDeleteCreateCommand, (res) => {
+      field2ToDelete = //@ts-ignore
+        (res as { body: { data: IField } }).body.data;
+    });
+
+    cy.sendCreateFieldRequest(fieldToFindInSearchCreateCommand, (res) => {
+      fieldToFindInSearch = //@ts-ignore
+        (res as { body: { data: IField } }).body.data;
+    });
+    cy.sendCreateFieldRequest(fieldToNotFindInSearchCreateCommand, (res) => {
+      fieldToNotFindInSearch = //@ts-ignore
+        (res as { body: { data: IField } }).body.data;
+    });
   });
 
   it("should create a field", () => {
@@ -87,5 +93,54 @@ describe("field", () => {
 
     cy.getByDataCy("fieldsPage").should("not.contain", newFieldName);
     cy.getByDataCy("fieldsPage").should("contain", fieldNameInFrench);
+  });
+
+  it("should delete fields", () => {
+    cy.get("#deleteButton").should("not.exist");
+
+    cy.getByDataCy("fieldsPage").should(
+      "contain",
+      field1ToDelete?.name.at(0)?.text
+    );
+    cy.getByDataCy("fieldsPage").should(
+      "contain",
+      field2ToDelete?.name.at(0)?.text
+    );
+
+    cy.getByDataCy(
+      "tableCheckButtonFor" + field1ToDelete?._id.toString()
+    ).click();
+    cy.getByDataCy(
+      "tableCheckButtonFor" + field2ToDelete?._id.toString()
+    ).click();
+
+    cy.get("#deleteButton").should("exist").and("be.visible");
+    cy.get("#deleteButton").click();
+
+    cy.getByDataCy("confirmationModalConfirmButton").click();
+
+    cy.getByDataCy("fieldsPage").should(
+      "not.contain",
+      field1ToDelete?.name.at(0)?.text
+    );
+    cy.getByDataCy("fieldsPage").should(
+      "not.contain",
+      field2ToDelete?.name.at(0)?.text
+    );
+  });
+
+  it("should search for field", () => {
+    cy.getByDataCy("elementsSearchInput").should("be.visible");
+    cy.getByDataCy("elementsSearchInput").type(
+      fieldToFindInSearch?.name.at(0)?.text || ""
+    );
+    cy.getByDataCy("fieldsPage").should(
+      "contain",
+      fieldToFindInSearch?.name.at(0)?.text
+    );
+    cy.getByDataCy("fieldsPage").should(
+      "not.contain",
+      fieldToNotFindInSearch?.name.at(0)?.text
+    );
   });
 });

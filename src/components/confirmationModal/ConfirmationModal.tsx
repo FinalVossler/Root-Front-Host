@@ -40,7 +40,11 @@ const ConfirmationModal: React.FunctionComponent<
         {props.loading && <ReactLoading />}
         <div className={styles.buttonsContainer}>
           {!props.loading && (
-            <Button disabled={props.loading} onClick={props.onConfirm}>
+            <Button
+              buttonDataCy="confirmationModalConfirmButton"
+              disabled={props.loading}
+              onClick={props.onConfirm}
+            >
               Yes
             </Button>
           )}
