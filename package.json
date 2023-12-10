@@ -9,7 +9,7 @@
     "start:live": "webpack serve --open --mode development --live-reload --hot",
     "cypress:open": "cypress open",
     "cypress": "cypress run",
-    "deploy": "git add . && git commit -m '$npm_config_m' && git push"
+    "deploy": "git add . && git commit -m \"$MESSAGE\" && git push origin HEAD"
   },
   "license": "MIT",
   "author": {
