@@ -21,6 +21,7 @@ import useIsLoggedIn from "./hooks/useIsLoggedIn";
 import useNotifications from "./hooks/useNotifications";
 import withChat from "./hoc/withChat";
 import { DynamicPageForLoggedIn } from "./pages/dynamicPage/DynamicPage";
+import withProtection from "./hoc/protection/index";
 
 function AuthenticatedApp() {
   useNotifications();
@@ -67,9 +68,11 @@ function AuthenticatedApp() {
   );
 }
 
-export default withChat(
-  withWrapper(React.memo(AuthenticatedApp), {
-    withFooter: false,
-    withSideMenu: true,
-  })
+export default withProtection(
+  withChat(
+    withWrapper(React.memo(AuthenticatedApp), {
+      withFooter: false,
+      withSideMenu: true,
+    })
+  )
 );

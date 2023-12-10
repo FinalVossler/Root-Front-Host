@@ -3,9 +3,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import Loading from "react-loading";
 
 import { Theme } from "../../config/theme";
-import withProtection from "../../hoc/protection";
 import { useAppSelector } from "../../store/hooks";
-import withChatHoc from "../../hoc/withChat";
 
 import useStyles from "./microFrontendPage.styles";
 import { IEntity } from "../../store/slices/entitySlice";
@@ -92,4 +90,4 @@ const MicroFrontendPage: React.FunctionComponent<IMicroFrontendPage> = (
   );
 };
 
-export default withProtection(withChatHoc(React.memo(MicroFrontendPage)));
+export default React.memo(MicroFrontendPage);

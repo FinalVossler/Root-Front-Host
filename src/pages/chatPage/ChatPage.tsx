@@ -7,7 +7,6 @@ import { Theme } from "../../config/theme";
 import withProtection from "../../hoc/protection";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { IUser } from "../../store/slices/userSlice";
-import withChatHoc from "../../hoc/withChat";
 
 import useStyles from "./chatPage.styles";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
@@ -74,4 +73,4 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
   );
 };
 
-export default withProtection(React.memo(Chat));
+export default React.memo(Chat);
