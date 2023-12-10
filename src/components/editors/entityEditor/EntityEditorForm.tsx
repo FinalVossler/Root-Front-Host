@@ -404,7 +404,11 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
     (props.entity ? updateLoading : createLoading) || uploadFilesLoading;
 
   return (
-    <form onSubmit={handleSubmit} className={styles.createEntityModalContainer}>
+    <form
+      onSubmit={handleSubmit}
+      className={styles.createEntityModalContainer}
+      data-cy="entityEditorForm"
+    >
       {!props.readOnly && (
         <div className={styles.createEntityHeader}>
           <h2 className={styles.createEntityTitle}>
@@ -518,6 +522,13 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
                         modelField.field._id
                     )?.errorText) ||
                   ""
+                }
+                inputDataCy={
+                  "entityFieldInputForField" + modelField.field._id.toString()
+                }
+                inputErrorDataCy={
+                  "entityFieldInputErrorForField" +
+                  modelField.field._id.toString()
                 }
               />
               {modelField.field.type === FieldType.IFrame &&
@@ -809,6 +820,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
           type="submit"
           style={{}}
           className={styles.button}
+          buttonDataCy="entityFormSubmitButton"
         >
           {getTranslatedText(staticText?.submit)}
         </Button>

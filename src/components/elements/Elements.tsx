@@ -249,6 +249,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                 : styles.viewTab
             }
             onClick={() => handleViewTypeChange(ViewType.Table)}
+            data-cy="elementsTableViewButton"
           >
             {getTranslatedText(staticText?.table)}
           </span>

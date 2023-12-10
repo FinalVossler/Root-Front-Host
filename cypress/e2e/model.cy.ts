@@ -1,25 +1,10 @@
 import { ModelCreateCommand } from "../../src/hooks/apiHooks/useCreateModel";
 import { IField } from "../../src/store/slices/fieldSlice";
 import { IModel } from "../../src/store/slices/modelSlice";
-import { createCreateFieldCommand } from "../fixtures/createCommands";
-
-const createCreateModelCommand = (
-  modelName: string,
-  fieldsIds: string[]
-): ModelCreateCommand => ({
-  language: "en",
-  modelEvents: [],
-  modelFields: fieldsIds.map((fieldId) => ({
-    fieldId,
-    mainField: true,
-    modelStatesIds: [],
-    required: false,
-    conditions: [],
-  })),
-  name: modelName,
-  states: [],
-  subStates: [],
-});
+import {
+  createCreateFieldCommand,
+  createCreateModelCommand,
+} from "../fixtures/createCommands";
 
 describe("model", () => {
   const modelField1CreateCommand = createCreateFieldCommand("ModelField1");
@@ -55,11 +40,6 @@ describe("model", () => {
     });
 
     const createModels = async () => {
-      const command = createCreateModelCommand("Model to update", [
-        (modelField1 as IField)?._id.toString(),
-        (modelField2 as IField)?._id.toString(),
-      ]);
-
       cy.sendCreateModelRequest(
         createCreateModelCommand("Model to update", [
           (modelField1 as IField)?._id.toString(),
@@ -148,6 +128,7 @@ describe("model", () => {
     cy.getByDataCy("sortableModelFieldForField" + modelField2?._id.toString())
       .should("exist")
       .and("be.visible");
+
     // Conditions for field 2
     cy.getByDataCy(
       "modelFieldConditionsForField" + modelField2?._id.toString()
@@ -178,6 +159,16 @@ describe("model", () => {
       .type(fieldConditionValue)
       .wait(2000);
 
+    // Model states:
+    cy.getByDataCy("modelStatesContainer").should("not.exist");
+    cy.getByDataCy("modelTriggerOpenStates").click();
+    cy.getByDataCy("modelStatesContainer").should("exist").and("be.visible");
+    cy.getByDataCy("addModelStateButton").click();
+    const modelStateName: string = "State 1";
+    cy.getByDataCy("modelStateNameForState0").type(modelStateName).wait(2000);
+    cy.getByDataCy("modelStateIsExclusiveCheckboxForState0").check();
+
+    // Submit
     cy.getByDataCy("submitModelButton").click();
 
     cy.getByDataCy("modelForm").should("not.exist");
@@ -202,6 +193,12 @@ describe("model", () => {
     cy.getByDataCy(
       "conditionValueForCondition0AndModelField" + modelField2?._id.toString()
     ).should("have.value", fieldConditionValue);
+
+    // Make sure that all states are still the same after reloading the page
+    cy.getByDataCy("modelTriggerOpenStates").click();
+    cy.getByDataCy("modelStatesContainer").should("exist").and("be.visible");
+    cy.getByDataCy("modelStateNameForState0").and("have.value", modelStateName);
+    cy.getByDataCy("modelStateIsExclusiveCheckboxForState0").and("be.checked");
   });
 
   it("should update a model and make sure the language is taken into consideration", () => {

@@ -14,6 +14,7 @@ interface ICheckbox {
   onChange?: (checked: boolean) => any;
   label?: string;
   labelStyles?: React.CSSProperties;
+  inputDataCy?: string;
 }
 const Checkbox: React.FunctionComponent<ICheckbox> = (props: ICheckbox) => {
   const theme: Theme = useAppSelector(
@@ -30,7 +31,6 @@ const Checkbox: React.FunctionComponent<ICheckbox> = (props: ICheckbox) => {
       props.formik.setFieldValue(props.name, e.target.checked);
     }
   };
-
   //#endregion Event listeners
 
   return (
@@ -50,6 +50,7 @@ const Checkbox: React.FunctionComponent<ICheckbox> = (props: ICheckbox) => {
         className={styles.input}
         name={props.name}
         onChange={handleChange}
+        {...(props.inputDataCy ? { ["data-cy"]: props.inputDataCy } : {})}
         {...props.inputProps}
       />
     </div>

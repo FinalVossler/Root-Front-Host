@@ -29,7 +29,7 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
   }
 
   return (
-    <div className={styles.entitiesPageContainer}>
+    <div className={styles.entitiesPageContainer} data-cy="entitiesPage">
       <EntitiesList modelId={modelId} />
     </div>
   );

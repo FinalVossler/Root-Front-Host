@@ -186,6 +186,7 @@ const EntitiesList: React.FunctionComponent<IEntitiesList> = (
       isForEntities={true}
       modelId={props.modelId}
       elementsLocalStorageConfName={props.modelId}
+      tableDataCy="entitiesTable"
     />
   );
 };

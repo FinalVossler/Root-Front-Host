@@ -138,6 +138,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
               modelId={model._id}
             />
           ),
+          dataCy: "sideMenuEntityOptionForModel" + model._id,
         })),
     [user.superRole, user.role?.entityPermissions, models]
   );

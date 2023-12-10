@@ -17,6 +17,7 @@ type SubOption = {
     setOpen: (open: boolean) => void;
     element?: Element | null;
   }>;
+  dataCy?: string;
 };
 
 interface ISideMenuOption {
@@ -113,7 +114,12 @@ const SubOption = React.memo((props: { subOption: SubOption }) => {
 
   return (
     <React.Fragment>
-      <Link to={props.subOption.link}>
+      <Link
+        to={props.subOption.link}
+        {...(props.subOption.dataCy
+          ? { ["data-cy"]: props.subOption.dataCy }
+          : {})}
+      >
         <div
           className={
             location.pathname === props.subOption.link

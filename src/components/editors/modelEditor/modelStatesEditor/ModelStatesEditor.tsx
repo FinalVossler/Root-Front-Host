@@ -171,7 +171,11 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
 
   return (
     <div className={styles.modelStatesEditorContainer}>
-      <span onClick={handleTriggerOpenStates} className={styles.statesTitle}>
+      <span
+        onClick={handleTriggerOpenStates}
+        className={styles.statesTitle}
+        data-cy="modelTriggerOpenStates"
+      >
         {!openStates ? (
           <BsArrowDownShort className={styles.triggerArrow} />
         ) : (
@@ -182,7 +186,7 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
 
       {openStates && (
         <>
-          <h3 className={styles.statesTypeTitle}>
+          <h3 className={styles.statesTypeTitle} data-cy="modelStatesContainer">
             {getTranslatedText(staticText?.parentStates)}
           </h3>
           {props.formik.values.states?.length > 0 && (
@@ -209,7 +213,10 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
               </DndContext>
             </div>
           )}
-          <Button onClick={handleAddModelState}>
+          <Button
+            onClick={handleAddModelState}
+            buttonDataCy="addModelStateButton"
+          >
             {getTranslatedText(staticText?.addState)}
           </Button>
           <br />
@@ -294,6 +301,7 @@ const SortableModelState: React.FunctionComponent<ISortableModelState> = (
         }}
         value={props.state.name}
         debounce
+        inputDataCy={"modelStateNameForState" + props.stateIndex}
       />
       <Checkbox
         label={getTranslatedText(staticText?.exclusive)}
@@ -304,6 +312,7 @@ const SortableModelState: React.FunctionComponent<ISortableModelState> = (
           width: 165,
         }}
         checked={Boolean(props.state.exclusive)}
+        inputDataCy={"modelStateIsExclusiveCheckboxForState" + props.stateIndex}
       />
       <MdDelete
         onClick={() => props.onDeleteState(props.stateIndex)}
