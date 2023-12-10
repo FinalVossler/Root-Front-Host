@@ -90,6 +90,10 @@ interface IChatState {
   totalLastConversationsLastMessages: number;
   alreadyLoadedLastConversationsLastMessagesFromBackend: boolean;
   totalUnreadMessages: number;
+  messageFilePreviews: {
+    file: IFile | null;
+    message: IMessage;
+  }[];
 }
 
 const initialState: IChatState = {
@@ -103,6 +107,7 @@ const initialState: IChatState = {
   totalLastConversationsLastMessages: 0,
   alreadyLoadedLastConversationsLastMessagesFromBackend: false,
   totalUnreadMessages: 0,
+  messageFilePreviews: [],
 };
 
 export const chatSlice = createSlice({
@@ -459,6 +464,22 @@ export const chatSlice = createSlice({
               : el
           );
       }
+    },
+    addMessageFilePreview: (
+      state: IChatState,
+      action: PayloadAction<{ file: IFile; message: IMessage }>
+    ) => {
+      state.messageFilePreviews.push(action.payload);
+    },
+    removeMessageFilePreviews: (
+      state: IChatState,
+      action: PayloadAction<{ messageId: string }>
+    ) => {
+      state.messageFilePreviews = state.messageFilePreviews.filter(
+        (messageFilePreview) =>
+          messageFilePreview.message?._id?.toString() !==
+          action.payload.messageId
+      );
     },
   },
 });

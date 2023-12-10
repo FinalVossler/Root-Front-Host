@@ -3,12 +3,13 @@ import { socketConnect } from "socket.io-react";
 import { Socket } from "socket.io-client";
 
 import { Theme } from "../../../config/theme";
-import { useAppSelector } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   Conversation,
   IMessage,
   IReaction,
   ReactionEnum,
+  chatSlice,
 } from "../../../store/slices/chatSlice";
 import { IUser } from "../../../store/slices/userSlice";
 
@@ -18,7 +19,6 @@ import moment from "moment";
 import getRelativeDate from "../../../utils/getRelativeDate";
 import UserProfilePicture from "../../userProfilePicture";
 import { SizeEnum } from "../../userProfilePicture/UserProfilePicture";
-import MessageFilePreview from "./messageFilePreview/MessageFilePreview";
 import IFile from "../../../globalTypes/IFile";
 import { AiFillEye } from "react-icons/ai";
 import getFileType, { FileTypeEnum } from "../../../utils/getFileType";
@@ -42,6 +42,7 @@ const Message: React.FunctionComponent<IMessageComponent> = (
   const [fileToPreview, setFileToPreview] = React.useState<IFile | null>(null);
 
   const styles = useStyles({ theme });
+  const dispatch = useAppDispatch();
   const ownMessage = React.useMemo(() => {
     return user._id === props.message.from;
   }, [user, props.message]);
@@ -113,7 +114,14 @@ const Message: React.FunctionComponent<IMessageComponent> = (
                   key={file._id}
                   className={styles.singleFileContainer}
                   onClick={() => {
-                    if (fileType === FileTypeEnum.Image) setFileToPreview(file);
+                    if (fileType === FileTypeEnum.Image) {
+                      dispatch(
+                        chatSlice.actions.addMessageFilePreview({
+                          file,
+                          message: props.message,
+                        })
+                      );
+                    }
                   }}
                 >
                   {fileType === FileTypeEnum.Image && (
@@ -130,7 +138,14 @@ const Message: React.FunctionComponent<IMessageComponent> = (
                         <iframe className={styles.file} src={file.url} />
                         <AiFillEye
                           className={styles.viewFileIcon}
-                          onClick={() => setFileToPreview(file)}
+                          onClick={() => {
+                            dispatch(
+                              chatSlice.actions.addMessageFilePreview({
+                                file,
+                                message: props.message,
+                              })
+                            );
+                          }}
                         />
                       </React.Fragment>
                     )}
@@ -138,7 +153,14 @@ const Message: React.FunctionComponent<IMessageComponent> = (
                     <React.Fragment>
                       <BsFiletypeJson
                         className={styles.fileIcon}
-                        onClick={() => setFileToPreview(file)}
+                        onClick={() => {
+                          dispatch(
+                            chatSlice.actions.addMessageFilePreview({
+                              file,
+                              message: props.message,
+                            })
+                          );
+                        }}
                       />
                       <span>{file.name}</span>
                     </React.Fragment>
@@ -147,15 +169,6 @@ const Message: React.FunctionComponent<IMessageComponent> = (
               );
             })}
           </div>
-        )}
-
-        {/* File Preview */}
-        {fileToPreview && (
-          <MessageFilePreview
-            message={props.message}
-            file={fileToPreview}
-            onClose={() => setFileToPreview(null)}
-          />
         )}
 
         <div
