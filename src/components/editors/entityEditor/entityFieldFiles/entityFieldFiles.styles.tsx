@@ -17,6 +17,10 @@ const useStyles = createUseStyles((theme: Theme) => ({
     boxSizing: "border-box",
     borderRadius: 5,
   },
+  disabledAddFilesContainer: {
+    extend: "addFilesContainer",
+    backgroundColor: theme.contentBackgroundColor,
+  },
   filesButtonsContainer: {
     display: "flex",
     flexDirection: "row",

@@ -21,6 +21,7 @@ import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import ExistingFiles from "../../../existingFiles";
 import { TypeOfFiles } from "../../../existingFiles/ExistingFiles";
 import FilesDropZone from "../../../filesDropZone";
+import { toast } from "react-toastify";
 
 type TrackedImage = {
   base64: string;
@@ -39,6 +40,9 @@ export interface IEntityFieldFiles {
 const EntityFieldFiles = (props: IEntityFieldFiles) => {
   const theme: Theme = useAppSelector(
     (state) => state.websiteConfiguration.theme
+  );
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.files
   );
 
   //#region Local state
@@ -158,6 +162,11 @@ const EntityFieldFiles = (props: IEntityFieldFiles) => {
   };
 
   const handleDropFiles = (files: File[]) => {
+    if (props.disabled) {
+      return toast.error(
+        getTranslatedText(staticText?.readAccessOnlyErrorMessage)
+      );
+    }
     props.formik.setFieldValue(
       "entityFieldValues",
       props.formik.values.entityFieldValues.map((entityFieldValue) => {
@@ -175,7 +184,13 @@ const EntityFieldFiles = (props: IEntityFieldFiles) => {
   //#endregion Event listeners
 
   return (
-    <div className={styles.addFilesContainer}>
+    <div
+      className={
+        props.disabled
+          ? styles.disabledAddFilesContainer
+          : styles.addFilesContainer
+      }
+    >
       <span className={styles.label}>
         {getTranslatedText(props.modelField.field.name)}:
       </span>

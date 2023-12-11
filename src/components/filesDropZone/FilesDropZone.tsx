@@ -7,6 +7,7 @@ import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./filesDropZone.styles";
+import { toast } from "react-toastify";
 
 interface IFilesDropZone {
   onDrop: (files: File[]) => any;
@@ -26,18 +27,24 @@ const FilesDropZone: React.FunctionComponent<IFilesDropZone> = (
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
 
+  const handleOnClickWhenDisabled = () => {
+    toast.error(getTranslatedText(staticText?.readAccessOnlyErrorMessage));
+  };
+
   return (
-    <Dropzone onDrop={props.onDrop} disabled={props.disabled}>
-      {({ getRootProps, getInputProps }) => (
-        <div className={styles.filesDropZoneContainer} {...getRootProps()}>
-          <input {...getInputProps()} />
-          <AiOutlineDropbox className={styles.dropIcon} />
-          <span className={styles.dropHereText}>
-            {getTranslatedText(staticText?.dropHere)}
-          </span>
-        </div>
-      )}
-    </Dropzone>
+    <div {...(props.disabled ? { onClick: handleOnClickWhenDisabled } : {})}>
+      <Dropzone onDrop={props.onDrop} disabled={props.disabled}>
+        {({ getRootProps, getInputProps }) => (
+          <div className={styles.filesDropZoneContainer} {...getRootProps()}>
+            <input {...getInputProps()} />
+            <AiOutlineDropbox className={styles.dropIcon} />
+            <span className={styles.dropHereText}>
+              {getTranslatedText(staticText?.dropHere)}
+            </span>
+          </div>
+        )}
+      </Dropzone>
+    </div>
   );
 };
 

@@ -19,6 +19,7 @@ import useGetUnownedFiles, {
 } from "../../hooks/apiHooks/useGetUnownedAndSelectedFiles";
 
 import useStyles from "./existingFiles.styles";
+import { toast } from "react-toastify";
 
 export enum TypeOfFiles {
   UserFiles = "UserFiles",
@@ -37,7 +38,7 @@ const ExistingFiles = (props: IExistingFiles) => {
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(
-    (state) => state.websiteConfiguration.staticText?.existingFiles
+    (state) => state.websiteConfiguration.staticText?.files
   );
 
   const [files, setFiles] = React.useState<IFile[]>([]);
@@ -48,8 +49,10 @@ const ExistingFiles = (props: IExistingFiles) => {
   const styles = useStyles({ theme });
   const { getUserAndSelectedFiles, loading: getUserAndSelectedFilesLoading } =
     useGetUserAndSelectedFiles();
-  const { getUnownedAndSelectedFiles, loading: getUnownedFilesLoading } =
-    useGetUnownedFiles();
+  const {
+    getUnownedAndSelectedFiles,
+    loading: getUnownedAndSelectedFilesLoading,
+  } = useGetUnownedFiles();
   const getTranslatedText = useGetTranslatedText();
 
   //#region Effects
@@ -115,7 +118,11 @@ const ExistingFiles = (props: IExistingFiles) => {
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     file: IFile
   ) => {
-    if (props.disabled) return;
+    if (props.disabled) {
+      return toast.error(
+        getTranslatedText(staticText?.readAccessOnlyErrorMessage)
+      );
+    }
 
     let newExistingFiles = [...props.selectedExistingFiles];
     if (!newExistingFiles.find((el) => el._id === file._id)) {

@@ -276,9 +276,6 @@ export interface IWebsiteConfiguration {
       message: ITranslatedText[];
       submit: ITranslatedText[];
     };
-    existingFiles: {
-      noFilesFound: ITranslatedText[];
-    };
     websiteConfiguration: {
       titleIsRequired: ITranslatedText[];
       emailIsRequired: ITranslatedText[];
@@ -389,6 +386,8 @@ export interface IWebsiteConfiguration {
     };
     files: {
       dropHere: ITranslatedText[];
+      readAccessOnlyErrorMessage: ITranslatedText[];
+      noFilesFound: ITranslatedText[];
     };
   };
 }
@@ -1585,12 +1584,6 @@ const initialState: IWebsiteConfigurationState = {
         { language: "fr", text: "Envoyer" },
       ],
     },
-    existingFiles: {
-      noFilesFound: [
-        { text: "No files found", language: "en" },
-        { text: "Pas de fichiers trouvés", language: "fr" },
-      ],
-    },
     websiteConfiguration: {
       email: [
         { text: "Email", language: "en" },
@@ -2042,6 +2035,20 @@ const initialState: IWebsiteConfigurationState = {
       dropHere: [
         { language: "en", text: "Drop here" },
         { language: "fr", text: "Glisser déposer" },
+      ],
+      readAccessOnlyErrorMessage: [
+        {
+          language: "en",
+          text: "You don't have the right to update this field",
+        },
+        {
+          language: "fr",
+          text: "Vous n'avez pas le droit de mettre à jour ce champ",
+        },
+      ],
+      noFilesFound: [
+        { text: "No files found", language: "en" },
+        { text: "Pas de fichiers trouvés", language: "fr" },
       ],
     },
   },
