@@ -78,11 +78,11 @@ const EntitiesList: React.FunctionComponent<IEntitiesList> = (
     getEntitiesByModel({
       modelId: props.modelId || "",
       paginationCommand: {
-        limit: 100,
+        limit,
         page,
       },
     });
-  }, [props.modelId]);
+  }, [props.modelId, page]);
 
   React.useEffect(() => {
     getModels({

@@ -65,7 +65,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
   optionTitle: {
     marginLeft: 10,
     color: theme.darkTextColor,
-    fontSize: 22,
+    fontSize: 20,
   },
 
   subOptionTitle: {

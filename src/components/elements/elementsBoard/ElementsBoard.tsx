@@ -1,4 +1,5 @@
 import React from "react";
+import Loading from "react-loading";
 
 import { Theme } from "../../../config/theme";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
@@ -27,6 +28,7 @@ interface IElementsBoard {
     setOpen: (open: boolean) => void;
     element?: Element | null;
   }>;
+  loading: boolean;
 }
 
 const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
@@ -100,64 +102,69 @@ const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
         boardPattern.map(({ modelState, entities }) => {
           return (
             <React.Fragment key={modelState._id}>
-              {entities.map((entity, entityIndex) => (
-                <div
-                  key={entityIndex}
-                  className={styles.entityCardAndStateTrackingContainer}
-                >
-                  <EntityCard
-                    entity={entity}
-                    modelId={props.modelId}
-                    model={model}
-                    mainModelFields={mainModelFields}
-                    Editor={(subProps) => <props.Editor {...subProps} />}
-                  />
-                  <StateTracking
-                    states={
-                      model.states?.map((modelState) => ({
+              {props.loading && <Loading color={theme.primary} />}
+
+              {!props.loading &&
+                entities.map((entity, entityIndex) => (
+                  <div
+                    key={entityIndex}
+                    className={styles.entityCardAndStateTrackingContainer}
+                  >
+                    <EntityCard
+                      entity={entity}
+                      modelId={props.modelId}
+                      model={model}
+                      mainModelFields={mainModelFields}
+                      Editor={(subProps) => <props.Editor {...subProps} />}
+                    />
+                    <StateTracking
+                      states={
+                        model.states?.map((modelState) => ({
+                          _id: modelState._id,
+                          stateName: getTranslatedText(modelState.name),
+                        })) || []
+                      }
+                      currentState={{
                         _id: modelState._id,
                         stateName: getTranslatedText(modelState.name),
-                      })) || []
-                    }
-                    currentState={{
-                      _id: modelState._id,
-                      stateName: getTranslatedText(modelState.name),
-                    }}
-                  />
-                </div>
-              ))}
+                      }}
+                    />
+                  </div>
+                ))}
             </React.Fragment>
           );
         })}
 
       {!props.forStatusTracking && (
         <div className={styles.elementsBoardContainer}>
-          {boardPattern.map(({ modelState, entities }, modelStateIndex) => {
-            return (
-              <div key={modelStateIndex} className={styles.stateContainer}>
-                <h3 className={styles.modelStateName}>
-                  {getTranslatedText(modelState.name)}
-                </h3>
+          {props.loading && <Loading color={theme.primary} />}
+          {!props.loading &&
+            boardPattern.map(({ modelState, entities }, modelStateIndex) => {
+              return (
+                <div key={modelStateIndex} className={styles.stateContainer}>
+                  <h3 className={styles.modelStateName}>
+                    {getTranslatedText(modelState.name)}
+                  </h3>
 
-                {entities.map((entity: IEntity) => {
-                  return (
-                    <div
-                      key={entity._id}
-                      className={styles.entityCardAndStateTrackingContainer}
-                    >
-                      <EntityCard
-                        entity={entity}
-                        modelId={props.modelId}
-                        model={model}
-                        mainModelFields={mainModelFields}
-                        Editor={(subProps) => <props.Editor {...subProps} />}
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })}
+                  {entities.map((entity: IEntity) => {
+                    return (
+                      <div
+                        key={entity._id}
+                        className={styles.entityCardAndStateTrackingContainer}
+                      >
+                        <EntityCard
+                          entity={entity}
+                          modelId={props.modelId}
+                          model={model}
+                          mainModelFields={mainModelFields}
+                          Editor={(subProps) => <props.Editor {...subProps} />}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
         </div>
       )}
     </React.Fragment>
