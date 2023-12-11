@@ -1,8 +1,12 @@
 import IFile from "../../src/globalTypes/IFile";
 import { EntityCreateCommand } from "../../src/hooks/apiHooks/useCreateEntity";
+import { RoleCreateCommand } from "../../src/hooks/apiHooks/useCreateRole";
 import { IEntity } from "../../src/store/slices/entitySlice";
 import { FieldType, IField } from "../../src/store/slices/fieldSlice";
 import { IModel } from "../../src/store/slices/modelSlice";
+import { IRole, StaticPermission } from "../../src/store/slices/roleSlice";
+import { IUser, SuperRole } from "../../src/store/slices/userSlice";
+import { UserCreateCommand } from "../../src/hooks/apiHooks/useCreateUser";
 import {
   createCreateFieldCommand,
   createCreateModelCommand,
@@ -16,13 +20,19 @@ describe("entity", () => {
   );
   modelField3OfTypeFileCreateCommand.type = FieldType.File;
   modelField3OfTypeFileCreateCommand.canChooseFromExistingFiles = true;
+  const modelField4CreateCommand = createCreateFieldCommand("ModelField4");
 
   let modelField1: IField | undefined;
   let modelField2: IField | undefined;
   let modelField3OfTypeFile: IField | undefined;
+  let modelField4: IField | undefined;
   let model: IModel | undefined;
   let entityToUpdate: IEntity | undefined;
+  let entityToUpdate2: IEntity | undefined;
   let file1: IFile | undefined;
+  let role: IRole | undefined;
+  let userWithLimitedAccess: IUser | undefined;
+  const userWithLimitedAccessPassword = "rootroot";
 
   before(() => {
     cy.sendCreateFieldRequest(modelField1CreateCommand, (res) => {
@@ -34,17 +44,79 @@ describe("entity", () => {
         cy.sendCreateFieldRequest(modelField3OfTypeFileCreateCommand, (res) => {
           modelField3OfTypeFile = (res as { body: { data: IField } }).body.data;
         }).then(() => {
-          cy.sendCreateFileRequest(
-            "https://i.pinimg.com/736x/fa/8a/a4/fa8aa43569687f96b8afd6a1e7539e20.jpg",
-            (res) => {
-              file1 = (res as { body: { data: IFile } }).body.data;
-            }
-          ).then(() => {
-            createModels();
+          cy.sendCreateFieldRequest(modelField4CreateCommand, (res) => {
+            modelField4 = (res as { body: { data: IField } }).body.data;
+          }).then(() => {
+            cy.sendCreateFileRequest(
+              "https://i.pinimg.com/736x/fa/8a/a4/fa8aa43569687f96b8afd6a1e7539e20.jpg",
+              (res) => {
+                file1 = (res as { body: { data: IFile } }).body.data;
+              }
+            ).then(() => {
+              createModels();
+            });
           });
         });
       });
     });
+
+    const createRoles = () => {
+      const roleCreateCommand: RoleCreateCommand = {
+        entityPermissions: [
+          {
+            entityEventNotifications: [],
+            entityFieldPermissions: [
+              {
+                fieldId: modelField1?._id.toString() || "",
+                permissions: [StaticPermission.Read],
+              },
+              {
+                fieldId: modelField2?._id.toString() || "",
+                permissions: [],
+              },
+              {
+                fieldId: modelField3OfTypeFile?._id.toString() || "",
+                permissions: [StaticPermission.Read],
+              },
+              {
+                fieldId: modelField4?._id.toString() || "",
+                permissions: [StaticPermission.Read, StaticPermission.Update],
+              },
+            ],
+            entityUserAssignmentPermissionsByRole: {
+              canAssignToUserFromSameRole: true,
+              otherRolesIds: [],
+            },
+            language: "en",
+            modelId: (model as IModel)?._id.toString(),
+            permissions: [StaticPermission.Read, StaticPermission.Update],
+          },
+        ],
+        language: "en",
+        name: "Role used to test entities permissions",
+        permissions: [],
+      };
+
+      cy.sendCreateRoleRequest(roleCreateCommand, (res) => {
+        role = (res as { body: { data: IRole } }).body.data;
+      }).then(() => {
+        createUsers();
+      });
+    };
+
+    const createUsers = () => {
+      const userCreateCommand: UserCreateCommand = {
+        email: "testingUserWithLimitedAccess@testing.com",
+        firstName: "userForEntityTestFirstName",
+        lastName: "userForEntityTestLastName",
+        password: userWithLimitedAccessPassword,
+        superRole: SuperRole.Normal,
+        roleId: role?._id,
+      };
+      cy.sendCreateUserRequest(userCreateCommand, (res) => {
+        userWithLimitedAccess = (res as { body: { data: IUser } }).body.data;
+      });
+    };
 
     const createModels = () => {
       cy.sendCreateModelRequest(
@@ -54,6 +126,7 @@ describe("entity", () => {
             (modelField1 as IField)?._id.toString(),
             (modelField2 as IField)?._id.toString(),
             (modelField3OfTypeFile as IField)._id.toString(),
+            (modelField4 as IField)?._id.toString(),
           ],
           [modelField2?._id.toString() || ""]
         ),
@@ -61,6 +134,7 @@ describe("entity", () => {
           model = (res as { body: { data: IModel } }).body.data;
         }
       ).then(() => {
+        createRoles();
         createEntities();
       });
     };
@@ -90,6 +164,13 @@ describe("entity", () => {
             value: "",
             yearTableValues: [],
           },
+          {
+            fieldId: modelField4?._id.toString() || "",
+            files: [],
+            tableValues: [],
+            value: "field 4 value",
+            yearTableValues: [],
+          },
         ],
         language: "en",
         modelId: model?._id.toString() || "",
@@ -109,6 +190,22 @@ describe("entity", () => {
         .then((res) => {
           //@ts-ignore
           entityToUpdate = (res as { body: { data: IEntity } }).body.data;
+        });
+
+      cy.get("@adminToken")
+        .then((adminToken) => {
+          cy.request({
+            url: Cypress.env("backendUrl") + "/entities/",
+            headers: {
+              Authorization: "Bearer " + adminToken,
+            },
+            method: "POST",
+            body: createEntityCommand,
+          });
+        })
+        .then((res) => {
+          //@ts-ignore
+          entityToUpdate2 = (res as { body: { data: IEntity } }).body.data;
         });
     };
   });
@@ -280,5 +377,92 @@ describe("entity", () => {
       .should("exist")
       .scrollIntoView()
       .and("be.visible");
+  });
+
+  it("should make sure that entities permissions in the form are working properly ", () => {
+    const updatedValueForField4: string = "Updated value for field 4";
+
+    cy.login(true, {
+      email: userWithLimitedAccess?.email || "",
+      password: userWithLimitedAccessPassword,
+    });
+
+    cy.reload();
+    cy.getByDataCy("elementsTableViewButton").click();
+
+    cy.get("#editButtonFor" + entityToUpdate2?._id.toString())
+      .scrollIntoView()
+      .click();
+
+    cy.getByDataCy("entityEditorForm").should("be.visible");
+
+    // Test that a read only field is visible, that it has the right value and that we can't edit it
+    cy.getByDataCy("entityFieldInputForField" + modelField1?._id.toString())
+      .should("exist")
+      .and(
+        "have.value",
+        entityToUpdate2?.entityFieldValues
+          .find((el) => el.field._id.toString() === modelField1?._id.toString())
+          ?.value.at(0)?.text
+      );
+    cy.getByDataCy(
+      "entityFieldInputForField" + modelField1?._id.toString()
+    ).should("be.disabled");
+    cy.getByDataCy("entityFieldInputForField" + modelField1?._id.toString())
+      .should("exist")
+      .and(
+        "have.value",
+        entityToUpdate2?.entityFieldValues
+          .find((el) => el.field._id.toString() === modelField1?._id.toString())
+          ?.value.at(0)?.text
+      );
+
+    // Test that an inaccessible field isn't showing
+    cy.getByDataCy(
+      "entityFieldInputForField" + modelField2?._id.toString()
+    ).should("not.exist");
+
+    // Change value of file field
+    cy.getByDataCy("existingFilesContainer").should("not.exist");
+    cy.get("#selectFromExistingFilesForEntityButton").scrollIntoView().click();
+    cy.getByDataCy("existingFilesContainer")
+      .should("exist")
+      .scrollIntoView()
+      .and("be.visible");
+    cy.getByDataCy(
+      "selectedExistingFileForFile" + file1?._id?.toString()
+    ).should("not.exist");
+    cy.getByDataCy("existingFileForFile" + file1?._id?.toString()).click();
+    // A selected existing file shouldn't exist even after clicking a file
+    cy.getByDataCy(
+      "selectedExistingFileForFile" + file1?._id?.toString()
+    ).should("not.exist");
+
+    // Test that we have the ability to edit fields to which we have edit access
+    cy.getByDataCy("entityFieldInputForField" + modelField4?._id.toString())
+      .should("exist")
+      .and(
+        "have.value",
+        entityToUpdate2?.entityFieldValues
+          .find((el) => el.field._id.toString() === modelField4?._id.toString())
+          ?.value.at(0)?.text
+      );
+
+    cy.getByDataCy("entityFieldInputForField" + modelField4?._id.toString())
+      .clear()
+      .type(updatedValueForField4);
+
+    // Submit the form and reload, then test that everything is alright
+    cy.getByDataCy("entityFormSubmitButton").click();
+
+    cy.reload();
+    cy.getByDataCy("elementsTableViewButton").click();
+
+    cy.get("#editButtonFor" + entityToUpdate2?._id.toString())
+      .scrollIntoView()
+      .click();
+    cy.getByDataCy("entityFieldInputForField" + modelField4?._id.toString())
+      .should("exist")
+      .and("have.value", updatedValueForField4);
   });
 });
