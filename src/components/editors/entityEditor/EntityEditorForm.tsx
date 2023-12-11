@@ -799,6 +799,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
           getLanguages().find((el) => el.value === formik.values.language) ||
           getLanguages()[0]
         }
+        selectorClassName="entityFormLanguageSelector"
       />
 
       {props.entity && props.modelId && (

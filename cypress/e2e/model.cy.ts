@@ -1,4 +1,3 @@
-import { ModelCreateCommand } from "../../src/hooks/apiHooks/useCreateModel";
 import { IField } from "../../src/store/slices/fieldSlice";
 import { IModel } from "../../src/store/slices/modelSlice";
 import {

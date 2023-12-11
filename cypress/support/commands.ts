@@ -6,6 +6,19 @@ import {
   setUserAndTokenInformationInLocalStorage,
 } from "../../src/store/slices/userSlice";
 
+Cypress.Commands.add("sendCreateFileRequest", (url: string, callback) => {
+  cy.get("@adminToken").then((adminToken) => {
+    cy.request({
+      url: Cypress.env("backendUrl") + "/cypress/createFile",
+      method: "POST",
+      body: { url },
+      headers: {
+        Authorization: "Bearer " + adminToken,
+      },
+    }).then(callback);
+  });
+});
+
 Cypress.Commands.add(
   "sendCreateFieldRequest",
   (command: FieldCreateCommand, callback) => {
@@ -104,6 +117,10 @@ declare global {
         command: ModelCreateCommand,
         callback: (res: any) => void
       );
+      sendCreateFileRequest(
+        url: string,
+        callback: (res: any) => void
+      ): Chainable;
     }
   }
 }

@@ -147,7 +147,10 @@ const ExistingFiles = (props: IExistingFiles) => {
   const actualLoading =
     getUserAndSelectedFilesLoading || getUserAndSelectedFilesLoading;
   return (
-    <div className={styles.existingFilesContainer}>
+    <div
+      className={styles.existingFilesContainer}
+      data-cy="existingFilesContainer"
+    >
       {files.length === 0 && !actualLoading && (
         <div className={styles.noFiles}>
           {getTranslatedText(staticText?.noFilesFound)}
@@ -161,15 +164,24 @@ const ExistingFiles = (props: IExistingFiles) => {
             style.backgroundImage = "url(" + file.url + ")";
           }
 
+          const isFileSelected: boolean = props.selectedExistingFiles.some(
+            (el) => el._id === file._id
+          );
+
           return (
             <div
               onClick={(e) => handleTriggerSelectFile(e, file)}
               key={index}
               style={style}
               className={
-                props.selectedExistingFiles.find((el) => el._id === file._id)
+                isFileSelected
                   ? styles.selectedSingleFileContainer
                   : styles.singleFileContainer
+              }
+              data-cy={
+                isFileSelected
+                  ? "selectedExistingFileForFile" + file._id?.toString()
+                  : "existingFileForFile" + file._id?.toString()
               }
             >
               {!file.isImage && (

@@ -201,6 +201,7 @@ const EntityFieldFiles = (props: IEntityFieldFiles) => {
           <AiOutlineFileSearch
             className={styles.chooseFilesButton}
             onClick={() => setExistingFilesOpen(true)}
+            id={"selectFromExistingFilesForEntityButton"}
           />
         )}
 
