@@ -755,6 +755,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
                     ]);
                   }
                 }}
+                inputDataCy={"searchUserToAssignForRole" + role._id.toString()}
               />
 
               {formik.values.assignedUsers

@@ -125,6 +125,7 @@ const HeaderNotifications: React.FunctionComponent<IHeaderNotifications> = (
       <div
         className={styles.notificationIconContainer}
         onClick={handleOpenNotifications}
+        data-cy="headerNotificationsButton"
       >
         <IoMdNotificationsOutline className={styles.notificationIcon} />
 
@@ -134,7 +135,10 @@ const HeaderNotifications: React.FunctionComponent<IHeaderNotifications> = (
       </div>
 
       {notificationsOpen && (
-        <div className={styles.notificationPopup}>
+        <div
+          className={styles.notificationPopup}
+          data-cy="headerNotificationsContainer"
+        >
           {(loading || markAllAsReadLoading) && (
             <Loading
               color={theme.primary}
@@ -173,6 +177,7 @@ const HeaderNotifications: React.FunctionComponent<IHeaderNotifications> = (
                         ? styles.notificationContainer
                         : styles.notificationContainerUnclicked
                     }
+                    data-cy={"headerNotification"}
                   >
                     {notification.image?.url && (
                       <UserProfilePicture

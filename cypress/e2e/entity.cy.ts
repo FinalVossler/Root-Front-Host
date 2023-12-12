@@ -4,7 +4,11 @@ import { RoleCreateCommand } from "../../src/hooks/apiHooks/useCreateRole";
 import { IEntity } from "../../src/store/slices/entitySlice";
 import { FieldType, IField } from "../../src/store/slices/fieldSlice";
 import { IModel } from "../../src/store/slices/modelSlice";
-import { IRole, StaticPermission } from "../../src/store/slices/roleSlice";
+import {
+  EntityEventNotificationTrigger,
+  IRole,
+  StaticPermission,
+} from "../../src/store/slices/roleSlice";
 import { IUser, SuperRole } from "../../src/store/slices/userSlice";
 import { UserCreateCommand } from "../../src/hooks/apiHooks/useCreateUser";
 import {
@@ -21,6 +25,9 @@ describe("entity", () => {
   modelField3OfTypeFileCreateCommand.type = FieldType.File;
   modelField3OfTypeFileCreateCommand.canChooseFromExistingFiles = true;
   const modelField4CreateCommand = createCreateFieldCommand("ModelField4");
+  const userWithLimitedAccessEmail: string =
+    "testingUserWithLimitedAccess@testing.com";
+  const userWithLimitedAccessPassword = "rootroot";
 
   let modelField1: IField | undefined;
   let modelField2: IField | undefined;
@@ -29,10 +36,10 @@ describe("entity", () => {
   let model: IModel | undefined;
   let entityToUpdate: IEntity | undefined;
   let entityToUpdate2: IEntity | undefined;
+  let entityToAssign: IEntity | undefined;
   let file1: IFile | undefined;
   let role: IRole | undefined;
   let userWithLimitedAccess: IUser | undefined;
-  const userWithLimitedAccessPassword = "rootroot";
 
   before(() => {
     cy.sendCreateFieldRequest(modelField1CreateCommand, (res) => {
@@ -64,7 +71,14 @@ describe("entity", () => {
       const roleCreateCommand: RoleCreateCommand = {
         entityPermissions: [
           {
-            entityEventNotifications: [],
+            entityEventNotifications: [
+              {
+                language: "en",
+                text: "An entity was assigned",
+                title: "Assignment notification",
+                trigger: EntityEventNotificationTrigger.OnAssigned,
+              },
+            ],
             entityFieldPermissions: [
               {
                 fieldId: modelField1?._id.toString() || "",
@@ -206,6 +220,22 @@ describe("entity", () => {
         .then((res) => {
           //@ts-ignore
           entityToUpdate2 = (res as { body: { data: IEntity } }).body.data;
+        });
+
+      cy.get("@adminToken")
+        .then((adminToken) => {
+          cy.request({
+            url: Cypress.env("backendUrl") + "/entities/",
+            headers: {
+              Authorization: "Bearer " + adminToken,
+            },
+            method: "POST",
+            body: createEntityCommand,
+          });
+        })
+        .then((res) => {
+          //@ts-ignore
+          entityToAssign = (res as { body: { data: IEntity } }).body.data;
         });
     };
   });
@@ -379,7 +409,7 @@ describe("entity", () => {
       .and("be.visible");
   });
 
-  it("should make sure that entities permissions in the form are working properly ", () => {
+  it("should make sure that entities permissions in the form are working properly: Read only + No read + Read And Update + File Read Only", () => {
     const updatedValueForField4: string = "Updated value for field 4";
 
     cy.login(true, {
@@ -422,7 +452,7 @@ describe("entity", () => {
       "entityFieldInputForField" + modelField2?._id.toString()
     ).should("not.exist");
 
-    // Change value of file field
+    // Check that we can't change the value of file field to which we only have read access
     cy.getByDataCy("existingFilesContainer").should("not.exist");
     cy.get("#selectFromExistingFilesForEntityButton").scrollIntoView().click();
     cy.getByDataCy("existingFilesContainer")
@@ -464,5 +494,47 @@ describe("entity", () => {
     cy.getByDataCy("entityFieldInputForField" + modelField4?._id.toString())
       .should("exist")
       .and("have.value", updatedValueForField4);
+  });
+
+  it("should assign an entity and receive a notification", () => {
+    cy.getByDataCy("elementsTableViewButton").click();
+
+    cy.get("#editButtonFor" + entityToAssign?._id.toString())
+      .scrollIntoView()
+      .click();
+
+    cy.getByDataCy("entityEditorForm").should("be.visible");
+
+    cy.getByDataCy("searchUserToAssignForRole" + role?._id.toString())
+      .clear()
+      .type(userWithLimitedAccessEmail);
+    cy.getByDataCy(
+      "searchResult" + userWithLimitedAccess?._id.toString()
+    ).click();
+
+    cy.getByDataCy("entityFormSubmitButton").click();
+
+    cy.login(true, {
+      email: userWithLimitedAccessEmail,
+      password: userWithLimitedAccessPassword,
+    });
+    cy.reload();
+
+    // The authenticted user must now be able to see the notification
+    cy.getByDataCy("headerNotificationsContainer").should("not.exist");
+    cy.getByDataCy("headerNotificationsButton").click();
+    cy.getByDataCy("headerNotificationsContainer")
+      .should("exist")
+      .and("be.visible");
+    cy.getByDataCy("headerNotification").should("have.length", 1);
+    cy.getByDataCy("headerNotification").eq(0).click();
+
+    cy.getByDataCy("entityEditorForm").should("exist").and("be.visible");
+    cy.getByDataCy(
+      "entityFieldInputForField" + modelField1?._id.toString()
+    ).should(
+      "have.value",
+      entityToAssign?.entityFieldValues.at(0)?.value.at(0)?.text
+    );
   });
 });
