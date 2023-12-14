@@ -195,6 +195,7 @@ const UserEditor = (props: IUserEditor) => {
       <form
         onSubmit={handleSubmit}
         className={styles.createFieldModalContainer}
+        data-cy="userForm"
       >
         <div className={styles.createFieldHeader}>
           <h2 className={styles.createFieldTitle}>
@@ -214,6 +215,8 @@ const UserEditor = (props: IUserEditor) => {
             placeholder: getTranslatedText(staticText?.enterFirstName),
             disabled: loading,
           }}
+          inputDataCy="firstNameInput"
+          inputErrorDataCy="firstNameInputError"
         />
 
         <Input
@@ -224,6 +227,8 @@ const UserEditor = (props: IUserEditor) => {
             placeholder: getTranslatedText(staticText?.enterLastName),
             disabled: loading,
           }}
+          inputDataCy="lastNameInput"
+          inputErrorDataCy="lastNameInputError"
         />
 
         <Input
@@ -235,6 +240,8 @@ const UserEditor = (props: IUserEditor) => {
             disabled: loading,
             type: "email",
           }}
+          inputDataCy="emailInput"
+          inputErrorDataCy="emailInputError"
         />
 
         <InputSelect
@@ -273,6 +280,8 @@ const UserEditor = (props: IUserEditor) => {
             disabled: loading || Boolean(props.user),
             type: "password",
           }}
+          inputDataCy="passwordInput"
+          inputErrorDataCy="passwordInputError"
         />
 
         <Input
@@ -284,6 +293,8 @@ const UserEditor = (props: IUserEditor) => {
             disabled: loading || Boolean(props.user),
             type: "password",
           }}
+          inputDataCy="confirmPasswordInput"
+          inputErrorDataCy="confirmPasswordInputError"
         />
 
         {!loading && (
@@ -292,6 +303,7 @@ const UserEditor = (props: IUserEditor) => {
             type="submit"
             style={{}}
             className={styles.button}
+            buttonDataCy="userFormSubmitButton"
           >
             {getTranslatedText(staticText?.submit)}
           </Button>

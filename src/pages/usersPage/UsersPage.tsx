@@ -70,7 +70,7 @@ const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
   if (!hasPermission(Permission.ReadUser)) return null;
 
   return (
-    <div className={styles.usersPageContainer}>
+    <div className={styles.usersPageContainer} data-cy="usersPage">
       <Elements
         Editor={({ element, ...props }) => (
           <UserEditor {...props} user={element as IUser} />
@@ -131,6 +131,7 @@ const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
         searchResult={searchResult}
         setSearchResult={handleSetSearchResult}
         elementsLocalStorageConfName={LocalStorageConfNameEnum.USERS}
+        tableDataCy="usersTable"
       />
     </div>
   );

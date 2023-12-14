@@ -301,7 +301,7 @@ describe("entity", () => {
 
     cy.get("#editButtonFor" + entityToUpdate?._id.toString())
       .scrollIntoView()
-      .click();
+      .click({ force: true });
 
     cy.getByDataCy("entityEditorForm").should("be.visible");
 
@@ -350,7 +350,7 @@ describe("entity", () => {
     // Make sure the fields now have their updated field values
     cy.get("#editButtonFor" + entityToUpdate?._id.toString())
       .scrollIntoView()
-      .click();
+      .click({ force: true });
     cy.getByDataCy("entityEditorForm").should("be.visible");
 
     cy.getByDataCy(
@@ -386,7 +386,7 @@ describe("entity", () => {
 
     cy.get("#editButtonFor" + entityToUpdate?._id.toString())
       .scrollIntoView()
-      .click();
+      .click({ force: true });
     cy.selectInSelector("entityFormLanguageSelector", 0);
 
     cy.getByDataCy(
@@ -422,7 +422,7 @@ describe("entity", () => {
 
     cy.get("#editButtonFor" + entityToUpdate2?._id.toString())
       .scrollIntoView()
-      .click();
+      .click({ force: true });
 
     cy.getByDataCy("entityEditorForm").should("be.visible");
 
@@ -490,7 +490,7 @@ describe("entity", () => {
 
     cy.get("#editButtonFor" + entityToUpdate2?._id.toString())
       .scrollIntoView()
-      .click();
+      .click({ force: true });
     cy.getByDataCy("entityFieldInputForField" + modelField4?._id.toString())
       .should("exist")
       .and("have.value", updatedValueForField4);
@@ -501,7 +501,7 @@ describe("entity", () => {
 
     cy.get("#editButtonFor" + entityToAssign?._id.toString())
       .scrollIntoView()
-      .click();
+      .click({ force: true });
 
     cy.getByDataCy("entityEditorForm").should("be.visible");
 

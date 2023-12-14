@@ -262,6 +262,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
                     })
                   : []
               }
+              dataCy="sideMenuUsersOption"
             />
           )}
           {hasPermission(Permission.ReadRole) && (

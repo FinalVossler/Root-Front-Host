@@ -295,3 +295,11 @@ TS
 YUP
 Site web corporate, pas notre responsabilité
 Evolution techniques:
+
+---
+
+Condition de travail: sur quelle machine (windows ou mac ou linux) (personnelle ou non personelle ?)
+Pk vous êtes à la recherche
+Le nombre de personnes qui sollicitent le produit chaque jour (fréquence et amplitude de sollicitation)
+Pourcentage de charge du travail (Front-back 50%-50%)
+PostgreSQL ()
