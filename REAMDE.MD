@@ -56,3 +56,40 @@ Why do you use storyboo
 - investisseur qualif, AML (blanchiment d'argent), accompagnement sur la création des contrats (deux côtés) services tiers (docusign)
   archivage sur le serveur soit en France, soit dans les pays enropéans (suivie les politiques des données)
   6 pays avec une 70 de clients, gérer entre 100 et 5 CGP (conseil de gestion patrimoine)
+
+946750
+
+florian.thabuis@
+
+amazon,
+coca
+
+contrat -
+service in portail client
+portail client
+dcp: plateform d'aqcuisition
+construire les contrats de polices
+
+dcp: accélérer le cycle de vente et arriver à construire le contrat (DSP) 70 jours (divisé par 3, mais toujours fois 2 par rapport
+à l'objectif)
+
+120 milles utilisateurs
+9-midi
+14h-
+DSP: programme démarré 2 ans et demi (centaine d'utilisateurs), enjeux commerciaux assez fort
+7 personnes, passage vers 9
+organisation
+
+agilité + SCRUM + entretien de l'agilité + aider à revoir les réunions
+
+l'historique - typescript - lambda (serverless) fonction lambda AWS
+React - POstgresSQL - SQL server () - base de données (pas de mongodb)
+obligation compliant 120 milles d'utilisateur
+
+Dora: Gitlab; le seul autoriser à utiliser AWS
+
+BFF: Back for front (proxy - javascript)
+sous-services (en typescript)
+pas de redux (context api)
+
+DSP

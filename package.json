@@ -9,7 +9,7 @@
     "start:live": "webpack serve --open --mode development --live-reload --hot",
     "cypress:open": "cypress open",
     "cypress": "cypress run",
-    "deploy": "npm run cypress && git add . && git commit -m \"$MESSAGE\" && git push origin HEAD"
+    "deploy": "npm run cypress && git add . && git commit -m \"$MESSAGE\" && git push origin HEAD && docker build hamzakhalifa/root-front-host:latest . && docker push hamzakhalifa/root-front-host"
   },
   "license": "MIT",
   "author": {
@@ -59,6 +59,7 @@
     "@reduxjs/toolkit": "^1.9.1",
     "@uploadcare/upload-client": "^6.2.1",
     "axios": "^1.2.2",
+    "ccminputs": "^1.0.4",
     "classnames": "^2.3.2",
     "dotenv": "^16.3.1",
     "emoji-picker-react": "^4.4.7",
