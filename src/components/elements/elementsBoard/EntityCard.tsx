@@ -32,6 +32,9 @@ const EntityCard = (props: IEntityCardProps) => {
   const [editorOpen, setEditorOpen] = React.useState<boolean>(false);
 
   const theme = useAppSelector((state) => state.websiteConfiguration.theme);
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.entities
+  );
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
@@ -105,6 +108,25 @@ const EntityCard = (props: IEntityCardProps) => {
             );
           })}
       </div>
+      {props.entity.assignedUsers && props.entity.assignedUsers?.length > 0 && (
+        <div className={styles.assignedToContainer}>
+          <h2 className={styles.assignedToCardTitle}>
+            {getTranslatedText(staticText?.assignedTo)}:
+          </h2>
+          <ul>
+            {props.entity.assignedUsers?.map((assignedUser) => {
+              return (
+                <li
+                  className={styles.assignedUser}
+                  key={assignedUser._id.toString()}
+                >
+                  {assignedUser.firstName + " " + assignedUser.lastName}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

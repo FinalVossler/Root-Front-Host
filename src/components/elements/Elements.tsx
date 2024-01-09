@@ -29,6 +29,7 @@ import {
 } from "../../utils/localStorage";
 import { IMicroFrontend } from "../../store/slices/microFrontendSlice";
 import ColumnOptions from "./columnOptions/ColumnOptions";
+import ViewTabs from "./viewTabs";
 
 export type Column = {
   label: string;
@@ -45,7 +46,7 @@ export type Element =
   | IRole
   | IMicroFrontend;
 
-enum ViewType {
+export enum ViewTypeEnum {
   Table = "Table",
   Board = "Board",
   BoardForStatusTracking = "BoardForStatusTracking",
@@ -102,8 +103,10 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
   const [selectedElement, setSelectedElement] = React.useState<Element | null>(
     null
   );
-  const [viewType, setViewType] = React.useState<ViewType>(
-    props.isForEntities ? ViewType.BoardForStatusTracking : ViewType.Table
+  const [viewType, setViewType] = React.useState<ViewTypeEnum>(
+    props.isForEntities
+      ? ViewTypeEnum.BoardForStatusTracking
+      : ViewTypeEnum.Table
   );
   const [hiddenColumns, setHiddenColumns] = React.useState<Column[]>([]);
 
@@ -203,7 +206,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
     setSelectedElementsIds([]);
     props.onPageChange(1);
   };
-  const handleViewTypeChange = (viewType: ViewType) => {
+  const handleViewTypeChange = (viewType: ViewTypeEnum) => {
     setViewType(viewType);
   };
   //#endregion Event listeners
@@ -217,43 +220,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
   return (
     <React.Fragment>
       {props.isForEntities && (
-        <div className={styles.viewTabsContainer}>
-          <span
-            className={
-              viewType === ViewType.BoardForStatusTracking
-                ? styles.selectedViewTab
-                : styles.viewTab
-            }
-            onClick={() =>
-              handleViewTypeChange(ViewType.BoardForStatusTracking)
-            }
-          >
-            {getTranslatedText(staticText?.statusTracking)}
-          </span>
-
-          <span
-            className={
-              viewType === ViewType.Board
-                ? styles.selectedViewTab
-                : styles.viewTab
-            }
-            onClick={() => handleViewTypeChange(ViewType.Board)}
-          >
-            {getTranslatedText(staticText?.board)}
-          </span>
-
-          <span
-            className={
-              viewType === ViewType.Table
-                ? styles.selectedViewTab
-                : styles.viewTab
-            }
-            onClick={() => handleViewTypeChange(ViewType.Table)}
-            data-cy="elementsTableViewButton"
-          >
-            {getTranslatedText(staticText?.table)}
-          </span>
-        </div>
+        <ViewTabs viewType={viewType} onViewTabChange={handleViewTypeChange} />
       )}
       <div className={styles.elementsContainer}>
         <div
@@ -359,8 +326,8 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
           />
         </div>
 
-        {(viewType === ViewType.Board ||
-          viewType === ViewType.BoardForStatusTracking) &&
+        {(viewType === ViewTypeEnum.Board ||
+          viewType === ViewTypeEnum.BoardForStatusTracking) &&
           props.isForEntities && (
             <ElementsBoard
               modelId={props.modelId?.toString() || ""}
@@ -369,13 +336,15 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                   ? props.searchResult.data
                   : (props.elements as IEntity[])
               }
-              forStatusTracking={viewType === ViewType.BoardForStatusTracking}
+              forStatusTracking={
+                viewType === ViewTypeEnum.BoardForStatusTracking
+              }
               Editor={(subProps) => <props.Editor {...subProps} />}
               loading={props.loading}
             />
           )}
 
-        {viewType === ViewType.Table && hiddenColumns.length > 0 && (
+        {viewType === ViewTypeEnum.Table && hiddenColumns.length > 0 && (
           <div className={styles.hiddenColumns}>
             {hiddenColumns.map((col, i) => {
               return (
@@ -392,7 +361,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
           </div>
         )}
 
-        {viewType === ViewType.Table && (
+        {viewType === ViewTypeEnum.Table && (
           <table
             className={styles.elementsTable}
             {...(props.tableDataCy ? { ["data-cy"]: props.tableDataCy } : {})}
@@ -508,11 +477,13 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                       {props.canUpdate && (
                         <td
                           className={styles.tableColumn}
-                          data-cy="elementEditTd"
+                          // This data-cy is used for when we don't know the id of the element, but we know the index (for example, using first() in cypress)
+                          data-cy="elementEdit"
                         >
                           <AiFillEdit
                             onClick={() => handleEdit(element)}
                             className={styles.editIcon}
+                            // This data is for when we know the id of the element
                             id={"editButtonFor" + element["_id"].toString()}
                           />
                         </td>

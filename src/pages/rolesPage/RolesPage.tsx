@@ -65,7 +65,7 @@ const RolesPage: React.FunctionComponent<IRolesPage> = (props: IRolesPage) => {
   if (!hasPermission(Permission.ReadRole)) return null;
 
   return (
-    <div className={styles.rolesPageContainer}>
+    <div className={styles.rolesPageContainer} data-cy="rolesPage">
       <Elements
         Editor={({ element, ...props }) => (
           <RoleEditor {...props} role={element as IRole} />
@@ -92,6 +92,7 @@ const RolesPage: React.FunctionComponent<IRolesPage> = (props: IRolesPage) => {
         searchResult={searchResult}
         setSearchResult={handleSetSearchResult}
         elementsLocalStorageConfName={LocalStorageConfNameEnum.ROLES}
+        tableDataCy="rolesTable"
       />
     </div>
   );

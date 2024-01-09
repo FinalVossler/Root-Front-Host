@@ -8,10 +8,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     backgroundColor: theme.backgroundColor,
     alignItems: "center",
     minHeight: "100vh",
-    paddingBottom: 300,
-    marginTop: 120,
-    padding: 40,
-    maxWidth: "90%",
+    boxSizing: "border-box",
   },
   loading: {},
 }));

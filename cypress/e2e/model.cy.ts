@@ -176,7 +176,7 @@ describe("model", () => {
     cy.getByDataCy("sideMenu").should("contain", createdModelName);
 
     cy.reload();
-    cy.getByDataCy("elementEditTd").first().click();
+    cy.getByDataCy("elementEdit").first().click();
     cy.getByDataCy("modelForm").should("be.visible");
 
     // Make sure that all the conditions are still the same after reloading the page

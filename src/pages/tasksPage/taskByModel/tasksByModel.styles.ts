@@ -6,7 +6,9 @@ const useStyles = createUseStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
     color: theme.darkTextColor,
+    boxSizing: "border-box",
     width: "100%",
+    padding: 40,
   },
   tasksByModelTable: {
     color: theme.darkTextColor,

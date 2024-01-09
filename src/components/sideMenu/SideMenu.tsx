@@ -270,6 +270,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
               link="/roles"
               Icon={RiUserStarFill}
               title={getTranslatedText(staticText?.roles)}
+              dataCy="sideMenuRoleOption"
             />
           )}
           {hasPermission(Permission.ReadMicroFrontend) && (

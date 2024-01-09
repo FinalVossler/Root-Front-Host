@@ -117,6 +117,23 @@ const useStyles = createUseStyles((theme: Theme) => ({
     right: 5,
     fontSize: 20,
   },
+  assignedToContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    color: theme.darkTextColor,
+    padding: 20,
+    paddingTop: 0,
+    paddingBottom: 10,
+  },
+  assignedToCardTitle: {
+    fontSize: 20,
+    marginBottom: 0,
+    textAlign: "start",
+  },
+  assignedUser: {
+    marginBottom: 10,
+  },
   "@media (max-width: 930px)": {
     entityCardAndStateTrackingContainer: {
       flexDirection: "column",

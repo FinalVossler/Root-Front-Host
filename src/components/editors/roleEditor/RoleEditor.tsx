@@ -479,7 +479,11 @@ const RoleEditor = (props: IRoleEditor) => {
 
   return (
     <Modal handleClose={handleCloseModal} open={roleModalOpen}>
-      <form onSubmit={handleSubmit} className={styles.createRoleModalContainer}>
+      <form
+        onSubmit={handleSubmit}
+        className={styles.createRoleModalContainer}
+        data-cy="roleForm"
+      >
         <div className={styles.createRoleHeader}>
           <h2 className={styles.createRoleTitle}>
             {props.role
@@ -497,6 +501,8 @@ const RoleEditor = (props: IRoleEditor) => {
           inputProps={{
             placeholder: getTranslatedText(staticText?.namePlaceholder),
           }}
+          inputDataCy="roleNameInput"
+          inputErrorDataCy="roleNameInputError"
         />
 
         <InputSelect
@@ -516,6 +522,7 @@ const RoleEditor = (props: IRoleEditor) => {
           formik={formik}
           options={permissionsOptions}
           isMulti
+          selectorClassName="permissionsSelector"
         />
 
         <SearchInput
@@ -526,6 +533,7 @@ const RoleEditor = (props: IRoleEditor) => {
           inputProps={{
             placeholder: getTranslatedText(staticText?.searchByModel),
           }}
+          inputDataCy="roleSearchModelInput"
         />
 
         <div className={styles.entityPermissionsContainer}>
@@ -535,6 +543,10 @@ const RoleEditor = (props: IRoleEditor) => {
                 <div
                   key={index}
                   className={styles.singleEntityPermissionContainer}
+                  data-cy={
+                    "entityPermissionFormSectionForModel" +
+                    entityPermission.model._id.toString()
+                  }
                 >
                   <MdDelete
                     className={styles.deleteEntityPermissionsButton}
@@ -589,6 +601,10 @@ const RoleEditor = (props: IRoleEditor) => {
                         staticPermission: StaticPermission.Update,
                       })
                     }
+                    inputDataCy={
+                      "entityPermissionUpdateForModel" +
+                      entityPermission.model._id.toString()
+                    }
                   />
                   <Checkbox
                     label={getTranslatedText(staticText?.delete)}
@@ -604,6 +620,10 @@ const RoleEditor = (props: IRoleEditor) => {
                         staticPermission: StaticPermission.Delete,
                       })
                     }
+                    inputDataCy={
+                      "entityPermissionDeleteForModel" +
+                      entityPermission.model._id.toString()
+                    }
                   />
 
                   <ExtendSection
@@ -614,6 +634,10 @@ const RoleEditor = (props: IRoleEditor) => {
                       staticText?.entityFieldPermissions
                     )}
                     isSectionShown={showFieldPermissions}
+                    dataCy={
+                      "entityPermissionExtendFieldsSectionForModel" +
+                      entityPermission.model?._id.toString()
+                    }
                   />
 
                   {showFieldPermissions &&
@@ -623,6 +647,12 @@ const RoleEditor = (props: IRoleEditor) => {
                           <div
                             key={index}
                             className={styles.singleFieldPermissionContainer}
+                            data-cy={
+                              "entityFieldPermissionForModel" +
+                              entityPermission.model?._id.toString() +
+                              "AndField" +
+                              modelField.field._id.toString()
+                            }
                           >
                             <span className={styles.fieldName}>
                               {getTranslatedText(modelField.field.name)}
@@ -672,6 +702,12 @@ const RoleEditor = (props: IRoleEditor) => {
                                   fieldId: modelField.field._id,
                                   staticPermission: StaticPermission.Update,
                                 })
+                              }
+                              inputDataCy={
+                                "entityFieldUpdatePermissionForModel" +
+                                entityPermission.model._id.toString() +
+                                "AndField" +
+                                modelField.field._id.toString()
                               }
                             />
                           </div>
@@ -731,6 +767,7 @@ const RoleEditor = (props: IRoleEditor) => {
             type="submit"
             style={{}}
             className={styles.button}
+            buttonDataCy="submitRoleButton"
           >
             {getTranslatedText(staticText?.submit)}
           </Button>
