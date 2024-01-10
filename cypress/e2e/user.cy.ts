@@ -3,8 +3,12 @@ import { IUser, SuperRole } from "../../src/store/slices/userSlice";
 
 describe("users", () => {
   let userToUpdate: IUser | undefined;
+  let user1ToDelete: IUser | undefined;
+  let user2ToDelete: IUser | undefined;
+  let userToFindInSearch: IUser | undefined;
+  let userToNotFindInSearch: IUser | undefined;
 
-  before(async () => {
+  before(() => {
     const createUserCommand: UserCreateCommand = {
       email: "userToUpdate@email.com",
       firstName: "userToUpdateFirstName",
@@ -12,8 +16,58 @@ describe("users", () => {
       password: "rootroot",
       superRole: SuperRole.SuperAdmin,
     };
-    await cy.sendCreateUserRequest(createUserCommand, (res) => {
+
+    const user1ToDeleteCommand: UserCreateCommand = {
+      email: "user1ToDelete@email.com",
+      firstName: "user1ToDeleteFirstName",
+      lastName: "user1ToDeleteLastName",
+      password: "rootroot",
+      superRole: SuperRole.SuperAdmin,
+    };
+
+    const user2ToDeleteCommand: UserCreateCommand = {
+      email: "user2ToDelete@email.com",
+      firstName: "user2ToDeleteFirstName",
+      lastName: "user2ToDeleteLastName",
+      password: "rootroot",
+      superRole: SuperRole.SuperAdmin,
+    };
+
+    const userToFindInSearchCommand: UserCreateCommand = {
+      email: "userToFindInSearch@email.com",
+      firstName: "myFirstYouKnow",
+      lastName: "TheSecondThing",
+      password: "rootroot",
+      superRole: SuperRole.SuperAdmin,
+    };
+
+    const userToNotFindInSearchCommand: UserCreateCommand = {
+      email: "whereIsTheSearch@email.com",
+      firstName: "Ishouldntbefound",
+      lastName: "ThereGoesTheNoFound",
+      password: "rootroot",
+      superRole: SuperRole.SuperAdmin,
+    };
+
+    cy.sendCreateUserRequest(createUserCommand, (res) => {
       userToUpdate = (res as { body: { data: IUser } }).body.data;
+    }).then(() => {
+      cy.sendCreateUserRequest(user1ToDeleteCommand, (res) => {
+        user1ToDelete = (res as { body: { data: IUser } }).body.data;
+      }).then(() => {
+        cy.sendCreateUserRequest(user2ToDeleteCommand, (res) => {
+          user2ToDelete = (res as { body: { data: IUser } }).body.data;
+        }).then(() => {
+          cy.sendCreateUserRequest(userToFindInSearchCommand, (res) => {
+            userToFindInSearch = (res as { body: { data: IUser } }).body.data;
+          }).then(() => {
+            cy.sendCreateUserRequest(userToNotFindInSearchCommand, (res) => {
+              userToNotFindInSearch = (res as { body: { data: IUser } }).body
+                .data;
+            });
+          });
+        });
+      });
     });
   });
 
@@ -97,5 +151,106 @@ describe("users", () => {
 
     cy.getByDataCy("usersPage").should("contain.text", updatedFirstName);
     cy.getByDataCy("usersPage").should("contain.text", updatedLastName);
+  });
+
+  it("should delete users", () => {
+    cy.get("#deleteButton").should("not.exist");
+
+    cy.getByDataCy("usersPage").should("contain", user1ToDelete?.firstName);
+    cy.getByDataCy("usersPage").should("contain", user2ToDelete?.firstName);
+
+    cy.getByDataCy("tableCheckButtonFor" + user1ToDelete?._id.toString())
+      .scrollIntoView()
+      .click();
+    cy.getByDataCy("tableCheckButtonFor" + user2ToDelete?._id.toString())
+      .scrollIntoView()
+      .click();
+
+    cy.get("#deleteButton").should("exist").and("be.visible");
+    cy.get("#deleteButton").click();
+
+    cy.getByDataCy("confirmationModalConfirmButton").click();
+
+    cy.getByDataCy("usersPage").should("not.contain", user1ToDelete?.firstName);
+    cy.getByDataCy("usersPage").should("not.contain", user2ToDelete?.firstName);
+  });
+
+  it("should search for user by email, firstname and lastname", () => {
+    cy.getByDataCy("elementsSearchInput").should("be.visible");
+
+    // search by email
+    cy.getByDataCy("elementsSearchInput").type(
+      userToFindInSearch?.email.slice(
+        0,
+        userToFindInSearch?.email.indexOf("@")
+      ) || ""
+    );
+    cy.getByDataCy("usersPage").should(
+      "contain",
+      userToFindInSearch?.firstName
+    );
+    cy.getByDataCy("usersPage").should(
+      "not.contain",
+      userToNotFindInSearch?.firstName
+    );
+
+    // clear and make sure all users are shown
+    cy.getByDataCy("elementsSearchInput").clear();
+    cy.getByDataCy("usersPage").should(
+      "contain",
+      userToFindInSearch?.firstName
+    );
+    cy.getByDataCy("usersPage").should(
+      "contain",
+      userToNotFindInSearch?.firstName
+    );
+
+    // search by firstname
+    cy.getByDataCy("elementsSearchInput").type(
+      userToFindInSearch?.firstName || ""
+    );
+    cy.getByDataCy("usersPage").should(
+      "contain",
+      userToFindInSearch?.firstName
+    );
+    cy.getByDataCy("usersPage").should(
+      "not.contain",
+      userToNotFindInSearch?.firstName
+    );
+
+    // clear and make sure all users are shown
+    cy.getByDataCy("elementsSearchInput").clear();
+    cy.getByDataCy("usersPage").should(
+      "contain",
+      userToFindInSearch?.firstName
+    );
+    cy.getByDataCy("usersPage").should(
+      "contain",
+      userToNotFindInSearch?.firstName
+    );
+
+    // search by lastname
+    cy.getByDataCy("elementsSearchInput").type(
+      userToFindInSearch?.lastName || ""
+    );
+    cy.getByDataCy("usersPage").should(
+      "contain",
+      userToFindInSearch?.firstName
+    );
+    cy.getByDataCy("usersPage").should(
+      "not.contain",
+      userToNotFindInSearch?.firstName
+    );
+
+    // clear and make sure all users are shown
+    cy.getByDataCy("elementsSearchInput").clear();
+    cy.getByDataCy("usersPage").should(
+      "contain",
+      userToFindInSearch?.firstName
+    );
+    cy.getByDataCy("usersPage").should(
+      "contain",
+      userToNotFindInSearch?.firstName
+    );
   });
 });

@@ -9,7 +9,7 @@ import {
   createCreateModelCommand,
 } from "../fixtures/createCommands";
 
-describe("Tasks", () => {
+describe("Roles", () => {
   const modelField1CreateCommand = createCreateFieldCommand("ModelField1");
   const modelField2CreateCommand = createCreateFieldCommand("ModelField2");
 
@@ -19,6 +19,7 @@ describe("Tasks", () => {
   let model: IModel | undefined;
 
   let roleToUpdate: IRole | undefined;
+  let otherRoleForAssignemnt: IRole | undefined;
   let user: IUser | undefined;
 
   before(() => {
@@ -69,7 +70,15 @@ describe("Tasks", () => {
       cy.sendCreateRoleRequest(roleCreateCommand, (res) => {
         roleToUpdate = (res as { body: { data: IRole } }).body.data;
       }).then(() => {
-        createUsers();
+        cy.sendCreateRoleRequest(
+          { ...roleCreateCommand, name: "Other Role for assignment" },
+          (res) => {
+            otherRoleForAssignemnt = (res as { body: { data: IRole } }).body
+              .data;
+          }
+        ).then(() => {
+          createUsers();
+        });
       });
     };
 
@@ -100,6 +109,9 @@ describe("Tasks", () => {
 
   it("should create a role", () => {
     const roleToCreateName = "Cypress Role to create name";
+    const eventTitle = "Event title";
+    const eventDescription = "Event description";
+
     cy.getByDataCy("roleForm").should("not.exist");
     cy.getByDataCy("addElementButton").click();
     cy.getByDataCy("roleForm").should("exist").and("be.visible");
@@ -181,6 +193,84 @@ describe("Tasks", () => {
         modelField1?._id.toString()
     ).uncheck();
 
+    // Update events notification
+    cy.getByDataCy(
+      "entityEventsNotificationForModel" + model?._id.toString()
+    ).should("not.exist");
+    cy.getByDataCy(
+      "entityPermissionExtendEventNotificationsSectionForModel" +
+        model?._id.toString()
+    ).click();
+    cy.getByDataCy("entityEventsNotificationForModel" + model?._id.toString())
+      .should("exist")
+      .and("be.visible");
+
+    cy.getByDataCy(
+      "entityEventNoitificationAddEventButtonForModel" + model?._id.toString()
+    ).click();
+    cy.getByDataCy(
+      "entityEvenNotificationEventTitleInputForModel" + model?._id.toString()
+    ).type(eventTitle);
+    cy.getByDataCy(
+      "entityEventNotificiationEventDescriptionForModel" + model?._id.toString()
+    ).type(eventDescription);
+
+    // Update user assignment permissions
+    cy.getByDataCy(
+      "roleEntityUserAssignmentPermissionsForModel" + model?._id.toString()
+    ).should("not.exist");
+    cy.getByDataCy(
+      "entityPermissionExtendUserAssignmentPermissionsSectionForModel" +
+        model?._id.toString()
+    ).click();
+    cy.getByDataCy(
+      "roleEntityUserAssignmentPermissionsForModel" + model?._id.toString()
+    )
+      .should("exist")
+      .and("be.visible");
+
+    cy.getByDataCy(
+      "roleEntityUserAssignmentPermissionsCanAssignToUserFromSameRoleCheckboxForModel" +
+        model?._id.toString()
+    ).uncheck();
+    cy.getByDataCy(
+      "searchResult" + otherRoleForAssignemnt?._id.toString()
+    ).should("not.exist");
+
+    cy.getByDataCy(
+      "selectedRole" +
+        otherRoleForAssignemnt?._id.toString() +
+        "ForEntityUserAssignmentForModel" +
+        model?._id.toString()
+    ).should("not.exist");
+
+    cy.getByDataCy(otherRoleForAssignemnt?.name.at(0)?.text || "").should(
+      "not.exist"
+    );
+    cy.getByDataCy(
+      "roleEntityUserAssignmentPermissionsSearchRoleInputForModel" +
+        model?._id.toString()
+    )
+      .clear()
+      .type(otherRoleForAssignemnt?.name.at(0)?.text || "");
+    cy.getByDataCy("searchResult" + otherRoleForAssignemnt?._id.toString())
+      .should("exist")
+      .and("be.visible")
+      .click();
+    cy.getByDataCy(
+      "selectedRole" +
+        otherRoleForAssignemnt?._id.toString() +
+        "ForEntityUserAssignmentForModel" +
+        model?._id.toString()
+    )
+      .should("exist")
+      .and("be.visible");
+    cy.getByDataCy("roleForm")
+      .contains(otherRoleForAssignemnt?.name.at(0)?.text || "")
+      .should("exist")
+      .and("be.visible");
+
+    // Submit
     cy.getByDataCy("submitRoleButton").click();
 
     cy.getByDataCy("roleForm").should("not.exist");

@@ -9,7 +9,9 @@ import { useAppSelector } from "../../store/hooks";
 import useStyles from "./textarea.styles";
 
 export interface ITextarea {
-  textareaProps?: React.InputHTMLAttributes<HTMLTextAreaElement>;
+  textareaProps?: React.InputHTMLAttributes<HTMLTextAreaElement> & {
+    ["data-cy"]?: string;
+  };
   name?: string;
   formik?: FormikProps<any>;
   value?: any;

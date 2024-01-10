@@ -723,6 +723,10 @@ const RoleEditor = (props: IRoleEditor) => {
                       staticText?.entityEventNotifications
                     )}
                     isSectionShown={showEventNotifications}
+                    dataCy={
+                      "entityPermissionExtendEventNotificationsSectionForModel" +
+                      entityPermission.model._id.toString()
+                    }
                   />
 
                   {showEventNotifications && (
@@ -734,6 +738,7 @@ const RoleEditor = (props: IRoleEditor) => {
                       handleApplyEventNotifications={handleApplyEventNotifications(
                         entityPermission.model._id
                       )}
+                      modelId={entityPermission.model._id.toString()}
                     />
                   )}
 
@@ -743,6 +748,10 @@ const RoleEditor = (props: IRoleEditor) => {
                       staticText?.assignmentConfigurationTitle
                     )}
                     isSectionShown={showUserAssignment}
+                    dataCy={
+                      "entityPermissionExtendUserAssignmentPermissionsSectionForModel" +
+                      entityPermission.model._id.toString()
+                    }
                   />
 
                   {showUserAssignment && (
@@ -753,6 +762,7 @@ const RoleEditor = (props: IRoleEditor) => {
                       handleApplyUserAssignmentPermissions={handleApplyUserAssignmentPermissions(
                         entityPermission.model._id
                       )}
+                      modelId={entityPermission.model._id}
                     />
                   )}
                 </div>
