@@ -571,6 +571,10 @@ const RoleEditor = (props: IRoleEditor) => {
                         staticPermission: StaticPermission.Create,
                       })
                     }
+                    inputDataCy={
+                      "entityPermissionCreateForModel" +
+                      entityPermission.model._id.toString()
+                    }
                   />
                   <Checkbox
                     label={getTranslatedText(staticText?.read)}
@@ -585,6 +589,10 @@ const RoleEditor = (props: IRoleEditor) => {
                         modelId: entityPermission.model._id,
                         staticPermission: StaticPermission.Read,
                       })
+                    }
+                    inputDataCy={
+                      "entityPermissionReadForModel" +
+                      entityPermission.model._id.toString()
                     }
                   />
                   <Checkbox
@@ -679,6 +687,12 @@ const RoleEditor = (props: IRoleEditor) => {
                                   fieldId: modelField.field._id,
                                   staticPermission: StaticPermission.Read,
                                 })
+                              }
+                              inputDataCy={
+                                "entityFieldReadPermissionForModel" +
+                                entityPermission.model._id.toString() +
+                                "AndField" +
+                                modelField.field._id.toString()
                               }
                             />
                             <Checkbox

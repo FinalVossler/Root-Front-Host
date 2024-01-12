@@ -9,7 +9,7 @@
     "start:live": "webpack serve --open --mode development --live-reload --hot",
     "cypress:open": "cypress open",
     "cypress": "cypress run",
-    "deploy": "npm run cypress && git add . && git commit -m \"$MESSAGE\" && git push origin HEAD && docker build hamzakhalifa/root-front-host:latest . && docker push hamzakhalifa/root-front-host"
+    "deploy": "npm run cypress && git add . && git commit -m \"$MESSAGE\" && git push origin HEAD && docker build -t hamzakhalifa/root-front-host:latest . && docker push hamzakhalifa/root-front-host"
   },
   "license": "MIT",
   "author": {

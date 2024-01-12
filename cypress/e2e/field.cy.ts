@@ -129,7 +129,7 @@ describe("field", () => {
     );
   });
 
-  it("should search for field", () => {
+  it("should search for a field", () => {
     cy.getByDataCy("elementsSearchInput").should("be.visible");
     cy.getByDataCy("elementsSearchInput").type(
       fieldToFindInSearch?.name.at(0)?.text || ""

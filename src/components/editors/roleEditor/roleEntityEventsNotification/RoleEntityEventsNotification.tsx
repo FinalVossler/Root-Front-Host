@@ -160,7 +160,7 @@ const RoleEntityEventsNotification: React.FunctionComponent<
                 label={getTranslatedText(staticText?.eventDescription)}
                 textareaProps={{
                   ["data-cy"]:
-                    "entityEventNotificiationEventDescriptionForModel" +
+                    "entityEventNotificationEventDescriptionForModel" +
                     props.modelId,
                 }}
               />
