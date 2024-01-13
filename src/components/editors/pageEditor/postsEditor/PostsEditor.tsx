@@ -4,16 +4,16 @@ import { arrayMove, SortableContext, useSortable } from "@dnd-kit/sortable";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { BsHandIndexFill } from "react-icons/bs";
 
-import { ITheme } from "../../config/theme";
-import { useAppSelector } from "../../store/hooks";
-import { IPost } from "../../store/slices/postSlice";
-import { IUser } from "../../store/slices/userSlice";
-import SearchInput from "../searchInput";
+import { ITheme } from "../../../../config/theme";
+import { useAppSelector } from "../../../../store/hooks";
+import { IPost } from "../../../../store/slices/postSlice";
+import { IUser } from "../../../../store/slices/userSlice";
+import SearchInput from "../../../searchInput";
 import { AiFillDelete } from "react-icons/ai";
-import Post from "../post";
-import useSearchPosts from "../../hooks/apiHooks/useSearchPosts";
-import { IPage } from "../../store/slices/pageSlice";
-import useGetTranslatedText from "../../hooks/useGetTranslatedText";
+import Post from "../../../post";
+import useSearchPosts from "../../../../hooks/apiHooks/useSearchPosts";
+import { IPage } from "../../../../store/slices/pageSlice";
+import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 
 import useStyles from "./postsEditor.styles";
 

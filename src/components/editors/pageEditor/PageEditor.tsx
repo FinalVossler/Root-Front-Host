@@ -10,11 +10,10 @@ import { ITheme } from "../../../config/theme";
 import Button from "../../button";
 import { useAppSelector } from "../../../store/hooks";
 import { IPost } from "../../../store/slices/postSlice";
-import { IUser } from "../../../store/slices/userSlice";
 import { FormikProps, useFormik } from "formik";
 import Input from "../../input";
 import { IPage } from "../../../store/slices/pageSlice";
-import PostsEditor from "../../postsEditor";
+import PostsEditor from "./postsEditor";
 
 import useStyles from "./pageEditor.styles";
 import getNavigatorLanguage from "../../../utils/getNavigatorLanguage";

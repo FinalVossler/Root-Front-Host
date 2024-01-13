@@ -70,6 +70,9 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   fileName: {
     color: theme.darkTextColor,
     textAlign: "center",
+    width: "100%",
+    overflow: "auto",
+    paddingBottom: 10,
   },
   chooseFilesButton: {
     fontSize: 45,

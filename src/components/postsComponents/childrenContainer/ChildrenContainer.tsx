@@ -1,16 +1,16 @@
 import React from "react";
 
-import { ITheme } from "../../config/theme";
-import { useAppSelector } from "../../store/hooks";
-import { IPost } from "../../store/slices/postSlice";
-import Post from "../post";
+import { ITheme } from "../../../config/theme";
+import { useAppSelector } from "../../../store/hooks";
+import { IPost } from "../../../store/slices/postSlice";
+import Post from "../../post";
 
 import useStyles from "./childrenContainer.styles";
 
 interface IChildrenContainer {
   post: IPost;
 }
-const UserPosts: React.FunctionComponent<IChildrenContainer> = (
+const ChildrenContainer: React.FunctionComponent<IChildrenContainer> = (
   props: IChildrenContainer
 ) => {
   const theme: ITheme = useAppSelector(
@@ -27,4 +27,4 @@ const UserPosts: React.FunctionComponent<IChildrenContainer> = (
   );
 };
 
-export default React.memo(UserPosts);
+export default React.memo(ChildrenContainer);

@@ -5,7 +5,7 @@ import { ITheme } from "../../config/theme";
 import { IPost, PostDesign } from "../../store/slices/postSlice";
 import extractContentFromHtml from "../../utils/extractContentFromHtml";
 
-import ChildrenContainer from "../childrenContainer";
+import ChildrenContainer from "../postsComponents/childrenContainer";
 import Spacing from "../spacing";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../store/hooks";

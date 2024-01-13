@@ -23,7 +23,7 @@ import { IUser } from "../../../store/slices/userSlice";
 import InputSelect from "../../inputSelect";
 import { Option } from "../../inputSelect/InputSelect";
 import Input from "../../input";
-import PostsEditor from "../../postsEditor";
+import PostsEditor from "../pageEditor/postsEditor";
 import getLanguages from "../../../utils/getLanguages";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import useCreatePost, {
