@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import React from "react";
 import { toast } from "react-toastify";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import IFile from "../../globalTypes/IFile";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { websiteConfigurationSlice } from "../../store/slices/websiteConfigurationSlice";
@@ -17,7 +17,7 @@ export type WebsiteConfigurationUpdateCommand = {
   withChat: boolean;
   withRegistration: boolean;
   withTaskManagement: boolean;
-  theme: Theme;
+  theme: ITheme;
   tabIcon?: IFile;
   logo1?: IFile;
   logo2?: IFile;

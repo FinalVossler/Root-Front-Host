@@ -2,7 +2,7 @@ import React from "react";
 import Dropzone from "react-dropzone";
 import { AiOutlineDropbox } from "react-icons/ai";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../store/hooks";
 
@@ -17,7 +17,7 @@ interface IFilesDropZone {
 const FilesDropZone: React.FunctionComponent<IFilesDropZone> = (
   props: IFilesDropZone
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

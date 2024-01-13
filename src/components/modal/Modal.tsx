@@ -1,5 +1,5 @@
 import React from "react";
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./modal.styles";
@@ -12,7 +12,7 @@ interface IModal {
 const Modal: React.FunctionComponent<React.PropsWithChildren<IModal>> = (
   props: React.PropsWithChildren<IModal>
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

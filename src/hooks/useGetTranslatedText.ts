@@ -9,7 +9,12 @@ const getTranslatedText =
   ): string => {
     if (typeof translatedTexts === "string") return translatedTexts;
 
+    if (typeof translatedTexts === "boolean")
+      return (translatedTexts as Boolean).toString();
+
     if (!translatedTexts) return "";
+
+    console.log("translated texts", translatedTexts);
 
     const result: ITranslatedText | undefined = translatedTexts.find(
       (el) => el.language === language

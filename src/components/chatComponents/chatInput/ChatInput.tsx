@@ -13,7 +13,7 @@ import ReactLoading from "react-loading";
 import { Socket } from "socket.io-client";
 import { socketConnect } from "socket.io-react";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import useStyles from "./chatInput.styles";
 import { IUser } from "../../../store/slices/userSlice";
 import { useAppSelector } from "../../../store/hooks";
@@ -38,7 +38,7 @@ const ChatInput: React.FunctionComponent<IChatInput> = socketConnect(
   (props: IChatInput) => {
     //#region App state
     const user: IUser = useAppSelector((state) => state.user.user);
-    const theme: Theme = useAppSelector(
+    const theme: ITheme = useAppSelector(
       (state) => state.websiteConfiguration.theme
     );
     const unreadMessagesIds: string[] | undefined = useAppSelector((state) =>

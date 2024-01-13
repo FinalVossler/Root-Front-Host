@@ -1,7 +1,7 @@
 import React from "react";
 import { BsInstagram, BsFacebook, BsYoutube, BsLinkedin } from "react-icons/bs";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 import { IWebsiteConfiguration } from "../../../store/slices/websiteConfigurationSlice";
 
@@ -17,7 +17,7 @@ interface IFooter {
 }
 
 const Footer: React.FunctionComponent<IFooter> = (props: IFooter) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const title: string | undefined = useAppSelector(

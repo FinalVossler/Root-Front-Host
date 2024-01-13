@@ -12,7 +12,7 @@ import {
   IEntityFieldValueForm,
 } from "../EntityEditorForm";
 import { IModelField } from "../../../../store/slices/modelSlice";
-import { Theme } from "../../../../config/theme";
+import { ITheme } from "../../../../config/theme";
 import { useAppSelector } from "../../../../store/hooks";
 import useStyles from "./entityFieldFiles.styles";
 import isFileAnImage from "../../../../utils/isFileAnImage";
@@ -38,7 +38,7 @@ export interface IEntityFieldFiles {
 // Hint: Own files are files already uploaded.
 // NewFiles are the new files selected by the user in the file input
 const EntityFieldFiles = (props: IEntityFieldFiles) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

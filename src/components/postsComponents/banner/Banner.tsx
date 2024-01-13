@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./banner.styles";
@@ -12,7 +12,7 @@ interface IBanner {
   hideDescription?: boolean;
 }
 const Banner: React.FunctionComponent<IBanner> = (props: IBanner) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const styles = useStyles({ theme });

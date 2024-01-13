@@ -2,7 +2,7 @@ import React from "react";
 
 import RoleEditor from "../../components/editors/roleEditor";
 import Elements from "../../components/elements";
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useDeleteRoles from "../../hooks/apiHooks/useDeleteRoles";
 import useGetRoles from "../../hooks/apiHooks/useGetRoles";
@@ -19,7 +19,7 @@ import useStyles from "./rolesPage.styles";
 interface IRolesPage {}
 
 const RolesPage: React.FunctionComponent<IRolesPage> = (props: IRolesPage) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

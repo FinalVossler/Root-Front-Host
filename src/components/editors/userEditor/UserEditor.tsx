@@ -8,7 +8,7 @@ import * as Yup from "yup";
 
 import useStyles from "./userEditor.styles";
 import Modal from "../../modal";
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import Button from "../../button";
 import { useAppSelector } from "../../../store/hooks";
 import Input from "../../input";
@@ -44,7 +44,7 @@ interface IUserForm {
 }
 
 const UserEditor = (props: IUserEditor) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

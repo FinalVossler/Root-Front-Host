@@ -1,8 +1,8 @@
 import { createUseStyles } from "react-jss";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 
-const useStyles = createUseStyles((theme: Theme) => ({
+const useStyles = createUseStyles((theme: ITheme) => ({
   existingFilesContainer: {
     display: "flex",
     width: "100%",
@@ -21,7 +21,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     alignItems: "center",
     justifyContent: "center",
     color: theme.darkTextColor,
-    padding: 10
+    padding: 10,
   },
   singleFileContainer: {
     cursor: "pointer",

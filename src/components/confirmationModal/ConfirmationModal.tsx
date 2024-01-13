@@ -1,7 +1,7 @@
 import React from "react";
 import ReactLoading from "react-loading";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
 import Button from "../button";
 
@@ -19,7 +19,7 @@ interface IConfirmationModal {
 const ConfirmationModal: React.FunctionComponent<
   React.PropsWithChildren<IConfirmationModal>
 > = (props: React.PropsWithChildren<IConfirmationModal>) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const styles = useStyles({ theme });

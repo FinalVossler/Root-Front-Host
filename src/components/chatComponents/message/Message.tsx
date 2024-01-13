@@ -2,7 +2,7 @@ import React from "react";
 import { socketConnect } from "socket.io-react";
 import { Socket } from "socket.io-client";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   Conversation,
@@ -34,7 +34,7 @@ const Message: React.FunctionComponent<IMessageComponent> = (
 ) => {
   const user: IUser = useAppSelector((state) => state.user.user);
 
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 
@@ -253,7 +253,7 @@ interface IReactionComponent {
 
 const Reaction: React.FunctionComponent<IReactionComponent> = React.memo(
   (props: IReactionComponent) => {
-    const theme: Theme = useAppSelector(
+    const theme: ITheme = useAppSelector(
       (state) => state.websiteConfiguration.theme
     );
 

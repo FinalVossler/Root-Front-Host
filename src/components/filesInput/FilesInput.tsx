@@ -8,7 +8,7 @@ import {
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import Loading from "react-loading";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import IFile from "../../globalTypes/IFile";
 import { useAppSelector } from "../../store/hooks";
 import isFileAnImage from "../../utils/isFileAnImage";
@@ -54,7 +54,7 @@ const FilesInput = (props: IFilesInput) => {
     React.useState<boolean>(true);
   const [isShowing, setIsShowing] = React.useState<boolean>(false);
 
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const styles = useStyles({ theme });

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import theme, { Theme } from "../../config/theme";
+import theme, { ITheme } from "../../config/theme";
 import IFile from "../../globalTypes/IFile";
 import ITranslatedText from "../../globalTypes/ITranslatedText";
 import changeTabIcon from "../../utils/changeTabIcon";
@@ -16,7 +16,7 @@ export interface IWebsiteConfiguration {
   withChat?: boolean;
   withRegistration?: boolean;
   withTaskManagement?: boolean;
-  theme: Theme;
+  theme: ITheme;
   tabIcon?: IFile;
   logo1?: IFile;
   logo2?: IFile;
@@ -227,6 +227,7 @@ export interface IWebsiteConfiguration {
       language: ITranslatedText[];
       showInHeader: ITranslatedText[];
       showInSideMenu: ITranslatedText[];
+      visit: ITranslatedText[];
     };
     posts: {
       haveSomethingInMind: ITranslatedText[];
@@ -403,7 +404,7 @@ interface IWebsiteConfigurationState {
   withChat?: boolean;
   withRegistration?: boolean;
   withTaskManagement?: boolean;
-  theme: Theme;
+  theme: ITheme;
   tabIcon?: IFile;
   logo1?: IFile;
   logo2?: IFile;
@@ -1397,6 +1398,10 @@ const initialState: IWebsiteConfigurationState = {
       showInSideMenu: [
         { language: "en", text: "Show in side menu" },
         { language: "fr", text: "Montrer dans le menu de Côté" },
+      ],
+      visit: [
+        { language: "en", text: "Visit" },
+        { language: "fr", text: "Visiter" },
       ],
     },
     posts: {

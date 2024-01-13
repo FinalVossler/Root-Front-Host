@@ -2,7 +2,7 @@ import React from "react";
 import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 
-import { Theme } from "../../../../config/theme";
+import { ITheme } from "../../../../config/theme";
 import { useAppSelector } from "../../../../store/hooks";
 import SearchInput from "../../../searchInput";
 import useSearchFields from "../../../../hooks/apiHooks/useSearchFields";
@@ -28,7 +28,7 @@ const ModelFieldsEditor = (props: IFieldsEditor) => {
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.fields
   );
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

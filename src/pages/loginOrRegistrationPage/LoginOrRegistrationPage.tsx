@@ -3,7 +3,7 @@ import React from "react";
 import RegistrationForm from "../../components/registrationForm";
 import Login from "../../components/loginForm";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
@@ -31,7 +31,7 @@ const LoginOrRegistrationPage: React.FunctionComponent<
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.profile
   );
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const logo1: IFile | undefined = useAppSelector(

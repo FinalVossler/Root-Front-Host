@@ -2,7 +2,7 @@ import React from "react";
 import { CgProfile } from "react-icons/cg";
 import { RiNotificationFill } from "react-icons/ri";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   chatSlice,
@@ -27,7 +27,7 @@ const ChatContact: React.FunctionComponent<IChatContact> = (
   const selectedConversationId: string | undefined = useAppSelector(
     (state) => state.chat.selectedConversationId
   );
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const totalUnreadMessages = useAppSelector(

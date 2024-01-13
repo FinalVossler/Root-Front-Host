@@ -1,7 +1,7 @@
 import React from "react";
 
 import Post from "../../components/post";
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 
 import withWrapper from "../../hoc/wrapper";
 import { useAppSelector } from "../../store/hooks";
@@ -18,7 +18,7 @@ const DynamicPage: React.FunctionComponent<IDynamicPage> = (
 ) => {
   const { pageSlug } = useParams();
 
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const page: IPage | undefined = useAppSelector(

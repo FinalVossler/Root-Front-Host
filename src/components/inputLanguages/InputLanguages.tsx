@@ -2,7 +2,7 @@ import { FormikProps } from "formik";
 import React from "react";
 import { AiOutlineArrowsAlt } from "react-icons/ai";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
 import getLanguages from "../../utils/getLanguages";
 import Checkbox from "../checkbox";
@@ -18,7 +18,7 @@ interface IInputLanguages {
 const InputLanguages: React.FunctionComponent<IInputLanguages> = (
   props: IInputLanguages
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

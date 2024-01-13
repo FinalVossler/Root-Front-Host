@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import Input from "../input/Input";
 import Button from "../button/Button";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 
 import { useAppSelector } from "../../store/hooks";
 
@@ -23,7 +23,7 @@ interface ILoginFormForm {
 
 interface ILoginForm {}
 const LoginForm: React.FunctionComponent<ILoginForm> = (props: ILoginForm) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

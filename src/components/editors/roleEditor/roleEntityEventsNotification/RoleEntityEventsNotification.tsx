@@ -3,7 +3,7 @@ import React from "react";
 import { BiPlus, BiText } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 
-import { Theme } from "../../../../config/theme";
+import { ITheme } from "../../../../config/theme";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../store/hooks";
 import { EntityEventNotificationTrigger } from "../../../../store/slices/roleSlice";
@@ -26,7 +26,7 @@ interface IRoleEntityEventsNotification {
 const RoleEntityEventsNotification: React.FunctionComponent<
   IRoleEntityEventsNotification
 > = (props: IRoleEntityEventsNotification) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

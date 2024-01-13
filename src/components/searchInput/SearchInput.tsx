@@ -1,7 +1,7 @@
 import React from "react";
 import { BsSearch } from "react-icons/bs";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import Input from "../input";
 
 import useStyles from "./searchInput.styles";
@@ -42,7 +42,7 @@ const SearchInput: React.FunctionComponent<ISearchInput> = (
     PaginationResponse<any>
   >({ data: [], total: 0 });
 
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const styles = useStyles({ theme });

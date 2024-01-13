@@ -2,7 +2,7 @@ import React from "react";
 
 import PostOptions from "../postOption";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 import { IPost } from "../../../store/slices/postSlice";
 
@@ -15,7 +15,7 @@ interface IPostWrapper {
 const PostWrapper: React.FunctionComponent<
   React.PropsWithChildren<IPostWrapper>
 > = (props: React.PropsWithChildren<IPostWrapper>) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

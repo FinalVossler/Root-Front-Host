@@ -1,50 +1,54 @@
 import { createUseStyles } from "react-jss";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 
-const useStyles = createUseStyles((theme: Theme) => ({
+const useStyles = createUseStyles((theme: ITheme) => ({
   loginOrRegistrationPageContainer: {
     display: "flex",
     flexDirection: "row",
     width: "100%",
-    height: '100vh',
+    height: "100vh",
     backgroundColor: theme.backgroundColor,
   },
   left: {
-    width: '50%',
-    boxSizing: 'border-box',
-    backgroundColor: '',
-    height: '100vh',
-    background: "linear-gradient(to right top, " + theme.darkerPrimary + ", " + theme.primary + ")"
+    width: "50%",
+    boxSizing: "border-box",
+    backgroundColor: "",
+    height: "100vh",
+    background:
+      "linear-gradient(to right top, " +
+      theme.darkerPrimary +
+      ", " +
+      theme.primary +
+      ")",
   },
   right: {
-    width: '50%',
-    boxSizing: 'border-box',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    paddingTop: 70
+    width: "50%",
+    boxSizing: "border-box",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    paddingTop: 70,
   },
   welcome: {
     color: theme.lightTextColor,
     marginTop: 230,
     paddingLeft: 100,
     fontSize: 55,
-    marginBottom: 20
+    marginBottom: 20,
   },
   solutionDescription: {
     marginTop: 0,
     color: theme.lightTextColor,
     paddingLeft: 100,
     fontSize: 35,
-    width: '60%'
-
+    width: "60%",
   },
   logo1: {
-    width: '120px!important',
-    height: '135px!important',
-    backgroundSize: '120px!important',
-    backgroundPosition: 'center!important',
+    width: "120px!important",
+    height: "135px!important",
+    backgroundSize: "120px!important",
+    backgroundPosition: "center!important",
   },
   switchFormContainer: {
     display: "flex",
@@ -63,11 +67,11 @@ const useStyles = createUseStyles((theme: Theme) => ({
   },
   "@media (max-width: 930px)": {
     left: {
-      display: 'none'
+      display: "none",
     },
     right: {
-    paddingTop: 50,
-    width: '100%',
+      paddingTop: 50,
+      width: "100%",
     },
   },
 }));

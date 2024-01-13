@@ -40,8 +40,11 @@ export const pageSlice = createSlice({
         return page;
       });
     },
-    deletePage: (state: IPageState, action: PayloadAction<string>) => {
-      state.pages = state.pages.filter((page) => page._id !== action.payload);
+    deletePages: (state: IPageState, action: PayloadAction<string[]>) => {
+      state.pages = state.pages.filter(
+        (page) =>
+          !action.payload.find((pageId) => pageId === page._id.toString())
+      );
     },
   },
 });

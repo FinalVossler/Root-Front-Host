@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { MdDelete, MdTextFields } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import Button from "../../button";
 import { useAppSelector } from "../../../store/hooks";
 import { ImCross } from "react-icons/im";
@@ -98,7 +98,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
   const language: string = useAppSelector(
     (state) => state.userPreferences.language
   );
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

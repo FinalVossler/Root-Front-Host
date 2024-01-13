@@ -1,8 +1,8 @@
 import { createUseStyles } from "react-jss";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 
-const useStyles = createUseStyles((theme: Theme) => ({
+const useStyles = createUseStyles((theme: ITheme) => ({
   registrationContainer: {
     display: "flex",
     flexDirection: "column",
@@ -12,22 +12,22 @@ const useStyles = createUseStyles((theme: Theme) => ({
     padding: 10,
     paddingTop: 10,
     paddingBottom: 5,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     margin: "auto",
     marginBottom: 0,
-    marginTop: 5
+    marginTop: 5,
   },
   registrationTitle: {
     fontSize: 30,
     color: theme.darkTextColor,
-    textAlign: 'center',
-    marginTop: 0
+    textAlign: "center",
+    marginTop: 0,
   },
   firstNameAndLastName: {
-    display: 'flex',
-    alignItems: 'center',
-    widht: '100%',
-    gap: 15
+    display: "flex",
+    alignItems: "center",
+    widht: "100%",
+    gap: 15,
   },
   "@media (max-width: 800px)": {},
 }));

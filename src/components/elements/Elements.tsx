@@ -4,7 +4,7 @@ import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import ColumnResizer from "react-table-column-resizer";
 import Loading from "react-loading";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../store/hooks";
 import { IField } from "../../store/slices/fieldSlice";
@@ -30,11 +30,13 @@ import {
 import { IMicroFrontend } from "../../store/slices/microFrontendSlice";
 import ColumnOptions from "./columnOptions/ColumnOptions";
 import ViewTabs from "./viewTabs";
+import { IPage } from "../../store/slices/pageSlice";
 
 export type Column = {
   label: string;
   name: string;
   render?: (param: any) => any;
+  RenderComponent?: React.FunctionComponent<{ element: Element }>;
   defaultHide?: boolean;
 };
 
@@ -44,7 +46,8 @@ export type Element =
   | IEntity
   | IUser
   | IRole
-  | IMicroFrontend;
+  | IMicroFrontend
+  | IPage;
 
 export enum ViewTypeEnum {
   Table = "Table",
@@ -60,9 +63,10 @@ interface IElements {
   }>;
   columns: Column[];
   elements: Element[];
-  total: number;
-  limit: number;
-  page: number;
+  withPagination?: boolean;
+  total?: number;
+  limit?: number;
+  page?: number;
   loading: boolean;
   deletePromise: (ids: string[]) => Promise<unknown>;
   deleteLoading: boolean;
@@ -70,7 +74,7 @@ interface IElements {
   copyLoading?: boolean;
   onCopyFinished?: () => void;
   getElementName: (element: Element) => string;
-  onPageChange: (page: number) => void;
+  onPageChange?: (page: number) => void;
   searchPromise?: (
     searchText: string,
     paginationCommand: PaginationCommand
@@ -78,8 +82,8 @@ interface IElements {
   canDelete: boolean;
   canUpdate: boolean;
   canCreate: boolean;
-  searchResult: PaginationResponse<any>;
-  setSearchResult: (result: PaginationResponse<any>) => void;
+  searchResult?: PaginationResponse<any>;
+  setSearchResult?: (result: PaginationResponse<any>) => void;
   isForEntities?: boolean;
   modelId?: string;
   elementsLocalStorageConfName: LocalStorageConfNameEnum | string;
@@ -87,7 +91,7 @@ interface IElements {
 }
 
 const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(
@@ -204,7 +208,9 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
     }
     setCopyModalOpen(false);
     setSelectedElementsIds([]);
-    props.onPageChange(1);
+    if (props.onPageChange) {
+      props.onPageChange(1);
+    }
   };
   const handleViewTypeChange = (viewType: ViewTypeEnum) => {
     setViewType(viewType);
@@ -213,7 +219,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
 
   // The elements to show are either the search result or the elements passed as props
   const elements =
-    props.searchResult.data.length > 0
+    props.searchResult && props.searchResult?.data.length > 0
       ? props.searchResult.data
       : props.elements;
 
@@ -227,7 +233,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
           className={styles.buttonsContainer}
           style={{ marginTop: props.isForEntities ? 0 : 90 }}
         >
-          {props.searchPromise && (
+          {props.searchPromise && props.setSearchResult && (
             <SearchInput
               getElementTitle={props.getElementName}
               searchPromise={props.searchPromise}
@@ -332,7 +338,7 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
             <ElementsBoard
               modelId={props.modelId?.toString() || ""}
               entities={
-                props.searchResult.data.length > 0
+                props.searchResult && props.searchResult.data.length > 0
                   ? props.searchResult.data
                   : (props.elements as IEntity[])
               }
@@ -458,9 +464,13 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                               className={styles.tableColumn}
                               key={columnIndex}
                             >
-                              {column.render
-                                ? column.render(element)
-                                : getTranslatedText(element[column.name])}
+                              {column.render ? (
+                                column.render(element)
+                              ) : column.RenderComponent ? (
+                                <column.RenderComponent element={element} />
+                              ) : (
+                                getTranslatedText(element[column.name])
+                              )}
                             </td>
                             <ColumnResizer
                               disabled={false}
@@ -536,16 +546,18 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
           </table>
         )}
 
-        <Pagination
-          total={
-            props.searchResult.data.length > 0
-              ? props.searchResult.total
-              : props.total
-          }
-          limit={props.limit}
-          page={props.page}
-          onPageChange={props.onPageChange}
-        />
+        {props.withPagination !== false && (
+          <Pagination
+            total={
+              props.searchResult && props.searchResult.data.length > 0
+                ? props.searchResult.total
+                : props.total || 0
+            }
+            limit={props.limit || 999}
+            page={props.page || 1}
+            onPageChange={props.onPageChange ? props.onPageChange : () => {}}
+          />
+        )}
       </div>
     </React.Fragment>
   );

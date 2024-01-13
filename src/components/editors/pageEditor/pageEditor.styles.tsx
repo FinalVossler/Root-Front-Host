@@ -1,29 +1,8 @@
 import { createUseStyles } from "react-jss";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 
-const useStyles = createUseStyles((theme: Theme) => ({
-  pageEditorContainer: {
-    width: "100%",
-    maxWidth: 700,
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  createPageButtonContainer: {
-    display: "flex",
-    alignItems: "center",
-    cursor: "pointer",
-  },
-  addPageText: {
-    fontSize: 20,
-    color: theme.primary,
-    marginLeft: 10,
-    fontWeight: "bold",
-  },
-  pageEditorPlusIcon: {
-    color: theme.primary,
-    fontSize: 45,
-  },
+const useStyles = createUseStyles((theme: ITheme) => ({
   createPageModalContainer: {
     display: "flex",
     flexDirection: "column",

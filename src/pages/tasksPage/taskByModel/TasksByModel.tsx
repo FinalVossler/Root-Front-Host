@@ -2,7 +2,7 @@ import React from "react";
 
 import Loading from "react-loading";
 import Pagination from "../../../components/pagination";
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import { EntitiesGetCommand } from "../../../hooks/apiHooks/useGetEntitiesByModel";
 import { useAppSelector } from "../../../store/hooks";
 import { IRole } from "../../../store/slices/roleSlice";
@@ -31,7 +31,7 @@ interface ITasksByModel {
 const TasksByModel: React.FunctionComponent<ITasksByModel> = (
   props: ITasksByModel
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const assignedEntitiesByModel = useAppSelector(

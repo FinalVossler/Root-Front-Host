@@ -3,7 +3,7 @@ import Loading from "react-loading";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { TbMoodEmpty } from "react-icons/tb";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
@@ -36,7 +36,7 @@ const HeaderNotifications: React.FunctionComponent<IHeaderNotifications> = (
   props: IHeaderNotifications
 ) => {
   //#region Store
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const notifications = useAppSelector(

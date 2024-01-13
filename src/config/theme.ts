@@ -1,4 +1,4 @@
-export type Theme = {
+export interface ITheme {
   darkTextColor: string;
   lightTextColor: string;
   primary: string;
@@ -14,9 +14,9 @@ export type Theme = {
   transparentBackground: string;
   subContentBackgroundColor: string;
   boxShadow: string;
-};
+}
 
-const theme: Theme = {
+const theme: ITheme = {
   darkTextColor: "#4c4c4d",
   lightTextColor: "#FFFFFF",
 

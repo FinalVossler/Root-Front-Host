@@ -1,7 +1,7 @@
 import React from "react";
 import { AiOutlineFileDone } from "react-icons/ai";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import { IPost, PostDesign } from "../../store/slices/postSlice";
 import extractContentFromHtml from "../../utils/extractContentFromHtml";
 
@@ -32,7 +32,7 @@ interface IUserPosts {
   post: IPost;
 }
 const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const styles = useStyles({ theme });

@@ -3,7 +3,7 @@ import React from "react";
 import * as Yup from "yup";
 import { BsFillPersonFill } from "react-icons/bs";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
 import Input from "../input";
 
@@ -32,7 +32,7 @@ interface IContactFormProps {
 const ContactForm: React.FunctionComponent<
   React.PropsWithChildren<IContactFormProps>
 > = (props: React.PropsWithChildren<IContactFormProps>) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

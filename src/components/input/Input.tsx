@@ -2,7 +2,7 @@ import { FormikProps } from "formik";
 import React, { PropsWithChildren } from "react";
 import debounce from "lodash.debounce";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 
 import useStyles from "./input.styles";
 import { useAppSelector } from "../../store/hooks";
@@ -29,7 +29,7 @@ const Input: React.FunctionComponent<PropsWithChildren<IInput>> = (
 ) => {
   const [isFocused, setIsFocused] = React.useState(false);
 
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const styles = useStyles({ theme });

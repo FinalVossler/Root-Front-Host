@@ -1,7 +1,7 @@
 import React from "react";
 
 import { IModel, IModelState } from "../../../../store/slices/modelSlice";
-import { Theme } from "../../../../config/theme";
+import { ITheme } from "../../../../config/theme";
 import { useAppSelector } from "../../../../store/hooks";
 import useStyles from "./entityEditorStates.styles";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
@@ -18,7 +18,7 @@ export interface IEntityEditorStates {
 // Hint: Own files are files already uploaded.
 // NewFiles are the new files selected by the user in the file input
 const EntityEditorStates = (props: IEntityEditorStates) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const model: IModel | undefined = useAppSelector(

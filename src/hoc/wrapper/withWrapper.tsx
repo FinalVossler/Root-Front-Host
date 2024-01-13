@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import Header from "../../components/header";
 import Footer from "../../components/postsComponents/footer";
 
@@ -18,7 +18,7 @@ const withWrapper =
     }
   ): React.FunctionComponent<any> =>
   (props: any) => {
-    const theme: Theme = useAppSelector(
+    const theme: ITheme = useAppSelector(
       (state) => state.websiteConfiguration.theme
     );
 

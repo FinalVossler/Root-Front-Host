@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 import ChatBox, { BoxType } from "../chatBox/ChatBox";
 
@@ -8,7 +8,7 @@ import useStyles from "./chatBoxes.styles";
 
 interface IChatboxes {}
 const ChatBoxes: React.FunctionComponent<IChatboxes> = (props: IChatboxes) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const selectedConversationIds: string[] | undefined = useAppSelector(

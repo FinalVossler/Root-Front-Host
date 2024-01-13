@@ -5,7 +5,7 @@ import { BiPlus } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import { BiText } from "react-icons/bi";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../store/hooks";
 import Button from "../../button";
@@ -40,7 +40,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditor> = (
   props: IEventsEditor
 ) => {
   //#region store
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

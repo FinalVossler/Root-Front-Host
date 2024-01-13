@@ -1,7 +1,7 @@
 import React from "react";
 import { CgProfile } from "react-icons/cg";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { chatSlice } from "../../../store/slices/chatSlice";
 import { IUser } from "../../../store/slices/userSlice";
@@ -14,7 +14,7 @@ const ChatContact: React.FunctionComponent<IChatCurrentUser> = (
 ) => {
   const user: IUser = useAppSelector((state) => state.user.user);
 
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const styles = useStyles({ theme });

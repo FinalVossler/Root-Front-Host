@@ -1,4 +1,4 @@
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./unauthorized.styles";
@@ -7,7 +7,7 @@ interface IUnauthorized {}
 const Unauthorized: React.FunctionComponent<IUnauthorized> = (
   props: IUnauthorized
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

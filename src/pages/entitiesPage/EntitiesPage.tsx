@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
 import EntitiesList from "./entitiesList";
@@ -15,7 +15,7 @@ const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
 ) => {
   const { modelId } = useParams();
 
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

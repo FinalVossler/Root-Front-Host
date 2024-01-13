@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./extendSection.styles";
@@ -16,7 +16,7 @@ interface IExtendSection {
 const ExtendSection: React.FunctionComponent<IExtendSection> = (
   props: IExtendSection
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

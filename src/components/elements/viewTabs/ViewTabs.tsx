@@ -1,7 +1,7 @@
 import React from "react";
 
 import useStyles from "./viewTabs.styles";
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 
@@ -17,7 +17,7 @@ interface IViewTypes {
 }
 
 const Elements: React.FunctionComponent<IViewTypes> = (props: IViewTypes) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

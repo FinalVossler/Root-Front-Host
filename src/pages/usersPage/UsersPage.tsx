@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 
 import Elements from "../../components/elements";
 import UserEditor from "../../components/editors/userEditor";
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import useDeleteUsers from "../../hooks/apiHooks/useDeleteUsers";
 import useGetUsers from "../../hooks/apiHooks/useGetUsers";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
@@ -22,7 +22,7 @@ import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 interface IUsersPage {}
 
 const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

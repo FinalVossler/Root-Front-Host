@@ -1,7 +1,7 @@
 import React from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import useLoadMessages, {
   MessageGetBetweenUsersCommand,
 } from "../../../hooks/apiHooks/useLoadMessages";
@@ -52,7 +52,7 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
         state.chat.conversations.find((el) => el.id === props.conversationId)
           ?.messages
     ) || [];
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const unreadMessagesIds: string[] | undefined = useAppSelector(

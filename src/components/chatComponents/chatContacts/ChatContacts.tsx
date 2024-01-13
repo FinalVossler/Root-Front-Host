@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import useGetChatContacts, {
   ChatGetContactsCommand,
 } from "../../../hooks/apiHooks/useGetChatContacts";
@@ -26,7 +26,7 @@ const ChatContacts: React.FunctionComponent<IChatContacts> = (
   const totalContacts: number = useAppSelector(
     (state) => state.chat.totalContacts
   );
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const contactsPage: number = useAppSelector(

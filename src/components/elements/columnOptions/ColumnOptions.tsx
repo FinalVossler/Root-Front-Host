@@ -1,7 +1,7 @@
 import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 import useStyles from "./columnOptions.styles";
 import { BiHide } from "react-icons/bi";
@@ -14,7 +14,7 @@ interface IColumnOptions {
 const ColumnOptions: React.FunctionComponent<IColumnOptions> = (
   props: IColumnOptions
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

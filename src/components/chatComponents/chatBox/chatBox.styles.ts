@@ -1,8 +1,8 @@
 import { createUseStyles } from "react-jss";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 
-const useStyles = createUseStyles((theme: Theme) => ({
+const useStyles = createUseStyles((theme: ITheme) => ({
   chatBoxContainer: {
     display: "flex",
     flexDirection: "column",

@@ -2,7 +2,7 @@ import React, { ReactText } from "react";
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import { Link, useLocation } from "react-router-dom";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./sideMenuOption.styles";
@@ -34,7 +34,7 @@ interface ISideMenuOption {
 const SideMenuOption: React.FunctionComponent<ISideMenuOption> = (
   props: ISideMenuOption
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 
@@ -99,7 +99,7 @@ const SideMenuOption: React.FunctionComponent<ISideMenuOption> = (
 const SubOption = React.memo((props: { subOption: SubOption }) => {
   const [editorOpen, setEditorOpen] = React.useState<boolean>(false);
 
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

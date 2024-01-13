@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import withWrapper from "../../hoc/wrapper";
 import { useAppSelector } from "../../store/hooks";
 import Banner from "../../components/postsComponents/banner";
@@ -20,7 +20,7 @@ import withChat from "../../hoc/withChat";
 
 interface IHome {}
 const Home: React.FunctionComponent<IHome> = (props: IHome) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

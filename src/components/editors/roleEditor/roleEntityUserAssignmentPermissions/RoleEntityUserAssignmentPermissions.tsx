@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Theme } from "../../../../config/theme";
+import { ITheme } from "../../../../config/theme";
 import useSearchRoles from "../../../../hooks/apiHooks/useSearchRoles";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../store/hooks";
@@ -28,7 +28,7 @@ interface IRoleEntityUserAssignmentPermissions {
 const RoleEntityUserAssignmentPermissions: React.FunctionComponent<
   IRoleEntityUserAssignmentPermissions
 > = (props: IRoleEntityUserAssignmentPermissions) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

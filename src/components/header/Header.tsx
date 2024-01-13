@@ -3,7 +3,7 @@ import { CgProfile } from "react-icons/cg";
 import { AiOutlineLogout } from "react-icons/ai";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { userSlice } from "../../store/slices/userSlice";
@@ -46,7 +46,7 @@ const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
     (state) => state.websiteConfiguration.ui.websiteConfigurationEditorOpen
   );
 
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const isSideMenuOpen: boolean = useAppSelector(

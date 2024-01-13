@@ -1,4 +1,4 @@
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./fullWidthPicture.styles";
@@ -10,7 +10,7 @@ interface IFullWidthPicture {
 const FullWidthPicture: React.FunctionComponent<IFullWidthPicture> = (
   props: IFullWidthPicture
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

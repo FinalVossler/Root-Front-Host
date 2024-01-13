@@ -1,7 +1,7 @@
 import React from "react";
 import { GoPerson } from "react-icons/go";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./userProfilePicture.styles";
@@ -21,7 +21,7 @@ interface IUserProfilePicture {
 }
 
 const UserProfilePicture = (props: IUserProfilePicture) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

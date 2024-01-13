@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import Input from "../input/Input";
 import Button from "../button/Button";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 
 import { IUser } from "../../store/slices/userSlice";
 import { useAppSelector } from "../../store/hooks";
@@ -34,7 +34,7 @@ const Profile: React.FunctionComponent<IProfileForm> = (
   props: IProfileForm
 ) => {
   const user: IUser = useAppSelector((state) => state.user.user);
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

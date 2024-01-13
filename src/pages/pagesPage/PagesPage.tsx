@@ -1,127 +1,89 @@
 import React from "react";
-import { FaDirections } from "react-icons/fa";
-import { AiFillDelete } from "react-icons/ai";
-import { toast } from "react-toastify";
-import Loading from "react-loading";
 
-import { Theme } from "../../config/theme";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { IPage, pageSlice } from "../../store/slices/pageSlice";
-import PageEditor from "../../components/editors/pageEditor";
-import useStyles from "./pagesPage.styles";
-import ConfirmationModal from "../../components/confirmationModal";
-import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
+import Elements from "../../components/elements";
+import { ITheme } from "../../config/theme";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useHasPermission from "../../hooks/useHasPermission";
+import useIsLoggedIn from "../../hooks/useIsLoggedIn";
+import { useAppSelector } from "../../store/hooks";
 import { Permission } from "../../store/slices/roleSlice";
 
-interface IPagesPageProps {}
+import useStyles from "./pagesPage.styles";
+import { LocalStorageConfNameEnum } from "../../utils/localStorage";
+import PageEditor from "../../components/editors/pageEditor";
+import { IPage } from "../../store/slices/pageSlice";
+import useDeletePages from "../../hooks/apiHooks/useDeletePages";
+import { FaDirections } from "react-icons/fa";
 
-const PagesPage: React.FunctionComponent<IPagesPageProps> = (
-  props: IPagesPageProps
-) => {
-  const pages = useAppSelector((state) => state.page.pages);
+interface IPagesPage {}
+
+const PagesPage: React.FunctionComponent<IPagesPage> = (props: IPagesPage) => {
+  const theme: ITheme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.pages
   );
-  const theme: Theme = useAppSelector(
-    (state) => state.websiteConfiguration.theme
-  );
-
-  const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
-  const [deleteLoading, setDeleteLoading] = React.useState(false);
-  const [selectedPageId, setSelectedPageId] = React.useState("");
+  const { pages } = useAppSelector((state) => state.page);
 
   const styles = useStyles({ theme });
-  const axios = useAuthorizedAxios();
-  const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
+  const isLoggedIn: boolean = useIsLoggedIn();
+  const { deletePages, loading: deleteLoading } = useDeletePages();
   const { hasPermission } = useHasPermission();
 
-  const handleDeleteModalConfirm = () => {
-    setDeleteLoading(true);
-    axios
-      .request({
-        url: "/pages",
-        method: "DELETE",
-        params: {
-          pageId: selectedPageId,
-        },
-      })
-      .then(() => {
-        toast.success("Deleted");
-        dispatch(pageSlice.actions.deletePage(selectedPageId));
-
-        setDeleteModalOpen(false);
-        setSelectedPageId("");
-      })
-      .finally(() => setDeleteLoading(false));
-  };
-
-  const handleDeleteIconClick = (page: IPage) => {
-    setSelectedPageId(page._id);
-    setDeleteModalOpen(true);
-  };
+  if (!isLoggedIn) return null;
 
   if (!hasPermission(Permission.ReadPage)) return null;
 
   return (
-    <div className={styles.pagesPageContainer}>
-      <ConfirmationModal
-        onConfirm={handleDeleteModalConfirm}
-        description={getTranslatedText(staticText?.deletePageMessage)}
-        title="Delete page"
-        modalOpen={deleteModalOpen}
-        setModalOpen={setDeleteModalOpen}
-        loading={deleteLoading}
-      />
-
-      {deleteLoading && <Loading color={theme.primary} />}
-
-      {!deleteLoading &&
-        pages.map((page: IPage, i: number) => {
-          return (
-            <div
-              key={i}
-              className={
-                i === pages.length - 1
-                  ? styles.lastPageContainer
-                  : styles.pageContainer
-              }
-            >
-              <span className={styles.pageTitle}>
-                {getTranslatedText(page.title)}
-              </span>
-
-              {hasPermission(Permission.DeletePage) && (
-                <span
-                  className={styles.deleteIcon}
-                  onClick={() => handleDeleteIconClick(page)}
+    <div className={styles.pagesPageContainer} data-cy="pagesPage">
+      <Elements
+        Editor={({ element, ...props }) => (
+          <PageEditor {...props} page={element as IPage} />
+        )}
+        columns={[
+          {
+            label: getTranslatedText(staticText?.title),
+            name: "title",
+          },
+          {
+            label: getTranslatedText(staticText?.showInHeader),
+            name: "showInHeader",
+          },
+          {
+            label: getTranslatedText(staticText?.showInSideMenu),
+            name: "showInSideMenu",
+          },
+          {
+            label: getTranslatedText(staticText?.visit),
+            name: "visit",
+            RenderComponent: ({ element }) => {
+              return (
+                <a
+                  href={"/dynamicPage/" + (element as IPage).slug}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={styles.goIcon}
                 >
-                  <AiFillDelete />
-                </span>
-              )}
-
-              <a
-                href={"/dynamicPage/" + page.slug}
-                target="_blank"
-                rel="noreferrer"
-                className={styles.goIcon}
-              >
-                <FaDirections />
-              </a>
-
-              {hasPermission(Permission.UpdatePage) && (
-                <div className={styles.pageEditorContainer}>
-                  <PageEditor page={page} />
-                </div>
-              )}
-            </div>
-          );
-        })}
-      <br />
-
-      <PageEditor />
+                  <FaDirections />
+                </a>
+              );
+            },
+          },
+        ]}
+        elements={pages}
+        loading={false}
+        withPagination={false}
+        deletePromise={deletePages}
+        deleteLoading={deleteLoading}
+        getElementName={(field: any) => getTranslatedText(field.name)}
+        canCreate={hasPermission(Permission.CreateField)}
+        canUpdate={hasPermission(Permission.UpdateField)}
+        canDelete={hasPermission(Permission.DeleteField)}
+        elementsLocalStorageConfName={LocalStorageConfNameEnum.FIELDS}
+        tableDataCy="pagesPage"
+      />
     </div>
   );
 };

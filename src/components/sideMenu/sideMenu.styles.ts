@@ -1,8 +1,8 @@
 import { createUseStyles } from "react-jss";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 
-const useStyles = createUseStyles((theme: Theme) => ({
+const useStyles = createUseStyles((theme: ITheme) => ({
   sideMenuContainer: {
     height: "100vh",
     zIndex: 12,
@@ -67,6 +67,7 @@ const useStyles = createUseStyles((theme: Theme) => ({
     menuIconMenuOpen: {
       left: 10,
       top: 19,
+      zIndex: 99,
     },
   },
 }));

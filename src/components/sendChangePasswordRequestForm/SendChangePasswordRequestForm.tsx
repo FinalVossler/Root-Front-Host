@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import Input from "../input/Input";
 import Button from "../button/Button";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 
 import { useAppSelector } from "../../store/hooks";
 
@@ -23,7 +23,7 @@ interface ISendChangePasswordRequest {}
 const Registration: React.FunctionComponent<ISendChangePasswordRequest> = (
   props: ISendChangePasswordRequest
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(
@@ -55,7 +55,10 @@ const Registration: React.FunctionComponent<ISendChangePasswordRequest> = (
   const styles = useStyles({ theme });
   return (
     <>
-      <form onSubmit={handleSubmit} className={styles.SendChangePasswordRequestContainer}>
+      <form
+        onSubmit={handleSubmit}
+        className={styles.SendChangePasswordRequestContainer}
+      >
         <h2 className={styles.sendChangePasswordRequestTitle}>
           {getTranslatedText(staticText?.sendChangePasswordRequestTitle)}
         </h2>

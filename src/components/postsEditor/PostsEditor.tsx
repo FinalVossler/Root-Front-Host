@@ -4,7 +4,7 @@ import { arrayMove, SortableContext, useSortable } from "@dnd-kit/sortable";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { BsHandIndexFill } from "react-icons/bs";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
 import { IPost } from "../../store/slices/postSlice";
 import { IUser } from "../../store/slices/userSlice";
@@ -29,7 +29,7 @@ const PostsEditor = (props: IPostsEditor) => {
 
   const getTranslatedText = useGetTranslatedText();
 
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const styles = useStyles({ theme });
@@ -105,7 +105,7 @@ interface ISortablePost {
 const SortablePost: React.FunctionComponent<ISortablePost> = (
   props: ISortablePost
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const styles = useStyles({ theme });

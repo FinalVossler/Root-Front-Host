@@ -2,7 +2,7 @@ import React from "react";
 
 import FieldEditor from "../../components/editors/fieldEditor";
 import Elements from "../../components/elements";
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useCopyFields from "../../hooks/apiHooks/useCopyFields";
 import useDeleteFields from "../../hooks/apiHooks/useDeleteFields";
@@ -23,7 +23,7 @@ interface IFieldsPage {}
 const FieldsPage: React.FunctionComponent<IFieldsPage> = (
   props: IFieldsPage
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

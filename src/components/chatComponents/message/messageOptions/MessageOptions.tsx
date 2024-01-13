@@ -3,7 +3,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 
 import useStyles from "./messageOptions.styles";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-import { Theme } from "../../../../config/theme";
+import { ITheme } from "../../../../config/theme";
 import useOnClickOutside from "../../../../hooks/useOnClickOutside";
 import ConfirmationModal from "../../../confirmationModal";
 import useAuthorizedAxios from "../../../../hooks/useAuthorizedAxios";
@@ -29,7 +29,7 @@ interface IMessageOptions {
 const MessageOptions: React.FunctionComponent<IMessageOptions> = (
   props: IMessageOptions
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const user: IUser = useAppSelector((state) => state.user.user);

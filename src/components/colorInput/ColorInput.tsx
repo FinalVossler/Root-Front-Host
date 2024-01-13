@@ -3,7 +3,7 @@ import { AiOutlineBgColors } from "react-icons/ai";
 import { SketchPicker, ColorChangeHandler, ColorResult } from "react-color";
 import debounce from "lodash.debounce";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 
 import useStyles from "./colorInput.styles";
 import { useAppSelector } from "../../store/hooks";
@@ -15,7 +15,7 @@ interface IColorInput extends IInput {}
 const ColorInput: React.FunctionComponent<IColorInput> = (
   props: IColorInput
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

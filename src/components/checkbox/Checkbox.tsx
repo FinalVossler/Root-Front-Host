@@ -1,7 +1,7 @@
 import { FormikProps } from "formik";
 import React from "react";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./checkbox.styles";
@@ -17,7 +17,7 @@ interface ICheckbox {
   inputDataCy?: string;
 }
 const Checkbox: React.FunctionComponent<ICheckbox> = (props: ICheckbox) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const styles = useStyles({ theme });

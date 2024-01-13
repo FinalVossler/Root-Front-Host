@@ -1,7 +1,7 @@
 import React from "react";
 import ReactLoading from "react-loading";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
 import { IPost, PostVisibility } from "../../store/slices/postSlice";
 import { IUser } from "../../store/slices/userSlice";
@@ -23,7 +23,7 @@ const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
 
   const [page, setPage] = React.useState(1);
 
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const styles = useStyles({ theme });

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./person.styles";
@@ -14,7 +14,7 @@ interface IPerson {
 }
 
 const Person: React.FunctionComponent<IPerson> = (props: IPerson) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

@@ -11,7 +11,7 @@ import { arrayMove, SortableContext, useSortable } from "@dnd-kit/sortable";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 
-import { Theme } from "../../../../config/theme";
+import { ITheme } from "../../../../config/theme";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../store/hooks";
 import { ModelStateType } from "../../../../store/slices/modelSlice";
@@ -31,7 +31,7 @@ const ModelStatesEditor = (props: IModelStatesEditor) => {
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.models
   );
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 
@@ -269,7 +269,7 @@ interface ISortableModelState {
 const SortableModelState: React.FunctionComponent<ISortableModelState> = (
   props: ISortableModelState
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

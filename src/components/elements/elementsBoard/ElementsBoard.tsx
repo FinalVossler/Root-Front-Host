@@ -1,7 +1,7 @@
 import React from "react";
 import Loading from "react-loading";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../store/hooks";
 import { IEntity } from "../../../store/slices/entitySlice";
@@ -34,7 +34,7 @@ interface IElementsBoard {
 const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
   props: IElementsBoard
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const model: IModel | undefined = useAppSelector(

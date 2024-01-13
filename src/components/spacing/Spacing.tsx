@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./spacing.styles";
@@ -9,7 +9,7 @@ interface ISpacing {
   height?: string;
 }
 const Spacing: React.FunctionComponent<ISpacing> = (props: ISpacing) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

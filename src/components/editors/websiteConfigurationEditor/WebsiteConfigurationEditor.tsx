@@ -5,7 +5,7 @@ import ReactLoading from "react-loading";
 import { AiOutlineColumnWidth } from "react-icons/ai";
 import { SiShadow } from "react-icons/si";
 
-import defaultTheme, { Theme } from "../../../config/theme";
+import defaultTheme, { ITheme } from "../../../config/theme";
 import useStyles from "./websiteConfigurationEditor.styles";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import Modal from "../../modal";
@@ -33,7 +33,7 @@ import getLanguages from "../../../utils/getLanguages";
 import Textarea from "../../textarea/Textarea";
 import { lang } from "moment";
 
-interface IWebsiteConfigurationForm extends Theme {
+interface IWebsiteConfigurationForm extends ITheme {
   language?: string;
   title?: string;
   description?: string;
@@ -61,7 +61,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
   const websiteConfiguration: IWebsiteConfiguration = useAppSelector(
     (state) => state.websiteConfiguration
   );
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

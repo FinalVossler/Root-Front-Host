@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./titleAndText.styles";
@@ -12,7 +12,7 @@ interface ITitleAndText {
 const TitleAndText: React.FunctionComponent<ITitleAndText> = (
   props: ITitleAndText
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

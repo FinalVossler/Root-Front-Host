@@ -4,7 +4,7 @@ import { AiOutlineFileDone } from "react-icons/ai";
 import _ from "lodash";
 import { BiDownload } from "react-icons/bi";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 
 import IFile from "../../globalTypes/IFile";
 import PaginationCommand from "../../globalTypes/PaginationCommand";
@@ -34,7 +34,7 @@ interface IExistingFiles {
 }
 
 const ExistingFiles = (props: IExistingFiles) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

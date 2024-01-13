@@ -10,7 +10,7 @@ import { MdTextFields } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { SiElement } from "react-icons/si";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { userPreferenceSlice } from "../../store/slices/userPreferencesSlice";
@@ -43,7 +43,7 @@ import { IEntityEditor } from "../editors/entityEditor/EntityEditor";
 interface ISideMenu {}
 
 const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const title: string | undefined = useAppSelector(

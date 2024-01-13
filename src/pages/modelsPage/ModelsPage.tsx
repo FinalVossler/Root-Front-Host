@@ -2,7 +2,7 @@ import React from "react";
 
 import ModelEditor from "../../components/editors/modelEditor";
 import Elements from "../../components/elements";
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useDeleteModels from "../../hooks/apiHooks/useDeleteModels";
 import useGetModels from "../../hooks/apiHooks/useGetModels";
@@ -22,7 +22,7 @@ interface IModelsPage {}
 const ModelsPage: React.FunctionComponent<IModelsPage> = (
   props: IModelsPage
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

@@ -2,7 +2,7 @@ import React from "react";
 import { MdSlowMotionVideo } from "react-icons/md";
 import YouTube from "react-youtube";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 import Modal from "../../modal";
 
@@ -14,7 +14,7 @@ interface IVideo {
 }
 
 const Video: React.FunctionComponent<IVideo> = (props: IVideo) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

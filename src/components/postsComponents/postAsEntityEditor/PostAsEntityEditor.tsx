@@ -1,7 +1,7 @@
 import React from "react";
 import { BiPlus } from "react-icons/bi";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../store/hooks";
 import { IModel } from "../../../store/slices/modelSlice";
@@ -18,7 +18,7 @@ interface IPostAsEntityEditor {
 const PostAsEntityEditor: React.FunctionComponent<IPostAsEntityEditor> = (
   props: IPostAsEntityEditor
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const model: IModel | undefined = useAppSelector(

@@ -2,7 +2,7 @@ import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import Loading from "react-loading";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./microFrontendPage.styles";
@@ -19,7 +19,7 @@ interface IMicroFrontendPage {}
 const MicroFrontendPage: React.FunctionComponent<IMicroFrontendPage> = (
   props: IMicroFrontendPage
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const language: string = useAppSelector(

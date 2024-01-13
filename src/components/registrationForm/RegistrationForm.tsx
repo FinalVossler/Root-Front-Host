@@ -9,7 +9,7 @@ import Input from "../input/Input";
 import Button from "../button/Button";
 import { useAppSelector } from "../../store/hooks";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 
 import useStyles from "./registrationForm.styles";
 import useRegister, {
@@ -32,7 +32,7 @@ const Registration: React.FunctionComponent<IRegistrationForm> = (
   const withRegistration: boolean | undefined = useAppSelector(
     (state) => state.websiteConfiguration.withRegistration
   );
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

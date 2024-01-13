@@ -1,7 +1,7 @@
 import React from "react";
 import PaginationComponent from "rc-pagination";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./pagination.styles";
@@ -16,7 +16,7 @@ interface IPagination {
 const Pagination: React.FunctionComponent<IPagination> = (
   props: IPagination
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

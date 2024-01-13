@@ -3,7 +3,7 @@ import React from "react";
 import ChatContacts from "../../components/chatComponents/chatContacts";
 import ChatBox from "../../components/chatComponents/chatBox";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import withProtection from "../../hoc/protection";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { IUser } from "../../store/slices/userSlice";
@@ -25,7 +25,7 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.chat
   );
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

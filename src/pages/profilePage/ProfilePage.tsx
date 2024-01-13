@@ -3,7 +3,7 @@ import { BsFillGearFill } from "react-icons/bs";
 
 import ProfileForm from "../../components/profileForm";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 
 import useStyles from "./profilePage.styles";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
@@ -23,7 +23,7 @@ const ProfilePage: React.FunctionComponent<IProfilePage> = (
   const { userId } = useParams();
 
   const currentUser: IUser = useAppSelector<IUser>((state) => state.user.user);
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

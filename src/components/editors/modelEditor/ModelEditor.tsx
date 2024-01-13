@@ -6,7 +6,7 @@ import * as Yup from "yup";
 
 import useStyles from "./modelEditor.styles";
 import Modal from "../../modal";
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import Button from "../../button";
 import { useAppSelector } from "../../../store/hooks";
 import Input from "../../input";
@@ -67,7 +67,7 @@ const ModelEditor = (props: IModelEditor) => {
   const language: string = useAppSelector(
     (state) => state.userPreferences.language
   );
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

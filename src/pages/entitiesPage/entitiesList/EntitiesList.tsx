@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import EntityEditor from "../../../components/editors/entityEditor";
 import Elements from "../../../components/elements";
 import { Column } from "../../../components/elements/Elements";
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import PaginationCommand from "../../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../../globalTypes/PaginationResponse";
 import useDeleteEntities from "../../../hooks/apiHooks/useDeleteEntities";
@@ -35,7 +35,7 @@ interface IEntitiesList {
 const EntitiesList: React.FunctionComponent<IEntitiesList> = (
   props: IEntitiesList
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

@@ -1,8 +1,8 @@
 import { createUseStyles } from "react-jss";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 
-const useStyles = createUseStyles((theme: Theme) => ({
+const useStyles = createUseStyles((theme: ITheme) => ({
   loginFormContainer: {
     display: "flex",
     flexDirection: "column",
@@ -12,16 +12,16 @@ const useStyles = createUseStyles((theme: Theme) => ({
     padding: 10,
     paddingTop: 10,
     paddingBottom: 5,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     margin: "auto",
     marginBottom: 0,
-    marginTop: 5
+    marginTop: 5,
   },
   loginTitle: {
     fontSize: 30,
     color: theme.darkTextColor,
-    textAlign: 'center',
-    marginTop: 0
+    textAlign: "center",
+    marginTop: 0,
   },
   "@media (max-width: 800px)": {},
 }));

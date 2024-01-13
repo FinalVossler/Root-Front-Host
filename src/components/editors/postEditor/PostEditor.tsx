@@ -10,7 +10,7 @@ import ReactLoading from "react-loading";
 import useStyles from "./postEditor.styles";
 import WritePostButton from "../../write-post-button";
 import Modal from "../../modal";
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import Button from "../../button";
 import IFile from "../../../globalTypes/IFile";
 import { useAppSelector } from "../../../store/hooks";
@@ -46,7 +46,7 @@ interface IPostEditor {
 const PostEditor = (props: IPostEditor) => {
   const user: IUser = useAppSelector((state) => state.user.user);
   const pages: IPage[] = useAppSelector((state) => state.page.pages);
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import { MdPassword } from "react-icons/md";
 import * as Yup from "yup";
 
@@ -26,7 +26,7 @@ interface IForgotPasswordChangePasswordPage {}
 const ForgotPasswordChangePasswordPage: React.FunctionComponent<
   IForgotPasswordChangePasswordPage
 > = (props: IForgotPasswordChangePasswordPage) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

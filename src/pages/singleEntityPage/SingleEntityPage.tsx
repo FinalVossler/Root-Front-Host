@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import Loading from "react-loading";
 
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import useGetEntity from "../../hooks/apiHooks/useGetEntity";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
@@ -19,7 +19,7 @@ const SingleEntityPage: React.FunctionComponent<ISingleEntityPage> = (
 ) => {
   const { modelId, entityId } = useParams();
 
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const model: IModel | undefined = useAppSelector(

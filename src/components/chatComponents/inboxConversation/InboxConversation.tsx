@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 
 import {
@@ -25,7 +25,7 @@ interface IInboxConversation {
 const InboxConversation: React.FunctionComponent<IInboxConversation> = (
   props: IInboxConversation
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const totalUnreadMessages = useAppSelector(

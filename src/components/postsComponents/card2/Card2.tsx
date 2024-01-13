@@ -1,4 +1,4 @@
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 import shortenString from "../../../utils/shortenString";
 
@@ -10,7 +10,7 @@ interface ICard2 {
   backgroundImage?: string;
 }
 const Card2: React.FunctionComponent<ICard2> = (props: ICard2) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

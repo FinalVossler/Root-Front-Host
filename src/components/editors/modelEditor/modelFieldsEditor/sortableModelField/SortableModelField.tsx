@@ -4,7 +4,7 @@ import { BsHandIndexFill } from "react-icons/bs";
 import { AiFillDelete } from "react-icons/ai";
 import { useSortable } from "@dnd-kit/sortable";
 
-import { Theme } from "../../../../../config/theme";
+import { ITheme } from "../../../../../config/theme";
 import { useAppSelector } from "../../../../../store/hooks";
 import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 
@@ -39,7 +39,7 @@ interface ISortableModelField {
 const SortableModelField: React.FunctionComponent<ISortableModelField> = (
   props: ISortableModelField
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

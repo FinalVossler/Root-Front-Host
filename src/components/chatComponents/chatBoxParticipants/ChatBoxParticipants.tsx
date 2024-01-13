@@ -2,7 +2,7 @@ import React from "react";
 import { CgProfile } from "react-icons/cg";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   chatSlice,
@@ -24,7 +24,7 @@ const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
   //#region Store
   const user: IUser = useAppSelector((state) => state.user.user);
   const contacts: IUser[] = useAppSelector((state) => state.chat.contacts);
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const [otherParticipants, setOtherParticipants] = React.useState<IUser[]>([]);

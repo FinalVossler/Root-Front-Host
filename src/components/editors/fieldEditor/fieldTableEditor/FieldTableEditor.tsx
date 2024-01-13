@@ -5,7 +5,7 @@ import uuid from "react-uuid";
 import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 
-import { Theme } from "../../../../config/theme";
+import { ITheme } from "../../../../config/theme";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../store/hooks";
 import { FieldType } from "../../../../store/slices/fieldSlice";
@@ -26,7 +26,7 @@ interface IFieldTableEditor {
 const FieldTableEditor: React.FunctionComponent<IFieldTableEditor> = (
   props: IFieldTableEditor
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

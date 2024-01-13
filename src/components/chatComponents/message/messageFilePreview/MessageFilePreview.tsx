@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Theme } from "../../../../config/theme";
+import { ITheme } from "../../../../config/theme";
 import { useAppSelector } from "../../../../store/hooks";
 import IFile from "../../../../globalTypes/IFile";
 
@@ -18,7 +18,7 @@ interface IMessageFilePreview {
 const MessageFilePreview: React.FunctionComponent<IMessageFilePreview> = (
   props: IMessageFilePreview
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 

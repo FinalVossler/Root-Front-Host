@@ -2,7 +2,7 @@ import React from "react";
 
 import MicroFrontendEditor from "../../components/editors/microFrontendEditor";
 import Elements from "../../components/elements";
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useGetMicroFrontends from "../../hooks/apiHooks/useGetMicroFrontends";
 import useSearchMicroFrontends from "../../hooks/apiHooks/useSearchMicroFrontends";
@@ -25,7 +25,7 @@ interface IMicroFrontendsPage {}
 const MicroFrontendsPage: React.FunctionComponent<IMicroFrontendsPage> = (
   props: IMicroFrontendsPage
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(

@@ -6,7 +6,7 @@ import ReactLoading from "react-loading";
 import * as Yup from "yup";
 
 import Modal from "../../modal";
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import Button from "../../button";
 import { useAppSelector } from "../../../store/hooks";
 import { IPost } from "../../../store/slices/postSlice";
@@ -42,6 +42,9 @@ interface IPageEditorForm {
 
 interface IPageEditor {
   page?: IPage;
+
+  open: boolean;
+  setOpen: (open: boolean) => void;
 }
 
 const PageEditor = (props: IPageEditor) => {
@@ -52,9 +55,7 @@ const PageEditor = (props: IPageEditor) => {
     (state) => state.websiteConfiguration.staticText?.pages
   );
 
-  const [pageModalOpen, setPageModalOpen] = React.useState<boolean>(false);
-
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const styles = useStyles({ theme });
@@ -127,7 +128,7 @@ const PageEditor = (props: IPageEditor) => {
         };
         await createPage(command);
       }
-      setPageModalOpen(false);
+      props.setOpen(false);
     },
   });
 
@@ -147,12 +148,8 @@ const PageEditor = (props: IPageEditor) => {
     );
   }, []);
 
-  const handleOpenModal = () => {
-    setPageModalOpen(true);
-  };
-
   const handleCloseModal = () => {
-    setPageModalOpen(false);
+    props.setOpen(false);
   };
   //#endregion Event listeners
 
@@ -161,112 +158,91 @@ const PageEditor = (props: IPageEditor) => {
 
   const loading = createLoading || updateLoading;
   return (
-    <div className={styles.pageEditorContainer}>
-      <div
-        onClick={handleOpenModal}
-        className={styles.createPageButtonContainer}
+    <Modal handleClose={handleCloseModal} open={props.open}>
+      <form
+        onSubmit={formik.handleSubmit}
+        className={styles.createPageModalContainer}
       >
-        <AiFillPlusCircle
-          color={theme.primary}
-          className={styles.pageEditorPlusIcon}
-        />{" "}
-        <span className={styles.addPageText}>
-          {props.page
-            ? getTranslatedText(staticText?.updatePage)
-            : getTranslatedText(staticText?.addPage)}
-        </span>
-      </div>
+        <div className={styles.createPageHeader}>
+          <h2 className={styles.createPageTitle}>
+            {props.page
+              ? getTranslatedText(staticText?.updatePage)
+              : getTranslatedText(staticText?.addPage)}
+          </h2>
 
-      <Modal handleClose={handleCloseModal} open={pageModalOpen}>
-        <form
-          onSubmit={formik.handleSubmit}
-          className={styles.createPageModalContainer}
-        >
-          <div className={styles.createPageHeader}>
-            <h2 className={styles.createPageTitle}>
-              {props.page
-                ? getTranslatedText(staticText?.updatePage)
-                : getTranslatedText(staticText?.addPage)}
-            </h2>
+          <ImCross onClick={handleCloseModal} className={styles.closeButton} />
+        </div>
 
-            <ImCross
-              onClick={handleCloseModal}
-              className={styles.closeButton}
-            />
-          </div>
+        <Input
+          Icon={MdTitle}
+          formik={formik}
+          name="title"
+          inputProps={{
+            placeholder: getTranslatedText(staticText?.title),
+          }}
+        />
 
-          <Input
-            Icon={MdTitle}
-            formik={formik}
-            name="title"
-            inputProps={{
-              placeholder: getTranslatedText(staticText?.title),
-            }}
+        <Input
+          Icon={MdTitle}
+          formik={formik}
+          name="slug"
+          inputProps={{
+            placeholder: getTranslatedText(staticText?.slug),
+          }}
+        />
+
+        <Checkbox
+          label={getTranslatedText(staticText?.showInHeader)}
+          formik={formik}
+          name="showInHeader"
+        />
+
+        <Checkbox
+          label={getTranslatedText(staticText?.showInSideMenu)}
+          formik={formik}
+          name="showInSideMenu"
+        />
+
+        <InputSelect
+          label={getTranslatedText(staticText?.language)}
+          name="language"
+          formik={formik}
+          options={getLanguages()}
+          value={
+            getLanguages().find((el) => el.value === formik.values.language) ||
+            getLanguages()[0]
+          }
+        />
+
+        <PostsEditor
+          setSelectedPosts={handleSetSelectedPosts}
+          page={props.page}
+        />
+
+        {!loading && (
+          <Button
+            disabled={loading}
+            type="submit"
+            style={{}}
+            className={styles.button}
+          >
+            {props.page
+              ? getTranslatedText(staticText?.updatePage)
+              : getTranslatedText(staticText?.createPage)}
+          </Button>
+        )}
+
+        {loading && (
+          <ReactLoading
+            className={styles.loading}
+            type={"spin"}
+            color={theme.primary}
+            width={36}
+            height={36}
           />
-
-          <Input
-            Icon={MdTitle}
-            formik={formik}
-            name="slug"
-            inputProps={{
-              placeholder: getTranslatedText(staticText?.slug),
-            }}
-          />
-
-          <Checkbox
-            label={getTranslatedText(staticText?.showInHeader)}
-            formik={formik}
-            name="showInHeader"
-          />
-
-          <Checkbox
-            label={getTranslatedText(staticText?.showInSideMenu)}
-            formik={formik}
-            name="showInSideMenu"
-          />
-
-          <InputSelect
-            label={getTranslatedText(staticText?.language)}
-            name="language"
-            formik={formik}
-            options={getLanguages()}
-            value={
-              getLanguages().find(
-                (el) => el.value === formik.values.language
-              ) || getLanguages()[0]
-            }
-          />
-
-          <PostsEditor
-            setSelectedPosts={handleSetSelectedPosts}
-            page={props.page}
-          />
-
-          {!loading && (
-            <Button
-              disabled={loading}
-              type="submit"
-              style={{}}
-              className={styles.button}
-            >
-              {props.page
-                ? getTranslatedText(staticText?.updatePage)
-                : getTranslatedText(staticText?.createPage)}
-            </Button>
-          )}
-
-          {loading && (
-            <ReactLoading
-              className={styles.loading}
-              type={"spin"}
-              color={theme.primary}
-              width={36}
-              height={36}
-            />
-          )}
-        </form>
-      </Modal>
-    </div>
+        )}
+      </form>
+    </Modal>
   );
 };
 

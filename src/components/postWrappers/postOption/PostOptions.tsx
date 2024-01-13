@@ -3,7 +3,7 @@ import React from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { toast } from "react-toastify";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
 import useOnClickOutside from "../../../hooks/useOnClickOutside";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
@@ -21,7 +21,7 @@ interface IPostOptions {
 const PostWrapper: React.FunctionComponent<IPostOptions> = (
   props: IPostOptions
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const user: IUser = useAppSelector((state) => state.user.user);

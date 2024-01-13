@@ -1,7 +1,7 @@
 import React from "react";
 import Loading from "react-loading";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 import useGetLastConversationsLastMessages from "../../../hooks/apiHooks/useGetLastConversationsLastMessages";
 
@@ -27,7 +27,7 @@ const LIMIT = 99;
 const LastConversationsLastMessages: React.FunctionComponent<
   ILastConversationsLastMessages
 > = (props: ILastConversationsLastMessages) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const lastConversationsLastMessages = useAppSelector(

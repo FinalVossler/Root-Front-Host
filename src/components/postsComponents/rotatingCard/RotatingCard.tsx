@@ -1,4 +1,4 @@
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 import shortenString from "../../../utils/shortenString";
 
@@ -12,7 +12,7 @@ interface IRotatingCard {
 const RotatingCard: React.FunctionComponent<IRotatingCard> = (
   props: IRotatingCard
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const styles = useStyles({ theme });

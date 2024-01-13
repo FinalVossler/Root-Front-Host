@@ -1,7 +1,7 @@
 import React from "react";
 import { BsChatDots } from "react-icons/bs";
 
-import { Theme } from "../../../config/theme";
+import { ITheme } from "../../../config/theme";
 import useOnClickOutside from "../../../hooks/useOnClickOutside";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 
@@ -17,7 +17,7 @@ interface IHeaderInbox {}
 const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
   props: IHeaderInbox
 ) => {
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const totalUnreadMessages: number = useAppSelector(

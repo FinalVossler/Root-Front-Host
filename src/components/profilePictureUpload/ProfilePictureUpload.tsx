@@ -4,7 +4,7 @@ import ReactLoading from "react-loading";
 import { toast } from "react-toastify";
 
 import Button from "../button";
-import { Theme } from "../../config/theme";
+import { ITheme } from "../../config/theme";
 
 import useStyles from "./profilePictureUpload.styles";
 import { useAppSelector } from "../../store/hooks";
@@ -30,13 +30,14 @@ const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
   );
 
   const [file, setFile] = React.useState<File | null>(null);
-  const [selectedOwnFile, setSelectedOwnFile] =
-    React.useState<IFile | null>(null);
+  const [selectedOwnFile, setSelectedOwnFile] = React.useState<IFile | null>(
+    null
+  );
   const [fileAsBase64, setFileAsBase64] = React.useState<string | null>(null);
   const [uploadingFileLoading, setUploadingFileLoading] =
     React.useState<boolean>(false);
 
-  const theme: Theme = useAppSelector(
+  const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const inputRef = React.useRef<HTMLInputElement>();
