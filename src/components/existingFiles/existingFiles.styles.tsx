@@ -53,11 +53,12 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   fileIcon: {
     extend: "singleFileContainer",
     color: theme.primary,
+    border: "none",
   },
   fileName: {
     textAlign: "center",
     color: theme.darkTextColor,
-    width: "100%",
+    width: "90%",
     overflow: "auto",
     paddingBottom: 10,
   },
