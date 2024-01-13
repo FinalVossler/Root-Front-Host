@@ -424,7 +424,10 @@ const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
                       <input
                         className={styles.actionCheckbox}
                         type="checkbox"
-                        checked={selectedElementsIds.length === elements.length}
+                        checked={
+                          selectedElementsIds.length === elements.length &&
+                          selectedElementsIds.length > 0
+                        }
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           setSelectedElementsIds(
                             elements.length !== selectedElementsIds.length
