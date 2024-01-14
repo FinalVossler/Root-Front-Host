@@ -1,4 +1,5 @@
 import React from "react";
+import { MdDelete } from "react-icons/md";
 
 import { ITheme } from "../../../../config/theme";
 import useSearchRoles from "../../../../hooks/apiHooks/useSearchRoles";
@@ -9,7 +10,6 @@ import SearchInput from "../../../searchInput";
 import { IRole } from "../../../../store/slices/roleSlice";
 
 import useStyles from "./roleEntityUserAssignmentPermissions.styles";
-import { MdDelete } from "react-icons/md";
 
 interface IRoleEntityUserAssignmentPermissionsProps {
   modelId?: string;
