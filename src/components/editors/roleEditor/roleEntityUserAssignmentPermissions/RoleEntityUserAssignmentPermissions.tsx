@@ -9,7 +9,7 @@ import Checkbox from "../../../checkbox";
 import SearchInput from "../../../searchInput";
 import { IRole } from "../../../../store/slices/roleSlice";
 
-import useStyles from "./roleEntityUserAssignmentPermissions.styles";
+import useStyles from "./RoleEntityUserAssignmentPermissions.styles";
 
 interface IRoleEntityUserAssignmentPermissionsProps {
   modelId?: string;
