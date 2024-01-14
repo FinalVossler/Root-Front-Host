@@ -6,7 +6,7 @@ import Modal from "../../modal";
 import { IEntity } from "../../../store/slices/entitySlice";
 import EntityEditorForm from "./EntityEditorForm";
 
-export interface IEntityEditor {
+export interface IEntityEditorProps {
   entity?: IEntity;
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -14,7 +14,9 @@ export interface IEntityEditor {
   modelId?: string;
 }
 
-const EntityEditor = (props: IEntityEditor) => {
+const EntityEditor: React.FunctionComponent<IEntityEditorProps> = (
+  props: IEntityEditorProps
+) => {
   const { modelId } = useParams();
   const actualModelId = React.useMemo(
     () => props.modelId ?? modelId,

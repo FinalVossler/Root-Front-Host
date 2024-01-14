@@ -26,14 +26,16 @@ export enum TypeOfFiles {
   UnownedFiles = "UnownedFiles",
 }
 
-interface IExistingFiles {
+interface IExistingFilesProps {
   selectedExistingFiles: IFile[];
   setSelectedExistingFiles: (existingFiles: IFile[]) => void;
   typeOfFiles: TypeOfFiles;
   disabled?: boolean;
 }
 
-const ExistingFiles = (props: IExistingFiles) => {
+const ExistingFiles: React.FunctionComponent<IExistingFilesProps> = (
+  props: IExistingFilesProps
+) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

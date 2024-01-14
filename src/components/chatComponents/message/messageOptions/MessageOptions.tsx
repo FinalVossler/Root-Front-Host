@@ -22,12 +22,12 @@ import useCreateReaction, {
 } from "../../../../hooks/apiHooks/useCreateReaction";
 import Loading from "react-loading";
 
-interface IMessageOptions {
+interface IMessageOptionsProps {
   message: IMessage;
 }
 
-const MessageOptions: React.FunctionComponent<IMessageOptions> = (
-  props: IMessageOptions
+const MessageOptions: React.FunctionComponent<IMessageOptionsProps> = (
+  props: IMessageOptionsProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

@@ -25,15 +25,14 @@ import useGetRoles, {
 } from "../../../hooks/apiHooks/useGetRoles";
 import InputSelect from "../../inputSelect";
 import { IRole } from "../../../store/slices/roleSlice";
-import Checkbox from "../../checkbox";
 
-export interface IUserEditor {
+export interface IUserEditorProps {
   user?: IUser;
   open?: boolean;
   setOpen?: (boolean) => void;
 }
 
-interface IUserForm {
+interface IUserFormFormik {
   firstName: string;
   lastName: string;
   email: string;
@@ -43,7 +42,9 @@ interface IUserForm {
   superRole: SuperRole;
 }
 
-const UserEditor = (props: IUserEditor) => {
+const UserEditor: React.FunctionComponent<IUserEditorProps> = (
+  props: IUserEditorProps
+) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
@@ -62,7 +63,7 @@ const UserEditor = (props: IUserEditor) => {
   const { createUser, loading: createLoading } = useCreateUser();
   const { updateUser, loading: updateLoading } = useUpdateUser();
   const { getRoles, loading: getRolesLoading } = useGetRoles();
-  const formik: FormikProps<IUserForm> = useFormik<IUserForm>({
+  const formik: FormikProps<IUserFormFormik> = useFormik<IUserFormFormik>({
     initialValues: {
       firstName: "",
       lastName: "",
@@ -91,7 +92,7 @@ const UserEditor = (props: IUserEditor) => {
         (confirmPassword) => confirmPassword === formik.values.password
       ),
     }),
-    onSubmit: async (values: IUserForm) => {
+    onSubmit: async (values: IUserFormFormik) => {
       if (props.user) {
         const command: UserUpdateCommand = {
           _id: props.user._id,

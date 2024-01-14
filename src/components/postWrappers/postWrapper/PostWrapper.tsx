@@ -8,13 +8,13 @@ import { IPost } from "../../../store/slices/postSlice";
 
 import useStyles from "./postWrapper.styles";
 
-interface IPostWrapper {
+interface IPostWrapperProps {
   post: IPost;
 }
 
 const PostWrapper: React.FunctionComponent<
-  React.PropsWithChildren<IPostWrapper>
-> = (props: React.PropsWithChildren<IPostWrapper>) => {
+  React.PropsWithChildren<IPostWrapperProps>
+> = (props: React.PropsWithChildren<IPostWrapperProps>) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

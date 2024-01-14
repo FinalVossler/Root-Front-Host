@@ -15,9 +15,9 @@ import LastConversationsLastMessages from "../lastConversationsLastMessages";
 
 const LIMIT = 10;
 
-interface IChatContacts {}
-const ChatContacts: React.FunctionComponent<IChatContacts> = (
-  props: IChatContacts
+interface IChatContactsProps {}
+const ChatContacts: React.FunctionComponent<IChatContactsProps> = (
+  props: IChatContactsProps
 ) => {
   const contacts: IUser[] = useAppSelector((state) => state.chat.contacts);
   const selectedConversationId: string | undefined = useAppSelector(

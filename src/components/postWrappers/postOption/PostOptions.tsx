@@ -14,12 +14,12 @@ import PostEditor from "../../editors/postEditor";
 
 import useStyles from "./postOptions.styles";
 
-interface IPostOptions {
+interface IPostOptionsProps {
   post: IPost;
 }
 
-const PostWrapper: React.FunctionComponent<IPostOptions> = (
-  props: IPostOptions
+const PostWrapper: React.FunctionComponent<IPostOptionsProps> = (
+  props: IPostOptionsProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

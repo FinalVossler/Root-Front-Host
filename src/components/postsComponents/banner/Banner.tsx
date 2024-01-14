@@ -5,13 +5,13 @@ import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./banner.styles";
 
-interface IBanner {
+interface IBannerProps {
   title?: string;
   description?: string;
   hideTitle?: boolean;
   hideDescription?: boolean;
 }
-const Banner: React.FunctionComponent<IBanner> = (props: IBanner) => {
+const Banner: React.FunctionComponent<IBannerProps> = (props: IBannerProps) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

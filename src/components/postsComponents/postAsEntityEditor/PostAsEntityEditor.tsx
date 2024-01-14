@@ -11,12 +11,12 @@ import EntityEditor from "../../editors/entityEditor";
 
 import useStyles from "./styles";
 
-interface IPostAsEntityEditor {
+interface IPostAsEntityEditorProps {
   post: IPost;
 }
 
-const PostAsEntityEditor: React.FunctionComponent<IPostAsEntityEditor> = (
-  props: IPostAsEntityEditor
+const PostAsEntityEditor: React.FunctionComponent<IPostAsEntityEditorProps> = (
+  props: IPostAsEntityEditorProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

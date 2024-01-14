@@ -7,7 +7,7 @@ import { IWebsiteConfiguration } from "../../../store/slices/websiteConfiguratio
 
 import useStyles from "./footer.styles";
 
-interface IFooter {
+interface IFooterProps {
   title?: string;
   instagram?: string;
   facebook?: string;
@@ -16,7 +16,7 @@ interface IFooter {
   description?: string;
 }
 
-const Footer: React.FunctionComponent<IFooter> = (props: IFooter) => {
+const Footer: React.FunctionComponent<IFooterProps> = (props: IFooterProps) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

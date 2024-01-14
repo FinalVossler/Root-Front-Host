@@ -31,7 +31,7 @@ type TrackedFile = {
   indexInParent: number;
 };
 
-interface IFilesInput {
+interface IFilesInputProps {
   setFiles: (files: File[]) => void;
   files: File[];
   selectedExistingFiles: IFile[];
@@ -44,7 +44,9 @@ interface IFilesInput {
   canChooseFromExistingFiles?: boolean;
 }
 
-const FilesInput = (props: IFilesInput) => {
+const FilesInput: React.FunctionComponent<IFilesInputProps> = (
+  props: IFilesInputProps
+) => {
   const allowMany = props.allowMany ?? true;
   const canAddNew = props.canAddNew ?? true;
 

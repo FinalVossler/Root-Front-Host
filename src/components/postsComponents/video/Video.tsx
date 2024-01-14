@@ -8,12 +8,12 @@ import Modal from "../../modal";
 
 import useStyles from "./video.styles";
 
-interface IVideo {
+interface IVideoProps {
   title?: string;
   videoId?: string;
 }
 
-const Video: React.FunctionComponent<IVideo> = (props: IVideo) => {
+const Video: React.FunctionComponent<IVideoProps> = (props: IVideoProps) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

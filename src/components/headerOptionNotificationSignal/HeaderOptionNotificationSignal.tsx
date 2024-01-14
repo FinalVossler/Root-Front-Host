@@ -5,13 +5,13 @@ import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./headerOptionNotificationSignal.styles";
 
-interface IHeaderOptionNotificationSignal {
+interface IHeaderOptionNotificationSignalProps {
   numberOfNotifications?: number;
 }
 
 const HeaderOptionNotificationSignal: React.FunctionComponent<
-  IHeaderOptionNotificationSignal
-> = (props: IHeaderOptionNotificationSignal) => {
+  IHeaderOptionNotificationSignalProps
+> = (props: IHeaderOptionNotificationSignalProps) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

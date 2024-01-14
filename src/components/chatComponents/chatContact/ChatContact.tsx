@@ -16,12 +16,12 @@ import UserProfilePicture from "../../userProfilePicture";
 import { SizeEnum } from "../../userProfilePicture/UserProfilePicture";
 import useGetConversationTotalUnreadMessages from "../../../hooks/apiHooks/useGetConversationTotalUnreadMessages";
 
-interface IChatContact {
+interface IChatContactProps {
   contact: IUser;
 }
 
-const ChatContact: React.FunctionComponent<IChatContact> = (
-  props: IChatContact
+const ChatContact: React.FunctionComponent<IChatContactProps> = (
+  props: IChatContactProps
 ) => {
   const userId: string = useAppSelector<string>((state) => state.user.user._id);
   const selectedConversationId: string | undefined = useAppSelector(

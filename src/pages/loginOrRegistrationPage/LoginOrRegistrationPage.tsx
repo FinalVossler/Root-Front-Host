@@ -20,10 +20,10 @@ enum ActiveForm {
   ForgotPassword = "ForgotPassword",
 }
 
-interface ILoginOrRegistrationPage {}
+interface ILoginOrRegistrationPageProps {}
 const LoginOrRegistrationPage: React.FunctionComponent<
-  ILoginOrRegistrationPage
-> = (props: ILoginOrRegistrationPage) => {
+  ILoginOrRegistrationPageProps
+> = (props: ILoginOrRegistrationPageProps) => {
   //#region store
   const withRegistration: boolean | undefined = useAppSelector(
     (state) => state.websiteConfiguration.withRegistration

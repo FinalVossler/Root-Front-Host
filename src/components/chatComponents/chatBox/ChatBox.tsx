@@ -34,13 +34,15 @@ export enum BoxType {
   FullPageBox = "FullPageBox",
 }
 
-interface IChatBox {
+interface IChatBoxProps {
   conversationId: string;
   boxType: BoxType;
 }
 
 let lastMessageId: string | null = null;
-const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
+const ChatBox: React.FunctionComponent<IChatBoxProps> = (
+  props: IChatBoxProps
+) => {
   //#region Store
   const user: IUser = useAppSelector((state) => state.user.user);
   const conversation: Conversation | undefined = useAppSelector(

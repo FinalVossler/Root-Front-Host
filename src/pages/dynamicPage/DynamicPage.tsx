@@ -11,10 +11,10 @@ import useStyles from "./dynamicPage.styles";
 import { useParams } from "react-router-dom";
 import withChat from "../../hoc/withChat";
 
-interface IDynamicPage {}
+interface IDynamicPageProps {}
 
-const DynamicPage: React.FunctionComponent<IDynamicPage> = (
-  props: IDynamicPage
+const DynamicPage: React.FunctionComponent<IDynamicPageProps> = (
+  props: IDynamicPageProps
 ) => {
   const { pageSlug } = useParams();
 

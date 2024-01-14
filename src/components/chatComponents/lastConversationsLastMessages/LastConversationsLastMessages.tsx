@@ -18,15 +18,15 @@ import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import useGetUserTotalUnreadMessages from "../../../hooks/apiHooks/useGetUserTotalUnreadMessages";
 import InboxConversation from "../inboxConversation";
 
-interface ILastConversationsLastMessages {
+interface ILastConversationsLastMessagesProps {
   onSelectConversation: (conversationId: string) => void;
 }
 
 const LIMIT = 99;
 
 const LastConversationsLastMessages: React.FunctionComponent<
-  ILastConversationsLastMessages
-> = (props: ILastConversationsLastMessages) => {
+  ILastConversationsLastMessagesProps
+> = (props: ILastConversationsLastMessagesProps) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

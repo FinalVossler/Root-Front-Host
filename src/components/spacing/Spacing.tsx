@@ -5,10 +5,12 @@ import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./spacing.styles";
 
-interface ISpacing {
+interface ISpacingProps {
   height?: string;
 }
-const Spacing: React.FunctionComponent<ISpacing> = (props: ISpacing) => {
+const Spacing: React.FunctionComponent<ISpacingProps> = (
+  props: ISpacingProps
+) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

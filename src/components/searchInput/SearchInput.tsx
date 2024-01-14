@@ -11,7 +11,7 @@ import PaginationCommand from "../../globalTypes/PaginationCommand";
 import { useAppSelector } from "../../store/hooks";
 import Pagination from "../pagination";
 
-interface ISearchInput {
+interface ISearchInputProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
   searchPromise: (
     searchText: string,
@@ -27,8 +27,8 @@ interface ISearchInput {
 
 const LIMIT = 10;
 
-const SearchInput: React.FunctionComponent<ISearchInput> = (
-  props: ISearchInput
+const SearchInput: React.FunctionComponent<ISearchInputProps> = (
+  props: ISearchInputProps
 ) => {
   const [value, setValue] = React.useState("");
   const [paginationCommand, setPaginationCommand] =

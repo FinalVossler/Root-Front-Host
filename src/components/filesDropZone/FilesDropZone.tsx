@@ -9,13 +9,13 @@ import { useAppSelector } from "../../store/hooks";
 import useStyles from "./filesDropZone.styles";
 import { toast } from "react-toastify";
 
-interface IFilesDropZone {
+interface IFilesDropZoneProps {
   onDrop: (files: File[]) => any;
   disabled?: boolean;
 }
 
-const FilesDropZone: React.FunctionComponent<IFilesDropZone> = (
-  props: IFilesDropZone
+const FilesDropZone: React.FunctionComponent<IFilesDropZoneProps> = (
+  props: IFilesDropZoneProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

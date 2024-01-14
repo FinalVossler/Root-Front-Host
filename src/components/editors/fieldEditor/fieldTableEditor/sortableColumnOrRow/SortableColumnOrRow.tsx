@@ -6,7 +6,7 @@ import { CSS } from "@dnd-kit/utilities";
 import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../../store/hooks";
 import Input from "../../../../input";
-import { FieldTableElementForm, IFieldForm } from "../../FieldEditor";
+import { FieldTableElementForm, IFieldFormFormik } from "../../FieldEditor";
 import { BsHandIndexFill } from "react-icons/bs";
 
 import useStyles from "./sortableColumnOrRow.styles";
@@ -17,16 +17,16 @@ export enum ColumnOrRow {
   Row = "Row",
 }
 
-interface ISortableColumnOrRow {
-  formik: FormikProps<IFieldForm>;
+interface ISortableColumnOrRowProps {
+  formik: FormikProps<IFieldFormFormik>;
   columnOrRow: FieldTableElementForm;
   isColumnOrRow: ColumnOrRow;
   index: number;
 }
 
-const SortableColumnOrRow: React.FunctionComponent<ISortableColumnOrRow> = (
-  props: ISortableColumnOrRow
-) => {
+const SortableColumnOrRow: React.FunctionComponent<
+  ISortableColumnOrRowProps
+> = (props: ISortableColumnOrRowProps) => {
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.fields
   );

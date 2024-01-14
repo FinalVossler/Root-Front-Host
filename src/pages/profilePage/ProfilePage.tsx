@@ -16,9 +16,9 @@ import useGetUser from "../../hooks/apiHooks/useGetUser";
 import UserProfilePicture from "../../components/userProfilePicture";
 import { SizeEnum } from "../../components/userProfilePicture/UserProfilePicture";
 
-interface IProfilePage {}
-const ProfilePage: React.FunctionComponent<IProfilePage> = (
-  props: IProfilePage
+interface IProfilePageProps {}
+const ProfilePage: React.FunctionComponent<IProfilePageProps> = (
+  props: IProfilePageProps
 ) => {
   const { userId } = useParams();
 

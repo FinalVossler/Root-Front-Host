@@ -3,12 +3,12 @@ import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./card.styles";
 
-interface ICard {
+interface ICardProps {
   title: string;
   description: string;
   backgroundImage: string;
 }
-const Card: React.FunctionComponent<ICard> = (props: ICard) => {
+const Card: React.FunctionComponent<ICardProps> = (props: ICardProps) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

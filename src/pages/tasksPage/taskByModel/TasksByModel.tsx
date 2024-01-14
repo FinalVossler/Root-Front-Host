@@ -24,12 +24,12 @@ import ViewTabs from "../../../components/elements/viewTabs";
 
 const LIMIT = 99;
 
-interface ITasksByModel {
+interface ITasksByModelProps {
   modelId: string;
 }
 
-const TasksByModel: React.FunctionComponent<ITasksByModel> = (
-  props: ITasksByModel
+const TasksByModel: React.FunctionComponent<ITasksByModelProps> = (
+  props: ITasksByModelProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
@@ -225,7 +225,9 @@ const TasksByModel: React.FunctionComponent<ITasksByModel> = (
           </table>
         )}
 
-        {loading && <Loading color={theme.primary} />}
+        {viewType === ViewTypeEnum.Table && loading && (
+          <Loading color={theme.primary} />
+        )}
 
         <Pagination
           total={total || 0}

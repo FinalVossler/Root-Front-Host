@@ -18,7 +18,7 @@ import useStyles from "./elementsBoard.styles";
 import StateTracking from "../../postsComponents/stateTracking";
 import EntityCard from "./EntityCard";
 
-interface IElementsBoard {
+interface IElementsBoardProps {
   modelId: string;
   entities: IEntity[];
   forStatusTracking: boolean;
@@ -31,8 +31,8 @@ interface IElementsBoard {
   loading: boolean;
 }
 
-const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
-  props: IElementsBoard
+const ElementsBoard: React.FunctionComponent<IElementsBoardProps> = (
+  props: IElementsBoardProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
@@ -105,8 +105,6 @@ const ElementsBoard: React.FunctionComponent<IElementsBoard> = (
         boardPattern.map(({ modelState, entities }) => {
           return (
             <React.Fragment key={modelState._id}>
-              {props.loading && <Loading color={theme.primary} />}
-
               {entities.map((entity, entityIndex) => (
                 <div
                   key={entityIndex}

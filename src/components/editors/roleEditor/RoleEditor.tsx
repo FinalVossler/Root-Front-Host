@@ -43,12 +43,6 @@ import RoleEntityEventsNotification from "./roleEntityEventsNotification/RoleEnt
 import RoleEntityUserAssignmentPermissions from "./roleEntityUserAssignmentPermissions";
 import ExtendSection from "../../extendSection";
 
-export interface IRoleEditor {
-  role?: IRole;
-  open?: boolean;
-  setOpen?: (open: boolean) => void;
-}
-
 export interface IEntityEventNotificationForm {
   _id?: string;
   title: string;
@@ -79,7 +73,13 @@ export interface IRoleForm {
   entityPermissions: IRoleFormEntityPermission[];
 }
 
-const RoleEditor = (props: IRoleEditor) => {
+export interface IRoleEditorProps {
+  role?: IRole;
+  open?: boolean;
+  setOpen?: (open: boolean) => void;
+}
+
+const RoleEditor = (props: IRoleEditorProps) => {
   const language: string = useAppSelector(
     (state) => state.userPreferences.language
   );

@@ -10,14 +10,16 @@ import doesEntityMeetModelStateCondition from "../../../../utils/doesEntityMeetM
 import getModelStateConcernedFields from "../../../../utils/getModelStateConcernedFields";
 import { BiCheck } from "react-icons/bi";
 
-export interface IEntityEditorStates {
+export interface IEntityEditorStatesProps {
   entity: IEntity;
   modelId: string;
 }
 
 // Hint: Own files are files already uploaded.
 // NewFiles are the new files selected by the user in the file input
-const EntityEditorStates = (props: IEntityEditorStates) => {
+const EntityEditorStates: React.FunctionComponent<IEntityEditorStatesProps> = (
+  props: IEntityEditorStatesProps
+) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

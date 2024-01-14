@@ -17,7 +17,7 @@ import useRegister, {
 } from "../../hooks/apiHooks/useRegister";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
-interface IRegistrationFormForm {
+interface IRegistrationFormFormik {
   firstName: string;
   lastName: string;
   email: string;
@@ -25,9 +25,9 @@ interface IRegistrationFormForm {
   confirmPassword: string;
 }
 
-interface IRegistrationForm {}
-const Registration: React.FunctionComponent<IRegistrationForm> = (
-  props: IRegistrationForm
+interface IRegistrationFormProps {}
+const Registration: React.FunctionComponent<IRegistrationFormProps> = (
+  props: IRegistrationFormProps
 ) => {
   const withRegistration: boolean | undefined = useAppSelector(
     (state) => state.websiteConfiguration.withRegistration
@@ -41,8 +41,8 @@ const Registration: React.FunctionComponent<IRegistrationForm> = (
 
   const { register, loading } = useRegister();
 
-  const formik: FormikProps<IRegistrationFormForm> =
-    useFormik<IRegistrationFormForm>({
+  const formik: FormikProps<IRegistrationFormFormik> =
+    useFormik<IRegistrationFormFormik>({
       initialValues: {
         firstName: "",
         lastName: "",
@@ -68,7 +68,7 @@ const Registration: React.FunctionComponent<IRegistrationForm> = (
             message: "Password don't match",
           }),
       }),
-      onSubmit: async (values: IRegistrationFormForm) => {
+      onSubmit: async (values: IRegistrationFormFormik) => {
         const command: UserRegisterCommand = {
           firstName: values.firstName,
           lastName: values.lastName,

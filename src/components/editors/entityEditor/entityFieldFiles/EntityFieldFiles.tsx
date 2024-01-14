@@ -8,7 +8,7 @@ import { FormikProps } from "formik";
 
 import IFile from "../../../../globalTypes/IFile";
 import {
-  IEntityEditorFormForm,
+  IEntityEditorFormFormik,
   IEntityFieldValueForm,
 } from "../EntityEditorForm";
 import { IModelField } from "../../../../store/slices/modelSlice";
@@ -28,8 +28,8 @@ type TrackedImage = {
   file: File;
 };
 
-export interface IEntityFieldFiles {
-  formik: FormikProps<IEntityEditorFormForm>;
+export interface IEntityFieldFilesProps {
+  formik: FormikProps<IEntityEditorFormFormik>;
   modelField: IModelField;
   entityFieldValue?: IEntityFieldValueForm;
   disabled?: boolean;
@@ -37,7 +37,9 @@ export interface IEntityFieldFiles {
 
 // Hint: Own files are files already uploaded.
 // NewFiles are the new files selected by the user in the file input
-const EntityFieldFiles = (props: IEntityFieldFiles) => {
+const EntityFieldFiles: React.FunctionComponent<IEntityFieldFilesProps> = (
+  props: IEntityFieldFilesProps
+) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

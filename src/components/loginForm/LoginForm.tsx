@@ -16,13 +16,15 @@ import useLogin, { UserLoginCommand } from "../../hooks/apiHooks/useLogin";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { useNavigate } from "react-router-dom";
 
-interface ILoginFormForm {
+interface ILoginFormFormik {
   email: string;
   password: string;
 }
 
-interface ILoginForm {}
-const LoginForm: React.FunctionComponent<ILoginForm> = (props: ILoginForm) => {
+interface ILoginFormProps {}
+const LoginForm: React.FunctionComponent<ILoginFormProps> = (
+  props: ILoginFormProps
+) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
@@ -33,7 +35,7 @@ const LoginForm: React.FunctionComponent<ILoginForm> = (props: ILoginForm) => {
   const getTranslatedText = useGetTranslatedText();
   const navigate = useNavigate();
 
-  const formik: FormikProps<ILoginFormForm> = useFormik<ILoginFormForm>({
+  const formik: FormikProps<ILoginFormFormik> = useFormik<ILoginFormFormik>({
     initialValues: {
       email: "",
       password: "",
@@ -46,7 +48,7 @@ const LoginForm: React.FunctionComponent<ILoginForm> = (props: ILoginForm) => {
         .required("Password is required")
         .min(6, "Password length should be at least 6 characters"),
     }),
-    onSubmit: async (values: ILoginFormForm) => {
+    onSubmit: async (values: ILoginFormFormik) => {
       const command: UserLoginCommand = {
         email: values.email,
         password: values.password,

@@ -9,14 +9,14 @@ import { IMessage } from "../../../../store/slices/chatSlice";
 import { CgClose } from "react-icons/cg";
 import getFileType, { FileTypeEnum } from "../../../../utils/getFileType";
 
-interface IMessageFilePreview {
+interface IMessageFilePreviewProps {
   file: IFile;
   message: IMessage;
   onClose: () => void;
 }
 
-const MessageFilePreview: React.FunctionComponent<IMessageFilePreview> = (
-  props: IMessageFilePreview
+const MessageFilePreview: React.FunctionComponent<IMessageFilePreviewProps> = (
+  props: IMessageFilePreviewProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

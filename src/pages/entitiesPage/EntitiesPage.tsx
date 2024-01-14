@@ -8,10 +8,10 @@ import EntitiesList from "./entitiesList";
 
 import useStyles from "./entitiesPage.styles";
 
-interface IEntitiesPage {}
+interface IEntitiesPageProps {}
 
-const EntitiesPage: React.FunctionComponent<IEntitiesPage> = (
-  props: IEntitiesPage
+const EntitiesPage: React.FunctionComponent<IEntitiesPageProps> = (
+  props: IEntitiesPageProps
 ) => {
   const { modelId } = useParams();
 

@@ -6,15 +6,15 @@ import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./pagination.styles";
 
-interface IPagination {
+interface IPaginationProps {
   total: number;
   limit: number;
   page: number;
   onPageChange: (page: number) => void;
 }
 
-const Pagination: React.FunctionComponent<IPagination> = (
-  props: IPagination
+const Pagination: React.FunctionComponent<IPaginationProps> = (
+  props: IPaginationProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

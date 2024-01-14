@@ -10,13 +10,13 @@ import { Option } from "../inputSelect/InputSelect";
 
 import useStyles from "./inputLanguages.styles";
 
-interface IInputLanguages {
+interface IInputLanguagesProps {
   formik: FormikProps<any>;
   name: string;
 }
 
-const InputLanguages: React.FunctionComponent<IInputLanguages> = (
-  props: IInputLanguages
+const InputLanguages: React.FunctionComponent<IInputLanguagesProps> = (
+  props: IInputLanguagesProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

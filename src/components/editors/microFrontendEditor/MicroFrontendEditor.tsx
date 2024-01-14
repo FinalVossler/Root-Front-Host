@@ -24,19 +24,21 @@ import useCreateMicroFrontend, {
   MicroFrontendCreateCommand,
 } from "../../../hooks/apiHooks/useCreateMicroFrontend";
 
-export interface IMicroFrontendEditor {
-  microFrontend?: IMicroFrontend;
-  open?: boolean;
-  setOpen?: (open: boolean) => void;
-}
-
 export interface IMicroFrontendForm {
   name: string;
   remoteEntry: string;
   components: MicroFrontendComponentUpdateCommand[];
 }
 
-const MicroFrontendEditor = (props: IMicroFrontendEditor) => {
+export interface IMicroFrontendEditorProps {
+  microFrontend?: IMicroFrontend;
+  open?: boolean;
+  setOpen?: (open: boolean) => void;
+}
+
+const MicroFrontendEditor: React.FunctionComponent<
+  IMicroFrontendEditorProps
+> = (props: IMicroFrontendEditorProps) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

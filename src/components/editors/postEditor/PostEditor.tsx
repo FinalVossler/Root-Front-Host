@@ -37,13 +37,15 @@ import { TypeOfFiles } from "../../existingFiles/ExistingFiles";
 import { BiCode } from "react-icons/bi";
 import { IPage } from "../../../store/slices/pageSlice";
 
-interface IPostEditor {
+interface IPostEditorProps {
   post?: IPost;
   open?: boolean;
   setOpen?: (open: boolean) => void;
 }
 
-const PostEditor = (props: IPostEditor) => {
+const PostEditor: React.FunctionComponent<IPostEditorProps> = (
+  props: IPostEditorProps
+) => {
   const user: IUser = useAppSelector((state) => state.user.user);
   const pages: IPage[] = useAppSelector((state) => state.page.pages);
   const theme: ITheme = useAppSelector(

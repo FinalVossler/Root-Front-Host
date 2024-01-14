@@ -5,12 +5,12 @@ import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./titleAndText.styles";
 
-interface ITitleAndText {
+interface ITitleAndTextProps {
   title: string;
   description: string;
 }
-const TitleAndText: React.FunctionComponent<ITitleAndText> = (
-  props: ITitleAndText
+const TitleAndText: React.FunctionComponent<ITitleAndTextProps> = (
+  props: ITitleAndTextProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

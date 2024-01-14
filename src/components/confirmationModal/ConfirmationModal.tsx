@@ -7,7 +7,7 @@ import Button from "../button";
 
 import useStyles from "./confirmationModal.styles";
 
-interface IConfirmationModal {
+interface IConfirmationModalProps {
   onConfirm: () => void;
   modalOpen: boolean;
   setModalOpen: (isOpen: boolean) => void;
@@ -17,8 +17,8 @@ interface IConfirmationModal {
 }
 
 const ConfirmationModal: React.FunctionComponent<
-  React.PropsWithChildren<IConfirmationModal>
-> = (props: React.PropsWithChildren<IConfirmationModal>) => {
+  React.PropsWithChildren<IConfirmationModalProps>
+> = (props: React.PropsWithChildren<IConfirmationModalProps>) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

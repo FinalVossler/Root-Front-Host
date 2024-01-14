@@ -7,9 +7,11 @@ import TasksByModel from "./taskByModel";
 
 import useStyles from "./tasksPage.styles";
 
-interface ITasksPage {}
+interface ITasksPageProps {}
 
-const TasksPage: React.FunctionComponent<ITasksPage> = (props: ITasksPage) => {
+const TasksPage: React.FunctionComponent<ITasksPageProps> = (
+  props: ITasksPageProps
+) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

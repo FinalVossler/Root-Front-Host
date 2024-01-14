@@ -39,14 +39,16 @@ interface IPageEditorForm {
   language: string;
 }
 
-interface IPageEditor {
+interface IPageEditorProps {
   page?: IPage;
 
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
-const PageEditor = (props: IPageEditor) => {
+const PageEditor: React.FunctionComponent<IPageEditorProps> = (
+  props: IPageEditorProps
+) => {
   const language: string = useAppSelector(
     (state) => state.userPreferences.language
   );

@@ -17,10 +17,10 @@ import { Permission } from "../../store/slices/roleSlice";
 import useStyles from "./modelsPage.styles";
 import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 
-interface IModelsPage {}
+interface IModelsPageProps {}
 
-const ModelsPage: React.FunctionComponent<IModelsPage> = (
-  props: IModelsPage
+const ModelsPage: React.FunctionComponent<IModelsPageProps> = (
+  props: IModelsPageProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

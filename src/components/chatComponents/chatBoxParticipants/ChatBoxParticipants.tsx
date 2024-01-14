@@ -15,12 +15,14 @@ import { BoxType } from "../chatBox/ChatBox";
 import usegetContactsByIds from "../../../hooks/apiHooks/useGetContactsByIds";
 import ChatBoxParticipantsOptions from "../chatBoxParticipantsOptions";
 
-interface IChatBox {
+interface IChatBoxParticipantsProps {
   conversationId: string;
   boxType: BoxType;
 }
 
-const ChatBox: React.FunctionComponent<IChatBox> = (props: IChatBox) => {
+const ChatBox: React.FunctionComponent<IChatBoxParticipantsProps> = (
+  props: IChatBoxParticipantsProps
+) => {
   //#region Store
   const user: IUser = useAppSelector((state) => state.user.user);
   const contacts: IUser[] = useAppSelector((state) => state.chat.contacts);

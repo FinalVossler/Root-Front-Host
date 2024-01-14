@@ -5,7 +5,7 @@ import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./person.styles";
 
-interface IPerson {
+interface IPersonProps {
   name?: string;
   occupation?: string;
   description?: string;
@@ -13,7 +13,7 @@ interface IPerson {
   picture?: string;
 }
 
-const Person: React.FunctionComponent<IPerson> = (props: IPerson) => {
+const Person: React.FunctionComponent<IPersonProps> = (props: IPersonProps) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

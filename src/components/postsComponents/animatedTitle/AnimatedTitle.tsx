@@ -5,11 +5,11 @@ import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./animatedTitle.styles";
 
-interface IAnimatedTitle {
+interface IAnimatedTitleProps {
   title: string;
 }
-const AnimatedTitle: React.FunctionComponent<IAnimatedTitle> = (
-  props: IAnimatedTitle
+const AnimatedTitle: React.FunctionComponent<IAnimatedTitleProps> = (
+  props: IAnimatedTitleProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

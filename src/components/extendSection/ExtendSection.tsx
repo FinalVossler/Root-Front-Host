@@ -6,15 +6,15 @@ import { useAppSelector } from "../../store/hooks";
 import useStyles from "./extendSection.styles";
 import { MdArrowDownward, MdArrowUpward } from "react-icons/md";
 
-interface IExtendSection {
+interface IExtendSectionProps {
   onClick: () => void;
   title: string;
   isSectionShown: boolean;
   dataCy?: string;
 }
 
-const ExtendSection: React.FunctionComponent<IExtendSection> = (
-  props: IExtendSection
+const ExtendSection: React.FunctionComponent<IExtendSectionProps> = (
+  props: IExtendSectionProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

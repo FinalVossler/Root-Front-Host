@@ -23,9 +23,9 @@ type ChangePasswordFormik = {
   confirmNewPassword: string;
 };
 
-interface IChangePasswordForm {}
-const ChangePasswordForm: React.FunctionComponent<IChangePasswordForm> = (
-  props: IChangePasswordForm
+interface IChangePasswordFormProps {}
+const ChangePasswordForm: React.FunctionComponent<IChangePasswordFormProps> = (
+  props: IChangePasswordFormProps
 ) => {
   const user: IUser = useAppSelector((state) => state.user.user);
   const theme: ITheme = useAppSelector(

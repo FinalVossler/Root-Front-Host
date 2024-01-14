@@ -5,14 +5,14 @@ import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./titleTextAndImage.styles";
 
-interface ITitleTextAndImage {
+interface ITitleTextAndImageProps {
   title?: string;
   description?: string;
   imageUrl?: string;
 }
 
-const TitleTextAndImage: React.FunctionComponent<ITitleTextAndImage> = (
-  props: ITitleTextAndImage
+const TitleTextAndImage: React.FunctionComponent<ITitleTextAndImageProps> = (
+  props: ITitleTextAndImageProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

@@ -24,13 +24,13 @@ import { AiFillEye } from "react-icons/ai";
 import getFileType, { FileTypeEnum } from "../../../utils/getFileType";
 import { BsFiletypeJson } from "react-icons/bs";
 
-interface IMessageComponent {
+interface IMessageComponentProps {
   message: IMessage;
   socket: Socket;
   conversation: Conversation;
 }
-const Message: React.FunctionComponent<IMessageComponent> = (
-  props: IMessageComponent
+const Message: React.FunctionComponent<IMessageComponentProps> = (
+  props: IMessageComponentProps
 ) => {
   const user: IUser = useAppSelector((state) => state.user.user);
 

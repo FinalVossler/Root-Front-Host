@@ -7,11 +7,11 @@ import Post from "../../post";
 
 import useStyles from "./childrenContainer.styles";
 
-interface IChildrenContainer {
+interface IChildrenContainerProps {
   post: IPost;
 }
-const ChildrenContainer: React.FunctionComponent<IChildrenContainer> = (
-  props: IChildrenContainer
+const ChildrenContainer: React.FunctionComponent<IChildrenContainerProps> = (
+  props: IChildrenContainerProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

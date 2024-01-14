@@ -11,11 +11,13 @@ import Post from "../post";
 import PostWrapper from "../postWrappers/postWrapper";
 import useGetPosts, { PostsGetCommand } from "../../hooks/apiHooks/useGetPosts";
 
-interface IUserPosts {
+interface IUserPostsProps {
   user: IUser;
   visibilities?: PostVisibility[];
 }
-const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
+const UserPosts: React.FunctionComponent<IUserPostsProps> = (
+  props: IUserPostsProps
+) => {
   const posts: IPost[] | undefined = useAppSelector(
     (state) =>
       state.post.userPosts.find((p) => p.user._id === props.user._id)?.posts

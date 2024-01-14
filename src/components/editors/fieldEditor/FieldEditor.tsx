@@ -30,12 +30,6 @@ import FieldTableEditor from "./fieldTableEditor";
 import uuid from "react-uuid";
 import Checkbox from "../../checkbox";
 
-export interface IFieldEditor {
-  field?: IField;
-  open?: boolean;
-  setOpen?: (open: boolean) => void;
-}
-
 type FieldOptionForm = {
   label: string;
   value: string;
@@ -49,7 +43,7 @@ export type FieldTableElementForm = {
   uuid: string;
 };
 
-export interface IFieldForm {
+export interface IFieldFormFormik {
   name: string;
   type: IField["type"];
   canChooseFromExistingFiles: boolean;
@@ -64,7 +58,15 @@ export interface IFieldForm {
   language: string;
 }
 
-const FieldEditor = (props: IFieldEditor) => {
+export interface IFieldEditorProps {
+  field?: IField;
+  open?: boolean;
+  setOpen?: (open: boolean) => void;
+}
+
+const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
+  props: IFieldEditorProps
+) => {
   const language: string = useAppSelector(
     (state) => state.userPreferences.language
   );
@@ -83,7 +85,7 @@ const FieldEditor = (props: IFieldEditor) => {
   const getTranslatedText = useGetTranslatedText();
   const { createField, loading: createLoading } = useCreateField();
   const { updateField, loading: updateLoading } = useUpdateField();
-  const formik: FormikProps<IFieldForm> = useFormik<IFieldForm>({
+  const formik: FormikProps<IFieldFormFormik> = useFormik<IFieldFormFormik>({
     initialValues: {
       name: "",
       type: FieldType.Text,
@@ -99,7 +101,7 @@ const FieldEditor = (props: IFieldEditor) => {
 
       language,
     },
-    onSubmit: async (values: IFieldForm) => {
+    onSubmit: async (values: IFieldFormFormik) => {
       if (props.field) {
         const command: FieldUpdateCommand = {
           _id: props.field._id,

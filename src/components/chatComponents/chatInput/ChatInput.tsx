@@ -27,15 +27,15 @@ import useSendMessage, {
 import ChatMessagesEnum from "../../../globalTypes/ChatMessagesEnum";
 import SocketTypingStateCommand from "../../../globalTypes/SocketTypingStateCommand";
 
-interface IChatInput {
+interface IChatInputProps {
   conversationId: string;
   handleAddMessage: (message: IPopulatedMessage) => void;
   handleMarkAllConversationMessagesAsRead?: () => void;
   socket?: Socket;
 }
 
-const ChatInput: React.FunctionComponent<IChatInput> = socketConnect(
-  (props: IChatInput) => {
+const ChatInput: React.FunctionComponent<IChatInputProps> = socketConnect(
+  (props: IChatInputProps) => {
     //#region App state
     const user: IUser = useAppSelector((state) => state.user.user);
     const theme: ITheme = useAppSelector(

@@ -12,7 +12,7 @@ export type Option = {
   label: string;
 };
 
-interface IInputSelect {
+interface IInputSelectProps {
   options: Option[];
   label: string;
   onChange?: (option: Option) => void;
@@ -28,8 +28,8 @@ interface IInputSelect {
   selectorClassName?: string;
 }
 
-const InputSelect: React.FunctionComponent<IInputSelect> = (
-  props: IInputSelect
+const InputSelect: React.FunctionComponent<IInputSelectProps> = (
+  props: IInputSelectProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

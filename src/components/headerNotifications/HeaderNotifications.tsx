@@ -28,13 +28,13 @@ import { Link } from "react-router-dom";
 import Button from "../button";
 import useMarkAllUserNotificationsAsClicked from "../../hooks/apiHooks/useMarkAllUserNotificationsAsClicked";
 
-interface IHeaderNotifications {}
+interface IHeaderNotificationsProps {}
 
 const LIMIT = 99;
 
-const HeaderNotifications: React.FunctionComponent<IHeaderNotifications> = (
-  props: IHeaderNotifications
-) => {
+const HeaderNotifications: React.FunctionComponent<
+  IHeaderNotificationsProps
+> = (props: IHeaderNotificationsProps) => {
   //#region Store
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

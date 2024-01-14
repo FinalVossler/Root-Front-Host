@@ -16,7 +16,7 @@ import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import { FormikProps } from "formik";
 import { IModelForm } from "../ModelEditor";
 
-interface IFieldsEditor {
+interface IFieldsEditorProps {
   setSelectedModelFields: (modelFields: IModelField[]) => any;
   placeholder?: string;
   model?: IModel;
@@ -24,7 +24,9 @@ interface IFieldsEditor {
   formik: FormikProps<IModelForm>;
 }
 
-const ModelFieldsEditor = (props: IFieldsEditor) => {
+const ModelFieldsEditor: React.FunctionComponent<IFieldsEditorProps> = (
+  props: IFieldsEditorProps
+) => {
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.fields
   );

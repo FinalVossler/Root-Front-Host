@@ -4,13 +4,13 @@ import shortenString from "../../../utils/shortenString";
 
 import useStyles from "./rotatingCard.styles";
 
-interface IRotatingCard {
+interface IRotatingCardProps {
   imageUrl?: string;
   title?: string;
   description?: string;
 }
-const RotatingCard: React.FunctionComponent<IRotatingCard> = (
-  props: IRotatingCard
+const RotatingCard: React.FunctionComponent<IRotatingCardProps> = (
+  props: IRotatingCardProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

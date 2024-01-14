@@ -29,9 +29,9 @@ type ProfileFormik = {
   hasMessagingEmailsActivated: boolean;
 };
 
-interface IProfileForm {}
-const Profile: React.FunctionComponent<IProfileForm> = (
-  props: IProfileForm
+interface IProfileFormProps {}
+const Profile: React.FunctionComponent<IProfileFormProps> = (
+  props: IProfileFormProps
 ) => {
   const user: IUser = useAppSelector((state) => state.user.user);
   const theme: ITheme = useAppSelector(

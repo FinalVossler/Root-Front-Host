@@ -6,7 +6,7 @@ import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./checkbox.styles";
 
-interface ICheckbox {
+interface ICheckboxProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
   name?: string;
   formik?: FormikProps<any>;
@@ -16,7 +16,9 @@ interface ICheckbox {
   labelStyles?: React.CSSProperties;
   inputDataCy?: string;
 }
-const Checkbox: React.FunctionComponent<ICheckbox> = (props: ICheckbox) => {
+const Checkbox: React.FunctionComponent<ICheckboxProps> = (
+  props: ICheckboxProps
+) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

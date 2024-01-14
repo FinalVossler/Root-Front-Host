@@ -28,10 +28,12 @@ import useStyles from "./post.styles";
 import EntitiesList from "../../pages/entitiesPage/entitiesList";
 import FullWidthPicture from "../postsComponents/fullWidthPicture";
 
-interface IUserPosts {
+interface IUserPostsProps {
   post: IPost;
 }
-const UserPosts: React.FunctionComponent<IUserPosts> = (props: IUserPosts) => {
+const UserPosts: React.FunctionComponent<IUserPostsProps> = (
+  props: IUserPostsProps
+) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

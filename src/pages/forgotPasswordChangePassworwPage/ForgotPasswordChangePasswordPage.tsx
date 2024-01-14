@@ -17,15 +17,15 @@ import useForgotPasswordChangePassword, {
 import Input from "../../components/input";
 import Button from "../../components/button";
 
-interface IForgotPasswordChangePasswordForm {
+interface IForgotPasswordChangePasswordFormik {
   newPassword: string;
   confirmNewPassword: string;
 }
 
-interface IForgotPasswordChangePasswordPage {}
+interface IForgotPasswordChangePasswordPageProps {}
 const ForgotPasswordChangePasswordPage: React.FunctionComponent<
-  IForgotPasswordChangePasswordPage
-> = (props: IForgotPasswordChangePasswordPage) => {
+  IForgotPasswordChangePasswordPageProps
+> = (props: IForgotPasswordChangePasswordPageProps) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
@@ -40,8 +40,8 @@ const ForgotPasswordChangePasswordPage: React.FunctionComponent<
   const { loading, forgotPasswordChangePassword } =
     useForgotPasswordChangePassword();
 
-  const formik: FormikProps<IForgotPasswordChangePasswordForm> =
-    useFormik<IForgotPasswordChangePasswordForm>({
+  const formik: FormikProps<IForgotPasswordChangePasswordFormik> =
+    useFormik<IForgotPasswordChangePasswordFormik>({
       initialValues: {
         newPassword: "",
         confirmNewPassword: "",
@@ -58,7 +58,7 @@ const ForgotPasswordChangePasswordPage: React.FunctionComponent<
           getTranslatedText(staticText?.required)
         ),
       }),
-      onSubmit: async (values: IForgotPasswordChangePasswordForm) => {
+      onSubmit: async (values: IForgotPasswordChangePasswordFormik) => {
         const command: UserForgotPasswordChangePasswordCommand = {
           newPassword: values.newPassword,
           token: token || "",

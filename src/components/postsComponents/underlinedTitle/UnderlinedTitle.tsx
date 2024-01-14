@@ -5,11 +5,11 @@ import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./underlinedTitle.styles";
 
-interface IUnderlinedTitle {
+interface IUnderlinedTitleProps {
   title: string;
 }
-const UnderlinedTitle: React.FunctionComponent<IUnderlinedTitle> = (
-  props: IUnderlinedTitle
+const UnderlinedTitle: React.FunctionComponent<IUnderlinedTitleProps> = (
+  props: IUnderlinedTitleProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

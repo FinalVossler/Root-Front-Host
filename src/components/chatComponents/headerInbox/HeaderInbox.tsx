@@ -12,10 +12,10 @@ import { useLocation } from "react-router-dom";
 import useGetUserTotalUnreadMessages from "../../../hooks/apiHooks/useGetUserTotalUnreadMessages";
 import LastConversationsLastMessages from "../lastConversationsLastMessages";
 
-interface IHeaderInbox {}
+interface IHeaderInboxProps {}
 
-const HeaderInbox: React.FunctionComponent<IHeaderInbox> = (
-  props: IHeaderInbox
+const HeaderInbox: React.FunctionComponent<IHeaderInboxProps> = (
+  props: IHeaderInboxProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

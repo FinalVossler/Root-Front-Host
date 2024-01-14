@@ -16,9 +16,11 @@ import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 
 import useStyles from "./rolesPage.styles";
 
-interface IRolesPage {}
+interface IRolesPageProps {}
 
-const RolesPage: React.FunctionComponent<IRolesPage> = (props: IRolesPage) => {
+const RolesPage: React.FunctionComponent<IRolesPageProps> = (
+  props: IRolesPageProps
+) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

@@ -4,7 +4,6 @@ import ChatContacts from "../../components/chatComponents/chatContacts";
 import ChatBox from "../../components/chatComponents/chatBox";
 
 import { ITheme } from "../../config/theme";
-import withProtection from "../../hoc/protection";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { IUser } from "../../store/slices/userSlice";
 
@@ -13,8 +12,10 @@ import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { BoxType } from "../../components/chatComponents/chatBox/ChatBox";
 import { chatSlice } from "../../store/slices/chatSlice";
 
-interface IChat {}
-const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
+interface IChagePageProps {}
+const ChatPage: React.FunctionComponent<IChagePageProps> = (
+  props: IChagePageProps
+) => {
   const user: IUser = useAppSelector((state) => state.user.user);
   const withChat: boolean | undefined = useAppSelector(
     (state) => state.websiteConfiguration.withChat
@@ -73,4 +74,4 @@ const Chat: React.FunctionComponent<IChat> = (props: IChat) => {
   );
 };
 
-export default React.memo(Chat);
+export default React.memo(ChatPage);

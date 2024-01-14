@@ -4,13 +4,13 @@ import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./modal.styles";
 
-interface IModal {
+interface IModalProps {
   open: Boolean;
   handleClose: any;
 }
 
-const Modal: React.FunctionComponent<React.PropsWithChildren<IModal>> = (
-  props: React.PropsWithChildren<IModal>
+const Modal: React.FunctionComponent<React.PropsWithChildren<IModalProps>> = (
+  props: React.PropsWithChildren<IModalProps>
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

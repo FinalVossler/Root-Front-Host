@@ -8,7 +8,7 @@ import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./textarea.styles";
 
-export interface ITextarea {
+export interface ITextareaProps {
   textareaProps?: React.InputHTMLAttributes<HTMLTextAreaElement> & {
     ["data-cy"]?: string;
   };
@@ -21,9 +21,9 @@ export interface ITextarea {
   onFocus?: (e: React.FocusEvent<HTMLTextAreaElement, Element>) => any;
   label?: string;
 }
-const Textarea: React.FunctionComponent<React.PropsWithChildren<ITextarea>> = (
-  props: React.PropsWithChildren<ITextarea>
-) => {
+const Textarea: React.FunctionComponent<
+  React.PropsWithChildren<ITextareaProps>
+> = (props: React.PropsWithChildren<ITextareaProps>) => {
   const [isFocused, setIsFocused] = React.useState(false);
 
   const theme: ITheme = useAppSelector(

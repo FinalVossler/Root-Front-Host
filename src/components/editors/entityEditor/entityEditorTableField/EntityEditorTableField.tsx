@@ -17,22 +17,22 @@ import {
 } from "../../../../store/slices/modelSlice";
 import Input from "../../../input";
 import {
-  IEntityEditorFormForm,
+  IEntityEditorFormFormik,
   IEntityFieldValueForm,
 } from "../EntityEditorForm";
 
 import useStyles from "./entityEditorTableField.styles";
 
-interface IEntityEditorTableField {
+interface IEntityEditorTableFieldProps {
   modelId?: string;
   modelField: IModelField;
   canEdit: boolean;
   entityFieldValue: IEntityFieldValueForm | undefined;
-  formik: FormikProps<IEntityEditorFormForm>;
+  formik: FormikProps<IEntityEditorFormFormik>;
 }
 const EntityEditorTableField: React.FunctionComponent<
-  IEntityEditorTableField
-> = (props: IEntityEditorTableField) => {
+  IEntityEditorTableFieldProps
+> = (props: IEntityEditorTableFieldProps) => {
   const model: IModel | undefined = useAppSelector((state) =>
     state.model.models.find((m) => m._id === props.modelId)
   );

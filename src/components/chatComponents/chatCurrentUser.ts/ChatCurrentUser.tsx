@@ -8,9 +8,9 @@ import { IUser } from "../../../store/slices/userSlice";
 
 import useStyles from "./chatCurrentUser.styles";
 
-interface IChatCurrentUser {}
-const ChatContact: React.FunctionComponent<IChatCurrentUser> = (
-  props: IChatCurrentUser
+interface IChatCurrentUserProps {}
+const ChatContact: React.FunctionComponent<IChatCurrentUserProps> = (
+  props: IChatCurrentUserProps
 ) => {
   const user: IUser = useAppSelector((state) => state.user.user);
 

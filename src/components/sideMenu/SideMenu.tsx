@@ -38,11 +38,13 @@ import IFile from "../../globalTypes/IFile";
 import useGetRoles, { RolesGetCommand } from "../../hooks/apiHooks/useGetRoles";
 import { websiteConfigurationSlice } from "../../store/slices/websiteConfigurationSlice";
 import EntityEditor from "../editors/entityEditor";
-import { IEntityEditor } from "../editors/entityEditor/EntityEditor";
+import { IEntityEditorProps } from "../editors/entityEditor/EntityEditor";
 
-interface ISideMenu {}
+interface ISideMenuProps {}
 
-const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
+const SideMenu: React.FunctionComponent<ISideMenuProps> = (
+  props: ISideMenuProps
+) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
@@ -129,7 +131,7 @@ const SideMenu: React.FunctionComponent<ISideMenu> = (props: ISideMenu) => {
           Icon: SiElement,
           link: "/entities/" + model._id,
           title: getTranslatedText(model.name),
-          Editor: (subProps: IEntityEditor) => (
+          Editor: (subProps: IEntityEditorProps) => (
             <EntityEditor
               {...subProps}
               open={subProps.open}

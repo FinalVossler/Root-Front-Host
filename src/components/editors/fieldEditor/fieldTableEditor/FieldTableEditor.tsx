@@ -11,7 +11,7 @@ import { useAppSelector } from "../../../../store/hooks";
 import { FieldType } from "../../../../store/slices/fieldSlice";
 import Button from "../../../button";
 import Checkbox from "../../../checkbox";
-import { FieldTableElementForm, IFieldForm } from "../FieldEditor";
+import { FieldTableElementForm, IFieldFormFormik } from "../FieldEditor";
 
 import useStyles from "./fieldTableEditor.styles";
 import SortableColumnOrRow, {
@@ -19,12 +19,12 @@ import SortableColumnOrRow, {
 } from "./sortableColumnOrRow/SortableColumnOrRow";
 import Input from "../../../input";
 
-interface IFieldTableEditor {
-  formik: FormikProps<IFieldForm>;
+interface IFieldTableEditorProps {
+  formik: FormikProps<IFieldFormFormik>;
 }
 
-const FieldTableEditor: React.FunctionComponent<IFieldTableEditor> = (
-  props: IFieldTableEditor
+const FieldTableEditor: React.FunctionComponent<IFieldTableEditorProps> = (
+  props: IFieldTableEditorProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

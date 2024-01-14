@@ -7,12 +7,12 @@ import useStyles from "./columnOptions.styles";
 import { BiHide } from "react-icons/bi";
 import useOnClickOutside from "../../../hooks/useOnClickOutside";
 
-interface IColumnOptions {
+interface IColumnOptionsProps {
   handleHideColumn: () => void;
 }
 
-const ColumnOptions: React.FunctionComponent<IColumnOptions> = (
-  props: IColumnOptions
+const ColumnOptions: React.FunctionComponent<IColumnOptionsProps> = (
+  props: IColumnOptionsProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

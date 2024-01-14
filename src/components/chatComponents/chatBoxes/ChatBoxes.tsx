@@ -6,8 +6,10 @@ import ChatBox, { BoxType } from "../chatBox/ChatBox";
 
 import useStyles from "./chatBoxes.styles";
 
-interface IChatboxes {}
-const ChatBoxes: React.FunctionComponent<IChatboxes> = (props: IChatboxes) => {
+interface IChatboxesProps {}
+const ChatBoxes: React.FunctionComponent<IChatboxesProps> = (
+  props: IChatboxesProps
+) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

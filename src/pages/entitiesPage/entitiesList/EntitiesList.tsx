@@ -28,12 +28,12 @@ import { StaticPermission } from "../../../store/slices/roleSlice";
 
 import useStyles from "./entitiesList.styles";
 
-interface IEntitiesList {
+interface IEntitiesListProps {
   modelId: string;
 }
 
-const EntitiesList: React.FunctionComponent<IEntitiesList> = (
-  props: IEntitiesList
+const EntitiesList: React.FunctionComponent<IEntitiesListProps> = (
+  props: IEntitiesListProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

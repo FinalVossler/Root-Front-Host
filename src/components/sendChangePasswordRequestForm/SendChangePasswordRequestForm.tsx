@@ -13,15 +13,15 @@ import { useAppSelector } from "../../store/hooks";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useSendChangePasswordRequest from "../../hooks/apiHooks/useSendChangePasswordRequest";
 
-import useStyles from "./SendChangePasswordRequestForm.styles";
+import useStyles from "./sendChangePasswordRequestForm.styles";
 
-interface ISendChangePasswordRequestForm {
+interface ISendChangePasswordRequestFormik {
   email: string;
 }
 
-interface ISendChangePasswordRequest {}
-const Registration: React.FunctionComponent<ISendChangePasswordRequest> = (
-  props: ISendChangePasswordRequest
+interface ISendChangePasswordRequestProps {}
+const Registration: React.FunctionComponent<ISendChangePasswordRequestProps> = (
+  props: ISendChangePasswordRequestProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
@@ -33,15 +33,15 @@ const Registration: React.FunctionComponent<ISendChangePasswordRequest> = (
   const getTranslatedText = useGetTranslatedText();
   const { loading, sendChangePasswordRequest } = useSendChangePasswordRequest();
 
-  const formik: FormikProps<ISendChangePasswordRequestForm> =
-    useFormik<ISendChangePasswordRequestForm>({
+  const formik: FormikProps<ISendChangePasswordRequestFormik> =
+    useFormik<ISendChangePasswordRequestFormik>({
       initialValues: {
         email: "",
       },
       validationSchema: Yup.object().shape({
         email: Yup.string().required("Email is required"),
       }),
-      onSubmit: async (values: ISendChangePasswordRequestForm) => {
+      onSubmit: async (values: ISendChangePasswordRequestFormik) => {
         const email: string = values.email;
         await sendChangePasswordRequest(email);
       },

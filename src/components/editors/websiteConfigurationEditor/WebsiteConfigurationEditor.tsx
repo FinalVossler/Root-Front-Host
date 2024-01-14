@@ -31,7 +31,6 @@ import { TypeOfFiles } from "../../existingFiles/ExistingFiles";
 import InputSelect from "../../inputSelect";
 import getLanguages from "../../../utils/getLanguages";
 import Textarea from "../../textarea/Textarea";
-import { lang } from "moment";
 
 interface IWebsiteConfigurationForm extends ITheme {
   language?: string;
@@ -52,11 +51,11 @@ interface IWebsiteConfigurationForm extends ITheme {
   logo2AsYetToDownloadFile?: File;
 }
 
-interface IWebsiteConfigurationEditor {}
+interface IWebsiteConfigurationEditorProps {}
 
 const WebsiteConfigurationEditor: React.FunctionComponent<
-  IWebsiteConfigurationEditor
-> = (props: IWebsiteConfigurationEditor) => {
+  IWebsiteConfigurationEditorProps
+> = (props: IWebsiteConfigurationEditorProps) => {
   //#region store
   const websiteConfiguration: IWebsiteConfiguration = useAppSelector(
     (state) => state.websiteConfiguration

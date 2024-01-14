@@ -11,12 +11,14 @@ export enum ViewTypeEnum {
   BoardForStatusTracking = "BoardForStatusTracking",
 }
 
-interface IViewTypes {
+interface IViewTypesProps {
   viewType: ViewTypeEnum;
   onViewTabChange?: (viewType: ViewTypeEnum) => void;
 }
 
-const Elements: React.FunctionComponent<IViewTypes> = (props: IViewTypes) => {
+const Elements: React.FunctionComponent<IViewTypesProps> = (
+  props: IViewTypesProps
+) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

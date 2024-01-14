@@ -55,7 +55,7 @@ export enum ViewTypeEnum {
   BoardForStatusTracking = "BoardForStatusTracking",
 }
 
-interface IElements {
+interface IElementsProps {
   Editor: React.FunctionComponent<{
     open: boolean;
     setOpen: (open: boolean) => void;
@@ -90,7 +90,9 @@ interface IElements {
   tableDataCy?: string;
 }
 
-const Elements: React.FunctionComponent<IElements> = (props: IElements) => {
+const Elements: React.FunctionComponent<IElementsProps> = (
+  props: IElementsProps
+) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

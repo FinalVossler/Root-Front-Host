@@ -19,9 +19,11 @@ import { Permission } from "../../store/slices/roleSlice";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 
-interface IUsersPage {}
+interface IUsersPageProps {}
 
-const UsersPage: React.FunctionComponent<IUsersPage> = (props: IUsersPage) => {
+const UsersPage: React.FunctionComponent<IUsersPageProps> = (
+  props: IUsersPageProps
+) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

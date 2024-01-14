@@ -28,7 +28,9 @@ interface IEntityCardProps {
   }>;
 }
 
-const EntityCard = (props: IEntityCardProps) => {
+const EntityCard: React.FunctionComponent<IEntityCardProps> = (
+  props: IEntityCardProps
+) => {
   const [editorOpen, setEditorOpen] = React.useState<boolean>(false);
 
   const theme = useAppSelector((state) => state.websiteConfiguration.theme);

@@ -19,10 +19,10 @@ import HeaderNotifications from "../headerNotifications";
 import useStyles from "./header.styles";
 import useHasPermission from "../../hooks/useHasPermission";
 
-interface IHeader {
+interface IHeaderProps {
   scrolledDown: boolean;
 }
-const Header: React.FunctionComponent<IHeader> = (props: IHeader) => {
+const Header: React.FunctionComponent<IHeaderProps> = (props: IHeaderProps) => {
   const pages = useAppSelector<IPage[]>((state) => state.page.pages);
   const websiteTitle: string | undefined = useAppSelector(
     (state) => state.websiteConfiguration.title

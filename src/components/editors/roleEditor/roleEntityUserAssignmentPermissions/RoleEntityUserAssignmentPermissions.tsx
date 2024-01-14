@@ -8,10 +8,10 @@ import Checkbox from "../../../checkbox";
 import SearchInput from "../../../searchInput";
 import { IRole } from "../../../../store/slices/roleSlice";
 
-import useStyles from "./RoleEntityUserAssignmentPermissions.styles";
+import useStyles from "./roleEntityUserAssignmentPermissions.styles";
 import { MdDelete } from "react-icons/md";
 
-interface IRoleEntityUserAssignmentPermissions {
+interface IRoleEntityUserAssignmentPermissionsProps {
   modelId?: string;
   entityUserAssignmentPermissionsByRole: {
     // used to also add the current role that's just been added
@@ -26,8 +26,8 @@ interface IRoleEntityUserAssignmentPermissions {
 }
 
 const RoleEntityUserAssignmentPermissions: React.FunctionComponent<
-  IRoleEntityUserAssignmentPermissions
-> = (props: IRoleEntityUserAssignmentPermissions) => {
+  IRoleEntityUserAssignmentPermissionsProps
+> = (props: IRoleEntityUserAssignmentPermissionsProps) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

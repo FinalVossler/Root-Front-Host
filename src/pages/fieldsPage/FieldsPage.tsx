@@ -18,10 +18,10 @@ import { Permission } from "../../store/slices/roleSlice";
 import useStyles from "./fieldsPage.styles";
 import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 
-interface IFieldsPage {}
+interface IFieldsPageProps {}
 
-const FieldsPage: React.FunctionComponent<IFieldsPage> = (
-  props: IFieldsPage
+const FieldsPage: React.FunctionComponent<IFieldsPageProps> = (
+  props: IFieldsPageProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

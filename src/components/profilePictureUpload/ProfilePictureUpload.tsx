@@ -18,9 +18,9 @@ import useUpdateProfilePicture from "../../hooks/apiHooks/useUpdateProfilePictur
 import FilesInput from "../filesInput";
 import { TypeOfFiles } from "../existingFiles/ExistingFiles";
 
-interface IProfilePictureUpload {}
-const ImageUpload: React.FunctionComponent<IProfilePictureUpload> = (
-  props: IProfilePictureUpload
+interface IProfilePictureUploadProps {}
+const ImageUpload: React.FunctionComponent<IProfilePictureUploadProps> = (
+  props: IProfilePictureUploadProps
 ) => {
   const profilePicture: IFile | undefined = useAppSelector<IFile | undefined>(
     (state) => state.user.user.profilePicture

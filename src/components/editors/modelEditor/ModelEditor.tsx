@@ -37,12 +37,6 @@ import {
 import ModelStatesEditor from "./modelStatesEditor";
 import uuid from "react-uuid";
 
-export interface IModelEditor {
-  model?: IModel;
-  open?: boolean;
-  setOpen?: (open: boolean) => void;
-}
-
 export type ModelFormState = {
   _id?: string;
   name: string;
@@ -63,7 +57,13 @@ export interface IModelForm {
   language: string;
 }
 
-const ModelEditor = (props: IModelEditor) => {
+export interface IModelEditorProps {
+  model?: IModel;
+  open?: boolean;
+  setOpen?: (open: boolean) => void;
+}
+
+const ModelEditor = (props: IModelEditorProps) => {
   const language: string = useAppSelector(
     (state) => state.userPreferences.language
   );

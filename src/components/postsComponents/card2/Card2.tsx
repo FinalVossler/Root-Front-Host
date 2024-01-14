@@ -4,12 +4,12 @@ import shortenString from "../../../utils/shortenString";
 
 import useStyles from "./card2.styles";
 
-interface ICard2 {
+interface ICard2Props {
   title: string;
   description: string;
   backgroundImage?: string;
 }
-const Card2: React.FunctionComponent<ICard2> = (props: ICard2) => {
+const Card2: React.FunctionComponent<ICard2Props> = (props: ICard2Props) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

@@ -15,9 +15,11 @@ import { IPage } from "../../store/slices/pageSlice";
 import useDeletePages from "../../hooks/apiHooks/useDeletePages";
 import { FaDirections } from "react-icons/fa";
 
-interface IPagesPage {}
+interface IPagesPageProps {}
 
-const PagesPage: React.FunctionComponent<IPagesPage> = (props: IPagesPage) => {
+const PagesPage: React.FunctionComponent<IPagesPageProps> = (
+  props: IPagesPageProps
+) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

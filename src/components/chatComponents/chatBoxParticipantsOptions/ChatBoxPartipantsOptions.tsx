@@ -16,15 +16,15 @@ import SearchInput from "../../searchInput";
 import useSearchUsers from "../../../hooks/apiHooks/useSearchUsers";
 import { BiPlus } from "react-icons/bi";
 
-interface IChatBoxParticipantsOptions {
+interface IChatBoxParticipantsOptionsProps {
   setShowOptions: (showOptions: boolean) => void;
   show: boolean;
   conversationId: string;
 }
 
 const ChatBoxParticipantsOptions: React.FunctionComponent<
-  IChatBoxParticipantsOptions
-> = (props: IChatBoxParticipantsOptions) => {
+  IChatBoxParticipantsOptionsProps
+> = (props: IChatBoxParticipantsOptionsProps) => {
   //#region store
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

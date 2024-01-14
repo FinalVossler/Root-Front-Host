@@ -18,8 +18,8 @@ import Video from "../../components/postsComponents/video";
 import useStyles from "./homePage.styles";
 import withChat from "../../hoc/withChat";
 
-interface IHome {}
-const Home: React.FunctionComponent<IHome> = (props: IHome) => {
+interface IHomeProps {}
+const Home: React.FunctionComponent<IHomeProps> = (props: IHomeProps) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

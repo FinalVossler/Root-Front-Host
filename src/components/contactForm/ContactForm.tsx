@@ -16,7 +16,7 @@ import useSendMail, {
   EmailSendCommand,
 } from "../../hooks/apiHooks/useSendMail";
 
-interface IContactForm {
+interface IContactFormFormik {
   firstName: string;
   lastName: string;
   email: string;
@@ -43,45 +43,47 @@ const ContactForm: React.FunctionComponent<
   const getTranslatedText = useGetTranslatedText();
   const { sendMail, loading } = useSendMail();
 
-  const formik: FormikProps<IContactForm> = useFormik<IContactForm>({
-    initialValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      address: "",
-      message: "",
-    },
-    onSubmit: async (values: IContactForm) => {
-      const command: EmailSendCommand = {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        phone: values.phone,
-        address: values.address,
-        message: values.message,
-      };
+  const formik: FormikProps<IContactFormFormik> = useFormik<IContactFormFormik>(
+    {
+      initialValues: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        address: "",
+        message: "",
+      },
+      onSubmit: async (values: IContactFormFormik) => {
+        const command: EmailSendCommand = {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          phone: values.phone,
+          address: values.address,
+          message: values.message,
+        };
 
-      await sendMail(command);
-    },
-    validationSchema: Yup.object().shape({
-      firstName: Yup.string().required(
-        getTranslatedText(staticText?.firstNameRequired)
-      ),
-      lastName: Yup.string().required(
-        getTranslatedText(staticText?.lastNameRequired)
-      ),
-      address: Yup.string().required(
-        getTranslatedText(staticText?.addressRequired)
-      ),
-      email: Yup.string()
-        .email(getTranslatedText(staticText?.mustBeValidEmail))
-        .required(getTranslatedText(staticText?.emailRequired)),
-      message: Yup.string().required(
-        getTranslatedText(staticText?.messageRequired)
-      ),
-    }),
-  });
+        await sendMail(command);
+      },
+      validationSchema: Yup.object().shape({
+        firstName: Yup.string().required(
+          getTranslatedText(staticText?.firstNameRequired)
+        ),
+        lastName: Yup.string().required(
+          getTranslatedText(staticText?.lastNameRequired)
+        ),
+        address: Yup.string().required(
+          getTranslatedText(staticText?.addressRequired)
+        ),
+        email: Yup.string()
+          .email(getTranslatedText(staticText?.mustBeValidEmail))
+          .required(getTranslatedText(staticText?.emailRequired)),
+        message: Yup.string().required(
+          getTranslatedText(staticText?.messageRequired)
+        ),
+      }),
+    }
+  );
 
   return (
     <form

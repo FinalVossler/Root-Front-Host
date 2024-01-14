@@ -20,10 +20,10 @@ import useStyles from "./microFrontendsPage.styles";
 import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 import useDeleteMicroFrontends from "../../hooks/apiHooks/useDeleteMicroFrontends";
 
-interface IMicroFrontendsPage {}
+interface IMicroFrontendsPageProps {}
 
-const MicroFrontendsPage: React.FunctionComponent<IMicroFrontendsPage> = (
-  props: IMicroFrontendsPage
+const MicroFrontendsPage: React.FunctionComponent<IMicroFrontendsPageProps> = (
+  props: IMicroFrontendsPageProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

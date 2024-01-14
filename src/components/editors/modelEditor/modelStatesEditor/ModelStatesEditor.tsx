@@ -23,11 +23,13 @@ import { IModelForm, ModelFormState } from "../ModelEditor";
 import useStyles from "./modelStatesEditor.styles";
 import uuid from "react-uuid";
 
-interface IModelStatesEditor {
+interface IModelStatesEditorProps {
   formik: FormikProps<IModelForm>;
 }
 
-const ModelStatesEditor = (props: IModelStatesEditor) => {
+const ModelStatesEditor: React.FunctionComponent<IModelStatesEditorProps> = (
+  props: IModelStatesEditorProps
+) => {
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.models
   );

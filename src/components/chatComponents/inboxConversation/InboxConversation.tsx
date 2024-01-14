@@ -15,15 +15,15 @@ import useStyles from "./inboxConversation.styles";
 import { IoMdNotifications } from "react-icons/io";
 import shortenString from "../../../utils/shortenString";
 
-interface IInboxConversation {
+interface IInboxConversationProps {
   message: IPopulatedMessage;
   // Other user is optional because it could be that the other user was deleted from the DB (Problem noticed when Mahmoud deleted Yasmine)
   otherUser?: IUser;
   onSelectConversation: (conversationId: string) => void;
 }
 
-const InboxConversation: React.FunctionComponent<IInboxConversation> = (
-  props: IInboxConversation
+const InboxConversation: React.FunctionComponent<IInboxConversationProps> = (
+  props: IInboxConversationProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

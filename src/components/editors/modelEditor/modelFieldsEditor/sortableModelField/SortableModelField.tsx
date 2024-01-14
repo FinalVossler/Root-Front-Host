@@ -26,7 +26,7 @@ import Checkbox from "../../../../checkbox";
 import { FieldType } from "../../../../../store/slices/fieldSlice";
 import ExtendSection from "../../../../extendSection";
 
-interface ISortableModelField {
+interface ISortableModelFieldProps {
   modelField: IModelField;
   handleDeleteModelField: (modelFieldIndex: number) => void;
   modelFieldIndex: number;
@@ -36,8 +36,8 @@ interface ISortableModelField {
   model?: IModel;
 }
 
-const SortableModelField: React.FunctionComponent<ISortableModelField> = (
-  props: ISortableModelField
+const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
+  props: ISortableModelFieldProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

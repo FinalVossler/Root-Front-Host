@@ -9,11 +9,13 @@ import useStyles from "./writePostButton.styles";
 import { ITheme } from "../../config/theme";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
-interface IButton {
+interface IWritePostButtonProps {
   onClick?: any;
 }
 
-const WritePostButton = (props: IButton) => {
+const WritePostButton: React.FunctionComponent<IWritePostButtonProps> = (
+  props: IWritePostButtonProps
+) => {
   const profilePicture: IFile | undefined = useAppSelector(
     (state) => state.user.user.profilePicture
   );

@@ -15,7 +15,7 @@ import { IEntityEventNotificationForm } from "../RoleEditor";
 
 import useStyles from "./roleEntityEventsNotification.styles";
 
-interface IRoleEntityEventsNotification {
+interface IRoleEntityEventsNotificationProps {
   entityEventNotifications: IEntityEventNotificationForm[];
   handleApplyEventNotifications: (
     entityEventNotifications: IEntityEventNotificationForm[]
@@ -24,8 +24,8 @@ interface IRoleEntityEventsNotification {
 }
 
 const RoleEntityEventsNotification: React.FunctionComponent<
-  IRoleEntityEventsNotification
-> = (props: IRoleEntityEventsNotification) => {
+  IRoleEntityEventsNotificationProps
+> = (props: IRoleEntityEventsNotificationProps) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

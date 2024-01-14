@@ -73,7 +73,7 @@ export interface IEntityFieldValueForm {
   files?: IFile[];
 }
 
-export interface IEntityEditorFormForm {
+export interface IEntityEditorFormFormik {
   modelId: string;
   entityFieldValues: IEntityFieldValueForm[];
   assignedUsers: IUser[];
@@ -85,7 +85,7 @@ export interface IErroredField {
   errorText: string;
 }
 
-export interface IEntityEditorForm {
+export interface IEntityEditorFormProps {
   entity?: IEntity;
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -94,7 +94,9 @@ export interface IEntityEditorForm {
   inModal?: boolean;
 }
 
-const EntityEditorForm = (props: IEntityEditorForm) => {
+const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
+  props: IEntityEditorFormProps
+) => {
   const language: string = useAppSelector(
     (state) => state.userPreferences.language
   );
@@ -125,8 +127,8 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
   const { getRoles } = useGetRoles();
   const { handleSearchUsersByRolePromise } = useSearchUsersByRole();
 
-  const formik: FormikProps<IEntityEditorFormForm> =
-    useFormik<IEntityEditorFormForm>({
+  const formik: FormikProps<IEntityEditorFormFormik> =
+    useFormik<IEntityEditorFormFormik>({
       initialValues: {
         modelId: props.modelId || props.entity?.model._id || "",
         entityFieldValues: [],
@@ -205,7 +207,7 @@ const EntityEditorForm = (props: IEntityEditorForm) => {
           }
         ),
       }),
-      onSubmit: async (values: IEntityEditorFormForm) => {
+      onSubmit: async (values: IEntityEditorFormFormik) => {
         setUploadFilesLoading(true);
 
         const uploadNewFilesPromises: Promise<IFile[]>[] = [];

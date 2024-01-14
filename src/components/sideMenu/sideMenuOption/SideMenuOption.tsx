@@ -20,7 +20,7 @@ type SubOption = {
   dataCy?: string;
 };
 
-interface ISideMenuOption {
+interface ISideMenuOptionProps {
   title: string;
   Icon: any;
   onClick?: () => void;
@@ -31,8 +31,8 @@ interface ISideMenuOption {
   dataCy?: string;
 }
 
-const SideMenuOption: React.FunctionComponent<ISideMenuOption> = (
-  props: ISideMenuOption
+const SideMenuOption: React.FunctionComponent<ISideMenuOptionProps> = (
+  props: ISideMenuOptionProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

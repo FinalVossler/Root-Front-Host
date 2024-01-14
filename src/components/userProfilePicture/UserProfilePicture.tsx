@@ -14,13 +14,15 @@ export enum SizeEnum {
   VerySmall = "verySmall",
 }
 
-interface IUserProfilePicture {
+interface IUserProfilePictureProps {
   url: string | undefined;
   size: SizeEnum;
   onClick?: any;
 }
 
-const UserProfilePicture = (props: IUserProfilePicture) => {
+const UserProfilePicture: React.FunctionComponent<IUserProfilePictureProps> = (
+  props: IUserProfilePictureProps
+) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

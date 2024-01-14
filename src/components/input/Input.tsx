@@ -7,7 +7,7 @@ import { ITheme } from "../../config/theme";
 import useStyles from "./input.styles";
 import { useAppSelector } from "../../store/hooks";
 
-export interface IInput {
+export interface IInputProps {
   Icon?: any;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
   name?: string;
@@ -24,8 +24,8 @@ export interface IInput {
   inputDataCy?: string;
   inputErrorDataCy?: string;
 }
-const Input: React.FunctionComponent<PropsWithChildren<IInput>> = (
-  props: PropsWithChildren<IInput>
+const Input: React.FunctionComponent<PropsWithChildren<IInputProps>> = (
+  props: PropsWithChildren<IInputProps>
 ) => {
   const [isFocused, setIsFocused] = React.useState(false);
 

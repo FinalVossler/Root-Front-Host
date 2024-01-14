@@ -14,10 +14,10 @@ import useGetEntity from "../../hooks/apiHooks/useGetEntity";
 import ModuleLoader from "../../moduleLoader/ModuleLoader";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
 
-interface IMicroFrontendPage {}
+interface IMicroFrontendPageProps {}
 
-const MicroFrontendPage: React.FunctionComponent<IMicroFrontendPage> = (
-  props: IMicroFrontendPage
+const MicroFrontendPage: React.FunctionComponent<IMicroFrontendPageProps> = (
+  props: IMicroFrontendPageProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

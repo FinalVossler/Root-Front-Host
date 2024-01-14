@@ -29,15 +29,15 @@ import useSearchMicroFrontends from "../../../hooks/apiHooks/useSearchMicroFront
 import InputSelect from "../../inputSelect";
 import { Option } from "../../inputSelect/InputSelect";
 
-interface IEventsEditor {
+interface IEventsEditorProps {
   formik: FormikProps<any>;
   fieldName: string; // example: modelEvents or fieldEvents
   activeTriggers?: EventTriggerEnum[];
   defaultEventTriggerOnAdd: EventTriggerEnum;
 }
 
-const EventsEditor: React.FunctionComponent<IEventsEditor> = (
-  props: IEventsEditor
+const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
+  props: IEventsEditorProps
 ) => {
   //#region store
   const theme: ITheme = useAppSelector(

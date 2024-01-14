@@ -10,10 +10,10 @@ import { useAppSelector } from "../../store/hooks";
 import Input, { IInput } from "../input/Input";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 
-interface IColorInput extends IInput {}
+interface IColorInputProps extends IInput {}
 
-const ColorInput: React.FunctionComponent<IColorInput> = (
-  props: IColorInput
+const ColorInput: React.FunctionComponent<IColorInputProps> = (
+  props: IColorInputProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

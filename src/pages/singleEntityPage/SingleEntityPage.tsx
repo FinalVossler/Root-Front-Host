@@ -12,10 +12,10 @@ import useStyles from "./singleEntityPage.styles";
 import { IEntity } from "../../store/slices/entitySlice";
 import EntityEditorForm from "../../components/editors/entityEditor/EntityEditorForm";
 
-interface ISingleEntityPage {}
+interface ISingleEntityPageProps {}
 
-const SingleEntityPage: React.FunctionComponent<ISingleEntityPage> = (
-  props: ISingleEntityPage
+const SingleEntityPage: React.FunctionComponent<ISingleEntityPageProps> = (
+  props: ISingleEntityPageProps
 ) => {
   const { modelId, entityId } = useParams();
 
