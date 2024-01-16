@@ -3,9 +3,9 @@ import { AxiosResponse } from "axios";
 
 import { useAppDispatch } from "../../store/hooks";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { entitySlice, IEntityReadDto } from "../../store/slices/entitySlice";
+import { entitySlice } from "../../store/slices/entitySlice";
 import { toast } from "react-toastify";
-import { IEntityUpdateCommand } from "roottypes";
+import { IEntityReadDto, IEntityUpdateCommand } from "roottypes";
 
 const useUpdateEntity = () => {
   const [loading, setLoading] = React.useState(false);

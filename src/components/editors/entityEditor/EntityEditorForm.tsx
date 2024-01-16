@@ -57,6 +57,7 @@ import {
   EventTriggerEnum,
   EventTypeEnum,
   IEventReadDto,
+  IMicroFrontendReadDto,
 } from "roottypes";
 
 export interface IEntityFieldValueForm {
@@ -221,6 +222,8 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
       onSubmit: async (values: IEntityEditorFormFormik) => {
         setUploadFilesLoading(true);
 
+        console.log("values", values);
+
         const uploadNewFilesPromises: Promise<IFileReadDto[]>[] = [];
 
         // preparing the files by uploading the new files and combining the new files and the selected own files into one array
@@ -322,13 +325,13 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
               }
 
               case EventTypeEnum.MicroFrontendRedirection: {
-                if (modelEvent.microFrontend?._id) {
+                if ((modelEvent.microFrontend as IMicroFrontendReadDto)?._id) {
                   navigate(
                     "/microFrontend/" +
-                      modelEvent.microFrontend?._id +
+                      (modelEvent.microFrontend as IMicroFrontendReadDto)?._id +
                       "/" +
                       (
-                        modelEvent.microFrontend
+                        (modelEvent.microFrontend as IMicroFrontendReadDto)
                           .components as IMicroFrontendComponentReadDto[]
                       ).find(
                         (component) =>
@@ -721,16 +724,23 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
                         break;
                       }
                       case EventTypeEnum.MicroFrontendRedirection: {
-                        if (fieldEvent.microFrontend?._id && props.entity) {
+                        if (
+                          (fieldEvent.microFrontend as IMicroFrontendReadDto)
+                            ?._id &&
+                          props.entity
+                        ) {
                           navigate(
                             "/microFrontend/" +
-                              fieldEvent.microFrontend?._id +
+                              (
+                                fieldEvent.microFrontend as IMicroFrontendReadDto
+                              )?._id +
                               "/" +
                               props.entity._id +
                               "/" +
                               (
-                                fieldEvent.microFrontend
-                                  .components as IMicroFrontendComponentReadDto[]
+                                (
+                                  fieldEvent.microFrontend as IMicroFrontendReadDto
+                                ).components as IMicroFrontendComponentReadDto[]
                               ).find(
                                 (el) =>
                                   el._id.toString() ===

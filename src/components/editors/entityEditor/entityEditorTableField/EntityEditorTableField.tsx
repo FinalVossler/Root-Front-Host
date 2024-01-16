@@ -152,7 +152,6 @@ const EntityEditorTableField: React.FunctionComponent<
                 }
               });
             }
-
             return {
               ...entityFieldValue,
               yearTableValues: newYearTableValues,
