@@ -387,7 +387,6 @@ describe("entity", () => {
 
     // Now change the field values for a different language
     cy.selectInSelector("entityFormLanguageSelector", 1);
-    cy.wait(1000);
 
     cy.getByDataCy("entityFieldInputForField" + modelField1?._id.toString())
       .clear()
@@ -409,7 +408,6 @@ describe("entity", () => {
     cy.wait(1000);
 
     cy.selectInSelector("entityFormLanguageSelector", 0);
-    cy.wait(1000);
 
     cy.getByDataCy(
       "entityFieldInputForField" + modelField1?._id.toString()
@@ -418,7 +416,6 @@ describe("entity", () => {
       "entityFieldInputForField" + modelField2?._id.toString()
     ).should("have.value", updatedValueForField2);
     cy.selectInSelector("entityFormLanguageSelector", 1);
-    cy.wait(1000);
 
     cy.getByDataCy(
       "entityFieldInputForField" + modelField1?._id.toString()

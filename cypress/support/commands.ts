@@ -97,6 +97,7 @@ Cypress.Commands.add(
       .find(".react-select__option")
       .eq(elementIndex)
       .click();
+    cy.wait(1000);
   }
 );
 
