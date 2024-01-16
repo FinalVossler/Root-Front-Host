@@ -9,7 +9,6 @@ import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import Loading from "react-loading";
 
 import { ITheme } from "../../config/theme";
-import IFile from "../../globalTypes/IFile";
 import { useAppSelector } from "../../store/hooks";
 import isFileAnImage from "../../utils/isFileAnImage";
 import readAsBase64 from "../../utils/readAsBase64";
@@ -17,6 +16,7 @@ import ExistingFiles from "../existingFiles";
 import { TypeOfFiles } from "../existingFiles/ExistingFiles";
 
 import useStyles from "./filesInput.styles";
+import { IFileReadDto } from "roottypes";
 
 // Used to show the new selected images
 type TrackedImage = {
@@ -34,8 +34,8 @@ type TrackedFile = {
 interface IFilesInputProps {
   setFiles: (files: File[]) => void;
   files: File[];
-  selectedExistingFiles: IFile[];
-  setSelectedExistingFiles: (existingFiles: IFile[]) => void;
+  selectedExistingFiles: IFileReadDto[];
+  setSelectedExistingFiles: (existingFiles: IFileReadDto[]) => void;
   allowMany?: boolean;
   label?: string;
   disabled?: boolean;
@@ -215,6 +215,7 @@ const FilesInput: React.FunctionComponent<IFilesInputProps> = (
           selectedExistingFiles={props.selectedExistingFiles}
           setSelectedExistingFiles={props.setSelectedExistingFiles}
           typeOfFiles={props.typeOfFiles}
+          showOtherFiles={!Boolean(props.canChooseFromExistingFiles)}
         />
       )}
       {props.disabled && (

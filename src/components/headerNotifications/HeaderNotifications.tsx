@@ -9,16 +9,10 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 import UserProfilePicture from "../userProfilePicture";
 import { SizeEnum } from "../userProfilePicture/UserProfilePicture";
-import { IUser } from "../../store/slices/userSlice";
 import Pagination from "../pagination";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
-import {
-  INotification,
-  notificationSlice,
-} from "../../store/slices/notificationSlice";
-import useGetNotifications, {
-  NotificationsGetCommand,
-} from "../../hooks/apiHooks/useGetNotifications";
+import { notificationSlice } from "../../store/slices/notificationSlice";
+import useGetNotifications from "../../hooks/apiHooks/useGetNotifications";
 import useSetNotificationToClickedBy from "../../hooks/apiHooks/useSetNotificationToClickedBy";
 import HeaderOptionNotificationSignal from "../headerOptionNotificationSignal";
 
@@ -27,6 +21,12 @@ import withNotifications from "../../hoc/withNotifications";
 import { Link } from "react-router-dom";
 import Button from "../button";
 import useMarkAllUserNotificationsAsClicked from "../../hooks/apiHooks/useMarkAllUserNotificationsAsClicked";
+import {
+  IFileReadDto,
+  INotificationReadDto,
+  INotificationsGetCommand,
+  IUserReadDto,
+} from "roottypes";
 
 interface IHeaderNotificationsProps {}
 
@@ -43,7 +43,7 @@ const HeaderNotifications: React.FunctionComponent<
     (state) => state.notification.notifications
   );
   const total = useAppSelector((state) => state.notification.total);
-  const user: IUser = useAppSelector((state) => state.user.user);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
   const totalUnclicked: number = useAppSelector(
     (state) => state.notification.totalUnclicked
   );
@@ -85,7 +85,7 @@ const HeaderNotifications: React.FunctionComponent<
   // Load notifications on component mount
   React.useEffect(() => {
     if (user._id) {
-      const command: NotificationsGetCommand = {
+      const command: INotificationsGetCommand = {
         paginationCommand: {
           limit: LIMIT,
           page,
@@ -102,7 +102,7 @@ const HeaderNotifications: React.FunctionComponent<
     setNotificationsOpen(!notificationsOpen);
 
   const handlePageChange = (page: number) => setPage(page);
-  const handleClickNotification = (notification: INotification) => {
+  const handleClickNotification = (notification: INotificationReadDto) => {
     setNotificationsOpen(false);
     if (notification.clickedBy.indexOf(user._id) === -1) {
       setNotificationToClickedBy({
@@ -156,43 +156,45 @@ const HeaderNotifications: React.FunctionComponent<
           )}
 
           {!loading &&
-            notifications.map((notification: INotification, index: number) => {
-              let linkArray = notification.link
-                .replace("https://", "")
-                ?.replace("http://", "")
-                ?.split("/");
-              linkArray.shift();
-              let link: string = linkArray.join("/") || "";
+            notifications.map(
+              (notification: INotificationReadDto, index: number) => {
+                let linkArray = notification.link
+                  .replace("https://", "")
+                  ?.replace("http://", "")
+                  ?.split("/");
+                linkArray.shift();
+                let link: string = linkArray.join("/") || "";
 
-              return (
-                <Link
-                  key={index}
-                  to={"/" + link}
-                  onClick={() => handleClickNotification(notification)}
-                >
-                  <div
+                return (
+                  <Link
                     key={index}
-                    className={
-                      notification.clickedBy.indexOf(user._id) !== -1
-                        ? styles.notificationContainer
-                        : styles.notificationContainerUnclicked
-                    }
-                    data-cy={"headerNotification"}
+                    to={"/" + link}
+                    onClick={() => handleClickNotification(notification)}
                   >
-                    {notification.image?.url && (
-                      <UserProfilePicture
-                        url={notification.image?.url}
-                        size={SizeEnum.Small}
-                      />
-                    )}
+                    <div
+                      key={index}
+                      className={
+                        notification.clickedBy.indexOf(user._id) !== -1
+                          ? styles.notificationContainer
+                          : styles.notificationContainerUnclicked
+                      }
+                      data-cy={"headerNotification"}
+                    >
+                      {(notification.image as IFileReadDto)?.url && (
+                        <UserProfilePicture
+                          url={(notification.image as IFileReadDto)?.url}
+                          size={SizeEnum.Small}
+                        />
+                      )}
 
-                    <div className={styles.notificationText}>
-                      {getTranslatedText(notification?.text)}
+                      <div className={styles.notificationText}>
+                        {getTranslatedText(notification?.text)}
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              );
-            })}
+                  </Link>
+                );
+              }
+            )}
 
           {!loading && notifications.length === 0 && <TbMoodEmpty />}
           <Pagination

@@ -10,7 +10,7 @@ import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import PostEditor from "../../components/editors/postEditor";
 import UserPosts from "../../components/userPosts";
 import { useAppSelector } from "../../store/hooks";
-import { IUser } from "../../store/slices/userSlice";
+import { IUserReadDto } from "../../store/slices/userSlice";
 import { useParams } from "react-router-dom";
 import useGetUser from "../../hooks/apiHooks/useGetUser";
 import UserProfilePicture from "../../components/userProfilePicture";
@@ -22,12 +22,16 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (
 ) => {
   const { userId } = useParams();
 
-  const currentUser: IUser = useAppSelector<IUser>((state) => state.user.user);
+  const currentUser: IUserReadDto = useAppSelector<IUserReadDto>(
+    (state) => state.user.user
+  );
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 
-  const [fetchedUser, setFetchedUser] = React.useState<IUser | null>(null);
+  const [fetchedUser, setFetchedUser] = React.useState<IUserReadDto | null>(
+    null
+  );
   const [showProfileForm, setShowProfileForm] = React.useState(false);
 
   const styles = useStyles({ theme });
@@ -37,7 +41,7 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (
   React.useEffect(() => {
     const fetchUser = async () => {
       if (userId) {
-        const newFetchedUser: IUser = await getUser(userId);
+        const newFetchedUser: IUserReadDto = await getUser(userId);
         setFetchedUser(newFetchedUser);
       }
     };

@@ -1,59 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import IFile from "../../globalTypes/IFile";
-import ITranslatedText from "../../globalTypes/ITranslatedText";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import compareWithCreatedAt from "../../utils/compareWithCreatedAt";
-import { IUser } from "./userSlice";
+import { IPostReadDto, IUserReadDto } from "roottypes";
 
-export enum PostVisibility {
-  Private = "Private",
-  Public = "Public",
-  Connections = "Connections",
-}
-
-export enum PostDesign {
-  Default = "Default",
-  Spacing = "Spacing",
-  Card = "Card",
-  fullWidthPicture = "FullWidthPicture",
-  TitleAndText = "TitleAndText",
-  Banner = "Banner",
-  TitleImageAndText = "TitleImageAndText",
-  ChildrenContainer = "ChildrenContainer",
-  RotatingCarzd = "RotatingCard",
-  AnimatedTitle = "AnimatedTitle",
-  UnderlinedTitle = "UnderlinedTitle",
-  Footer = "Footer",
-  ContactForm = "ContactForm",
-  Person = "Person",
-  Card2 = "Card2",
-  Video = "Video",
-  ModelForm = "ModelForm",
-  ModelList = "ModelList",
-}
-
-export interface IPost {
-  _id: string;
-  title?: ITranslatedText[];
-  subTitle?: ITranslatedText[];
-  posterId: string;
-  content?: ITranslatedText[];
-  files: IFile[];
-  visibility: PostVisibility;
-  design: PostDesign;
-  children: IPost[];
-  code?: string;
-
+export interface IPost extends IPostReadDto {
   // used for frontend sorting only
   uuid: string;
-
-  createdAt: string;
-  updatedAt: string;
 }
 
 type UserPosts = {
-  user: IUser;
+  user: IUserReadDto;
   posts: IPost[];
   total: number;
 };
@@ -86,7 +43,7 @@ export const postSlice = createSlice({
     },
     addUserPost: (
       state: IPostState,
-      action: PayloadAction<{ post: IPost; user: IUser }>
+      action: PayloadAction<{ post: IPost; user: IUserReadDto }>
     ) => {
       const { post, user } = action.payload;
 
@@ -107,7 +64,7 @@ export const postSlice = createSlice({
     },
     updateUserPost: (
       state: IPostState,
-      action: PayloadAction<{ post: IPost; user: IUser }>
+      action: PayloadAction<{ post: IPost; user: IUserReadDto }>
     ) => {
       const { post, user } = action.payload;
 
@@ -134,7 +91,7 @@ export const postSlice = createSlice({
     },
     removeUserPost: (
       state: IPostState,
-      action: PayloadAction<{ post: IPost; user: IUser }>
+      action: PayloadAction<{ post: IPost; user: IUserReadDto }>
     ) => {
       const { post, user } = action.payload;
 
@@ -155,7 +112,11 @@ export const postSlice = createSlice({
     },
     refreshUserPosts: (
       state: IPostState,
-      action: PayloadAction<{ posts: IPost[]; user: IUser; total: number }>
+      action: PayloadAction<{
+        posts: IPost[];
+        user: IUserReadDto;
+        total: number;
+      }>
     ) => {
       const { posts, user, total } = action.payload;
 

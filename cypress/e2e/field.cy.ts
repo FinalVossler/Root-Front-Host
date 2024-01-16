@@ -1,4 +1,4 @@
-import { IField } from "../../src/store/slices/fieldSlice";
+import { IFieldReadDto } from "roottypes";
 import { createCreateFieldCommand } from "../fixtures/createCommands";
 
 describe("field", () => {
@@ -12,11 +12,11 @@ describe("field", () => {
   const fieldToNotFindInSearchCreateCommand =
     createCreateFieldCommand("Ignored");
 
-  let fieldToUpdate: IField | undefined;
-  let field1ToDelete: IField | undefined;
-  let field2ToDelete: IField | undefined;
-  let fieldToFindInSearch: IField | undefined;
-  let fieldToNotFindInSearch: IField | undefined;
+  let fieldToUpdate: IFieldReadDto | undefined;
+  let field1ToDelete: IFieldReadDto | undefined;
+  let field2ToDelete: IFieldReadDto | undefined;
+  let fieldToFindInSearch: IFieldReadDto | undefined;
+  let fieldToNotFindInSearch: IFieldReadDto | undefined;
 
   beforeEach(() => {
     cy.login(true);
@@ -31,24 +31,24 @@ describe("field", () => {
   before(() => {
     cy.sendCreateFieldRequest(fieldToUpdateCreateCommand, (res) => {
       fieldToUpdate = //@ts-ignore
-        (res as { body: { data: IField } }).body.data;
+        (res as { body: { data: IFieldReadDto } }).body.data;
     });
     cy.sendCreateFieldRequest(field1ToDeleteCreateCommand, (res) => {
       field1ToDelete = //@ts-ignore
-        (res as { body: { data: IField } }).body.data;
+        (res as { body: { data: IFieldReadDto } }).body.data;
     });
     cy.sendCreateFieldRequest(field2ToDeleteCreateCommand, (res) => {
       field2ToDelete = //@ts-ignore
-        (res as { body: { data: IField } }).body.data;
+        (res as { body: { data: IFieldReadDto } }).body.data;
     });
 
     cy.sendCreateFieldRequest(fieldToFindInSearchCreateCommand, (res) => {
       fieldToFindInSearch = //@ts-ignore
-        (res as { body: { data: IField } }).body.data;
+        (res as { body: { data: IFieldReadDto } }).body.data;
     });
     cy.sendCreateFieldRequest(fieldToNotFindInSearchCreateCommand, (res) => {
       fieldToNotFindInSearch = //@ts-ignore
-        (res as { body: { data: IField } }).body.data;
+        (res as { body: { data: IFieldReadDto } }).body.data;
     });
   });
 

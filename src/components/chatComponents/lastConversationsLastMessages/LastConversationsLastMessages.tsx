@@ -8,9 +8,9 @@ import useGetLastConversationsLastMessages from "../../../hooks/apiHooks/useGetL
 import useStyles from "./lastConversationsLastMessages.styles";
 import {
   getConversationId,
-  IPopulatedMessage,
+  IPopulatedMessageReadDto,
 } from "../../../store/slices/chatSlice";
-import { IUser } from "../../../store/slices/userSlice";
+import { IUserReadDto } from "../../../store/slices/userSlice";
 import Pagination from "../../pagination";
 import useSearchUsers from "../../../hooks/apiHooks/useSearchUsers";
 import SearchInput from "../../searchInput";
@@ -36,7 +36,7 @@ const LastConversationsLastMessages: React.FunctionComponent<
   const total = useAppSelector(
     (state) => state.chat.totalLastConversationsLastMessages
   );
-  const user: IUser = useAppSelector((state) => state.user.user);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.chat
   );
@@ -75,7 +75,7 @@ const LastConversationsLastMessages: React.FunctionComponent<
 
   const handlePageChange = (page: number) => setPage(page);
 
-  const handleSelectConversationfromUsers = (users: IUser[]) => {
+  const handleSelectConversationfromUsers = (users: IUserReadDto[]) => {
     const conversationId: string = getConversationId([
       ...users.map((u) => u._id),
     ]);
@@ -85,9 +85,11 @@ const LastConversationsLastMessages: React.FunctionComponent<
   return (
     <div className={styles.lastConversationsLastMessagesContainer}>
       <SearchInput
-        getElementTitle={(user: IUser) => user.firstName + " " + user.lastName}
+        getElementTitle={(user: IUserReadDto) =>
+          user.firstName + " " + user.lastName
+        }
         searchPromise={handleSearchUsersPromise}
-        onElementClick={(u: IUser) =>
+        onElementClick={(u: IUserReadDto) =>
           handleSelectConversationfromUsers([user, u])
         }
         inputProps={{
@@ -105,21 +107,23 @@ const LastConversationsLastMessages: React.FunctionComponent<
         />
       )}
       {!loading &&
-        lastConversationsLastMessages.map((message: IPopulatedMessage) => {
-          const otherUser: IUser =
-            message.from._id !== user._id
-              ? message.from
-              : message.to.filter((to) => to._id !== user._id)[0];
+        lastConversationsLastMessages.map(
+          (message: IPopulatedMessageReadDto) => {
+            const otherUser: IUserReadDto =
+              message.from._id !== user._id
+                ? message.from
+                : message.to.filter((to) => to._id !== user._id)[0];
 
-          return (
-            <InboxConversation
-              key={message._id.toString()}
-              message={message}
-              otherUser={otherUser}
-              onSelectConversation={props.onSelectConversation}
-            />
-          );
-        })}
+            return (
+              <InboxConversation
+                key={message._id.toString()}
+                message={message}
+                otherUser={otherUser}
+                onSelectConversation={props.onSelectConversation}
+              />
+            );
+          }
+        )}
 
       <Pagination
         total={total}

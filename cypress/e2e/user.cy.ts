@@ -1,69 +1,69 @@
-import { UserCreateCommand } from "../../src/hooks/apiHooks/useCreateUser";
-import { IUser, SuperRole } from "../../src/store/slices/userSlice";
+import { IUserCreateCommand, IUserReadDto, SuperRoleEnum } from "roottypes";
 
 describe("users", () => {
-  let userToUpdate: IUser | undefined;
-  let user1ToDelete: IUser | undefined;
-  let user2ToDelete: IUser | undefined;
-  let userToFindInSearch: IUser | undefined;
-  let userToNotFindInSearch: IUser | undefined;
+  let userToUpdate: IUserReadDto | undefined;
+  let user1ToDelete: IUserReadDto | undefined;
+  let user2ToDelete: IUserReadDto | undefined;
+  let userToFindInSearch: IUserReadDto | undefined;
+  let userToNotFindInSearch: IUserReadDto | undefined;
 
   before(() => {
-    const createUserCommand: UserCreateCommand = {
+    const createUserCommand: IUserCreateCommand = {
       email: "userToUpdate@email.com",
       firstName: "userToUpdateFirstName",
       lastName: "userToUpdateLastName",
       password: "rootroot",
-      superRole: SuperRole.SuperAdmin,
+      superRole: SuperRoleEnum.SuperAdmin,
     };
 
-    const user1ToDeleteCommand: UserCreateCommand = {
+    const user1ToDeleteCommand: IUserCreateCommand = {
       email: "user1ToDelete@email.com",
       firstName: "user1ToDeleteFirstName",
       lastName: "user1ToDeleteLastName",
       password: "rootroot",
-      superRole: SuperRole.SuperAdmin,
+      superRole: SuperRoleEnum.SuperAdmin,
     };
 
-    const user2ToDeleteCommand: UserCreateCommand = {
+    const user2ToDeleteCommand: IUserCreateCommand = {
       email: "user2ToDelete@email.com",
       firstName: "user2ToDeleteFirstName",
       lastName: "user2ToDeleteLastName",
       password: "rootroot",
-      superRole: SuperRole.SuperAdmin,
+      superRole: SuperRoleEnum.SuperAdmin,
     };
 
-    const userToFindInSearchCommand: UserCreateCommand = {
+    const userToFindInSearchCommand: IUserCreateCommand = {
       email: "userToFindInSearch@email.com",
       firstName: "myFirstYouKnow",
       lastName: "TheSecondThing",
       password: "rootroot",
-      superRole: SuperRole.SuperAdmin,
+      superRole: SuperRoleEnum.SuperAdmin,
     };
 
-    const userToNotFindInSearchCommand: UserCreateCommand = {
+    const userToNotFindInSearchCommand: IUserCreateCommand = {
       email: "whereIsTheSearch@email.com",
       firstName: "Ishouldntbefound",
       lastName: "ThereGoesTheNoFound",
       password: "rootroot",
-      superRole: SuperRole.SuperAdmin,
+      superRole: SuperRoleEnum.SuperAdmin,
     };
 
     cy.sendCreateUserRequest(createUserCommand, (res) => {
-      userToUpdate = (res as { body: { data: IUser } }).body.data;
+      userToUpdate = (res as { body: { data: IUserReadDto } }).body.data;
     }).then(() => {
       cy.sendCreateUserRequest(user1ToDeleteCommand, (res) => {
-        user1ToDelete = (res as { body: { data: IUser } }).body.data;
+        user1ToDelete = (res as { body: { data: IUserReadDto } }).body.data;
       }).then(() => {
         cy.sendCreateUserRequest(user2ToDeleteCommand, (res) => {
-          user2ToDelete = (res as { body: { data: IUser } }).body.data;
+          user2ToDelete = (res as { body: { data: IUserReadDto } }).body.data;
         }).then(() => {
           cy.sendCreateUserRequest(userToFindInSearchCommand, (res) => {
-            userToFindInSearch = (res as { body: { data: IUser } }).body.data;
+            userToFindInSearch = (res as { body: { data: IUserReadDto } }).body
+              .data;
           }).then(() => {
             cy.sendCreateUserRequest(userToNotFindInSearchCommand, (res) => {
-              userToNotFindInSearch = (res as { body: { data: IUser } }).body
-                .data;
+              userToNotFindInSearch = (res as { body: { data: IUserReadDto } })
+                .body.data;
             });
           });
         });

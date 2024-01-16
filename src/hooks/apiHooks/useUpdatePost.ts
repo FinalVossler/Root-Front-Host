@@ -3,25 +3,12 @@ import React from "react";
 import IFile from "../../globalTypes/IFile";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { IPost, postSlice } from "../../store/slices/postSlice";
-import { IUser } from "../../store/slices/userSlice";
 import uploadFiles from "../../utils/uploadFiles";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-
-export type PostUpdateCommand = {
-  _id: string;
-  title?: string;
-  subTitle?: string;
-  content?: string;
-  files: IPost["files"];
-  visibility: IPost["visibility"];
-  design: IPost["design"];
-  children: string[];
-  language: string;
-  code?: string;
-};
+import { IPostUpdateCommand, IUserReadDto } from "roottypes";
 
 const useUpdatePost = () => {
-  const user: IUser = useAppSelector((state) => state.user.user);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
 
   const [loading, setLoading] = React.useState(false);
 
@@ -29,7 +16,7 @@ const useUpdatePost = () => {
   const dispatch = useAppDispatch();
 
   const updatePost = (
-    command: PostUpdateCommand,
+    command: IPostUpdateCommand,
     newFiles: File[],
     existingFiles: IFile[]
   ) =>

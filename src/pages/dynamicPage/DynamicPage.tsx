@@ -5,7 +5,7 @@ import { ITheme } from "../../config/theme";
 
 import withWrapper from "../../hoc/wrapper";
 import { useAppSelector } from "../../store/hooks";
-import { IPage } from "../../store/slices/pageSlice";
+import { IPageReadDto } from "../../store/slices/pageSlice";
 
 import useStyles from "./dynamicPage.styles";
 import { useParams } from "react-router-dom";
@@ -21,10 +21,10 @@ const DynamicPage: React.FunctionComponent<IDynamicPageProps> = (
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
-  const page: IPage | undefined = useAppSelector(
+  const page: IPageReadDto | undefined = useAppSelector(
     (state) => state.page.pages
   ).find((page) => page.slug === pageSlug);
-  const homePage: IPage | undefined = useAppSelector(
+  const homePage: IPageReadDto | undefined = useAppSelector(
     (state) => state.page.pages
   ).find((page) => page.slug.length === 0);
 

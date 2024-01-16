@@ -2,7 +2,7 @@ import React from "react";
 import { AiOutlineFileDone } from "react-icons/ai";
 
 import { ITheme } from "../../config/theme";
-import { IPost, PostDesign } from "../../store/slices/postSlice";
+import { IPost } from "../../store/slices/postSlice";
 import extractContentFromHtml from "../../utils/extractContentFromHtml";
 
 import ChildrenContainer from "../postsComponents/childrenContainer";
@@ -27,6 +27,7 @@ import PostAsEntityEditor from "../postsComponents/postAsEntityEditor";
 import useStyles from "./post.styles";
 import EntitiesList from "../../pages/entitiesPage/entitiesList";
 import FullWidthPicture from "../postsComponents/fullWidthPicture";
+import { IFileReadDto, PostDesignEnum } from "roottypes";
 
 interface IUserPostsProps {
   post: IPost;
@@ -56,18 +57,18 @@ const UserPosts: React.FunctionComponent<IUserPostsProps> = (
     [post.content]
   );
 
-  if (post.design === PostDesign.ModelForm) {
+  if (post.design === PostDesignEnum.ModelForm) {
     return <PostAsEntityEditor post={post} />;
   }
-  if (post.design === PostDesign.ModelList && Boolean(post.code)) {
+  if (post.design === PostDesignEnum.ModelList && Boolean(post.code)) {
     return <EntitiesList modelId={post.code || ""} />;
   }
 
-  if (post.design === PostDesign.Card) {
+  if (post.design === PostDesignEnum.Card) {
     return (
       <Card
         backgroundImage={
-          post.files.find((file) => file.isImage)?.url ||
+          (post.files as IFileReadDto[]).find((file) => file.isImage)?.url ||
           "assets/images/card4.jpeg"
         }
         description={description}
@@ -77,15 +78,17 @@ const UserPosts: React.FunctionComponent<IUserPostsProps> = (
     );
   }
 
-  if (post.design === PostDesign.fullWidthPicture) {
+  if (post.design === PostDesignEnum.fullWidthPicture) {
     return (
       <FullWidthPicture
-        pictureUrl={post.files.find((f) => f.isImage)?.url || ""}
+        pictureUrl={
+          (post.files as IFileReadDto[]).find((f) => f.isImage)?.url || ""
+        }
       />
     );
   }
 
-  if (post.design === PostDesign.TitleAndText) {
+  if (post.design === PostDesignEnum.TitleAndText) {
     return (
       <TitleAndText
         description={description}
@@ -93,44 +96,48 @@ const UserPosts: React.FunctionComponent<IUserPostsProps> = (
       />
     );
   }
-  if (post.design === PostDesign.Banner) {
+  if (post.design === PostDesignEnum.Banner) {
     return (
       <Banner description={description} title={getTranslatedText(post.title)} />
     );
   }
-  if (post.design === PostDesign.TitleImageAndText) {
+  if (post.design === PostDesignEnum.TitleImageAndText) {
     return (
       <TitleTextAndImage
         title={getTranslatedText(post.title)}
         description={description}
-        imageUrl={post.files.find((file) => file.isImage)?.url}
+        imageUrl={
+          (post.files as IFileReadDto[]).find((file) => file.isImage)?.url
+        }
       />
     );
   }
-  if (post.design === PostDesign.ChildrenContainer) {
+  if (post.design === PostDesignEnum.ChildrenContainer) {
     return <ChildrenContainer post={post} />;
   }
-  if (post.design === PostDesign.Spacing) {
+  if (post.design === PostDesignEnum.Spacing) {
     return (
       <Spacing height={post.code ? post.code : getTranslatedText(post.title)} />
     );
   }
-  if (post.design === PostDesign.RotatingCarzd) {
+  if (post.design === PostDesignEnum.RotatingCarzd) {
     return (
       <RotatingCard
         description={description}
         title={getTranslatedText(post.title)}
-        imageUrl={post.files.find((file) => file.isImage)?.url}
+        imageUrl={
+          (post.files as IFileReadDto[]).find((file) => file.isImage)?.url
+        }
       />
     );
   }
-  if (post.design === PostDesign.AnimatedTitle) {
+  if (post.design === PostDesignEnum.AnimatedTitle) {
     return <AnimatedTitle title={getTranslatedText(post.title)} />;
   }
-  if (post.design === PostDesign.UnderlinedTitle) {
+  if (post.design === PostDesignEnum.UnderlinedTitle) {
     return <UnderlinedTitle title={getTranslatedText(post.title)} />;
   }
-  if (post.design === PostDesign.Footer) {
+  if (post.design === PostDesignEnum.Footer) {
     let descriptionWithoutLinks: string = extractContentFromHtml(
       getTranslatedText(post.content)
     );
@@ -150,30 +157,36 @@ const UserPosts: React.FunctionComponent<IUserPostsProps> = (
       />
     );
   }
-  if (post.design === PostDesign.ContactForm) {
+  if (post.design === PostDesignEnum.ContactForm) {
     return <ContactForm post={post} />;
   }
-  if (post.design === PostDesign.Person) {
+  if (post.design === PostDesignEnum.Person) {
     return (
       <Person
-        cvLink={post.files.find((file) => !file.isImage)?.url}
+        cvLink={
+          (post.files as IFileReadDto[]).find((file) => !file.isImage)?.url
+        }
         name={getTranslatedText(post.title)}
         description={extractContentFromHtml(getTranslatedText(post.content))}
         occupation={getTranslatedText(post.subTitle)}
-        picture={post.files.find((file) => file.isImage)?.url}
+        picture={
+          (post.files as IFileReadDto[]).find((file) => file.isImage)?.url
+        }
       />
     );
   }
-  if (post.design === PostDesign.Card2) {
+  if (post.design === PostDesignEnum.Card2) {
     return (
       <Card2
         title={getTranslatedText(post.title)}
-        backgroundImage={post.files.find((file) => file.isImage)?.url}
+        backgroundImage={
+          (post.files as IFileReadDto[]).find((file) => file.isImage)?.url
+        }
         description={extractContentFromHtml(getTranslatedText(post.content))}
       />
     );
   }
-  if (post.design === PostDesign.Video) {
+  if (post.design === PostDesignEnum.Video) {
     return (
       <Video
         title={getTranslatedText(post.title)}
@@ -197,7 +210,7 @@ const UserPosts: React.FunctionComponent<IUserPostsProps> = (
 
       {post.files.length > 0 && (
         <div className={styles.postFiles}>
-          {post?.files?.map((file, index) => {
+          {(post?.files as IFileReadDto[])?.map((file, index) => {
             return (
               <a
                 key={"postFile" + index}

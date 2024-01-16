@@ -1,4 +1,4 @@
-import ITranslatedText from "../globalTypes/ITranslatedText";
+import { ITranslatedText } from "roottypes";
 import { useAppSelector } from "../store/hooks";
 
 const getTranslatedText =

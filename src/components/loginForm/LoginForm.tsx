@@ -12,9 +12,10 @@ import { ITheme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./loginForm.styles";
-import useLogin, { UserLoginCommand } from "../../hooks/apiHooks/useLogin";
+import useLogin from "../../hooks/apiHooks/useLogin";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { useNavigate } from "react-router-dom";
+import { IUserLoginCommand } from "roottypes";
 
 interface ILoginFormFormik {
   email: string;
@@ -49,7 +50,7 @@ const LoginForm: React.FunctionComponent<ILoginFormProps> = (
         .min(6, "Password length should be at least 6 characters"),
     }),
     onSubmit: async (values: ILoginFormFormik) => {
-      const command: UserLoginCommand = {
+      const command: IUserLoginCommand = {
         email: values.email,
         password: values.password,
       };

@@ -13,21 +13,21 @@ import Button from "../../button";
 import { useAppSelector } from "../../../store/hooks";
 import Input from "../../input";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
-import { IUser, SuperRole } from "../../../store/slices/userSlice";
-import useUpdateUser, {
-  UserUpdateCommand,
-} from "../../../hooks/apiHooks/useUpdateUser";
-import useCreateUser, {
-  UserCreateCommand,
-} from "../../../hooks/apiHooks/useCreateUser";
-import useGetRoles, {
-  RolesGetCommand,
-} from "../../../hooks/apiHooks/useGetRoles";
+import useUpdateUser from "../../../hooks/apiHooks/useUpdateUser";
+import useCreateUser from "../../../hooks/apiHooks/useCreateUser";
+import useGetRoles from "../../../hooks/apiHooks/useGetRoles";
 import InputSelect from "../../inputSelect";
-import { IRole } from "../../../store/slices/roleSlice";
+import {
+  IRoleReadDto,
+  IRolesGetCommand,
+  IUserCreateCommand,
+  IUserReadDto,
+  IUserUpdateCommand,
+  SuperRoleEnum,
+} from "roottypes";
 
 export interface IUserEditorProps {
-  user?: IUser;
+  user?: IUserReadDto;
   open?: boolean;
   setOpen?: (boolean) => void;
 }
@@ -39,7 +39,7 @@ interface IUserFormFormik {
   roleId?: string;
   password: string;
   confirmPassword: string;
-  superRole: SuperRole;
+  superRole: SuperRoleEnum;
 }
 
 const UserEditor: React.FunctionComponent<IUserEditorProps> = (
@@ -51,8 +51,8 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration?.staticText?.profile
   );
-  const roles: IRole[] = useAppSelector((state) => state.role.roles);
-  const user: IUser = useAppSelector((state) => state.user.user);
+  const roles: IRoleReadDto[] = useAppSelector((state) => state.role.roles);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
 
   //#region Local state
   const [userModalOpen, setUserModalOpen] = React.useState<boolean>(false);
@@ -71,7 +71,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
       roleId: "",
       password: "",
       confirmPassword: "",
-      superRole: SuperRole.Normal,
+      superRole: SuperRoleEnum.Normal,
     },
     validationSchema: Yup.object().shape({
       email: Yup.string()
@@ -94,7 +94,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
     }),
     onSubmit: async (values: IUserFormFormik) => {
       if (props.user) {
-        const command: UserUpdateCommand = {
+        const command: IUserUpdateCommand = {
           _id: props.user._id,
           firstName: values.firstName,
           lastName: values.lastName,
@@ -105,7 +105,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
 
         await updateUser(command);
       } else {
-        const command: UserCreateCommand = {
+        const command: IUserCreateCommand = {
           firstName: values.firstName,
           lastName: values.lastName,
           email: values.email,
@@ -132,7 +132,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
 
   React.useEffect(() => {
     if (userModalOpen) {
-      const getRolesCommand: RolesGetCommand = {
+      const getRolesCommand: IRolesGetCommand = {
         paginationCommand: {
           limit: 999,
           page: 1,
@@ -144,8 +144,8 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
 
   React.useEffect(() => {
     // Initialize the form based on the passed user to update
-    const role: IRole | undefined = roles.find(
-      (r) => r._id === props.user?.role?._id
+    const role: IRoleReadDto | undefined = roles.find(
+      (r) => r._id === (props.user?.role as IRoleReadDto)?._id
     );
     formik.resetForm({
       values: {
@@ -154,8 +154,8 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
         email: props.user?.email || "",
         password: props.user ? "********" : "",
         confirmPassword: props.user ? "********" : "",
-        roleId: props.user?.role?._id,
-        superRole: props.user?.superRole || SuperRole.Normal,
+        roleId: (props.user?.role as IRoleReadDto)?._id,
+        superRole: props.user?.superRole || SuperRoleEnum.Normal,
       },
     });
   }, [props.user, roles]);
@@ -179,11 +179,11 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
     return [
       {
         label: getTranslatedText(staticText?.superAdmin),
-        value: SuperRole.SuperAdmin,
+        value: SuperRoleEnum.SuperAdmin,
       },
       {
         label: getTranslatedText(staticText?.normal),
-        value: SuperRole?.Normal,
+        value: SuperRoleEnum?.Normal,
       },
     ];
   }, []);
@@ -247,7 +247,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
 
         <InputSelect
           name="superRole"
-          disabled={user.superRole !== SuperRole.SuperAdmin}
+          disabled={user.superRole !== SuperRoleEnum.SuperAdmin}
           label={getTranslatedText(staticText?.superRole)}
           value={superRolesOptions.find(
             (el) => el.value === formik.values.superRole

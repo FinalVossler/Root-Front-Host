@@ -13,40 +13,20 @@ import { FormikProps, useFormik } from "formik";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import InputSelect from "../../inputSelect";
 import getLanguages from "../../../utils/getLanguages";
-import { IEntity, IEntityFieldValue } from "../../../store/slices/entitySlice";
-import useUpdateEntity, {
-  EntityUpdateCommand,
-} from "../../../hooks/apiHooks/useUpdateEntity";
-import useCreateEntity, {
-  EntityCreateCommand,
-} from "../../../hooks/apiHooks/useCreateEntity";
-import { IModel, IModelField } from "../../../store/slices/modelSlice";
-import { FieldType } from "../../../store/slices/fieldSlice";
+import useUpdateEntity from "../../../hooks/apiHooks/useUpdateEntity";
+import useCreateEntity from "../../../hooks/apiHooks/useCreateEntity";
+import { IModelField } from "../../../store/slices/modelSlice";
 import Input from "../../input";
 import Textarea from "../../textarea";
-import IFile from "../../../globalTypes/IFile";
 import EntityFieldFiles from "./entityFieldFiles";
 import uploadFiles from "../../../utils/uploadFiles";
 import { Option } from "../../inputSelect/InputSelect";
-import { IUser, SuperRole } from "../../../store/slices/userSlice";
-import {
-  IEntityPermission,
-  IRole,
-  StaticPermission,
-} from "../../../store/slices/roleSlice";
 import useAxios from "../../../hooks/useAxios";
-import {
-  EventTriggerEnum,
-  EventTypeEnum,
-  IEvent,
-} from "../../../globalTypes/IEvent";
 import areEntityFieldConditionsMet from "../../../utils/areEntityFieldConditionsMet";
 
 import useStyles from "./entityEditor.styles";
 import sendEventApiCall from "../../../utils/sendEventApiCall";
-import useGetRoles, {
-  RolesGetCommand,
-} from "../../../hooks/apiHooks/useGetRoles";
+import useGetRoles from "../../../hooks/apiHooks/useGetRoles";
 import SearchInput from "../../searchInput";
 import useSearchUsersByRole from "../../../hooks/apiHooks/useSearchUsersByRole";
 import UserProfilePicture, {
@@ -54,29 +34,48 @@ import UserProfilePicture, {
 } from "../../userProfilePicture/UserProfilePicture";
 import EntityEditorStates from "./entityEditorStates/EntityEditorStates";
 import EntityEditorTableField from "./entityEditorTableField";
+import isValidUrl from "../../../utils/isValidUrl";
 import {
+  FieldTypeEnum,
+  IEntityCreateCommand,
+  IEntityReadDto,
   IEntityTableFieldCaseValueCommand,
   IEntityYearTableFieldRowValuesCommand,
-} from "../../../hooks/apiHooks/useCreateEntity";
-import isValidUrl from "../../../utils/isValidUrl";
+  IFieldReadDto,
+  IModelReadDto,
+  IRoleReadDto,
+  IUserReadDto,
+  IEntityFieldValueReadDto,
+  IFileReadDto,
+  IEntityPermissionReadDto,
+  SuperRoleEnum,
+  IEntityUpdateCommand,
+  IMicroFrontendComponentReadDto,
+  IFieldTableElementReadDto,
+  IRolesGetCommand,
+  StaticPermissionEnum,
+  EventTriggerEnum,
+  EventTypeEnum,
+  IEventReadDto,
+} from "roottypes";
 
 export interface IEntityFieldValueForm {
   fieldId: string;
   value: string;
-  selectedExistingFiles?: IFile[];
+  selectedExistingFiles?: IFileReadDto[];
   newFiles?: File[];
 
   tableValues: IEntityTableFieldCaseValueCommand[];
   yearTableValues: IEntityYearTableFieldRowValuesCommand[];
 
   // The combined result of selectedExistingFiles and newFiels after uploading the newFiles
-  files?: IFile[];
+  files?: IFileReadDto[];
 }
 
 export interface IEntityEditorFormFormik {
   modelId: string;
   entityFieldValues: IEntityFieldValueForm[];
-  assignedUsers: IUser[];
+  assignedUsers: IUserReadDto[];
   language: string;
 }
 
@@ -86,7 +85,7 @@ export interface IErroredField {
 }
 
 export interface IEntityEditorFormProps {
-  entity?: IEntity;
+  entity?: IEntityReadDto;
   open: boolean;
   setOpen: (open: boolean) => void;
   modelId?: string;
@@ -106,11 +105,11 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration?.staticText?.entities
   );
-  const model: IModel | undefined = useAppSelector((state) =>
+  const model: IModelReadDto | undefined = useAppSelector((state) =>
     state.model.models.find((m) => m._id === props.modelId)
   );
-  const user: IUser = useAppSelector((state) => state.user.user);
-  const roles: IRole[] = useAppSelector((state) => state.role.roles);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
+  const roles: IRoleReadDto[] = useAppSelector((state) => state.role.roles);
 
   //#region Local state
   const [uploadFilesLoading, setUploadFilesLoading] =
@@ -130,7 +129,8 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
   const formik: FormikProps<IEntityEditorFormFormik> =
     useFormik<IEntityEditorFormFormik>({
       initialValues: {
-        modelId: props.modelId || props.entity?.model._id || "",
+        modelId:
+          props.modelId || (props.entity?.model as IModelReadDto)._id || "",
         entityFieldValues: [],
         language,
         assignedUsers: [],
@@ -145,13 +145,16 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
             model?.modelFields.forEach((modelField: IModelField) => {
               let fieldValid: boolean = true;
               const entityFieldValue = entityFieldValues.find(
-                (e) => e.fieldId === modelField.field._id
+                (e) => e.fieldId === (modelField.field as IFieldReadDto)._id
               );
               if (modelField.required) {
                 if (!entityFieldValue) {
                   fieldValid = false;
                 } else {
-                  if (modelField.field.type === FieldType.File) {
+                  if (
+                    (modelField.field as IFieldReadDto).type ===
+                    FieldTypeEnum.File
+                  ) {
                     if (
                       (!entityFieldValue.newFiles ||
                         entityFieldValue.newFiles.length === 0) &&
@@ -169,7 +172,10 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
                       fieldValid = false;
                     }
                   }
-                  if (modelField.field.type === FieldType.IFrame) {
+                  if (
+                    (modelField.field as IFieldReadDto).type ===
+                    FieldTypeEnum.IFrame
+                  ) {
                     if (!isValidUrl(entityFieldValue.value)) {
                       fieldValid = false;
                     }
@@ -178,7 +184,9 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
                 if (!fieldValid) {
                   newErroredFields.push({
                     errorText:
-                      getTranslatedText(modelField.field.name) +
+                      getTranslatedText(
+                        (modelField.field as IFieldReadDto).name
+                      ) +
                       ": " +
                       getTranslatedText(staticText?.required),
                     modelField,
@@ -186,14 +194,17 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
                 }
               }
               if (
-                modelField.field.type === FieldType.IFrame &&
+                (modelField.field as IFieldReadDto).type ===
+                  FieldTypeEnum.IFrame &&
                 Boolean(entityFieldValue?.value) &&
                 !isValidUrl(entityFieldValue?.value)
               ) {
                 fieldValid = false;
                 newErroredFields.push({
                   errorText:
-                    getTranslatedText(modelField.field.name) +
+                    getTranslatedText(
+                      (modelField.field as IFieldReadDto).name
+                    ) +
                     ": " +
                     getTranslatedText(staticText?.mustBeValidUrl),
                   modelField,
@@ -210,7 +221,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
       onSubmit: async (values: IEntityEditorFormFormik) => {
         setUploadFilesLoading(true);
 
-        const uploadNewFilesPromises: Promise<IFile[]>[] = [];
+        const uploadNewFilesPromises: Promise<IFileReadDto[]>[] = [];
 
         // preparing the files by uploading the new files and combining the new files and the selected own files into one array
         values.entityFieldValues.forEach(async (entityFieldValue) => {
@@ -218,12 +229,12 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
             ...(entityFieldValue.selectedExistingFiles || []),
           ];
 
-          const promise = new Promise<IFile[]>(async (resolve, _) => {
+          const promise = new Promise<IFileReadDto[]>(async (resolve, _) => {
             if (
               entityFieldValue.newFiles &&
               entityFieldValue.newFiles.length > 0
             ) {
-              const newFiles: IFile[] = await uploadFiles(
+              const newFiles: IFileReadDto[] = await uploadFiles(
                 entityFieldValue.newFiles
               );
               entityFieldValue.files = (entityFieldValue.files || []).concat(
@@ -243,10 +254,10 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
 
         setUploadFilesLoading(false);
 
-        let createdOrUpdateEntity: IEntity | null = null;
+        let createdOrUpdateEntity: IEntityReadDto | null = null;
 
         if (props.entity) {
-          const command: EntityUpdateCommand = {
+          const command: IEntityUpdateCommand = {
             _id: props.entity._id,
             entityFieldValues: values.entityFieldValues.map((e) => ({
               fieldId: e.fieldId,
@@ -262,7 +273,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
 
           createdOrUpdateEntity = await updateEntity(command);
         } else {
-          const command: EntityCreateCommand = {
+          const command: IEntityCreateCommand = {
             entityFieldValues: values.entityFieldValues.map((e) => ({
               fieldId: e.fieldId,
               files: e.files || [],
@@ -316,9 +327,12 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
                     "/microFrontend/" +
                       modelEvent.microFrontend?._id +
                       "/" +
-                      modelEvent.microFrontend.components.find(
-                        (el) =>
-                          el._id.toString() ===
+                      (
+                        modelEvent.microFrontend
+                          .components as IMicroFrontendComponentReadDto[]
+                      ).find(
+                        (component) =>
+                          component._id.toString() ===
                           modelEvent.microFrontendComponentId
                       )?.name
                   );
@@ -336,23 +350,25 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
       values: {
         entityFieldValues:
           model?.modelFields.map((modelField) => {
-            const entityFieldValue: IEntityFieldValue | undefined =
+            const entityFieldValue: IEntityFieldValueReadDto | undefined =
               props.entity?.entityFieldValues.find(
                 (entityFieldValue) =>
-                  entityFieldValue.field._id === modelField.field._id
+                  (entityFieldValue.field as IFieldReadDto)._id ===
+                  (modelField.field as IFieldReadDto)._id
               );
 
             const entityFieldValueForm: IEntityFieldValueForm = {
-              fieldId: modelField.field._id,
-              selectedExistingFiles: entityFieldValue?.files,
+              fieldId: (modelField.field as IFieldReadDto)._id,
+              selectedExistingFiles: entityFieldValue?.files as IFileReadDto[],
               value: getTranslatedText(
                 entityFieldValue?.value,
                 formik.values.language
               ),
               tableValues:
                 entityFieldValue?.tableValues?.map((tableValue) => ({
-                  columnId: tableValue.column._id,
-                  rowId: tableValue.row._id,
+                  columnId: (tableValue.column as IFieldTableElementReadDto)
+                    ._id,
+                  rowId: (tableValue.row as IFieldTableElementReadDto)._id,
                   value: getTranslatedText(
                     tableValue.value,
                     formik.values.language
@@ -360,7 +376,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
                 })) || [],
               yearTableValues:
                 entityFieldValue?.yearTableValues?.map((yearTableValue) => ({
-                  rowId: yearTableValue.row._id,
+                  rowId: (yearTableValue.row as IFieldTableElementReadDto)._id,
                   values: yearTableValue.values.map((yearTableValue) => ({
                     year: yearTableValue.year,
                     value: getTranslatedText(
@@ -372,8 +388,9 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
             };
             return entityFieldValueForm;
           }) || [],
-        assignedUsers: props.entity?.assignedUsers || [],
-        modelId: props.modelId || props.entity?.model._id || "",
+        assignedUsers: (props.entity?.assignedUsers as IUserReadDto[]) || [],
+        modelId:
+          props.modelId || (props.entity?.model as IModelReadDto)._id || "",
         language: formik.values.language,
       },
     });
@@ -381,7 +398,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
 
   // Loading roles (useful for entity user assignment)
   React.useEffect(() => {
-    const command: RolesGetCommand = {
+    const command: IRolesGetCommand = {
       paginationCommand: {
         limit: 999,
         page: 1,
@@ -430,21 +447,28 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
 
       {model?.modelFields.map((modelField, modelFieldIndex) => {
         // Check if we can show the field based on role field permissions first:
-        const foundFieldPermissions = user.role?.entityPermissions
-          .find(
-            (entityPermission) => entityPermission.model._id === props.modelId
+        const foundFieldPermissions = (
+          (user.role as IRoleReadDto)?.entityPermissions as
+            | IEntityPermissionReadDto[]
+            | undefined
+        )
+          ?.find(
+            (entityPermission) =>
+              (entityPermission.model as IModelReadDto)._id === props.modelId
           )
           ?.entityFieldPermissions.find(
             (entityFieldPermission) =>
-              entityFieldPermission.field._id === modelField.field._id
+              (entityFieldPermission.field as IFieldReadDto)._id ===
+              (modelField.field as IFieldReadDto)._id
           );
 
         if (
           // By default, if we don't find the field permission in the db for the role, then all the permissions should apply
           foundFieldPermissions &&
-          foundFieldPermissions.permissions.indexOf(StaticPermission.Read) ===
-            -1 &&
-          user.superRole !== SuperRole.SuperAdmin
+          foundFieldPermissions.permissions.indexOf(
+            StaticPermissionEnum.Read
+          ) === -1 &&
+          user.superRole !== SuperRoleEnum.SuperAdmin
         ) {
           return null;
         }
@@ -453,9 +477,9 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
         const canEdit =
           foundFieldPermissions === undefined ||
           foundFieldPermissions?.permissions.indexOf(
-            StaticPermission.Update
+            StaticPermissionEnum.Update
           ) !== -1 ||
-          user.superRole === SuperRole.SuperAdmin;
+          user.superRole === SuperRoleEnum.SuperAdmin;
         !props.readOnly;
 
         // Check if we can show the field based on conditions second
@@ -471,7 +495,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
 
         const entityFieldValue: IEntityFieldValueForm | undefined =
           formik.values.entityFieldValues.find(
-            (el) => el.fieldId === modelField.field._id
+            (el) => el.fieldId === (modelField.field as IFieldReadDto)._id
           );
 
         const value = entityFieldValue?.value;
@@ -482,7 +506,10 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
           formik.setFieldValue(
             "entityFieldValues",
             formik.values.entityFieldValues.map((entityFieldValue) => {
-              if (entityFieldValue.fieldId === modelField.field._id) {
+              if (
+                entityFieldValue.fieldId ===
+                (modelField.field as IFieldReadDto)._id
+              ) {
                 return {
                   ...entityFieldValue,
                   value: e.target.value.toString(),
@@ -495,9 +522,9 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
         };
 
         if (
-          modelField.field.type === FieldType.Text ||
-          modelField.field.type === FieldType.Number ||
-          modelField.field.type === FieldType.IFrame
+          (modelField.field as IFieldReadDto).type === FieldTypeEnum.Text ||
+          (modelField.field as IFieldReadDto).type === FieldTypeEnum.Number ||
+          (modelField.field as IFieldReadDto).type === FieldTypeEnum.IFrame
         ) {
           return (
             <React.Fragment key={modelFieldIndex}>
@@ -506,13 +533,18 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
                 formik={formik}
                 name="entityFieldValues"
                 value={value}
-                label={getTranslatedText(modelField.field.name)}
+                label={getTranslatedText(
+                  (modelField.field as IFieldReadDto).name
+                )}
                 onChange={handleOnChange}
                 inputProps={{
                   disabled: !canEdit,
-                  placeholder: getTranslatedText(modelField.field.name),
+                  placeholder: getTranslatedText(
+                    (modelField.field as IFieldReadDto).name
+                  ),
                   type:
-                    modelField.field.type === FieldType.Number
+                    (modelField.field as IFieldReadDto).type ===
+                    FieldTypeEnum.Number
                       ? "number"
                       : "text",
                 }}
@@ -520,20 +552,22 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
                   (Boolean(formik.touched.entityFieldValues) &&
                     erroredFields.find(
                       (erroredField) =>
-                        erroredField.modelField.field._id ===
-                        modelField.field._id
+                        (erroredField.modelField.field as IFieldReadDto)._id ===
+                        (modelField.field as IFieldReadDto)._id
                     )?.errorText) ||
                   ""
                 }
                 inputDataCy={
-                  "entityFieldInputForField" + modelField.field._id.toString()
+                  "entityFieldInputForField" +
+                  (modelField.field as IFieldReadDto)._id.toString()
                 }
                 inputErrorDataCy={
                   "entityFieldInputErrorForField" +
-                  modelField.field._id.toString()
+                  (modelField.field as IFieldReadDto)._id.toString()
                 }
               />
-              {modelField.field.type === FieldType.IFrame &&
+              {(modelField.field as IFieldReadDto).type ===
+                FieldTypeEnum.IFrame &&
                 isValidUrl(value) && (
                   <iframe
                     src={value + "&output=embed"}
@@ -544,24 +578,30 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
           );
         }
 
-        if (modelField.field.type === FieldType.Paragraph) {
+        if (
+          (modelField.field as IFieldReadDto).type === FieldTypeEnum.Paragraph
+        ) {
           return (
             <Textarea
               key={modelFieldIndex}
               formik={formik}
               name="entityFieldValues"
               value={value}
-              label={getTranslatedText(modelField.field.name)}
+              label={getTranslatedText(
+                (modelField.field as IFieldReadDto).name
+              )}
               onChange={handleOnChange}
               textareaProps={{
                 disabled: !canEdit,
-                placeholder: getTranslatedText(modelField.field.name),
+                placeholder: getTranslatedText(
+                  (modelField.field as IFieldReadDto).name
+                ),
               }}
             />
           );
         }
 
-        if (modelField.field.type === FieldType.File) {
+        if ((modelField.field as IFieldReadDto).type === FieldTypeEnum.File) {
           return (
             <EntityFieldFiles
               key={modelFieldIndex}
@@ -573,18 +613,22 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
           );
         }
 
-        if (modelField.field.type === FieldType.Selector) {
+        if (
+          (modelField.field as IFieldReadDto).type === FieldTypeEnum.Selector
+        ) {
           const options =
-            modelField.field.options?.map((op) => ({
+            (modelField.field as IFieldReadDto).options?.map((op) => ({
               label: getTranslatedText(op.label),
               value: op.value,
             })) || [];
           return (
             <InputSelect
               key={modelFieldIndex}
-              label={getTranslatedText(modelField.field.name)}
+              label={getTranslatedText(
+                (modelField.field as IFieldReadDto).name
+              )}
               options={
-                modelField.field.options?.map((op) => ({
+                (modelField.field as IFieldReadDto).options?.map((op) => ({
                   label: getTranslatedText(op.label),
                   value: op.value,
                 })) || []
@@ -595,13 +639,18 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
                   value: "",
                 }
               }
-              placeholder={getTranslatedText(modelField.field.name)}
+              placeholder={getTranslatedText(
+                (modelField.field as IFieldReadDto).name
+              )}
               disabled={!canEdit}
               onChange={(option: Option) => {
                 formik.setFieldValue(
                   "entityFieldValues",
                   formik.values.entityFieldValues.map((entityFieldValue) => {
-                    if (entityFieldValue.fieldId === modelField.field._id) {
+                    if (
+                      entityFieldValue.fieldId ===
+                      (modelField.field as IFieldReadDto)._id
+                    ) {
                       return {
                         ...entityFieldValue,
                         value: option.value,
@@ -616,14 +665,15 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
                 (Boolean(formik.touched.entityFieldValues) &&
                   erroredFields.find(
                     (erroredField) =>
-                      erroredField.modelField.field._id === modelField.field._id
+                      (erroredField.modelField.field as IFieldReadDto)._id ===
+                      (modelField.field as IFieldReadDto)._id
                   )?.errorText) ||
                 ""
               }
             />
           );
         }
-        if (modelField.field.type === FieldType.Table) {
+        if ((modelField.field as IFieldReadDto).type === FieldTypeEnum.Table) {
           return (
             <EntityEditorTableField
               key={modelFieldIndex}
@@ -635,7 +685,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
             />
           );
         }
-        if (modelField.field.type === FieldType.Button) {
+        if ((modelField.field as IFieldReadDto).type === FieldTypeEnum.Button) {
           return (
             <Button
               key={modelFieldIndex}
@@ -651,12 +701,12 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
                 e: React.MouseEvent<HTMLButtonElement, MouseEvent>
               ) => {
                 e.preventDefault();
-                modelField.field.fieldEvents
+                (modelField.field as IFieldReadDto).fieldEvents
                   .filter(
                     (fieldEvent) =>
                       fieldEvent.eventTrigger === EventTriggerEnum.OnClick
                   )
-                  .forEach(async (fieldEvent: IEvent) => {
+                  .forEach(async (fieldEvent: IEventReadDto) => {
                     switch (fieldEvent.eventType) {
                       case EventTypeEnum.Redirection: {
                         window.location.href = fieldEvent.redirectionUrl;
@@ -678,13 +728,16 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
                               "/" +
                               props.entity._id +
                               "/" +
-                              fieldEvent.microFrontend.components.find(
+                              (
+                                fieldEvent.microFrontend
+                                  .components as IMicroFrontendComponentReadDto[]
+                              ).find(
                                 (el) =>
                                   el._id.toString() ===
                                   fieldEvent.microFrontendComponentId
                               )?.name +
                               "/" +
-                              modelField.field._id.toString()
+                              (modelField.field as IFieldReadDto)._id.toString()
                           );
                         }
                       }
@@ -692,7 +745,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
                   });
               }}
             >
-              {getTranslatedText(modelField.field.name)}
+              {getTranslatedText((modelField.field as IFieldReadDto).name)}
             </Button>
           );
         }
@@ -703,13 +756,18 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
       </h3>
       {roles
         .filter((role) => {
-          if (user.superRole === SuperRole.SuperAdmin) {
+          if (user.superRole === SuperRoleEnum.SuperAdmin) {
             return true;
           }
 
-          const userPermissionsOnEntity: IEntityPermission | undefined =
-            user.role?.entityPermissions.find(
-              (e) => e.model._id.toString() === model?._id.toString()
+          const userPermissionsOnEntity: IEntityPermissionReadDto | undefined =
+            (
+              (user.role as IRoleReadDto)
+                ?.entityPermissions as IEntityPermissionReadDto[]
+            ).find(
+              (e) =>
+                (e.model as IModelReadDto)._id.toString() ===
+                model?._id.toString()
             );
 
           if (!userPermissionsOnEntity) {
@@ -718,17 +776,21 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
             if (
               userPermissionsOnEntity.entityUserAssignmentPermissionsByRole
                 ?.canAssignToUserFromSameRole &&
-              role._id.toString() === user.role?._id.toString()
+              role._id.toString() ===
+                (user.role as IRoleReadDto)?._id.toString()
             ) {
               return true;
             } else {
-              return userPermissionsOnEntity.entityUserAssignmentPermissionsByRole?.otherRoles.some(
+              return (
+                userPermissionsOnEntity.entityUserAssignmentPermissionsByRole
+                  ?.otherRoles as IRoleReadDto[]
+              ).some(
                 (otherRole) => otherRole._id.toString() === role._id.toString()
               );
             }
           }
         })
-        .map((role: IRole) => {
+        .map((role: IRoleReadDto) => {
           return (
             <div
               key={role._id}
@@ -739,13 +801,13 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
                   role._id.toString()
                 )}
                 label={getTranslatedText(role?.name) + ":"}
-                getElementTitle={(user: IUser) =>
+                getElementTitle={(user: IUserReadDto) =>
                   user.firstName + " " + user.lastName
                 }
                 inputProps={{
                   placeholder: getTranslatedText(staticText?.searchUsers),
                 }}
-                onElementClick={(user: IUser) => {
+                onElementClick={(user: IUserReadDto) => {
                   if (
                     !formik.values.assignedUsers.some(
                       (u) => u._id.toString() === user._id.toString()
@@ -761,8 +823,12 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
               />
 
               {formik.values.assignedUsers
-                .filter((u) => u.role?._id.toString() === role._id.toString())
-                .map((user: IUser) => {
+                .filter(
+                  (u) =>
+                    (u.role as IRoleReadDto)?._id.toString() ===
+                    role._id.toString()
+                )
+                .map((user: IUserReadDto) => {
                   return (
                     <div
                       key={user._id}
@@ -780,7 +846,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
                         className={styles.deleteAssignedUserIcon}
                       />
                       <UserProfilePicture
-                        url={user.profilePicture?.url}
+                        url={(user.profilePicture as IFileReadDto)?.url}
                         size={SizeEnum.Average}
                       />
                       <span className={styles.assignedUsername}>

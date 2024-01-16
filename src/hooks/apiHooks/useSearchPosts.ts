@@ -2,24 +2,21 @@ import React from "react";
 import { AxiosResponse } from "axios";
 import uuid from "react-uuid";
 
-import PaginationCommand from "../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
-import { IPost, postSlice, PostVisibility } from "../../store/slices/postSlice";
-import { IUser } from "../../store/slices/userSlice";
+import { IPost, postSlice } from "../../store/slices/postSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { IPage } from "../../store/slices/pageSlice";
 import { useAppDispatch } from "../../store/hooks";
-
-export type PostsSearchCommand = {
-  title: string;
-  visibilities: IPost["visibility"][];
-  posterId: IPost["posterId"];
-  paginationCommand: PaginationCommand;
-};
+import {
+  IPageReadDto,
+  IPaginationCommand,
+  IPostsSearchCommand,
+  IUserReadDto,
+  PostVisibilityEnum,
+} from "roottypes";
 
 const useSearchPosts = (
-  user: IUser,
-  page: IPage | undefined,
+  user: IUserReadDto,
+  page: IPageReadDto | undefined,
   parentPost: IPost | undefined
 ) => {
   const [selectedPosts, setSelectedPosts] = React.useState<IPost[]>([]);
@@ -27,14 +24,14 @@ const useSearchPosts = (
   // The searched posts should be initialized to the pages' posts
   React.useEffect(() => {
     if (page) {
-      const newSelectedPosts = [...page.posts];
+      const newSelectedPosts = [...page.posts] as IPost[];
 
       setSelectedPosts(
         newSelectedPosts.map((post) => ({ ...post, uuid: uuid() }))
       );
     }
     if (parentPost) {
-      const newSelectedPosts = [...parentPost.children];
+      const newSelectedPosts = [...parentPost.children] as IPost[];
 
       setSelectedPosts(
         newSelectedPosts.map((post) => ({ ...post, uuid: uuid() }))
@@ -47,14 +44,14 @@ const useSearchPosts = (
 
   const handleSearchPostsPromise = (
     title: string,
-    paginationCommand: PaginationCommand
+    paginationCommand: IPaginationCommand
   ) =>
     new Promise<PaginationResponse<IPost>>((resolve, _) => {
-      const command: PostsSearchCommand = {
+      const command: IPostsSearchCommand = {
         paginationCommand: paginationCommand,
         posterId: user._id,
         title,
-        visibilities: Object.values(PostVisibility),
+        visibilities: Object.values(PostVisibilityEnum),
       };
 
       axios

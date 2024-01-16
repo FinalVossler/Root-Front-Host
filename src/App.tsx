@@ -17,13 +17,13 @@ import ForgotPasswordChangePasswordPage from "./pages/forgotPasswordChangePasswo
 import AuthenticatedApp from "./AuthenticatedApp";
 import useIsLoggedIn from "./hooks/useIsLoggedIn";
 import { useAppSelector } from "./store/hooks";
-import { IPage } from "./store/slices/pageSlice";
+import { IPageReadDto } from "./store/slices/pageSlice";
 import AppModals from "./AppModals";
 
 import "./index.css";
 
 function App() {
-  const homePage: IPage | undefined = useAppSelector(
+  const homePage: IPageReadDto | undefined = useAppSelector(
     (state) => state.page.pages
   ).find((page) => page.slug.length === 0);
 

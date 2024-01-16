@@ -11,11 +11,16 @@ import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useHasPermission from "../../hooks/useHasPermission";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { IModel, modelSlice } from "../../store/slices/modelSlice";
-import { Permission } from "../../store/slices/roleSlice";
+import { modelSlice } from "../../store/slices/modelSlice";
 
 import useStyles from "./modelsPage.styles";
 import { LocalStorageConfNameEnum } from "../../utils/localStorage";
+import {
+  IFieldReadDto,
+  IModelFieldReadDto,
+  IModelReadDto,
+  PermissionEnum,
+} from "roottypes";
 
 interface IModelsPageProps {}
 
@@ -57,7 +62,7 @@ const ModelsPage: React.FunctionComponent<IModelsPageProps> = (
   };
 
   const handleSetSearchResult = React.useCallback(
-    (res: PaginationResponse<IModel>) => {
+    (res: PaginationResponse<IModelReadDto>) => {
       dispatch(modelSlice.actions.setSearchedModels(res));
     },
     []
@@ -65,13 +70,13 @@ const ModelsPage: React.FunctionComponent<IModelsPageProps> = (
 
   if (!isLoggedIn) return null;
 
-  if (!hasPermission(Permission.ReadModel)) return null;
+  if (!hasPermission(PermissionEnum.ReadModel)) return null;
 
   return (
     <div className={styles.modelsPageContainer} data-cy="modelsPage">
       <Elements
         Editor={({ element, ...props }) => (
-          <ModelEditor {...props} model={element as IModel} />
+          <ModelEditor {...props} model={element as IModelReadDto} />
         )}
         columns={[
           {
@@ -81,9 +86,11 @@ const ModelsPage: React.FunctionComponent<IModelsPageProps> = (
           {
             label: getTranslatedText(staticText?.fieldsPlaceholder),
             name: "fields",
-            render: (model: IModel) => {
+            render: (model: IModelReadDto) => {
               return model.modelFields
-                .map((modelField) => getTranslatedText(modelField.field.name))
+                .map((modelField) =>
+                  getTranslatedText((modelField.field as IFieldReadDto).name)
+                )
                 .join(", ");
             },
           },
@@ -98,9 +105,9 @@ const ModelsPage: React.FunctionComponent<IModelsPageProps> = (
         getElementName={(model: any) => getTranslatedText(model.name)}
         onPageChange={handlePageChange}
         searchPromise={handleSearchModelsPromise}
-        canCreate={hasPermission(Permission.CreateModel)}
-        canUpdate={hasPermission(Permission.UpdateModel)}
-        canDelete={hasPermission(Permission.DeleteModel)}
+        canCreate={hasPermission(PermissionEnum.CreateModel)}
+        canUpdate={hasPermission(PermissionEnum.UpdateModel)}
+        canDelete={hasPermission(PermissionEnum.DeleteModel)}
         searchResult={searchResult}
         setSearchResult={handleSetSearchResult}
         elementsLocalStorageConfName={LocalStorageConfNameEnum.MODELS}

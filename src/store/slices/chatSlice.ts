@@ -1,51 +1,30 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import IFile from "../../globalTypes/IFile";
 import compareWithCreatedAt from "../../utils/compareWithCreatedAt";
-import { IUser, UserWithLastReadMessageInConversation } from "./userSlice";
-import SocketTypingStateCommand from "../../globalTypes/SocketTypingStateCommand";
-
-export interface IMessage {
-  _id: string;
-  from: string;
-  to: string[];
-  message: string;
-  read: string[];
-  readAt?: string[];
-  files: IFile[];
-  reactions?: IReaction[];
-
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface IPopulatedMessage {
-  _id: string;
-  from: IUser;
-  to: IUser[];
-  message: string;
-  read: string[];
-  readAt: string[];
-  files: IFile[];
-  reactions?: IReaction[];
-  totalUnreadMessages?: number;
-
-  createdAt: string;
-  updatedAt: string;
-}
+import {
+  IFileReadDto,
+  IMessageReadDto,
+  IPopulatedMessageReadDto,
+  IReactionReadDto,
+  ISocketTypingStateCommand,
+  IUserReadDto,
+  IUserReadDtoWithLastReadMessageInConversationReadDto,
+} from "roottypes";
 
 export const populatedMessageToMessage = (
-  populated: IPopulatedMessage
-): IMessage => {
+  populated: IPopulatedMessageReadDto
+): IMessageReadDto => {
   return {
     _id: populated._id,
     createdAt: populated.createdAt,
     files: populated.files,
-    from: populated.from._id,
+    from: populated.from._id || populated.from.toString(),
     message: populated.message,
     read: populated.read,
     readAt: populated.readAt,
-    to: populated.to.map((el) => el._id.toString()),
+    to: populated.to.map((el) =>
+      typeof el === "string" ? el : el._id.toString()
+    ),
     updatedAt: populated.updatedAt,
     reactions: populated.reactions,
   };
@@ -54,45 +33,27 @@ export const populatedMessageToMessage = (
 export type Conversation = {
   // The id of a conversation is the joined state of the sorter array of the conversationalist's ids
   id: string;
-  messages: IMessage[];
+  messages: IMessageReadDto[];
   totalUnreadMessages: number;
-  typingUsers?: IUser[];
-  usersWithLastReadMessageInConversation?: UserWithLastReadMessageInConversation[];
+  typingUsers?: IUserReadDto[];
+  usersWithLastReadMessageInConversation?: IUserReadDtoWithLastReadMessageInConversationReadDto[];
 };
 
-export interface IReaction {
-  _id?: string;
-  user: IUser;
-  reaction: ReactionEnum;
-
-  createdAt: string;
-  updatedAt: string;
-}
-
-export enum ReactionEnum {
-  Love = "Love",
-  Laugh = "Laugh",
-  Shock = "Shock",
-  Cry = "Cry",
-  Angry = "Angry",
-  OK = "OK",
-}
-
 interface IChatState {
-  contacts: IUser[];
+  contacts: IUserReadDto[];
   totalContacts: number;
   contactsPage: number;
   // For the chat page
   selectedConversationId?: string;
   selectedConversationIds?: string[];
   conversations: Conversation[];
-  lastConversationsLastMessages: IPopulatedMessage[];
+  lastConversationsLastMessages: IPopulatedMessageReadDto[];
   totalLastConversationsLastMessages: number;
   alreadyLoadedLastConversationsLastMessagesFromBackend: boolean;
   totalUnreadMessages: number;
   messageFilePreviews: {
-    file: IFile | null;
-    message: IMessage;
+    file: IFileReadDto | null;
+    message: IMessageReadDto;
   }[];
 }
 
@@ -114,7 +75,7 @@ export const chatSlice = createSlice({
   name: "chat",
   initialState,
   reducers: {
-    setContacts: (state: IChatState, action: PayloadAction<IUser[]>) => {
+    setContacts: (state: IChatState, action: PayloadAction<IUserReadDto[]>) => {
       state.contacts = action.payload;
     },
     setContactsPage: (state: IChatState, action: PayloadAction<number>) => {
@@ -208,16 +169,19 @@ export const chatSlice = createSlice({
     addMessages: (
       state: IChatState,
       action: PayloadAction<{
-        messages: IMessage[];
-        currentUser: IUser;
-        populatedMessages: IPopulatedMessage[];
+        messages: (IPopulatedMessageReadDto | IMessageReadDto)[];
+        currentUser: IUserReadDto;
+        populatedMessages: IPopulatedMessageReadDto[];
       }>
     ) => {
-      const messages: IMessage[] = action.payload.messages;
+      const messages: (IPopulatedMessageReadDto | IMessageReadDto)[] =
+        action.payload.messages;
 
       if (messages.length === 0) return;
 
-      const conversationId: string = getConversationId([...messages[0].to]);
+      const conversationId: string = getConversationId([
+        ...messages[0].to.map((to) => (typeof to === "string" ? to : to._id)),
+      ]);
       const conversation: Conversation | undefined = state.conversations.find(
         (el) => el.id === conversationId
       );
@@ -225,14 +189,18 @@ export const chatSlice = createSlice({
       if (conversation) {
         messages.forEach((message) => {
           if (!conversation.messages.some((el) => el._id === message._id)) {
-            conversation.messages.push(message);
+            conversation.messages.push(
+              populatedMessageToMessage(message as IPopulatedMessageReadDto)
+            );
           }
           conversation.messages.sort(compareWithCreatedAt(false));
         });
       } else {
         const newConversation: Conversation = {
           id: conversationId,
-          messages,
+          messages: messages.map((m) =>
+            populatedMessageToMessage(m as IPopulatedMessageReadDto)
+          ),
           totalUnreadMessages: 0,
         };
         state.conversations.push(newConversation);
@@ -240,7 +208,10 @@ export const chatSlice = createSlice({
 
       // Add the conversation to the selected conversations for the popping up of a new chatbox in the app
       if (
-        messages[messages.length - 1].from !== action.payload.currentUser._id
+        (typeof messages[messages.length - 1].from === "string"
+          ? messages[messages.length - 1].from
+          : (messages[messages.length - 1] as IPopulatedMessageReadDto).from
+              ._id) !== action.payload.currentUser._id
       ) {
         if (state.selectedConversationIds?.indexOf(conversationId) === -1) {
           state.selectedConversationIds?.push(conversationId);
@@ -262,7 +233,7 @@ export const chatSlice = createSlice({
               conversationId
           );
 
-        const populatedMessageToAdd: IPopulatedMessage =
+        const populatedMessageToAdd: IPopulatedMessageReadDto =
           action.payload.populatedMessages[messages.length - 1];
 
         if (indexOfLastConversationLastMessageFound >= 0) {
@@ -310,7 +281,10 @@ export const chatSlice = createSlice({
     },
     setLastConversationsLastMessages: (
       state: IChatState,
-      action: PayloadAction<{ messages: IPopulatedMessage[]; total: number }>
+      action: PayloadAction<{
+        messages: IPopulatedMessageReadDto[];
+        total: number;
+      }>
     ) => {
       const { messages, total } = action.payload;
 
@@ -325,6 +299,7 @@ export const chatSlice = createSlice({
       action: PayloadAction<{ conversationId: string }>
     ) => {
       const conversationId: string = action.payload.conversationId;
+
       if (state.selectedConversationIds?.indexOf(conversationId) === -1) {
         state.selectedConversationIds?.push(conversationId);
       }
@@ -352,7 +327,10 @@ export const chatSlice = createSlice({
     },
     addReactionToMessage: (
       state: IChatState,
-      action: PayloadAction<{ reaction: IReaction; message: IMessage }>
+      action: PayloadAction<{
+        reaction: IReactionReadDto;
+        message: IMessageReadDto;
+      }>
     ) => {
       const conversation = state.conversations.find(
         (c) => c.id === getConversationId([...action.payload.message.to])
@@ -370,7 +348,7 @@ export const chatSlice = createSlice({
     // Used after receiving a react notification
     markMessageAsUnread: (
       state: IChatState,
-      action: PayloadAction<{ message: IMessage; user: IUser }>
+      action: PayloadAction<{ message: IMessageReadDto; user: IUserReadDto }>
     ) => {
       const conversation = state.conversations.find(
         (c) => c.id === getConversationId([...action.payload.message.to])
@@ -388,7 +366,7 @@ export const chatSlice = createSlice({
     },
     setConversationUserTypingState: (
       state: IChatState,
-      action: PayloadAction<SocketTypingStateCommand>
+      action: PayloadAction<ISocketTypingStateCommand>
     ) => {
       const command = action.payload;
       const conversation = state.conversations.find(
@@ -416,7 +394,7 @@ export const chatSlice = createSlice({
       state: IChatState,
       action: PayloadAction<{
         conversationId: string;
-        usersWithTheirLastReadMessageInConversation: UserWithLastReadMessageInConversation[];
+        usersWithTheirLastReadMessageInConversation: IUserReadDtoWithLastReadMessageInConversationReadDto[];
       }>
     ) => {
       const conversation: Conversation | undefined = state.conversations.find(
@@ -441,15 +419,19 @@ export const chatSlice = createSlice({
     updateConversationUserLastReadMessage: (
       state: IChatState,
       action: PayloadAction<{
-        lastMarkedMessageAsRead: IMessage;
-        by?: IUser;
+        lastMarkedMessageAsRead: IMessageReadDto | IPopulatedMessageReadDto;
+        by?: IUserReadDto;
         byId?: string;
       }>
     ) => {
       const conversation: Conversation | undefined = state.conversations.find(
         (c) =>
           c.id ===
-          getConversationId([...action.payload.lastMarkedMessageAsRead.to])
+          getConversationId([
+            ...action.payload.lastMarkedMessageAsRead.to.map((to) =>
+              typeof to === "string" ? to : to._id
+            ),
+          ])
       );
       if (conversation) {
         conversation.usersWithLastReadMessageInConversation =
@@ -458,8 +440,10 @@ export const chatSlice = createSlice({
             (action.payload.by?._id || action.payload.byId || "").toString()
               ? {
                   ...el,
-                  lastReadMessageInConversation:
-                    action.payload.lastMarkedMessageAsRead,
+                  lastReadMessageInConversation: populatedMessageToMessage(
+                    action.payload
+                      .lastMarkedMessageAsRead as IPopulatedMessageReadDto
+                  ),
                 }
               : el
           );
@@ -467,7 +451,7 @@ export const chatSlice = createSlice({
     },
     addMessageFilePreview: (
       state: IChatState,
-      action: PayloadAction<{ file: IFile; message: IMessage }>
+      action: PayloadAction<{ file: IFileReadDto; message: IMessageReadDto }>
     ) => {
       state.messageFilePreviews.push(action.payload);
     },

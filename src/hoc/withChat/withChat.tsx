@@ -3,23 +3,25 @@ import { Socket } from "socket.io-client";
 //@ts-ignore
 import { socketConnect } from "socket.io-react";
 
-import ChatMessagesEnum from "../../globalTypes/ChatMessagesEnum";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
   chatSlice,
-  IMessage,
   getConversationId,
-  IReaction,
-  IPopulatedMessage,
   populatedMessageToMessage,
   Conversation,
 } from "../../store/slices/chatSlice";
-import { IUser } from "../../store/slices/userSlice";
 //@ts-ignore
 import NotificationSound from "../../../public/assets/sounds/notification-sound.mp3";
 
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
-import SocketTypingStateCommand from "../../globalTypes/SocketTypingStateCommand";
+import {
+  ChatMessagesEnum,
+  IMessageReadDto,
+  IPopulatedMessageReadDto,
+  IReactionReadDto,
+  ISocketTypingStateCommand,
+  IUserReadDto,
+} from "roottypes";
 
 interface IChat {
   socket?: Socket;
@@ -27,7 +29,7 @@ interface IChat {
 
 const withChat = (Component: React.FunctionComponent<any>) =>
   socketConnect((props: IChat) => {
-    const user: IUser = useAppSelector((state) => state.user.user);
+    const user: IUserReadDto = useAppSelector((state) => state.user.user);
     const withChat = useAppSelector(
       (state) => state.websiteConfiguration.withChat
     );
@@ -75,7 +77,7 @@ const withChat = (Component: React.FunctionComponent<any>) =>
       if (incomingMessagesListener.current === null) {
         incomingMessagesListener.current = props.socket?.on(
           ChatMessagesEnum.Receive,
-          (message: IPopulatedMessage) => {
+          (message: IPopulatedMessageReadDto) => {
             dispatch(
               chatSlice.actions.addMessages({
                 messages: [populatedMessageToMessage(message)],
@@ -115,7 +117,7 @@ const withChat = (Component: React.FunctionComponent<any>) =>
         incomingTypingStatesListener.current ===
           props.socket.on(
             ChatMessagesEnum.ReceiveTypingState,
-            (socketTypingStateCommand: SocketTypingStateCommand) => {
+            (socketTypingStateCommand: ISocketTypingStateCommand) => {
               if (
                 socketTypingStateCommand.userId.toString() !==
                 user._id.toString()
@@ -141,7 +143,7 @@ const withChat = (Component: React.FunctionComponent<any>) =>
               by,
             }: {
               lastMarkedMessageAsRead;
-              by: IUser;
+              by: IUserReadDto;
             }) => {
               dispatch(
                 chatSlice.actions.updateConversationUserLastReadMessage({
@@ -159,10 +161,13 @@ const withChat = (Component: React.FunctionComponent<any>) =>
             message,
             reaction,
           }: {
-            message: IMessage;
-            reaction: IReaction;
+            message: IMessageReadDto;
+            reaction: IReactionReadDto;
           }) => {
-            if (reaction.user._id.toString() !== user._id.toString()) {
+            if (
+              (reaction.user as IUserReadDto)._id.toString() !==
+              user._id.toString()
+            ) {
               dispatch(
                 chatSlice.actions.addReactionToMessage({ message, reaction })
               );
@@ -191,7 +196,7 @@ const withChat = (Component: React.FunctionComponent<any>) =>
       if (deleteMessagesListener.current === null) {
         deleteMessagesListener.current = props.socket.on(
           ChatMessagesEnum.Delete,
-          (message: IMessage) => {
+          (message: IMessageReadDto) => {
             const conversationId: string = getConversationId(message.to);
 
             dispatch(

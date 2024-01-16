@@ -8,28 +8,32 @@ import {
   chatSlice,
   getConversationConversationalistsFromConversationId,
 } from "../../../store/slices/chatSlice";
-import { IUser } from "../../../store/slices/userSlice";
 
 import useStyles from "./ChatBoxParticipants.styles";
 import { BoxType } from "../chatBox/ChatBox";
 import usegetContactsByIds from "../../../hooks/apiHooks/useGetContactsByIds";
 import ChatBoxParticipantsOptions from "../chatBoxParticipantsOptions";
+import { IFileReadDto, IUserReadDto } from "roottypes";
 
 interface IChatBoxParticipantsProps {
   conversationId: string;
   boxType: BoxType;
 }
 
-const ChatBox: React.FunctionComponent<IChatBoxParticipantsProps> = (
-  props: IChatBoxParticipantsProps
-) => {
+const ChatBoxParticipants: React.FunctionComponent<
+  IChatBoxParticipantsProps
+> = (props: IChatBoxParticipantsProps) => {
   //#region Store
-  const user: IUser = useAppSelector((state) => state.user.user);
-  const contacts: IUser[] = useAppSelector((state) => state.chat.contacts);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
+  const contacts: IUserReadDto[] = useAppSelector(
+    (state) => state.chat.contacts
+  );
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
-  const [otherParticipants, setOtherParticipants] = React.useState<IUser[]>([]);
+  const [otherParticipants, setOtherParticipants] = React.useState<
+    IUserReadDto[]
+  >([]);
   const [showOptions, setShowOptions] = React.useState<boolean>(false);
 
   //#endregion Store
@@ -47,7 +51,7 @@ const ChatBox: React.FunctionComponent<IChatBoxParticipantsProps> = (
         ).filter((id) => id !== user._id);
 
       if (participantsIds.length > 0) {
-        getContactsByIds(participantsIds).then((users: IUser[]) =>
+        getContactsByIds(participantsIds).then((users: IUserReadDto[]) =>
           setOtherParticipants(users)
         );
       }
@@ -70,20 +74,20 @@ const ChatBox: React.FunctionComponent<IChatBoxParticipantsProps> = (
         />
       )}
 
-      {otherParticipants.map((participant: IUser) => {
+      {otherParticipants.map((participant: IUserReadDto) => {
         return (
           <div
             onClick={() => setShowOptions(true)}
             className={styles.participantContainer}
             key={participant._id}
           >
-            {!participant.profilePicture?.url && (
+            {!(participant.profilePicture as IFileReadDto)?.url && (
               <CgProfile className={styles.avatar}></CgProfile>
             )}
-            {participant.profilePicture?.url && (
+            {(participant.profilePicture as IFileReadDto)?.url && (
               <img
                 className={styles.avatar}
-                src={participant.profilePicture.url}
+                src={(participant.profilePicture as IFileReadDto).url}
               />
             )}
             <span className={styles.participantName}>
@@ -102,4 +106,4 @@ const ChatBox: React.FunctionComponent<IChatBoxParticipantsProps> = (
   );
 };
 
-export default React.memo(ChatBox);
+export default React.memo(ChatBoxParticipants);

@@ -15,21 +15,20 @@ import { socketConnect } from "socket.io-react";
 
 import { ITheme } from "../../../config/theme";
 import useStyles from "./chatInput.styles";
-import { IUser } from "../../../store/slices/userSlice";
 import { useAppSelector } from "../../../store/hooks";
+import { getConversationConversationalistsFromConversationId } from "../../../store/slices/chatSlice";
+import useSendMessage from "../../../hooks/apiHooks/useSendMessage";
 import {
-  getConversationConversationalistsFromConversationId,
-  IPopulatedMessage,
-} from "../../../store/slices/chatSlice";
-import useSendMessage, {
-  MessageSendCommand,
-} from "../../../hooks/apiHooks/useSendMessage";
-import ChatMessagesEnum from "../../../globalTypes/ChatMessagesEnum";
-import SocketTypingStateCommand from "../../../globalTypes/SocketTypingStateCommand";
+  ChatMessagesEnum,
+  IMessageSendCommand,
+  IPopulatedMessageReadDto,
+  ISocketTypingStateCommand,
+  IUserReadDto,
+} from "roottypes";
 
 interface IChatInputProps {
   conversationId: string;
-  handleAddMessage: (message: IPopulatedMessage) => void;
+  handleAddMessage: (message: IPopulatedMessageReadDto) => void;
   handleMarkAllConversationMessagesAsRead?: () => void;
   socket?: Socket;
 }
@@ -37,7 +36,7 @@ interface IChatInputProps {
 const ChatInput: React.FunctionComponent<IChatInputProps> = socketConnect(
   (props: IChatInputProps) => {
     //#region App state
-    const user: IUser = useAppSelector((state) => state.user.user);
+    const user: IUserReadDto = useAppSelector((state) => state.user.user);
     const theme: ITheme = useAppSelector(
       (state) => state.websiteConfiguration.theme
     );
@@ -112,7 +111,7 @@ const ChatInput: React.FunctionComponent<IChatInputProps> = socketConnect(
 
       if ((!message || message.trim() === "") && files.length === 0) return;
 
-      const command: MessageSendCommand = {
+      const command: IMessageSendCommand = {
         from: user._id,
         to: getConversationConversationalistsFromConversationId(
           props.conversationId
@@ -121,7 +120,7 @@ const ChatInput: React.FunctionComponent<IChatInputProps> = socketConnect(
         files: [],
       };
 
-      const createdMessage: IPopulatedMessage = await sendMessage(
+      const createdMessage: IPopulatedMessageReadDto = await sendMessage(
         command,
         files
       );
@@ -166,7 +165,7 @@ const ChatInput: React.FunctionComponent<IChatInputProps> = socketConnect(
       if (typingStateTimeout.current !== null) {
         clearTimeout(typingStateTimeout.current);
       } else {
-        const socketTypingStateCommand: SocketTypingStateCommand = {
+        const socketTypingStateCommand: ISocketTypingStateCommand = {
           userId: user._id.toString(),
           user,
           toUsersIds: getConversationConversationalistsFromConversationId(
@@ -181,7 +180,7 @@ const ChatInput: React.FunctionComponent<IChatInputProps> = socketConnect(
       }
 
       typingStateTimeout.current = setTimeout(() => {
-        const socketTypingStateCommand: SocketTypingStateCommand = {
+        const socketTypingStateCommand: ISocketTypingStateCommand = {
           userId: user._id.toString(),
           user: user,
           toUsersIds: getConversationConversationalistsFromConversationId(

@@ -1,35 +1,36 @@
 import React from "react";
 import { AxiosResponse } from "axios";
 
-import PaginationCommand from "../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { IModel, modelSlice } from "../../store/slices/modelSlice";
+import { modelSlice } from "../../store/slices/modelSlice";
 import { useAppDispatch } from "../../store/hooks";
-
-export type ModelsSearchCommand = {
-  name: string;
-  paginationCommand: PaginationCommand;
-};
+import {
+  IModelReadDto,
+  IModelsSearchCommand,
+  IPaginationCommand,
+} from "roottypes";
 
 const useSearchModels = () => {
-  const [selectedModels, setSelectedModels] = React.useState<IModel[]>([]);
+  const [selectedModels, setSelectedModels] = React.useState<IModelReadDto[]>(
+    []
+  );
 
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
   const handleSearchModelsPromise = (
     name: string,
-    paginationCommand: PaginationCommand
+    paginationCommand: IPaginationCommand
   ) =>
-    new Promise<PaginationResponse<IModel>>((resolve, _) => {
-      const command: ModelsSearchCommand = {
+    new Promise<PaginationResponse<IModelReadDto>>((resolve, _) => {
+      const command: IModelsSearchCommand = {
         paginationCommand: paginationCommand,
         name,
       };
 
       axios
-        .request<AxiosResponse<PaginationResponse<IModel>>>({
+        .request<AxiosResponse<PaginationResponse<IModelReadDto>>>({
           url: "/models/search",
           method: "POST",
           data: command,
@@ -40,7 +41,7 @@ const useSearchModels = () => {
         });
     });
 
-  const handleSelectedModel = (model: IModel) => {
+  const handleSelectedModel = (model: IModelReadDto) => {
     setSelectedModels([{ ...model }, ...selectedModels]);
   };
 

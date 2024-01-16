@@ -14,7 +14,6 @@ import { CSS } from "@dnd-kit/utilities";
 import { ITheme } from "../../../../config/theme";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../store/hooks";
-import { ModelStateType } from "../../../../store/slices/modelSlice";
 import Button from "../../../button";
 import Checkbox from "../../../checkbox";
 import Input from "../../../input";
@@ -22,6 +21,7 @@ import { IModelForm, ModelFormState } from "../ModelEditor";
 
 import useStyles from "./modelStatesEditor.styles";
 import uuid from "react-uuid";
+import { ModelStateTypeEnum } from "roottypes";
 
 interface IModelStatesEditorProps {
   formik: FormikProps<IModelForm>;
@@ -58,7 +58,7 @@ const ModelStatesEditor: React.FunctionComponent<IModelStatesEditorProps> = (
       ...props.formik.values.states,
       {
         name: "",
-        stateType: ModelStateType.ParentState,
+        stateType: ModelStateTypeEnum.ParentState,
         exclusive: false,
         language: props.formik.values.language,
         uuid: uuid(),
@@ -73,7 +73,7 @@ const ModelStatesEditor: React.FunctionComponent<IModelStatesEditorProps> = (
       ...props.formik.values.subStates,
       {
         name: "",
-        stateType: ModelStateType.ParentState,
+        stateType: ModelStateTypeEnum.ParentState,
         exclusive: false,
         language: props.formik.values.language,
       },

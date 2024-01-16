@@ -3,22 +3,14 @@ import React from "react";
 import { toast } from "react-toastify";
 
 import useAxios from "../useAxios";
-
-export type EmailSendCommand = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  address: string;
-  message: string;
-};
+import { IEmailSendCommand } from "roottypes";
 
 const useSendMail = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const axios = useAxios();
 
-  const sendMail = (command: EmailSendCommand) =>
+  const sendMail = (command: IEmailSendCommand) =>
     new Promise((resolve, reject) => {
       setLoading(true);
 

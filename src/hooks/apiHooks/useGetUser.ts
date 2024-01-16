@@ -1,8 +1,8 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import { IUser } from "../../store/slices/userSlice";
 import useAxios from "../useAxios";
+import { IUserReadDto } from "roottypes";
 
 const useGetUser = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -10,11 +10,11 @@ const useGetUser = () => {
   const axios = useAxios();
 
   const getUser = (userId: string) =>
-    new Promise<IUser>((resolve, reject) => {
+    new Promise<IUserReadDto>((resolve, reject) => {
       setLoading(true);
 
       axios
-        .request<AxiosResponse<IUser>>({
+        .request<AxiosResponse<IUserReadDto>>({
           method: "GET",
           url: "/users/getUser",
           params: {
@@ -22,7 +22,7 @@ const useGetUser = () => {
           },
         })
         .then((res) => {
-          const user: IUser = res.data.data;
+          const user: IUserReadDto = res.data.data;
           resolve(user);
         })
         .finally(() => setLoading(false))

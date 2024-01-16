@@ -1,58 +1,20 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import IFile from "../../globalTypes/IFile";
-import ITranslatedText from "../../globalTypes/ITranslatedText";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
-import { IField, IFieldTableElement } from "./fieldSlice";
-import { IModel } from "./modelSlice";
-import { IUser } from "./userSlice";
-
-export interface IEntity {
-  _id: string;
-  model: IModel;
-  entityFieldValues: IEntityFieldValue[];
-  assignedUsers?: IUser[];
-  customData?: string;
-
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface IEntityFieldValue {
-  field: IField;
-  value: ITranslatedText[];
-  files: IFile[];
-
-  tableValues?: IEntityTableFieldCaseValue[];
-  yearTableValues?: IEntityYearTableFieldRowValues[];
-}
-
-export interface IEntityTableFieldCaseValue {
-  column: IFieldTableElement;
-  row: IFieldTableElement;
-  value: ITranslatedText[];
-}
-
-export interface IEntityYearTableFieldRowValues {
-  row: IFieldTableElement;
-  values: {
-    year: number;
-    value: ITranslatedText[];
-  }[];
-}
+import { IEntityReadDto } from "roottypes";
 
 export interface IEntityState {
   entitiesByModel: {
     modelId: string;
-    entities: IEntity[];
+    entities: IEntityReadDto[];
     total: number;
-    searchResult: PaginationResponse<IEntity>;
+    searchResult: PaginationResponse<IEntityReadDto>;
   }[];
   total: number;
 
   assignedEntitiesByModel: {
     total: number;
-    entities: IEntity[];
+    entities: IEntityReadDto[];
     modelId: string;
   }[];
 }
@@ -70,7 +32,7 @@ export const entitySlice = createSlice({
     setModelEntities: (
       state: IEntityState,
       action: PayloadAction<{
-        entities: IEntity[];
+        entities: IEntityReadDto[];
         modelId: string;
         total: number;
       }>
@@ -95,9 +57,9 @@ export const entitySlice = createSlice({
     },
     addEntity: (
       state: IEntityState,
-      action: PayloadAction<{ modelId: string; entity: IEntity }>
+      action: PayloadAction<{ modelId: string; entity: IEntityReadDto }>
     ) => {
-      const entity: IEntity = action.payload.entity;
+      const entity: IEntityReadDto = action.payload.entity;
       const modelId: string = action.payload.modelId;
       state.entitiesByModel
         .find((el) => el.modelId === modelId)
@@ -105,9 +67,9 @@ export const entitySlice = createSlice({
     },
     updateEntity: (
       state: IEntityState,
-      action: PayloadAction<{ modelId: string; entity: IEntity }>
+      action: PayloadAction<{ modelId: string; entity: IEntityReadDto }>
     ) => {
-      const entity: IEntity = action.payload.entity;
+      const entity: IEntityReadDto = action.payload.entity;
       const modelId: string = action.payload.modelId;
       state.entitiesByModel = state.entitiesByModel.map((entitiesByModel) => {
         if (entitiesByModel.modelId === modelId) {
@@ -159,7 +121,7 @@ export const entitySlice = createSlice({
     setSearchedEntities: (
       state: IEntityState,
       action: PayloadAction<{
-        searchResult: PaginationResponse<IEntity>;
+        searchResult: PaginationResponse<IEntityReadDto>;
         modelId: string;
       }>
     ) => {
@@ -180,7 +142,7 @@ export const entitySlice = createSlice({
     setAssignedEntitiesByModel: (
       state: IEntityState,
       action: PayloadAction<{
-        entities: IEntity[];
+        entities: IEntityReadDto[];
         modelId: string;
         total: number;
       }>
@@ -203,7 +165,7 @@ export const entitySlice = createSlice({
 });
 
 export const getEntityName = ({ entity, getTranslatedText }) => {
-  const entityAsEntity: IEntity = entity;
+  const entityAsEntity: IEntityReadDto = entity;
   return entityAsEntity.entityFieldValues
     .map((fieldValue) => getTranslatedText(fieldValue.value))
     .join(", ");

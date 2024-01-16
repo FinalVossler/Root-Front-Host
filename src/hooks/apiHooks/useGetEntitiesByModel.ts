@@ -1,17 +1,12 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import PaginationCommand from "../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { useAppDispatch } from "../../store/hooks";
-import { entitySlice, IEntity } from "../../store/slices/entitySlice";
+import { entitySlice, IEntityReadDto } from "../../store/slices/entitySlice";
 
 import useAuthorizedAxios from "../useAuthorizedAxios";
-
-export type EntitiesGetCommand = {
-  modelId: string;
-  paginationCommand: PaginationCommand;
-};
+import { IEntitiesGetCommand } from "roottypes";
 
 const useGetEntitiesByModel = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -19,11 +14,11 @@ const useGetEntitiesByModel = () => {
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
-  const getEntitiesByModel = (command: EntitiesGetCommand) =>
+  const getEntitiesByModel = (command: IEntitiesGetCommand) =>
     new Promise((resolve, reject) => {
       setLoading(true);
       axios
-        .request<AxiosResponse<PaginationResponse<IEntity>>>({
+        .request<AxiosResponse<PaginationResponse<IEntityReadDto>>>({
           method: "POST",
           url: "/entities/getEntitiesByModel",
           data: command,

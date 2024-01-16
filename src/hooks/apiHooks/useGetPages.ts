@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios";
 import React from "react";
 
 import { useAppDispatch } from "../../store/hooks";
-import { IPage, pageSlice } from "../../store/slices/pageSlice";
+import { IPageReadDto, pageSlice } from "../../store/slices/pageSlice";
 import useAxios from "../useAxios";
 
 const useGetPages = () => {
@@ -15,7 +15,7 @@ const useGetPages = () => {
   const getPages = () =>
     new Promise((resolve, reject) => {
       axios
-        .request<AxiosResponse<IPage[]>>({
+        .request<AxiosResponse<IPageReadDto[]>>({
           method: "GET",
           url: "/pages/",
         })

@@ -1,13 +1,8 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 import IFile from "../../globalTypes/IFile";
-import PaginationCommand from "../../globalTypes/PaginationCommand";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-
-export type FileGetUserAndSelectedFilesCommand = {
-  paginationCommand: PaginationCommand;
-  selectedFilesIds: string[];
-};
+import { IFileGetUserAndSelectedFilesCommand } from "roottypes";
 
 const useGetUserAndSelectedFiles = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -15,7 +10,7 @@ const useGetUserAndSelectedFiles = () => {
   const axios = useAuthorizedAxios();
 
   const getUserAndSelectedFiles = (
-    command: FileGetUserAndSelectedFilesCommand
+    command: IFileGetUserAndSelectedFilesCommand
   ) =>
     new Promise<{ files: IFile[]; total: number }>((resolve, reject) => {
       setLoading(true);

@@ -8,13 +8,7 @@ import { ITheme } from "../../../../../config/theme";
 import { useAppSelector } from "../../../../../store/hooks";
 import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 
-import {
-  IModel,
-  IModelField,
-  IModelFieldCondition,
-  IModelState,
-  ModelFieldConditionTypeEnum,
-} from "../../../../../store/slices/modelSlice";
+import { IModelField } from "../../../../../store/slices/modelSlice";
 
 import useStyles from "./sortableModel.styles";
 import { BiPlus } from "react-icons/bi";
@@ -23,8 +17,16 @@ import { Option } from "../../../../inputSelect/InputSelect";
 import { MdDelete, MdTextFields } from "react-icons/md";
 import Input from "../../../../input";
 import Checkbox from "../../../../checkbox";
-import { FieldType } from "../../../../../store/slices/fieldSlice";
 import ExtendSection from "../../../../extendSection";
+import {
+  FieldTypeEnum,
+  IFieldReadDto,
+  IModelFieldConditionReadDto,
+  IModelFieldReadDto,
+  IModelReadDto,
+  IModelStateReadDto,
+  ModelFieldConditionTypeEnum,
+} from "roottypes";
 
 interface ISortableModelFieldProps {
   modelField: IModelField;
@@ -33,7 +35,7 @@ interface ISortableModelFieldProps {
   language?: string;
   selectedModelFields: IModelField[];
   setSelectedModelFields: (modelFields: IModelField[]) => any;
-  model?: IModel;
+  model?: IModelReadDto;
 }
 
 const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
@@ -52,13 +54,13 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
 
   const styles = useStyles({ theme });
   const { attributes, listeners, setNodeRef, transform } = useSortable({
-    id: props.modelField.uuid,
+    id: props.modelField.uuid as string,
   });
   const getTranslatedText = useGetTranslatedText();
 
   //#region Event listeners
   const handleAddCondition = () => {
-    const newCondition: IModelFieldCondition = {
+    const newCondition: IModelFieldConditionReadDto = {
       conditionType: ModelFieldConditionTypeEnum.Equal,
       field: undefined,
       value: "",
@@ -121,7 +123,8 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
           ) {
             modelField.conditions[conditionIndex].field =
               props.selectedModelFields.find(
-                (modelField: IModelField) => modelField.field._id === fieldId
+                (modelField: IModelField) =>
+                  (modelField.field as IFieldReadDto)._id === fieldId
               )?.field;
           }
         }
@@ -187,11 +190,12 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
             modelField.conditions &&
             modelField.conditions?.length > conditionIndex
           ) {
-            modelField.conditions[conditionIndex].modelState =
-              props.model?.states?.find(
-                (state) =>
-                  state._id.toString() === modelStateOption.value.toString()
-              );
+            modelField.conditions[conditionIndex].modelState = (
+              props.model?.states as IModelStateReadDto[]
+            )?.find(
+              (state) =>
+                state._id.toString() === modelStateOption.value.toString()
+            );
           }
         }
         return modelField;
@@ -200,18 +204,20 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
 
     props.setSelectedModelFields(newSelectedModelFields);
   };
-  const handleTriggerStateForField = (modelState: IModelState) => {
+  const handleTriggerStateForField = (modelState: IModelStateReadDto) => {
     const newSelectedModelFields = props.selectedModelFields.map(
       (modelField: IModelField, index: number) => {
         if (index === props.modelFieldIndex) {
           const modelStateExists: boolean = Boolean(
-            modelField.states?.find((state) => state._id === modelState._id)
+            (modelField.states as IModelStateReadDto[])?.find(
+              (state) => state._id === modelState._id
+            )
           );
           if (modelStateExists) {
             return {
               ...modelField,
               states:
-                modelField.states?.filter(
+                (modelField.states as IModelStateReadDto[])?.filter(
                   (state) => state._id !== modelState._id
                 ) || [],
             };
@@ -268,7 +274,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
     },
   ];
   // Add the year condition option if it's a field of type table
-  if (props.modelField.field?.type === FieldType.Table) {
+  if ((props.modelField.field as IFieldReadDto)?.type === FieldTypeEnum.Table) {
     conditionsOptions.push({
       label: getTranslatedText(
         staticText?.ifYearTableThenNumberOfYearsInTheFutureIsEqualToValueOfField
@@ -281,16 +287,19 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
   const fieldsOptions: Option[] = props.selectedModelFields
     .filter(
       (selectedModelField: IModelField) =>
-        selectedModelField.field._id !== props.modelField.field._id
+        (selectedModelField.field as IFieldReadDto)._id !==
+        (props.modelField.field as IFieldReadDto)._id
     )
     .map((selectedModelField) => {
       return {
-        label: getTranslatedText(selectedModelField.field.name),
-        value: selectedModelField.field._id,
+        label: getTranslatedText(
+          (selectedModelField.field as IFieldReadDto).name
+        ),
+        value: (selectedModelField.field as IFieldReadDto)._id,
       };
     });
   const modelStatesOptions: Option[] =
-    props.model?.states?.map((modelState) => ({
+    (props.model?.states as IModelStateReadDto[])?.map((modelState) => ({
       label: getTranslatedText(modelState.name),
       value: getTranslatedText(modelState._id.toString()),
     })) || [];
@@ -301,7 +310,10 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
       ref={setNodeRef}
       style={sorteStyles}
       className={styles.singleModelFieldContainer}
-      data-cy={"sortableModelFieldForField" + props.modelField.field._id}
+      data-cy={
+        "sortableModelFieldForField" +
+        (props.modelField.field as IFieldReadDto)._id
+      }
     >
       <BsHandIndexFill
         color={theme.primary}
@@ -315,7 +327,11 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
         onClick={() => props.handleDeleteModelField(props.modelFieldIndex)}
       />
       <span className={styles.fieldName}>
-        {getTranslatedText(props.modelField.field.name, props.language)}
+        {getTranslatedText(
+          ((props.modelField as IModelFieldReadDto).field as IFieldReadDto)
+            .name,
+          props.language
+        )}
       </span>
 
       <div className={styles.fieldConfigurationContainer}>
@@ -337,7 +353,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
         isSectionShown={showConditions}
         dataCy={
           "modelFieldExtendConditionsForField" +
-          props.modelField.field._id.toString()
+          (props.modelField.field as IFieldReadDto)._id.toString()
         }
       />
       {showConditions && (
@@ -345,7 +361,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
           className={styles.conditionsContainer}
           data-cy={
             "modelFieldConditionsForField" +
-            props.modelField.field._id.toString()
+            (props.modelField.field as IFieldReadDto)._id.toString()
           }
         >
           <div
@@ -353,7 +369,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
             className={styles.conditionsTitleContainer}
             data-cy={
               "addConditionForModelField" +
-              props.modelField.field._id.toString()
+              (props.modelField.field as IFieldReadDto)._id.toString()
             }
           >
             <span className={styles.conditionsTitle}>
@@ -364,8 +380,8 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
             </div>
           </div>
 
-          {props.modelField.conditions?.map(
-            (condition: IModelFieldCondition, conditionIndex) => {
+          {(props.modelField.conditions as IModelFieldConditionReadDto[])?.map(
+            (condition: IModelFieldConditionReadDto, conditionIndex) => {
               return (
                 <div
                   key={conditionIndex}
@@ -374,7 +390,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
                     "condition" +
                     conditionIndex +
                     "ForField" +
-                    props.modelField.field._id.toString()
+                    (props.modelField.field as IFieldReadDto)._id.toString()
                   }
                 >
                   <MdDelete
@@ -384,7 +400,8 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
                   <InputSelect
                     label={getTranslatedText(staticText?.field)}
                     value={fieldsOptions.find(
-                      (option) => option.value === condition.field?._id
+                      (option) =>
+                        option.value === (condition.field as IFieldReadDto)?._id
                     )}
                     options={fieldsOptions}
                     onChange={(option) =>
@@ -394,7 +411,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
                       "conditionFieldSelectorForCondition" +
                       conditionIndex +
                       "AndModelField" +
-                      props.modelField?.field._id
+                      (props.modelField?.field as IFieldReadDto)._id
                     }
                   />
                   <InputSelect
@@ -425,7 +442,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
                       "conditionValueForCondition" +
                       conditionIndex +
                       "AndModelField" +
-                      props.modelField.field._id.toString()
+                      (props.modelField.field as IFieldReadDto)._id.toString()
                     }
                   />
                   {condition.conditionType ===
@@ -437,7 +454,9 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
                       value={modelStatesOptions.find(
                         (option) =>
                           option.value.toString() ===
-                          condition.modelState?._id.toString()
+                          (
+                            condition.modelState as IModelStateReadDto
+                          )?._id.toString()
                       )}
                       options={modelStatesOptions}
                       onChange={(option) =>
@@ -465,21 +484,25 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
             <h3 className={styles.statesConfigurationHint}>
               {getTranslatedText(staticText?.statesConfigurationHint)}
             </h3>
-            {props.model?.states?.map((state, stateIndex) => {
-              return (
-                <Checkbox
-                  key={stateIndex}
-                  label={getTranslatedText(state.name)}
-                  onChange={() => handleTriggerStateForField(state)}
-                  labelStyles={{
-                    width: 250,
-                  }}
-                  checked={Boolean(
-                    props.modelField.states?.find((el) => el._id === state._id)
-                  )}
-                />
-              );
-            })}
+            {(props.model?.states as IModelStateReadDto[])?.map(
+              (state, stateIndex) => {
+                return (
+                  <Checkbox
+                    key={stateIndex}
+                    label={getTranslatedText(state.name)}
+                    onChange={() => handleTriggerStateForField(state)}
+                    labelStyles={{
+                      width: 250,
+                    }}
+                    checked={Boolean(
+                      (props.modelField.states as IModelStateReadDto[])?.find(
+                        (el) => el._id === state._id
+                      )
+                    )}
+                  />
+                );
+              }
+            )}
           </div>
         )}
       {showStatesConfiguration &&
@@ -489,21 +512,27 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
             <h3 className={styles.statesConfigurationHint}>
               {getTranslatedText(staticText?.subStatesConfigurationHint)}
             </h3>
-            {props.model?.subStates?.map((state, stateIndex) => {
-              return (
-                <Checkbox
-                  key={stateIndex}
-                  label={getTranslatedText(state.name)}
-                  onChange={() => handleTriggerStateForField(state)}
-                  labelStyles={{
-                    width: 250,
-                  }}
-                  checked={Boolean(
-                    props.modelField.states?.find((el) => el._id === state._id)
-                  )}
-                />
-              );
-            })}
+            {(props.model?.subStates as IModelStateReadDto[] | undefined)?.map(
+              (state, stateIndex) => {
+                return (
+                  <Checkbox
+                    key={stateIndex}
+                    label={getTranslatedText(state.name)}
+                    onChange={() => handleTriggerStateForField(state)}
+                    labelStyles={{
+                      width: 250,
+                    }}
+                    checked={Boolean(
+                      (
+                        props.modelField.states as
+                          | IModelStateReadDto[]
+                          | undefined
+                      )?.find((el) => el._id === state._id)
+                    )}
+                  />
+                );
+              }
+            )}
           </div>
         )}
     </div>

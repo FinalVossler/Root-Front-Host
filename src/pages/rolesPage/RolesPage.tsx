@@ -11,10 +11,11 @@ import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useHasPermission from "../../hooks/useHasPermission";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { IRole, Permission, roleSlice } from "../../store/slices/roleSlice";
+import { roleSlice } from "../../store/slices/roleSlice";
 import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 
 import useStyles from "./rolesPage.styles";
+import { IRoleReadDto, PermissionEnum } from "roottypes";
 
 interface IRolesPageProps {}
 
@@ -56,7 +57,7 @@ const RolesPage: React.FunctionComponent<IRolesPageProps> = (
   };
 
   const handleSetSearchResult = React.useCallback(
-    (res: PaginationResponse<IRole>) => {
+    (res: PaginationResponse<IRoleReadDto>) => {
       dispatch(roleSlice.actions.setSearchedRoles(res));
     },
     []
@@ -64,13 +65,13 @@ const RolesPage: React.FunctionComponent<IRolesPageProps> = (
 
   if (!isLoggedIn) return null;
 
-  if (!hasPermission(Permission.ReadRole)) return null;
+  if (!hasPermission(PermissionEnum.ReadRole)) return null;
 
   return (
     <div className={styles.rolesPageContainer} data-cy="rolesPage">
       <Elements
         Editor={({ element, ...props }) => (
-          <RoleEditor {...props} role={element as IRole} />
+          <RoleEditor {...props} role={element as IRoleReadDto} />
         )}
         columns={[
           {
@@ -88,9 +89,9 @@ const RolesPage: React.FunctionComponent<IRolesPageProps> = (
         getElementName={(role: any) => getTranslatedText(role.name)}
         onPageChange={handlePageChange}
         searchPromise={handleSearchRolesPromise}
-        canCreate={hasPermission(Permission.CreateRole)}
-        canUpdate={hasPermission(Permission.UpdateRole)}
-        canDelete={hasPermission(Permission.DeleteRole)}
+        canCreate={hasPermission(PermissionEnum.CreateRole)}
+        canUpdate={hasPermission(PermissionEnum.UpdateRole)}
+        canDelete={hasPermission(PermissionEnum.DeleteRole)}
         searchResult={searchResult}
         setSearchResult={handleSetSearchResult}
         elementsLocalStorageConfName={LocalStorageConfNameEnum.ROLES}

@@ -3,11 +3,7 @@ import { toast } from "react-toastify";
 import { useAppSelector } from "../../store/hooks";
 import useAxios from "../useAxios";
 import useGetTranslatedText from "../useGetTranslatedText";
-
-export type UserForgotPasswordChangePasswordCommand = {
-  newPassword: string;
-  token: string;
-};
+import { IUserForgotPasswordChangePasswordCommand } from "roottypes";
 
 const useForgotPasswordChangePassword = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -19,7 +15,7 @@ const useForgotPasswordChangePassword = () => {
   const getTranslatedText = useGetTranslatedText();
 
   const forgotPasswordChangePassword = (
-    command: UserForgotPasswordChangePasswordCommand
+    command: IUserForgotPasswordChangePasswordCommand
   ) =>
     new Promise((resolve, reject) => {
       setLoading(true);

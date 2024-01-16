@@ -3,22 +3,23 @@ import React from "react";
 import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 
-import {
-  getConversationId,
-  IPopulatedMessage,
-} from "../../../store/slices/chatSlice";
+import { getConversationId } from "../../../store/slices/chatSlice";
 import UserProfilePicture from "../../userProfilePicture";
 import { SizeEnum } from "../../userProfilePicture/UserProfilePicture";
-import { IUser } from "../../../store/slices/userSlice";
 
 import useStyles from "./inboxConversation.styles";
 import { IoMdNotifications } from "react-icons/io";
 import shortenString from "../../../utils/shortenString";
+import {
+  IFileReadDto,
+  IPopulatedMessageReadDto,
+  IUserReadDto,
+} from "roottypes";
 
 interface IInboxConversationProps {
-  message: IPopulatedMessage;
+  message: IPopulatedMessageReadDto;
   // Other user is optional because it could be that the other user was deleted from the DB (Problem noticed when Mahmoud deleted Yasmine)
-  otherUser?: IUser;
+  otherUser?: IUserReadDto;
   onSelectConversation: (conversationId: string) => void;
 }
 
@@ -52,7 +53,7 @@ const InboxConversation: React.FunctionComponent<IInboxConversationProps> = (
       className={styles.conversationContainer}
     >
       <UserProfilePicture
-        url={props.otherUser?.profilePicture?.url}
+        url={(props.otherUser?.profilePicture as IFileReadDto)?.url}
         size={SizeEnum.Small}
       />
 

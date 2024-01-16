@@ -1,44 +1,10 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import { IEvent } from "../../globalTypes/IEvent";
-
 import { useAppDispatch } from "../../store/hooks";
-import {
-  modelSlice,
-  IModel,
-  ModelFieldConditionTypeEnum,
-  ModelStateType,
-} from "../../store/slices/modelSlice";
+import { modelSlice, IModelReadDto } from "../../store/slices/modelSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-
-type ModelStateCreateCommand = {
-  name: string;
-  stateType: ModelStateType;
-  exclusive: boolean;
-  language: string;
-};
-
-export type ModelCreateCommand = {
-  name: string;
-  modelFields: {
-    fieldId: string;
-    required: boolean;
-    conditions?: {
-      fieldId?: string;
-      conditionType: ModelFieldConditionTypeEnum;
-      value: number | string;
-      modelStateId?: string;
-    }[];
-    modelStatesIds: string[];
-    mainField: boolean;
-  }[];
-  modelEvents: IEvent[];
-  states: ModelStateCreateCommand[];
-  subStates: ModelStateCreateCommand[];
-
-  language: string;
-};
+import { IModelCreateCommand } from "roottypes";
 
 const useCreateModel = () => {
   const [loading, setLoading] = React.useState(false);
@@ -46,18 +12,18 @@ const useCreateModel = () => {
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
-  const createModel = (command: ModelCreateCommand) =>
+  const createModel = (command: IModelCreateCommand) =>
     new Promise(async (resolve, reject) => {
       setLoading(true);
 
       axios
-        .request<AxiosResponse<IModel>>({
+        .request<AxiosResponse<IModelReadDto>>({
           url: "/models",
           method: "POST",
           data: command,
         })
         .then((res) => {
-          const model: IModel = res.data.data;
+          const model: IModelReadDto = res.data.data;
           dispatch(modelSlice.actions.addModel(model));
           resolve(null);
         })

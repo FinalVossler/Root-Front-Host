@@ -3,8 +3,9 @@ import React from "react";
 
 import IFile from "../../globalTypes/IFile";
 import { useAppDispatch } from "../../store/hooks";
-import { IUser, userSlice } from "../../store/slices/userSlice";
+import { userSlice } from "../../store/slices/userSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
+import { IUserReadDto } from "roottypes";
 
 const useUpdateProfilePicture = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -16,13 +17,13 @@ const useUpdateProfilePicture = () => {
     new Promise((resolve, reject) => {
       setLoading(true);
       axios
-        .request<AxiosResponse<IUser>>({
+        .request<AxiosResponse<IUserReadDto>>({
           method: "PUT",
           url: "/users/updateProfilePicture",
           data: newProfilePicture,
         })
         .then((res) => {
-          const newUser: IUser = res.data.data;
+          const newUser: IUserReadDto = res.data.data;
           dispatch(userSlice.actions.setUser(newUser));
           resolve(null);
         })

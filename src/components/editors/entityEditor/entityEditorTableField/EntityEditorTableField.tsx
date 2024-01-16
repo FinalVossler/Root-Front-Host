@@ -2,19 +2,10 @@ import { FormikProps } from "formik";
 import React from "react";
 
 import { ITheme } from "../../../../config/theme";
-import {
-  IEntityTableFieldCaseValueCommand,
-  IEntityYearTableFieldRowValuesCommand,
-} from "../../../../hooks/apiHooks/useCreateEntity";
 
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../store/hooks";
-import { IFieldTableElement } from "../../../../store/slices/fieldSlice";
-import {
-  IModel,
-  IModelField,
-  ModelFieldConditionTypeEnum,
-} from "../../../../store/slices/modelSlice";
+import { IModelField } from "../../../../store/slices/modelSlice";
 import Input from "../../../input";
 import {
   IEntityEditorFormFormik,
@@ -22,6 +13,14 @@ import {
 } from "../EntityEditorForm";
 
 import useStyles from "./entityEditorTableField.styles";
+import {
+  IEntityTableFieldCaseValueCommand,
+  IEntityYearTableFieldRowValuesCommand,
+  IFieldReadDto,
+  IFieldTableElementReadDto,
+  IModelReadDto,
+  ModelFieldConditionTypeEnum,
+} from "roottypes";
 
 interface IEntityEditorTableFieldProps {
   modelId?: string;
@@ -33,7 +32,7 @@ interface IEntityEditorTableFieldProps {
 const EntityEditorTableField: React.FunctionComponent<
   IEntityEditorTableFieldProps
 > = (props: IEntityEditorTableFieldProps) => {
-  const model: IModel | undefined = useAppSelector((state) =>
+  const model: IModelReadDto | undefined = useAppSelector((state) =>
     state.model.models.find((m) => m._id === props.modelId)
   );
   const theme: ITheme = useAppSelector(
@@ -59,9 +58,11 @@ const EntityEditorTableField: React.FunctionComponent<
       props.formik.values.entityFieldValues.map((entityFieldValue) => {
         if (
           entityFieldValue.fieldId.toString() ===
-          props.modelField.field._id.toString()
+          (props.modelField.field as IFieldReadDto)._id.toString()
         ) {
-          if (!props.modelField.field.tableOptions?.yearTable) {
+          if (
+            !(props.modelField.field as IFieldReadDto).tableOptions?.yearTable
+          ) {
             let newTableValues: IEntityTableFieldCaseValueCommand[] = [
               ...(entityFieldValue.tableValues || []),
             ];
@@ -166,17 +167,16 @@ const EntityEditorTableField: React.FunctionComponent<
   //#endregion event listeners
 
   //#region view
-  let columns: IFieldTableElement[] = [];
+  let columns: IFieldTableElementReadDto[] = [];
 
-  if (props.modelField.field.tableOptions?.yearTable) {
-    const fieldContainingNumberOfYearsId: string | undefined =
-      props.modelField?.conditions
-        ?.find(
-          (c) =>
-            c.conditionType ===
-            ModelFieldConditionTypeEnum.IfYearTableThenNumberOfYearsInTheFutureIsEqualToValueOfField
-        )
-        ?.field?._id.toString();
+  if ((props.modelField.field as IFieldReadDto).tableOptions?.yearTable) {
+    const fieldContainingNumberOfYearsId: string | undefined = (
+      props.modelField?.conditions?.find(
+        (c) =>
+          c.conditionType ===
+          ModelFieldConditionTypeEnum.IfYearTableThenNumberOfYearsInTheFutureIsEqualToValueOfField
+      )?.field as IFieldReadDto
+    )?._id.toString();
 
     const numberOfYearsInTheFuture: number | undefined = parseInt(
       (props.formik.values.entityFieldValues.find(
@@ -195,7 +195,9 @@ const EntityEditorTableField: React.FunctionComponent<
       }
     }
   } else {
-    columns = props.modelField.field.tableOptions?.columns || [];
+    columns =
+      ((props.modelField.field as IFieldReadDto).tableOptions
+        ?.columns as IFieldTableElementReadDto[]) || [];
   }
   //#endregion view
 
@@ -204,7 +206,9 @@ const EntityEditorTableField: React.FunctionComponent<
       <thead>
         <tr>
           <th className={styles.tableTd}>
-            {getTranslatedText(props.modelField.field.tableOptions?.name)}
+            {getTranslatedText(
+              (props.modelField.field as IFieldReadDto).tableOptions?.name
+            )}
           </th>
           {columns.map((column, columnIndex: number) => {
             return (
@@ -217,12 +221,12 @@ const EntityEditorTableField: React.FunctionComponent<
       </thead>
 
       <tbody>
-        {props.modelField.field.tableOptions?.rows.map(
+        {(props.modelField.field as IFieldReadDto).tableOptions?.rows.map(
           (row, rowIndex: number) => {
             return (
               <tr key={rowIndex}>
                 <td className={styles.tableTd}>
-                  {getTranslatedText(row.name)}
+                  {getTranslatedText((row as IFieldTableElementReadDto).name)}
                 </td>
                 {columns.map((column, columnIndex: number) => {
                   return (
@@ -236,10 +240,10 @@ const EntityEditorTableField: React.FunctionComponent<
                         }}
                         onChange={(e) =>
                           handleChangeTableCaseValue({
-                            rowId: row._id,
+                            rowId: (row as IFieldTableElementReadDto)._id,
                             value: e.target.value,
-                            columnId: props.modelField.field.tableOptions
-                              ?.yearTable
+                            columnId: (props.modelField.field as IFieldReadDto)
+                              .tableOptions?.yearTable
                               ? undefined
                               : column._id,
                             year: parseInt(
@@ -251,12 +255,15 @@ const EntityEditorTableField: React.FunctionComponent<
                           })
                         }
                         value={
-                          props.modelField.field.tableOptions?.yearTable
+                          (props.modelField.field as IFieldReadDto).tableOptions
+                            ?.yearTable
                             ? props.entityFieldValue?.yearTableValues
                                 .find(
                                   (yearTableValue) =>
                                     yearTableValue.rowId.toString() ===
-                                    row._id.toString()
+                                    (
+                                      row as IFieldTableElementReadDto
+                                    )._id.toString()
                                 )
                                 ?.values.find(
                                   (rowColumnValue) =>
@@ -274,7 +281,9 @@ const EntityEditorTableField: React.FunctionComponent<
                                   tableValue.columnId ===
                                     column._id.toString() &&
                                   tableValue.rowId.toString() ===
-                                    row._id.toString()
+                                    (
+                                      row as IFieldTableElementReadDto
+                                    )._id.toString()
                               )?.value || ""
                         }
                       />

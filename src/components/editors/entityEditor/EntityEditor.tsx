@@ -3,11 +3,11 @@ import { useParams } from "react-router-dom";
 import "suneditor/dist/css/suneditor.min.css";
 
 import Modal from "../../modal";
-import { IEntity } from "../../../store/slices/entitySlice";
 import EntityEditorForm from "./EntityEditorForm";
+import { IEntityReadDto } from "roottypes";
 
 export interface IEntityEditorProps {
-  entity?: IEntity;
+  entity?: IEntityReadDto;
   open: boolean;
   setOpen: (open: boolean) => void;
   // This one is used for when we use the entity editor as a post (the editor could exist in any page)

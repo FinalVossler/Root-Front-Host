@@ -14,20 +14,21 @@ import Input from "../../input";
 
 import useStyles from "./eventsEditor.styles";
 import Textarea from "../../textarea/Textarea";
-import {
-  EventTriggerEnum,
-  EventTypeEnum,
-  IEvent,
-  IEventRequestHeader,
-} from "../../../globalTypes/IEvent";
 import { CgAdd } from "react-icons/cg";
 import { HiKey } from "react-icons/hi";
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import SearchInput from "../../searchInput";
-import { IMicroFrontend } from "../../../store/slices/microFrontendSlice";
 import useSearchMicroFrontends from "../../../hooks/apiHooks/useSearchMicroFrontends";
 import InputSelect from "../../inputSelect";
 import { Option } from "../../inputSelect/InputSelect";
+import {
+  EventTriggerEnum,
+  EventTypeEnum,
+  IEventReadDto,
+  IEventRequestHeaderReadDto,
+  IMicroFrontendComponentReadDto,
+  IMicroFrontendReadDto,
+} from "roottypes";
 
 interface IEventsEditorProps {
   formik: FormikProps<any>;
@@ -61,7 +62,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    const newEvent: IEvent = {
+    const newEvent: IEventReadDto = {
       eventTrigger: props.defaultEventTriggerOnAdd,
       eventType: EventTypeEnum.Redirection,
       redirectionToSelf: false,
@@ -89,7 +90,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
     eventTrigger: EventTriggerEnum
   ) => {
     const newEvents = props.formik.values[props.fieldName].map(
-      (event: IEvent, i) => {
+      (event: IEventReadDto, i) => {
         return {
           ...event,
           eventTrigger: index === i ? eventTrigger : event.eventTrigger,
@@ -101,7 +102,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
 
   const handleEventTypeChange = (index: number, eventType: EventTypeEnum) => {
     const newEvents = props.formik.values[props.fieldName].map(
-      (event: IEvent, i) => {
+      (event: IEventReadDto, i) => {
         return {
           ...event,
           eventType: index === i ? eventType : event.eventType,
@@ -113,10 +114,10 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
 
   const handleSelectOrUnselectMicroFrontend = (
     index: number,
-    microFrontend: IMicroFrontend | null
+    microFrontend: IMicroFrontendReadDto | null
   ) => {
-    const newEvents: IEvent = props.formik.values[props.fieldName].map(
-      (event: IEvent, i) => {
+    const newEvents: IEventReadDto = props.formik.values[props.fieldName].map(
+      (event: IEventReadDto, i) => {
         return {
           ...event,
           microFrontend: index === i ? microFrontend : event.microFrontend,
@@ -124,7 +125,8 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
             index === i &&
             microFrontend?.components &&
             microFrontend?.components?.length > 0
-              ? microFrontend.components[0]._id
+              ? (microFrontend.components[0] as IMicroFrontendComponentReadDto)
+                  ._id
               : event.microFrontendComponentId,
         };
       }
@@ -136,7 +138,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
     option: Option
   ) => {
     const newEvents = props.formik.values[props.fieldName].map(
-      (event: IEvent, i): IEvent => {
+      (event: IEventReadDto, i): IEventReadDto => {
         return {
           ...event,
           microFrontendComponentId:
@@ -163,7 +165,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
 
       {open &&
         props.formik.values[props.fieldName].map(
-          (event: IEvent, index: number) => {
+          (event: IEventReadDto, index: number) => {
             return (
               <div key={index} className={styles.singleEvent}>
                 <span className={styles.eventIndex}>
@@ -353,12 +355,15 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                       </span>
 
                       {event.requestHeaders?.map(
-                        (header: IEventRequestHeader, headerIndex: number) => {
+                        (
+                          header: IEventRequestHeaderReadDto,
+                          headerIndex: number
+                        ) => {
                           return (
                             <div className={styles.singleHeader}>
                               <MdDelete
                                 onClick={(_) => {
-                                  const newEvents: IEvent[] = [
+                                  const newEvents: IEventReadDto[] = [
                                     ...props.formik.values[props.fieldName],
                                   ];
                                   newEvents[index].requestHeaders.splice(
@@ -387,14 +392,14 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                                 ) => {
                                   const newEvents = props.formik.values[
                                     props.fieldName
-                                  ].map((el: IEvent, i) => {
+                                  ].map((el: IEventReadDto, i) => {
                                     return {
                                       ...el,
                                       requestHeaders:
                                         index == i
                                           ? el.requestHeaders.map(
                                               (
-                                                header: IEventRequestHeader,
+                                                header: IEventRequestHeaderReadDto,
                                                 i: number
                                               ) => {
                                                 return {
@@ -430,14 +435,14 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                                 ) => {
                                   const newEvents = props.formik.values[
                                     props.fieldName
-                                  ].map((el: IEvent, i) => {
+                                  ].map((el: IEventReadDto, i) => {
                                     return {
                                       ...el,
                                       requestHeaders:
                                         index == i
                                           ? el.requestHeaders.map(
                                               (
-                                                header: IEventRequestHeader,
+                                                header: IEventRequestHeaderReadDto,
                                                 i: number
                                               ) => {
                                                 return {
@@ -469,13 +474,13 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                           e: React.MouseEvent<HTMLButtonElement, MouseEvent>
                         ) => {
                           e.preventDefault();
-                          const newHeader: IEventRequestHeader = {
+                          const newHeader: IEventRequestHeaderReadDto = {
                             key: "",
                             value: "",
                           };
                           const newEvents = props.formik.values[
                             props.fieldName
-                          ].map((el: IEvent, i) => {
+                          ].map((el: IEventReadDto, i) => {
                             return {
                               ...el,
                               requestHeaders:
@@ -548,10 +553,10 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                 )}
                 {event.eventType === EventTypeEnum.MicroFrontendRedirection && (
                   <SearchInput
-                    getElementTitle={(el: IMicroFrontend) => el.name}
+                    getElementTitle={(el: IMicroFrontendReadDto) => el.name}
                     searchPromise={handleSearchMicroFrontendsPromise}
                     label={getTranslatedText(staticText?.searchMicroFrontends)}
-                    onElementClick={(microFrontend: IMicroFrontend) =>
+                    onElementClick={(microFrontend: IMicroFrontendReadDto) =>
                       handleSelectOrUnselectMicroFrontend(index, microFrontend)
                     }
                   />
@@ -570,23 +575,30 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
 
                     <InputSelect
                       label={getTranslatedText(staticText?.components)}
-                      options={event.microFrontend.components.map(
-                        (component) => {
-                          return {
-                            label: component.name,
-                            value: component._id,
-                          };
-                        }
-                      )}
+                      options={(
+                        event.microFrontend
+                          .components as IMicroFrontendComponentReadDto[]
+                      ).map((component) => {
+                        return {
+                          label: component.name,
+                          value: component._id,
+                        };
+                      })}
                       value={{
                         label:
-                          event.microFrontend.components.find(
+                          (
+                            event.microFrontend
+                              .components as IMicroFrontendComponentReadDto[]
+                          ).find(
                             (el) =>
                               el._id.toString() ===
                               event.microFrontendComponentId
                           )?.name || "",
                         value:
-                          event.microFrontend.components.find(
+                          (
+                            event.microFrontend
+                              .components as IMicroFrontendComponentReadDto[]
+                          ).find(
                             (el) =>
                               el._id.toString() ===
                               event.microFrontendComponentId

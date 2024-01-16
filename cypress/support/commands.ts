@@ -1,16 +1,16 @@
-import { FieldCreateCommand } from "../../src/hooks/apiHooks/useCreateField";
-import { ModelCreateCommand } from "../../src/hooks/apiHooks/useCreateModel";
-import { RoleCreateCommand } from "../../src/hooks/apiHooks/useCreateRole";
-import { UserCreateCommand } from "../../src/hooks/apiHooks/useCreateUser";
-import { UserLoginCommand } from "../../src/hooks/apiHooks/useLogin";
 import {
-  IUser,
-  setUserAndTokenInformationInLocalStorage,
-} from "../../src/store/slices/userSlice";
+  IFieldCreateCommand,
+  IModelCreateCommand,
+  IRoleCreateCommand,
+  IUserCreateCommand,
+  IUserLoginCommand,
+  IUserReadDto,
+} from "roottypes";
+import { setUserAndTokenInformationInLocalStorage } from "../../src/store/slices/userSlice";
 
 Cypress.Commands.add(
   "sendCreateUserRequest",
-  (command: UserCreateCommand, callback) => {
+  (command: IUserCreateCommand, callback) => {
     cy.get("@adminToken").then((adminToken) => {
       cy.request({
         url: Cypress.env("backendUrl") + "/users/",
@@ -27,7 +27,7 @@ Cypress.Commands.add(
 
 Cypress.Commands.add(
   "sendCreateRoleRequest",
-  (command: RoleCreateCommand, callback) => {
+  (command: IRoleCreateCommand, callback) => {
     cy.get("@adminToken").then((adminToken) => {
       cy.request({
         url: Cypress.env("backendUrl") + "/roles/",
@@ -57,7 +57,7 @@ Cypress.Commands.add("sendCreateFileRequest", (url: string, callback) => {
 
 Cypress.Commands.add(
   "sendCreateFieldRequest",
-  (command: FieldCreateCommand, callback) => {
+  (command: IFieldCreateCommand, callback) => {
     cy.get("@adminToken").then((adminToken) => {
       cy.request({
         method: "POST",
@@ -73,7 +73,7 @@ Cypress.Commands.add(
 
 Cypress.Commands.add(
   "sendCreateModelRequest",
-  (command: ModelCreateCommand, callback) => {
+  (command: IModelCreateCommand, callback) => {
     cy.get("@adminToken").then((adminToken) => {
       cy.request({
         method: "POST",
@@ -110,7 +110,7 @@ Cypress.Commands.add(
     updateLocalStorage?: boolean,
     credentials?: { email: string; password: string }
   ) => {
-    const command: UserLoginCommand = {
+    const command: IUserLoginCommand = {
       email: credentials?.email || Cypress.env("adminEmail"),
       password: credentials?.password || Cypress.env("adminPassword"),
     };
@@ -125,7 +125,7 @@ Cypress.Commands.add(
     }).then((res) => {
       const result: {
         success: boolean;
-        data: { expiresIn: string; token: string; user: IUser };
+        data: { expiresIn: string; token: string; user: IUserReadDto };
       } = res.body;
       const token = result.data.token;
 
@@ -155,11 +155,11 @@ declare global {
         elementIndex: number
       ): Chainable;
       sendCreateFieldRequest(
-        command: FieldCreateCommand,
+        command: IFieldCreateCommand,
         callback: (res: any) => void
       );
       sendCreateModelRequest(
-        command: ModelCreateCommand,
+        command: IModelCreateCommand,
         callback: (res: any) => void
       );
       sendCreateFileRequest(
@@ -167,11 +167,11 @@ declare global {
         callback: (res: any) => void
       ): Chainable;
       sendCreateRoleRequest(
-        command: RoleCreateCommand,
+        command: IRoleCreateCommand,
         callback: (res: any) => void
       );
       sendCreateUserRequest(
-        command: UserCreateCommand,
+        command: IUserCreateCommand,
         callback: (res: any) => void
       );
     }

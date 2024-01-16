@@ -2,7 +2,7 @@ import React from "react";
 
 import { ITheme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
-import { IModel } from "../../store/slices/modelSlice";
+import { IModelReadDto } from "../../store/slices/modelSlice";
 import TasksByModel from "./taskByModel";
 
 import useStyles from "./tasksPage.styles";
@@ -15,7 +15,7 @@ const TasksPage: React.FunctionComponent<ITasksPageProps> = (
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
-  const models: IModel[] = useAppSelector((state) => state.model.models);
+  const models: IModelReadDto[] = useAppSelector((state) => state.model.models);
 
   const styles = useStyles({ theme });
 

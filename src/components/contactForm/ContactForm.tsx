@@ -12,9 +12,8 @@ import Button from "../button";
 import { IPost } from "../../store/slices/postSlice";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import extractContentFromHtml from "../../utils/extractContentFromHtml";
-import useSendMail, {
-  EmailSendCommand,
-} from "../../hooks/apiHooks/useSendMail";
+import useSendMail from "../../hooks/apiHooks/useSendMail";
+import { IEmailSendCommand } from "roottypes";
 
 interface IContactFormFormik {
   firstName: string;
@@ -54,7 +53,7 @@ const ContactForm: React.FunctionComponent<
         message: "",
       },
       onSubmit: async (values: IContactFormFormik) => {
-        const command: EmailSendCommand = {
+        const command: IEmailSendCommand = {
           firstName: values.firstName,
           lastName: values.lastName,
           email: values.email,

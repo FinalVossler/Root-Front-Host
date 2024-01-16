@@ -3,37 +3,28 @@ import React from "react";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
-import { IUser, SuperRole, userSlice } from "../../store/slices/userSlice";
+import { userSlice } from "../../store/slices/userSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 import useGetTranslatedText from "../useGetTranslatedText";
-
-export type UserUpdateCommand = {
-  _id: string;
-  firstName: IUser["firstName"];
-  lastName: IUser["lastName"];
-  email: IUser["email"];
-  roleId?: string;
-  superRole?: SuperRole;
-  hasMessagingEmailsActivated?: boolean;
-};
+import { IUserReadDto, IUserUpdateCommand } from "roottypes";
 
 const useUpdateUser = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.profile
   );
-  const currentUser: IUser = useAppSelector((state) => state.user.user);
+  const currentUser: IUserReadDto = useAppSelector((state) => state.user.user);
 
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
 
-  const updateUser = (command: UserUpdateCommand) =>
+  const updateUser = (command: IUserUpdateCommand) =>
     new Promise((resolve, reject) => {
       setLoading(true);
 
       axios
-        .request<AxiosResponse<IUser>>({
+        .request<AxiosResponse<IUserReadDto>>({
           url: process.env.REACT_APP_BACKEND_URL + "/users",
           method: "PUT",
           data: command,

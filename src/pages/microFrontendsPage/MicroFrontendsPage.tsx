@@ -10,15 +10,16 @@ import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useHasPermission from "../../hooks/useHasPermission";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import {
-  microFrontendSlice,
-  IMicroFrontend,
-} from "../../store/slices/microFrontendSlice";
-import { Permission } from "../../store/slices/roleSlice";
+import { microFrontendSlice } from "../../store/slices/microFrontendSlice";
 
 import useStyles from "./microFrontendsPage.styles";
 import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 import useDeleteMicroFrontends from "../../hooks/apiHooks/useDeleteMicroFrontends";
+import {
+  IMicroFrontendComponentReadDto,
+  IMicroFrontendReadDto,
+  PermissionEnum,
+} from "roottypes";
 
 interface IMicroFrontendsPageProps {}
 
@@ -69,7 +70,7 @@ const MicroFrontendsPage: React.FunctionComponent<IMicroFrontendsPageProps> = (
   };
 
   const handleSetSearchResult = React.useCallback(
-    (res: PaginationResponse<IMicroFrontend>) => {
+    (res: PaginationResponse<IMicroFrontendReadDto>) => {
       dispatch(microFrontendSlice.actions.setSearchedMicroFrontends(res));
     },
     []
@@ -77,7 +78,7 @@ const MicroFrontendsPage: React.FunctionComponent<IMicroFrontendsPageProps> = (
 
   if (!isLoggedIn) return null;
 
-  if (!hasPermission(Permission.ReadField)) return null;
+  if (!hasPermission(PermissionEnum.ReadField)) return null;
 
   return (
     <div className={styles.microFrontendsPageContainer}>
@@ -85,7 +86,7 @@ const MicroFrontendsPage: React.FunctionComponent<IMicroFrontendsPageProps> = (
         Editor={({ element, ...props }) => (
           <MicroFrontendEditor
             {...props}
-            microFrontend={element as IMicroFrontend}
+            microFrontend={element as IMicroFrontendReadDto}
           />
         )}
         columns={[
@@ -100,9 +101,13 @@ const MicroFrontendsPage: React.FunctionComponent<IMicroFrontendsPageProps> = (
           {
             label: getTranslatedText(staticText?.components),
             name: "components",
-            render: (microFrontend: IMicroFrontend) => {
+            render: (microFrontend: IMicroFrontendReadDto) => {
               if (microFrontend.components) {
-                return microFrontend.components.map((el) => el.name).join(", ");
+                return (
+                  microFrontend.components as IMicroFrontendComponentReadDto[]
+                )
+                  .map((el) => el.name)
+                  .join(", ");
               } else return "";
             },
           },
@@ -116,9 +121,9 @@ const MicroFrontendsPage: React.FunctionComponent<IMicroFrontendsPageProps> = (
         deleteLoading={deleteLoading}
         getElementName={(microFrontend: any) => microFrontend.name}
         onPageChange={handlePageChange}
-        canCreate={hasPermission(Permission.CreateMicroFrontend)}
-        canUpdate={hasPermission(Permission.UpdateMicroFrontend)}
-        canDelete={hasPermission(Permission.DeleteMicroFrontend)}
+        canCreate={hasPermission(PermissionEnum.CreateMicroFrontend)}
+        canUpdate={hasPermission(PermissionEnum.UpdateMicroFrontend)}
+        canDelete={hasPermission(PermissionEnum.DeleteMicroFrontend)}
         searchPromise={handleSearchMicroFrontendsPromise}
         searchResult={searchResult}
         setSearchResult={handleSetSearchResult}

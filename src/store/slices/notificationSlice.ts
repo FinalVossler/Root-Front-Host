@@ -1,22 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import IFile from "../../globalTypes/IFile";
-import ITranslatedText from "../../globalTypes/ITranslatedText";
-
-export interface INotification {
-  _id: string;
-  text: ITranslatedText[];
-  link: string;
-  image?: IFile;
-  to: string[];
-  clickedBy: string[];
-
-  createdAt: string;
-  updatedAt: string;
-}
+import { INotificationReadDto } from "roottypes";
 
 interface INotificationState {
-  notifications: INotification[];
+  notifications: INotificationReadDto[];
   total: number;
   totalUnclicked: number;
 }
@@ -35,7 +22,7 @@ export const notificationSlice = createSlice({
       state: INotificationState,
       action: PayloadAction<{
         total: number;
-        notifications: INotification[];
+        notifications: INotificationReadDto[];
         totalUnclicked: number;
       }>
     ) => {
@@ -45,7 +32,7 @@ export const notificationSlice = createSlice({
     },
     addNotification: (
       state: INotificationState,
-      action: PayloadAction<{ notification: INotification }>
+      action: PayloadAction<{ notification: INotificationReadDto }>
     ) => {
       state.notifications = [
         ...state.notifications,

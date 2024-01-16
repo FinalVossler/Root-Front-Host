@@ -6,7 +6,6 @@ import { MdDelete } from "react-icons/md";
 import { ITheme } from "../../../../config/theme";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../store/hooks";
-import { EntityEventNotificationTrigger } from "../../../../store/slices/roleSlice";
 import Button from "../../../button";
 import Checkbox from "../../../checkbox";
 import Input from "../../../input";
@@ -14,6 +13,7 @@ import Textarea from "../../../textarea/Textarea";
 import { IEntityEventNotificationForm } from "../RoleEditor";
 
 import useStyles from "./roleEntityEventsNotification.styles";
+import { EntityEventNotificationTriggerEnum } from "roottypes";
 
 interface IRoleEntityEventsNotificationProps {
   entityEventNotifications: IEntityEventNotificationForm[];
@@ -77,7 +77,7 @@ const RoleEntityEventsNotification: React.FunctionComponent<
     const newEvent: IEntityEventNotificationForm = {
       text: "",
       title: "",
-      trigger: EntityEventNotificationTrigger.OnCreate,
+      trigger: EntityEventNotificationTriggerEnum.OnCreate,
     };
     const newValues: IEntityEventNotificationForm[] = [
       ...formik.values.entityEventNotifications,
@@ -114,11 +114,11 @@ const RoleEntityEventsNotification: React.FunctionComponent<
                 label={getTranslatedText(staticText?.onCreate)}
                 checked={
                   entityEventNotification.trigger ===
-                  EntityEventNotificationTrigger.OnCreate
+                  EntityEventNotificationTriggerEnum.OnCreate
                 }
                 onChange={() =>
                   handleFieldChange(
-                    EntityEventNotificationTrigger.OnCreate,
+                    EntityEventNotificationTriggerEnum.OnCreate,
                     index,
                     "trigger"
                   )
@@ -129,11 +129,11 @@ const RoleEntityEventsNotification: React.FunctionComponent<
                 label={getTranslatedText(staticText?.onAssigned)}
                 checked={
                   entityEventNotification.trigger ===
-                  EntityEventNotificationTrigger.OnAssigned
+                  EntityEventNotificationTriggerEnum.OnAssigned
                 }
                 onChange={() =>
                   handleFieldChange(
-                    EntityEventNotificationTrigger.OnAssigned,
+                    EntityEventNotificationTriggerEnum.OnAssigned,
                     index,
                     "trigger"
                   )

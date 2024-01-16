@@ -12,10 +12,9 @@ import { useAppSelector } from "../../store/hooks";
 import { ITheme } from "../../config/theme";
 
 import useStyles from "./registrationForm.styles";
-import useRegister, {
-  UserRegisterCommand,
-} from "../../hooks/apiHooks/useRegister";
+import useRegister from "../../hooks/apiHooks/useRegister";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
+import { IUserRegisterCommand } from "roottypes";
 
 interface IRegistrationFormFormik {
   firstName: string;
@@ -69,7 +68,7 @@ const Registration: React.FunctionComponent<IRegistrationFormProps> = (
           }),
       }),
       onSubmit: async (values: IRegistrationFormFormik) => {
-        const command: UserRegisterCommand = {
+        const command: IUserRegisterCommand = {
           firstName: values.firstName,
           lastName: values.lastName,
           email: values.email,

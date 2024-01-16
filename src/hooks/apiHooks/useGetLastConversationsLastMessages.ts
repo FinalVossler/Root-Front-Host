@@ -1,19 +1,17 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import PaginationCommand from "../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { chatSlice, IPopulatedMessage } from "../../store/slices/chatSlice";
-import { IUser } from "../../store/slices/userSlice";
+import {
+  chatSlice,
+  IPopulatedMessageReadDto,
+} from "../../store/slices/chatSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-
-export type MessageGetLastConversations = {
-  paginationCommand: PaginationCommand;
-};
+import { IMessageGetLastConversations, IUserReadDto } from "roottypes";
 
 const useGetLastConversationsLastMessages = () => {
-  const user: IUser = useAppSelector((state) => state.user.user);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
 
   const [loading, setLoading] = React.useState<boolean>(false);
 
@@ -21,12 +19,12 @@ const useGetLastConversationsLastMessages = () => {
   const dispatch = useAppDispatch();
 
   const getLastConversationsLastMessages = (
-    command: MessageGetLastConversations
+    command: IMessageGetLastConversations
   ) =>
     new Promise((resolve, reject) => {
       setLoading(true);
       axios
-        .request<AxiosResponse<PaginationResponse<IPopulatedMessage>>>({
+        .request<AxiosResponse<PaginationResponse<IPopulatedMessageReadDto>>>({
           method: "POST",
           url: "/messages/getLastConversationsLastMessages",
           data: command,

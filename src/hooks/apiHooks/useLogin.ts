@@ -1,15 +1,11 @@
 import React from "react";
 import { AxiosResponse } from "axios";
 
-import { IUser, userSlice } from "../../store/slices/userSlice";
+import { userSlice } from "../../store/slices/userSlice";
 import useAxios from "../useAxios";
 import { useAppDispatch } from "../../store/hooks";
 import { toast } from "react-toastify";
-
-export type UserLoginCommand = {
-  email: IUser["email"];
-  password: string;
-};
+import { IUserLoginCommand, IUserReadDto } from "roottypes";
 
 const useLogin = () => {
   const [loading, setLoading] = React.useState(false);
@@ -17,12 +13,16 @@ const useLogin = () => {
   const axios = useAxios();
   const dispatch = useAppDispatch();
 
-  const login = (command: UserLoginCommand, callback: () => void) =>
+  const login = (command: IUserLoginCommand, callback: () => void) =>
     new Promise((resolve, reject) => {
       setLoading(true);
       axios
         .request<
-          AxiosResponse<{ expiresIn: string; token: string; user: IUser }>
+          AxiosResponse<{
+            expiresIn: string;
+            token: string;
+            user: IUserReadDto;
+          }>
         >({
           url: process.env.REACT_APP_BACKEND_URL + "/users/login",
           method: "POST",
@@ -36,7 +36,7 @@ const useLogin = () => {
             callback();
           }
         })
-        .finally(() => setLoading(false))
+        .finally(() => setLoading(false));
     });
 
   return { login, loading };

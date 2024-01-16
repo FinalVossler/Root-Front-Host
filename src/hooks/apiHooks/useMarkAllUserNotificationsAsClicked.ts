@@ -3,11 +3,11 @@ import React from "react";
 
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { notificationSlice } from "../../store/slices/notificationSlice";
-import { IUser } from "../../store/slices/userSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
+import { IUserReadDto } from "roottypes";
 
 const useMarkAllUserNotificationsAsClicked = () => {
-  const user: IUser = useAppSelector((state) => state.user.user);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
 
   const [loading, setLoading] = React.useState<boolean>(false);
 

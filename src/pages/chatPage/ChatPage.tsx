@@ -5,18 +5,18 @@ import ChatBox from "../../components/chatComponents/chatBox";
 
 import { ITheme } from "../../config/theme";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { IUser } from "../../store/slices/userSlice";
 
 import useStyles from "./chatPage.styles";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { BoxType } from "../../components/chatComponents/chatBox/ChatBox";
 import { chatSlice } from "../../store/slices/chatSlice";
+import { IUserReadDto } from "roottypes";
 
 interface IChagePageProps {}
 const ChatPage: React.FunctionComponent<IChagePageProps> = (
   props: IChagePageProps
 ) => {
-  const user: IUser = useAppSelector((state) => state.user.user);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
   const withChat: boolean | undefined = useAppSelector(
     (state) => state.websiteConfiguration.withChat
   );

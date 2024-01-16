@@ -6,20 +6,20 @@ import { BiDownload } from "react-icons/bi";
 
 import { ITheme } from "../../config/theme";
 
-import IFile from "../../globalTypes/IFile";
-import PaginationCommand from "../../globalTypes/PaginationCommand";
 import { useAppSelector } from "../../store/hooks";
-import useGetUserAndSelectedFiles, {
-  FileGetUserAndSelectedFilesCommand,
-} from "../../hooks/apiHooks/useGetUserAndSelectedFiles";
+import useGetUserAndSelectedFiles from "../../hooks/apiHooks/useGetUserAndSelectedFiles";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import Pagination from "../pagination";
-import useGetUnownedFiles, {
-  FileGetUnownedAndSelectedFilesCommand,
-} from "../../hooks/apiHooks/useGetUnownedAndSelectedFiles";
+import useGetUnownedFiles from "../../hooks/apiHooks/useGetUnownedAndSelectedFiles";
 
 import useStyles from "./existingFiles.styles";
 import { toast } from "react-toastify";
+import {
+  IFileGetUnownedAndSelectedFilesCommand,
+  IFileGetUserAndSelectedFilesCommand,
+  IFileReadDto,
+  IPaginationCommand,
+} from "roottypes";
 
 export enum TypeOfFiles {
   UserFiles = "UserFiles",
@@ -27,10 +27,11 @@ export enum TypeOfFiles {
 }
 
 interface IExistingFilesProps {
-  selectedExistingFiles: IFile[];
-  setSelectedExistingFiles: (existingFiles: IFile[]) => void;
+  selectedExistingFiles: IFileReadDto[];
+  setSelectedExistingFiles: (existingFiles: IFileReadDto[]) => void;
   typeOfFiles: TypeOfFiles;
   disabled?: boolean;
+  showOtherFiles?: boolean;
 }
 
 const ExistingFiles: React.FunctionComponent<IExistingFilesProps> = (
@@ -43,7 +44,7 @@ const ExistingFiles: React.FunctionComponent<IExistingFilesProps> = (
     (state) => state.websiteConfiguration.staticText?.files
   );
 
-  const [files, setFiles] = React.useState<IFile[]>([]);
+  const [files, setFiles] = React.useState<IFileReadDto[]>([]);
   const [page, setPage] = React.useState(1);
   const [limit, setLimit] = React.useState(20);
   const [total, setTotal] = React.useState<number>(0);
@@ -67,16 +68,16 @@ const ExistingFiles: React.FunctionComponent<IExistingFilesProps> = (
 
   React.useEffect(() => {
     const getFiles = async () => {
-      const paginationCommand: PaginationCommand = {
+      const paginationCommand: IPaginationCommand = {
         page,
         limit,
       };
 
-      let newFiles: IFile[] = [];
+      let newFiles: IFileReadDto[] = [];
       let newTotal: number = 0;
 
       if (props.typeOfFiles === TypeOfFiles.UserFiles) {
-        const command: FileGetUserAndSelectedFilesCommand = {
+        const command: IFileGetUserAndSelectedFilesCommand = {
           paginationCommand,
           selectedFilesIds: props.selectedExistingFiles.map((f) => f._id || ""),
         };
@@ -88,7 +89,7 @@ const ExistingFiles: React.FunctionComponent<IExistingFilesProps> = (
         newTotal = total;
         newFiles = filesResult;
       } else {
-        const command: FileGetUnownedAndSelectedFilesCommand = {
+        const command: IFileGetUnownedAndSelectedFilesCommand = {
           paginationCommand,
           selectedFilesIds: props.selectedExistingFiles.map((f) => f._id || ""),
         };
@@ -118,7 +119,7 @@ const ExistingFiles: React.FunctionComponent<IExistingFilesProps> = (
   //#region Event listeners
   const handleTriggerSelectFile = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    file: IFile
+    file: IFileReadDto
   ) => {
     if (props.disabled) {
       return toast.error(
@@ -169,6 +170,10 @@ const ExistingFiles: React.FunctionComponent<IExistingFilesProps> = (
           const isFileSelected: boolean = props.selectedExistingFiles.some(
             (el) => el._id === file._id
           );
+
+          if (!isFileSelected && !props.showOtherFiles) {
+            return null;
+          }
 
           return (
             <div

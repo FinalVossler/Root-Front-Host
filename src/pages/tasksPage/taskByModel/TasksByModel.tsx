@@ -3,16 +3,11 @@ import React from "react";
 import Loading from "react-loading";
 import Pagination from "../../../components/pagination";
 import { ITheme } from "../../../config/theme";
-import { EntitiesGetCommand } from "../../../hooks/apiHooks/useGetEntitiesByModel";
 import { useAppSelector } from "../../../store/hooks";
-import { IRole } from "../../../store/slices/roleSlice";
 import useGetAssignedEntitiesByModel from "../../../hooks/apiHooks/useGetAssignedEntitiesByModel";
 
 import useStyles from "./tasksByModel.styles";
-import { IModel } from "../../../store/slices/modelSlice";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
-import { IEntity } from "../../../store/slices/entitySlice";
-import { IUser } from "../../../store/slices/userSlice";
 import { EntityFieldValueComponent } from "../../entitiesPage/entitiesList/EntitiesList";
 import moment from "moment";
 import UserProfilePicture from "../../../components/userProfilePicture";
@@ -21,6 +16,15 @@ import ElementsBoard from "../../../components/elements/elementsBoard";
 import EntityEditor from "../../../components/editors/entityEditor";
 import { ViewTypeEnum } from "../../../components/elements/Elements";
 import ViewTabs from "../../../components/elements/viewTabs";
+import {
+  IEntitiesGetCommand,
+  IEntityReadDto,
+  IFieldReadDto,
+  IFileReadDto,
+  IModelReadDto,
+  IRoleReadDto,
+  IUserReadDto,
+} from "roottypes";
 
 const LIMIT = 99;
 
@@ -40,7 +44,7 @@ const TasksByModel: React.FunctionComponent<ITasksByModelProps> = (
   const total = useAppSelector(
     (state) => state.entity.assignedEntitiesByModel
   ).find((el) => el.modelId.toString() === props.modelId.toString())?.total;
-  const model: IModel | undefined = useAppSelector(
+  const model: IModelReadDto | undefined = useAppSelector(
     (state) => state.model.models
   ).find((model) => model._id.toString() === props.modelId);
   const staticText = useAppSelector(
@@ -48,7 +52,7 @@ const TasksByModel: React.FunctionComponent<ITasksByModelProps> = (
   );
 
   const [page, setPage] = React.useState(1);
-  const [roles, setRoles] = React.useState<IRole[]>([]);
+  const [roles, setRoles] = React.useState<IRoleReadDto[]>([]);
   const [viewType, setViewType] = React.useState<ViewTypeEnum>(
     ViewTypeEnum.BoardForStatusTracking
   );
@@ -60,7 +64,7 @@ const TasksByModel: React.FunctionComponent<ITasksByModelProps> = (
 
   //#region use effects
   React.useEffect(() => {
-    const command: EntitiesGetCommand = {
+    const command: IEntitiesGetCommand = {
       modelId: props.modelId,
       paginationCommand: {
         limit: LIMIT,
@@ -72,16 +76,18 @@ const TasksByModel: React.FunctionComponent<ITasksByModelProps> = (
   }, []);
 
   React.useEffect(() => {
-    const newRoles: IRole[] = [];
+    const newRoles: IRoleReadDto[] = [];
     assignedEntitiesByModel?.entities.forEach((entity) => {
-      entity.assignedUsers?.forEach((user) => {
+      (entity.assignedUsers as IUserReadDto[])?.forEach((user) => {
         if (
           newRoles.some(
-            (role) => user.role?._id.toString() === role._id.toString()
+            (role) =>
+              (user.role as IRoleReadDto)?._id.toString() ===
+              role._id.toString()
           ) &&
           user.role
         ) {
-          newRoles.push(user.role);
+          newRoles.push(user.role as IRoleReadDto);
         }
       });
     });
@@ -91,7 +97,7 @@ const TasksByModel: React.FunctionComponent<ITasksByModelProps> = (
   //#endregion use effects
 
   const handlePageChange = (page: number) => {
-    const command: EntitiesGetCommand = {
+    const command: IEntitiesGetCommand = {
       modelId: props.modelId,
       paginationCommand: {
         limit: 999,
@@ -121,7 +127,7 @@ const TasksByModel: React.FunctionComponent<ITasksByModelProps> = (
             Editor={({ element, ...subProps }) => (
               <EntityEditor
                 {...subProps}
-                entity={element as IEntity}
+                entity={element as IEntityReadDto}
                 modelId={props.modelId}
               />
             )}
@@ -143,7 +149,9 @@ const TasksByModel: React.FunctionComponent<ITasksByModelProps> = (
                         className={styles.tableHeaderColumn}
                         key={modelFieldIndex}
                       >
-                        {getTranslatedText(modelField.field.name)}
+                        {getTranslatedText(
+                          (modelField.field as IFieldReadDto).name
+                        )}
                       </td>
                     );
                   })}
@@ -158,7 +166,7 @@ const TasksByModel: React.FunctionComponent<ITasksByModelProps> = (
 
             <tbody>
               {assignedEntitiesByModel?.entities.map(
-                (entity: IEntity, entityIndex: number) => {
+                (entity: IEntityReadDto, entityIndex: number) => {
                   if (
                     entity &&
                     entity.assignedUsers &&
@@ -166,15 +174,18 @@ const TasksByModel: React.FunctionComponent<ITasksByModelProps> = (
                   ) {
                     return (
                       <React.Fragment key={entityIndex}>
-                        {entity.assignedUsers.map(
-                          (user: IUser, userIndex: number) => {
+                        {(entity.assignedUsers as IUserReadDto[]).map(
+                          (user: IUserReadDto, userIndex: number) => {
                             return (
                               <tr className={styles.tableRow} key={userIndex}>
                                 <td className={styles.tableColumn}>
                                   <div className={styles.subColumnContainer}>
                                     <UserProfilePicture
                                       size={SizeEnum.Small}
-                                      url={user.profilePicture?.url}
+                                      url={
+                                        (user.profilePicture as IFileReadDto)
+                                          ?.url
+                                      }
                                     />{" "}
                                     <span
                                       className={
@@ -208,7 +219,9 @@ const TasksByModel: React.FunctionComponent<ITasksByModelProps> = (
                                   )}
                                 </td>
                                 <td className={styles.tableColumn}>
-                                  {getTranslatedText(user.role?.name)}
+                                  {getTranslatedText(
+                                    (user.role as IRoleReadDto)?.name
+                                  )}
                                 </td>
                               </tr>
                             );

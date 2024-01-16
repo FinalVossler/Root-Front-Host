@@ -2,29 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import _ from "lodash";
 
 import PaginationResponse from "../../globalTypes/PaginationResponse";
-
-export interface IMicroFrontendComponent {
-  _id: string;
-  name: string;
-
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface IMicroFrontend {
-  _id: string;
-  name: string;
-  remoteEntry: string;
-  components: IMicroFrontendComponent[];
-
-  createdAt: string;
-  updatedAt: string;
-}
+import { IMicroFrontendReadDto } from "roottypes";
 
 export interface IMicroFrontendState {
-  microFrontends: IMicroFrontend[];
+  microFrontends: IMicroFrontendReadDto[];
   total: number;
-  searchedMicroFrontends: PaginationResponse<IMicroFrontend>;
+  searchedMicroFrontends: PaginationResponse<IMicroFrontendReadDto>;
 }
 
 const initialState: IMicroFrontendState = {
@@ -42,25 +25,29 @@ export const microFrontendSlice = createSlice({
   reducers: {
     setMicroFrontends: (
       state: IMicroFrontendState,
-      action: PayloadAction<{ microFrontends: IMicroFrontend[]; total: number }>
+      action: PayloadAction<{
+        microFrontends: IMicroFrontendReadDto[];
+        total: number;
+      }>
     ) => {
-      const microFrontends: IMicroFrontend[] = action.payload.microFrontends;
+      const microFrontends: IMicroFrontendReadDto[] =
+        action.payload.microFrontends;
       const total: number = action.payload.total;
       state.microFrontends = microFrontends;
       state.total = total;
     },
     addMicroFrontend: (
       state: IMicroFrontendState,
-      action: PayloadAction<IMicroFrontend>
+      action: PayloadAction<IMicroFrontendReadDto>
     ) => {
-      const microFrontend: IMicroFrontend = action.payload;
+      const microFrontend: IMicroFrontendReadDto = action.payload;
       state.microFrontends.unshift(microFrontend);
     },
     updateMicroFrontend: (
       state: IMicroFrontendState,
-      action: PayloadAction<IMicroFrontend>
+      action: PayloadAction<IMicroFrontendReadDto>
     ) => {
-      const microFrontend: IMicroFrontend = action.payload;
+      const microFrontend: IMicroFrontendReadDto = action.payload;
       state.microFrontends = state.microFrontends.map((f) =>
         f._id === microFrontend._id ? microFrontend : f
       );
@@ -83,7 +70,7 @@ export const microFrontendSlice = createSlice({
     },
     setSearchedMicroFrontends: (
       state: IMicroFrontendState,
-      action: PayloadAction<PaginationResponse<IMicroFrontend>>
+      action: PayloadAction<PaginationResponse<IMicroFrontendReadDto>>
     ) => {
       state.searchedMicroFrontends = action.payload;
     },

@@ -1,19 +1,14 @@
 import React from "react";
 import { AxiosResponse } from "axios";
 
-import {
-  IMessage,
-  chatSlice,
-  IReaction,
-  ReactionEnum,
-} from "../../store/slices/chatSlice";
+import { chatSlice } from "../../store/slices/chatSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-
-export type ReactionCreateCommand = {
-  messageId: string;
-  reaction: ReactionEnum;
-};
+import {
+  IMessageReadDto,
+  IReactionCreateCommand,
+  IReactionReadDto,
+} from "roottypes";
 
 const useCreateReaction = () => {
   const user = useAppSelector((state) => state.user.user);
@@ -23,12 +18,16 @@ const useCreateReaction = () => {
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
-  const createReaction = (command: ReactionCreateCommand, message: IMessage) =>
-    new Promise<IReaction>((resolve, reject) => {
+  const createReaction = (
+    command: IReactionCreateCommand,
+    message: IMessageReadDto
+  ) =>
+    new Promise<IReactionReadDto>((resolve, reject) => {
       dispatch(
         chatSlice.actions.addReactionToMessage({
           message,
           reaction: {
+            _id: "",
             user,
             reaction: command.reaction,
             createdAt: "",
@@ -39,7 +38,7 @@ const useCreateReaction = () => {
 
       setLoading(true);
       axios
-        .request<AxiosResponse<IReaction>>({
+        .request<AxiosResponse<IReactionReadDto>>({
           url: "/reactions",
           method: "POST",
           data: command,

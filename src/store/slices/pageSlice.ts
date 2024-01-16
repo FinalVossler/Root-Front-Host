@@ -1,21 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import ITranslatedText from "../../globalTypes/ITranslatedText";
 
-import { IPost } from "./postSlice";
+import { IPageReadDto } from "roottypes";
 
 export const PAGE_SLICE_NAME = "page";
 
-export interface IPage {
-  _id: string;
-  title: ITranslatedText[];
-  slug: string;
-  posts: IPost[];
-  showInHeader?: boolean;
-  showInSideMenu?: boolean;
-}
-
 interface IPageState {
-  pages: IPage[];
+  pages: IPageReadDto[];
 }
 
 const initialState: IPageState = {
@@ -26,13 +16,13 @@ export const pageSlice = createSlice({
   name: PAGE_SLICE_NAME,
   initialState,
   reducers: {
-    setPages: (state: IPageState, action: PayloadAction<IPage[]>) => {
+    setPages: (state: IPageState, action: PayloadAction<IPageReadDto[]>) => {
       state.pages = action.payload;
     },
-    addPage: (state: IPageState, action: PayloadAction<IPage>) => {
+    addPage: (state: IPageState, action: PayloadAction<IPageReadDto>) => {
       state.pages.push(action.payload);
     },
-    updatePage: (state: IPageState, action: PayloadAction<IPage>) => {
+    updatePage: (state: IPageState, action: PayloadAction<IPageReadDto>) => {
       state.pages = state.pages.map((page) => {
         if (page._id === action.payload._id) {
           return action.payload;

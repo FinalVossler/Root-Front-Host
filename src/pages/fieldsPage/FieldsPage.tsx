@@ -12,11 +12,11 @@ import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useHasPermission from "../../hooks/useHasPermission";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { fieldSlice, IField } from "../../store/slices/fieldSlice";
-import { Permission } from "../../store/slices/roleSlice";
+import { fieldSlice } from "../../store/slices/fieldSlice";
 
 import useStyles from "./fieldsPage.styles";
 import { LocalStorageConfNameEnum } from "../../utils/localStorage";
+import { IFieldReadDto, PermissionEnum } from "roottypes";
 
 interface IFieldsPageProps {}
 
@@ -71,7 +71,7 @@ const FieldsPage: React.FunctionComponent<IFieldsPageProps> = (
   };
 
   const handleSetSearchResult = React.useCallback(
-    (res: PaginationResponse<IField>) => {
+    (res: PaginationResponse<IFieldReadDto>) => {
       dispatch(fieldSlice.actions.setSearchedFields(res));
     },
     []
@@ -79,13 +79,13 @@ const FieldsPage: React.FunctionComponent<IFieldsPageProps> = (
 
   if (!isLoggedIn) return null;
 
-  if (!hasPermission(Permission.ReadField)) return null;
+  if (!hasPermission(PermissionEnum.ReadField)) return null;
 
   return (
     <div className={styles.fieldsPageContainer} data-cy="fieldsPage">
       <Elements
         Editor={({ element, ...props }) => (
-          <FieldEditor {...props} field={element as IField} />
+          <FieldEditor {...props} field={element as IFieldReadDto} />
         )}
         columns={[
           {
@@ -99,7 +99,7 @@ const FieldsPage: React.FunctionComponent<IFieldsPageProps> = (
           {
             label: getTranslatedText(staticText?.options),
             name: "options",
-            render: (field: IField) => {
+            render: (field: IFieldReadDto) => {
               if (field.options) {
                 return field.options
                   .map((option) => getTranslatedText(option.label))
@@ -120,9 +120,9 @@ const FieldsPage: React.FunctionComponent<IFieldsPageProps> = (
         onCopyFinished={handleCopyFinished}
         getElementName={(field: any) => getTranslatedText(field.name)}
         onPageChange={handlePageChange}
-        canCreate={hasPermission(Permission.CreateField)}
-        canUpdate={hasPermission(Permission.UpdateField)}
-        canDelete={hasPermission(Permission.DeleteField)}
+        canCreate={hasPermission(PermissionEnum.CreateField)}
+        canUpdate={hasPermission(PermissionEnum.UpdateField)}
+        canDelete={hasPermission(PermissionEnum.DeleteField)}
         searchPromise={handleSearchFieldsPromise}
         searchResult={searchResult}
         setSearchResult={handleSetSearchResult}

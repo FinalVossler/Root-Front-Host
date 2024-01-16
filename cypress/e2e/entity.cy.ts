@@ -1,16 +1,18 @@
-import IFile from "../../src/globalTypes/IFile";
-import { EntityCreateCommand } from "../../src/hooks/apiHooks/useCreateEntity";
-import { RoleCreateCommand } from "../../src/hooks/apiHooks/useCreateRole";
-import { IEntity } from "../../src/store/slices/entitySlice";
-import { FieldType, IField } from "../../src/store/slices/fieldSlice";
-import { IModel } from "../../src/store/slices/modelSlice";
 import {
-  EntityEventNotificationTrigger,
-  IRole,
-  StaticPermission,
-} from "../../src/store/slices/roleSlice";
-import { IUser, SuperRole } from "../../src/store/slices/userSlice";
-import { UserCreateCommand } from "../../src/hooks/apiHooks/useCreateUser";
+  EntityEventNotificationTriggerEnum,
+  FieldTypeEnum,
+  IEntityCreateCommand,
+  IEntityReadDto,
+  IFieldReadDto,
+  IFileReadDto,
+  IModelReadDto,
+  IRoleCreateCommand,
+  IRoleReadDto,
+  IUserCreateCommand,
+  IUserReadDto,
+  StaticPermissionEnum,
+  SuperRoleEnum,
+} from "roottypes";
 import {
   createCreateFieldCommand,
   createCreateModelCommand,
@@ -22,42 +24,43 @@ describe("entity", () => {
   const modelField3OfTypeFileCreateCommand = createCreateFieldCommand(
     "ModelField3OfTypeFile"
   );
-  modelField3OfTypeFileCreateCommand.type = FieldType.File;
+  modelField3OfTypeFileCreateCommand.type = FieldTypeEnum.File;
   modelField3OfTypeFileCreateCommand.canChooseFromExistingFiles = true;
   const modelField4CreateCommand = createCreateFieldCommand("ModelField4");
   const userWithLimitedAccessEmail: string =
     "testingUserWithLimitedAccess@testing.com";
   const userWithLimitedAccessPassword = "rootroot";
 
-  let modelField1: IField | undefined;
-  let modelField2: IField | undefined;
-  let modelField3OfTypeFile: IField | undefined;
-  let modelField4: IField | undefined;
-  let model: IModel | undefined;
-  let entityToUpdate: IEntity | undefined;
-  let entityToUpdate2: IEntity | undefined;
-  let entityToAssign: IEntity | undefined;
-  let file1: IFile | undefined;
-  let role: IRole | undefined;
-  let userWithLimitedAccess: IUser | undefined;
+  let modelField1: IFieldReadDto | undefined;
+  let modelField2: IFieldReadDto | undefined;
+  let modelField3OfTypeFile: IFieldReadDto | undefined;
+  let modelField4: IFieldReadDto | undefined;
+  let model: IModelReadDto | undefined;
+  let entityToUpdate: IEntityReadDto | undefined;
+  let entityToUpdate2: IEntityReadDto | undefined;
+  let entityToAssign: IEntityReadDto | undefined;
+  let file1: IFileReadDto | undefined;
+  let role: IRoleReadDto | undefined;
+  let userWithLimitedAccess: IUserReadDto | undefined;
 
   before(() => {
     cy.sendCreateFieldRequest(modelField1CreateCommand, (res) => {
-      modelField1 = (res as { body: { data: IField } }).body.data;
+      modelField1 = (res as { body: { data: IFieldReadDto } }).body.data;
     }).then(() => {
       cy.sendCreateFieldRequest(modelField2CreateCommand, (res) => {
-        modelField2 = (res as { body: { data: IField } }).body.data;
+        modelField2 = (res as { body: { data: IFieldReadDto } }).body.data;
       }).then(() => {
         cy.sendCreateFieldRequest(modelField3OfTypeFileCreateCommand, (res) => {
-          modelField3OfTypeFile = (res as { body: { data: IField } }).body.data;
+          modelField3OfTypeFile = (res as { body: { data: IFieldReadDto } })
+            .body.data;
         }).then(() => {
           cy.sendCreateFieldRequest(modelField4CreateCommand, (res) => {
-            modelField4 = (res as { body: { data: IField } }).body.data;
+            modelField4 = (res as { body: { data: IFieldReadDto } }).body.data;
           }).then(() => {
             cy.sendCreateFileRequest(
               "https://i.pinimg.com/736x/fa/8a/a4/fa8aa43569687f96b8afd6a1e7539e20.jpg",
               (res) => {
-                file1 = (res as { body: { data: IFile } }).body.data;
+                file1 = (res as { body: { data: IFileReadDto } }).body.data;
               }
             ).then(() => {
               createModels();
@@ -68,7 +71,7 @@ describe("entity", () => {
     });
 
     const createRoles = () => {
-      const roleCreateCommand: RoleCreateCommand = {
+      const roleCreateCommand: IRoleCreateCommand = {
         entityPermissions: [
           {
             entityEventNotifications: [
@@ -76,13 +79,13 @@ describe("entity", () => {
                 language: "en",
                 text: "An entity was assigned",
                 title: "Assignment notification",
-                trigger: EntityEventNotificationTrigger.OnAssigned,
+                trigger: EntityEventNotificationTriggerEnum.OnAssigned,
               },
             ],
             entityFieldPermissions: [
               {
                 fieldId: modelField1?._id.toString() || "",
-                permissions: [StaticPermission.Read],
+                permissions: [StaticPermissionEnum.Read],
               },
               {
                 fieldId: modelField2?._id.toString() || "",
@@ -90,11 +93,14 @@ describe("entity", () => {
               },
               {
                 fieldId: modelField3OfTypeFile?._id.toString() || "",
-                permissions: [StaticPermission.Read],
+                permissions: [StaticPermissionEnum.Read],
               },
               {
                 fieldId: modelField4?._id.toString() || "",
-                permissions: [StaticPermission.Read, StaticPermission.Update],
+                permissions: [
+                  StaticPermissionEnum.Read,
+                  StaticPermissionEnum.Update,
+                ],
               },
             ],
             entityUserAssignmentPermissionsByRole: {
@@ -102,8 +108,11 @@ describe("entity", () => {
               otherRolesIds: [],
             },
             language: "en",
-            modelId: (model as IModel)?._id.toString(),
-            permissions: [StaticPermission.Read, StaticPermission.Update],
+            modelId: (model as IModelReadDto)?._id.toString(),
+            permissions: [
+              StaticPermissionEnum.Read,
+              StaticPermissionEnum.Update,
+            ],
           },
         ],
         language: "en",
@@ -112,23 +121,24 @@ describe("entity", () => {
       };
 
       cy.sendCreateRoleRequest(roleCreateCommand, (res) => {
-        role = (res as { body: { data: IRole } }).body.data;
+        role = (res as { body: { data: IRoleReadDto } }).body.data;
       }).then(() => {
         createUsers();
       });
     };
 
     const createUsers = () => {
-      const userCreateCommand: UserCreateCommand = {
+      const userCreateCommand: IUserCreateCommand = {
         email: "testingUserWithLimitedAccess@testing.com",
         firstName: "userForEntityTestFirstName",
         lastName: "userForEntityTestLastName",
         password: userWithLimitedAccessPassword,
-        superRole: SuperRole.Normal,
+        superRole: SuperRoleEnum.Normal,
         roleId: role?._id,
       };
       cy.sendCreateUserRequest(userCreateCommand, (res) => {
-        userWithLimitedAccess = (res as { body: { data: IUser } }).body.data;
+        userWithLimitedAccess = (res as { body: { data: IUserReadDto } }).body
+          .data;
       });
     };
 
@@ -137,15 +147,15 @@ describe("entity", () => {
         createCreateModelCommand(
           "Model used for entities test",
           [
-            (modelField1 as IField)?._id.toString(),
-            (modelField2 as IField)?._id.toString(),
-            (modelField3OfTypeFile as IField)._id.toString(),
-            (modelField4 as IField)?._id.toString(),
+            (modelField1 as IFieldReadDto)?._id.toString(),
+            (modelField2 as IFieldReadDto)?._id.toString(),
+            (modelField3OfTypeFile as IFieldReadDto)._id.toString(),
+            (modelField4 as IFieldReadDto)?._id.toString(),
           ],
           [modelField2?._id.toString() || ""]
         ),
         (res) => {
-          model = (res as { body: { data: IModel } }).body.data;
+          model = (res as { body: { data: IModelReadDto } }).body.data;
         }
       ).then(() => {
         createRoles();
@@ -154,21 +164,23 @@ describe("entity", () => {
     };
 
     const createEntities = () => {
-      const createEntityCommand: EntityCreateCommand = {
+      const createCreateEntityCommand = (
+        entityName: string
+      ): IEntityCreateCommand => ({
         assignedUsersIds: [],
         entityFieldValues: [
           {
             fieldId: modelField1?._id.toString() || "",
             files: [],
             tableValues: [],
-            value: "field 1 value",
+            value: "field 1 value for entity " + entityName,
             yearTableValues: [],
           },
           {
             fieldId: modelField2?._id.toString() || "",
             files: [],
             tableValues: [],
-            value: "field 2 value",
+            value: "field 2 value for entity " + entityName,
             yearTableValues: [],
           },
           {
@@ -188,7 +200,7 @@ describe("entity", () => {
         ],
         language: "en",
         modelId: model?._id.toString() || "",
-      };
+      });
 
       cy.get("@adminToken")
         .then((adminToken) => {
@@ -198,12 +210,13 @@ describe("entity", () => {
               Authorization: "Bearer " + adminToken,
             },
             method: "POST",
-            body: createEntityCommand,
+            body: createCreateEntityCommand("entity to update"),
           });
         })
         .then((res) => {
           //@ts-ignore
-          entityToUpdate = (res as { body: { data: IEntity } }).body.data;
+          entityToUpdate = (res as { body: { data: IEntityReadDto } }).body
+            .data;
         });
 
       cy.get("@adminToken")
@@ -214,12 +227,13 @@ describe("entity", () => {
               Authorization: "Bearer " + adminToken,
             },
             method: "POST",
-            body: createEntityCommand,
+            body: createCreateEntityCommand("entity to update 2"),
           });
         })
         .then((res) => {
           //@ts-ignore
-          entityToUpdate2 = (res as { body: { data: IEntity } }).body.data;
+          entityToUpdate2 = (res as { body: { data: IEntityReadDto } }).body
+            .data;
         });
 
       cy.get("@adminToken")
@@ -230,12 +244,13 @@ describe("entity", () => {
               Authorization: "Bearer " + adminToken,
             },
             method: "POST",
-            body: createEntityCommand,
+            body: createCreateEntityCommand("entity to assign"),
           });
         })
         .then((res) => {
           //@ts-ignore
-          entityToAssign = (res as { body: { data: IEntity } }).body.data;
+          entityToAssign = (res as { body: { data: IEntityReadDto } }).body
+            .data;
         });
     };
   });
@@ -344,6 +359,7 @@ describe("entity", () => {
 
     cy.getByDataCy("entityFormSubmitButton").click();
 
+    cy.wait(1000);
     cy.reload();
     cy.getByDataCy("elementsTableViewButton").click();
 
@@ -352,6 +368,7 @@ describe("entity", () => {
       .scrollIntoView()
       .click({ force: true });
     cy.getByDataCy("entityEditorForm").should("be.visible");
+    cy.wait(1000);
 
     cy.getByDataCy(
       "entityFieldInputForField" + modelField1?._id.toString()
@@ -370,6 +387,7 @@ describe("entity", () => {
 
     // Now change the field values for a different language
     cy.selectInSelector("entityFormLanguageSelector", 1);
+    cy.wait(1000);
 
     cy.getByDataCy("entityFieldInputForField" + modelField1?._id.toString())
       .clear()
@@ -381,13 +399,17 @@ describe("entity", () => {
     cy.getByDataCy("entityFormSubmitButton").click();
 
     // Now check that the language dependent values have been taken into consideration
+    cy.wait(1000);
     cy.reload();
     cy.getByDataCy("elementsTableViewButton").click();
 
     cy.get("#editButtonFor" + entityToUpdate?._id.toString())
       .scrollIntoView()
       .click({ force: true });
+    cy.wait(1000);
+
     cy.selectInSelector("entityFormLanguageSelector", 0);
+    cy.wait(1000);
 
     cy.getByDataCy(
       "entityFieldInputForField" + modelField1?._id.toString()
@@ -396,6 +418,7 @@ describe("entity", () => {
       "entityFieldInputForField" + modelField2?._id.toString()
     ).should("have.value", updatedValueForField2);
     cy.selectInSelector("entityFormLanguageSelector", 1);
+    cy.wait(1000);
 
     cy.getByDataCy(
       "entityFieldInputForField" + modelField1?._id.toString()
@@ -426,26 +449,24 @@ describe("entity", () => {
 
     cy.getByDataCy("entityEditorForm").should("be.visible");
 
+    cy.wait(1000);
+
     // Test that a read only field is visible, that it has the right value and that we can't edit it
     cy.getByDataCy("entityFieldInputForField" + modelField1?._id.toString())
       .should("exist")
       .and(
         "have.value",
         entityToUpdate2?.entityFieldValues
-          .find((el) => el.field._id.toString() === modelField1?._id.toString())
+          .find(
+            (el) =>
+              (el.field as IFieldReadDto)._id.toString() ===
+              modelField1?._id.toString()
+          )
           ?.value.at(0)?.text
       );
     cy.getByDataCy(
       "entityFieldInputForField" + modelField1?._id.toString()
     ).should("be.disabled");
-    cy.getByDataCy("entityFieldInputForField" + modelField1?._id.toString())
-      .should("exist")
-      .and(
-        "have.value",
-        entityToUpdate2?.entityFieldValues
-          .find((el) => el.field._id.toString() === modelField1?._id.toString())
-          ?.value.at(0)?.text
-      );
 
     // Test that an inaccessible field isn't showing
     cy.getByDataCy(
@@ -474,7 +495,11 @@ describe("entity", () => {
       .and(
         "have.value",
         entityToUpdate2?.entityFieldValues
-          .find((el) => el.field._id.toString() === modelField4?._id.toString())
+          .find(
+            (el) =>
+              (el.field as IFieldReadDto)._id.toString() ===
+              modelField4?._id.toString()
+          )
           ?.value.at(0)?.text
       );
 
@@ -484,6 +509,8 @@ describe("entity", () => {
 
     // Submit the form and reload, then test that everything is alright
     cy.getByDataCy("entityFormSubmitButton").click();
+
+    cy.wait(1000);
 
     cy.reload();
     cy.getByDataCy("elementsTableViewButton").click();

@@ -7,7 +7,6 @@ import { ITheme } from "../../config/theme";
 
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { userSlice } from "../../store/slices/userSlice";
-import { IPage } from "../../store/slices/pageSlice";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import InputSelect from "../inputSelect";
@@ -18,12 +17,13 @@ import HeaderNotifications from "../headerNotifications";
 
 import useStyles from "./header.styles";
 import useHasPermission from "../../hooks/useHasPermission";
+import { IPageReadDto } from "roottypes";
 
 interface IHeaderProps {
   scrolledDown: boolean;
 }
 const Header: React.FunctionComponent<IHeaderProps> = (props: IHeaderProps) => {
-  const pages = useAppSelector<IPage[]>((state) => state.page.pages);
+  const pages = useAppSelector<IPageReadDto[]>((state) => state.page.pages);
   const websiteTitle: string | undefined = useAppSelector(
     (state) => state.websiteConfiguration.title
   );

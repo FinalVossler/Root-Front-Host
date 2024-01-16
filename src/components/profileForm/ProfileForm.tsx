@@ -9,18 +9,16 @@ import Button from "../button/Button";
 
 import { ITheme } from "../../config/theme";
 
-import { IUser } from "../../store/slices/userSlice";
 import { useAppSelector } from "../../store/hooks";
 import ProfilePictureUpload from "../profilePictureUpload";
-import useUpdateUser, {
-  UserUpdateCommand,
-} from "../../hooks/apiHooks/useUpdateUser";
+import useUpdateUser from "../../hooks/apiHooks/useUpdateUser";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
 import ChangePasswordForm from "../changePasswordForm";
 
 import useStyles from "./profileForm.styles";
 import Checkbox from "../checkbox";
+import { IRoleReadDto, IUserReadDto, IUserUpdateCommand } from "roottypes";
 
 type ProfileFormik = {
   firstName: string;
@@ -33,7 +31,7 @@ interface IProfileFormProps {}
 const Profile: React.FunctionComponent<IProfileFormProps> = (
   props: IProfileFormProps
 ) => {
-  const user: IUser = useAppSelector((state) => state.user.user);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
@@ -70,7 +68,7 @@ const Profile: React.FunctionComponent<IProfileFormProps> = (
         .required(getTranslatedText(staticText?.lastNameIsRequired)),
     }),
     onSubmit: async (values: ProfileFormik) => {
-      const command: UserUpdateCommand = {
+      const command: IUserUpdateCommand = {
         _id: user._id,
         firstName: values.firstName,
         lastName: values.lastName,
@@ -154,7 +152,7 @@ const Profile: React.FunctionComponent<IProfileFormProps> = (
         <span className={styles.userRoleContainer}>
           {getTranslatedText(staticText?.role)}:{" "}
           <span className={styles.role}>
-            {getTranslatedText(user.role?.name)}
+            {getTranslatedText((user.role as IRoleReadDto)?.name)}
           </span>
         </span>
         <br />

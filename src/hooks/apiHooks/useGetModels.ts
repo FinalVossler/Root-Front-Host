@@ -1,16 +1,12 @@
 import { AxiosResponse } from "axios";
 import React from "react";
-import PaginationCommand from "../../globalTypes/PaginationCommand";
 
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { useAppDispatch } from "../../store/hooks";
-import { IModel, modelSlice } from "../../store/slices/modelSlice";
+import { modelSlice } from "../../store/slices/modelSlice";
 
 import useAuthorizedAxios from "../useAuthorizedAxios";
-
-export type ModelsGetCommand = {
-  paginationCommand: PaginationCommand;
-};
+import { IModelReadDto, IModelsGetCommand } from "roottypes";
 
 const useGetModels = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -18,11 +14,11 @@ const useGetModels = () => {
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
-  const getModels = (command: ModelsGetCommand) =>
+  const getModels = (command: IModelsGetCommand) =>
     new Promise((resolve, reject) => {
       setLoading(true);
       axios
-        .request<AxiosResponse<PaginationResponse<IModel>>>({
+        .request<AxiosResponse<PaginationResponse<IModelReadDto>>>({
           method: "POST",
           url: "/models/getModels",
           data: command,

@@ -7,18 +7,12 @@ import Loading from "react-loading";
 import { ITheme } from "../../config/theme";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../store/hooks";
-import { IField } from "../../store/slices/fieldSlice";
 
 import useStyles from "./elements.styles";
 import ConfirmationModal from "../confirmationModal";
-import { IModel } from "../../store/slices/modelSlice";
-import { IEntity } from "../../store/slices/entitySlice";
 import Pagination from "../pagination";
-import { IUser } from "../../store/slices/userSlice";
-import { IRole } from "../../store/slices/roleSlice";
 import SearchInput from "../searchInput";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
-import PaginationCommand from "../../globalTypes/PaginationCommand";
 import ElementsBoard from "./elementsBoard";
 import Button from "../button";
 import {
@@ -27,10 +21,18 @@ import {
   getLocalStorageElementsConf,
   updateLocalStorageElementsConf,
 } from "../../utils/localStorage";
-import { IMicroFrontend } from "../../store/slices/microFrontendSlice";
 import ColumnOptions from "./columnOptions/ColumnOptions";
 import ViewTabs from "./viewTabs";
-import { IPage } from "../../store/slices/pageSlice";
+import {
+  IEntityReadDto,
+  IFieldReadDto,
+  IMicroFrontendReadDto,
+  IModelReadDto,
+  IPageReadDto,
+  IPaginationCommand,
+  IRoleReadDto,
+  IUserReadDto,
+} from "roottypes";
 
 export type Column = {
   label: string;
@@ -41,13 +43,13 @@ export type Column = {
 };
 
 export type Element =
-  | IField
-  | IModel
-  | IEntity
-  | IUser
-  | IRole
-  | IMicroFrontend
-  | IPage;
+  | IFieldReadDto
+  | IModelReadDto
+  | IEntityReadDto
+  | IUserReadDto
+  | IRoleReadDto
+  | IMicroFrontendReadDto
+  | IPageReadDto;
 
 export enum ViewTypeEnum {
   Table = "Table",
@@ -77,7 +79,7 @@ interface IElementsProps {
   onPageChange?: (page: number) => void;
   searchPromise?: (
     searchText: string,
-    paginationCommand: PaginationCommand
+    paginationCommand: IPaginationCommand
   ) => Promise<PaginationResponse<any>>;
   canDelete: boolean;
   canUpdate: boolean;
@@ -342,7 +344,7 @@ const Elements: React.FunctionComponent<IElementsProps> = (
               entities={
                 props.searchResult && props.searchResult.data.length > 0
                   ? props.searchResult.data
-                  : (props.elements as IEntity[])
+                  : (props.elements as IEntityReadDto[])
               }
               forStatusTracking={
                 viewType === ViewTypeEnum.BoardForStatusTracking

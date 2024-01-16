@@ -6,7 +6,6 @@ import EntityEditor from "../../../components/editors/entityEditor";
 import Elements from "../../../components/elements";
 import { Column } from "../../../components/elements/Elements";
 import { ITheme } from "../../../config/theme";
-import PaginationCommand from "../../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../../globalTypes/PaginationResponse";
 import useDeleteEntities from "../../../hooks/apiHooks/useDeleteEntities";
 import useGetEntitiesByModel from "../../../hooks/apiHooks/useGetEntitiesByModel";
@@ -16,17 +15,20 @@ import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import useHasPermission from "../../../hooks/useHasPermission";
 import useIsLoggedIn from "../../../hooks/useIsLoggedIn";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import {
-  entitySlice,
-  getEntityName,
-  IEntity,
-  IEntityFieldValue,
-} from "../../../store/slices/entitySlice";
-import { FieldType } from "../../../store/slices/fieldSlice";
-import { IModel, IModelField } from "../../../store/slices/modelSlice";
-import { StaticPermission } from "../../../store/slices/roleSlice";
+import { entitySlice, getEntityName } from "../../../store/slices/entitySlice";
+import { IModelField } from "../../../store/slices/modelSlice";
 
 import useStyles from "./entitiesList.styles";
+import {
+  FieldTypeEnum,
+  IEntityFieldValueReadDto,
+  IEntityReadDto,
+  IFieldReadDto,
+  IFileReadDto,
+  IModelReadDto,
+  IPaginationCommand,
+  StaticPermissionEnum,
+} from "roottypes";
 
 interface IEntitiesListProps {
   modelId: string;
@@ -52,7 +54,7 @@ const EntitiesList: React.FunctionComponent<IEntitiesListProps> = (
     useAppSelector((state) =>
       state.entity.entitiesByModel.find((el) => el.modelId === props.modelId)
     )?.total || 0;
-  const model: IModel | undefined = useAppSelector((state) =>
+  const model: IModelReadDto | undefined = useAppSelector((state) =>
     state.model.models.find((m) => m._id === props.modelId)
   );
   const searchResult = useAppSelector((state) =>
@@ -98,7 +100,7 @@ const EntitiesList: React.FunctionComponent<IEntitiesListProps> = (
   };
 
   const handleSetSearchResult = React.useCallback(
-    (res: PaginationResponse<IEntity>) => {
+    (res: PaginationResponse<IEntityReadDto>) => {
       dispatch(
         entitySlice.actions.setSearchedEntities({
           modelId: props.modelId || "",
@@ -115,9 +117,9 @@ const EntitiesList: React.FunctionComponent<IEntitiesListProps> = (
   const columns: Column[] =
     model?.modelFields.map((modelField) => {
       return {
-        label: getTranslatedText(modelField.field.name),
-        name: modelField.field._id,
-        render: (entity: IEntity) => (
+        label: getTranslatedText((modelField.field as IFieldReadDto).name),
+        name: (modelField.field as IFieldReadDto)._id,
+        render: (entity: IEntityReadDto) => (
           <EntityFieldValueComponent entity={entity} modelField={modelField} />
         ),
         defaultHide: !Boolean(modelField.mainField),
@@ -128,7 +130,7 @@ const EntitiesList: React.FunctionComponent<IEntitiesListProps> = (
   columns.push({
     label: getTranslatedText(staticText?.visit),
     name: "",
-    render: (entity: IEntity) => {
+    render: (entity: IEntityReadDto) => {
       return (
         <Link
           target="_blank"
@@ -146,7 +148,7 @@ const EntitiesList: React.FunctionComponent<IEntitiesListProps> = (
       Editor={({ element, ...subProps }) => (
         <EntityEditor
           {...subProps}
-          entity={element as IEntity}
+          entity={element as IEntityReadDto}
           modelId={props.modelId}
         />
       )}
@@ -162,7 +164,7 @@ const EntitiesList: React.FunctionComponent<IEntitiesListProps> = (
         return getEntityName({ entity, getTranslatedText });
       }}
       onPageChange={handlePageChange}
-      searchPromise={(name: string, paginationCommand: PaginationCommand) =>
+      searchPromise={(name: string, paginationCommand: IPaginationCommand) =>
         handleSearchEntitiesPromise(
           name,
           paginationCommand,
@@ -170,15 +172,15 @@ const EntitiesList: React.FunctionComponent<IEntitiesListProps> = (
         )
       }
       canCreate={hasEntityPermission(
-        StaticPermission.Create,
+        StaticPermissionEnum.Create,
         props.modelId || ""
       )}
       canUpdate={hasEntityPermission(
-        StaticPermission.Update,
+        StaticPermissionEnum.Update,
         props.modelId || ""
       )}
       canDelete={hasEntityPermission(
-        StaticPermission.Delete,
+        StaticPermissionEnum.Delete,
         props.modelId || ""
       )}
       searchResult={searchResult || { data: [], total: 0 }}
@@ -193,7 +195,7 @@ const EntitiesList: React.FunctionComponent<IEntitiesListProps> = (
 
 interface IEntityFieldValueComponent {
   modelField: IModelField;
-  entity: IEntity;
+  entity: IEntityReadDto;
 }
 
 export const EntityFieldValueComponent: React.FunctionComponent<
@@ -201,18 +203,31 @@ export const EntityFieldValueComponent: React.FunctionComponent<
 > = (props: IEntityFieldValueComponent) => {
   const getTranslatedText = useGetTranslatedText();
 
-  const entityFieldValue: IEntityFieldValue | undefined =
+  const entityFieldValue: IEntityFieldValueReadDto | undefined =
     props.entity.entityFieldValues.find(
       (entityField) =>
-        entityField.field._id.toString() ===
-        props.modelField.field._id.toString()
+        (entityField.field as IFieldReadDto)._id.toString() ===
+        (props.modelField.field as IFieldReadDto)._id.toString()
     );
 
-  if (entityFieldValue && entityFieldValue?.field.type !== FieldType.File) {
+  if (
+    entityFieldValue &&
+    (entityFieldValue?.field as IFieldReadDto | undefined)?.type !==
+      FieldTypeEnum.File
+  ) {
     return <div>{getTranslatedText(entityFieldValue?.value)}</div>;
   }
-  if (entityFieldValue && entityFieldValue.field.type === FieldType.File) {
-    return <div>{entityFieldValue.files.map((f) => f.name).join(", ")}</div>;
+  if (
+    entityFieldValue &&
+    (entityFieldValue.field as IFieldReadDto).type === FieldTypeEnum.File
+  ) {
+    return (
+      <div>
+        {(entityFieldValue.files as IFileReadDto[])
+          .map((f) => f.name)
+          .join(", ")}
+      </div>
+    );
   }
 
   return <div></div>;

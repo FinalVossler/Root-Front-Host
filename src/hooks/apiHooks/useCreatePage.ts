@@ -2,17 +2,10 @@ import { AxiosResponse } from "axios";
 import React from "react";
 
 import { useAppDispatch } from "../../store/hooks";
-import { IPage, pageSlice } from "../../store/slices/pageSlice";
+import { IPageReadDto, pageSlice } from "../../store/slices/pageSlice";
 
 import useAuthorizedAxios from "../useAuthorizedAxios";
-
-export type PageCreateCommand = {
-  title: string;
-  posts: string[];
-  showInHeader: boolean;
-  showInSideMenu: boolean;
-  language: string;
-};
+import { IPageCreateCommand } from "roottypes";
 
 const useCreatePage = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -20,16 +13,16 @@ const useCreatePage = () => {
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
-  const createPage = (command: PageCreateCommand) =>
+  const createPage = (command: IPageCreateCommand) =>
     new Promise((resolve, reject) => {
       axios
-        .request<AxiosResponse<IPage>>({
+        .request<AxiosResponse<IPageReadDto>>({
           url: "/pages",
           method: "POST",
           data: command,
         })
         .then((res) => {
-          const page: IPage = res.data.data;
+          const page: IPageReadDto = res.data.data;
           dispatch(pageSlice.actions.addPage(page));
           resolve(null);
         })

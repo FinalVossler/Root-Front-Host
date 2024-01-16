@@ -1,17 +1,16 @@
 import React from "react";
 
-import { IModel, IModelState } from "../../../../store/slices/modelSlice";
 import { ITheme } from "../../../../config/theme";
 import { useAppSelector } from "../../../../store/hooks";
 import useStyles from "./entityEditorStates.styles";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
-import { IEntity } from "../../../../store/slices/entitySlice";
 import doesEntityMeetModelStateCondition from "../../../../utils/doesEntityMeetModelStateCondition";
 import getModelStateConcernedFields from "../../../../utils/getModelStateConcernedFields";
 import { BiCheck } from "react-icons/bi";
+import { IEntityReadDto, IModelReadDto, IModelStateReadDto } from "roottypes";
 
 export interface IEntityEditorStatesProps {
-  entity: IEntity;
+  entity: IEntityReadDto;
   modelId: string;
 }
 
@@ -23,7 +22,7 @@ const EntityEditorStates: React.FunctionComponent<IEntityEditorStatesProps> = (
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
-  const model: IModel | undefined = useAppSelector(
+  const model: IModelReadDto | undefined = useAppSelector(
     (state) => state.model.models
   ).find((m) => m._id.toString() === props.modelId);
 
@@ -47,35 +46,37 @@ const EntityEditorStates: React.FunctionComponent<IEntityEditorStatesProps> = (
         {getTranslatedText(staticText?.states)}:
       </h2>
       {model !== undefined &&
-        model.states?.map((state: IModelState, stateIndex: number) => {
-          const stateConditionsAreMet: boolean =
-            doesEntityMeetModelStateCondition({
-              getTranslatedText,
-              model,
-              stateConcernedFields: getModelStateConcernedFields({
+        (model.states as IModelStateReadDto[])?.map(
+          (state: IModelStateReadDto, stateIndex: number) => {
+            const stateConditionsAreMet: boolean =
+              doesEntityMeetModelStateCondition({
+                getTranslatedText,
                 model,
-                modelState: state,
-              }),
-              entityFieldValues: props.entity.entityFieldValues,
-              entity: props.entity,
-            });
+                stateConcernedFields: getModelStateConcernedFields({
+                  model,
+                  modelState: state,
+                }),
+                entityFieldValues: props.entity.entityFieldValues,
+                entity: props.entity,
+              });
 
-          return (
-            <div
-              key={stateIndex}
-              className={
-                stateConditionsAreMet
-                  ? styles.stateContainerConditionMet
-                  : styles.stateContainer
-              }
-            >
-              {getTranslatedText(state.name)}{" "}
-              {stateConditionsAreMet && (
-                <BiCheck className={styles.checkIcon} />
-              )}
-            </div>
-          );
-        })}
+            return (
+              <div
+                key={stateIndex}
+                className={
+                  stateConditionsAreMet
+                    ? styles.stateContainerConditionMet
+                    : styles.stateContainer
+                }
+              >
+                {getTranslatedText(state.name)}{" "}
+                {stateConditionsAreMet && (
+                  <BiCheck className={styles.checkIcon} />
+                )}
+              </div>
+            );
+          }
+        )}
     </div>
   );
 };

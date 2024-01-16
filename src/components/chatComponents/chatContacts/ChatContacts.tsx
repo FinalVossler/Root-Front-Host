@@ -1,17 +1,15 @@
 import React from "react";
 
 import { ITheme } from "../../../config/theme";
-import useGetChatContacts, {
-  ChatGetContactsCommand,
-} from "../../../hooks/apiHooks/useGetChatContacts";
+import useGetChatContacts from "../../../hooks/apiHooks/useGetChatContacts";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { chatSlice } from "../../../store/slices/chatSlice";
-import { IUser } from "../../../store/slices/userSlice";
 import ChatCurrentUser from "../chatCurrentUser.ts";
 
 import useStyles from "./chatContacts.styles";
 import LastConversationsLastMessages from "../lastConversationsLastMessages";
+import { IChatGetContactsCommand, IUserReadDto } from "roottypes";
 
 const LIMIT = 10;
 
@@ -19,7 +17,9 @@ interface IChatContactsProps {}
 const ChatContacts: React.FunctionComponent<IChatContactsProps> = (
   props: IChatContactsProps
 ) => {
-  const contacts: IUser[] = useAppSelector((state) => state.chat.contacts);
+  const contacts: IUserReadDto[] = useAppSelector(
+    (state) => state.chat.contacts
+  );
   const selectedConversationId: string | undefined = useAppSelector(
     (state) => state.chat.selectedConversationId
   );
@@ -44,7 +44,7 @@ const ChatContacts: React.FunctionComponent<IChatContactsProps> = (
 
   // Get the list of contacts
   React.useEffect(() => {
-    const command: ChatGetContactsCommand = {
+    const command: IChatGetContactsCommand = {
       paginationCommand: {
         limit: LIMIT,
         page: contactsPage,

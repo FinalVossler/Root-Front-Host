@@ -7,15 +7,13 @@ import Button from "../button/Button";
 
 import { ITheme } from "../../config/theme";
 
-import { IUser } from "../../store/slices/userSlice";
 import { useAppSelector } from "../../store/hooks";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
 import useStyles from "./changePasswordForm.styles";
-import useChangePassword, {
-  UserChangePasswordCommand,
-} from "../../hooks/apiHooks/useChangePassword";
+import useChangePassword from "../../hooks/apiHooks/useChangePassword";
 import { MdPassword } from "react-icons/md";
+import { IUserChangePasswordCommand, IUserReadDto } from "roottypes";
 
 type ChangePasswordFormik = {
   oldPassword: string;
@@ -27,7 +25,7 @@ interface IChangePasswordFormProps {}
 const ChangePasswordForm: React.FunctionComponent<IChangePasswordFormProps> = (
   props: IChangePasswordFormProps
 ) => {
-  const user: IUser = useAppSelector((state) => state.user.user);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
@@ -62,7 +60,7 @@ const ChangePasswordForm: React.FunctionComponent<IChangePasswordFormProps> = (
           ),
       }),
       onSubmit: async (values: ChangePasswordFormik) => {
-        const command: UserChangePasswordCommand = {
+        const command: IUserChangePasswordCommand = {
           oldPassword: values.oldPassword,
           newPassword: values.newPassword,
         };

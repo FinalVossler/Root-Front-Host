@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios";
 import React from "react";
 
 import useAxios from "../useAxios";
-import { IMicroFrontend } from "../../store/slices/microFrontendSlice";
+import { IMicroFrontendReadDto } from "../../store/slices/microFrontendSlice";
 
 const useGetMicroFrontend = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -10,11 +10,11 @@ const useGetMicroFrontend = () => {
   const axios = useAxios();
 
   const getMicroFrontend = (microFrontendId: string) =>
-    new Promise<IMicroFrontend>((resolve, reject) => {
+    new Promise<IMicroFrontendReadDto>((resolve, reject) => {
       setLoading(true);
 
       axios
-        .request<AxiosResponse<IMicroFrontend>>({
+        .request<AxiosResponse<IMicroFrontendReadDto>>({
           method: "GET",
           url: "/microFrontends/getById",
           params: {
@@ -22,7 +22,7 @@ const useGetMicroFrontend = () => {
           },
         })
         .then((res) => {
-          const microFrontend: IMicroFrontend = res.data.data;
+          const microFrontend: IMicroFrontendReadDto = res.data.data;
           resolve(microFrontend);
         })
         .finally(() => setLoading(false))

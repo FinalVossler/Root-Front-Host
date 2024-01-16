@@ -1,22 +1,19 @@
-import { IEntityFieldValueForm } from "../components/editors/entityEditor/EntityEditorForm";
-import IFile from "../globalTypes/IFile";
-import ITranslatedText from "../globalTypes/ITranslatedText";
 import {
+  FieldTypeEnum,
+  IEntityFieldValueReadDto,
+  IEntityReadDto,
   IEntityTableFieldCaseValueCommand,
+  IEntityTableFieldCaseValueReadDto,
   IEntityYearTableFieldRowValuesCommand,
-} from "../hooks/apiHooks/useCreateEntity";
-import {
-  IEntity,
-  IEntityFieldValue,
-  IEntityTableFieldCaseValue,
-  IEntityYearTableFieldRowValues,
-} from "../store/slices/entitySlice";
-import { FieldType } from "../store/slices/fieldSlice";
-import {
-  IModel,
-  IModelField,
+  IEntityYearTableFieldRowValuesReadDto,
+  IFieldReadDto,
+  IFileReadDto,
+  IModelReadDto,
+  ITranslatedText,
   ModelFieldConditionTypeEnum,
-} from "../store/slices/modelSlice";
+} from "roottypes";
+import { IEntityFieldValueForm } from "../components/editors/entityEditor/EntityEditorForm";
+import { IModelField } from "../store/slices/modelSlice";
 import areEntityFieldConditionsMet from "./areEntityFieldConditionsMet";
 import isValidUrl from "./isValidUrl";
 
@@ -29,11 +26,11 @@ const doesEntityMeetModelStateCondition = ({
   entity,
 }: {
   stateConcernedFields: IModelField[];
-  entityFieldValues?: IEntityFieldValue[];
+  entityFieldValues?: IEntityFieldValueReadDto[];
   entityFieldValuesFromForm?: IEntityFieldValueForm[];
   getTranslatedText: any;
-  model: IModel;
-  entity?: IEntity;
+  model: IModelReadDto;
+  entity?: IEntityReadDto;
 }): boolean => {
   let meetsModelStateCondition: boolean = true;
 
@@ -58,31 +55,32 @@ const doesEntityMeetModelStateCondition = ({
     }
 
     if (
-      modelField.field.type === FieldType.Table &&
-      modelField.field.tableOptions?.yearTable
+      (modelField.field as IFieldReadDto).type === FieldTypeEnum.Table &&
+      (modelField.field as IFieldReadDto).tableOptions?.yearTable
     ) {
       if (entityFieldValues) {
-        const tableValues: IEntityYearTableFieldRowValues[] | undefined =
+        const tableValues: IEntityYearTableFieldRowValuesReadDto[] | undefined =
           entityFieldValues.find(
-            (el) => el.field._id.toString() === modelField.field._id.toString()
+            (el) =>
+              (el.field as IFieldReadDto)._id.toString() ===
+              (modelField.field as IFieldReadDto)._id.toString()
           )?.yearTableValues;
 
         if (!tableValues) {
           meetsModelStateCondition = false;
         } else {
-          const fieldIdContainingCondition: string | undefined =
-            modelField.conditions
-              ?.find(
-                (condition) =>
-                  condition.conditionType ===
-                  ModelFieldConditionTypeEnum.IfYearTableThenNumberOfYearsInTheFutureIsEqualToValueOfField
-              )
-              ?.field?._id.toString();
+          const fieldIdContainingCondition: string | undefined = (
+            modelField.conditions?.find(
+              (condition) =>
+                condition.conditionType ===
+                ModelFieldConditionTypeEnum.IfYearTableThenNumberOfYearsInTheFutureIsEqualToValueOfField
+            )?.field as IFieldReadDto | undefined
+          )?._id.toString();
           const years = parseInt(
             getTranslatedText(
               entityFieldValues.find(
                 (entityFieldValue) =>
-                  entityFieldValue.field._id.toString() ===
+                  (entityFieldValue.field as IFieldReadDto)._id.toString() ===
                   fieldIdContainingCondition
               )?.value
             )
@@ -113,20 +111,21 @@ const doesEntityMeetModelStateCondition = ({
       } else if (entityFieldValuesFromForm) {
         const tableValues: IEntityYearTableFieldRowValuesCommand[] | undefined =
           entityFieldValuesFromForm.find(
-            (el) => el.fieldId.toString() === modelField.field._id.toString()
+            (el) =>
+              el.fieldId.toString() ===
+              (modelField.field as IFieldReadDto)._id.toString()
           )?.yearTableValues;
 
         if (!tableValues) {
           meetsModelStateCondition = false;
         } else {
-          const fieldIdContainingCondition: string | undefined =
-            modelField.conditions
-              ?.find(
-                (condition) =>
-                  condition.conditionType ===
-                  ModelFieldConditionTypeEnum.IfYearTableThenNumberOfYearsInTheFutureIsEqualToValueOfField
-              )
-              ?.field?._id.toString();
+          const fieldIdContainingCondition: string | undefined = (
+            modelField.conditions?.find(
+              (condition) =>
+                condition.conditionType ===
+                ModelFieldConditionTypeEnum.IfYearTableThenNumberOfYearsInTheFutureIsEqualToValueOfField
+            )?.field as IFieldReadDto | undefined
+          )?._id.toString();
           const years = parseInt(
             getTranslatedText(
               entityFieldValuesFromForm.find(
@@ -161,13 +160,15 @@ const doesEntityMeetModelStateCondition = ({
         }
       }
     } else if (
-      modelField.field.type === FieldType.Table &&
-      !modelField.field.tableOptions?.yearTable
+      (modelField.field as IFieldReadDto).type === FieldTypeEnum.Table &&
+      !(modelField.field as IFieldReadDto).tableOptions?.yearTable
     ) {
       if (entityFieldValues) {
-        const tableValues: IEntityTableFieldCaseValue[] | undefined =
+        const tableValues: IEntityTableFieldCaseValueReadDto[] | undefined =
           entityFieldValues.find(
-            (el) => el.field._id.toString() === modelField.field._id.toString()
+            (el) =>
+              (el.field as IFieldReadDto)._id.toString() ===
+              (modelField.field as IFieldReadDto)._id.toString()
           )?.tableValues;
         if (!tableValues) {
           meetsModelStateCondition = false;
@@ -182,7 +183,9 @@ const doesEntityMeetModelStateCondition = ({
       } else if (entityFieldValuesFromForm) {
         const tableValues: IEntityTableFieldCaseValueCommand[] | undefined =
           entityFieldValuesFromForm.find(
-            (el) => el.fieldId.toString() === modelField.field._id.toString()
+            (el) =>
+              el.fieldId.toString() ===
+              (modelField.field as IFieldReadDto)._id.toString()
           )?.tableValues;
         if (!tableValues) {
           meetsModelStateCondition = false;
@@ -196,20 +199,26 @@ const doesEntityMeetModelStateCondition = ({
         }
       }
     } else {
-      if (modelField.field.type === FieldType.File) {
+      if ((modelField.field as IFieldReadDto).type === FieldTypeEnum.File) {
         if (entityFieldValues) {
-          const files: IFile[] | undefined = entityFieldValues.find(
-            (el) => el.field._id.toString() === modelField.field._id.toString()
-          )?.files;
+          const files: (string | IFileReadDto)[] | undefined =
+            entityFieldValues.find(
+              (el) =>
+                (el.field as IFieldReadDto)._id.toString() ===
+                (modelField.field as IFieldReadDto)._id.toString()
+            )?.files;
 
           if (!files || files?.length === 0) {
             meetsModelStateCondition = false;
             return;
           }
         } else if (entityFieldValuesFromForm) {
-          const files: IFile[] | undefined = entityFieldValuesFromForm?.find(
-            (el) => el.fieldId === modelField.field._id.toString()
-          )?.selectedExistingFiles;
+          const files: IFileReadDto[] | undefined =
+            entityFieldValuesFromForm?.find(
+              (el) =>
+                el.fieldId ===
+                (modelField.field as IFieldReadDto)._id.toString()
+            )?.selectedExistingFiles;
           if (!files || files?.length === 0) {
             meetsModelStateCondition = false;
             return;
@@ -218,17 +227,22 @@ const doesEntityMeetModelStateCondition = ({
           meetsModelStateCondition = false;
           return;
         }
-      } else if (modelField.field.type === FieldType.Button) {
+      } else if (
+        (modelField.field as IFieldReadDto).type === FieldTypeEnum.Button
+      ) {
         // If the field is of type button, then the value is probably set by a microFrontend, and is then residing
         // in the entity's custom data stringified object.
 
-        if (modelField.field.type === FieldType.Button && entity) {
+        if (
+          (modelField.field as IFieldReadDto).type === FieldTypeEnum.Button &&
+          entity
+        ) {
           let entityFieldValue: any = null;
 
           try {
-            entityFieldValue = JSON.parse(entity?.customData || "{}")[
-              modelField.field._id.toString()
-            ];
+            entityFieldValue = JSON.parse(
+              entity?.customData?.toString() || "{}"
+            )[(modelField.field as IFieldReadDto)._id.toString()];
             if (!entityFieldValue) {
               meetsModelStateCondition = false;
             }
@@ -240,22 +254,27 @@ const doesEntityMeetModelStateCondition = ({
         const entityFieldValue: any = entityFieldValues
           ? entityFieldValues.find(
               (el) =>
-                el.field._id.toString() === modelField.field._id.toString()
+                (el.field as IFieldReadDto)._id.toString() ===
+                (modelField.field as IFieldReadDto)._id.toString()
             )?.value
           : entityFieldValuesFromForm?.find(
-              (el) => el.fieldId === modelField.field._id.toString()
+              (el) =>
+                el.fieldId ===
+                (modelField.field as IFieldReadDto)._id.toString()
             )?.value;
 
         if (
           entityFieldValue === undefined ||
           entityFieldValue === null ||
-          ((modelField.field.type === FieldType.Paragraph ||
-            modelField.field.type === FieldType.Text ||
-            modelField.field.type === FieldType.Number) &&
+          (((modelField.field as IFieldReadDto).type ===
+            FieldTypeEnum.Paragraph ||
+            (modelField.field as IFieldReadDto).type === FieldTypeEnum.Text ||
+            (modelField.field as IFieldReadDto).type ===
+              FieldTypeEnum.Number) &&
             (getTranslatedText(entityFieldValue) === "" ||
               getTranslatedText(entityFieldValue) === null ||
               getTranslatedText(entityFieldValue) === undefined)) ||
-          (modelField.field.type === FieldType.IFrame &&
+          ((modelField.field as IFieldReadDto).type === FieldTypeEnum.IFrame &&
             !isValidUrl(entityFieldValue))
         ) {
           meetsModelStateCondition = false;

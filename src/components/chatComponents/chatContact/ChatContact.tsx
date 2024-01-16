@@ -9,15 +9,15 @@ import {
   getConversationConversationalistsFromConversationId,
   getConversationId,
 } from "../../../store/slices/chatSlice";
-import { IUser } from "../../../store/slices/userSlice";
 
 import useStyles from "./chatContact.styles";
 import UserProfilePicture from "../../userProfilePicture";
 import { SizeEnum } from "../../userProfilePicture/UserProfilePicture";
 import useGetConversationTotalUnreadMessages from "../../../hooks/apiHooks/useGetConversationTotalUnreadMessages";
+import { IFileReadDto, IUserReadDto } from "roottypes";
 
 interface IChatContactProps {
-  contact: IUser;
+  contact: IUserReadDto;
 }
 
 const ChatContact: React.FunctionComponent<IChatContactProps> = (
@@ -96,14 +96,14 @@ const ChatContact: React.FunctionComponent<IChatContactProps> = (
         </div>
       )}
 
-      {props.contact.profilePicture?.url && (
+      {(props.contact.profilePicture as IFileReadDto)?.url && (
         <UserProfilePicture
-          url={props.contact.profilePicture?.url}
+          url={(props.contact.profilePicture as IFileReadDto)?.url}
           size={SizeEnum.Small}
         />
       )}
 
-      {!props.contact.profilePicture?.url && (
+      {!(props.contact.profilePicture as IFileReadDto)?.url && (
         <CgProfile className={styles.defaultAvatar} />
       )}
 

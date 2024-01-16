@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import { IEntity } from "../../store/slices/entitySlice";
+import { IEntityReadDto } from "../../store/slices/entitySlice";
 
 import useAuthorizedAxios from "../useAuthorizedAxios";
 
@@ -11,10 +11,10 @@ const useGetEntity = () => {
   const axios = useAuthorizedAxios();
 
   const getEntity = (entityId: string) =>
-    new Promise<IEntity>((resolve, reject) => {
+    new Promise<IEntityReadDto>((resolve, reject) => {
       setLoading(true);
       axios
-        .request<AxiosResponse<IEntity>>({
+        .request<AxiosResponse<IEntityReadDto>>({
           method: "GET",
           url: "/entities/getEntity",
           params: { entityId },

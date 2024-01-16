@@ -7,9 +7,9 @@ import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../store/hooks";
 import Checkbox from "../../../checkbox";
 import SearchInput from "../../../searchInput";
-import { IRole } from "../../../../store/slices/roleSlice";
 
 import useStyles from "./roleEntityUserAssignmentPermissions.styles";
+import { IRoleReadDto } from "roottypes";
 
 interface IRoleEntityUserAssignmentPermissionsProps {
   modelId?: string;
@@ -34,7 +34,7 @@ const RoleEntityUserAssignmentPermissions: React.FunctionComponent<
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.roles
   );
-  const roles: IRole[] = useAppSelector((state) => state.role.roles);
+  const roles: IRoleReadDto[] = useAppSelector((state) => state.role.roles);
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
@@ -59,7 +59,7 @@ const RoleEntityUserAssignmentPermissions: React.FunctionComponent<
     );
   };
 
-  const handleAddRole = (role: IRole) => {
+  const handleAddRole = (role: IRoleReadDto) => {
     const newEntityUserAssignmentPermissionsByRole: {
       // used to also add the current role that's just been added
       canAssignToUserFromSameRole: boolean;
@@ -83,7 +83,7 @@ const RoleEntityUserAssignmentPermissions: React.FunctionComponent<
     );
   };
 
-  const handleRemoveRole = (role: IRole) => {
+  const handleRemoveRole = (role: IRoleReadDto) => {
     const newEntityUserAssignmentPermissionsByRole: {
       // used to also add the current role that's just been added
       canAssignToUserFromSameRole: boolean;
@@ -140,7 +140,7 @@ const RoleEntityUserAssignmentPermissions: React.FunctionComponent<
                   role._id.toString()
                 ) !== -1
             )
-            .map((role: IRole, roleIndex: number) => {
+            .map((role: IRoleReadDto, roleIndex: number) => {
               return (
                 <div
                   key={roleIndex}

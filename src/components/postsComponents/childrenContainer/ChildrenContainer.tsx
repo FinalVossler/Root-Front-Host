@@ -21,7 +21,7 @@ const ChildrenContainer: React.FunctionComponent<IChildrenContainerProps> = (
   return (
     <div className={styles.childrenContainer}>
       {props.post.children.map((child, index) => {
-        return <Post post={child} key={index} />;
+        return <Post post={child as IPost} key={index} />;
       })}
     </div>
   );

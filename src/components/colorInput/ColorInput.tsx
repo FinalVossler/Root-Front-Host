@@ -7,10 +7,10 @@ import { ITheme } from "../../config/theme";
 
 import useStyles from "./colorInput.styles";
 import { useAppSelector } from "../../store/hooks";
-import Input, { IInput } from "../input/Input";
+import Input, { IInputProps } from "../input/Input";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 
-interface IColorInputProps extends IInput {}
+interface IColorInputProps extends IInputProps {}
 
 const ColorInput: React.FunctionComponent<IColorInputProps> = (
   props: IColorInputProps

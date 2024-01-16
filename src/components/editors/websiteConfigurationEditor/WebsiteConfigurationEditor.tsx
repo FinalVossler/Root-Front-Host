@@ -20,17 +20,15 @@ import {
 import Checkbox from "../../checkbox";
 import InputLanguages from "../../inputLanguages";
 import ColorInput from "../../colorInput";
-import useUpdateWebsiteConfiguration, {
-  WebsiteConfigurationUpdateCommand,
-} from "../../../hooks/apiHooks/useUpdateWebsiteConfiguration";
+import useUpdateWebsiteConfiguration from "../../../hooks/apiHooks/useUpdateWebsiteConfiguration";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
-import IFile from "../../../globalTypes/IFile";
 import FilesInput from "../../filesInput";
 import uploadFile from "../../../utils/uploadFile";
 import { TypeOfFiles } from "../../existingFiles/ExistingFiles";
 import InputSelect from "../../inputSelect";
 import getLanguages from "../../../utils/getLanguages";
 import Textarea from "../../textarea/Textarea";
+import { IFileReadDto, IWebsiteConfigurationUpdateCommand } from "roottypes";
 
 interface IWebsiteConfigurationForm extends ITheme {
   language?: string;
@@ -43,9 +41,9 @@ interface IWebsiteConfigurationForm extends ITheme {
   withChat?: boolean;
   withRegistration?: boolean;
   withTaskManagement?: boolean;
-  tabIcon?: IFile;
-  logo1?: IFile;
-  logo2?: IFile;
+  tabIcon?: IFileReadDto;
+  logo1?: IFileReadDto;
+  logo2?: IFileReadDto;
   tabIconAsYetToDownloadFile?: File;
   logo1AsYetToDownloadFile?: File;
   logo2AsYetToDownloadFile?: File;
@@ -156,13 +154,13 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
         withTaskManagement: Yup.boolean(),
       }),
       onSubmit: async (values: IWebsiteConfigurationForm) => {
-        const filesUploadPromises: Promise<IFile | undefined>[] = [];
+        const filesUploadPromises: Promise<IFileReadDto | undefined>[] = [];
 
         setUploadingFilesLoading(true);
 
         filesUploadPromises.push(
           new Promise(async (resolve, reject) => {
-            let tabIcon: IFile | undefined = undefined;
+            let tabIcon: IFileReadDto | undefined = undefined;
             if (formik.values.tabIcon) {
               tabIcon = formik.values.tabIcon;
             }
@@ -177,7 +175,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
         );
         filesUploadPromises.push(
           new Promise(async (resolve, reject) => {
-            let logo1: IFile | undefined = undefined;
+            let logo1: IFileReadDto | undefined = undefined;
             if (formik.values.logo1) {
               logo1 = formik.values.logo1;
             }
@@ -191,7 +189,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
 
         filesUploadPromises.push(
           new Promise(async (resolve, reject) => {
-            let logo2: IFile | undefined = undefined;
+            let logo2: IFileReadDto | undefined = undefined;
             if (formik.values.logo2) {
               logo2 = formik.values.logo2;
             }
@@ -206,7 +204,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
         const [tabIcon, logo1, logo2] = await Promise.all(filesUploadPromises);
         setUploadingFilesLoading(false);
 
-        const command: WebsiteConfigurationUpdateCommand = {
+        const command: IWebsiteConfigurationUpdateCommand = {
           email: values.email || "",
           phoneNumber: values.phoneNumber || "",
           title: values.title || "",
@@ -400,7 +398,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           selectedExistingFiles={
             formik.values.tabIcon ? [formik.values.tabIcon] : []
           }
-          setSelectedExistingFiles={(existingFiles: IFile[]) => {
+          setSelectedExistingFiles={(existingFiles: IFileReadDto[]) => {
             formik.setFieldValue(
               "tabIcon",
               existingFiles.length > 0
@@ -431,7 +429,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           selectedExistingFiles={
             formik.values.logo1 ? [formik.values.logo1] : []
           }
-          setSelectedExistingFiles={(existingFiles: IFile[]) => {
+          setSelectedExistingFiles={(existingFiles: IFileReadDto[]) => {
             formik.setFieldValue(
               "logo1",
               existingFiles.length > 0
@@ -462,7 +460,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           selectedExistingFiles={
             formik.values.logo2 ? [formik.values.logo2] : []
           }
-          setSelectedExistingFiles={(existingFiles: IFile[]) => {
+          setSelectedExistingFiles={(existingFiles: IFileReadDto[]) => {
             formik.setFieldValue(
               "logo2",
               existingFiles.length > 0

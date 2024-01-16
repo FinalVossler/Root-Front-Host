@@ -13,22 +13,25 @@ import { useAppSelector } from "../../../store/hooks";
 import Input from "../../input";
 import { ImCross } from "react-icons/im";
 import { FormikProps, useFormik } from "formik";
-import { FieldType, IField } from "../../../store/slices/fieldSlice";
-import useCreateField, {
-  FieldCreateCommand,
-} from "../../../hooks/apiHooks/useCreateField";
-import useUpdateField, {
-  FieldUpdateCommand,
-} from "../../../hooks/apiHooks/useUpdateField";
+import useCreateField from "../../../hooks/apiHooks/useCreateField";
+import useUpdateField from "../../../hooks/apiHooks/useUpdateField";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import InputSelect from "../../inputSelect";
 import getLanguages from "../../../utils/getLanguages";
 import { BiLabel } from "react-icons/bi";
 import EventsEditor from "../eventsEditor/EventsEditor";
-import { EventTriggerEnum, IEvent } from "../../../globalTypes/IEvent";
 import FieldTableEditor from "./fieldTableEditor";
 import uuid from "react-uuid";
 import Checkbox from "../../checkbox";
+import {
+  EventTriggerEnum,
+  FieldTypeEnum,
+  IEventReadDto,
+  IFieldCreateCommand,
+  IFieldReadDto,
+  IFieldTableElementReadDto,
+  IFieldUpdateCommand,
+} from "roottypes";
 
 type FieldOptionForm = {
   label: string;
@@ -45,10 +48,10 @@ export type FieldTableElementForm = {
 
 export interface IFieldFormFormik {
   name: string;
-  type: IField["type"];
+  type: IFieldReadDto["type"];
   canChooseFromExistingFiles: boolean;
   options: FieldOptionForm[];
-  fieldEvents: IEvent[];
+  fieldEvents: IEventReadDto[];
   tableOptions: {
     name: string;
     columns: FieldTableElementForm[];
@@ -59,7 +62,7 @@ export interface IFieldFormFormik {
 }
 
 export interface IFieldEditorProps {
-  field?: IField;
+  field?: IFieldReadDto;
   open?: boolean;
   setOpen?: (open: boolean) => void;
 }
@@ -88,7 +91,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
   const formik: FormikProps<IFieldFormFormik> = useFormik<IFieldFormFormik>({
     initialValues: {
       name: "",
-      type: FieldType.Text,
+      type: FieldTypeEnum.Text,
       canChooseFromExistingFiles: true,
       options: [],
       fieldEvents: [],
@@ -103,7 +106,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
     },
     onSubmit: async (values: IFieldFormFormik) => {
       if (props.field) {
-        const command: FieldUpdateCommand = {
+        const command: IFieldUpdateCommand = {
           _id: props.field._id,
           name: values.name,
           type: values.type,
@@ -132,7 +135,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
 
         await updateField(command);
       } else {
-        const command: FieldCreateCommand = {
+        const command: IFieldCreateCommand = {
           name: values.name,
           type: values.type,
           canChooseFromExistingFiles: values.canChooseFromExistingFiles,
@@ -177,7 +180,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
     formik.resetForm({
       values: {
         name: getTranslatedText(props.field?.name, formik.values.language),
-        type: props.field?.type || FieldType.Text,
+        type: props.field?.type || FieldTypeEnum.Text,
         canChooseFromExistingFiles:
           props.field?.canChooseFromExistingFiles || false,
         options:
@@ -191,7 +194,11 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
         tableOptions: {
           name: getTranslatedText(props.field?.tableOptions?.name),
           columns:
-            props.field?.tableOptions?.columns.map((c) => ({
+            (
+              (props.field as IFieldReadDto)?.tableOptions?.columns as
+                | IFieldTableElementReadDto[]
+                | undefined
+            )?.map((c) => ({
               _id: c._id,
               language: formik.values.language,
               name: getTranslatedText(c.name, formik.values.language),
@@ -201,7 +208,11 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
                 )?.uuid || uuid(),
             })) || [],
           rows:
-            props.field?.tableOptions?.rows.map((r) => ({
+            (
+              props.field?.tableOptions?.rows as
+                | IFieldTableElementReadDto[]
+                | undefined
+            )?.map((r) => ({
               _id: r._id,
               language: formik.values.language,
               name: getTranslatedText(r.name, formik.values.language),
@@ -298,7 +309,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
         />
 
         <InputSelect
-          options={Object.values(FieldType).map((el) => ({
+          options={Object.values(FieldTypeEnum).map((el) => ({
             value: el,
             label: el,
           }))}
@@ -309,7 +320,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
           selectorClassName="fieldTypeInputSelect"
         />
 
-        {formik.values.type === FieldType.File && (
+        {formik.values.type === FieldTypeEnum.File && (
           <Checkbox
             label={getTranslatedText(staticText?.canChooseFromExistingFiles)}
             checked={formik.values.canChooseFromExistingFiles}
@@ -330,7 +341,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
           selectorClassName="fieldLanguageSelect"
         />
 
-        {formik.values.type === FieldType.Selector && (
+        {formik.values.type === FieldTypeEnum.Selector && (
           <div className={styles.optionsContainer}>
             <span className={styles.addOptionButton} onClick={handleAddOption}>
               <AiOutlineAppstoreAdd className={styles.addOptionIcon} />{" "}
@@ -383,7 +394,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
 
         <FieldTableEditor formik={formik} />
 
-        {formik.values.type === FieldType.Button && (
+        {formik.values.type === FieldTypeEnum.Button && (
           <EventsEditor
             fieldName="fieldEvents"
             formik={formik}

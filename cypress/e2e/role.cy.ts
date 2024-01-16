@@ -1,9 +1,13 @@
-import { RoleCreateCommand } from "../../src/hooks/apiHooks/useCreateRole";
-import { UserCreateCommand } from "../../src/hooks/apiHooks/useCreateUser";
-import { IField } from "../../src/store/slices/fieldSlice";
-import { IModel } from "../../src/store/slices/modelSlice";
-import { IRole, StaticPermission } from "../../src/store/slices/roleSlice";
-import { IUser, SuperRole } from "../../src/store/slices/userSlice";
+import {
+  IFieldReadDto,
+  IModelReadDto,
+  IRoleCreateCommand,
+  IRoleReadDto,
+  IUserCreateCommand,
+  IUserReadDto,
+  StaticPermissionEnum,
+  SuperRoleEnum,
+} from "roottypes";
 import {
   createCreateFieldCommand,
   createCreateModelCommand,
@@ -13,25 +17,25 @@ describe("Roles", () => {
   const modelField1CreateCommand = createCreateFieldCommand("ModelField1");
   const modelField2CreateCommand = createCreateFieldCommand("ModelField2");
 
-  let modelField1: IField | undefined;
-  let modelField2: IField | undefined;
+  let modelField1: IFieldReadDto | undefined;
+  let modelField2: IFieldReadDto | undefined;
 
-  let model: IModel | undefined;
+  let model: IModelReadDto | undefined;
 
-  let roleToUpdate: IRole | undefined;
-  let role1ToDelete: IRole | undefined;
-  let role2ToDelete: IRole | undefined;
-  let roleToFindInSearch: IRole | undefined;
-  let roleToNotFindInSearch: IRole | undefined;
-  let otherRoleForAssignemnt: IRole | undefined;
-  let user: IUser | undefined;
+  let roleToUpdate: IRoleReadDto | undefined;
+  let role1ToDelete: IRoleReadDto | undefined;
+  let role2ToDelete: IRoleReadDto | undefined;
+  let roleToFindInSearch: IRoleReadDto | undefined;
+  let roleToNotFindInSearch: IRoleReadDto | undefined;
+  let otherRoleForAssignemnt: IRoleReadDto | undefined;
+  let user: IUserReadDto | undefined;
 
   before(() => {
     cy.sendCreateFieldRequest(modelField1CreateCommand, (res) => {
-      modelField1 = (res as { body: { data: IField } }).body.data;
+      modelField1 = (res as { body: { data: IFieldReadDto } }).body.data;
     }).then(() => {
       cy.sendCreateFieldRequest(modelField2CreateCommand, (res) => {
-        modelField2 = (res as { body: { data: IField } }).body.data;
+        modelField2 = (res as { body: { data: IFieldReadDto } }).body.data;
       }).then(() => {
         createModels();
       });
@@ -40,11 +44,11 @@ describe("Roles", () => {
     const createModels = () => {
       cy.sendCreateModelRequest(
         createCreateModelCommand("Model used for entities test", [
-          (modelField1 as IField)?._id.toString(),
-          (modelField2 as IField)?._id.toString(),
+          (modelField1 as IFieldReadDto)?._id.toString(),
+          (modelField2 as IFieldReadDto)?._id.toString(),
         ]),
         (res) => {
-          model = (res as { body: { data: IModel } }).body.data;
+          model = (res as { body: { data: IModelReadDto } }).body.data;
         }
       ).then(() => {
         createRoles();
@@ -52,7 +56,7 @@ describe("Roles", () => {
     };
 
     const createRoles = () => {
-      const roleToUpdateCreateCommand: RoleCreateCommand = {
+      const roleToUpdateCreateCommand: IRoleCreateCommand = {
         entityPermissions: [
           {
             entityEventNotifications: [],
@@ -62,8 +66,11 @@ describe("Roles", () => {
               otherRolesIds: [],
             },
             language: "en",
-            modelId: (model as IModel)?._id.toString(),
-            permissions: [StaticPermission.Read, StaticPermission.Update],
+            modelId: (model as IModelReadDto)?._id.toString(),
+            permissions: [
+              StaticPermissionEnum.Read,
+              StaticPermissionEnum.Update,
+            ],
           },
         ],
         language: "en",
@@ -72,39 +79,42 @@ describe("Roles", () => {
       };
 
       cy.sendCreateRoleRequest(roleToUpdateCreateCommand, (res) => {
-        roleToUpdate = (res as { body: { data: IRole } }).body.data;
+        roleToUpdate = (res as { body: { data: IRoleReadDto } }).body.data;
       }).then(() => {
         cy.sendCreateRoleRequest(
           { ...roleToUpdateCreateCommand, name: "Other Role for assignment" },
           (res) => {
-            otherRoleForAssignemnt = (res as { body: { data: IRole } }).body
-              .data;
+            otherRoleForAssignemnt = (res as { body: { data: IRoleReadDto } })
+              .body.data;
           }
         ).then(() => {
           cy.sendCreateRoleRequest(
             { ...roleToUpdateCreateCommand, name: "Role1ToDelete" },
             (res) => {
-              role1ToDelete = (res as { body: { data: IRole } }).body.data;
+              role1ToDelete = (res as { body: { data: IRoleReadDto } }).body
+                .data;
             }
           ).then(() => {
             cy.sendCreateRoleRequest(
               { ...roleToUpdateCreateCommand, name: "Role2ToDelete" },
               (res) => {
-                role2ToDelete = (res as { body: { data: IRole } }).body.data;
+                role2ToDelete = (res as { body: { data: IRoleReadDto } }).body
+                  .data;
               }
             ).then(() => {
               cy.sendCreateRoleRequest(
                 { ...roleToUpdateCreateCommand, name: "Find me in search" },
                 (res) => {
-                  roleToFindInSearch = (res as { body: { data: IRole } }).body
-                    .data;
+                  roleToFindInSearch = (res as { body: { data: IRoleReadDto } })
+                    .body.data;
                 }
               ).then(() => {
                 cy.sendCreateRoleRequest(
                   { ...roleToUpdateCreateCommand, name: "DontShow" },
                   (res) => {
-                    roleToNotFindInSearch = (res as { body: { data: IRole } })
-                      .body.data;
+                    roleToNotFindInSearch = (
+                      res as { body: { data: IRoleReadDto } }
+                    ).body.data;
                   }
                 ).then(() => {
                   createUsers();
@@ -117,16 +127,16 @@ describe("Roles", () => {
     };
 
     const createUsers = () => {
-      const userCreateCommand: UserCreateCommand = {
+      const userCreateCommand: IUserCreateCommand = {
         email: "userForRoleTests@testing.com",
         firstName: "userForRoleTestsFirstName",
         lastName: "userForRoleTestsLastName",
         password: "rootroot",
-        superRole: SuperRole.Normal,
+        superRole: SuperRoleEnum.Normal,
         roleId: roleToUpdate?._id,
       };
       cy.sendCreateUserRequest(userCreateCommand, (res) => {
-        user = (res as { body: { data: IUser } }).body.data;
+        user = (res as { body: { data: IUserReadDto } }).body.data;
       });
     };
   });

@@ -1,11 +1,6 @@
 import React from "react";
 import { useAppSelector } from "../../../store/hooks";
-import { IEntity } from "../../../store/slices/entitySlice";
-import {
-  IModel,
-  IModelField,
-  IModelState,
-} from "../../../store/slices/modelSlice";
+import { IModelField } from "../../../store/slices/modelSlice";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 
 import useStyles from "./elementsBoard.styles";
@@ -15,12 +10,19 @@ import { Link } from "react-router-dom";
 import getModelStateConcernedFields from "../../../utils/getModelStateConcernedFields";
 import doesEntityMeetModelStateCondition from "../../../utils/doesEntityMeetModelStateCondition";
 import { Element } from "../Elements";
+import {
+  IEntityReadDto,
+  IFieldReadDto,
+  IModelReadDto,
+  IModelStateReadDto,
+  IUserReadDto,
+} from "roottypes";
 
 interface IEntityCardProps {
-  entity: IEntity;
+  entity: IEntityReadDto;
   modelId: string;
   mainModelFields: IModelField[];
-  model: IModel;
+  model: IModelReadDto;
   Editor: React.FunctionComponent<{
     open: boolean;
     setOpen: (open: boolean) => void;
@@ -66,15 +68,16 @@ const EntityCard: React.FunctionComponent<IEntityCardProps> = (
           return (
             <span
               className={styles.entityMainFieldValue}
-              key={modelField.field._id}
+              key={(modelField.field as IFieldReadDto)._id}
             >
               <span className={styles.fieldLabel}>
-                {getTranslatedText(modelField.field.name)}:
+                {getTranslatedText((modelField.field as IFieldReadDto).name)}:
               </span>
               {getTranslatedText(
                 props.entity.entityFieldValues.find(
                   (el) =>
-                    el.field._id.toString() === modelField.field._id.toString()
+                    (el.field as IFieldReadDto)._id.toString() ===
+                    (modelField.field as IFieldReadDto)._id.toString()
                 )?.value
               ) || ""}
             </span>
@@ -83,32 +86,33 @@ const EntityCard: React.FunctionComponent<IEntityCardProps> = (
       </div>
       <div className={styles.subStates}>
         {props.model.subStates &&
-          props.model.subStates?.map((subState: IModelState) => {
-            const concernedFields: IModelField[] = getModelStateConcernedFields(
-              {
-                model: props.model,
-                modelState: subState,
-              }
-            );
-            const stateConditionsMet: boolean =
-              doesEntityMeetModelStateCondition({
-                entityFieldValues: props.entity.entityFieldValues,
-                stateConcernedFields: concernedFields,
-                getTranslatedText,
-                model: props.model,
-                entity: props.entity,
-              });
-            return (
-              <span
-                key={subState._id}
-                className={
-                  stateConditionsMet ? styles.filledSubState : styles.subState
-                }
-              >
-                {getTranslatedText(subState.name)}
-              </span>
-            );
-          })}
+          (props.model.subStates as IModelStateReadDto[])?.map(
+            (subState: IModelStateReadDto) => {
+              const concernedFields: IModelField[] =
+                getModelStateConcernedFields({
+                  model: props.model,
+                  modelState: subState,
+                });
+              const stateConditionsMet: boolean =
+                doesEntityMeetModelStateCondition({
+                  entityFieldValues: props.entity.entityFieldValues,
+                  stateConcernedFields: concernedFields,
+                  getTranslatedText,
+                  model: props.model,
+                  entity: props.entity,
+                });
+              return (
+                <span
+                  key={subState._id}
+                  className={
+                    stateConditionsMet ? styles.filledSubState : styles.subState
+                  }
+                >
+                  {getTranslatedText(subState.name)}
+                </span>
+              );
+            }
+          )}
       </div>
       {props.entity.assignedUsers && props.entity.assignedUsers?.length > 0 && (
         <div className={styles.assignedToContainer}>
@@ -116,16 +120,18 @@ const EntityCard: React.FunctionComponent<IEntityCardProps> = (
             {getTranslatedText(staticText?.assignedTo)}:
           </h2>
           <ul>
-            {props.entity.assignedUsers?.map((assignedUser) => {
-              return (
-                <li
-                  className={styles.assignedUser}
-                  key={assignedUser._id.toString()}
-                >
-                  {assignedUser.firstName + " " + assignedUser.lastName}
-                </li>
-              );
-            })}
+            {(props.entity.assignedUsers as IUserReadDto[])?.map(
+              (assignedUser) => {
+                return (
+                  <li
+                    className={styles.assignedUser}
+                    key={assignedUser._id.toString()}
+                  >
+                    {assignedUser.firstName + " " + assignedUser.lastName}
+                  </li>
+                );
+              }
+            )}
           </ul>
         </div>
       )}

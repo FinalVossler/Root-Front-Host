@@ -10,14 +10,19 @@ import useGetUsers from "../../hooks/apiHooks/useGetUsers";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { IUser, SuperRole, userSlice } from "../../store/slices/userSlice";
+import { userSlice } from "../../store/slices/userSlice";
 
 import useStyles from "./usersPage.styles";
 import useSearchUsers from "../../hooks/apiHooks/useSearchUsers";
 import useHasPermission from "../../hooks/useHasPermission";
-import { Permission } from "../../store/slices/roleSlice";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { LocalStorageConfNameEnum } from "../../utils/localStorage";
+import {
+  IRoleReadDto,
+  IUserReadDto,
+  PermissionEnum,
+  SuperRoleEnum,
+} from "roottypes";
 
 interface IUsersPageProps {}
 
@@ -61,7 +66,7 @@ const UsersPage: React.FunctionComponent<IUsersPageProps> = (
   };
 
   const handleSetSearchResult = React.useCallback(
-    (res: PaginationResponse<IUser>) => {
+    (res: PaginationResponse<IUserReadDto>) => {
       dispatch(userSlice.actions.setSearchedUsers(res));
     },
     []
@@ -69,13 +74,13 @@ const UsersPage: React.FunctionComponent<IUsersPageProps> = (
 
   if (!isLoggedIn) return null;
 
-  if (!hasPermission(Permission.ReadUser)) return null;
+  if (!hasPermission(PermissionEnum.ReadUser)) return null;
 
   return (
     <div className={styles.usersPageContainer} data-cy="usersPage">
       <Elements
         Editor={({ element, ...props }) => (
-          <UserEditor {...props} user={element as IUser} />
+          <UserEditor {...props} user={element as IUserReadDto} />
         )}
         columns={[
           {
@@ -93,16 +98,18 @@ const UsersPage: React.FunctionComponent<IUsersPageProps> = (
           {
             label: getTranslatedText(staticText?.role),
             name: "",
-            render: (user: IUser) =>
-              (user.superRole === SuperRole.SuperAdmin
+            render: (user: IUserReadDto) =>
+              (user.superRole === SuperRoleEnum.SuperAdmin
                 ? user.superRole +
-                  (Boolean(getTranslatedText(user.role?.name)) ? " + " : "")
-                : "") + getTranslatedText(user.role?.name),
+                  (Boolean(getTranslatedText((user.role as IRoleReadDto)?.name))
+                    ? " + "
+                    : "")
+                : "") + getTranslatedText((user.role as IRoleReadDto)?.name),
           },
           {
             label: getTranslatedText(staticText?.visit),
             name: "",
-            render: (user: IUser) => {
+            render: (user: IUserReadDto) => {
               return (
                 <Link
                   rel="noreferrer"
@@ -127,9 +134,9 @@ const UsersPage: React.FunctionComponent<IUsersPageProps> = (
         }
         onPageChange={handlePageChange}
         searchPromise={handleSearchUsersPromise}
-        canUpdate={hasPermission(Permission.UpdatePage)}
-        canCreate={hasPermission(Permission.CreatePage)}
-        canDelete={hasPermission(Permission.DeletePage)}
+        canUpdate={hasPermission(PermissionEnum.UpdatePage)}
+        canCreate={hasPermission(PermissionEnum.CreatePage)}
+        canDelete={hasPermission(PermissionEnum.DeletePage)}
         searchResult={searchResult}
         setSearchResult={handleSetSearchResult}
         elementsLocalStorageConfName={LocalStorageConfNameEnum.USERS}

@@ -1,5 +1,4 @@
-import { IField } from "../../src/store/slices/fieldSlice";
-import { IModel } from "../../src/store/slices/modelSlice";
+import { IFieldReadDto, IModelReadDto } from "roottypes";
 import {
   createCreateFieldCommand,
   createCreateModelCommand,
@@ -9,13 +8,13 @@ describe("model", () => {
   const modelField1CreateCommand = createCreateFieldCommand("ModelField1");
   const modelField2CreateCommand = createCreateFieldCommand("ModelField2");
 
-  let modelField1: IField | undefined;
-  let modelField2: IField | undefined;
-  let modelToUpdate: IModel | undefined;
-  let model1ToDelete: IModel | undefined;
-  let model2ToDelete: IModel | undefined;
-  let modelToFindInSearch: IModel | undefined;
-  let modelToNotFindInSearch: IModel | undefined;
+  let modelField1: IFieldReadDto | undefined;
+  let modelField2: IFieldReadDto | undefined;
+  let modelToUpdate: IModelReadDto | undefined;
+  let model1ToDelete: IModelReadDto | undefined;
+  let model2ToDelete: IModelReadDto | undefined;
+  let modelToFindInSearch: IModelReadDto | undefined;
+  let modelToNotFindInSearch: IModelReadDto | undefined;
 
   beforeEach(() => {
     cy.login(true);
@@ -29,10 +28,10 @@ describe("model", () => {
 
   before(() => {
     cy.sendCreateFieldRequest(modelField1CreateCommand, (res) => {
-      modelField1 = (res as { body: { data: IField } }).body.data;
+      modelField1 = (res as { body: { data: IFieldReadDto } }).body.data;
     }).then(() => {
       cy.sendCreateFieldRequest(modelField2CreateCommand, (res) => {
-        modelField2 = (res as { body: { data: IField } }).body.data;
+        modelField2 = (res as { body: { data: IFieldReadDto } }).body.data;
       }).then(() => {
         createModels();
       });
@@ -41,49 +40,50 @@ describe("model", () => {
     const createModels = async () => {
       cy.sendCreateModelRequest(
         createCreateModelCommand("Model to update", [
-          (modelField1 as IField)?._id.toString(),
-          (modelField2 as IField)?._id.toString(),
+          (modelField1 as IFieldReadDto)?._id.toString(),
+          (modelField2 as IFieldReadDto)?._id.toString(),
         ]),
         (res) => {
-          modelToUpdate = (res as { body: { data: IModel } }).body.data;
+          modelToUpdate = (res as { body: { data: IModelReadDto } }).body.data;
         }
       );
       cy.sendCreateModelRequest(
         createCreateModelCommand("Model1 to delete", [
-          (modelField1 as IField)?._id.toString(),
-          (modelField2 as IField)?._id.toString(),
+          (modelField1 as IFieldReadDto)?._id.toString(),
+          (modelField2 as IFieldReadDto)?._id.toString(),
         ]),
         (res) => {
-          model1ToDelete = (res as { body: { data: IModel } }).body.data;
+          model1ToDelete = (res as { body: { data: IModelReadDto } }).body.data;
         }
       );
       cy.sendCreateModelRequest(
         createCreateModelCommand("Model2 to delete", [
-          (modelField1 as IField)?._id.toString(),
-          (modelField2 as IField)?._id.toString(),
+          (modelField1 as IFieldReadDto)?._id.toString(),
+          (modelField2 as IFieldReadDto)?._id.toString(),
         ]),
         (res) => {
-          model2ToDelete = (res as { body: { data: IModel } }).body.data;
+          model2ToDelete = (res as { body: { data: IModelReadDto } }).body.data;
         }
       );
 
       cy.sendCreateModelRequest(
         createCreateModelCommand("Search result", [
-          (modelField1 as IField)?._id.toString(),
-          (modelField2 as IField)?._id.toString(),
+          (modelField1 as IFieldReadDto)?._id.toString(),
+          (modelField2 as IFieldReadDto)?._id.toString(),
         ]),
         (res) => {
-          modelToFindInSearch = (res as { body: { data: IModel } }).body.data;
+          modelToFindInSearch = (res as { body: { data: IModelReadDto } }).body
+            .data;
         }
       );
       cy.sendCreateModelRequest(
         createCreateModelCommand("Ignored", [
-          (modelField1 as IField)?._id.toString(),
-          (modelField2 as IField)?._id.toString(),
+          (modelField1 as IFieldReadDto)?._id.toString(),
+          (modelField2 as IFieldReadDto)?._id.toString(),
         ]),
         (res) => {
-          modelToNotFindInSearch = (res as { body: { data: IModel } }).body
-            .data;
+          modelToNotFindInSearch = (res as { body: { data: IModelReadDto } })
+            .body.data;
         }
       );
     };
@@ -206,7 +206,7 @@ describe("model", () => {
 
     cy.getByDataCy("modelsPage").should(
       "contain",
-      (modelToUpdate as IModel).name.at(0)?.text
+      (modelToUpdate as IModelReadDto).name.at(0)?.text
     );
     cy.get("#editButtonFor" + modelToUpdate?._id.toString()).click();
     cy.getByDataCy("modelForm").should("exist").and("be.visible");

@@ -1,11 +1,14 @@
-import { IEntityFieldValueForm } from "../components/editors/entityEditor/EntityEditorForm";
-import { IEntity, IEntityFieldValue } from "../store/slices/entitySlice";
-import { FieldType } from "../store/slices/fieldSlice";
 import {
-  IModel,
-  IModelField,
+  FieldTypeEnum,
+  IEntityFieldValueReadDto,
+  IEntityReadDto,
+  IFieldReadDto,
+  IModelReadDto,
+  IModelStateReadDto,
   ModelFieldConditionTypeEnum,
-} from "../store/slices/modelSlice";
+} from "roottypes";
+import { IEntityFieldValueForm } from "../components/editors/entityEditor/EntityEditorForm";
+import { IModelField } from "../store/slices/modelSlice";
 import doesEntityMeetModelStateCondition from "./doesEntityMeetModelStateCondition";
 import getModelStateConcernedFields from "./getModelStateConcernedFields";
 
@@ -18,11 +21,11 @@ const areEntityFieldConditionsMet = ({
   entity,
 }: {
   modelField: IModelField;
-  entityFieldValues?: IEntityFieldValue[];
+  entityFieldValues?: IEntityFieldValueReadDto[];
   entityFieldValuesFromForm?: IEntityFieldValueForm[];
   getTranslatedText: any;
-  model: IModel;
-  entity?: IEntity;
+  model: IModelReadDto;
+  entity?: IEntityReadDto;
 }): boolean => {
   if (modelField.conditions && modelField.conditions?.length > 0) {
     let conditionsMet: boolean = true;
@@ -33,13 +36,14 @@ const areEntityFieldConditionsMet = ({
       if (entityFieldValuesFromForm) {
         value = entityFieldValuesFromForm.find(
           (entityFieldValue) =>
-            entityFieldValue.fieldId === condition.field?._id
+            entityFieldValue.fieldId === (condition.field as IFieldReadDto)?._id
         )?.value;
       }
       if (!value && entityFieldValues) {
         value = entityFieldValues.find(
           (entityFieldValue) =>
-            entityFieldValue.field._id === condition.field?._id
+            (entityFieldValue.field as IFieldReadDto)._id ===
+            (condition.field as IFieldReadDto)?._id
         )?.value;
         value = getTranslatedText(value);
       }
@@ -53,7 +57,7 @@ const areEntityFieldConditionsMet = ({
       } else {
         let conditionValue = condition.value ?? "";
         let fieldValue = value;
-        if (condition.field?.type === FieldType.Number) {
+        if ((condition.field as IFieldReadDto)?.type === FieldTypeEnum.Number) {
           try {
             conditionValue = parseInt(conditionValue + "");
             fieldValue = parseInt(fieldValue + "");
@@ -92,7 +96,9 @@ const areEntityFieldConditionsMet = ({
             break;
           }
           case ModelFieldConditionTypeEnum.ValueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear: {
-            if (condition.field?.type !== FieldType.Number) {
+            if (
+              (condition.field as IFieldReadDto)?.type !== FieldTypeEnum.Number
+            ) {
               conditionsMet = false;
             }
             const currentYear: number = new Date().getFullYear();
@@ -117,7 +123,7 @@ const areEntityFieldConditionsMet = ({
                   getTranslatedText,
                   stateConcernedFields: getModelStateConcernedFields({
                     model,
-                    modelState: condition.modelState,
+                    modelState: condition.modelState as IModelStateReadDto,
                   }),
                   model,
                   entity,

@@ -4,10 +4,7 @@ import { useAppDispatch } from "../../store/hooks";
 import { chatSlice } from "../../store/slices/chatSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 import { AxiosResponse } from "axios";
-
-export type MessageMarkAllMessagesAsReadByUserCommand = {
-  to: string[];
-};
+import { IMessageMarkAllMessagesAsReadByUserCommand } from "roottypes";
 
 const useMarkAllConversationsMessagesAsReadByUser = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -16,7 +13,7 @@ const useMarkAllConversationsMessagesAsReadByUser = () => {
   const dispatch = useAppDispatch();
 
   const markAllConversationMessagesAsReadByUser = (
-    command: MessageMarkAllMessagesAsReadByUserCommand,
+    command: IMessageMarkAllMessagesAsReadByUserCommand,
     conversationId: string,
     userId: string
   ) =>

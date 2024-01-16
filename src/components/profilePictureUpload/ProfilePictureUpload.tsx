@@ -8,7 +8,6 @@ import { ITheme } from "../../config/theme";
 
 import useStyles from "./profilePictureUpload.styles";
 import { useAppSelector } from "../../store/hooks";
-import IFile from "../../globalTypes/IFile";
 import uploadFile from "../../utils/uploadFile";
 import UserProfilePicture from "../userProfilePicture";
 import { SizeEnum } from "../userProfilePicture/UserProfilePicture";
@@ -17,22 +16,22 @@ import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useUpdateProfilePicture from "../../hooks/apiHooks/useUpdateProfilePicture";
 import FilesInput from "../filesInput";
 import { TypeOfFiles } from "../existingFiles/ExistingFiles";
+import { IFileReadDto } from "roottypes";
 
 interface IProfilePictureUploadProps {}
 const ImageUpload: React.FunctionComponent<IProfilePictureUploadProps> = (
   props: IProfilePictureUploadProps
 ) => {
-  const profilePicture: IFile | undefined = useAppSelector<IFile | undefined>(
-    (state) => state.user.user.profilePicture
-  );
+  const profilePicture: IFileReadDto | undefined = useAppSelector<
+    IFileReadDto | undefined
+  >((state) => state.user.user.profilePicture as IFileReadDto);
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.profile
   );
 
   const [file, setFile] = React.useState<File | null>(null);
-  const [selectedOwnFile, setSelectedOwnFile] = React.useState<IFile | null>(
-    null
-  );
+  const [selectedOwnFile, setSelectedOwnFile] =
+    React.useState<IFileReadDto | null>(null);
   const [fileAsBase64, setFileAsBase64] = React.useState<string | null>(null);
   const [uploadingFileLoading, setUploadingFileLoading] =
     React.useState<boolean>(false);
@@ -54,7 +53,7 @@ const ImageUpload: React.FunctionComponent<IProfilePictureUploadProps> = (
     if (file === null && selectedOwnFile === null)
       return toast.error(getTranslatedText(staticText?.uploadANewPictureFirst));
 
-    let newProfilePicture: IFile | undefined;
+    let newProfilePicture: IFileReadDto | undefined;
 
     if (file) {
       setUploadingFileLoading(true);
@@ -142,7 +141,7 @@ const ImageUpload: React.FunctionComponent<IProfilePictureUploadProps> = (
 
       <FilesInput
         selectedExistingFiles={selectedOwnFile ? [selectedOwnFile] : []}
-        setSelectedExistingFiles={(existingFiles: IFile[]) => {
+        setSelectedExistingFiles={(existingFiles: IFileReadDto[]) => {
           if (existingFiles.length > 0) {
             setFile(null);
             setFileAsBase64(null);

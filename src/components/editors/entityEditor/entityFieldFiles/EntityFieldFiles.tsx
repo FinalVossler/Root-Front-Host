@@ -6,7 +6,6 @@ import {
 } from "react-icons/ai";
 import { FormikProps } from "formik";
 
-import IFile from "../../../../globalTypes/IFile";
 import {
   IEntityEditorFormFormik,
   IEntityFieldValueForm,
@@ -22,6 +21,7 @@ import ExistingFiles from "../../../existingFiles";
 import { TypeOfFiles } from "../../../existingFiles/ExistingFiles";
 import FilesDropZone from "../../../filesDropZone";
 import { toast } from "react-toastify";
+import { IFieldReadDto, IFileReadDto } from "roottypes";
 
 type TrackedImage = {
   base64: string;
@@ -111,7 +111,10 @@ const EntityFieldFiles: React.FunctionComponent<IEntityFieldFilesProps> = (
       props.formik.setFieldValue(
         "entityFieldValues",
         props.formik.values.entityFieldValues.map((entityFieldValue) => {
-          if (entityFieldValue.fieldId === props.modelField.field._id) {
+          if (
+            entityFieldValue.fieldId ===
+            (props.modelField.field as IFieldReadDto)._id
+          ) {
             return {
               ...entityFieldValue,
               newFiles,
@@ -124,11 +127,14 @@ const EntityFieldFiles: React.FunctionComponent<IEntityFieldFilesProps> = (
     }
   };
 
-  const handleSelectedExistingFilesChange = (files: IFile[]) => {
+  const handleSelectedExistingFilesChange = (files: IFileReadDto[]) => {
     props.formik.setFieldValue(
       "entityFieldValues",
       props.formik.values.entityFieldValues.map((entityFieldValue) => {
-        if (entityFieldValue.fieldId === props.modelField.field._id) {
+        if (
+          entityFieldValue.fieldId ===
+          (props.modelField.field as IFieldReadDto)._id
+        ) {
           return {
             ...entityFieldValue,
             selectedExistingFiles: files,
@@ -144,7 +150,10 @@ const EntityFieldFiles: React.FunctionComponent<IEntityFieldFilesProps> = (
     props.formik.setFieldValue(
       "entityFieldValues",
       props.formik.values.entityFieldValues.map((entityFieldValue) => {
-        if (entityFieldValue.fieldId === props.modelField.field._id) {
+        if (
+          entityFieldValue.fieldId ===
+          (props.modelField.field as IFieldReadDto)._id
+        ) {
           return {
             ...entityFieldValue,
             newFiles: entityFieldValue?.newFiles?.filter((f) => f !== file),
@@ -172,7 +181,10 @@ const EntityFieldFiles: React.FunctionComponent<IEntityFieldFilesProps> = (
     props.formik.setFieldValue(
       "entityFieldValues",
       props.formik.values.entityFieldValues.map((entityFieldValue) => {
-        if (entityFieldValue.fieldId === props.modelField.field._id) {
+        if (
+          entityFieldValue.fieldId ===
+          (props.modelField.field as IFieldReadDto)._id
+        ) {
           return {
             ...entityFieldValue,
             newFiles: [...(entityFieldValue.newFiles || []), ...files],
@@ -194,10 +206,11 @@ const EntityFieldFiles: React.FunctionComponent<IEntityFieldFilesProps> = (
       }
     >
       <span className={styles.label}>
-        {getTranslatedText(props.modelField.field.name)}:
+        {getTranslatedText((props.modelField.field as IFieldReadDto).name)}:
       </span>
       <div className={styles.filesButtonsContainer}>
-        {(props.modelField.field.canChooseFromExistingFiles ||
+        {((props.modelField.field as IFieldReadDto)
+          .canChooseFromExistingFiles ||
           (props.entityFieldValue?.files &&
             props.entityFieldValue?.files?.length > 0)) && (
           <AiOutlineFileSearch
@@ -264,6 +277,9 @@ const EntityFieldFiles: React.FunctionComponent<IEntityFieldFilesProps> = (
           setSelectedExistingFiles={handleSelectedExistingFilesChange}
           typeOfFiles={TypeOfFiles.UnownedFiles}
           disabled={props.disabled}
+          showOtherFiles={
+            (props.modelField.field as IFieldReadDto).canChooseFromExistingFiles
+          }
         />
       )}
     </div>

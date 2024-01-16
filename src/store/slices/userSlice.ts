@@ -7,31 +7,8 @@ import {
   TIME_FORMAT,
 } from "../../config/constants";
 
-import IFile from "../../globalTypes/IFile";
-import { IRole } from "./roleSlice";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
-import { IMessage } from "./chatSlice";
-
-export enum SuperRole {
-  SuperAdmin = "SuperAdmin",
-  Normal = "Normal",
-}
-
-export interface IUser {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  profilePicture?: IFile;
-  superRole: SuperRole;
-  role?: IRole;
-  hasMessagingEmailsActivated?: boolean;
-}
-
-export type UserWithLastReadMessageInConversation = IUser & {
-  lastReadMessageInConversation: IMessage | null;
-  to: string[];
-};
+import { IRoleReadDto, IUserReadDto, SuperRoleEnum } from "roottypes";
 
 export type TokenInformation = {
   value: string;
@@ -40,11 +17,11 @@ export type TokenInformation = {
 };
 
 export interface IUserState {
-  user: IUser;
+  user: IUserReadDto;
   tokenInformation: TokenInformation;
-  users: IUser[];
+  users: IUserReadDto[];
   total: number;
-  searchedUsers: PaginationResponse<IUser>;
+  searchedUsers: PaginationResponse<IUserReadDto>;
 }
 
 // Initializing the token from local storage
@@ -76,7 +53,7 @@ const initialState: IUserState = {
     firstName: "",
     lastName: "",
     email: "",
-    superRole: SuperRole.Normal,
+    superRole: SuperRoleEnum.Normal,
     profilePicture: {
       url: "",
       uuid: "",
@@ -95,7 +72,7 @@ const initialState: IUserState = {
 };
 
 export const setUserAndTokenInformationInLocalStorage = (payload: {
-  user: IUser;
+  user: IUserReadDto;
   token: string;
   expiresIn: string;
 }) => {
@@ -120,7 +97,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUser: (state: IUserState, action: PayloadAction<IUser>) => {
+    setUser: (state: IUserState, action: PayloadAction<IUserReadDto>) => {
       state.user = action.payload;
     },
     setTokenInformation: (
@@ -131,7 +108,11 @@ export const userSlice = createSlice({
     },
     setUserAndTokenInformation: (
       state: IUserState,
-      action: PayloadAction<{ user: IUser; token: string; expiresIn: string }>
+      action: PayloadAction<{
+        user: IUserReadDto;
+        token: string;
+        expiresIn: string;
+      }>
     ) => {
       state.user = action.payload.user;
 
@@ -160,19 +141,19 @@ export const userSlice = createSlice({
     },
     setUsers: (
       state: IUserState,
-      action: PayloadAction<{ users: IUser[]; total: number }>
+      action: PayloadAction<{ users: IUserReadDto[]; total: number }>
     ) => {
-      const users: IUser[] = action.payload.users;
+      const users: IUserReadDto[] = action.payload.users;
       const total: number = action.payload.total;
       state.users = users;
       state.total = total;
     },
-    addUser: (state: IUserState, action: PayloadAction<IUser>) => {
-      const user: IUser = action.payload;
+    addUser: (state: IUserState, action: PayloadAction<IUserReadDto>) => {
+      const user: IUserReadDto = action.payload;
       state.users.unshift(user);
     },
-    updateUser: (state: IUserState, action: PayloadAction<IUser>) => {
-      const user: IUser = action.payload;
+    updateUser: (state: IUserState, action: PayloadAction<IUserReadDto>) => {
+      const user: IUserReadDto = action.payload;
       state.users = state.users.map((f) => (f._id === user._id ? user : f));
       state.searchedUsers.data = state.searchedUsers.data.map((u) => {
         if (u._id === user._id) {
@@ -184,7 +165,7 @@ export const userSlice = createSlice({
     },
     updateUserRoleAfterRoleUpdate: (
       state: IUserState,
-      action: PayloadAction<IRole>
+      action: PayloadAction<IRoleReadDto>
     ) => {
       state.user.role = action.payload;
     },
@@ -197,7 +178,7 @@ export const userSlice = createSlice({
     },
     setSearchedUsers: (
       state: IUserState,
-      action: PayloadAction<PaginationResponse<IUser>>
+      action: PayloadAction<PaginationResponse<IUserReadDto>>
     ) => {
       state.searchedUsers = action.payload;
     },

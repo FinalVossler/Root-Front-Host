@@ -1,38 +1,38 @@
 import React from "react";
 import { AxiosResponse } from "axios";
 
-import PaginationCommand from "../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { entitySlice, IEntity } from "../../store/slices/entitySlice";
+import { entitySlice } from "../../store/slices/entitySlice";
 import { useAppDispatch } from "../../store/hooks";
-
-export type EntitiesSearchCommand = {
-  name: string;
-  modelId: string;
-  paginationCommand: PaginationCommand;
-};
+import {
+  IEntitiesSearchCommand,
+  IEntityReadDto,
+  IPaginationCommand,
+} from "roottypes";
 
 const useSearchEntities = () => {
-  const [selectedEntities, setSelectedEntities] = React.useState<IEntity[]>([]);
+  const [selectedEntities, setSelectedEntities] = React.useState<
+    IEntityReadDto[]
+  >([]);
 
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
   const handleSearchEntitiesPromise = (
     name: string,
-    paginationCommand: PaginationCommand,
+    paginationCommand: IPaginationCommand,
     modelId: string
   ) =>
-    new Promise<PaginationResponse<IEntity>>((resolve, _) => {
-      const command: EntitiesSearchCommand = {
+    new Promise<PaginationResponse<IEntityReadDto>>((resolve, _) => {
+      const command: IEntitiesSearchCommand = {
         paginationCommand: paginationCommand,
         name,
         modelId,
       };
 
       axios
-        .request<AxiosResponse<PaginationResponse<IEntity>>>({
+        .request<AxiosResponse<PaginationResponse<IEntityReadDto>>>({
           url: "/entities/search",
           method: "POST",
           data: command,
@@ -48,7 +48,7 @@ const useSearchEntities = () => {
         });
     });
 
-  const handleSelectEntity = (entity: IEntity) => {
+  const handleSelectEntity = (entity: IEntityReadDto) => {
     setSelectedEntities([{ ...entity }, ...selectedEntities]);
   };
 

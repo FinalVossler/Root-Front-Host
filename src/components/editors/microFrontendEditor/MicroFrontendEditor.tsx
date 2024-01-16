@@ -13,25 +13,26 @@ import { useAppSelector } from "../../../store/hooks";
 import Input from "../../input";
 import { ImCross } from "react-icons/im";
 import { FormikProps, useFormik } from "formik";
-import { IMicroFrontend } from "../../../store/slices/microFrontendSlice";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import { BiLabel } from "react-icons/bi";
-import useUpdateMicroFrontend, {
-  MicroFrontendComponentUpdateCommand,
-  MicroFrontendUpdateCommand,
-} from "../../../hooks/apiHooks/useUpdateMicroFrontend";
-import useCreateMicroFrontend, {
-  MicroFrontendCreateCommand,
-} from "../../../hooks/apiHooks/useCreateMicroFrontend";
+import useUpdateMicroFrontend from "../../../hooks/apiHooks/useUpdateMicroFrontend";
+import useCreateMicroFrontend from "../../../hooks/apiHooks/useCreateMicroFrontend";
+import {
+  IMicroFrontendComponentReadDto,
+  IMicroFrontendComponentUpdateCommand,
+  IMicroFrontendCreateCommand,
+  IMicroFrontendReadDto,
+  IMicroFrontendUpdateCommand,
+} from "roottypes";
 
 export interface IMicroFrontendForm {
   name: string;
   remoteEntry: string;
-  components: MicroFrontendComponentUpdateCommand[];
+  components: IMicroFrontendComponentUpdateCommand[];
 }
 
 export interface IMicroFrontendEditorProps {
-  microFrontend?: IMicroFrontend;
+  microFrontend?: IMicroFrontendReadDto;
   open?: boolean;
   setOpen?: (open: boolean) => void;
 }
@@ -70,7 +71,7 @@ const MicroFrontendEditor: React.FunctionComponent<
       }),
       onSubmit: async (values: IMicroFrontendForm) => {
         if (props.microFrontend) {
-          const command: MicroFrontendUpdateCommand = {
+          const command: IMicroFrontendUpdateCommand = {
             _id: props.microFrontend._id,
             name: values.name,
             remoteEntry: values.remoteEntry,
@@ -79,7 +80,7 @@ const MicroFrontendEditor: React.FunctionComponent<
 
           await updateMicroFrontend(command);
         } else {
-          const command: MicroFrontendCreateCommand = {
+          const command: IMicroFrontendCreateCommand = {
             name: values.name,
             remoteEntry: values.remoteEntry,
             components: values.components,
@@ -108,7 +109,10 @@ const MicroFrontendEditor: React.FunctionComponent<
       values: {
         name: props.microFrontend?.name || "",
         remoteEntry: props.microFrontend?.remoteEntry || "",
-        components: props.microFrontend?.components || [],
+        components:
+          (props.microFrontend?.components as
+            | IMicroFrontendComponentReadDto[]
+            | undefined) || [],
       },
     });
   }, [props.microFrontend]);
@@ -117,9 +121,9 @@ const MicroFrontendEditor: React.FunctionComponent<
   //#region Event listeners
 
   const handleAddComponent = () => {
-    const newComponent: MicroFrontendComponentUpdateCommand = {
+    const newComponent: IMicroFrontendComponentUpdateCommand = {
       name: "",
-      _id: undefined,
+      _id: "",
     };
     formik.setFieldValue("components", [
       ...formik.values.components,

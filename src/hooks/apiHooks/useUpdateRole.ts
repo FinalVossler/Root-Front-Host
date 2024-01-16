@@ -2,51 +2,27 @@ import { AxiosResponse } from "axios";
 import React from "react";
 
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import {
-  roleSlice,
-  IRole,
-  Permission,
-  StaticPermission,
-  EntityEventNotificationTrigger,
-} from "../../store/slices/roleSlice";
-import { IUser, userSlice } from "../../store/slices/userSlice";
+import { roleSlice } from "../../store/slices/roleSlice";
+import { userSlice } from "../../store/slices/userSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-
-type EntityEventNotificationUpdateCommand = {
-  _id?: string;
-  title: string;
-  text: string;
-  trigger: EntityEventNotificationTrigger;
-  language: string;
-};
-
-type EntityPermissionUpdateCommand = {
-  _id?: string;
-  modelId: string;
-  permissions: StaticPermission[];
-  entityFieldPermissions: {
-    fieldId: string;
-    permissions: StaticPermission[];
-  }[];
-  entityUserAssignmentPermissionsByRole: {
-    // used to also add the current role that's just been added
-    canAssignToUserFromSameRole: boolean;
-    otherRolesIds: string[];
-  };
-  entityEventNotifications: EntityEventNotificationUpdateCommand[];
-};
+import {
+  IEntityPermissionUpdateCommand,
+  IRoleReadDto,
+  IUserReadDto,
+  PermissionEnum,
+} from "roottypes";
 
 export type RoleUpdateCommand = {
   _id: string;
   name: string;
   language: string;
-  permissions: Permission[];
+  permissions: PermissionEnum[];
 
-  entityPermissions: EntityPermissionUpdateCommand[];
+  entityPermissions: IEntityPermissionUpdateCommand[];
 };
 
 const useUpdateRole = () => {
-  const user: IUser = useAppSelector((state) => state.user.user);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
 
   const [loading, setLoading] = React.useState(false);
 
@@ -58,17 +34,17 @@ const useUpdateRole = () => {
       setLoading(true);
 
       axios
-        .request<AxiosResponse<IRole>>({
+        .request<AxiosResponse<IRoleReadDto>>({
           url: "/roles",
           method: "PUT",
           data: command,
         })
         .then((res) => {
-          const role: IRole = res.data.data;
+          const role: IRoleReadDto = res.data.data;
           dispatch(roleSlice.actions.updateRole(role));
 
           // Updating user role
-          if (command._id === user.role?._id) {
+          if (command._id === (user.role as IRoleReadDto)?._id) {
             dispatch(userSlice.actions.updateUserRoleAfterRoleUpdate(role));
           }
           resolve(null);

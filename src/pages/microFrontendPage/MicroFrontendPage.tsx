@@ -6,8 +6,8 @@ import { ITheme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./microFrontendPage.styles";
-import { IEntity } from "../../store/slices/entitySlice";
-import { IMicroFrontend } from "../../store/slices/microFrontendSlice";
+import { IEntityReadDto } from "../../store/slices/entitySlice";
+import { IMicroFrontendReadDto } from "../../store/slices/microFrontendSlice";
 import useGetMicroFrontend from "../../hooks/apiHooks/useGetMicroFrontend";
 import { useNavigate, useParams } from "react-router-dom";
 import useGetEntity from "../../hooks/apiHooks/useGetEntity";
@@ -28,8 +28,8 @@ const MicroFrontendPage: React.FunctionComponent<IMicroFrontendPageProps> = (
 
   //#region local state
   const [microFrontend, setMicroFrontend] =
-    React.useState<IMicroFrontend | null>(null);
-  const [entity, setEntity] = React.useState<IEntity | null>(null);
+    React.useState<IMicroFrontendReadDto | null>(null);
+  const [entity, setEntity] = React.useState<IEntityReadDto | null>(null);
   const navigate = useNavigate();
 
   //#endregion local state

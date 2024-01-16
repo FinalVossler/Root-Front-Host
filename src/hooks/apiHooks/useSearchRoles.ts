@@ -1,15 +1,15 @@
 import React from "react";
 import { AxiosResponse } from "axios";
 
-import PaginationCommand from "../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { IRole, roleSlice } from "../../store/slices/roleSlice";
+import { roleSlice } from "../../store/slices/roleSlice";
 import { useAppDispatch } from "../../store/hooks";
+import { IPaginationCommand, IRoleReadDto } from "roottypes";
 
 export type RolesSearchCommand = {
   name: string;
-  paginationCommand: PaginationCommand;
+  paginationCommand: IPaginationCommand;
 };
 
 const useSearchRoles = (
@@ -17,23 +17,23 @@ const useSearchRoles = (
     setStoreAfterSearch: true,
   }
 ) => {
-  const [selectedRoles, setSelectedRoles] = React.useState<IRole[]>([]);
+  const [selectedRoles, setSelectedRoles] = React.useState<IRoleReadDto[]>([]);
 
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
   const handleSearchRolesPromise = (
     name: string,
-    paginationCommand: PaginationCommand
+    paginationCommand: IPaginationCommand
   ) =>
-    new Promise<PaginationResponse<IRole>>((resolve, _) => {
+    new Promise<PaginationResponse<IRoleReadDto>>((resolve, _) => {
       const command: RolesSearchCommand = {
         paginationCommand: paginationCommand,
         name,
       };
 
       axios
-        .request<AxiosResponse<PaginationResponse<IRole>>>({
+        .request<AxiosResponse<PaginationResponse<IRoleReadDto>>>({
           url: "/roles/search",
           method: "POST",
           data: command,
@@ -46,7 +46,7 @@ const useSearchRoles = (
         });
     });
 
-  const handleSelectRole = (role: IRole) => {
+  const handleSelectRole = (role: IRoleReadDto) => {
     setSelectedRoles([{ ...role }, ...selectedRoles]);
   };
 

@@ -3,17 +3,17 @@ import ReactLoading from "react-loading";
 
 import { ITheme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
-import { IPost, PostVisibility } from "../../store/slices/postSlice";
-import { IUser } from "../../store/slices/userSlice";
+import { IPost } from "../../store/slices/postSlice";
 
 import useStyles from "./userPosts.styles";
 import Post from "../post";
 import PostWrapper from "../postWrappers/postWrapper";
-import useGetPosts, { PostsGetCommand } from "../../hooks/apiHooks/useGetPosts";
+import useGetPosts from "../../hooks/apiHooks/useGetPosts";
+import { IPostsGetCommand, IUserReadDto, PostVisibilityEnum } from "roottypes";
 
 interface IUserPostsProps {
-  user: IUser;
-  visibilities?: PostVisibility[];
+  user: IUserReadDto;
+  visibilities?: PostVisibilityEnum[];
 }
 const UserPosts: React.FunctionComponent<IUserPostsProps> = (
   props: IUserPostsProps
@@ -34,12 +34,12 @@ const UserPosts: React.FunctionComponent<IUserPostsProps> = (
   React.useEffect(() => {
     if (!props.user._id) return;
 
-    const command: PostsGetCommand = {
+    const command: IPostsGetCommand = {
       userId: props.user._id,
       visibilities: props.visibilities || [
-        PostVisibility.Public,
-        PostVisibility.Private,
-        PostVisibility.Connections,
+        PostVisibilityEnum.Public,
+        PostVisibilityEnum.Private,
+        PostVisibilityEnum.Connections,
       ],
       paginationCommand: {
         page,

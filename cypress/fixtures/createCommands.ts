@@ -1,10 +1,12 @@
-import { FieldCreateCommand } from "../../src/hooks/apiHooks/useCreateField";
-import { ModelCreateCommand } from "../../src/hooks/apiHooks/useCreateModel";
-import { FieldType } from "../../src/store/slices/fieldSlice";
+import {
+  FieldTypeEnum,
+  IFieldCreateCommand,
+  IModelCreateCommand,
+} from "roottypes";
 
 export const createCreateFieldCommand = (
   fieldName: string
-): FieldCreateCommand => ({
+): IFieldCreateCommand => ({
   fieldEvents: [],
   name: fieldName,
   language: "en",
@@ -15,7 +17,7 @@ export const createCreateFieldCommand = (
     rows: [],
     yearTable: false,
   },
-  type: FieldType.Text,
+  type: FieldTypeEnum.Text,
   options: [],
 });
 
@@ -23,7 +25,7 @@ export const createCreateModelCommand = (
   modelName: string,
   fieldsIds: string[],
   requiredFieldsIds?: string[]
-): ModelCreateCommand => ({
+): IModelCreateCommand => ({
   language: "en",
   modelEvents: [],
   modelFields: fieldsIds.map((fieldId) => ({

@@ -1,16 +1,12 @@
 import { AxiosResponse } from "axios";
 import React from "react";
-import PaginationCommand from "../../globalTypes/PaginationCommand";
 
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { useAppDispatch } from "../../store/hooks";
-import { fieldSlice, IField } from "../../store/slices/fieldSlice";
+import { fieldSlice } from "../../store/slices/fieldSlice";
 
 import useAuthorizedAxios from "../useAuthorizedAxios";
-
-export type FieldsGetCommand = {
-  paginationCommand: PaginationCommand;
-};
+import { IFieldReadDto, IFieldsGetCommand } from "roottypes";
 
 const useGetFields = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -18,11 +14,11 @@ const useGetFields = () => {
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
-  const getFields = (command: FieldsGetCommand) =>
+  const getFields = (command: IFieldsGetCommand) =>
     new Promise((resolve, reject) => {
       setLoading(true);
       axios
-        .request<AxiosResponse<PaginationResponse<IField>>>({
+        .request<AxiosResponse<PaginationResponse<IFieldReadDto>>>({
           method: "POST",
           url: "/fields/getFields",
           data: command,

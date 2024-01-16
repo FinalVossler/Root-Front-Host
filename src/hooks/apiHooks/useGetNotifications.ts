@@ -1,20 +1,14 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import PaginationCommand from "../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useAppDispatch } from "../../store/hooks";
 import {
   notificationSlice,
-  INotification,
+  INotificationReadDto,
 } from "../../store/slices/notificationSlice";
-import { IUser } from "../../store/slices/userSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-
-export type NotificationsGetCommand = {
-  userId: string;
-  paginationCommand: PaginationCommand;
-};
+import { INotificationsGetCommand } from "roottypes";
 
 const useGetNotifications = () => {
   const [loading, setLoading] = React.useState<boolean>();
@@ -22,14 +16,14 @@ const useGetNotifications = () => {
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
-  const getNotifications = (command: NotificationsGetCommand) =>
+  const getNotifications = (command: INotificationsGetCommand) =>
     new Promise((resolve, reject) => {
       setLoading(true);
 
       axios
         .request<
           AxiosResponse<{
-            paginationResponse: PaginationResponse<INotification>;
+            paginationResponse: PaginationResponse<INotificationReadDto>;
             totalUnclicked;
           }>
         >({

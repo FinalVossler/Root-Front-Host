@@ -1,6 +1,5 @@
 import React from "react";
 import { ImCross } from "react-icons/im";
-import { AiFillPlusCircle } from "react-icons/ai";
 import { MdTitle } from "react-icons/md";
 import ReactLoading from "react-loading";
 import * as Yup from "yup";
@@ -12,7 +11,6 @@ import { useAppSelector } from "../../../store/hooks";
 import { IPost } from "../../../store/slices/postSlice";
 import { FormikProps, useFormik } from "formik";
 import Input from "../../input";
-import { IPage } from "../../../store/slices/pageSlice";
 import PostsEditor from "./postsEditor";
 
 import useStyles from "./pageEditor.styles";
@@ -20,15 +18,16 @@ import getNavigatorLanguage from "../../../utils/getNavigatorLanguage";
 import getLanguages from "../../../utils/getLanguages";
 import InputSelect from "../../inputSelect";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
-import useCreatePage, {
-  PageCreateCommand,
-} from "../../../hooks/apiHooks/useCreatePage";
-import useUpdatePage, {
-  PageUpdateCommand,
-} from "../../../hooks/apiHooks/useUpdatePage";
+import useCreatePage from "../../../hooks/apiHooks/useCreatePage";
+import useUpdatePage from "../../../hooks/apiHooks/useUpdatePage";
 import useHasPermission from "../../../hooks/useHasPermission";
-import { Permission } from "../../../store/slices/roleSlice";
 import Checkbox from "../../checkbox";
+import {
+  IPageCreateCommand,
+  IPageReadDto,
+  IPageUpdateCommand,
+  PermissionEnum,
+} from "roottypes";
 
 interface IPageEditorForm {
   title: string;
@@ -40,7 +39,7 @@ interface IPageEditorForm {
 }
 
 interface IPageEditorProps {
-  page?: IPage;
+  page?: IPageReadDto;
 
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -71,7 +70,7 @@ const PageEditor: React.FunctionComponent<IPageEditorProps> = (
         values: {
           title: getTranslatedText(props.page.title),
           slug: props.page.slug,
-          posts: props.page.posts.map((post) => post._id),
+          posts: (props.page.posts as IPost[]).map((post) => post._id),
           showInHeader: Boolean(props.page?.showInHeader),
           showInSideMenu: Boolean(props.page?.showInSideMenu),
           // Set the language to the navigator's language if the title contains a translated text in the same language as the navigator.
@@ -106,7 +105,7 @@ const PageEditor: React.FunctionComponent<IPageEditorProps> = (
         : Yup.mixed(),
     }),
     onSubmit: async (values) => {
-      let command: PageCreateCommand | PageUpdateCommand;
+      let command: IPageCreateCommand | IPageUpdateCommand;
 
       if (props.page) {
         command = {
@@ -154,8 +153,8 @@ const PageEditor: React.FunctionComponent<IPageEditorProps> = (
   };
   //#endregion Event listeners
 
-  if (!hasPermission(Permission.CreatePage) && !props.page) return null;
-  if (!hasPermission(Permission.UpdatePage) && props.page) return null;
+  if (!hasPermission(PermissionEnum.CreatePage) && !props.page) return null;
+  if (!hasPermission(PermissionEnum.UpdatePage) && props.page) return null;
 
   const loading = createLoading || updateLoading;
   return (

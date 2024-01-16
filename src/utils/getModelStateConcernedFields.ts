@@ -1,12 +1,16 @@
-import { IModel, IModelField, IModelState } from "../store/slices/modelSlice";
+import {
+  IModelReadDto,
+  IModelField,
+  IModelStateReadDto,
+} from "../store/slices/modelSlice";
 
 // Get the fields that are necessary to meet the model state conditions
 const getModelStateConcernedFields = ({
   model,
   modelState,
 }: {
-  model: IModel;
-  modelState: IModelState;
+  model: IModelReadDto;
+  modelState: IModelStateReadDto;
 }): IModelField[] => {
   const stateConcernedFields: IModelField[] = [];
   model.modelFields.forEach((modelField) => {

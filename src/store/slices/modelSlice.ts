@@ -1,72 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { IEvent } from "../../globalTypes/IEvent";
-import ITranslatedText from "../../globalTypes/ITranslatedText";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
-import { IField } from "./fieldSlice";
+import { IModelFieldReadDto, IModelReadDto } from "roottypes";
 
-export interface IModel {
-  _id: string;
-  name: ITranslatedText[];
-  modelFields: IModelField[];
-  modelEvents?: IEvent[];
-  states?: IModelState[];
-  subStates?: IModelState[];
-
-  createdAt: string;
-  updatedAt: string;
-}
-
-//#endregion model fields
-export interface IModelField {
-  field: IField;
-  required: boolean;
-  conditions?: IModelFieldCondition[];
-  states?: IModelState[];
-  mainField?: boolean;
-
+export interface IModelField extends IModelFieldReadDto {
   // used for frontend sorting only
-  uuid: string;
+  uuid?: string;
 }
 
-export enum ModelFieldConditionTypeEnum {
-  SuperiorTo = "SuperiorTo",
-  SuperiorOrEqualTo = "SuperiorOrEqualTo",
-  InferiorTo = "InferiorTo",
-  InferiorOrEqualTo = "InferiorOrEqualTo",
-  Equal = "Equal",
-  ValueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear = "ValueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear",
-  StateConditionsMet = "StateConditionsMet",
-  IfYearTableThenNumberOfYearsInTheFutureIsEqualToValueOfField = "IfYearTableThenNumberOfYearsInTheFutureIsEqualToValueOfField",
-}
-
-export interface IModelFieldCondition {
-  field?: IField;
-  conditionType: ModelFieldConditionTypeEnum;
-  value?: number | string;
-  modelState?: IModelState;
-}
 //#endregion model fields
-
-//#region model states
-export enum ModelStateType {
-  ParentState = "ParentState",
-  SubState = "SubState",
-}
-
-export interface IModelState {
-  _id: string;
-  name: ITranslatedText[];
-  stateType: ModelStateType;
-  // Means that it will block entities from showing in other states
-  exlusive?: boolean;
-}
-//#endregion model states
 
 export interface IModelStoreState {
-  models: IModel[];
+  models: IModelReadDto[];
   total: number;
-  searchedModels: PaginationResponse<IModel>;
+  searchedModels: PaginationResponse<IModelReadDto>;
 }
 
 const initialState: IModelStoreState = {
@@ -84,19 +31,25 @@ export const modelSlice = createSlice({
   reducers: {
     setModels: (
       state: IModelStoreState,
-      action: PayloadAction<{ models: IModel[]; total: number }>
+      action: PayloadAction<{ models: IModelReadDto[]; total: number }>
     ) => {
-      const models: IModel[] = action.payload.models;
+      const models: IModelReadDto[] = action.payload.models;
       const total: number = action.payload.total;
       state.models = models;
       state.total = total;
     },
-    addModel: (state: IModelStoreState, action: PayloadAction<IModel>) => {
-      const model: IModel = action.payload;
+    addModel: (
+      state: IModelStoreState,
+      action: PayloadAction<IModelReadDto>
+    ) => {
+      const model: IModelReadDto = action.payload;
       state.models.unshift(model);
     },
-    updateModel: (state: IModelStoreState, action: PayloadAction<IModel>) => {
-      const model: IModel = action.payload;
+    updateModel: (
+      state: IModelStoreState,
+      action: PayloadAction<IModelReadDto>
+    ) => {
+      const model: IModelReadDto = action.payload;
       state.models = state.models.map((m) => (m._id === model._id ? model : m));
       state.searchedModels.data = state.searchedModels.data.map((m) =>
         m._id === model._id ? model : m
@@ -117,7 +70,7 @@ export const modelSlice = createSlice({
     },
     setSearchedModels: (
       state: IModelStoreState,
-      action: PayloadAction<PaginationResponse<IModel>>
+      action: PayloadAction<PaginationResponse<IModelReadDto>>
     ) => {
       state.searchedModels = action.payload;
     },

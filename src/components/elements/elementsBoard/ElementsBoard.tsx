@@ -4,12 +4,7 @@ import Loading from "react-loading";
 import { ITheme } from "../../../config/theme";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../store/hooks";
-import { IEntity } from "../../../store/slices/entitySlice";
-import {
-  IModel,
-  IModelField,
-  IModelState,
-} from "../../../store/slices/modelSlice";
+import { IModelField } from "../../../store/slices/modelSlice";
 import { Element } from "../Elements";
 import doesEntityMeetModelStateCondition from "../../../utils/doesEntityMeetModelStateCondition";
 import getModelStateConcernedFields from "../../../utils/getModelStateConcernedFields";
@@ -17,10 +12,11 @@ import getModelStateConcernedFields from "../../../utils/getModelStateConcernedF
 import useStyles from "./elementsBoard.styles";
 import StateTracking from "../../postsComponents/stateTracking";
 import EntityCard from "./EntityCard";
+import { IEntityReadDto, IModelReadDto, IModelStateReadDto } from "roottypes";
 
 interface IElementsBoardProps {
   modelId: string;
-  entities: IEntity[];
+  entities: IEntityReadDto[];
   forStatusTracking: boolean;
 
   Editor: React.FunctionComponent<{
@@ -37,7 +33,7 @@ const ElementsBoard: React.FunctionComponent<IElementsBoardProps> = (
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
-  const model: IModel | undefined = useAppSelector(
+  const model: IModelReadDto | undefined = useAppSelector(
     (state) => state.model.models
   ).find((el) => el._id.toString() === props.modelId.toString());
 
@@ -49,8 +45,8 @@ const ElementsBoard: React.FunctionComponent<IElementsBoardProps> = (
     model?.modelFields.filter((modelField) => Boolean(modelField.mainField)) ||
     [];
   interface IBoardPattern {
-    modelState: IModelState;
-    entities: IEntity[];
+    modelState: IModelStateReadDto;
+    entities: IEntityReadDto[];
   }
   const boardPattern: IBoardPattern[] = React.useMemo(() => {
     if (!model) {
@@ -59,35 +55,40 @@ const ElementsBoard: React.FunctionComponent<IElementsBoardProps> = (
 
     const result: IBoardPattern[] = [];
 
-    let entitiesThatShouldntBeShownAgain: IEntity[] = [];
-    [...(model.states || [])].reverse().forEach((modelState) => {
-      const stateConcernedFields: IModelField[] = getModelStateConcernedFields({
-        model,
-        modelState,
-      });
-      const stateEntities: IEntity[] = props.entities
-        // Only show the entities that meet the model state conditions
-        .filter((entity) => {
-          let meetsModelStateCondition: boolean =
-            doesEntityMeetModelStateCondition({
-              entityFieldValues: entity.entityFieldValues,
-              stateConcernedFields,
-              getTranslatedText,
-              model,
-              entity,
-            });
+    let entitiesThatShouldntBeShownAgain: IEntityReadDto[] = [];
+    [...((model.states as IModelStateReadDto[]) || [])]
+      .reverse()
+      .forEach((modelState) => {
+        const stateConcernedFields: IModelField[] =
+          getModelStateConcernedFields({
+            model,
+            modelState,
+          });
+        const stateEntities: IEntityReadDto[] = props.entities
+          // Only show the entities that meet the model state conditions
+          .filter((entity) => {
+            let meetsModelStateCondition: boolean =
+              doesEntityMeetModelStateCondition({
+                entityFieldValues: entity.entityFieldValues,
+                stateConcernedFields,
+                getTranslatedText,
+                model,
+                entity,
+              });
 
-          return (
-            meetsModelStateCondition &&
-            !entitiesThatShouldntBeShownAgain.find((e) => e._id === entity._id)
-          );
-        });
-      if (modelState.exlusive) {
-        entitiesThatShouldntBeShownAgain =
-          entitiesThatShouldntBeShownAgain.concat(stateEntities);
-      }
-      result.push({ modelState: modelState, entities: stateEntities });
-    });
+            return (
+              meetsModelStateCondition &&
+              !entitiesThatShouldntBeShownAgain.find(
+                (e) => e._id === entity._id
+              )
+            );
+          });
+        if (modelState.exlusive) {
+          entitiesThatShouldntBeShownAgain =
+            entitiesThatShouldntBeShownAgain.concat(stateEntities);
+        }
+        result.push({ modelState: modelState, entities: stateEntities });
+      });
     result.reverse();
 
     return result;
@@ -119,10 +120,12 @@ const ElementsBoard: React.FunctionComponent<IElementsBoardProps> = (
                   />
                   <StateTracking
                     states={
-                      model.states?.map((modelState) => ({
-                        _id: modelState._id,
-                        stateName: getTranslatedText(modelState.name),
-                      })) || []
+                      (model.states as IModelStateReadDto[])?.map(
+                        (modelState) => ({
+                          _id: modelState._id,
+                          stateName: getTranslatedText(modelState.name),
+                        })
+                      ) || []
                     }
                     currentState={{
                       _id: modelState._id,
@@ -144,7 +147,7 @@ const ElementsBoard: React.FunctionComponent<IElementsBoardProps> = (
                   {getTranslatedText(modelState.name)}
                 </h3>
 
-                {entities.map((entity: IEntity) => {
+                {entities.map((entity: IEntityReadDto) => {
                   return (
                     <div
                       key={entity._id}

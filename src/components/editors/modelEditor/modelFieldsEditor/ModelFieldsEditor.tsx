@@ -9,17 +9,17 @@ import useSearchFields from "../../../../hooks/apiHooks/useSearchFields";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 
 import useStyles from "./modelFieldsEditor.styles";
-import { IField } from "../../../../store/slices/fieldSlice";
-import { IModel, IModelField } from "../../../../store/slices/modelSlice";
+import { IModelField } from "../../../../store/slices/modelSlice";
 import SortableModelField from "./sortableModelField";
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import { FormikProps } from "formik";
 import { IModelForm } from "../ModelEditor";
+import { IFieldReadDto, IModelReadDto } from "roottypes";
 
 interface IFieldsEditorProps {
   setSelectedModelFields: (modelFields: IModelField[]) => any;
   placeholder?: string;
-  model?: IModel;
+  model?: IModelReadDto;
   language?: string;
   formik: FormikProps<IModelForm>;
 }
@@ -98,7 +98,9 @@ const ModelFieldsEditor: React.FunctionComponent<IFieldsEditorProps> = (
               props.placeholder || getTranslatedText(staticText?.searchFields),
           }}
           searchPromise={handleSearchFieldsPromise}
-          getElementTitle={(field: IField) => getTranslatedText(field.name)}
+          getElementTitle={(field: IFieldReadDto) =>
+            getTranslatedText(field.name)
+          }
           onElementClick={handleSelectField}
           inputDataCy="modelFieldsSearchFieldInput"
         />
@@ -108,6 +110,7 @@ const ModelFieldsEditor: React.FunctionComponent<IFieldsEditorProps> = (
         <div className={styles.fieldsContainer} data-cy="modelFieldsContainer">
           <DndContext onDragEnd={handleDragEnd}>
             <SortableContext
+              // @ts-ignore
               items={selectedModelFields.map((modelField) => modelField.uuid)}
             >
               {selectedModelFields.map(

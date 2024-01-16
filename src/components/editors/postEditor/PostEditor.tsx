@@ -12,30 +12,29 @@ import WritePostButton from "../../write-post-button";
 import Modal from "../../modal";
 import { ITheme } from "../../../config/theme";
 import Button from "../../button";
-import IFile from "../../../globalTypes/IFile";
 import { useAppSelector } from "../../../store/hooks";
-import {
-  IPost,
-  PostDesign,
-  PostVisibility,
-} from "../../../store/slices/postSlice";
-import { IUser } from "../../../store/slices/userSlice";
+import { IPost } from "../../../store/slices/postSlice";
 import InputSelect from "../../inputSelect";
 import { Option } from "../../inputSelect/InputSelect";
 import Input from "../../input";
 import PostsEditor from "../pageEditor/postsEditor";
 import getLanguages from "../../../utils/getLanguages";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
-import useCreatePost, {
-  PostCreateCommand,
-} from "../../../hooks/apiHooks/useCreatePost";
-import useUpdatePost, {
-  PostUpdateCommand,
-} from "../../../hooks/apiHooks/useUpdatePost";
+import useCreatePost from "../../../hooks/apiHooks/useCreatePost";
+import useUpdatePost from "../../../hooks/apiHooks/useUpdatePost";
 import FilesInput from "../../filesInput";
 import { TypeOfFiles } from "../../existingFiles/ExistingFiles";
 import { BiCode } from "react-icons/bi";
-import { IPage } from "../../../store/slices/pageSlice";
+import {
+  IFileReadDto,
+  IPageReadDto,
+  IPostCreateCommand,
+  IPostReadDto,
+  IPostUpdateCommand,
+  IUserReadDto,
+  PostDesignEnum,
+  PostVisibilityEnum,
+} from "roottypes";
 
 interface IPostEditorProps {
   post?: IPost;
@@ -46,8 +45,8 @@ interface IPostEditorProps {
 const PostEditor: React.FunctionComponent<IPostEditorProps> = (
   props: IPostEditorProps
 ) => {
-  const user: IUser = useAppSelector((state) => state.user.user);
-  const pages: IPage[] = useAppSelector((state) => state.page.pages);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
+  const pages: IPageReadDto[] = useAppSelector((state) => state.page.pages);
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
@@ -65,13 +64,15 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
   const [code, setCode] = React.useState<string>("");
   const [language, setLanguage] = React.useState<string>(stateLanguage);
   const [children, setChildren] = React.useState<string[]>([]);
-  const [visibility, setVisibility] = React.useState<PostVisibility>(
-    PostVisibility.Public
+  const [visibility, setVisibility] = React.useState<PostVisibilityEnum>(
+    PostVisibilityEnum.Public
   );
-  const [design, setDesign] = React.useState<PostDesign>(PostDesign.Default);
+  const [design, setDesign] = React.useState<PostDesignEnum>(
+    PostDesignEnum.Default
+  );
   const [files, setFiles] = React.useState<File[]>([]);
   const [selectedExistingFiles, setSelectedExistingFiles] = React.useState<
-    IFile[]
+    IFileReadDto[]
   >([]);
   const [sunEditor, setSunEditor] = React.useState<SunEditorCore | undefined>(
     undefined
@@ -96,10 +97,12 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
       setTitle(getTranslatedText(props.post?.title, language));
       setCode(props.post.code || "");
       setSubtTitle(getTranslatedText(props.post.subTitle, language));
-      setChildren(props.post.children.map((c) => c._id));
+      setChildren((props.post.children as IPostReadDto[]).map((c) => c._id));
       setDesign(props.post?.design);
       setVisibility(props.post?.visibility);
-      setSelectedExistingFiles(props.post?.files);
+      setSelectedExistingFiles(
+        (props.post as IPostReadDto)?.files as IFileReadDto[]
+      );
       if (sunEditor && sunEditor.setContents) {
         sunEditor?.setContents(getTranslatedText(props.post.content, language));
       }
@@ -144,9 +147,9 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
 
     if (
       props.post &&
-      visibility === PostVisibility.Private &&
+      visibility === PostVisibilityEnum.Private &&
       pages.find((page) =>
-        page.posts.find(
+        (page.posts as IPostReadDto[]).find(
           (post) => post._id.toString() === props.post?._id.toString()
         )
       )
@@ -157,7 +160,7 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
     }
 
     if (props.post) {
-      const command: PostUpdateCommand = {
+      const command: IPostUpdateCommand = {
         _id: props.post?._id,
         title,
         subTitle,
@@ -171,7 +174,7 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
       };
       await updatePost(command, files, selectedExistingFiles);
     } else {
-      const command: PostCreateCommand = {
+      const command: IPostCreateCommand = {
         title,
         subTitle,
         posterId: user._id,
@@ -191,8 +194,8 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
       setTitle("");
       setSubtTitle("");
       setCode("");
-      setDesign(PostDesign.Default);
-      setVisibility(PostVisibility.Public);
+      setDesign(PostDesignEnum.Default);
+      setVisibility(PostVisibilityEnum.Public);
       setSelectedExistingFiles([]);
     }
 
@@ -213,11 +216,11 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
   };
 
   const handleVisibilityChange = (option: Option) => {
-    setVisibility(option.value as PostVisibility);
+    setVisibility(option.value as PostVisibilityEnum);
   };
 
   const handleDesignChange = (option: Option) => {
-    setDesign(option.value as PostDesign);
+    setDesign(option.value as PostDesignEnum);
   };
 
   const handleSetSelectedPosts = React.useCallback(
@@ -307,7 +310,7 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
           />
 
           <InputSelect
-            options={Object.values(PostVisibility).map((el) => ({
+            options={Object.values(PostVisibilityEnum).map((el) => ({
               value: el,
               label: el,
             }))}
@@ -317,7 +320,7 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
           />
 
           <InputSelect
-            options={Object.values(PostDesign).map((el) => ({
+            options={Object.values(PostDesignEnum).map((el) => ({
               value: el,
               label: el,
             }))}

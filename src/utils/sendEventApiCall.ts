@@ -1,16 +1,14 @@
 import { AxiosInstance } from "axios";
-
-import { IEvent } from "../globalTypes/IEvent";
-import { IEntity } from "../store/slices/entitySlice";
+import { IEntityReadDto, IEventReadDto } from "roottypes";
 
 const sendEventApiCall = async ({
   event,
   axios,
   createdOrUpdateEntity,
 }: {
-  event: IEvent;
+  event: IEventReadDto;
   axios: AxiosInstance;
-  createdOrUpdateEntity: IEntity | null;
+  createdOrUpdateEntity: IEntityReadDto | null;
 }) => {
   let bodyData: any = {};
   if (event.requestDataIsCreatedEntity) {

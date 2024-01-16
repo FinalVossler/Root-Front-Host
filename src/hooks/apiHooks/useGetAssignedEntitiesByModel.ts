@@ -3,10 +3,10 @@ import React from "react";
 
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { useAppDispatch } from "../../store/hooks";
-import { entitySlice, IEntity } from "../../store/slices/entitySlice";
+import { entitySlice, IEntityReadDto } from "../../store/slices/entitySlice";
 
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { EntitiesGetCommand } from "./useGetEntitiesByModel";
+import { IEntitiesGetCommand } from "roottypes";
 
 const useGetAssignedEntitiesByModel = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -14,11 +14,11 @@ const useGetAssignedEntitiesByModel = () => {
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
-  const getAssignedEntitiesByModel = (command: EntitiesGetCommand) =>
+  const getAssignedEntitiesByModel = (command: IEntitiesGetCommand) =>
     new Promise((resolve, reject) => {
       setLoading(true);
       axios
-        .request<AxiosResponse<PaginationResponse<IEntity>>>({
+        .request<AxiosResponse<PaginationResponse<IEntityReadDto>>>({
           method: "POST",
           url: "/entities/getAssignedEntitiesByModel",
           data: command,

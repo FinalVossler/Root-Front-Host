@@ -8,7 +8,6 @@ import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { ITheme } from "../../../../config/theme";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../store/hooks";
-import { FieldType } from "../../../../store/slices/fieldSlice";
 import Button from "../../../button";
 import Checkbox from "../../../checkbox";
 import { FieldTableElementForm, IFieldFormFormik } from "../FieldEditor";
@@ -18,6 +17,7 @@ import SortableColumnOrRow, {
   ColumnOrRow,
 } from "./sortableColumnOrRow/SortableColumnOrRow";
 import Input from "../../../input";
+import { FieldTypeEnum } from "roottypes";
 
 interface IFieldTableEditorProps {
   formik: FormikProps<IFieldFormFormik>;
@@ -103,7 +103,7 @@ const FieldTableEditor: React.FunctionComponent<IFieldTableEditorProps> = (
   };
   //#region event listeners
 
-  if (props.formik.values.type !== FieldType.Table) {
+  if (props.formik.values.type !== FieldTypeEnum.Table) {
     return null;
   }
 

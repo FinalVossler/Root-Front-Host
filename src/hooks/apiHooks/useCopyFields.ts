@@ -1,7 +1,7 @@
 import React from "react";
 
-import { IField } from "../../store/slices/fieldSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
+import { IFieldReadDto } from "roottypes";
 
 const useCopyFields = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -9,10 +9,10 @@ const useCopyFields = () => {
   const axios = useAuthorizedAxios();
 
   const copyFields = (ids: string[]) =>
-    new Promise<IField[]>(async (resolve, reject) => {
+    new Promise<IFieldReadDto[]>(async (resolve, reject) => {
       setLoading(true);
       try {
-        const fields: IField[] = await axios.request({
+        const fields: IFieldReadDto[] = await axios.request({
           url: "/fields/copy",
           method: "POST",
           data: {

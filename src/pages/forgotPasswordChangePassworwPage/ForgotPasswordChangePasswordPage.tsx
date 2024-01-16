@@ -11,11 +11,10 @@ import { useAppSelector } from "../../store/hooks";
 import useStyles from "./ForgotPasswordChangePasswordPage.styles";
 import { FormikProps, useFormik } from "formik";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
-import useForgotPasswordChangePassword, {
-  UserForgotPasswordChangePasswordCommand,
-} from "../../hooks/apiHooks/useForgotPasswordChangePassword";
+import useForgotPasswordChangePassword from "../../hooks/apiHooks/useForgotPasswordChangePassword";
 import Input from "../../components/input";
 import Button from "../../components/button";
+import { IUserForgotPasswordChangePasswordCommand } from "roottypes";
 
 interface IForgotPasswordChangePasswordFormik {
   newPassword: string;
@@ -59,7 +58,7 @@ const ForgotPasswordChangePasswordPage: React.FunctionComponent<
         ),
       }),
       onSubmit: async (values: IForgotPasswordChangePasswordFormik) => {
-        const command: UserForgotPasswordChangePasswordCommand = {
+        const command: IUserForgotPasswordChangePasswordCommand = {
           newPassword: values.newPassword,
           token: token || "",
         };

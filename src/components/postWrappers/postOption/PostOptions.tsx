@@ -8,11 +8,11 @@ import useAuthorizedAxios from "../../../hooks/useAuthorizedAxios";
 import useOnClickOutside from "../../../hooks/useOnClickOutside";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { IPost, postSlice } from "../../../store/slices/postSlice";
-import { IUser } from "../../../store/slices/userSlice";
 import ConfirmationModal from "../../confirmationModal";
 import PostEditor from "../../editors/postEditor";
 
 import useStyles from "./postOptions.styles";
+import { IUserReadDto } from "roottypes";
 
 interface IPostOptionsProps {
   post: IPost;
@@ -24,7 +24,7 @@ const PostWrapper: React.FunctionComponent<IPostOptionsProps> = (
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
-  const user: IUser = useAppSelector((state) => state.user.user);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
 
   const [optionsOpen, setOptionsOpen] = React.useState<boolean>(false);
   const [deletePostLoading, setDeletePostLoading] =
@@ -62,7 +62,7 @@ const PostWrapper: React.FunctionComponent<IPostOptionsProps> = (
   };
   //#endregion Event listeners
 
-  if (props.post.posterId.toString() !== user._id.toString()) {
+  if (props.post.poster.toString() !== user._id.toString()) {
     return null;
   }
 

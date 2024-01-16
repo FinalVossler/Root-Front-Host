@@ -2,12 +2,9 @@ import React from "react";
 import { Socket } from "socket.io-client";
 import { socketConnect } from "socket.io-react";
 
-import NotificationMessageEnum from "../../globalTypes/NotificationMessagesEnum";
 import { useAppDispatch } from "../../store/hooks";
-import {
-  INotification,
-  notificationSlice,
-} from "../../store/slices/notificationSlice";
+import { notificationSlice } from "../../store/slices/notificationSlice";
+import { INotificationReadDto, NotificationMessageEnum } from "roottypes";
 
 interface IWithNotifications {
   socket?: Socket;
@@ -25,7 +22,7 @@ const withNotifications = (Component: React.FunctionComponent<any>) =>
       if (notificationsListener.current === null) {
         notificationsListener.current = props.socket?.on(
           NotificationMessageEnum.Receive,
-          (notification: INotification) => {
+          (notification: INotificationReadDto) => {
             dispatch(
               notificationSlice.actions.addNotification({ notification })
             );

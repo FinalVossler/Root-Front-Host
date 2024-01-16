@@ -12,35 +12,33 @@ import { useAppSelector } from "../../../store/hooks";
 import Input from "../../input";
 import { ImCross } from "react-icons/im";
 import { FormikProps, useFormik } from "formik";
-import useCreateModel, {
-  ModelCreateCommand,
-} from "../../../hooks/apiHooks/useCreateModel";
+import useCreateModel from "../../../hooks/apiHooks/useCreateModel";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import InputSelect from "../../inputSelect";
 import getLanguages from "../../../utils/getLanguages";
-import {
-  IModel,
-  IModelField,
-  ModelStateType,
-} from "../../../store/slices/modelSlice";
-import useUpdateModel, {
-  ModelUpdateCommand,
-} from "../../../hooks/apiHooks/useUpdateModel";
+import { IModelField } from "../../../store/slices/modelSlice";
+import useUpdateModel from "../../../hooks/apiHooks/useUpdateModel";
 import ModelFieldsEditor from "./modelFieldsEditor";
 import EventsEditor from "../eventsEditor";
+import ModelStatesEditor from "./modelStatesEditor";
+import uuid from "react-uuid";
 import {
   EventTriggerEnum,
   EventTypeEnum,
-  IEvent,
-  IEventRequestHeader,
-} from "../../../globalTypes/IEvent";
-import ModelStatesEditor from "./modelStatesEditor";
-import uuid from "react-uuid";
+  IEventReadDto,
+  IEventRequestHeaderReadDto,
+  IFieldReadDto,
+  IModelCreateCommand,
+  IModelReadDto,
+  IModelStateReadDto,
+  IModelUpdateCommand,
+  ModelStateTypeEnum,
+} from "roottypes";
 
 export type ModelFormState = {
   _id?: string;
   name: string;
-  stateType: ModelStateType;
+  stateType: ModelStateTypeEnum;
   exclusive: boolean;
   language: string;
 
@@ -51,14 +49,14 @@ export type ModelFormState = {
 export interface IModelForm {
   name: string;
   modelFields: IModelField[];
-  modelEvents: IEvent[];
+  modelEvents: IEventReadDto[];
   states: ModelFormState[];
   subStates: ModelFormState[];
   language: string;
 }
 
 export interface IModelEditorProps {
-  model?: IModel;
+  model?: IModelReadDto;
   open?: boolean;
   setOpen?: (open: boolean) => void;
 }
@@ -98,21 +96,25 @@ const ModelEditor = (props: IModelEditorProps) => {
     }),
     onSubmit: async (values: IModelForm) => {
       if (props.model) {
-        const command: ModelUpdateCommand = {
+        const command: IModelUpdateCommand = {
           _id: props.model._id,
           name: values.name,
           modelFields:
             values.modelFields.map((modelField) => ({
-              fieldId: modelField.field._id || "",
+              fieldId: (modelField.field as IFieldReadDto)._id || "",
               required: modelField.required,
               conditions:
                 modelField.conditions?.map((condition) => ({
-                  fieldId: condition.field?._id || "",
+                  fieldId: (condition.field as IFieldReadDto)?._id || "",
                   conditionType: condition.conditionType,
                   value: condition.value ?? "",
-                  modelStateId: condition.modelState?._id,
+                  modelStateId: (condition.modelState as IModelStateReadDto)
+                    ?._id,
                 })) || [],
-              modelStatesIds: modelField.states?.map((el) => el._id) || [],
+              modelStatesIds:
+                (modelField.states as IModelStateReadDto[])?.map(
+                  (el) => el._id
+                ) || [],
               mainField: modelField.mainField || false,
             })) || [],
           modelEvents: values.modelEvents.map((modelEvent) => ({
@@ -147,20 +149,25 @@ const ModelEditor = (props: IModelEditorProps) => {
 
         await updateModel(command);
       } else {
-        const command: ModelCreateCommand = {
+        const command: IModelCreateCommand = {
           name: values.name,
+          // @ts-ignore
           modelFields:
             values.modelFields.map((modelField) => ({
-              fieldId: modelField.field._id || "",
+              fieldId: (modelField.field as IFieldReadDto)._id || "",
               required: modelField.required,
               conditions:
                 modelField.conditions?.map((condition) => ({
-                  fieldId: condition.field?._id || "",
+                  fieldId: (condition.field as IFieldReadDto)?._id || "",
                   conditionType: condition.conditionType,
                   value: condition.value ?? "",
-                  modelStateId: condition.modelState?._id,
+                  modelStateId: (condition.modelState as IModelStateReadDto)
+                    ?._id,
                 })) || [],
-              modelStatesIds: modelField.states?.map((el) => el._id) || [],
+              modelStatesIds:
+                (modelField.states as IModelStateReadDto[])?.map(
+                  (el) => el._id
+                ) || [],
               mainField: modelField.mainField || false,
             })) || [],
           modelEvents: values.modelEvents.map((modelEvent) => ({
@@ -207,7 +214,7 @@ const ModelEditor = (props: IModelEditorProps) => {
         modelFields:
           props.model?.modelFields.map((modelField) => ({
             ...modelField,
-            field: { ...modelField.field },
+            field: { ...(modelField.field as IFieldReadDto) },
             conditions:
               modelField?.conditions?.map((condition) => ({
                 value: condition.value,
@@ -230,8 +237,8 @@ const ModelEditor = (props: IModelEditorProps) => {
             ),
             requestHeaders:
               [
-                ...modelEvent.requestHeaders.map<IEventRequestHeader>(
-                  (header: IEventRequestHeader) => ({
+                ...modelEvent.requestHeaders.map<IEventRequestHeaderReadDto>(
+                  (header: IEventRequestHeaderReadDto) => ({
                     key: header.key,
                     value: header.value,
                   })
@@ -240,20 +247,26 @@ const ModelEditor = (props: IModelEditorProps) => {
           })) || [],
         states:
           props.model?.states?.map((modelState) => ({
-            _id: modelState._id,
+            _id: (modelState as IModelStateReadDto)._id,
             language: formik.values.language,
-            name: getTranslatedText(modelState.name, formik.values.language),
-            stateType: modelState.stateType,
-            exclusive: Boolean(modelState.exlusive),
+            name: getTranslatedText(
+              (modelState as IModelStateReadDto).name,
+              formik.values.language
+            ),
+            stateType: (modelState as IModelStateReadDto).stateType,
+            exclusive: Boolean((modelState as IModelStateReadDto).exlusive),
             uuid: uuid(),
           })) || [],
         subStates:
           props.model?.subStates?.map((modelSubState) => ({
-            _id: modelSubState._id,
+            _id: (modelSubState as IModelStateReadDto)._id,
             language: formik.values.language,
-            name: getTranslatedText(modelSubState.name, formik.values.language),
-            stateType: modelSubState.stateType,
-            exclusive: Boolean(modelSubState.exlusive),
+            name: getTranslatedText(
+              (modelSubState as IModelStateReadDto).name,
+              formik.values.language
+            ),
+            stateType: (modelSubState as IModelStateReadDto).stateType,
+            exclusive: Boolean((modelSubState as IModelStateReadDto).exlusive),
             uuid: uuid(),
           })) || [],
         language: formik.values.language,

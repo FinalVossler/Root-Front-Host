@@ -1,19 +1,10 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 import { useAppDispatch } from "../../store/hooks";
-import { IPage, pageSlice } from "../../store/slices/pageSlice";
+import { IPageReadDto, pageSlice } from "../../store/slices/pageSlice";
 
 import useAuthorizedAxios from "../useAuthorizedAxios";
-
-export type PageUpdateCommand = {
-  _id: string;
-  title: string;
-  slug?: string;
-  posts: string[];
-  showInHeader: boolean;
-  showInSideMenu: boolean;
-  language: string;
-};
+import { IPageUpdateCommand } from "roottypes";
 
 const useUpdatePage = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -21,18 +12,18 @@ const useUpdatePage = () => {
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
-  const updatePage = (command: PageUpdateCommand) =>
+  const updatePage = (command: IPageUpdateCommand) =>
     new Promise((resolve, reject) => {
       setLoading(true);
 
       axios
-        .request<AxiosResponse<IPage>>({
+        .request<AxiosResponse<IPageReadDto>>({
           url: "/pages",
           method: "PUT",
           data: command,
         })
         .then((res) => {
-          const page: IPage = res.data.data;
+          const page: IPageReadDto = res.data.data;
           dispatch(pageSlice.actions.updatePage(page));
           resolve(null);
         })

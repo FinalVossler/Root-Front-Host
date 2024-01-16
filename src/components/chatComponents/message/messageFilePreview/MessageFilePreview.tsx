@@ -2,16 +2,15 @@ import React from "react";
 
 import { ITheme } from "../../../../config/theme";
 import { useAppSelector } from "../../../../store/hooks";
-import IFile from "../../../../globalTypes/IFile";
 
 import useStyles from "./messageFilePreview.styles";
-import { IMessage } from "../../../../store/slices/chatSlice";
 import { CgClose } from "react-icons/cg";
 import getFileType, { FileTypeEnum } from "../../../../utils/getFileType";
+import { IFileReadDto, IMessageReadDto } from "roottypes";
 
 interface IMessageFilePreviewProps {
-  file: IFile;
-  message: IMessage;
+  file: IFileReadDto;
+  message: IMessageReadDto;
   onClose: () => void;
 }
 

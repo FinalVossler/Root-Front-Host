@@ -2,8 +2,9 @@ import { AxiosResponse } from "axios";
 import React from "react";
 
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { IUser, userSlice } from "../../store/slices/userSlice";
+import { userSlice } from "../../store/slices/userSlice";
 import useAxios from "../useAxios";
+import { IUserReadDto } from "roottypes";
 
 const useGetAndSetUser = () => {
   const token: string | undefined = useAppSelector(
@@ -16,7 +17,7 @@ const useGetAndSetUser = () => {
     if (!token || token === "") return;
 
     axios
-      .request<AxiosResponse<IUser>>({
+      .request<AxiosResponse<IUserReadDto>>({
         url: "/users/me",
         method: "GET",
         headers: {

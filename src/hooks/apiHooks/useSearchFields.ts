@@ -3,19 +3,19 @@ import { AxiosResponse } from "axios";
 import uuid from "react-uuid";
 import _ from "lodash";
 
-import PaginationCommand from "../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { IModel, IModelField } from "../../store/slices/modelSlice";
-import { fieldSlice, IField } from "../../store/slices/fieldSlice";
+import { IModelField } from "../../store/slices/modelSlice";
+import { fieldSlice } from "../../store/slices/fieldSlice";
 import { useAppDispatch } from "../../store/hooks";
+import {
+  IFieldReadDto,
+  IFieldsSearchCommand,
+  IModelReadDto,
+  IPaginationCommand,
+} from "roottypes";
 
-export type FieldsSearchCommand = {
-  name: string;
-  paginationCommand: PaginationCommand;
-};
-
-const useSearchFields = (model: IModel | undefined) => {
+const useSearchFields = (model: IModelReadDto | undefined) => {
   const [selectedModelFields, setSelectedModelFields] = React.useState<
     IModelField[]
   >([]);
@@ -53,23 +53,23 @@ const useSearchFields = (model: IModel | undefined) => {
   const handleSelectModelFields = (selected: IModelField[]) => {
     const result = _.uniqBy(
       selected,
-      (modelField: IModelField) => modelField.field._id
+      (modelField: IModelField) => (modelField.field as IFieldReadDto)._id
     );
     setSelectedModelFields(result);
   };
 
   const handleSearchFieldsPromise = (
     name: string,
-    paginationCommand: PaginationCommand
+    paginationCommand: IPaginationCommand
   ) =>
-    new Promise<PaginationResponse<IField>>((resolve, _) => {
-      const command: FieldsSearchCommand = {
+    new Promise<PaginationResponse<IFieldReadDto>>((resolve, _) => {
+      const command: IFieldsSearchCommand = {
         paginationCommand: paginationCommand,
         name,
       };
 
       axios
-        .request<AxiosResponse<PaginationResponse<IField>>>({
+        .request<AxiosResponse<PaginationResponse<IFieldReadDto>>>({
           url: "/fields/search",
           method: "POST",
           data: command,
@@ -80,7 +80,7 @@ const useSearchFields = (model: IModel | undefined) => {
         });
     });
 
-  const handleSelectField = (field: IField) => {
+  const handleSelectField = (field: IFieldReadDto) => {
     handleSelectModelFields([
       { field, required: false, uuid: uuid() },
       ...selectedModelFields,

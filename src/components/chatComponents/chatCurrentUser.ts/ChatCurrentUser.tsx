@@ -4,15 +4,15 @@ import { CgProfile } from "react-icons/cg";
 import { ITheme } from "../../../config/theme";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { chatSlice } from "../../../store/slices/chatSlice";
-import { IUser } from "../../../store/slices/userSlice";
 
 import useStyles from "./chatCurrentUser.styles";
+import { IFileReadDto, IUserReadDto } from "roottypes";
 
 interface IChatCurrentUserProps {}
 const ChatContact: React.FunctionComponent<IChatCurrentUserProps> = (
   props: IChatCurrentUserProps
 ) => {
-  const user: IUser = useAppSelector((state) => state.user.user);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
 
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
@@ -29,14 +29,14 @@ const ChatContact: React.FunctionComponent<IChatCurrentUserProps> = (
       onClick={handleCurrentUserClick}
       className={styles.chatCurrentUserContainer}
     >
-      {user.profilePicture?.url && (
+      {(user.profilePicture as IFileReadDto)?.url && (
         <img
-          src={user.profilePicture?.url}
+          src={(user.profilePicture as IFileReadDto)?.url}
           className={styles.currentUserAvatar}
         />
       )}
 
-      {!user.profilePicture?.url && (
+      {!(user.profilePicture as IFileReadDto)?.url && (
         <CgProfile className={styles.defaultAvatar} />
       )}
 

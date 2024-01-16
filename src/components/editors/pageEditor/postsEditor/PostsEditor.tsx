@@ -7,25 +7,24 @@ import { BsHandIndexFill } from "react-icons/bs";
 import { ITheme } from "../../../../config/theme";
 import { useAppSelector } from "../../../../store/hooks";
 import { IPost } from "../../../../store/slices/postSlice";
-import { IUser } from "../../../../store/slices/userSlice";
 import SearchInput from "../../../searchInput";
 import { AiFillDelete } from "react-icons/ai";
 import Post from "../../../post";
 import useSearchPosts from "../../../../hooks/apiHooks/useSearchPosts";
-import { IPage } from "../../../../store/slices/pageSlice";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 
 import useStyles from "./postsEditor.styles";
+import { IPageReadDto, IUserReadDto } from "roottypes";
 
 interface IPostsEditor {
   setSelectedPosts: (posts: IPost[]) => any;
   placeholder?: string;
-  page?: IPage;
+  page?: IPageReadDto;
   parentPost?: IPost;
 }
 
 const PostsEditor = (props: IPostsEditor) => {
-  const user: IUser = useAppSelector((state) => state.user.user);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
 
   const getTranslatedText = useGetTranslatedText();
 

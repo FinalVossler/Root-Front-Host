@@ -1,13 +1,13 @@
 import React from "react";
 
 import { useAppSelector } from "../../store/hooks";
-import IFile from "../../globalTypes/IFile";
 import UserProfilePicture from "../userProfilePicture";
 import { SizeEnum } from "../userProfilePicture/UserProfilePicture";
 
 import useStyles from "./writePostButton.styles";
 import { ITheme } from "../../config/theme";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
+import { IFileReadDto } from "roottypes";
 
 interface IWritePostButtonProps {
   onClick?: any;
@@ -16,8 +16,8 @@ interface IWritePostButtonProps {
 const WritePostButton: React.FunctionComponent<IWritePostButtonProps> = (
   props: IWritePostButtonProps
 ) => {
-  const profilePicture: IFile | undefined = useAppSelector(
-    (state) => state.user.user.profilePicture
+  const profilePicture: IFileReadDto | undefined = useAppSelector(
+    (state) => state.user.user.profilePicture as IFileReadDto
   );
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme

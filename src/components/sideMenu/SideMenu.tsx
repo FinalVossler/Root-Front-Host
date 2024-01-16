@@ -18,27 +18,29 @@ import WebsiteConfigurationEditor from "../editors/websiteConfigurationEditor";
 
 import useStyles from "./sideMenu.styles";
 import SideMenuOption from "./sideMenuOption";
-import useGetModels, {
-  ModelsGetCommand,
-} from "../../hooks/apiHooks/useGetModels";
-import { IModel } from "../../store/slices/modelSlice";
-import { IUser, SuperRole } from "../../store/slices/userSlice";
+import useGetModels from "../../hooks/apiHooks/useGetModels";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { FaPager } from "react-icons/fa";
 import { RiPagesLine, RiUserStarFill } from "react-icons/ri";
 import useHasPermission from "../../hooks/useHasPermission";
-import {
-  IRole,
-  Permission,
-  StaticPermission,
-} from "../../store/slices/roleSlice";
-import { IPage } from "../../store/slices/pageSlice";
 import { BiTask } from "react-icons/bi";
-import IFile from "../../globalTypes/IFile";
-import useGetRoles, { RolesGetCommand } from "../../hooks/apiHooks/useGetRoles";
+import useGetRoles from "../../hooks/apiHooks/useGetRoles";
 import { websiteConfigurationSlice } from "../../store/slices/websiteConfigurationSlice";
 import EntityEditor from "../editors/entityEditor";
 import { IEntityEditorProps } from "../editors/entityEditor/EntityEditor";
+import {
+  IEntityPermissionReadDto,
+  IFileReadDto,
+  IModelReadDto,
+  IModelsGetCommand,
+  IPageReadDto,
+  IRoleReadDto,
+  IRolesGetCommand,
+  IUserReadDto,
+  PermissionEnum,
+  StaticPermissionEnum,
+  SuperRoleEnum,
+} from "roottypes";
 
 interface ISideMenuProps {}
 
@@ -51,7 +53,7 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
   const title: string | undefined = useAppSelector(
     (state) => state.websiteConfiguration.title
   );
-  const websiteLogo2: IFile | undefined = useAppSelector(
+  const websiteLogo2: IFileReadDto | undefined = useAppSelector(
     (state) => state.websiteConfiguration.logo2
   );
   const withTaskManagement: boolean | undefined = useAppSelector(
@@ -63,16 +65,16 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
   const isSideMenuOpen: boolean = useAppSelector(
     (state) => state.userPreferences.isSideMenuOpen
   );
-  const models: IModel[] = useAppSelector((state) => state.model.models);
+  const models: IModelReadDto[] = useAppSelector((state) => state.model.models);
   const sideMenuExtendedModels: boolean = useAppSelector(
     (state) => state.userPreferences.sideMenuExtendedModels
   );
   const sideMenuExtendedUserRoles: boolean = useAppSelector(
     (state) => state.userPreferences.sideMenuExtendedUserRoles
   );
-  const user: IUser = useAppSelector((state) => state.user.user);
-  const pages: IPage[] = useAppSelector((state) => state.page.pages);
-  const roles: IRole[] = useAppSelector((state) => state.role.roles);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
+  const pages: IPageReadDto[] = useAppSelector((state) => state.page.pages);
+  const roles: IRoleReadDto[] = useAppSelector((state) => state.role.roles);
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
@@ -84,7 +86,7 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
 
   React.useEffect(() => {
     if (models.length === 0) {
-      const command: ModelsGetCommand = {
+      const command: IModelsGetCommand = {
         paginationCommand: {
           limit: 99999,
           page: 1,
@@ -97,10 +99,10 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
   // Get the roles in order to show users by roles
   React.useEffect(() => {
     if (
-      user.superRole === SuperRole.SuperAdmin ||
-      user.role?.permissions.indexOf(Permission.ReadRole)
+      user.superRole === SuperRoleEnum.SuperAdmin ||
+      (user.role as IRoleReadDto)?.permissions.indexOf(PermissionEnum.ReadRole)
     ) {
-      const command: RolesGetCommand = {
+      const command: IRolesGetCommand = {
         paginationCommand: {
           limit: 9999,
           page: 1,
@@ -122,10 +124,14 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
       models
         .filter(
           (m) =>
-            user.superRole === SuperRole.SuperAdmin ||
-            user.role?.entityPermissions
-              .find((e) => e.model._id === m._id)
-              ?.permissions.find((p) => p === StaticPermission.Read)
+            user.superRole === SuperRoleEnum.SuperAdmin ||
+            (
+              (user.role as IRoleReadDto)?.entityPermissions as
+                | IEntityPermissionReadDto[]
+                | undefined
+            )
+              ?.find((e) => (e.model as IModelReadDto)._id === m._id)
+              ?.permissions.find((p) => p === StaticPermissionEnum.Read)
         )
         .map((model) => ({
           Icon: SiElement,
@@ -142,7 +148,7 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
           ),
           dataCy: "sideMenuEntityOptionForModel" + model._id,
         })),
-    [user.superRole, user.role?.entityPermissions, models]
+    [user.superRole, (user.role as IRoleReadDto)?.entityPermissions, models]
   );
 
   return (
@@ -152,7 +158,7 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
       }
       data-cy="sideMenu"
     >
-      {hasPermission(Permission.EditConfiguration) && (
+      {hasPermission(PermissionEnum.EditConfiguration) && (
         <WebsiteConfigurationEditor />
       )}
 
@@ -162,7 +168,7 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
             <img src={websiteLogo2.url} className={styles.websiteLogo2} />
           )}
           {!websiteLogo2 && <span className={styles.appName}>{title}</span>}
-          {pages.map((page: IPage) => {
+          {pages.map((page: IPageReadDto) => {
             if (!page.showInSideMenu) return null;
             return (
               <SideMenuOption
@@ -173,7 +179,7 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
               />
             );
           })}
-          {hasPermission(Permission.EditConfiguration) && (
+          {hasPermission(PermissionEnum.EditConfiguration) && (
             <SideMenuOption
               Icon={BsFillGearFill}
               title={getTranslatedText(staticText?.configuration)}
@@ -194,14 +200,14 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
               link={"/tasks/"}
             />
           )}
-          {hasPermission(Permission.ReadPage) && (
+          {hasPermission(PermissionEnum.ReadPage) && (
             <SideMenuOption
               Icon={FaPager}
               title={getTranslatedText(staticText?.pages)}
               link="/pages"
             />
           )}
-          {hasPermission(Permission.ReadField) && (
+          {hasPermission(PermissionEnum.ReadField) && (
             <SideMenuOption
               Icon={MdTextFields}
               title={getTranslatedText(staticText?.fields)}
@@ -209,7 +215,7 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
               dataCy="sideMenuFieldOption"
             />
           )}
-          {hasPermission(Permission.ReadModel) && (
+          {hasPermission(PermissionEnum.ReadModel) && (
             <SideMenuOption
               link="/models"
               Icon={SiThemodelsresource}
@@ -222,28 +228,35 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
               dataCy="sideMenuModelOption"
             />
           )}
-          {!hasPermission(Permission.ReadModel) &&
-            user.role?.entityPermissions.map(
-              (entityPermission, entityPermissionIndex) => {
-                if (
-                  entityPermission.permissions.indexOf(
-                    StaticPermission.Read
-                  ) !== -1
-                ) {
-                  return (
-                    <SideMenuOption
-                      key={entityPermissionIndex}
-                      title={getTranslatedText(entityPermission.model.name)}
-                      link={"/entities/" + entityPermission.model._id}
-                      Icon={SiElement}
-                    />
-                  );
-                } else {
-                  return null;
-                }
+          {!hasPermission(PermissionEnum.ReadModel) &&
+            (
+              (user.role as IRoleReadDto)?.entityPermissions as
+                | IEntityPermissionReadDto[]
+                | undefined
+            )?.map((entityPermission, entityPermissionIndex) => {
+              if (
+                entityPermission.permissions.indexOf(
+                  StaticPermissionEnum.Read
+                ) !== -1
+              ) {
+                return (
+                  <SideMenuOption
+                    key={entityPermissionIndex}
+                    title={getTranslatedText(
+                      (entityPermission.model as IModelReadDto).name
+                    )}
+                    link={
+                      "/entities/" +
+                      (entityPermission.model as IModelReadDto)._id
+                    }
+                    Icon={SiElement}
+                  />
+                );
+              } else {
+                return null;
               }
-            )}
-          {hasPermission(Permission.ReadUser) && (
+            })}
+          {hasPermission(PermissionEnum.ReadUser) && (
             <SideMenuOption
               link="/users"
               Icon={BsPerson}
@@ -253,8 +266,10 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
                 dispatch(userPreferenceSlice.actions.triggerExtendedUserRoles())
               }
               subOptions={
-                user.superRole === SuperRole.SuperAdmin ||
-                user.role?.permissions.indexOf(Permission.ReadRole) !== -1
+                user.superRole === SuperRoleEnum.SuperAdmin ||
+                (user.role as IRoleReadDto)?.permissions.indexOf(
+                  PermissionEnum.ReadRole
+                ) !== -1
                   ? roles.map((role) => {
                       return {
                         Icon: AiOutlineUsergroupDelete,
@@ -267,7 +282,7 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
               dataCy="sideMenuUsersOption"
             />
           )}
-          {hasPermission(Permission.ReadRole) && (
+          {hasPermission(PermissionEnum.ReadRole) && (
             <SideMenuOption
               link="/roles"
               Icon={RiUserStarFill}
@@ -275,7 +290,7 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
               dataCy="sideMenuRoleOption"
             />
           )}
-          {hasPermission(Permission.ReadMicroFrontend) && (
+          {hasPermission(PermissionEnum.ReadMicroFrontend) && (
             <SideMenuOption
               Icon={MdTextFields}
               title={getTranslatedText(staticText?.microFrontends)}

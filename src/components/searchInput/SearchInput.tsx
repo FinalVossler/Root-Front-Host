@@ -7,15 +7,15 @@ import Input from "../input";
 import useStyles from "./searchInput.styles";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
-import PaginationCommand from "../../globalTypes/PaginationCommand";
 import { useAppSelector } from "../../store/hooks";
 import Pagination from "../pagination";
+import { IPaginationCommand } from "roottypes";
 
 interface ISearchInputProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
   searchPromise: (
     searchText: string,
-    paginationCommand: PaginationCommand
+    paginationCommand: IPaginationCommand
   ) => Promise<PaginationResponse<any>>;
   getElementTitle: (el: any) => string;
   onElementClick?: (el: any) => any;
@@ -32,7 +32,7 @@ const SearchInput: React.FunctionComponent<ISearchInputProps> = (
 ) => {
   const [value, setValue] = React.useState("");
   const [paginationCommand, setPaginationCommand] =
-    React.useState<PaginationCommand>({
+    React.useState<IPaginationCommand>({
       limit: LIMIT,
       page: 1,
     });

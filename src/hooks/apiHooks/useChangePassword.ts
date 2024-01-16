@@ -2,13 +2,8 @@ import React from "react";
 import { toast } from "react-toastify";
 import { useAppSelector } from "../../store/hooks";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import useAxios from "../useAxios";
 import useGetTranslatedText from "../useGetTranslatedText";
-
-export type UserChangePasswordCommand = {
-  oldPassword: string;
-  newPassword: string;
-};
+import { IUserChangePasswordCommand } from "roottypes";
 
 const useForgotPasswordChangePassword = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -19,7 +14,7 @@ const useForgotPasswordChangePassword = () => {
   const axios = useAuthorizedAxios();
   const getTranslatedText = useGetTranslatedText();
 
-  const changePassword = (command: UserChangePasswordCommand) =>
+  const changePassword = (command: IUserChangePasswordCommand) =>
     new Promise((resolve, reject) => {
       setLoading(true);
 

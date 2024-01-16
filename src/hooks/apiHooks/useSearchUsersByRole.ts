@@ -1,19 +1,16 @@
 import React from "react";
 import { AxiosResponse } from "axios";
 
-import PaginationCommand from "../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { IUser } from "../../store/slices/userSlice";
-import { UsersSearchCommand } from "./useSearchUsers";
-
-type UserSearchByRoleCommand = {
-  searchCommand: UsersSearchCommand;
-  roleId: string;
-};
+import {
+  IPaginationCommand,
+  IUserReadDto,
+  IUserSearchByRoleCommand,
+} from "roottypes";
 
 const useSearchUsersByRole = () => {
-  const [selectedUsers, setSelectedUsers] = React.useState<IUser[]>([]);
+  const [selectedUsers, setSelectedUsers] = React.useState<IUserReadDto[]>([]);
 
   const axios = useAuthorizedAxios();
 
@@ -21,10 +18,10 @@ const useSearchUsersByRole = () => {
     (roleId: string) =>
     (
       firstNameOrLastNameOrEmail: string,
-      paginationCommand: PaginationCommand
+      paginationCommand: IPaginationCommand
     ) =>
-      new Promise<PaginationResponse<IUser>>((resolve, _) => {
-        const command: UserSearchByRoleCommand = {
+      new Promise<PaginationResponse<IUserReadDto>>((resolve, _) => {
+        const command: IUserSearchByRoleCommand = {
           searchCommand: {
             paginationCommand: paginationCommand,
             firstNameOrLastNameOrEmail,
@@ -33,7 +30,7 @@ const useSearchUsersByRole = () => {
         };
 
         axios
-          .request<AxiosResponse<PaginationResponse<IUser>>>({
+          .request<AxiosResponse<PaginationResponse<IUserReadDto>>>({
             url: "/users/searchByRole",
             method: "POST",
             data: command,
@@ -43,7 +40,7 @@ const useSearchUsersByRole = () => {
           });
       });
 
-  const handleSelectUser = (user: IUser) => {
+  const handleSelectUser = (user: IUserReadDto) => {
     setSelectedUsers([{ ...user }, ...selectedUsers]);
   };
 

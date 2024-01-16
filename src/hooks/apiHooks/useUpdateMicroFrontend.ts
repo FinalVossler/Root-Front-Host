@@ -1,25 +1,10 @@
 import { AxiosResponse } from "axios";
 import React from "react";
-import { IEvent } from "../../globalTypes/IEvent";
 
 import { useAppDispatch } from "../../store/hooks";
-import {
-  microFrontendSlice,
-  IMicroFrontend,
-} from "../../store/slices/microFrontendSlice";
+import { microFrontendSlice } from "../../store/slices/microFrontendSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-
-export type MicroFrontendComponentUpdateCommand = {
-  _id?: string;
-  name: string;
-};
-
-export type MicroFrontendUpdateCommand = {
-  _id: string;
-  name: string;
-  remoteEntry: string;
-  components: MicroFrontendComponentUpdateCommand[];
-};
+import { IMicroFrontendReadDto, IMicroFrontendUpdateCommand } from "roottypes";
 
 const useUpdateMicroFrontend = () => {
   const [loading, setLoading] = React.useState(false);
@@ -27,18 +12,18 @@ const useUpdateMicroFrontend = () => {
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
-  const updateMicroFrontend = (command: MicroFrontendUpdateCommand) =>
+  const updateMicroFrontend = (command: IMicroFrontendUpdateCommand) =>
     new Promise(async (resolve, reject) => {
       setLoading(true);
 
       axios
-        .request<AxiosResponse<IMicroFrontend>>({
+        .request<AxiosResponse<IMicroFrontendReadDto>>({
           url: "/microFrontends",
           method: "PUT",
           data: command,
         })
         .then((res) => {
-          const microFrontend: IMicroFrontend = res.data.data;
+          const microFrontend: IMicroFrontendReadDto = res.data.data;
           dispatch(
             microFrontendSlice.actions.updateMicroFrontend(microFrontend)
           );

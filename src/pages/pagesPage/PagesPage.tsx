@@ -6,14 +6,13 @@ import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useHasPermission from "../../hooks/useHasPermission";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
-import { Permission } from "../../store/slices/roleSlice";
 
 import useStyles from "./pagesPage.styles";
 import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 import PageEditor from "../../components/editors/pageEditor";
-import { IPage } from "../../store/slices/pageSlice";
 import useDeletePages from "../../hooks/apiHooks/useDeletePages";
 import { FaDirections } from "react-icons/fa";
+import { IPageReadDto, PermissionEnum } from "roottypes";
 
 interface IPagesPageProps {}
 
@@ -36,13 +35,13 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
 
   if (!isLoggedIn) return null;
 
-  if (!hasPermission(Permission.ReadPage)) return null;
+  if (!hasPermission(PermissionEnum.ReadPage)) return null;
 
   return (
     <div className={styles.pagesPageContainer} data-cy="pagesPage">
       <Elements
         Editor={({ element, ...props }) => (
-          <PageEditor {...props} page={element as IPage} />
+          <PageEditor {...props} page={element as IPageReadDto} />
         )}
         columns={[
           {
@@ -63,7 +62,7 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
             RenderComponent: ({ element }) => {
               return (
                 <a
-                  href={"/dynamicPage/" + (element as IPage).slug}
+                  href={"/dynamicPage/" + (element as IPageReadDto).slug}
                   target="_blank"
                   rel="noreferrer"
                   className={styles.goIcon}
@@ -80,9 +79,9 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
         deletePromise={deletePages}
         deleteLoading={deleteLoading}
         getElementName={(field: any) => getTranslatedText(field.name)}
-        canCreate={hasPermission(Permission.CreateField)}
-        canUpdate={hasPermission(Permission.UpdateField)}
-        canDelete={hasPermission(Permission.DeleteField)}
+        canCreate={hasPermission(PermissionEnum.CreateField)}
+        canUpdate={hasPermission(PermissionEnum.UpdateField)}
+        canDelete={hasPermission(PermissionEnum.DeleteField)}
         elementsLocalStorageConfName={LocalStorageConfNameEnum.FIELDS}
         tableDataCy="pagesPage"
       />

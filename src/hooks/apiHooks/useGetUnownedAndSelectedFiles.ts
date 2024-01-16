@@ -1,14 +1,11 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import IFile from "../../globalTypes/IFile";
-import PaginationCommand from "../../globalTypes/PaginationCommand";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-
-export type FileGetUnownedAndSelectedFilesCommand = {
-  paginationCommand: PaginationCommand;
-  selectedFilesIds: string[];
-};
+import {
+  IFileGetUnownedAndSelectedFilesCommand,
+  IFileReadDto,
+} from "roottypes";
 
 const useGetUnownedAndSelectedFiles = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -16,19 +13,19 @@ const useGetUnownedAndSelectedFiles = () => {
   const axios = useAuthorizedAxios();
 
   const getUnownedAndSelectedFiles = (
-    command: FileGetUnownedAndSelectedFilesCommand
+    command: IFileGetUnownedAndSelectedFilesCommand
   ) =>
-    new Promise<{ files: IFile[]; total: number }>((resolve, reject) => {
+    new Promise<{ files: IFileReadDto[]; total: number }>((resolve, reject) => {
       setLoading(true);
 
       axios
-        .request<AxiosResponse<{ files: IFile[]; total: number }>>({
+        .request<AxiosResponse<{ files: IFileReadDto[]; total: number }>>({
           method: "POST",
           data: command,
           url: "/files/getUnOwnedAndSelectedFiles",
         })
         .then((res) => {
-          const files: IFile[] = res.data.data.files;
+          const files: IFileReadDto[] = res.data.data.files;
           const total: number = res.data.data.total;
           resolve({ files, total });
         })

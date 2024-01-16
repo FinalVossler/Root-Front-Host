@@ -8,22 +8,22 @@ import useOnClickOutside from "../../../../hooks/useOnClickOutside";
 import ConfirmationModal from "../../../confirmationModal";
 import useAuthorizedAxios from "../../../../hooks/useAuthorizedAxios";
 import {
-  IMessage,
   getConversationId,
   chatSlice,
-  ReactionEnum,
 } from "../../../../store/slices/chatSlice";
 import { toast } from "react-toastify";
 import { RxCrossCircled } from "react-icons/rx";
-import { IUser } from "../../../../store/slices/userSlice";
 import { HiOutlineEmojiHappy } from "react-icons/hi";
-import useCreateReaction, {
-  ReactionCreateCommand,
-} from "../../../../hooks/apiHooks/useCreateReaction";
-import Loading from "react-loading";
+import useCreateReaction from "../../../../hooks/apiHooks/useCreateReaction";
+import {
+  IMessageReadDto,
+  IReactionCreateCommand,
+  IUserReadDto,
+  ReactionEnum,
+} from "roottypes";
 
 interface IMessageOptionsProps {
-  message: IMessage;
+  message: IMessageReadDto;
 }
 
 const MessageOptions: React.FunctionComponent<IMessageOptionsProps> = (
@@ -32,7 +32,7 @@ const MessageOptions: React.FunctionComponent<IMessageOptionsProps> = (
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
-  const user: IUser = useAppSelector((state) => state.user.user);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
 
   //#region local state
   const [showOptions, setShowOptions] = React.useState<boolean>(false);
@@ -83,7 +83,7 @@ const MessageOptions: React.FunctionComponent<IMessageOptionsProps> = (
   const handleEmojiClick = async (emoji: ReactionEnum) => {
     setShowEmojiPicker(false);
 
-    const createReactionCommand: ReactionCreateCommand = {
+    const createReactionCommand: IReactionCreateCommand = {
       messageId: props.message._id.toString(),
       reaction: emoji,
     };

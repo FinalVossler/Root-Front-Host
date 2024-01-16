@@ -11,10 +11,10 @@ import {
   Conversation,
   getConversationId,
 } from "../../../store/slices/chatSlice";
-import { IUser } from "../../../store/slices/userSlice";
 import SearchInput from "../../searchInput";
 import useSearchUsers from "../../../hooks/apiHooks/useSearchUsers";
 import { BiPlus } from "react-icons/bi";
+import { IUserReadDto } from "roottypes";
 
 interface IChatBoxParticipantsOptionsProps {
   setShowOptions: (showOptions: boolean) => void;
@@ -35,14 +35,14 @@ const ChatBoxParticipantsOptions: React.FunctionComponent<
   const conversation: Conversation | undefined = useAppSelector(
     (state) => state.chat.conversations
   ).find((c) => c.id === props.conversationId);
-  const user: IUser = useAppSelector((state) => state.user.user);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
   //#endregion store
 
   //#region state
   const [createGroupSelected, setCreateGroupSelected] =
     React.useState<boolean>(false);
   const [newGroupParticipants, setNewGroupParticipants] = React.useState<
-    IUser[]
+    IUserReadDto[]
   >(
     conversation?.usersWithLastReadMessageInConversation?.filter(
       (u) => u._id.toString() !== user._id.toString()
@@ -64,14 +64,14 @@ const ChatBoxParticipantsOptions: React.FunctionComponent<
 
   //#region event listeners
   const handleSelectGroup = () => setCreateGroupSelected(!createGroupSelected);
-  const handleSelectSearchedUser = (u: IUser) => {
+  const handleSelectSearchedUser = (u: IUserReadDto) => {
     if (
       !newGroupParticipants.some((el) => el._id.toString() === u._id.toString())
     ) {
       setNewGroupParticipants([...newGroupParticipants, u]);
     }
   };
-  const handleDeleteNewGroupParticipant = (u: IUser) => {
+  const handleDeleteNewGroupParticipant = (u: IUserReadDto) => {
     const newNewGroupParticipants = newGroupParticipants.filter(
       (p) => p._id.toString() !== u._id.toString()
     );
@@ -123,7 +123,9 @@ const ChatBoxParticipantsOptions: React.FunctionComponent<
             {getTranslatedText(staticText?.searchContacts)}:
           </span>
           <SearchInput
-            getElementTitle={(u: IUser) => u.firstName + " " + u.lastName}
+            getElementTitle={(u: IUserReadDto) =>
+              u.firstName + " " + u.lastName
+            }
             searchPromise={handleSearchUsersPromise}
             onElementClick={handleSelectSearchedUser}
           />

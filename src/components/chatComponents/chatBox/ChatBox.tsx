@@ -2,32 +2,33 @@ import React from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 
 import { ITheme } from "../../../config/theme";
-import useLoadMessages, {
-  MessageGetBetweenUsersCommand,
-} from "../../../hooks/apiHooks/useLoadMessages";
+import useLoadMessages from "../../../hooks/apiHooks/useLoadMessages";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   chatSlice,
   Conversation,
   getConversationConversationalistsFromConversationId,
-  IMessage,
-  IPopulatedMessage,
   populatedMessageToMessage,
 } from "../../../store/slices/chatSlice";
-import { IUser } from "../../../store/slices/userSlice";
 import Button from "../../button";
 import ChatBoxParticipants from "../chatBoxParticipants/ChatBoxParticipants";
 import ChatInput from "../chatInput";
 import Message from "../message/Message";
 
 import useStyles from "./chatBox.styles";
-import useMarkAllConversationsMessagesAsReadByUser, {
-  MessageMarkAllMessagesAsReadByUserCommand,
-} from "../../../hooks/apiHooks/useMarkAllConversationMessagesAsReadByUser";
+import useMarkAllConversationsMessagesAsReadByUser from "../../../hooks/apiHooks/useMarkAllConversationMessagesAsReadByUser";
 import UserProfilePicture from "../../userProfilePicture";
 import { SizeEnum } from "../../userProfilePicture/UserProfilePicture";
 import { BsThreeDots } from "react-icons/bs";
 import useGetUsersWithTheirLastReadMessageInConversation from "../../../hooks/apiHooks/useGetUsersWithTheirLastReadMessageInConversation";
+import {
+  IFileReadDto,
+  IMessageGetBetweenUsersCommand,
+  IMessageMarkAllMessagesAsReadByUserCommand,
+  IMessageReadDto,
+  IPopulatedMessageReadDto,
+  IUserReadDto,
+} from "roottypes";
 
 export enum BoxType {
   SmallBox = "SmallBox",
@@ -44,11 +45,11 @@ const ChatBox: React.FunctionComponent<IChatBoxProps> = (
   props: IChatBoxProps
 ) => {
   //#region Store
-  const user: IUser = useAppSelector((state) => state.user.user);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
   const conversation: Conversation | undefined = useAppSelector(
     (state) => state.chat.conversations
   ).find((el) => el.id === props.conversationId);
-  const messages: IMessage[] =
+  const messages: IMessageReadDto[] =
     useAppSelector(
       (state) =>
         state.chat.conversations.find((el) => el.id === props.conversationId)
@@ -136,7 +137,7 @@ const ChatBox: React.FunctionComponent<IChatBoxProps> = (
 
   //#region Listeners
   const handleLoadMessages = async (whichPage: number) => {
-    const command: MessageGetBetweenUsersCommand = {
+    const command: IMessageGetBetweenUsersCommand = {
       usersIds: getConversationConversationalistsFromConversationId(
         props.conversationId
       ),
@@ -153,7 +154,7 @@ const ChatBox: React.FunctionComponent<IChatBoxProps> = (
   };
 
   const handleAddMessage = React.useCallback(
-    (populatedMessage: IPopulatedMessage) => {
+    (populatedMessage: IPopulatedMessageReadDto) => {
       dispatch(
         chatSlice.actions.addMessages({
           messages: [populatedMessageToMessage(populatedMessage)],
@@ -183,7 +184,7 @@ const ChatBox: React.FunctionComponent<IChatBoxProps> = (
   // Mark all unread messages as read when the chat messages box is clicked
   const handleMarkAllConversationMessagesAsRead = () => {
     if (unreadMessagesIds && unreadMessagesIds.length > 0) {
-      const command: MessageMarkAllMessagesAsReadByUserCommand = {
+      const command: IMessageMarkAllMessagesAsReadByUserCommand = {
         to: getConversationConversationalistsFromConversationId(
           props.conversationId
         ),
@@ -245,7 +246,7 @@ const ChatBox: React.FunctionComponent<IChatBoxProps> = (
           <div key={u._id.toString()} className={styles.typingUserContainer}>
             <UserProfilePicture
               size={SizeEnum.Small}
-              url={u.profilePicture?.url}
+              url={(u.profilePicture as IFileReadDto)?.url}
             />
             <div className={styles.typingUserIndicator}>
               <BsThreeDots color={theme.lightTextColor} />

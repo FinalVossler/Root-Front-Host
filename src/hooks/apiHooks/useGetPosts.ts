@@ -1,17 +1,10 @@
 import { AxiosResponse } from "axios";
 import React from "react";
-import PaginationCommand from "../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { useAppDispatch } from "../../store/hooks";
-import { IPost, postSlice, PostVisibility } from "../../store/slices/postSlice";
-import { IUser } from "../../store/slices/userSlice";
+import { IPost, postSlice } from "../../store/slices/postSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-
-export type PostsGetCommand = {
-  userId: string;
-  visibilities: PostVisibility[];
-  paginationCommand: PaginationCommand;
-};
+import { IPostsGetCommand, IUserReadDto } from "roottypes";
 
 const useGetPosts = () => {
   const [loading, setLoading] = React.useState<boolean>();
@@ -19,7 +12,7 @@ const useGetPosts = () => {
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
-  const getPosts = (command: PostsGetCommand, user: IUser) =>
+  const getPosts = (command: IPostsGetCommand, user: IUserReadDto) =>
     new Promise((resolve, reject) => {
       axios
         .request<AxiosResponse<PaginationResponse<IPost>>>({

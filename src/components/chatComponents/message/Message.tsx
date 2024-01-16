@@ -4,14 +4,7 @@ import { Socket } from "socket.io-client";
 
 import { ITheme } from "../../../config/theme";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import {
-  Conversation,
-  IMessage,
-  IReaction,
-  ReactionEnum,
-  chatSlice,
-} from "../../../store/slices/chatSlice";
-import { IUser } from "../../../store/slices/userSlice";
+import { Conversation, chatSlice } from "../../../store/slices/chatSlice";
 
 import useStyles from "./message.styles";
 import MessageOptions from "./messageOptions";
@@ -19,27 +12,36 @@ import moment from "moment";
 import getRelativeDate from "../../../utils/getRelativeDate";
 import UserProfilePicture from "../../userProfilePicture";
 import { SizeEnum } from "../../userProfilePicture/UserProfilePicture";
-import IFile from "../../../globalTypes/IFile";
 import { AiFillEye } from "react-icons/ai";
 import getFileType, { FileTypeEnum } from "../../../utils/getFileType";
 import { BsFiletypeJson } from "react-icons/bs";
+import {
+  IFieldReadDto,
+  IFileReadDto,
+  IMessageReadDto,
+  IReactionReadDto,
+  IUserReadDto,
+  ReactionEnum,
+} from "roottypes";
 
 interface IMessageComponentProps {
-  message: IMessage;
+  message: IMessageReadDto;
   socket: Socket;
   conversation: Conversation;
 }
 const Message: React.FunctionComponent<IMessageComponentProps> = (
   props: IMessageComponentProps
 ) => {
-  const user: IUser = useAppSelector((state) => state.user.user);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
 
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 
   const [mouseOver, setMouseOver] = React.useState<boolean>(false);
-  const [fileToPreview, setFileToPreview] = React.useState<IFile | null>(null);
+  const [fileToPreview, setFileToPreview] = React.useState<IFileReadDto | null>(
+    null
+  );
 
   const styles = useStyles({ theme });
   const dispatch = useAppDispatch();
@@ -105,7 +107,7 @@ const Message: React.FunctionComponent<IMessageComponentProps> = (
 
         {props.message.files.length > 0 && (
           <div className={styles.filesContainer}>
-            {props.message.files.map((file) => {
+            {(props.message.files as IFileReadDto[]).map((file) => {
               const fileType = getFileType(file);
 
               return (
@@ -178,7 +180,7 @@ const Message: React.FunctionComponent<IMessageComponentProps> = (
               : styles.otherExistingReactionsContainer
           }
         >
-          {props.message.reactions?.map((r, i) => (
+          {(props.message.reactions as IReactionReadDto[])?.map((r, i) => (
             <Reaction reaction={r} key={i} />
           ))}
         </div>
@@ -221,7 +223,7 @@ const Message: React.FunctionComponent<IMessageComponentProps> = (
                     <UserProfilePicture
                       key={u._id.toString()}
                       size={SizeEnum.VerySmall}
-                      url={u.profilePicture?.url}
+                      url={(u.profilePicture as IFileReadDto)?.url}
                     />
                     {readAt && (
                       <span
@@ -248,7 +250,7 @@ const Message: React.FunctionComponent<IMessageComponentProps> = (
 };
 
 interface IReactionComponent {
-  reaction: IReaction;
+  reaction: IReactionReadDto;
 }
 
 const Reaction: React.FunctionComponent<IReactionComponent> = React.memo(
@@ -286,16 +288,18 @@ const Reaction: React.FunctionComponent<IReactionComponent> = React.memo(
             style={{
               left: -(
                 ((
-                  props.reaction.user.firstName +
+                  (props.reaction.user as IUserReadDto).firstName +
                   " " +
-                  props.reaction.user.lastName
+                  (props.reaction.user as IUserReadDto).lastName
                 ).length *
                   9) /
                   2 || 0
               ),
             }}
           >
-            {props.reaction.user.firstName + " " + props.reaction.user.lastName}
+            {(props.reaction.user as IUserReadDto).firstName +
+              " " +
+              (props.reaction.user as IUserReadDto).lastName}
           </span>
         )}
       </span>

@@ -1,23 +1,19 @@
 import React from "react";
 import { AxiosResponse } from "axios";
 
-import PaginationCommand from "../../globalTypes/PaginationCommand";
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import {
-  IMicroFrontend,
-  microFrontendSlice,
-} from "../../store/slices/microFrontendSlice";
+import { microFrontendSlice } from "../../store/slices/microFrontendSlice";
 import { useAppDispatch } from "../../store/hooks";
-
-export type MicroFrontendsSearchCommand = {
-  name: string;
-  paginationCommand: PaginationCommand;
-};
+import {
+  IMicroFrontendReadDto,
+  IMicroFrontendsSearchCommand,
+  IPaginationCommand,
+} from "roottypes";
 
 const useSearchMicroFrontends = () => {
   const [selectedMicroFrontends, setSelectedMicroFrontends] = React.useState<
-    IMicroFrontend[]
+    IMicroFrontendReadDto[]
   >([]);
 
   const axios = useAuthorizedAxios();
@@ -25,16 +21,16 @@ const useSearchMicroFrontends = () => {
 
   const handleSearchMicroFrontendsPromise = (
     name: string,
-    paginationCommand: PaginationCommand
+    paginationCommand: IPaginationCommand
   ) =>
-    new Promise<PaginationResponse<IMicroFrontend>>((resolve, _) => {
-      const command: MicroFrontendsSearchCommand = {
+    new Promise<PaginationResponse<IMicroFrontendReadDto>>((resolve, _) => {
+      const command: IMicroFrontendsSearchCommand = {
         name,
         paginationCommand: paginationCommand,
       };
 
       axios
-        .request<AxiosResponse<PaginationResponse<IMicroFrontend>>>({
+        .request<AxiosResponse<PaginationResponse<IMicroFrontendReadDto>>>({
           url: "/microFrontends/search",
           method: "POST",
           data: command,
@@ -47,7 +43,7 @@ const useSearchMicroFrontends = () => {
         });
     });
 
-  const handleSelectMicroFrontend = (microFrontend: IMicroFrontend) => {
+  const handleSelectMicroFrontend = (microFrontend: IMicroFrontendReadDto) => {
     setSelectedMicroFrontends([
       { ...microFrontend },
       ...selectedMicroFrontends,

@@ -3,15 +3,10 @@ import React from "react";
 
 import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { useAppDispatch } from "../../store/hooks";
-import PaginationCommand from "../../globalTypes/PaginationCommand";
-import { IUser, userSlice } from "../../store/slices/userSlice";
+import { userSlice } from "../../store/slices/userSlice";
 
 import useAuthorizedAxios from "../useAuthorizedAxios";
-
-export type UsersGetCommand = {
-  paginationCommand: PaginationCommand;
-  roleId?: string;
-};
+import { IUserReadDto, IUsersGetCommand } from "roottypes";
 
 const useGetUsers = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -19,11 +14,11 @@ const useGetUsers = () => {
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
-  const getUsers = (command: UsersGetCommand) =>
+  const getUsers = (command: IUsersGetCommand) =>
     new Promise((resolve, reject) => {
       setLoading(true);
       axios
-        .request<AxiosResponse<PaginationResponse<IUser>>>({
+        .request<AxiosResponse<PaginationResponse<IUserReadDto>>>({
           method: "POST",
           url: "/users/getUsers",
           data: command,

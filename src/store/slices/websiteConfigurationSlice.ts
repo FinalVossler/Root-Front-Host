@@ -1,9 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import theme, { ITheme } from "../../config/theme";
-import IFile from "../../globalTypes/IFile";
-import ITranslatedText from "../../globalTypes/ITranslatedText";
 import changeTabIcon from "../../utils/changeTabIcon";
+import { IFileReadDto, ITranslatedText } from "roottypes";
 
 export interface IWebsiteConfiguration {
   _id?: string;
@@ -17,9 +16,9 @@ export interface IWebsiteConfiguration {
   withRegistration?: boolean;
   withTaskManagement?: boolean;
   theme: ITheme;
-  tabIcon?: IFile;
-  logo1?: IFile;
-  logo2?: IFile;
+  tabIcon?: IFileReadDto;
+  logo1?: IFileReadDto;
+  logo2?: IFileReadDto;
   staticText?: {
     profile: {
       alreadyHaveAnAccount: ITranslatedText[];
@@ -405,9 +404,9 @@ interface IWebsiteConfigurationState {
   withRegistration?: boolean;
   withTaskManagement?: boolean;
   theme: ITheme;
-  tabIcon?: IFile;
-  logo1?: IFile;
-  logo2?: IFile;
+  tabIcon?: IFileReadDto;
+  logo1?: IFileReadDto;
+  logo2?: IFileReadDto;
 
   staticText?: IWebsiteConfiguration["staticText"];
 

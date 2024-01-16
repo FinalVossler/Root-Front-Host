@@ -3,8 +3,8 @@ import React from "react";
 
 import { useAppDispatch } from "../../store/hooks";
 import { notificationSlice } from "../../store/slices/notificationSlice";
-import { IUser } from "../../store/slices/userSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
+import { IUserReadDto } from "roottypes";
 
 const useSetNotificationToClickedBy = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -17,7 +17,7 @@ const useSetNotificationToClickedBy = () => {
     currentUser,
   }: {
     notificationId: string;
-    currentUser: IUser;
+    currentUser: IUserReadDto;
   }) =>
     new Promise<AxiosResponse<void>>((resolve, reject) => {
       setLoading(true);

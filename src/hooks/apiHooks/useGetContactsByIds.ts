@@ -1,8 +1,8 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import { IUser } from "../../store/slices/userSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
+import { IUserReadDto } from "roottypes";
 
 const useGetContactsByIds = () => {
   const [loading, setLoading] = React.useState<boolean>();
@@ -10,14 +10,14 @@ const useGetContactsByIds = () => {
   const axios = useAuthorizedAxios();
 
   const getContactsByIds = (usersIds: string[]) =>
-    new Promise<IUser[]>((resolve, reject) => {
+    new Promise<IUserReadDto[]>((resolve, reject) => {
       setLoading(true);
       axios
-        .request<AxiosResponse<IUser[]>>({
-          method: "GET",
+        .request<AxiosResponse<IUserReadDto[]>>({
+          method: "POST",
           url: "/users/getContactsByIds",
-          params: {
-            usersIds: usersIds.join(","),
+          data: {
+            usersIds,
           },
         })
         .then((res) => {
