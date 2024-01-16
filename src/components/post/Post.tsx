@@ -29,12 +29,10 @@ import EntitiesList from "../../pages/entitiesPage/entitiesList";
 import FullWidthPicture from "../postsComponents/fullWidthPicture";
 import { IFileReadDto, PostDesignEnum } from "roottypes";
 
-interface IUserPostsProps {
+interface IPostProps {
   post: IPost;
 }
-const UserPosts: React.FunctionComponent<IUserPostsProps> = (
-  props: IUserPostsProps
-) => {
+const Post: React.FunctionComponent<IPostProps> = (props: IPostProps) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
@@ -240,4 +238,4 @@ const UserPosts: React.FunctionComponent<IUserPostsProps> = (
   );
 };
 
-export default React.memo(UserPosts);
+export default React.memo(Post);

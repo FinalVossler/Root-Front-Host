@@ -1,12 +1,11 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import IFile from "../../globalTypes/IFile";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { IPost, postSlice } from "../../store/slices/postSlice";
 import uploadFiles from "../../utils/uploadFiles";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { IPostCreateCommand, IUserReadDto } from "roottypes";
+import { IFileReadDto, IPostCreateCommand, IUserReadDto } from "roottypes";
 
 const useCreatePost = () => {
   const user: IUserReadDto = useAppSelector((state) => state.user.user);
@@ -19,12 +18,12 @@ const useCreatePost = () => {
   const createPost = (
     command: IPostCreateCommand,
     newFiles: File[],
-    existingFiles: IFile[]
+    existingFiles: IFileReadDto[]
   ) =>
     new Promise(async (resolve, reject) => {
       setLoading(true);
 
-      let filesToSend: IFile[] = await uploadFiles(newFiles);
+      let filesToSend: IFileReadDto[] = await uploadFiles(newFiles);
       filesToSend = filesToSend.concat(existingFiles);
 
       command.files = filesToSend;

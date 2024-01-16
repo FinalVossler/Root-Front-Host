@@ -9,6 +9,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     position: "relative",
     marginBottom: 10,
     flex: 1,
+    boxSizing: "border-box",
 
     "& svg": {
       color: theme.primary,
@@ -19,7 +20,8 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     extend: "inputContainer",
 
     "& input": {
-      borderBottom: "1px solid " + theme.primary,
+      // borderBottom: "1px solid " + theme.primary,
+      boxShadow: "none",
     },
     "& svg": {
       opacity: 1,
@@ -28,6 +30,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   labelAndInputContainer: {
     display: "flex",
     alignItems: "center",
+    boxSizing: "border-box",
     flex: 1,
   },
   labelAndInputDisabled: {

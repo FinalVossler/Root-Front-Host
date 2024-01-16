@@ -71,6 +71,7 @@ const PostWrapper: React.FunctionComponent<IPostOptionsProps> = (
       <BsThreeDots
         onClick={handlePostOptionsOpen}
         className={styles.postOptionsButton}
+        data-cy={"postOptionsForButtonForPost" + props.post._id}
       />
       {optionsOpen && (
         <div
@@ -81,12 +82,14 @@ const PostWrapper: React.FunctionComponent<IPostOptionsProps> = (
             className={styles.option}
             onClick={() => setDeletePostModalOpen(true)}
             style={{ marginBottom: 5 }}
+            data-cy={"deleteButtonForPost" + props.post._id}
           >
             Delete
           </div>
           <div
             className={styles.option}
             onClick={() => setEditPostModalOpen(true)}
+            data-cy={"editButtonForPost" + props.post._id}
           >
             Edit
           </div>

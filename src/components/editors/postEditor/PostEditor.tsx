@@ -134,7 +134,7 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const content: string | undefined = sunEditor?.getContents(true);
+    const content: string = sunEditor?.getContents(true) || "";
 
     if (
       (!content || content.trim() === "<p><br></p>") &&
@@ -254,6 +254,7 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
         <form
           onSubmit={handleSubmit}
           className={styles.createPostModalContainer}
+          data-cy="postForm"
         >
           <div className={styles.createPostHeader}>
             <h2 className={styles.createPostTitle}>
@@ -273,6 +274,7 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
               onChange: handleTitleChange,
               placeholder: getTranslatedText(staticText?.title),
             }}
+            inputDataCy="postTitleInput"
           />
 
           <Input
@@ -282,6 +284,7 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
               onChange: handleSubTitleChange,
               placeholder: getTranslatedText(staticText?.subTitle),
             }}
+            inputDataCy="postSubTitleInput"
           />
 
           <Input
@@ -291,6 +294,7 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
               onChange: handleCodeChange,
               placeholder: getTranslatedText(staticText?.code),
             }}
+            inputDataCy="postCodeInput"
           />
 
           <PostsEditor
@@ -317,6 +321,7 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
             label={getTranslatedText(staticText?.visibility)}
             onChange={handleVisibilityChange}
             value={{ value: visibility, label: visibility.toString() }}
+            selectorClassName="postVisibilityInput"
           />
 
           <InputSelect
@@ -327,6 +332,7 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
             label={getTranslatedText(staticText?.design)}
             onChange={handleDesignChange}
             value={{ value: design, label: design.toString() }}
+            selectorClassName="postDesignInput"
           />
 
           <SunEditor
@@ -349,6 +355,7 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
               type="submit"
               style={{}}
               className={styles.button}
+              buttonDataCy="submitPost"
             >
               {getTranslatedText(staticText?.submit)}
             </Button>

@@ -33,7 +33,11 @@ const WritePostButton: React.FunctionComponent<IWritePostButtonProps> = (
     <div className={styles.writePostButtonContainer}>
       <UserProfilePicture url={profilePicture?.url} size={SizeEnum.Big} />
 
-      <div onClick={props.onClick} className={styles.placeholder}>
+      <div
+        onClick={props.onClick}
+        className={styles.placeholder}
+        data-cy="writePostButton"
+      >
         {getTranslatedText(staticText?.haveSomethingInMind)}
       </div>
     </div>

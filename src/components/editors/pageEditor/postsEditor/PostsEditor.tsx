@@ -73,6 +73,7 @@ const PostsEditor = (props: IPostsEditor) => {
         searchPromise={handleSearchPostsPromise}
         getElementTitle={(post: IPost) => getTranslatedText(post.title)}
         onElementClick={handleSelectPost}
+        inputDataCy="postsEditorSearchInput"
       />
 
       <div className={styles.postsContainer}>
@@ -122,6 +123,7 @@ const SortablePost: React.FunctionComponent<ISortablePost> = (
       ref={setNodeRef}
       style={sorteStyles}
       className={styles.singlePostContainer}
+      data-cy={"sortablePost" + props.post._id}
     >
       <BsHandIndexFill
         color={theme.primary}

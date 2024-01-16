@@ -10,11 +10,11 @@ import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import PostEditor from "../../components/editors/postEditor";
 import UserPosts from "../../components/userPosts";
 import { useAppSelector } from "../../store/hooks";
-import { IUserReadDto } from "../../store/slices/userSlice";
 import { useParams } from "react-router-dom";
 import useGetUser from "../../hooks/apiHooks/useGetUser";
 import UserProfilePicture from "../../components/userProfilePicture";
 import { SizeEnum } from "../../components/userProfilePicture/UserProfilePicture";
+import { IFileReadDto, IUserReadDto } from "roottypes";
 
 interface IProfilePageProps {}
 const ProfilePage: React.FunctionComponent<IProfilePageProps> = (
@@ -81,7 +81,7 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = (
             <div className={styles.userProfilePicAndName}>
               <UserProfilePicture
                 size={SizeEnum.Big}
-                url={actualUser.profilePicture?.url}
+                url={(actualUser.profilePicture as IFileReadDto)?.url}
               />
               <span className={styles.userFullName}>
                 {actualUser.firstName + " " + actualUser.lastName}

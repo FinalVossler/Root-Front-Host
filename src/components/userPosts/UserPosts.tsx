@@ -52,7 +52,7 @@ const UserPosts: React.FunctionComponent<IUserPostsProps> = (
   if (posts?.length === 0) return null;
 
   return (
-    <div className={styles.userPostsContainer}>
+    <div className={styles.userPostsContainer} data-cy="userPosts">
       {postsLoading && <ReactLoading />}
 
       {!postsLoading &&

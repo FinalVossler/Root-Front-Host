@@ -18,8 +18,8 @@ const getTranslatedText =
       (el) => el.language === language
     );
 
-    if (result && result.text.trim() !== "<p><br></p>") {
-      return result.text;
+    if (result && result.text?.trim() !== "<p><br></p>") {
+      return result.text || "";
     } else {
       return translatedTexts.length > 0 ? translatedTexts[0].text : "";
     }

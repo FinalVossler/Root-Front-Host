@@ -1,6 +1,7 @@
 import {
   IFieldCreateCommand,
   IModelCreateCommand,
+  IPostCreateCommand,
   IRoleCreateCommand,
   IUserCreateCommand,
   IUserLoginCommand,
@@ -54,6 +55,22 @@ Cypress.Commands.add("sendCreateFileRequest", (url: string, callback) => {
     }).then(callback);
   });
 });
+
+Cypress.Commands.add(
+  "sendCreatePostRequest",
+  (command: IPostCreateCommand, callback) => {
+    cy.get("@adminToken").then((adminToken) => {
+      cy.request({
+        method: "POST",
+        body: command,
+        url: Cypress.env("backendUrl") + "/posts/",
+        headers: {
+          Authorization: "Bearer " + adminToken,
+        },
+      }).then(callback);
+    });
+  }
+);
 
 Cypress.Commands.add(
   "sendCreateFieldRequest",
@@ -155,6 +172,10 @@ declare global {
         selectorClassName: string,
         elementIndex: number
       ): Chainable;
+      sendCreatePostRequest(
+        command: IPostCreateCommand,
+        callback: (res: any) => void
+      );
       sendCreateFieldRequest(
         command: IFieldCreateCommand,
         callback: (res: any) => void
