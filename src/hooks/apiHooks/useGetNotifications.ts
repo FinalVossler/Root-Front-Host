@@ -1,14 +1,14 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { useAppDispatch } from "../../store/hooks";
-import {
-  notificationSlice,
-  INotificationReadDto,
-} from "../../store/slices/notificationSlice";
+import { notificationSlice } from "../../store/slices/notificationSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { INotificationsGetCommand } from "roottypes";
+import {
+  INotificationReadDto,
+  INotificationsGetCommand,
+  IPaginationResponse,
+} from "roottypes";
 
 const useGetNotifications = () => {
   const [loading, setLoading] = React.useState<boolean>();
@@ -23,7 +23,7 @@ const useGetNotifications = () => {
       axios
         .request<
           AxiosResponse<{
-            paginationResponse: PaginationResponse<INotificationReadDto>;
+            paginationResponse: IPaginationResponse<INotificationReadDto>;
             totalUnclicked;
           }>
         >({

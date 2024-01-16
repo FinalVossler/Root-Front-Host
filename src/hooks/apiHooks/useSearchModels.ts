@@ -1,7 +1,6 @@
 import React from "react";
 import { AxiosResponse } from "axios";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 import { modelSlice } from "../../store/slices/modelSlice";
 import { useAppDispatch } from "../../store/hooks";
@@ -9,6 +8,7 @@ import {
   IModelReadDto,
   IModelsSearchCommand,
   IPaginationCommand,
+  IPaginationResponse,
 } from "roottypes";
 
 const useSearchModels = () => {
@@ -23,14 +23,14 @@ const useSearchModels = () => {
     name: string,
     paginationCommand: IPaginationCommand
   ) =>
-    new Promise<PaginationResponse<IModelReadDto>>((resolve, _) => {
+    new Promise<IPaginationResponse<IModelReadDto>>((resolve, _) => {
       const command: IModelsSearchCommand = {
         paginationCommand: paginationCommand,
         name,
       };
 
       axios
-        .request<AxiosResponse<PaginationResponse<IModelReadDto>>>({
+        .request<AxiosResponse<IPaginationResponse<IModelReadDto>>>({
           url: "/models/search",
           method: "POST",
           data: command,

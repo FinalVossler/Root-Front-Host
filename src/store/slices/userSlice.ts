@@ -7,8 +7,12 @@ import {
   TIME_FORMAT,
 } from "../../config/constants";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
-import { IRoleReadDto, IUserReadDto, SuperRoleEnum } from "roottypes";
+import {
+  IPaginationResponse,
+  IRoleReadDto,
+  IUserReadDto,
+  SuperRoleEnum,
+} from "roottypes";
 
 export type TokenInformation = {
   value: string;
@@ -21,7 +25,7 @@ export interface IUserState {
   tokenInformation: TokenInformation;
   users: IUserReadDto[];
   total: number;
-  searchedUsers: PaginationResponse<IUserReadDto>;
+  searchedUsers: IPaginationResponse<IUserReadDto>;
 }
 
 // Initializing the token from local storage
@@ -178,7 +182,7 @@ export const userSlice = createSlice({
     },
     setSearchedUsers: (
       state: IUserState,
-      action: PayloadAction<PaginationResponse<IUserReadDto>>
+      action: PayloadAction<IPaginationResponse<IUserReadDto>>
     ) => {
       state.searchedUsers = action.payload;
     },

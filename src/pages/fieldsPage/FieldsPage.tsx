@@ -3,7 +3,6 @@ import React from "react";
 import FieldEditor from "../../components/editors/fieldEditor";
 import Elements from "../../components/elements";
 import { ITheme } from "../../config/theme";
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useCopyFields from "../../hooks/apiHooks/useCopyFields";
 import useDeleteFields from "../../hooks/apiHooks/useDeleteFields";
 import useGetFields from "../../hooks/apiHooks/useGetFields";
@@ -16,7 +15,7 @@ import { fieldSlice } from "../../store/slices/fieldSlice";
 
 import useStyles from "./fieldsPage.styles";
 import { LocalStorageConfNameEnum } from "../../utils/localStorage";
-import { IFieldReadDto, PermissionEnum } from "roottypes";
+import { IFieldReadDto, IPaginationResponse, PermissionEnum } from "roottypes";
 
 interface IFieldsPageProps {}
 
@@ -71,7 +70,7 @@ const FieldsPage: React.FunctionComponent<IFieldsPageProps> = (
   };
 
   const handleSetSearchResult = React.useCallback(
-    (res: PaginationResponse<IFieldReadDto>) => {
+    (res: IPaginationResponse<IFieldReadDto>) => {
       dispatch(fieldSlice.actions.setSearchedFields(res));
     },
     []

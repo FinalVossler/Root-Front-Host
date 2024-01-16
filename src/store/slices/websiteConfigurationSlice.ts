@@ -156,6 +156,7 @@ export interface IWebsiteConfiguration {
       componentName: ITranslatedText[];
       submit: ITranslatedText[];
       warning: ITranslatedText[];
+      back: ITranslatedText[];
     };
     models: {
       createModel: ITranslatedText[];
@@ -1117,6 +1118,11 @@ const initialState: IWebsiteConfigurationState = {
           language: "fr",
           text: "ATTENTION: L'application doit être redéployéé pour chaque changement ou ajoué attribué ici",
         },
+      ],
+
+      back: [
+        { language: "en", text: "Back" },
+        { language: "fr", text: "Retour" },
       ],
     },
     models: {

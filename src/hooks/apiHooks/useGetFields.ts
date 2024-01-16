@@ -1,7 +1,6 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { useAppDispatch } from "../../store/hooks";
 import { fieldSlice } from "../../store/slices/fieldSlice";
 
@@ -18,7 +17,7 @@ const useGetFields = () => {
     new Promise((resolve, reject) => {
       setLoading(true);
       axios
-        .request<AxiosResponse<PaginationResponse<IFieldReadDto>>>({
+        .request<AxiosResponse<IPaginationResponse<IFieldReadDto>>>({
           method: "POST",
           url: "/fields/getFields",
           data: command,

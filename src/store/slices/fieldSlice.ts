@@ -1,13 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import _ from "lodash";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
-import { IFieldReadDto } from "roottypes";
+import { IFieldReadDto, IPaginationResponse } from "roottypes";
 
 export interface IFieldState {
   fields: IFieldReadDto[];
   total: number;
-  searchedFields: PaginationResponse<IFieldReadDto>;
+  searchedFields: IPaginationResponse<IFieldReadDto>;
 }
 
 const initialState: IFieldState = {
@@ -54,7 +53,7 @@ export const fieldSlice = createSlice({
     },
     setSearchedFields: (
       state: IFieldState,
-      action: PayloadAction<PaginationResponse<IFieldReadDto>>
+      action: PayloadAction<IPaginationResponse<IFieldReadDto>>
     ) => {
       state.searchedFields = action.payload;
     },

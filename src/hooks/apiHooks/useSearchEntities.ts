@@ -1,7 +1,6 @@
 import React from "react";
 import { AxiosResponse } from "axios";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 import { entitySlice } from "../../store/slices/entitySlice";
 import { useAppDispatch } from "../../store/hooks";
@@ -9,6 +8,7 @@ import {
   IEntitiesSearchCommand,
   IEntityReadDto,
   IPaginationCommand,
+  IPaginationResponse,
 } from "roottypes";
 
 const useSearchEntities = () => {
@@ -24,7 +24,7 @@ const useSearchEntities = () => {
     paginationCommand: IPaginationCommand,
     modelId: string
   ) =>
-    new Promise<PaginationResponse<IEntityReadDto>>((resolve, _) => {
+    new Promise<IPaginationResponse<IEntityReadDto>>((resolve, _) => {
       const command: IEntitiesSearchCommand = {
         paginationCommand: paginationCommand,
         name,
@@ -32,7 +32,7 @@ const useSearchEntities = () => {
       };
 
       axios
-        .request<AxiosResponse<PaginationResponse<IEntityReadDto>>>({
+        .request<AxiosResponse<IPaginationResponse<IEntityReadDto>>>({
           url: "/entities/search",
           method: "POST",
           data: command,

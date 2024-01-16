@@ -1,12 +1,11 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { useAppDispatch } from "../../store/hooks";
 import { userSlice } from "../../store/slices/userSlice";
 
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { IUserReadDto, IUsersGetCommand } from "roottypes";
+import { IPaginationResponse, IUserReadDto, IUsersGetCommand } from "roottypes";
 
 const useGetUsers = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -18,7 +17,7 @@ const useGetUsers = () => {
     new Promise((resolve, reject) => {
       setLoading(true);
       axios
-        .request<AxiosResponse<PaginationResponse<IUserReadDto>>>({
+        .request<AxiosResponse<IPaginationResponse<IUserReadDto>>>({
           method: "POST",
           url: "/users/getUsers",
           data: command,

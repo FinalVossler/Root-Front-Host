@@ -3,7 +3,6 @@ import React from "react";
 import ModelEditor from "../../components/editors/modelEditor";
 import Elements from "../../components/elements";
 import { ITheme } from "../../config/theme";
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useDeleteModels from "../../hooks/apiHooks/useDeleteModels";
 import useGetModels from "../../hooks/apiHooks/useGetModels";
 import useSearchModels from "../../hooks/apiHooks/useSearchModels";
@@ -19,6 +18,7 @@ import {
   IFieldReadDto,
   IModelFieldReadDto,
   IModelReadDto,
+  IPaginationResponse,
   PermissionEnum,
 } from "roottypes";
 
@@ -62,7 +62,7 @@ const ModelsPage: React.FunctionComponent<IModelsPageProps> = (
   };
 
   const handleSetSearchResult = React.useCallback(
-    (res: PaginationResponse<IModelReadDto>) => {
+    (res: IPaginationResponse<IModelReadDto>) => {
       dispatch(modelSlice.actions.setSearchedModels(res));
     },
     []

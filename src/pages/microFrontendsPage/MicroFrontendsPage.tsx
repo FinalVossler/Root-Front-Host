@@ -3,7 +3,6 @@ import React from "react";
 import MicroFrontendEditor from "../../components/editors/microFrontendEditor";
 import Elements from "../../components/elements";
 import { ITheme } from "../../config/theme";
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useGetMicroFrontends from "../../hooks/apiHooks/useGetMicroFrontends";
 import useSearchMicroFrontends from "../../hooks/apiHooks/useSearchMicroFrontends";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
@@ -18,6 +17,7 @@ import useDeleteMicroFrontends from "../../hooks/apiHooks/useDeleteMicroFrontend
 import {
   IMicroFrontendComponentReadDto,
   IMicroFrontendReadDto,
+  IPaginationResponse,
   PermissionEnum,
 } from "roottypes";
 
@@ -70,7 +70,7 @@ const MicroFrontendsPage: React.FunctionComponent<IMicroFrontendsPageProps> = (
   };
 
   const handleSetSearchResult = React.useCallback(
-    (res: PaginationResponse<IMicroFrontendReadDto>) => {
+    (res: IPaginationResponse<IMicroFrontendReadDto>) => {
       dispatch(microFrontendSlice.actions.setSearchedMicroFrontends(res));
     },
     []

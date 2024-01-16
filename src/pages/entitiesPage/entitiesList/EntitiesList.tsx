@@ -6,7 +6,6 @@ import EntityEditor from "../../../components/editors/entityEditor";
 import Elements from "../../../components/elements";
 import { Column } from "../../../components/elements/Elements";
 import { ITheme } from "../../../config/theme";
-import PaginationResponse from "../../../globalTypes/PaginationResponse";
 import useDeleteEntities from "../../../hooks/apiHooks/useDeleteEntities";
 import useGetEntitiesByModel from "../../../hooks/apiHooks/useGetEntitiesByModel";
 import useGetModels from "../../../hooks/apiHooks/useGetModels";
@@ -27,6 +26,7 @@ import {
   IFileReadDto,
   IModelReadDto,
   IPaginationCommand,
+  IPaginationResponse,
   StaticPermissionEnum,
 } from "roottypes";
 
@@ -100,7 +100,7 @@ const EntitiesList: React.FunctionComponent<IEntitiesListProps> = (
   };
 
   const handleSetSearchResult = React.useCallback(
-    (res: PaginationResponse<IEntityReadDto>) => {
+    (res: IPaginationResponse<IEntityReadDto>) => {
       dispatch(
         entitySlice.actions.setSearchedEntities({
           modelId: props.modelId || "",

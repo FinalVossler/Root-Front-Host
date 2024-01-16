@@ -2,13 +2,13 @@ import React from "react";
 import { AxiosResponse } from "axios";
 import uuid from "react-uuid";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { IPost, postSlice } from "../../store/slices/postSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 import { useAppDispatch } from "../../store/hooks";
 import {
   IPageReadDto,
   IPaginationCommand,
+  IPaginationResponse,
   IPostsSearchCommand,
   IUserReadDto,
   PostVisibilityEnum,
@@ -46,7 +46,7 @@ const useSearchPosts = (
     title: string,
     paginationCommand: IPaginationCommand
   ) =>
-    new Promise<PaginationResponse<IPost>>((resolve, _) => {
+    new Promise<IPaginationResponse<IPost>>((resolve, _) => {
       const command: IPostsSearchCommand = {
         paginationCommand: paginationCommand,
         posterId: user._id,
@@ -55,7 +55,7 @@ const useSearchPosts = (
       };
 
       axios
-        .request<AxiosResponse<PaginationResponse<IPost>>>({
+        .request<AxiosResponse<IPaginationResponse<IPost>>>({
           url: "/posts/search",
           method: "POST",
           data: command,

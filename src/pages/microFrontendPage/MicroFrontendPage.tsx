@@ -6,13 +6,18 @@ import { ITheme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./microFrontendPage.styles";
-import { IEntityReadDto } from "../../store/slices/entitySlice";
-import { IMicroFrontendReadDto } from "../../store/slices/microFrontendSlice";
 import useGetMicroFrontend from "../../hooks/apiHooks/useGetMicroFrontend";
 import { useNavigate, useParams } from "react-router-dom";
 import useGetEntity from "../../hooks/apiHooks/useGetEntity";
 import ModuleLoader from "../../moduleLoader/ModuleLoader";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
+import Button from "../../components/button";
+import useGetTranslatedText from "../../hooks/useGetTranslatedText";
+import {
+  IEntityReadDto,
+  IMicroFrontendReadDto,
+  IModelReadDto,
+} from "roottypes";
 
 interface IMicroFrontendPageProps {}
 
@@ -25,6 +30,9 @@ const MicroFrontendPage: React.FunctionComponent<IMicroFrontendPageProps> = (
   const language: string = useAppSelector(
     (state) => state.userPreferences.language
   );
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.microFrontends
+  );
 
   //#region local state
   const [microFrontend, setMicroFrontend] =
@@ -36,6 +44,7 @@ const MicroFrontendPage: React.FunctionComponent<IMicroFrontendPageProps> = (
 
   //#region hooks
   const styles = useStyles({ theme });
+  const getTranslatedText = useGetTranslatedText();
   const { microFrontendId, entityId, componentName, buttonFieldId } =
     useParams<{
       microFrontendId: string;
@@ -59,7 +68,9 @@ const MicroFrontendPage: React.FunctionComponent<IMicroFrontendPageProps> = (
     }
   }, [microFrontendId]);
   const handleCancel = () => {
-    navigate("/entities/" + entity?.model._id + "/" + entity?._id);
+    navigate(
+      "/entities/" + (entity?.model as IModelReadDto)._id + "/" + entity?._id
+    );
   };
   //#endregion effects
 
@@ -82,6 +93,7 @@ const MicroFrontendPage: React.FunctionComponent<IMicroFrontendPageProps> = (
               authorizedAxios={authorizedAxios}
               buttonFieldId={buttonFieldId}
               onCancel={handleCancel}
+              cancelText={getTranslatedText(staticText?.back)}
             />
           </React.Suspense>
         </ErrorBoundary>

@@ -1,15 +1,15 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { useAppDispatch } from "../../store/hooks";
 
 import useAuthorizedAxios from "../useAuthorizedAxios";
+import { microFrontendSlice } from "../../store/slices/microFrontendSlice";
 import {
   IMicroFrontendReadDto,
-  microFrontendSlice,
-} from "../../store/slices/microFrontendSlice";
-import { IMicroFrontendsGetCommand } from "roottypes";
+  IMicroFrontendsGetCommand,
+  IPaginationResponse,
+} from "roottypes";
 
 const useGetMicroFrontends = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -21,7 +21,7 @@ const useGetMicroFrontends = () => {
     new Promise((resolve, reject) => {
       setLoading(true);
       axios
-        .request<AxiosResponse<PaginationResponse<IMicroFrontendReadDto>>>({
+        .request<AxiosResponse<IPaginationResponse<IMicroFrontendReadDto>>>({
           method: "POST",
           url: "/microFrontends/getMicroFrontends",
           data: command,

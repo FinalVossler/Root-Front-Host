@@ -3,7 +3,6 @@ import { AxiosResponse } from "axios";
 import uuid from "react-uuid";
 import _ from "lodash";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 import { IModelField } from "../../store/slices/modelSlice";
 import { fieldSlice } from "../../store/slices/fieldSlice";
@@ -13,6 +12,7 @@ import {
   IFieldsSearchCommand,
   IModelReadDto,
   IPaginationCommand,
+  IPaginationResponse,
 } from "roottypes";
 
 const useSearchFields = (model: IModelReadDto | undefined) => {
@@ -62,14 +62,14 @@ const useSearchFields = (model: IModelReadDto | undefined) => {
     name: string,
     paginationCommand: IPaginationCommand
   ) =>
-    new Promise<PaginationResponse<IFieldReadDto>>((resolve, _) => {
+    new Promise<IPaginationResponse<IFieldReadDto>>((resolve, _) => {
       const command: IFieldsSearchCommand = {
         paginationCommand: paginationCommand,
         name,
       };
 
       axios
-        .request<AxiosResponse<PaginationResponse<IFieldReadDto>>>({
+        .request<AxiosResponse<IPaginationResponse<IFieldReadDto>>>({
           url: "/fields/search",
           method: "POST",
           data: command,

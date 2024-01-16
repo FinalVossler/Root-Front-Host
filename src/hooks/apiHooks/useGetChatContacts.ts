@@ -1,11 +1,14 @@
 import { AxiosResponse } from "axios";
 import React from "react";
+import {
+  IChatGetContactsCommand,
+  IUserReadDto,
+  IPaginationResponse,
+} from "roottypes";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { useAppDispatch } from "../../store/hooks";
 import { chatSlice } from "../../store/slices/chatSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { IChatGetContactsCommand, IUserReadDto } from "roottypes";
 
 const useGetChatContacts = () => {
   const [loading, setLoading] = React.useState<boolean>();
@@ -17,7 +20,7 @@ const useGetChatContacts = () => {
     new Promise((resolve, reject) => {
       setLoading(true);
       axios
-        .request<AxiosResponse<PaginationResponse<IUserReadDto>>>({
+        .request<AxiosResponse<IPaginationResponse<IUserReadDto>>>({
           method: "POST",
           url: "/users/getChatContacts",
           data: command,

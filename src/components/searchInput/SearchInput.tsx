@@ -1,22 +1,21 @@
 import React from "react";
 import { BsSearch } from "react-icons/bs";
+import { IPaginationCommand, IPaginationResponse } from "roottypes";
 
 import { ITheme } from "../../config/theme";
 import Input from "../input";
 
 import useStyles from "./searchInput.styles";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { useAppSelector } from "../../store/hooks";
 import Pagination from "../pagination";
-import { IPaginationCommand } from "roottypes";
 
 interface ISearchInputProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
   searchPromise: (
     searchText: string,
     paginationCommand: IPaginationCommand
-  ) => Promise<PaginationResponse<any>>;
+  ) => Promise<IPaginationResponse<any>>;
   getElementTitle: (el: any) => string;
   onElementClick?: (el: any) => any;
   setSearchResult?: any;
@@ -39,7 +38,7 @@ const SearchInput: React.FunctionComponent<ISearchInputProps> = (
   const [showSearchResult, setShowSearchResult] =
     React.useState<boolean>(false);
   const [searchResult, setSearchResult] = React.useState<
-    PaginationResponse<any>
+    IPaginationResponse<any>
   >({ data: [], total: 0 });
 
   const theme: ITheme = useAppSelector(

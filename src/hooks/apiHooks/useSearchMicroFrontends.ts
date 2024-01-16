@@ -1,7 +1,6 @@
 import React from "react";
 import { AxiosResponse } from "axios";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 import { microFrontendSlice } from "../../store/slices/microFrontendSlice";
 import { useAppDispatch } from "../../store/hooks";
@@ -9,6 +8,7 @@ import {
   IMicroFrontendReadDto,
   IMicroFrontendsSearchCommand,
   IPaginationCommand,
+  IPaginationResponse,
 } from "roottypes";
 
 const useSearchMicroFrontends = () => {
@@ -23,14 +23,14 @@ const useSearchMicroFrontends = () => {
     name: string,
     paginationCommand: IPaginationCommand
   ) =>
-    new Promise<PaginationResponse<IMicroFrontendReadDto>>((resolve, _) => {
+    new Promise<IPaginationResponse<IMicroFrontendReadDto>>((resolve, _) => {
       const command: IMicroFrontendsSearchCommand = {
         name,
         paginationCommand: paginationCommand,
       };
 
       axios
-        .request<AxiosResponse<PaginationResponse<IMicroFrontendReadDto>>>({
+        .request<AxiosResponse<IPaginationResponse<IMicroFrontendReadDto>>>({
           url: "/microFrontends/search",
           method: "POST",
           data: command,

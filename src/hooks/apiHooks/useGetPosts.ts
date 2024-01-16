@@ -1,10 +1,9 @@
 import { AxiosResponse } from "axios";
 import React from "react";
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { useAppDispatch } from "../../store/hooks";
 import { IPost, postSlice } from "../../store/slices/postSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { IPostsGetCommand, IUserReadDto } from "roottypes";
+import { IPaginationResponse, IPostsGetCommand, IUserReadDto } from "roottypes";
 
 const useGetPosts = () => {
   const [loading, setLoading] = React.useState<boolean>();
@@ -15,7 +14,7 @@ const useGetPosts = () => {
   const getPosts = (command: IPostsGetCommand, user: IUserReadDto) =>
     new Promise((resolve, reject) => {
       axios
-        .request<AxiosResponse<PaginationResponse<IPost>>>({
+        .request<AxiosResponse<IPaginationResponse<IPost>>>({
           method: "POST",
           url: "/posts/getUserPosts",
           data: command,

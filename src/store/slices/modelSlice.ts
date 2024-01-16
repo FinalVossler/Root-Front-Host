@@ -1,7 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
-import { IModelFieldReadDto, IModelReadDto } from "roottypes";
+import {
+  IModelFieldReadDto,
+  IModelReadDto,
+  IPaginationResponse,
+} from "roottypes";
 
 export interface IModelField extends IModelFieldReadDto {
   // used for frontend sorting only
@@ -13,7 +16,7 @@ export interface IModelField extends IModelFieldReadDto {
 export interface IModelStoreState {
   models: IModelReadDto[];
   total: number;
-  searchedModels: PaginationResponse<IModelReadDto>;
+  searchedModels: IPaginationResponse<IModelReadDto>;
 }
 
 const initialState: IModelStoreState = {
@@ -70,7 +73,7 @@ export const modelSlice = createSlice({
     },
     setSearchedModels: (
       state: IModelStoreState,
-      action: PayloadAction<PaginationResponse<IModelReadDto>>
+      action: PayloadAction<IPaginationResponse<IModelReadDto>>
     ) => {
       state.searchedModels = action.payload;
     },

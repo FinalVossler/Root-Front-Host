@@ -1,12 +1,15 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { useAppDispatch } from "../../store/hooks";
 import { modelSlice } from "../../store/slices/modelSlice";
 
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { IModelReadDto, IModelsGetCommand } from "roottypes";
+import {
+  IModelReadDto,
+  IModelsGetCommand,
+  IPaginationResponse,
+} from "roottypes";
 
 const useGetModels = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -18,7 +21,7 @@ const useGetModels = () => {
     new Promise((resolve, reject) => {
       setLoading(true);
       axios
-        .request<AxiosResponse<PaginationResponse<IModelReadDto>>>({
+        .request<AxiosResponse<IPaginationResponse<IModelReadDto>>>({
           method: "POST",
           url: "/models/getModels",
           data: command,

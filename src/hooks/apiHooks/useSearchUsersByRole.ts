@@ -1,10 +1,10 @@
 import React from "react";
 import { AxiosResponse } from "axios";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 import {
   IPaginationCommand,
+  IPaginationResponse,
   IUserReadDto,
   IUserSearchByRoleCommand,
 } from "roottypes";
@@ -20,7 +20,7 @@ const useSearchUsersByRole = () => {
       firstNameOrLastNameOrEmail: string,
       paginationCommand: IPaginationCommand
     ) =>
-      new Promise<PaginationResponse<IUserReadDto>>((resolve, _) => {
+      new Promise<IPaginationResponse<IUserReadDto>>((resolve, _) => {
         const command: IUserSearchByRoleCommand = {
           searchCommand: {
             paginationCommand: paginationCommand,
@@ -30,7 +30,7 @@ const useSearchUsersByRole = () => {
         };
 
         axios
-          .request<AxiosResponse<PaginationResponse<IUserReadDto>>>({
+          .request<AxiosResponse<IPaginationResponse<IUserReadDto>>>({
             url: "/users/searchByRole",
             method: "POST",
             data: command,

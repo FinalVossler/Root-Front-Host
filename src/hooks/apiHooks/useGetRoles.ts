@@ -1,12 +1,11 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { useAppDispatch } from "../../store/hooks";
 import { roleSlice } from "../../store/slices/roleSlice";
 
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { IRoleReadDto, IRolesGetCommand } from "roottypes";
+import { IPaginationResponse, IRoleReadDto, IRolesGetCommand } from "roottypes";
 
 const useGetRoles = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -18,7 +17,7 @@ const useGetRoles = () => {
     new Promise((resolve, reject) => {
       setLoading(true);
       axios
-        .request<AxiosResponse<PaginationResponse<IRoleReadDto>>>({
+        .request<AxiosResponse<IPaginationResponse<IRoleReadDto>>>({
           method: "POST",
           url: "/roles/getRoles",
           data: command,

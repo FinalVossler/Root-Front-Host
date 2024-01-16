@@ -1,7 +1,6 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { chatSlice, getConversationId } from "../../store/slices/chatSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
@@ -10,6 +9,7 @@ import {
   IMessageGetBetweenUsersCommand,
   IMessageMarkAllMessagesAsReadByUserCommand,
   IMessageReadDto,
+  IPaginationResponse,
   IUserReadDto,
 } from "roottypes";
 
@@ -28,7 +28,7 @@ const useLoadMessages = () => {
       setLoading(true);
 
       axios
-        .request<AxiosResponse<PaginationResponse<IMessageReadDto>>>({
+        .request<AxiosResponse<IPaginationResponse<IMessageReadDto>>>({
           method: "POST",
           url: "/messages/get",
           data: command,

@@ -3,7 +3,6 @@ import React from "react";
 import RoleEditor from "../../components/editors/roleEditor";
 import Elements from "../../components/elements";
 import { ITheme } from "../../config/theme";
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useDeleteRoles from "../../hooks/apiHooks/useDeleteRoles";
 import useGetRoles from "../../hooks/apiHooks/useGetRoles";
 import useSearchRoles from "../../hooks/apiHooks/useSearchRoles";
@@ -15,7 +14,7 @@ import { roleSlice } from "../../store/slices/roleSlice";
 import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 
 import useStyles from "./rolesPage.styles";
-import { IRoleReadDto, PermissionEnum } from "roottypes";
+import { IPaginationResponse, IRoleReadDto, PermissionEnum } from "roottypes";
 
 interface IRolesPageProps {}
 
@@ -57,7 +56,7 @@ const RolesPage: React.FunctionComponent<IRolesPageProps> = (
   };
 
   const handleSetSearchResult = React.useCallback(
-    (res: PaginationResponse<IRoleReadDto>) => {
+    (res: IPaginationResponse<IRoleReadDto>) => {
       dispatch(roleSlice.actions.setSearchedRoles(res));
     },
     []

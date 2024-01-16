@@ -1,11 +1,14 @@
 import React from "react";
 import { AxiosResponse } from "axios";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 import { roleSlice } from "../../store/slices/roleSlice";
 import { useAppDispatch } from "../../store/hooks";
-import { IPaginationCommand, IRoleReadDto } from "roottypes";
+import {
+  IPaginationCommand,
+  IPaginationResponse,
+  IRoleReadDto,
+} from "roottypes";
 
 export type RolesSearchCommand = {
   name: string;
@@ -26,14 +29,14 @@ const useSearchRoles = (
     name: string,
     paginationCommand: IPaginationCommand
   ) =>
-    new Promise<PaginationResponse<IRoleReadDto>>((resolve, _) => {
+    new Promise<IPaginationResponse<IRoleReadDto>>((resolve, _) => {
       const command: RolesSearchCommand = {
         paginationCommand: paginationCommand,
         name,
       };
 
       axios
-        .request<AxiosResponse<PaginationResponse<IRoleReadDto>>>({
+        .request<AxiosResponse<IPaginationResponse<IRoleReadDto>>>({
           url: "/roles/search",
           method: "POST",
           data: command,

@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
+import IPaginationResponse from "../../globalTypes/PaginationResponse";
 import { useAppDispatch } from "../../store/hooks";
 import { entitySlice, IEntityReadDto } from "../../store/slices/entitySlice";
 
@@ -18,7 +18,7 @@ const useGetAssignedEntitiesByModel = () => {
     new Promise((resolve, reject) => {
       setLoading(true);
       axios
-        .request<AxiosResponse<PaginationResponse<IEntityReadDto>>>({
+        .request<AxiosResponse<IPaginationResponse<IEntityReadDto>>>({
           method: "POST",
           url: "/entities/getAssignedEntitiesByModel",
           data: command,

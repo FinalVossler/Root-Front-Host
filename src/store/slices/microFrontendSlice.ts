@@ -1,13 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import _ from "lodash";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
-import { IMicroFrontendReadDto } from "roottypes";
+import { IMicroFrontendReadDto, IPaginationResponse } from "roottypes";
 
 export interface IMicroFrontendState {
   microFrontends: IMicroFrontendReadDto[];
   total: number;
-  searchedMicroFrontends: PaginationResponse<IMicroFrontendReadDto>;
+  searchedMicroFrontends: IPaginationResponse<IMicroFrontendReadDto>;
 }
 
 const initialState: IMicroFrontendState = {
@@ -70,7 +69,7 @@ export const microFrontendSlice = createSlice({
     },
     setSearchedMicroFrontends: (
       state: IMicroFrontendState,
-      action: PayloadAction<PaginationResponse<IMicroFrontendReadDto>>
+      action: PayloadAction<IPaginationResponse<IMicroFrontendReadDto>>
     ) => {
       state.searchedMicroFrontends = action.payload;
     },

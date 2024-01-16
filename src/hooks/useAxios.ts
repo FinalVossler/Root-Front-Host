@@ -1,8 +1,8 @@
 import React from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { IErrorResponse } from "roottypes";
 
-import ErrorResponseDto from "../globalTypes/ErrorResponseDto";
 import { useAppDispatch } from "../store/hooks";
 import { userSlice } from "../store/slices/userSlice";
 
@@ -21,7 +21,7 @@ const useAxios = () => {
     (response) => {
       return response;
     },
-    (error: ErrorResponseDto) => {
+    (error: IErrorResponse) => {
       const message: string = error.response.data.error.message;
 
       // If unauthorized, then we logout the user

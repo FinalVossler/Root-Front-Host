@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import compareWithCreatedAt from "../../utils/compareWithCreatedAt";
-import { IPostReadDto, IUserReadDto } from "roottypes";
+import { IPaginationResponse, IPostReadDto, IUserReadDto } from "roottypes";
 
 export interface IPost extends IPostReadDto {
   // used for frontend sorting only
@@ -17,7 +16,7 @@ type UserPosts = {
 
 interface IPostState {
   userPosts: UserPosts[];
-  searchedPosts: PaginationResponse<IPost>;
+  searchedPosts: IPaginationResponse<IPost>;
 }
 
 const initialState: IPostState = {
@@ -137,7 +136,7 @@ export const postSlice = createSlice({
     },
     setSearchedPosts: (
       state: IPostState,
-      action: PayloadAction<PaginationResponse<IPost>>
+      action: PayloadAction<IPaginationResponse<IPost>>
     ) => {
       state.searchedPosts = action.payload;
     },

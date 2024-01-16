@@ -15,9 +15,9 @@ import { userSlice } from "../../store/slices/userSlice";
 import useStyles from "./usersPage.styles";
 import useSearchUsers from "../../hooks/apiHooks/useSearchUsers";
 import useHasPermission from "../../hooks/useHasPermission";
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 import {
+  IPaginationResponse,
   IRoleReadDto,
   IUserReadDto,
   PermissionEnum,
@@ -66,7 +66,7 @@ const UsersPage: React.FunctionComponent<IUsersPageProps> = (
   };
 
   const handleSetSearchResult = React.useCallback(
-    (res: PaginationResponse<IUserReadDto>) => {
+    (res: IPaginationResponse<IUserReadDto>) => {
       dispatch(userSlice.actions.setSearchedUsers(res));
     },
     []

@@ -1,13 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import _ from "lodash";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
-import { IRoleReadDto } from "roottypes";
+import { IPaginationResponse, IRoleReadDto } from "roottypes";
 
 export interface IRoleState {
   roles: IRoleReadDto[];
   total: number;
-  searchedRoles: PaginationResponse<IRoleReadDto>;
+  searchedRoles: IPaginationResponse<IRoleReadDto>;
 }
 
 const initialState: IRoleState = {
@@ -57,7 +56,7 @@ export const roleSlice = createSlice({
     },
     setSearchedRoles: (
       state: IRoleState,
-      action: PayloadAction<PaginationResponse<IRoleReadDto>>
+      action: PayloadAction<IPaginationResponse<IRoleReadDto>>
     ) => {
       state.searchedRoles = action.payload;
     },

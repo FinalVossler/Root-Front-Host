@@ -12,7 +12,6 @@ import useStyles from "./elements.styles";
 import ConfirmationModal from "../confirmationModal";
 import Pagination from "../pagination";
 import SearchInput from "../searchInput";
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import ElementsBoard from "./elementsBoard";
 import Button from "../button";
 import {
@@ -32,6 +31,7 @@ import {
   IPaginationCommand,
   IRoleReadDto,
   IUserReadDto,
+  IPaginationResponse,
 } from "roottypes";
 
 export type Column = {
@@ -80,12 +80,12 @@ interface IElementsProps {
   searchPromise?: (
     searchText: string,
     paginationCommand: IPaginationCommand
-  ) => Promise<PaginationResponse<any>>;
+  ) => Promise<IPaginationResponse<any>>;
   canDelete: boolean;
   canUpdate: boolean;
   canCreate: boolean;
-  searchResult?: PaginationResponse<any>;
-  setSearchResult?: (result: PaginationResponse<any>) => void;
+  searchResult?: IPaginationResponse<any>;
+  setSearchResult?: (result: IPaginationResponse<any>) => void;
   isForEntities?: boolean;
   modelId?: string;
   elementsLocalStorageConfName: LocalStorageConfNameEnum | string;

@@ -1,14 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
-import { IEntityReadDto } from "roottypes";
+import { IEntityReadDto, IPaginationResponse } from "roottypes";
 
 export interface IEntityState {
   entitiesByModel: {
     modelId: string;
     entities: IEntityReadDto[];
     total: number;
-    searchResult: PaginationResponse<IEntityReadDto>;
+    searchResult: IPaginationResponse<IEntityReadDto>;
   }[];
   total: number;
 
@@ -121,7 +120,7 @@ export const entitySlice = createSlice({
     setSearchedEntities: (
       state: IEntityState,
       action: PayloadAction<{
-        searchResult: PaginationResponse<IEntityReadDto>;
+        searchResult: IPaginationResponse<IEntityReadDto>;
         modelId: string;
       }>
     ) => {

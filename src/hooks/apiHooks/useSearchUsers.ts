@@ -1,11 +1,14 @@
 import React from "react";
 import { AxiosResponse } from "axios";
 
-import PaginationResponse from "../../globalTypes/PaginationResponse";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 import { userSlice } from "../../store/slices/userSlice";
 import { useAppDispatch } from "../../store/hooks";
-import { IPaginationCommand, IUserReadDto } from "roottypes";
+import {
+  IPaginationCommand,
+  IPaginationResponse,
+  IUserReadDto,
+} from "roottypes";
 
 export type UsersSearchCommand = {
   firstNameOrLastNameOrEmail: string;
@@ -26,14 +29,14 @@ const useSearchUsers = (
     firstNameOrLastNameOrEmail: string,
     paginationCommand: IPaginationCommand
   ) =>
-    new Promise<PaginationResponse<IUserReadDto>>((resolve, _) => {
+    new Promise<IPaginationResponse<IUserReadDto>>((resolve, _) => {
       const command: UsersSearchCommand = {
         paginationCommand: paginationCommand,
         firstNameOrLastNameOrEmail,
       };
 
       axios
-        .request<AxiosResponse<PaginationResponse<IUserReadDto>>>({
+        .request<AxiosResponse<IPaginationResponse<IUserReadDto>>>({
           url: "/users/search",
           method: "POST",
           data: command,
