@@ -253,6 +253,12 @@ const EntityEditorTableField: React.FunctionComponent<
                             ),
                           })
                         }
+                        inputDataCy={
+                          "tableInputForColumn" +
+                          column._id +
+                          "AndRow" +
+                          ((row as IFieldTableElementReadDto)?._id || "")
+                        }
                         value={
                           (props.modelField.field as IFieldReadDto).tableOptions
                             ?.yearTable

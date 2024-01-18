@@ -4,6 +4,7 @@ import {
   IEntityCreateCommand,
   IEntityReadDto,
   IFieldReadDto,
+  IFieldTableElementReadDto,
   IFileReadDto,
   IModelReadDto,
   IRoleCreateCommand,
@@ -27,6 +28,21 @@ describe("entity", () => {
   modelField3OfTypeFileCreateCommand.type = FieldTypeEnum.File;
   modelField3OfTypeFileCreateCommand.canChooseFromExistingFiles = true;
   const modelField4CreateCommand = createCreateFieldCommand("ModelField4");
+  const modelField5OfTypeTableCreateCommand =
+    createCreateFieldCommand("ModelField4");
+  modelField5OfTypeTableCreateCommand.type = FieldTypeEnum.Table;
+  modelField5OfTypeTableCreateCommand.tableOptions = {
+    columns: [
+      { language: "column1", name: "Column 1" },
+      { language: "en", name: "Column 2" },
+    ],
+    rows: [
+      { language: "en", name: "Row 1" },
+      { language: "en", name: "Row 2" },
+    ],
+    name: "Year table",
+    yearTable: false,
+  };
   const userWithLimitedAccessEmail: string =
     "testingUserWithLimitedAccess@testing.com";
   const userWithLimitedAccessPassword = "rootroot";
@@ -35,6 +51,7 @@ describe("entity", () => {
   let modelField2: IFieldReadDto | undefined;
   let modelField3OfTypeFile: IFieldReadDto | undefined;
   let modelField4: IFieldReadDto | undefined;
+  let modelField5OfTypeTable: IFieldReadDto | undefined;
   let model: IModelReadDto | undefined;
   let entityToUpdate: IEntityReadDto | undefined;
   let entityToUpdate2: IEntityReadDto | undefined;
@@ -57,13 +74,22 @@ describe("entity", () => {
           cy.sendCreateFieldRequest(modelField4CreateCommand, (res) => {
             modelField4 = (res as { body: { data: IFieldReadDto } }).body.data;
           }).then(() => {
-            cy.sendCreateFileRequest(
-              "https://i.pinimg.com/736x/fa/8a/a4/fa8aa43569687f96b8afd6a1e7539e20.jpg",
+            cy.sendCreateFieldRequest(
+              modelField5OfTypeTableCreateCommand,
               (res) => {
-                file1 = (res as { body: { data: IFileReadDto } }).body.data;
+                modelField5OfTypeTable = (
+                  res as { body: { data: IFieldReadDto } }
+                ).body.data;
               }
             ).then(() => {
-              createModels();
+              cy.sendCreateFileRequest(
+                "https://i.pinimg.com/736x/fa/8a/a4/fa8aa43569687f96b8afd6a1e7539e20.jpg",
+                (res) => {
+                  file1 = (res as { body: { data: IFileReadDto } }).body.data;
+                }
+              ).then(() => {
+                createModels();
+              });
             });
           });
         });
@@ -147,12 +173,13 @@ describe("entity", () => {
         createCreateModelCommand(
           "Model used for entities test",
           [
-            (modelField1 as IFieldReadDto)?._id.toString(),
-            (modelField2 as IFieldReadDto)?._id.toString(),
-            (modelField3OfTypeFile as IFieldReadDto)._id.toString(),
-            (modelField4 as IFieldReadDto)?._id.toString(),
+            (modelField1 as IFieldReadDto)?._id,
+            (modelField2 as IFieldReadDto)?._id,
+            (modelField3OfTypeFile as IFieldReadDto)._id,
+            (modelField4 as IFieldReadDto)?._id,
+            (modelField5OfTypeTable as IFieldReadDto)?._id,
           ],
-          [modelField2?._id.toString() || ""]
+          [modelField2?._id || ""]
         ),
         (res) => {
           model = (res as { body: { data: IModelReadDto } }).body.data;
@@ -357,6 +384,37 @@ describe("entity", () => {
       .scrollIntoView()
       .and("be.visible");
 
+    // Change value of the table field:
+    const values: string[] = [];
+    for (
+      let i = 0;
+      i <
+      (modelField5OfTypeTable?.tableOptions
+        ? modelField5OfTypeTable?.tableOptions?.rows.length
+        : 0);
+      i++
+    ) {
+      for (
+        let j = 0;
+        j <
+        (modelField5OfTypeTable?.tableOptions
+          ? modelField5OfTypeTable?.tableOptions?.columns.length
+          : 0);
+        j++
+      ) {
+        const row = modelField5OfTypeTable?.tableOptions?.rows[i];
+        const column = modelField5OfTypeTable?.tableOptions?.columns[j];
+        const value = i.toString() + j.toString();
+        values.push(value);
+        cy.getByDataCy(
+          "tableInputForColumn" +
+            (column as IFieldTableElementReadDto)._id +
+            "AndRow" +
+            (row as IFieldTableElementReadDto)._id
+        ).type(value);
+      }
+    }
+
     cy.getByDataCy("entityFormSubmitButton").click();
 
     cy.wait(1000);
@@ -384,6 +442,37 @@ describe("entity", () => {
       .should("exist")
       .scrollIntoView()
       .and("be.visible");
+
+    let runner: number = 0;
+    for (
+      let i = 0;
+      i <
+      (modelField5OfTypeTable?.tableOptions
+        ? modelField5OfTypeTable?.tableOptions?.rows.length
+        : 0);
+      i++
+    ) {
+      for (
+        let j = 0;
+        j <
+        (modelField5OfTypeTable?.tableOptions
+          ? modelField5OfTypeTable?.tableOptions?.columns.length
+          : 0);
+        j++
+      ) {
+        const row = modelField5OfTypeTable?.tableOptions?.rows[i];
+        const column = modelField5OfTypeTable?.tableOptions?.columns[j];
+        const value = i.toString() + j.toString();
+        values.push(value);
+        cy.getByDataCy(
+          "tableInputForColumn" +
+            (column as IFieldTableElementReadDto)._id +
+            "AndRow" +
+            (row as IFieldTableElementReadDto)._id
+        ).should("have.value", values[runner]);
+        runner++;
+      }
+    }
 
     // Now change the field values for a different language
     cy.selectInSelector("entityFormLanguageSelector", 1);

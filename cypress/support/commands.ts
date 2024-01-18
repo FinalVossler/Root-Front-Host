@@ -160,6 +160,18 @@ Cypress.Commands.add(
   }
 );
 
+Cypress.Commands.add("prepareMarktMaven", () => {
+  cy.get("@adminToken").then((adminToken) => {
+    cy.request({
+      method: "POST",
+      url: Cypress.env("backendUrl") + "/cypress/prepareMarketMaven",
+      headers: {
+        Authorization: "Bearer " + adminToken,
+      },
+    }).then((res) => {});
+  });
+});
+
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -168,6 +180,7 @@ declare global {
         updateLocalStorage?: boolean,
         credentials?: { email: string; password: string }
       ): Chainable;
+      prepareMarktMaven(): Chainable;
       selectInSelector(
         selectorClassName: string,
         elementIndex: number
