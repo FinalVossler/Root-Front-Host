@@ -28,9 +28,8 @@ const useUpdateWebsiteConfiguration = () => {
       axios
         .request<AxiosResponse<IWebsiteConfigurationUpdateCommand>>({
           baseURL: process.env.REACT_APP_BACKEND_URL,
-          url:
-            process.env.REACT_APP_BACKEND_URL + "/websiteConfigurations/update",
-          method: "POST",
+          url: process.env.REACT_APP_BACKEND_URL + "/websiteConfigurations/",
+          method: "PUT",
           data: command,
           headers: {
             Authorization: "bearer " + token,

@@ -1,8 +1,9 @@
 import { AxiosResponse } from "axios";
 import React from "react";
+import { IPageReadDto } from "roottypes";
 
 import { useAppDispatch } from "../../store/hooks";
-import { IPageReadDto, pageSlice } from "../../store/slices/pageSlice";
+import { pageSlice } from "../../store/slices/pageSlice";
 import useAxios from "../useAxios";
 
 const useGetPages = () => {

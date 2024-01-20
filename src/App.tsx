@@ -17,7 +17,7 @@ import ForgotPasswordChangePasswordPage from "./pages/forgotPasswordChangePasswo
 import AuthenticatedApp from "./AuthenticatedApp";
 import useIsLoggedIn from "./hooks/useIsLoggedIn";
 import { useAppSelector } from "./store/hooks";
-import { IPageReadDto } from "./store/slices/pageSlice";
+import { IPageReadDto } from "roottypes";
 import AppModals from "./AppModals";
 
 import "./index.css";

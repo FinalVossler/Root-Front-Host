@@ -361,6 +361,7 @@ describe("entity", () => {
     );
 
     // Change value of the two text fields
+    cy.wait(1000);
     cy.getByDataCy("entityFieldInputForField" + modelField1?._id.toString())
       .clear()
       .type(updatedValueForField1);
@@ -406,6 +407,7 @@ describe("entity", () => {
         const column = modelField5OfTypeTable?.tableOptions?.columns[j];
         const value = i.toString() + j.toString();
         values.push(value);
+        cy.wait(1000);
         cy.getByDataCy(
           "tableInputForColumn" +
             (column as IFieldTableElementReadDto)._id +
@@ -477,6 +479,7 @@ describe("entity", () => {
     // Now change the field values for a different language
     cy.selectInSelector("entityFormLanguageSelector", 1);
 
+    cy.wait(1000);
     cy.getByDataCy("entityFieldInputForField" + modelField1?._id.toString())
       .clear()
       .type(updatedValueForField1InFrench);
@@ -618,6 +621,7 @@ describe("entity", () => {
 
     cy.getByDataCy("entityEditorForm").should("be.visible");
 
+    cy.wait(1000);
     cy.getByDataCy("searchUserToAssignForRole" + role?._id.toString())
       .clear()
       .type(userWithLimitedAccessEmail);
