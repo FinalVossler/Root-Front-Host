@@ -103,38 +103,38 @@ const ElementsBoard: React.FunctionComponent<IElementsBoardProps> = (
 
       {!props.loading &&
         props.forStatusTracking &&
-        boardPattern.map(({ modelState, entities }) => {
+        props.entities.map((entity, entityIndex) => {
+          const modelState: IModelStateReadDto | undefined = boardPattern.find(
+            (pattern) => pattern.entities.some((e) => e._id === entity._id)
+          )?.modelState;
+
+          if (!modelState) return null;
+
           return (
-            <React.Fragment key={modelState._id}>
-              {entities.map((entity, entityIndex) => (
-                <div
-                  key={entityIndex}
-                  className={styles.entityCardAndStateTrackingContainer}
-                >
-                  <EntityCard
-                    entity={entity}
-                    modelId={props.modelId}
-                    model={model}
-                    mainModelFields={mainModelFields}
-                    Editor={(subProps) => <props.Editor {...subProps} />}
-                  />
-                  <StateTracking
-                    states={
-                      (model.states as IModelStateReadDto[])?.map(
-                        (modelState) => ({
-                          _id: modelState._id,
-                          stateName: getTranslatedText(modelState.name),
-                        })
-                      ) || []
-                    }
-                    currentState={{
-                      _id: modelState._id,
-                      stateName: getTranslatedText(modelState.name),
-                    }}
-                  />
-                </div>
-              ))}
-            </React.Fragment>
+            <div
+              key={entityIndex}
+              className={styles.entityCardAndStateTrackingContainer}
+            >
+              <EntityCard
+                entity={entity}
+                modelId={props.modelId}
+                model={model}
+                mainModelFields={mainModelFields}
+                Editor={(subProps) => <props.Editor {...subProps} />}
+              />
+              <StateTracking
+                states={
+                  (model.states as IModelStateReadDto[])?.map((modelState) => ({
+                    _id: modelState._id,
+                    stateName: getTranslatedText(modelState.name),
+                  })) || []
+                }
+                currentState={{
+                  _id: modelState._id,
+                  stateName: getTranslatedText(modelState.name),
+                }}
+              />
+            </div>
           );
         })}
 
