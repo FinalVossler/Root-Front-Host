@@ -6,7 +6,7 @@ before(() => {
   cy.get("@adminToken").then((adminToken) => {
     cy.request({
       method: "POST",
-      url: Cypress.env("backendUrl") + "/cypress/clean",
+      url: Cypress.env("backendUrl") + "/testsPreparation/clean",
       headers: {
         Authorization: "Bearer " + adminToken,
       },

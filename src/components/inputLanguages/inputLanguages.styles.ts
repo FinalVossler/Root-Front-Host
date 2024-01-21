@@ -8,6 +8,10 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     flexDirection: "column",
     width: "100%",
     marginBottom: 20,
+
+    "& .react-select__control": {
+      minHeight: "initial",
+    },
   },
   selectedLanguagesContainer: {
     display: "flex",

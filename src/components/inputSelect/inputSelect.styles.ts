@@ -40,6 +40,22 @@ const useStyles = createUseStyles((theme: ITheme) => ({
         outline: "2px solid " + theme.secondary,
       },
     },
+    "& .react-select__option": {
+      color: theme.darkTextColor,
+    },
+    "& .react-select__option--is-selected": {
+      backgroundColor: theme.darkerPrimary,
+      color: theme.lightTextColor,
+    },
+    "& .react-select__option--is-focused": {
+      backgroundColor: theme.contentBackgroundColor,
+      color: theme.darkTextColor,
+
+      "&:active": {
+        backgroundColor: theme.contentBackgroundColor,
+        color: theme.darkTextColor,
+      },
+    },
   },
   dislabedSelect: {
     extend: "select",

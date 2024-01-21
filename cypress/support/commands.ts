@@ -46,7 +46,7 @@ Cypress.Commands.add(
 Cypress.Commands.add("sendCreateFileRequest", (url: string, callback) => {
   cy.get("@adminToken").then((adminToken) => {
     cy.request({
-      url: Cypress.env("backendUrl") + "/cypress/createFile",
+      url: Cypress.env("backendUrl") + "/testsPreparation/createFile",
       method: "POST",
       body: { url },
       headers: {
@@ -164,7 +164,7 @@ Cypress.Commands.add("prepareMarktMaven", () => {
   cy.get("@adminToken").then((adminToken) => {
     cy.request({
       method: "POST",
-      url: Cypress.env("backendUrl") + "/cypress/prepareMarketMaven",
+      url: Cypress.env("backendUrl") + "/testsPreparation/prepareMarketMaven",
       headers: {
         Authorization: "Bearer " + adminToken,
       },
