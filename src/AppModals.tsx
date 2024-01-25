@@ -1,8 +1,8 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import MessageFilePreview from "./components/chatComponents/message/messageFilePreview";
-import IFile from "./globalTypes/IFile";
 import { chatSlice } from "./store/slices/chatSlice";
+import { IFileReadDto } from "roottypes";
 
 interface IAppModalsProps {}
 
@@ -21,7 +21,7 @@ const AppModals: React.FunctionComponent<IAppModalsProps> = (
           <MessageFilePreview
             key={messageFilePreview.file?._id?.toString() || ""}
             message={messageFilePreview.message}
-            file={messageFilePreview.file as IFile}
+            file={messageFilePreview.file as IFileReadDto}
             onClose={() =>
               dispatch(
                 chatSlice.actions.removeMessageFilePreviews({

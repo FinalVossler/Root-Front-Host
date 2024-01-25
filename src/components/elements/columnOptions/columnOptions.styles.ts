@@ -24,6 +24,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     top: 30,
     alignItems: "center",
     justifyContent: "center",
+    zIndex: 3,
   },
   hideColumnButton: {
     color: theme.errorColor,

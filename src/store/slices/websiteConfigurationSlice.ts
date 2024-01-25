@@ -132,6 +132,7 @@ export interface IWebsiteConfiguration {
       statesConfigurationHint: ITranslatedText[];
       subStatesConfigurationHint: ITranslatedText[];
       mainField: ITranslatedText[];
+      stickInTable: ITranslatedText[];
       fieldShowWhenStateIsAchieved: ITranslatedText[];
       ifYearTableThenNumberOfYearsInTheFutureIsEqualToValueOfField: ITranslatedText[];
 
@@ -914,6 +915,10 @@ const initialState: IWebsiteConfigurationState = {
       mainField: [
         { language: "en", text: "Main Field?" },
         { language: "fr", text: "Champ Principal ?" },
+      ],
+      stickInTable: [
+        { language: "en", text: "Stick in table?" },
+        { language: "fr", text: "Toujours affiché dans les tableaux ?" },
       ],
       valueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear:
         [

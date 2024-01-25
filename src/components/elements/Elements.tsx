@@ -1,8 +1,6 @@
 import React from "react";
-import { BiCopy, BiShow } from "react-icons/bi";
-import { AiFillDelete, AiFillEdit } from "react-icons/ai";
-import ColumnResizer from "react-table-column-resizer";
-import Loading from "react-loading";
+import { BiCopy } from "react-icons/bi";
+import { AiFillDelete } from "react-icons/ai";
 
 import { ITheme } from "../../config/theme";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
@@ -14,13 +12,7 @@ import Pagination from "../pagination";
 import SearchInput from "../searchInput";
 import ElementsBoard from "./elementsBoard";
 import Button from "../button";
-import {
-  LocalStorageConfNameEnum,
-  IElementsConf,
-  getLocalStorageElementsConf,
-  updateLocalStorageElementsConf,
-} from "../../utils/localStorage";
-import ColumnOptions from "./columnOptions/ColumnOptions";
+import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 import ViewTabs from "./viewTabs";
 import {
   IEntityReadDto,
@@ -33,6 +25,7 @@ import {
   IUserReadDto,
   IPaginationResponse,
 } from "roottypes";
+import ElementsTable from "./elementsTable";
 
 export type Column = {
   label: string;
@@ -40,6 +33,7 @@ export type Column = {
   render?: (param: any) => any;
   RenderComponent?: React.FunctionComponent<{ element: Element }>;
   defaultHide?: boolean;
+  stick?: boolean;
 };
 
 export type Element =
@@ -116,8 +110,6 @@ const Elements: React.FunctionComponent<IElementsProps> = (
       ? ViewTypeEnum.BoardForStatusTracking
       : ViewTypeEnum.Table
   );
-  const [hiddenColumns, setHiddenColumns] = React.useState<Column[]>([]);
-
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
 
@@ -131,50 +123,8 @@ const Elements: React.FunctionComponent<IElementsProps> = (
     setSelectedElementsIds([]);
   }, [props.elements]);
 
-  // Load hidden columns from local storage. If not found, then we set the default hide
-  React.useEffect(() => {
-    const conf: IElementsConf | null = getLocalStorageElementsConf(
-      props.elementsLocalStorageConfName
-    );
-    if (conf) {
-      setHiddenColumns(
-        props.columns.filter(
-          (el) => conf.hiddenColumnNames.indexOf(el.name) !== -1
-        )
-      );
-    } else {
-      setHiddenColumns(props.columns.filter((el) => el.defaultHide));
-    }
-  }, [props.columns]);
-
   //#region Event listeners
   const handleOpenEditor = () => setEditorOpen(true);
-  const handleHideColumn = (column: Column) => {
-    if (!hiddenColumns.some((el) => el.name === column.name)) {
-      const newHiddenColumns = [...hiddenColumns, column];
-      setHiddenColumns(newHiddenColumns);
-      updateLocalStorageConf({ hiddenColumns: newHiddenColumns });
-    }
-  };
-  const handleShowColumn = (column: Column) => {
-    const newHiddenColumns = hiddenColumns.filter(
-      (el) => el.name !== column.name
-    );
-    setHiddenColumns(newHiddenColumns);
-    updateLocalStorageConf({ hiddenColumns: newHiddenColumns });
-  };
-  const updateLocalStorageConf = ({
-    hiddenColumns,
-  }: {
-    hiddenColumns: Column[];
-  }) => {
-    updateLocalStorageElementsConf({
-      confName: props.elementsLocalStorageConfName,
-      value: {
-        hiddenColumnNames: hiddenColumns.map((el) => el.name),
-      },
-    });
-  };
   const handleToggleElementSelect = (
     e: React.ChangeEvent<HTMLInputElement>,
     element: Element
@@ -354,203 +304,20 @@ const Elements: React.FunctionComponent<IElementsProps> = (
             />
           )}
 
-        {viewType === ViewTypeEnum.Table && hiddenColumns.length > 0 && (
-          <div className={styles.hiddenColumns}>
-            {hiddenColumns.map((col, i) => {
-              return (
-                <div
-                  className={styles.hiddenColumn}
-                  onClick={() => handleShowColumn(col)}
-                  key={i}
-                >
-                  {getTranslatedText(col.label)}
-                  <BiShow className={styles.showIcon} />
-                </div>
-              );
-            })}
-          </div>
-        )}
-
         {viewType === ViewTypeEnum.Table && (
-          <table
-            className={styles.elementsTable}
-            {...(props.tableDataCy ? { ["data-cy"]: props.tableDataCy } : {})}
-          >
-            <thead className={styles.tableHeader}>
-              <tr className={styles.tableRow}>
-                {props.columns.map((column, columnIndex) => {
-                  if (hiddenColumns.some((el) => el.name === column.name)) {
-                    return null;
-                  }
-                  return (
-                    <React.Fragment key={columnIndex}>
-                      <th
-                        className={styles.tableHeaderColumn}
-                        key={columnIndex}
-                      >
-                        {column.label}
-                        <ColumnOptions
-                          handleHideColumn={() => handleHideColumn(column)}
-                        />
-                      </th>
-                      <ColumnResizer
-                        disabled={false}
-                        maxWidth={null}
-                        id={columnIndex}
-                        resizeStart={() => {}}
-                        resizeEnd={() => {}}
-                        className="columnResizer"
-                        minWidth={0}
-                      />
-                    </React.Fragment>
-                  );
-                })}
-                {props.canUpdate && (
-                  <th className={styles.tableHeaderColumn}>
-                    {getTranslatedText(staticText?.edit)}
-                  </th>
-                )}
-                {props.canUpdate && (
-                  <ColumnResizer
-                    disabled={false}
-                    maxWidth={null}
-                    id={999}
-                    resizeStart={() => {}}
-                    resizeEnd={() => {}}
-                    className="columnResizer"
-                    minWidth={0}
-                  />
-                )}
-                {props.canDelete && (
-                  <th className={styles.tableHeaderColumn}>
-                    <div className={styles.actions}>
-                      {getTranslatedText(staticText?.actions)}
-                      <input
-                        className={styles.actionCheckbox}
-                        type="checkbox"
-                        checked={
-                          selectedElementsIds.length === elements.length &&
-                          selectedElementsIds.length > 0
-                        }
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          setSelectedElementsIds(
-                            elements.length !== selectedElementsIds.length
-                              ? elements.map((el) => el._id)
-                              : []
-                          )
-                        }
-                      />
-                    </div>
-                  </th>
-                )}
-              </tr>
-            </thead>
-
-            <tbody className={styles.tbody}>
-              {props.loading && (
-                <tr>
-                  <td>
-                    <Loading color={theme.primary} />
-                  </td>
-                </tr>
-              )}
-
-              {!props.loading &&
-                elements.map((element, elementIndex) => {
-                  return (
-                    <tr className={styles.tableRow} key={elementIndex}>
-                      {props.columns.map((column, columnIndex) => {
-                        if (
-                          hiddenColumns.some((el) => el.name === column.name)
-                        ) {
-                          return null;
-                        }
-                        return (
-                          <React.Fragment key={columnIndex}>
-                            <td
-                              className={styles.tableColumn}
-                              key={columnIndex}
-                            >
-                              {column.render ? (
-                                column.render(element)
-                              ) : column.RenderComponent ? (
-                                <column.RenderComponent element={element} />
-                              ) : (
-                                getTranslatedText(element[column.name])
-                              )}
-                            </td>
-                            <ColumnResizer
-                              disabled={false}
-                              maxWidth={null}
-                              id={elementIndex + 10000}
-                              resizeStart={() => {}}
-                              resizeEnd={() => {}}
-                              className="columnResizer"
-                              minWidth={0}
-                            />
-                          </React.Fragment>
-                        );
-                      })}
-                      {props.canUpdate && (
-                        <td
-                          className={styles.tableColumn}
-                          // This data-cy is used for when we don't know the id of the element, but we know the index (for example, using first() in cypress)
-                          data-cy="elementEdit"
-                        >
-                          <AiFillEdit
-                            onClick={() => handleEdit(element)}
-                            className={styles.editIcon}
-                            // This data is for when we know the id of the element
-                            id={"editButtonFor" + element["_id"].toString()}
-                          />
-                        </td>
-                      )}
-
-                      {props.canUpdate && (
-                        <ColumnResizer
-                          disabled={false}
-                          maxWidth={null}
-                          id={elementIndex + 10001}
-                          resizeStart={() => {}}
-                          resizeEnd={() => {}}
-                          className="columnResizer"
-                          minWidth={0}
-                        />
-                      )}
-
-                      {props.canDelete && (
-                        <td className={styles.actionColumn}>
-                          <input
-                            className={styles.checkbox}
-                            type="checkbox"
-                            checked={
-                              selectedElementsIds.indexOf(element._id) !== -1
-                            }
-                            onChange={(
-                              e: React.ChangeEvent<HTMLInputElement>
-                            ) => handleToggleElementSelect(e, element)}
-                            data-cy={
-                              "tableCheckButtonFor" + element["_id"].toString()
-                            }
-                          />
-                        </td>
-                      )}
-                      {props.canDelete && (
-                        <ColumnResizer
-                          disabled={false}
-                          maxWidth={null}
-                          id={elementIndex + 10002}
-                          resizeStart={() => {}}
-                          resizeEnd={() => {}}
-                          className="columnResizer"
-                          minWidth={0}
-                        />
-                      )}
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
+          <ElementsTable
+            handleEdit={handleEdit}
+            canDelete={props.canDelete}
+            canUpdate={props.canUpdate}
+            columns={props.columns}
+            elements={elements}
+            elementsLocalStorageConfName={props.elementsLocalStorageConfName}
+            handleToggleElementSelect={handleToggleElementSelect}
+            loading={props.loading}
+            selectedElementsIds={selectedElementsIds}
+            setSelectedElementsIds={setSelectedElementsIds}
+            tableDataCy={props.tableDataCy}
+          />
         )}
 
         {props.withPagination !== false && (

@@ -179,6 +179,18 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
 
     props.setSelectedModelFields(newSelectedModelFields);
   };
+  const handleCheckOrUncheckStickInTable = (stickInTable: boolean) => {
+    const newSelectedModelFields = props.selectedModelFields.map(
+      (modelField: IModelField, index: number) => {
+        if (index === props.modelFieldIndex) {
+          modelField.stickInTable = stickInTable;
+        }
+        return modelField;
+      }
+    );
+
+    props.setSelectedModelFields(newSelectedModelFields);
+  };
   const handleSelectConditionStates = (
     modelStateOption: Option,
     conditionIndex: number
@@ -344,6 +356,11 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
           label={getTranslatedText(staticText?.mainField)}
           checked={Boolean(props.modelField.mainField)}
           onChange={handleCheckOrUncheckMainField}
+        />
+        <Checkbox
+          label={getTranslatedText(staticText?.stickInTable)}
+          checked={Boolean(props.modelField.stickInTable)}
+          onChange={handleCheckOrUncheckStickInTable}
         />
       </div>
 

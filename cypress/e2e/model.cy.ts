@@ -114,6 +114,7 @@ describe("model", () => {
       .should("be.visible")
       .click();
     cy.getByDataCy("sortableModelFieldForField" + modelField1?._id.toString())
+      .scrollIntoView()
       .should("exist")
       .and("be.visible");
 
@@ -125,6 +126,7 @@ describe("model", () => {
       .should("be.visible")
       .click();
     cy.getByDataCy("sortableModelFieldForField" + modelField2?._id.toString())
+      .scrollIntoView()
       .should("exist")
       .and("be.visible");
 
@@ -145,6 +147,7 @@ describe("model", () => {
       "addConditionForModelField" + modelField2?._id.toString()
     ).click();
     cy.getByDataCy("condition0ForField" + modelField2?._id.toString())
+      .scrollIntoView()
       .should("exist")
       .and("be.visible");
     cy.selectInSelector(

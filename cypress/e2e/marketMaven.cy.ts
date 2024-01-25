@@ -8,7 +8,7 @@ describe("MarketMaven", () => {
     cy.visit("/auth");
   });
 
-  it("should simply prepare", () => {
+  it("should simply prepare Marketmaven", () => {
     cy.get("fieldsPage").should("not.exist");
   });
 });

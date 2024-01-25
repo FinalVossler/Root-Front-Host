@@ -28,6 +28,7 @@ import {
   IEventReadDto,
   IEventRequestHeaderReadDto,
   IFieldReadDto,
+  IMicroFrontendReadDto,
   IModelCreateCommand,
   IModelReadDto,
   IModelStateReadDto,
@@ -116,6 +117,7 @@ const ModelEditor = (props: IModelEditorProps) => {
                   (el) => el._id
                 ) || [],
               mainField: modelField.mainField || false,
+              stickInTable: modelField.stickInTable || false,
             })) || [],
           modelEvents: values.modelEvents.map((modelEvent) => ({
             eventTrigger: modelEvent.eventTrigger,
@@ -127,7 +129,8 @@ const ModelEditor = (props: IModelEditorProps) => {
             requestDataIsCreatedEntity: modelEvent.requestDataIsCreatedEntity,
             requestData: modelEvent.requestData,
             requestHeaders: modelEvent.requestHeaders,
-            microFrontendId: modelEvent.microFrontend?._id,
+            microFrontendId: (modelEvent.microFrontend as IMicroFrontendReadDto)
+              ?._id,
             microFrontendComponentId: modelEvent.microFrontendComponentId,
           })),
           states: values.states.map((state) => ({
@@ -169,10 +172,12 @@ const ModelEditor = (props: IModelEditorProps) => {
                   (el) => el._id
                 ) || [],
               mainField: modelField.mainField || false,
+              stickInTable: modelField.stickInTable || false,
             })) || [],
           modelEvents: values.modelEvents.map((modelEvent) => ({
             ...modelEvent,
-            microFrontendId: modelEvent.microFrontend?._id,
+            microFrontendId: (modelEvent.microFrontend as IMicroFrontendReadDto)
+              ?._id,
           })),
           states: values.states.map((state) => ({
             exclusive: state.exclusive,

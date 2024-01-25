@@ -123,6 +123,7 @@ const EntitiesList: React.FunctionComponent<IEntitiesListProps> = (
           <EntityFieldValueComponent entity={entity} modelField={modelField} />
         ),
         defaultHide: !Boolean(modelField.mainField),
+        stick: Boolean(modelField.stickInTable),
       };
     }) || [];
 

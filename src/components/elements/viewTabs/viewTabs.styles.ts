@@ -9,8 +9,9 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     width: "100%",
     backgroundColor: theme.lightTextColor,
     marginBottom: 10,
-    position: "relative",
     borderTop: "1px solid " + theme.darkTextColor,
+    position: "sticky",
+    top: 0,
   },
   viewTab: {
     flex: 1,
