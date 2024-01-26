@@ -29,6 +29,7 @@ import InputSelect from "../../inputSelect";
 import getLanguages from "../../../utils/getLanguages";
 import Textarea from "../../textarea/Textarea";
 import { IFileReadDto, IWebsiteConfigurationUpdateCommand } from "roottypes";
+import { editorSlice } from "../../../store/slices/editorSlice";
 
 interface IWebsiteConfigurationForm extends ITheme {
   language?: string;
@@ -49,7 +50,9 @@ interface IWebsiteConfigurationForm extends ITheme {
   logo2AsYetToDownloadFile?: File;
 }
 
-interface IWebsiteConfigurationEditorProps {}
+interface IWebsiteConfigurationEditorProps {
+  id: string;
+}
 
 const WebsiteConfigurationEditor: React.FunctionComponent<
   IWebsiteConfigurationEditorProps
@@ -63,9 +66,6 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
   );
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.websiteConfiguration
-  );
-  const configurationModelOpen: boolean = useAppSelector(
-    (state) => state.websiteConfiguration.ui.websiteConfigurationEditorOpen
   );
   const language: string = useAppSelector(
     (state) => state.userPreferences.language
@@ -257,10 +257,8 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
   const actualLoading = loading || uploadingFilesLoading;
   return (
     <Modal
-      handleClose={() =>
-        dispatch(websiteConfigurationSlice.actions.setEditorOpen(false))
-      }
-      open={configurationModelOpen}
+      handleClose={() => dispatch(editorSlice.actions.removeEditor(props.id))}
+      open
     >
       <form
         onSubmit={formik.handleSubmit}
@@ -272,9 +270,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           </h2>
 
           <ImCross
-            onClick={() =>
-              dispatch(websiteConfigurationSlice.actions.setEditorOpen(false))
-            }
+            onClick={() => dispatch(editorSlice.actions.removeEditor(props.id))}
             className={styles.closeButton}
           />
         </div>

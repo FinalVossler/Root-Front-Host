@@ -411,10 +411,6 @@ interface IWebsiteConfigurationState {
   logo2?: IFileReadDto;
 
   staticText?: IWebsiteConfiguration["staticText"];
-
-  ui: {
-    websiteConfigurationEditorOpen: boolean;
-  };
 }
 
 const initialState: IWebsiteConfigurationState = {
@@ -2067,9 +2063,6 @@ const initialState: IWebsiteConfigurationState = {
       ],
     },
   },
-  ui: {
-    websiteConfigurationEditorOpen: false,
-  },
 };
 
 export const websiteConfigurationSlice = createSlice({
@@ -2127,12 +2120,6 @@ export const websiteConfigurationSlice = createSlice({
       }
       document.title = action.payload.tabTitle || "Loading";
       changeTabIcon(state.tabIcon?.url || "");
-    },
-    setEditorOpen: (
-      state: IWebsiteConfigurationState,
-      action: PayloadAction<boolean>
-    ) => {
-      state.ui.websiteConfigurationEditorOpen = action.payload;
     },
   },
 });

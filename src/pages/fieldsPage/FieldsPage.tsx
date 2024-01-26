@@ -85,7 +85,6 @@ const FieldsPage: React.FunctionComponent<IFieldsPageProps> = (
     <div className={styles.fieldsPageContainer} data-cy="fieldsPage">
       <Elements
         handleOpenEditor={(element) => {
-          console.log("df");
           dispatch(
             editorSlice.actions.addEditor({
               element,

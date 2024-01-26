@@ -136,7 +136,6 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
           link: "/entities/" + model._id,
           title: getTranslatedText(model.name),
           handleOpenEditor: () => {
-            console.log("lkdf");
             dispatch(
               editorSlice.actions.addEditor({
                 editorType: EditorTypeEnum.Entity,
@@ -178,9 +177,13 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
             <SideMenuOption
               Icon={BsFillGearFill}
               title={getTranslatedText(staticText?.configuration)}
-              onClick={() =>
-                dispatch(websiteConfigurationSlice.actions.setEditorOpen(true))
-              }
+              onClick={() => {
+                dispatch(
+                  editorSlice.actions.addEditor({
+                    editorType: EditorTypeEnum.WebsiteConfiguration,
+                  })
+                );
+              }}
             />
           )}
           <SideMenuOption

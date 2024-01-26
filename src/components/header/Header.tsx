@@ -42,10 +42,6 @@ const Header: React.FunctionComponent<IHeaderProps> = (props: IHeaderProps) => {
   const userPreferenceLanguage: string = useAppSelector(
     (state) => state.userPreferences.language
   );
-  const websiteConfigurationEditorOpen = useAppSelector(
-    (state) => state.websiteConfiguration.ui.websiteConfigurationEditorOpen
-  );
-
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

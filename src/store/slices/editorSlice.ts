@@ -19,6 +19,7 @@ export enum EditorTypeEnum {
   Role = "Role",
   MicroFrontend = "MicroFrontend",
   Page = "Page",
+  WebsiteConfiguration = "WebsiteConfiguration",
 }
 
 export type IElement =

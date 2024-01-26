@@ -3,13 +3,13 @@ import { BiPlus } from "react-icons/bi";
 
 import { ITheme } from "../../../config/theme";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
-import { useAppSelector } from "../../../store/hooks";
-import { IModelReadDto } from "../../../store/slices/modelSlice";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { IPost } from "../../../store/slices/postSlice";
 import Button from "../../button";
-import EntityEditor from "../../editors/entityEditor";
 
 import useStyles from "./styles";
+import { EditorTypeEnum, editorSlice } from "../../../store/slices/editorSlice";
+import { IModelReadDto } from "roottypes";
 
 interface IPostAsEntityEditorProps {
   post: IPost;
@@ -25,29 +25,29 @@ const PostAsEntityEditor: React.FunctionComponent<IPostAsEntityEditorProps> = (
     (state) => state.model.models
   ).find((m) => m._id === props.post.code);
 
-  const [editorOpen, setEditorOpen] = React.useState<boolean>(false);
-
   const styles = useStyles({ theme });
+  const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
 
-  const handleOpenEditor = () => setEditorOpen(true);
+  const handleOpenEntityEditor = () => {
+    dispatch(
+      editorSlice.actions.addEditor({
+        editorType: EditorTypeEnum.Entity,
+        modelId: props.post.code,
+      })
+    );
+  };
 
   if (!model) return null;
 
   return (
     <div className={styles.postAsEntityEditorContainer}>
-      <Button onClick={handleOpenEditor}>
+      <Button onClick={handleOpenEntityEditor}>
         {props.post.title
           ? getTranslatedText(props.post.title)
           : getTranslatedText(model.name)}{" "}
         <BiPlus className={styles.addIcon} />
       </Button>
-
-      <EntityEditor
-        open={editorOpen}
-        setOpen={setEditorOpen}
-        modelId={props.post.code}
-      />
     </div>
   );
 };

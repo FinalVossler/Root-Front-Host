@@ -55,12 +55,15 @@ const AppModalsAndEditors: React.FunctionComponent<
         );
       })}
 
-      {hasPermission(PermissionEnum.EditConfiguration) && (
-        <WebsiteConfigurationEditor />
-      )}
-
       {editors.map((e) => {
         switch (e.editorType) {
+          case EditorTypeEnum.WebsiteConfiguration:
+            if (hasPermission(PermissionEnum.EditConfiguration)) {
+              return <WebsiteConfigurationEditor key={e.id} id={e.id} />;
+            } else {
+              return null;
+            }
+
           case EditorTypeEnum.Field:
             return (
               <FieldEditor

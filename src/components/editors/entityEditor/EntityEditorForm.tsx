@@ -220,8 +220,6 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
       onSubmit: async (values: IEntityEditorFormFormik) => {
         setUploadFilesLoading(true);
 
-        console.log("values", values);
-
         const uploadNewFilesPromises: Promise<IFileReadDto[]>[] = [];
 
         // preparing the files by uploading the new files and combining the new files and the selected own files into one array
