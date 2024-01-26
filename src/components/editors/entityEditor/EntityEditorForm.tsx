@@ -87,11 +87,9 @@ export interface IErroredField {
 
 export interface IEntityEditorFormProps {
   entity?: IEntityReadDto;
-  open: boolean;
-  setOpen: (open: boolean) => void;
   modelId?: string;
   readOnly?: boolean;
-  inModal?: boolean;
+  handleCloseEditor?: () => void;
 }
 
 const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
@@ -292,7 +290,9 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
           createdOrUpdateEntity = await createEntity(command);
         }
 
-        props.setOpen(false);
+        if (props.handleCloseEditor) {
+          props.handleCloseEditor();
+        }
 
         // Model events trigger
         model?.modelEvents
@@ -417,9 +417,6 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
     formik.handleSubmit();
   };
 
-  const handleCloseModal = () => {
-    props.setOpen(false);
-  };
   //#endregion Event listeners
 
   const loading =
@@ -439,9 +436,9 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
               : getTranslatedText(staticText?.createEntity)}
           </h2>
 
-          {props.inModal && (
+          {props.handleCloseEditor && (
             <ImCross
-              onClick={handleCloseModal}
+              onClick={props.handleCloseEditor}
               className={styles.closeButton}
             />
           )}

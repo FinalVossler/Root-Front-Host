@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import Modal from "../../modal";
 import { ITheme } from "../../../config/theme";
 import Button from "../../button";
-import { useAppSelector } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { IPost } from "../../../store/slices/postSlice";
 import { FormikProps, useFormik } from "formik";
 import Input from "../../input";
@@ -28,6 +28,7 @@ import {
   IPageUpdateCommand,
   PermissionEnum,
 } from "roottypes";
+import { editorSlice } from "../../../store/slices/editorSlice";
 
 interface IPageEditorForm {
   title: string;
@@ -40,9 +41,7 @@ interface IPageEditorForm {
 
 interface IPageEditorProps {
   page?: IPageReadDto;
-
-  open: boolean;
-  setOpen: (open: boolean) => void;
+  id: string;
 }
 
 const PageEditor: React.FunctionComponent<IPageEditorProps> = (
@@ -59,6 +58,7 @@ const PageEditor: React.FunctionComponent<IPageEditorProps> = (
     (state) => state.websiteConfiguration.theme
   );
   const styles = useStyles({ theme });
+  const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
   const { createPage, loading: createLoading } = useCreatePage();
   const { updatePage, loading: updateLoading } = useUpdatePage();
@@ -128,7 +128,7 @@ const PageEditor: React.FunctionComponent<IPageEditorProps> = (
         };
         await createPage(command);
       }
-      props.setOpen(false);
+      dispatch(editorSlice.actions.removeEditor(props.id));
     },
   });
 
@@ -149,7 +149,7 @@ const PageEditor: React.FunctionComponent<IPageEditorProps> = (
   }, []);
 
   const handleCloseModal = () => {
-    props.setOpen(false);
+    dispatch(editorSlice.actions.removeEditor(props.id));
   };
   //#endregion Event listeners
 
@@ -158,7 +158,7 @@ const PageEditor: React.FunctionComponent<IPageEditorProps> = (
 
   const loading = createLoading || updateLoading;
   return (
-    <Modal handleClose={handleCloseModal} open={props.open}>
+    <Modal handleClose={handleCloseModal} open>
       <form
         onSubmit={formik.handleSubmit}
         className={styles.createPageModalContainer}

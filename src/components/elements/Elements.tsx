@@ -16,34 +16,20 @@ import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 import ViewTabs from "./viewTabs";
 import {
   IEntityReadDto,
-  IFieldReadDto,
-  IMicroFrontendReadDto,
-  IModelReadDto,
-  IPageReadDto,
   IPaginationCommand,
-  IRoleReadDto,
-  IUserReadDto,
   IPaginationResponse,
 } from "roottypes";
 import ElementsTable from "./elementsTable";
+import { IElement } from "../../store/slices/editorSlice";
 
 export type Column = {
   label: string;
   name: string;
   render?: (param: any) => any;
-  RenderComponent?: React.FunctionComponent<{ element: Element }>;
+  RenderComponent?: React.FunctionComponent<{ element: IElement }>;
   defaultHide?: boolean;
   stick?: boolean;
 };
-
-export type Element =
-  | IFieldReadDto
-  | IModelReadDto
-  | IEntityReadDto
-  | IUserReadDto
-  | IRoleReadDto
-  | IMicroFrontendReadDto
-  | IPageReadDto;
 
 export enum ViewTypeEnum {
   Table = "Table",
@@ -52,13 +38,9 @@ export enum ViewTypeEnum {
 }
 
 interface IElementsProps {
-  Editor: React.FunctionComponent<{
-    open: boolean;
-    setOpen: (open: boolean) => void;
-    element?: Element | null;
-  }>;
+  handleOpenEditor: (element?: IElement) => void;
   columns: Column[];
-  elements: Element[];
+  elements: IElement[];
   withPagination?: boolean;
   total?: number;
   limit?: number;
@@ -69,7 +51,7 @@ interface IElementsProps {
   copyPromise?: (ids: string[]) => Promise<unknown>;
   copyLoading?: boolean;
   onCopyFinished?: () => void;
-  getElementName: (element: Element) => string;
+  getElementName: (element: IElement) => string;
   onPageChange?: (page: number) => void;
   searchPromise?: (
     searchText: string,
@@ -96,13 +78,12 @@ const Elements: React.FunctionComponent<IElementsProps> = (
     (state) => state.websiteConfiguration.staticText?.elements
   );
 
-  const [editorOpen, setEditorOpen] = React.useState<boolean>(false);
   const [deleteModalOpen, setDeleteModalOpen] = React.useState<boolean>(false);
   const [copyModalOpen, setCopyModalOpen] = React.useState<boolean>(false);
   const [selectedElementsIds, setSelectedElementsIds] = React.useState<
     string[]
   >([]);
-  const [selectedElement, setSelectedElement] = React.useState<Element | null>(
+  const [selectedElement, setSelectedElement] = React.useState<IElement | null>(
     null
   );
   const [viewType, setViewType] = React.useState<ViewTypeEnum>(
@@ -114,20 +95,13 @@ const Elements: React.FunctionComponent<IElementsProps> = (
   const getTranslatedText = useGetTranslatedText();
 
   React.useEffect(() => {
-    if (!editorOpen) {
-      setSelectedElement(null);
-    }
-  }, [editorOpen]);
-
-  React.useEffect(() => {
     setSelectedElementsIds([]);
   }, [props.elements]);
 
   //#region Event listeners
-  const handleOpenEditor = () => setEditorOpen(true);
   const handleToggleElementSelect = (
     e: React.ChangeEvent<HTMLInputElement>,
-    element: Element
+    element: IElement
   ) => {
     const newSelectedElements: string[] = [...selectedElementsIds];
     const exists = newSelectedElements.indexOf(element._id) !== -1;
@@ -141,9 +115,9 @@ const Elements: React.FunctionComponent<IElementsProps> = (
 
     setSelectedElementsIds(newSelectedElements);
   };
-  const handleEdit = (element: Element) => {
+  const handleEdit = (element: IElement) => {
     setSelectedElement(element);
-    setEditorOpen(true);
+    props.handleOpenEditor(element);
   };
   const handleDelete = async () => {
     if (!props.canDelete) return;
@@ -208,7 +182,7 @@ const Elements: React.FunctionComponent<IElementsProps> = (
 
           {props.canCreate && !props.loading && (
             <Button
-              onClick={handleOpenEditor}
+              onClick={() => props.handleOpenEditor()}
               style={{ paddingLeft: 40, paddingRight: 40, marginLeft: 10 }}
               buttonDataCy="addElementButton"
             >
@@ -231,7 +205,7 @@ const Elements: React.FunctionComponent<IElementsProps> = (
                     " " +
                     selectedElementsIds
                       .map((selectedElementId) => {
-                        const element: Element | undefined = elements.find(
+                        const element: IElement | undefined = elements.find(
                           (el) => el._id === selectedElementId
                         );
                         return element ? props.getElementName(element) : "";
@@ -264,7 +238,7 @@ const Elements: React.FunctionComponent<IElementsProps> = (
                   ": " +
                   selectedElementsIds
                     .map((selectedElementId) => {
-                      const element: Element | undefined = elements.find(
+                      const element: IElement | undefined = elements.find(
                         (el) => el._id === selectedElementId
                       );
                       return element ? props.getElementName(element) : "";
@@ -278,12 +252,6 @@ const Elements: React.FunctionComponent<IElementsProps> = (
               />
             </React.Fragment>
           )}
-
-          <props.Editor
-            open={editorOpen}
-            setOpen={setEditorOpen}
-            element={selectedElement}
-          />
         </div>
 
         {(viewType === ViewTypeEnum.Board ||
@@ -299,7 +267,6 @@ const Elements: React.FunctionComponent<IElementsProps> = (
               forStatusTracking={
                 viewType === ViewTypeEnum.BoardForStatusTracking
               }
-              Editor={(subProps) => <props.Editor {...subProps} />}
               loading={props.loading}
             />
           )}

@@ -15,6 +15,7 @@ import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 
 import useStyles from "./rolesPage.styles";
 import { IPaginationResponse, IRoleReadDto, PermissionEnum } from "roottypes";
+import { EditorTypeEnum, editorSlice } from "../../store/slices/editorSlice";
 
 interface IRolesPageProps {}
 
@@ -69,9 +70,14 @@ const RolesPage: React.FunctionComponent<IRolesPageProps> = (
   return (
     <div className={styles.rolesPageContainer} data-cy="rolesPage">
       <Elements
-        Editor={({ element, ...props }) => (
-          <RoleEditor {...props} role={element as IRoleReadDto} />
-        )}
+        handleOpenEditor={(element) =>
+          dispatch(
+            editorSlice.actions.addEditor({
+              element,
+              editorType: EditorTypeEnum.Role,
+            })
+          )
+        }
         columns={[
           {
             label: getTranslatedText(staticText?.namePlaceholder),

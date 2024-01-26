@@ -10,7 +10,7 @@ import useStyles from "./userEditor.styles";
 import Modal from "../../modal";
 import { ITheme } from "../../../config/theme";
 import Button from "../../button";
-import { useAppSelector } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import Input from "../../input";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import useUpdateUser from "../../../hooks/apiHooks/useUpdateUser";
@@ -25,12 +25,7 @@ import {
   IUserUpdateCommand,
   SuperRoleEnum,
 } from "roottypes";
-
-export interface IUserEditorProps {
-  user?: IUserReadDto;
-  open?: boolean;
-  setOpen?: (boolean) => void;
-}
+import { editorSlice } from "../../../store/slices/editorSlice";
 
 interface IUserFormFormik {
   firstName: string;
@@ -40,6 +35,11 @@ interface IUserFormFormik {
   password: string;
   confirmPassword: string;
   superRole: SuperRoleEnum;
+}
+
+export interface IUserEditorProps {
+  user?: IUserReadDto;
+  id: string;
 }
 
 const UserEditor: React.FunctionComponent<IUserEditorProps> = (
@@ -54,11 +54,8 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
   const roles: IRoleReadDto[] = useAppSelector((state) => state.role.roles);
   const user: IUserReadDto = useAppSelector((state) => state.user.user);
 
-  //#region Local state
-  const [userModalOpen, setUserModalOpen] = React.useState<boolean>(false);
-  //#endregion Local state
-
   const styles = useStyles({ theme });
+  const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
   const { createUser, loading: createLoading } = useCreateUser();
   const { updateUser, loading: updateLoading } = useUpdateUser();
@@ -117,30 +114,20 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
         await createUser(command);
       }
 
-      if (props.setOpen) {
-        props.setOpen(false);
-      }
+      dispatch(editorSlice.actions.removeEditor(props.id));
     },
   });
 
   //#region Effects
   React.useEffect(() => {
-    if (props.open !== undefined) {
-      setUserModalOpen(props.open);
-    }
-  }, [props.open]);
-
-  React.useEffect(() => {
-    if (userModalOpen) {
-      const getRolesCommand: IRolesGetCommand = {
-        paginationCommand: {
-          limit: 999,
-          page: 1,
-        },
-      };
-      getRoles(getRolesCommand);
-    }
-  }, [userModalOpen]);
+    const getRolesCommand: IRolesGetCommand = {
+      paginationCommand: {
+        limit: 999,
+        page: 1,
+      },
+    };
+    getRoles(getRolesCommand);
+  }, []);
 
   React.useEffect(() => {
     // Initialize the form based on the passed user to update
@@ -168,9 +155,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
   };
 
   const handleCloseModal = () => {
-    if (props.setOpen) {
-      props.setOpen(false);
-    } else setUserModalOpen(false);
+    dispatch(editorSlice.actions.removeEditor(props.id));
   };
   //#endregion Event listeners
 
@@ -192,7 +177,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
   //#endregion view
 
   return (
-    <Modal handleClose={handleCloseModal} open={userModalOpen}>
+    <Modal handleClose={handleCloseModal} open>
       <form
         onSubmit={handleSubmit}
         className={styles.createFieldModalContainer}

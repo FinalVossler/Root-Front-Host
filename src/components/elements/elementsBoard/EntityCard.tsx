@@ -1,5 +1,5 @@
 import React from "react";
-import { useAppSelector } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { IModelField } from "../../../store/slices/modelSlice";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 
@@ -9,7 +9,6 @@ import { FaDirections } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import getModelStateConcernedFields from "../../../utils/getModelStateConcernedFields";
 import doesEntityMeetModelStateCondition from "../../../utils/doesEntityMeetModelStateCondition";
-import { Element } from "../Elements";
 import {
   IEntityReadDto,
   IFieldReadDto,
@@ -17,24 +16,18 @@ import {
   IModelStateReadDto,
   IUserReadDto,
 } from "roottypes";
+import { EditorTypeEnum, editorSlice } from "../../../store/slices/editorSlice";
 
 interface IEntityCardProps {
   entity: IEntityReadDto;
   modelId: string;
   mainModelFields: IModelField[];
   model: IModelReadDto;
-  Editor: React.FunctionComponent<{
-    open: boolean;
-    setOpen: (open: boolean) => void;
-    element?: Element | null;
-  }>;
 }
 
 const EntityCard: React.FunctionComponent<IEntityCardProps> = (
   props: IEntityCardProps
 ) => {
-  const [editorOpen, setEditorOpen] = React.useState<boolean>(false);
-
   const theme = useAppSelector((state) => state.websiteConfiguration.theme);
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.entities
@@ -42,19 +35,21 @@ const EntityCard: React.FunctionComponent<IEntityCardProps> = (
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
+  const dispatch = useAppDispatch();
 
   const handleOpenEditor = () => {
-    setEditorOpen(true);
+    dispatch(
+      editorSlice.actions.addEditor({
+        editorType: EditorTypeEnum.Entity,
+        element: props.entity,
+        modelId: props.model._id,
+      })
+    );
   };
 
   return (
     <div className={styles.entityCard}>
       <BiEdit onClick={handleOpenEditor} className={styles.editEntityIcon} />
-      <props.Editor
-        open={editorOpen}
-        setOpen={setEditorOpen}
-        element={props.entity}
-      />
       <Link
         target="_blank"
         rel="noreferrer"

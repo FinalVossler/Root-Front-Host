@@ -5,7 +5,6 @@ import { ITheme } from "../../../config/theme";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../store/hooks";
 import { IModelField } from "../../../store/slices/modelSlice";
-import { Element } from "../Elements";
 import doesEntityMeetModelStateCondition from "../../../utils/doesEntityMeetModelStateCondition";
 import getModelStateConcernedFields from "../../../utils/getModelStateConcernedFields";
 
@@ -18,12 +17,6 @@ interface IElementsBoardProps {
   modelId: string;
   entities: IEntityReadDto[];
   forStatusTracking: boolean;
-
-  Editor: React.FunctionComponent<{
-    open: boolean;
-    setOpen: (open: boolean) => void;
-    element?: Element | null;
-  }>;
   loading: boolean;
 }
 
@@ -120,7 +113,6 @@ const ElementsBoard: React.FunctionComponent<IElementsBoardProps> = (
                 modelId={props.modelId}
                 model={model}
                 mainModelFields={mainModelFields}
-                Editor={(subProps) => <props.Editor {...subProps} />}
               />
               <StateTracking
                 states={
@@ -158,7 +150,6 @@ const ElementsBoard: React.FunctionComponent<IElementsBoardProps> = (
                         modelId={props.modelId}
                         model={model}
                         mainModelFields={mainModelFields}
-                        Editor={(subProps) => <props.Editor {...subProps} />}
                       />
                     </div>
                   );

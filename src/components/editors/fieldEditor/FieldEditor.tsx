@@ -9,7 +9,7 @@ import useStyles from "./fieldEditor.styles";
 import Modal from "../../modal";
 import { ITheme } from "../../../config/theme";
 import Button from "../../button";
-import { useAppSelector } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import Input from "../../input";
 import { ImCross } from "react-icons/im";
 import { FormikProps, useFormik } from "formik";
@@ -31,7 +31,9 @@ import {
   IFieldReadDto,
   IFieldTableElementReadDto,
   IFieldUpdateCommand,
+  IMicroFrontendReadDto,
 } from "roottypes";
+import { editorSlice } from "../../../store/slices/editorSlice";
 
 type FieldOptionForm = {
   label: string;
@@ -63,8 +65,7 @@ export interface IFieldFormFormik {
 
 export interface IFieldEditorProps {
   field?: IFieldReadDto;
-  open?: boolean;
-  setOpen?: (open: boolean) => void;
+  id: string;
 }
 
 const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
@@ -80,11 +81,8 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
     (state) => state.websiteConfiguration?.staticText?.fields
   );
 
-  //#region Local state
-  const [fieldModalOpen, setFieldModalOpen] = React.useState<boolean>(false);
-  //#endregion Local state
-
   const styles = useStyles({ theme });
+  const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
   const { createField, loading: createLoading } = useCreateField();
   const { updateField, loading: updateLoading } = useUpdateField();
@@ -115,7 +113,8 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
           options: values.options,
           fieldEvents: values.fieldEvents.map((event) => ({
             ...event,
-            microFrontendId: event.microFrontend?._id,
+            microFrontendId: (event.microFrontend as IMicroFrontendReadDto)
+              ?._id,
           })),
           tableOptions: {
             name: values.tableOptions.name,
@@ -143,7 +142,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
           options: values.options,
           fieldEvents: values.fieldEvents.map((e) => ({
             ...e,
-            microFrontendId: e.microFrontend?._id,
+            microFrontendId: (e.microFrontend as IMicroFrontendReadDto)?._id,
           })),
           tableOptions: {
             name: values.name,
@@ -162,18 +161,11 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
         await createField(command);
       }
 
-      if (props.setOpen) {
-        props.setOpen(false);
-      }
+      dispatch(editorSlice.actions.removeEditor(props.id));
     },
   });
 
   //#region Effects
-  React.useEffect(() => {
-    if (props.open !== undefined) {
-      setFieldModalOpen(props.open);
-    }
-  }, [props.open]);
 
   React.useEffect(() => {
     // Initialize the form based on the language and the passed field to update
@@ -257,9 +249,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
   };
 
   const handleCloseModal = () => {
-    if (props.setOpen) {
-      props.setOpen(false);
-    } else setFieldModalOpen(false);
+    dispatch(editorSlice.actions.removeEditor(props.id));
   };
 
   const handleAddOption = () => {
@@ -282,7 +272,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
 
   const loading = props.field ? updateLoading : createLoading;
   return (
-    <Modal handleClose={handleCloseModal} open={fieldModalOpen}>
+    <Modal handleClose={handleCloseModal} open>
       <form
         onSubmit={handleSubmit}
         className={styles.createFieldModalContainer}

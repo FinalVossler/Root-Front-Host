@@ -8,7 +8,7 @@ import useStyles from "./modelEditor.styles";
 import Modal from "../../modal";
 import { ITheme } from "../../../config/theme";
 import Button from "../../button";
-import { useAppSelector } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import Input from "../../input";
 import { ImCross } from "react-icons/im";
 import { FormikProps, useFormik } from "formik";
@@ -35,6 +35,7 @@ import {
   IModelUpdateCommand,
   ModelStateTypeEnum,
 } from "roottypes";
+import { editorSlice } from "../../../store/slices/editorSlice";
 
 export type ModelFormState = {
   _id?: string;
@@ -58,8 +59,7 @@ export interface IModelForm {
 
 export interface IModelEditorProps {
   model?: IModelReadDto;
-  open?: boolean;
-  setOpen?: (open: boolean) => void;
+  id: string;
 }
 
 const ModelEditor = (props: IModelEditorProps) => {
@@ -73,12 +73,9 @@ const ModelEditor = (props: IModelEditorProps) => {
     (state) => state.websiteConfiguration?.staticText?.models
   );
 
-  //#region Local state
-  const [modelModalOpen, setModelModalOpen] = React.useState<boolean>(false);
-  //#endregion Local state
-
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
+  const dispatch = useAppDispatch();
   const { createModel, loading: createLoading } = useCreateModel();
   const { updateModel, loading: updateLoading } = useUpdateModel();
   const formik: FormikProps<IModelForm> = useFormik<IModelForm>({
@@ -199,18 +196,11 @@ const ModelEditor = (props: IModelEditorProps) => {
         await createModel(command);
       }
 
-      if (props.setOpen) {
-        props.setOpen(false);
-      }
+      dispatch(editorSlice.actions.removeEditor(props.id));
     },
   });
 
   //#region Effects
-  React.useEffect(() => {
-    if (props.open !== undefined) {
-      setModelModalOpen(props.open);
-    }
-  }, [props.open]);
   // Initialize form based on model prop
   React.useEffect(() => {
     formik.resetForm({
@@ -287,9 +277,7 @@ const ModelEditor = (props: IModelEditorProps) => {
   };
 
   const handleCloseModal = () => {
-    if (props.setOpen) {
-      props.setOpen(false);
-    } else setModelModalOpen(false);
+    dispatch(editorSlice.actions.removeEditor(props.id));
   };
 
   const handleModelFieldsChange = (modelFields: IModelField[]) => {
@@ -299,7 +287,7 @@ const ModelEditor = (props: IModelEditorProps) => {
 
   const loading = props.model ? updateLoading : createLoading;
   return (
-    <Modal handleClose={handleCloseModal} open={modelModalOpen}>
+    <Modal handleClose={handleCloseModal} open>
       <form
         onSubmit={handleSubmit}
         className={styles.createModelModalContainer}

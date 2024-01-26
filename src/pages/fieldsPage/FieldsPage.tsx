@@ -16,6 +16,7 @@ import { fieldSlice } from "../../store/slices/fieldSlice";
 import useStyles from "./fieldsPage.styles";
 import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 import { IFieldReadDto, IPaginationResponse, PermissionEnum } from "roottypes";
+import { EditorTypeEnum, editorSlice } from "../../store/slices/editorSlice";
 
 interface IFieldsPageProps {}
 
@@ -83,9 +84,15 @@ const FieldsPage: React.FunctionComponent<IFieldsPageProps> = (
   return (
     <div className={styles.fieldsPageContainer} data-cy="fieldsPage">
       <Elements
-        Editor={({ element, ...props }) => (
-          <FieldEditor {...props} field={element as IFieldReadDto} />
-        )}
+        handleOpenEditor={(element) => {
+          console.log("df");
+          dispatch(
+            editorSlice.actions.addEditor({
+              element,
+              editorType: EditorTypeEnum.Field,
+            })
+          );
+        }}
         columns={[
           {
             label: getTranslatedText(staticText?.namePlaceholder),

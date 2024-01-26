@@ -9,7 +9,7 @@ import useStyles from "./microFrontendEditor.styles";
 import Modal from "../../modal";
 import { ITheme } from "../../../config/theme";
 import Button from "../../button";
-import { useAppSelector } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import Input from "../../input";
 import { ImCross } from "react-icons/im";
 import { FormikProps, useFormik } from "formik";
@@ -24,6 +24,7 @@ import {
   IMicroFrontendReadDto,
   IMicroFrontendUpdateCommand,
 } from "roottypes";
+import { editorSlice } from "../../../store/slices/editorSlice";
 
 export interface IMicroFrontendForm {
   name: string;
@@ -33,8 +34,7 @@ export interface IMicroFrontendForm {
 
 export interface IMicroFrontendEditorProps {
   microFrontend?: IMicroFrontendReadDto;
-  open?: boolean;
-  setOpen?: (open: boolean) => void;
+  id: string;
 }
 
 const MicroFrontendEditor: React.FunctionComponent<
@@ -53,6 +53,7 @@ const MicroFrontendEditor: React.FunctionComponent<
   //#endregion Local state
 
   const styles = useStyles({ theme });
+  const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
   const { createMicroFrontend, loading: createLoading } =
     useCreateMicroFrontend();
@@ -89,20 +90,12 @@ const MicroFrontendEditor: React.FunctionComponent<
           await createMicroFrontend(command);
         }
 
-        if (props.setOpen) {
-          props.setOpen(false);
-        }
+        dispatch(editorSlice.actions.removeEditor(props.id));
       },
     }
   );
 
   //#region Effects
-  React.useEffect(() => {
-    if (props.open !== undefined) {
-      setMicroFrontendModalOpen(props.open);
-    }
-  }, [props.open]);
-
   React.useEffect(() => {
     // Initialize the form based on the language and the passed microFrontend to update
     formik.resetForm({
@@ -137,9 +130,7 @@ const MicroFrontendEditor: React.FunctionComponent<
   };
 
   const handleCloseModal = () => {
-    if (props.setOpen) {
-      props.setOpen(false);
-    } else setMicroFrontendModalOpen(false);
+    dispatch(editorSlice.actions.removeEditor(props.id));
   };
 
   const handleDeleteComponent = (componentIndex: number) => {

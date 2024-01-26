@@ -1,11 +1,6 @@
 import React from "react";
 import "suneditor/dist/css/suneditor.min.css";
-import {
-  MdArrowDownward,
-  MdArrowUpward,
-  MdDelete,
-  MdTitle,
-} from "react-icons/md";
+import { MdDelete, MdTitle } from "react-icons/md";
 import { ImCross } from "react-icons/im";
 import { FormikProps, useFormik } from "formik";
 import ReactLoading from "react-loading";
@@ -14,7 +9,7 @@ import * as Yup from "yup";
 import Modal from "../../modal";
 import { ITheme } from "../../../config/theme";
 import Button from "../../button";
-import { useAppSelector } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import Input from "../../input";
 import useCreateRole from "../../../hooks/apiHooks/useCreateRole";
 import useUpdateRole, {
@@ -42,6 +37,7 @@ import {
   PermissionEnum,
   StaticPermissionEnum,
 } from "roottypes";
+import { editorSlice } from "../../../store/slices/editorSlice";
 
 export interface IEntityEventNotificationForm {
   _id?: string;
@@ -75,8 +71,7 @@ export interface IRoleForm {
 
 export interface IRoleEditorProps {
   role?: IRoleReadDto;
-  open?: boolean;
-  setOpen?: (open: boolean) => void;
+  id: string;
 }
 
 const RoleEditor = (props: IRoleEditorProps) => {
@@ -91,7 +86,6 @@ const RoleEditor = (props: IRoleEditorProps) => {
   );
 
   //#region Local state
-  const [roleModalOpen, setRoleModalOpen] = React.useState<boolean>(false);
   const [showFieldPermissions, setShowFieldPermissions] =
     React.useState<boolean>(false);
   const [showEventNotifications, setShowEventNotifications] =
@@ -102,6 +96,7 @@ const RoleEditor = (props: IRoleEditorProps) => {
   //#endregion Local state
 
   const styles = useStyles({ theme });
+  const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
   const { createRole, loading: createLoading } = useCreateRole();
   const { updateRole, loading: updateLoading } = useUpdateRole();
@@ -189,27 +184,11 @@ const RoleEditor = (props: IRoleEditorProps) => {
         await createRole(command);
       }
 
-      if (props.setOpen) {
-        props.setOpen(false);
-      }
+      dispatch(editorSlice.actions.removeEditor(props.id));
     },
   });
 
   //#region Effects
-  React.useEffect(() => {
-    if (props.open !== undefined) {
-      setRoleModalOpen(props.open);
-    }
-  }, [props.open]);
-
-  React.useEffect(() => {
-    if (!props.open) {
-      formik.resetForm({
-        values: { ...initialValues },
-      });
-    }
-  }, [props.open]);
-
   React.useEffect(() => {
     // Initialize the form based on the language and the passed role to update
     formik.resetForm({
@@ -281,9 +260,7 @@ const RoleEditor = (props: IRoleEditorProps) => {
   };
 
   const handleCloseModal = () => {
-    if (props.setOpen) {
-      props.setOpen(false);
-    } else setRoleModalOpen(false);
+    dispatch(editorSlice.actions.removeEditor(props.id));
   };
 
   const handleSelectModel = (model: IModelReadDto) => {
@@ -485,7 +462,7 @@ const RoleEditor = (props: IRoleEditorProps) => {
   );
 
   return (
-    <Modal handleClose={handleCloseModal} open={roleModalOpen}>
+    <Modal handleClose={handleCloseModal} open>
       <form
         onSubmit={handleSubmit}
         className={styles.createRoleModalContainer}

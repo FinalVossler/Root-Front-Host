@@ -5,14 +5,14 @@ import { ITheme } from "../../config/theme";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useHasPermission from "../../hooks/useHasPermission";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 import useStyles from "./pagesPage.styles";
 import { LocalStorageConfNameEnum } from "../../utils/localStorage";
-import PageEditor from "../../components/editors/pageEditor";
 import useDeletePages from "../../hooks/apiHooks/useDeletePages";
 import { FaDirections } from "react-icons/fa";
 import { IPageReadDto, PermissionEnum } from "roottypes";
+import { EditorTypeEnum, editorSlice } from "../../store/slices/editorSlice";
 
 interface IPagesPageProps {}
 
@@ -28,6 +28,7 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
   const { pages } = useAppSelector((state) => state.page);
 
   const styles = useStyles({ theme });
+  const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
   const isLoggedIn: boolean = useIsLoggedIn();
   const { deletePages, loading: deleteLoading } = useDeletePages();
@@ -40,9 +41,14 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
   return (
     <div className={styles.pagesPageContainer} data-cy="pagesPage">
       <Elements
-        Editor={({ element, ...props }) => (
-          <PageEditor {...props} page={element as IPageReadDto} />
-        )}
+        handleOpenEditor={(element) =>
+          dispatch(
+            editorSlice.actions.addEditor({
+              element,
+              editorType: EditorTypeEnum.Field,
+            })
+          )
+        }
         columns={[
           {
             label: getTranslatedText(staticText?.title),

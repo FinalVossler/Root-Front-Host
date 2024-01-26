@@ -14,10 +14,11 @@ import {
 import { useAppSelector } from "../../../store/hooks";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import ColumnOptions from "../columnOptions";
-import { Column as IColumn, Element as IElement } from "../Elements";
+import { Column as IColumn } from "../Elements";
 
 import useStyles from "./elementsTable.styles";
 import useColumnStyle from "./useColumnStyles";
+import { IElement } from "../../../store/slices/editorSlice";
 
 interface IElementsTableProps {
   columns: IColumn[];
@@ -129,6 +130,7 @@ const ElementsTable: React.FunctionComponent<IElementsTableProps> = (
               }
               return (
                 <HeaderColumn
+                  key={columnIndex}
                   elementIndex={columnIndex}
                   column={column}
                   handleHideColumn={handleHideColumn}
@@ -167,7 +169,7 @@ const ElementsTable: React.FunctionComponent<IElementsTableProps> = (
                       props.setSelectedElementsIds(
                         props.elements.length !==
                           props.selectedElementsIds.length
-                          ? props.elements.map((el) => el._id)
+                          ? props.elements.map((el) => (el as IElement)._id)
                           : []
                       )
                     }
@@ -197,6 +199,7 @@ const ElementsTable: React.FunctionComponent<IElementsTableProps> = (
                     }
                     return (
                       <Column
+                        key={columnIndex}
                         element={element}
                         column={column}
                         elementIndex={elementIndex}

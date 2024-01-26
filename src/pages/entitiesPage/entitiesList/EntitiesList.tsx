@@ -2,7 +2,6 @@ import React from "react";
 import { FaDirections } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-import EntityEditor from "../../../components/editors/entityEditor";
 import Elements from "../../../components/elements";
 import { Column } from "../../../components/elements/Elements";
 import { ITheme } from "../../../config/theme";
@@ -29,6 +28,7 @@ import {
   IPaginationResponse,
   StaticPermissionEnum,
 } from "roottypes";
+import { EditorTypeEnum, editorSlice } from "../../../store/slices/editorSlice";
 
 interface IEntitiesListProps {
   modelId: string;
@@ -146,13 +146,15 @@ const EntitiesList: React.FunctionComponent<IEntitiesListProps> = (
 
   return (
     <Elements
-      Editor={({ element, ...subProps }) => (
-        <EntityEditor
-          {...subProps}
-          entity={element as IEntityReadDto}
-          modelId={props.modelId}
-        />
-      )}
+      handleOpenEditor={(element) =>
+        dispatch(
+          editorSlice.actions.addEditor({
+            element,
+            editorType: EditorTypeEnum.Entity,
+            modelId: props.modelId,
+          })
+        )
+      }
       columns={columns}
       elements={entities || []}
       total={total || 0}

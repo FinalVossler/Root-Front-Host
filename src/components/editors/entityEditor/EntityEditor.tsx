@@ -5,18 +5,19 @@ import "suneditor/dist/css/suneditor.min.css";
 import Modal from "../../modal";
 import EntityEditorForm from "./EntityEditorForm";
 import { IEntityReadDto } from "roottypes";
+import { useAppDispatch } from "../../../store/hooks";
+import { editorSlice } from "../../../store/slices/editorSlice";
 
 export interface IEntityEditorProps {
   entity?: IEntityReadDto;
-  open: boolean;
-  setOpen: (open: boolean) => void;
-  // This one is used for when we use the entity editor as a post (the editor could exist in any page)
   modelId?: string;
+  id: string;
 }
 
 const EntityEditor: React.FunctionComponent<IEntityEditorProps> = (
   props: IEntityEditorProps
 ) => {
+  const dispatch = useAppDispatch();
   const { modelId } = useParams();
   const actualModelId = React.useMemo(
     () => props.modelId ?? modelId,
@@ -24,19 +25,17 @@ const EntityEditor: React.FunctionComponent<IEntityEditorProps> = (
   );
 
   //#region Event listeners
-  const handleCloseModal = () => {
-    props.setOpen(false);
+  const handleCloseEditor = () => {
+    dispatch(editorSlice.actions.removeEditor(props.id));
   };
   //#endregion Event listeners
 
   return (
-    <Modal handleClose={handleCloseModal} open={props.open}>
+    <Modal handleClose={handleCloseEditor} open>
       <EntityEditorForm
         entity={props.entity}
         modelId={actualModelId}
-        open={props.open}
-        setOpen={props.setOpen}
-        inModal
+        handleCloseEditor={handleCloseEditor}
       />
     </Modal>
   );

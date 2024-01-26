@@ -18,7 +18,6 @@ import AuthenticatedApp from "./AuthenticatedApp";
 import useIsLoggedIn from "./hooks/useIsLoggedIn";
 import { useAppSelector } from "./store/hooks";
 import { IPageReadDto } from "roottypes";
-import AppModals from "./AppModals";
 
 import "./index.css";
 
@@ -47,8 +46,6 @@ function App() {
   return (
     <React.Fragment>
       <ToastContainer hideProgressBar position="bottom-right" />
-
-      <AppModals />
 
       <BrowserRouter>
         <Routes>

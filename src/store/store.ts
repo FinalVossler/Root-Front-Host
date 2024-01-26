@@ -12,6 +12,7 @@ import entityReducer from "./slices/entitySlice";
 import roleReducer from "./slices/roleSlice";
 import notificationReducer from "./slices/notificationSlice";
 import microFrontendReducer from "./slices/microFrontendSlice";
+import editorReducer from "./slices/editorSlice";
 
 export const store = configureStore({
   reducer: {
@@ -27,6 +28,7 @@ export const store = configureStore({
     role: roleReducer,
     notification: notificationReducer,
     microFrontend: microFrontendReducer,
+    editor: editorReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -7,16 +7,13 @@ import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./sideMenuOption.styles";
 import { BiPlus } from "react-icons/bi";
+import doNothing from "../../../utils/doNothing";
 
 type SubOption = {
   title: string;
   link: string;
   Icon: any;
-  Editor?: React.FunctionComponent<{
-    open: boolean;
-    setOpen: (open: boolean) => void;
-    element?: Element | null;
-  }>;
+  handleOpenEditor?: () => void;
   dataCy?: string;
 };
 
@@ -97,20 +94,12 @@ const SideMenuOption: React.FunctionComponent<ISideMenuOptionProps> = (
 };
 
 const SubOption = React.memo((props: { subOption: SubOption }) => {
-  const [editorOpen, setEditorOpen] = React.useState<boolean>(false);
-
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
 
   const styles = useStyles({ theme });
   const location = useLocation();
-
-  const handleOpenEditor = (e: React.MouseEvent<SVGElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setEditorOpen(true);
-  };
 
   return (
     <React.Fragment>
@@ -135,20 +124,19 @@ const SubOption = React.memo((props: { subOption: SubOption }) => {
           </div>
 
           <div className={styles.subOptionRight}>
-            {props.subOption.Editor && (
-              <BiPlus onClick={handleOpenEditor} className={styles.addButton} />
+            {props.subOption.handleOpenEditor && (
+              <BiPlus
+                onClick={() =>
+                  props.subOption.handleOpenEditor
+                    ? props.subOption.handleOpenEditor()
+                    : doNothing()
+                }
+                className={styles.addButton}
+              />
             )}
           </div>
         </div>
       </Link>
-
-      {props.subOption.Editor && (
-        <props.subOption.Editor
-          open={editorOpen}
-          setOpen={setEditorOpen}
-          element={null}
-        />
-      )}
     </React.Fragment>
   );
 });

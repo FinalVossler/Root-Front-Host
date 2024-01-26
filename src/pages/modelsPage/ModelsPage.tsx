@@ -21,6 +21,7 @@ import {
   IPaginationResponse,
   PermissionEnum,
 } from "roottypes";
+import { EditorTypeEnum, editorSlice } from "../../store/slices/editorSlice";
 
 interface IModelsPageProps {}
 
@@ -75,9 +76,14 @@ const ModelsPage: React.FunctionComponent<IModelsPageProps> = (
   return (
     <div className={styles.modelsPageContainer} data-cy="modelsPage">
       <Elements
-        Editor={({ element, ...props }) => (
-          <ModelEditor {...props} model={element as IModelReadDto} />
-        )}
+        handleOpenEditor={(element) => {
+          dispatch(
+            editorSlice.actions.addEditor({
+              element,
+              editorType: EditorTypeEnum.Model,
+            })
+          );
+        }}
         columns={[
           {
             label: getTranslatedText(staticText?.namePlaceholder),

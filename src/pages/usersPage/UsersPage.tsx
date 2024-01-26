@@ -23,6 +23,7 @@ import {
   PermissionEnum,
   SuperRoleEnum,
 } from "roottypes";
+import { EditorTypeEnum, editorSlice } from "../../store/slices/editorSlice";
 
 interface IUsersPageProps {}
 
@@ -79,9 +80,14 @@ const UsersPage: React.FunctionComponent<IUsersPageProps> = (
   return (
     <div className={styles.usersPageContainer} data-cy="usersPage">
       <Elements
-        Editor={({ element, ...props }) => (
-          <UserEditor {...props} user={element as IUserReadDto} />
-        )}
+        handleOpenEditor={(element) =>
+          dispatch(
+            editorSlice.actions.addEditor({
+              element,
+              editorType: EditorTypeEnum.User,
+            })
+          )
+        }
         columns={[
           {
             label: getTranslatedText(staticText?.firstName),

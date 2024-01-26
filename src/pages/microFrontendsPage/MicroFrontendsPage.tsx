@@ -20,6 +20,7 @@ import {
   IPaginationResponse,
   PermissionEnum,
 } from "roottypes";
+import { EditorTypeEnum, editorSlice } from "../../store/slices/editorSlice";
 
 interface IMicroFrontendsPageProps {}
 
@@ -83,12 +84,14 @@ const MicroFrontendsPage: React.FunctionComponent<IMicroFrontendsPageProps> = (
   return (
     <div className={styles.microFrontendsPageContainer}>
       <Elements
-        Editor={({ element, ...props }) => (
-          <MicroFrontendEditor
-            {...props}
-            microFrontend={element as IMicroFrontendReadDto}
-          />
-        )}
+        handleOpenEditor={(element) =>
+          dispatch(
+            editorSlice.actions.addEditor({
+              element,
+              editorType: EditorTypeEnum.Field,
+            })
+          )
+        }
         columns={[
           {
             label: getTranslatedText(staticText?.name),

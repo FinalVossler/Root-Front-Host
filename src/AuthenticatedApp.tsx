@@ -22,6 +22,7 @@ import useNotifications from "./hooks/useNotifications";
 import withChat from "./hoc/withChat";
 import { DynamicPageForLoggedIn } from "./pages/dynamicPage/DynamicPage";
 import withProtection from "./hoc/protection/index";
+import AppModalsAndEditors from "./AppModalsAndEditors";
 
 function AuthenticatedApp() {
   useNotifications();
@@ -35,36 +36,40 @@ function AuthenticatedApp() {
   }, [isLoggedIn]);
 
   return (
-    <Routes>
-      <Route
-        path="/dynamicPage/:pageSlug"
-        element={<DynamicPageForLoggedIn />}
-      ></Route>
-      <Route path="/profile/:userId" element={<ProfilePage />} />
-      <Route path="/profile" element={<ProfilePage />} />
-      <Route path="/chat" element={<ChatPage />} />
-      <Route path="/fields" element={<FieldsPage />} />
-      <Route path="/models" element={<ModelsPage />} />
-      <Route path="/entities/:modelId" element={<EntitiesPage />} />
-      <Route
-        path="/entities/:modelId/:entityId"
-        element={<SingleEntityPage />}
-      />
-      <Route path="/pages" element={<PagesPage />} />
-      <Route path="/users" element={<UsersPage />} />
-      <Route path="/users/:roleId" element={<UsersPage />} />
-      <Route path="/roles/" element={<RolesPage />} />
-      <Route path="/tasks/" element={<TasksPage />} />
-      <Route
-        path="/microFrontend/:microFrontendId/:entityId/:componentName/:buttonFieldId"
-        element={<MicroFrontendPage />}
-      />
-      <Route
-        path="/microFrontend/:microFrontendId/:componentName"
-        element={<MicroFrontendPage />}
-      />
-      <Route path="/microFrontends/" element={<MicroFrontendsPage />} />
-    </Routes>
+    <React.Fragment>
+      <AppModalsAndEditors />
+
+      <Routes>
+        <Route
+          path="/dynamicPage/:pageSlug"
+          element={<DynamicPageForLoggedIn />}
+        ></Route>
+        <Route path="/profile/:userId" element={<ProfilePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/chat" element={<ChatPage />} />
+        <Route path="/fields" element={<FieldsPage />} />
+        <Route path="/models" element={<ModelsPage />} />
+        <Route path="/entities/:modelId" element={<EntitiesPage />} />
+        <Route
+          path="/entities/:modelId/:entityId"
+          element={<SingleEntityPage />}
+        />
+        <Route path="/pages" element={<PagesPage />} />
+        <Route path="/users" element={<UsersPage />} />
+        <Route path="/users/:roleId" element={<UsersPage />} />
+        <Route path="/roles/" element={<RolesPage />} />
+        <Route path="/tasks/" element={<TasksPage />} />
+        <Route
+          path="/microFrontend/:microFrontendId/:entityId/:componentName/:buttonFieldId"
+          element={<MicroFrontendPage />}
+        />
+        <Route
+          path="/microFrontend/:microFrontendId/:componentName"
+          element={<MicroFrontendPage />}
+        />
+        <Route path="/microFrontends/" element={<MicroFrontendsPage />} />
+      </Routes>
+    </React.Fragment>
   );
 }
 

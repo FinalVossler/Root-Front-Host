@@ -14,7 +14,6 @@ import { ITheme } from "../../config/theme";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { userPreferenceSlice } from "../../store/slices/userPreferencesSlice";
-import WebsiteConfigurationEditor from "../editors/websiteConfigurationEditor";
 
 import useStyles from "./sideMenu.styles";
 import SideMenuOption from "./sideMenuOption";
@@ -26,8 +25,6 @@ import useHasPermission from "../../hooks/useHasPermission";
 import { BiTask } from "react-icons/bi";
 import useGetRoles from "../../hooks/apiHooks/useGetRoles";
 import { websiteConfigurationSlice } from "../../store/slices/websiteConfigurationSlice";
-import EntityEditor from "../editors/entityEditor";
-import { IEntityEditorProps } from "../editors/entityEditor/EntityEditor";
 import {
   IEntityPermissionReadDto,
   IFileReadDto,
@@ -41,6 +38,7 @@ import {
   StaticPermissionEnum,
   SuperRoleEnum,
 } from "roottypes";
+import { EditorTypeEnum, editorSlice } from "../../store/slices/editorSlice";
 
 interface ISideMenuProps {}
 
@@ -137,15 +135,16 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
           Icon: SiElement,
           link: "/entities/" + model._id,
           title: getTranslatedText(model.name),
-          Editor: (subProps: IEntityEditorProps) => (
-            <EntityEditor
-              {...subProps}
-              open={subProps.open}
-              setOpen={subProps.setOpen}
-              entity={undefined}
-              modelId={model._id}
-            />
-          ),
+          handleOpenEditor: () => {
+            console.log("lkdf");
+            dispatch(
+              editorSlice.actions.addEditor({
+                editorType: EditorTypeEnum.Entity,
+                element: undefined,
+                modelId: model._id,
+              })
+            );
+          },
           dataCy: "sideMenuEntityOptionForModel" + model._id,
         })),
     [user.superRole, (user.role as IRoleReadDto)?.entityPermissions, models]
@@ -158,10 +157,6 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
       }
       data-cy="sideMenu"
     >
-      {hasPermission(PermissionEnum.EditConfiguration) && (
-        <WebsiteConfigurationEditor />
-      )}
-
       {isSideMenuOpen && (
         <div className={styles.sideMenuContent}>
           {websiteLogo2 && (
