@@ -6,7 +6,7 @@ import {
 } from "roottypes";
 import { adminUser } from "../fixtures/adminUser";
 
-describe("post", () => {
+describe("Post", () => {
   let postToUpdate: IPostReadDto | undefined;
   let postToUseAsAChild: IPostReadDto | undefined;
   let postToDelete: IPostReadDto | undefined;

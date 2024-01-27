@@ -1,6 +1,6 @@
 import { IUserCreateCommand, IUserReadDto, SuperRoleEnum } from "roottypes";
 
-describe("users", () => {
+describe("User", () => {
   let userToUpdate: IUserReadDto | undefined;
   let user1ToDelete: IUserReadDto | undefined;
   let user2ToDelete: IUserReadDto | undefined;

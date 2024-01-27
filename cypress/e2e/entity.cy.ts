@@ -19,7 +19,7 @@ import {
   createCreateModelCommand,
 } from "../fixtures/createCommands";
 
-describe("entity", () => {
+describe("Entity", () => {
   const modelField1CreateCommand = createCreateFieldCommand("ModelField1");
   const modelField2CreateCommand = createCreateFieldCommand("ModelField2");
   const modelField3OfTypeFileCreateCommand = createCreateFieldCommand(

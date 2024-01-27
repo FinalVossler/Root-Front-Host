@@ -1,6 +1,6 @@
 import { logoutInLocalStorage } from "../../src/store/slices/userSlice";
 
-describe("auth", () => {
+describe("Auth", () => {
   beforeEach(() => {
     logoutInLocalStorage();
     cy.visit("/auth");

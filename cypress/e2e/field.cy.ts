@@ -1,7 +1,7 @@
 import { IFieldReadDto } from "roottypes";
 import { createCreateFieldCommand } from "../fixtures/createCommands";
 
-describe("field", () => {
+describe("Field", () => {
   const fieldToUpdateCreateCommand = createCreateFieldCommand("FieldToUpdate");
   const field1ToDeleteCreateCommand =
     createCreateFieldCommand("Field1ToDelete");

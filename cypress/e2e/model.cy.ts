@@ -4,7 +4,7 @@ import {
   createCreateModelCommand,
 } from "../fixtures/createCommands";
 
-describe("model", () => {
+describe("Model", () => {
   const modelField1CreateCommand = createCreateFieldCommand("ModelField1");
   const modelField2CreateCommand = createCreateFieldCommand("ModelField2");
 

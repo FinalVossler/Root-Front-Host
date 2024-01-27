@@ -263,6 +263,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
       <form
         onSubmit={formik.handleSubmit}
         className={styles.websiteConfigurationModalContainer}
+        data-cy="websiteConfigurationForm"
       >
         <div className={styles.header}>
           <h2 className={styles.title}>
@@ -272,6 +273,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           <ImCross
             onClick={() => dispatch(editorSlice.actions.removeEditor(props.id))}
             className={styles.closeButton}
+            data-cy="closeWebsiteConfigurationButton"
           />
         </div>
 

@@ -184,6 +184,7 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
                   })
                 );
               }}
+              dataCy="sideMenuWebsiteConfigurationOption"
             />
           )}
           <SideMenuOption
