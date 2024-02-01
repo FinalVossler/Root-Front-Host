@@ -19,6 +19,8 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     borderRadius: 5,
     marginBottom: 10,
     marginTop: 20,
+    position: "sticky",
+    left: 0,
   },
   actionIcon: {
     fontSize: 30,
