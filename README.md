@@ -6,7 +6,6 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 # Todos:
 
 5- Back button on each micro-frontend (forecast, pestel, kpis)
-6- Cypress tests for website configuration (been having some unnoticed regressions here)
 
 # https://www.vivamed.com/
 

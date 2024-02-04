@@ -156,7 +156,12 @@ const Elements: React.FunctionComponent<IElementsProps> = (
       {props.isForEntities && (
         <ViewTabs viewType={viewType} onViewTabChange={handleViewTypeChange} />
       )}
-      <div className={styles.elementsContainer}>
+      <div
+        className={styles.elementsContainer}
+        {...(props.isForEntities
+          ? { ["data-cy"]: "elementsContainerForModel" + props.modelId }
+          : {})}
+      >
         <div
           className={styles.buttonsContainer}
           style={{ marginTop: props.isForEntities ? 0 : 90 }}

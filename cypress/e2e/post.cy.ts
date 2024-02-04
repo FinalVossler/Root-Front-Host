@@ -1,15 +1,32 @@
 import {
+  IFieldReadDto,
+  IModelReadDto,
   IPostCreateCommand,
   IPostReadDto,
   PostDesignEnum,
   PostVisibilityEnum,
 } from "roottypes";
 import { adminUser } from "../fixtures/adminUser";
+import {
+  createCreateFieldCommand,
+  createCreateModelCommand,
+} from "../fixtures/createCommands";
 
 describe("Post", () => {
   let postToUpdate: IPostReadDto | undefined;
   let postToUseAsAChild: IPostReadDto | undefined;
   let postToDelete: IPostReadDto | undefined;
+
+  // For post of type model
+  const modelField1CreateCommand = createCreateFieldCommand(
+    "ModelForPostOfTypeModelField1"
+  );
+  const modelField2CreateCommand = createCreateFieldCommand(
+    "ModelForPostOfTypeModelField2"
+  );
+  let modelField1: IFieldReadDto | undefined;
+  let modelField2: IFieldReadDto | undefined;
+  let modelForPostOfTypeModel: IModelReadDto | undefined;
 
   beforeEach(() => {
     cy.login(true);
@@ -58,6 +75,29 @@ describe("Post", () => {
           (res as { body: { data: IPostReadDto } }).body.data;
       }
     );
+
+    cy.sendCreateFieldRequest(modelField1CreateCommand, (res) => {
+      modelField1 = (res as { body: { data: IFieldReadDto } }).body.data;
+    }).then(() => {
+      cy.sendCreateFieldRequest(modelField2CreateCommand, (res) => {
+        modelField2 = (res as { body: { data: IFieldReadDto } }).body.data;
+      }).then(() => {
+        createModels();
+      });
+    });
+
+    const createModels = () => {
+      cy.sendCreateModelRequest(
+        createCreateModelCommand("Model for post of type model", [
+          (modelField1 as IFieldReadDto)?._id.toString(),
+          (modelField2 as IFieldReadDto)?._id.toString(),
+        ]),
+        (res) => {
+          modelForPostOfTypeModel = (res as { body: { data: IModelReadDto } })
+            .body.data;
+        }
+      );
+    };
   });
 
   it("should create a post", () => {
@@ -197,5 +237,61 @@ describe("Post", () => {
     cy.getByDataCy("postOptionsForButtonForPost" + postToDelete?._id).should(
       "not.exist"
     );
+  });
+
+  it("should create a post of type model list", () => {
+    cy.getByDataCy(
+      "elementsContainerForModel" + modelForPostOfTypeModel?._id
+    ).should("not.exist");
+
+    cy.getByDataCy("writePostButton").click();
+    cy.getByDataCy("postForm").should("exist").and("be.visible");
+
+    cy.getByDataCy("postTitleInput").clear().type("Post of type model list");
+    cy.getByDataCy("postCodeInput")
+      .scrollIntoView()
+      .clear()
+      .type(modelForPostOfTypeModel?._id.toString() || "");
+
+    // 17 represents a post of type model list
+    cy.selectInSelector("postDesignInput", 17);
+    cy.getByDataCy("submitPost").click();
+
+    cy.getByDataCy("postForm").should("not.exist");
+
+    cy.getByDataCy(
+      "elementsContainerForModel" + modelForPostOfTypeModel?._id
+    ).should("exist");
+  });
+
+  it("should create a post of type model form", () => {
+    cy.getByDataCy(
+      "postOfTypeModelFormButtonForModel" + modelForPostOfTypeModel?._id
+    ).should("not.exist");
+
+    cy.getByDataCy("writePostButton").click();
+    cy.getByDataCy("postForm").should("exist").and("be.visible");
+
+    cy.getByDataCy("postTitleInput").clear().type("Post of type model form");
+    cy.getByDataCy("postCodeInput")
+      .scrollIntoView()
+      .clear()
+      .type(modelForPostOfTypeModel?._id.toString() || "");
+
+    // 16 represents the post of type model form
+    cy.selectInSelector("postDesignInput", 16);
+    cy.getByDataCy("submitPost").click();
+
+    cy.getByDataCy("postForm").should("not.exist");
+
+    cy.getByDataCy(
+      "postOfTypeModelFormButtonForModel" + modelForPostOfTypeModel?._id
+    ).should("exist");
+
+    cy.getByDataCy("entityEditorForm").should("not.exist");
+    cy.getByDataCy(
+      "postOfTypeModelFormButtonForModel" + modelForPostOfTypeModel?._id
+    ).click();
+    cy.getByDataCy("entityEditorForm").should("exist").and("be.visible");
   });
 });

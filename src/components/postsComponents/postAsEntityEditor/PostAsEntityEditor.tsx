@@ -42,7 +42,10 @@ const PostAsEntityEditor: React.FunctionComponent<IPostAsEntityEditorProps> = (
 
   return (
     <div className={styles.postAsEntityEditorContainer}>
-      <Button onClick={handleOpenEntityEditor}>
+      <Button
+        onClick={handleOpenEntityEditor}
+        buttonDataCy={"postOfTypeModelFormButtonForModel" + props.post.code}
+      >
         {props.post.title
           ? getTranslatedText(props.post.title)
           : getTranslatedText(model.name)}{" "}
