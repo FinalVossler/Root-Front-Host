@@ -5,18 +5,15 @@ import { ITheme } from "../../../config/theme";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../store/hooks";
 import { IModelField } from "../../../store/slices/modelSlice";
-import doesEntityMeetModelStateCondition from "../../../utils/doesEntityMeetModelStateCondition";
-import getModelStateConcernedFields from "../../../utils/getModelStateConcernedFields";
 
 import useStyles from "./elementsBoard.styles";
-import StateTracking from "../../postsComponents/stateTracking";
-import EntityCard from "./EntityCard";
-import { IEntityReadDto, IModelReadDto, IModelStateReadDto } from "roottypes";
+import { IEntityReadDto, IModelReadDto } from "roottypes";
+import EntityCard from "../entityCard";
+import useGetBoardPattern, { IBoardPattern } from "../useGetBoardPattern";
 
 interface IElementsBoardProps {
   modelId: string;
   entities: IEntityReadDto[];
-  forStatusTracking: boolean;
   loading: boolean;
 }
 
@@ -32,61 +29,15 @@ const ElementsBoard: React.FunctionComponent<IElementsBoardProps> = (
 
   const styles = useStyles({ theme: theme });
   const getTranslatedText = useGetTranslatedText();
+  const boardPattern: IBoardPattern[] = useGetBoardPattern({
+    model,
+    entities: props.entities,
+  });
 
   //#region View
   const mainModelFields: IModelField[] =
     model?.modelFields.filter((modelField) => Boolean(modelField.mainField)) ||
     [];
-  interface IBoardPattern {
-    modelState: IModelStateReadDto;
-    entities: IEntityReadDto[];
-  }
-  const boardPattern: IBoardPattern[] = React.useMemo(() => {
-    if (!model) {
-      return [];
-    }
-
-    const result: IBoardPattern[] = [];
-
-    let entitiesThatShouldntBeShownAgain: IEntityReadDto[] = [];
-    [...((model.states as IModelStateReadDto[]) || [])]
-      .reverse()
-      .forEach((modelState) => {
-        const stateConcernedFields: IModelField[] =
-          getModelStateConcernedFields({
-            model,
-            modelState,
-          });
-        const stateEntities: IEntityReadDto[] = props.entities
-          // Only show the entities that meet the model state conditions
-          .filter((entity) => {
-            let meetsModelStateCondition: boolean =
-              doesEntityMeetModelStateCondition({
-                entityFieldValues: entity.entityFieldValues,
-                stateConcernedFields,
-                getTranslatedText,
-                model,
-                entity,
-              });
-
-            return (
-              meetsModelStateCondition &&
-              !entitiesThatShouldntBeShownAgain.find(
-                (e) => e._id === entity._id
-              )
-            );
-          });
-        if (modelState.exlusive) {
-          entitiesThatShouldntBeShownAgain =
-            entitiesThatShouldntBeShownAgain.concat(stateEntities);
-        }
-        result.push({ modelState: modelState, entities: stateEntities });
-      });
-    result.reverse();
-
-    return result;
-  }, [model?.states, props.entities]);
-
   if (!model) return null;
 
   //#endregion View
@@ -94,43 +45,7 @@ const ElementsBoard: React.FunctionComponent<IElementsBoardProps> = (
     <React.Fragment>
       {props.loading && <Loading color={theme.primary} />}
 
-      {!props.loading &&
-        props.forStatusTracking &&
-        props.entities.map((entity, entityIndex) => {
-          const modelState: IModelStateReadDto | undefined = boardPattern.find(
-            (pattern) => pattern.entities.some((e) => e._id === entity._id)
-          )?.modelState;
-
-          if (!modelState) return null;
-
-          return (
-            <div
-              key={entityIndex}
-              className={styles.entityCardAndStateTrackingContainer}
-            >
-              <EntityCard
-                entity={entity}
-                modelId={props.modelId}
-                model={model}
-                mainModelFields={mainModelFields}
-              />
-              <StateTracking
-                states={
-                  (model.states as IModelStateReadDto[])?.map((modelState) => ({
-                    _id: modelState._id,
-                    stateName: getTranslatedText(modelState.name),
-                  })) || []
-                }
-                currentState={{
-                  _id: modelState._id,
-                  stateName: getTranslatedText(modelState.name),
-                }}
-              />
-            </div>
-          );
-        })}
-
-      {!props.loading && !props.forStatusTracking && (
+      {!props.loading && (
         <div className={styles.elementsBoardContainer}>
           {boardPattern.map(({ modelState, entities }, modelStateIndex) => {
             return (

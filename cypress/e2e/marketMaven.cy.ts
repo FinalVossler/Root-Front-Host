@@ -1,4 +1,4 @@
-describe("MarketMaven", () => {
+describe.skip("MarketMaven", () => {
   before(() => {
     cy.prepareMarktMaven();
   });

@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 import React from "react";
+import ReactDom from "react-dom";
 import { BsThreeDots } from "react-icons/bs";
 import { toast } from "react-toastify";
 
@@ -96,14 +97,17 @@ const PostWrapper: React.FunctionComponent<IPostOptionsProps> = (
         </div>
       )}
 
-      <ConfirmationModal
-        onConfirm={handleDeletePost}
-        loading={deletePostLoading}
-        modalOpen={deletePostModalOpen}
-        setModalOpen={setDeletePostModalOpen}
-        title="Are you sure you sure you want to delete this post?"
-        description="If you delete this post, you won't be able to recover it, and it will also be deleted from the pages where it was used"
-      />
+      {ReactDom.createPortal(
+        <ConfirmationModal
+          onConfirm={handleDeletePost}
+          loading={deletePostLoading}
+          modalOpen={deletePostModalOpen}
+          setModalOpen={setDeletePostModalOpen}
+          title="Are you sure you sure you want to delete this post?"
+          description="If you delete this post, you won't be able to recover it, and it will also be deleted from the pages where it was used"
+        />,
+        document.body
+      )}
 
       <PostEditor
         post={props.post}

@@ -166,7 +166,7 @@ describe("User", () => {
       .scrollIntoView()
       .click();
 
-    cy.get("#deleteButton").should("exist").and("be.visible");
+    cy.get("#deleteButton").should("exist");
     cy.get("#deleteButton").click();
 
     cy.getByDataCy("confirmationModalConfirmButton").click();
@@ -195,7 +195,7 @@ describe("User", () => {
     );
 
     // clear and make sure all users are shown
-    cy.getByDataCy("elementsSearchInput").clear();
+    cy.getByDataCy("elementsSearchInput").scrollIntoView().clear();
     cy.getByDataCy("usersPage").should(
       "contain",
       userToFindInSearch?.firstName

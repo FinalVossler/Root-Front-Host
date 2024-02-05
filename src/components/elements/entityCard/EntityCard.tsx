@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { IModelField } from "../../../store/slices/modelSlice";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 
-import useStyles from "./elementsBoard.styles";
+import useStyles from "./entityCard.styles";
 import { BiEdit } from "react-icons/bi";
 import { FaDirections } from "react-icons/fa";
 import { Link } from "react-router-dom";

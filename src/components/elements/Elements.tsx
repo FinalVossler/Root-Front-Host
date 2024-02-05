@@ -1,4 +1,5 @@
 import React from "react";
+import { createPortal } from "react-dom";
 import { BiCopy } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 
@@ -21,6 +22,8 @@ import {
 } from "roottypes";
 import ElementsTable from "./elementsTable";
 import { IElement } from "../../store/slices/editorSlice";
+import ElementsStatusTracking from "./elementsStatusTracking";
+import { ViewTypeEnum } from "./viewTabs/ViewTabs";
 
 export type Column = {
   label: string;
@@ -30,12 +33,6 @@ export type Column = {
   defaultHide?: boolean;
   stick?: boolean;
 };
-
-export enum ViewTypeEnum {
-  Table = "Table",
-  Board = "Board",
-  BoardForStatusTracking = "BoardForStatusTracking",
-}
 
 interface IElementsProps {
   handleOpenEditor: (element?: IElement) => void;
@@ -83,13 +80,8 @@ const Elements: React.FunctionComponent<IElementsProps> = (
   const [selectedElementsIds, setSelectedElementsIds] = React.useState<
     string[]
   >([]);
-  const [selectedElement, setSelectedElement] = React.useState<IElement | null>(
-    null
-  );
   const [viewType, setViewType] = React.useState<ViewTypeEnum>(
-    props.isForEntities
-      ? ViewTypeEnum.BoardForStatusTracking
-      : ViewTypeEnum.Table
+    props.isForEntities ? ViewTypeEnum.StatusTracking : ViewTypeEnum.Table
   );
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
@@ -116,7 +108,6 @@ const Elements: React.FunctionComponent<IElementsProps> = (
     setSelectedElementsIds(newSelectedElements);
   };
   const handleEdit = (element: IElement) => {
-    setSelectedElement(element);
     props.handleOpenEditor(element);
   };
   const handleDelete = async () => {
@@ -203,25 +194,28 @@ const Elements: React.FunctionComponent<IElementsProps> = (
                   className={styles.copyIcon}
                   onClick={() => setCopyModalOpen(true)}
                 />
-                <ConfirmationModal
-                  title={getTranslatedText(staticText?.copyTitle)}
-                  description={
-                    getTranslatedText(staticText?.copyDescription) +
-                    " " +
-                    selectedElementsIds
-                      .map((selectedElementId) => {
-                        const element: IElement | undefined = elements.find(
-                          (el) => el._id === selectedElementId
-                        );
-                        return element ? props.getElementName(element) : "";
-                      })
-                      .join(", ")
-                  }
-                  loading={props.copyLoading || false}
-                  modalOpen={copyModalOpen}
-                  onConfirm={handleCopy}
-                  setModalOpen={setCopyModalOpen}
-                />
+                {createPortal(
+                  <ConfirmationModal
+                    title={getTranslatedText(staticText?.copyTitle)}
+                    description={
+                      getTranslatedText(staticText?.copyDescription) +
+                      " " +
+                      selectedElementsIds
+                        .map((selectedElementId) => {
+                          const element: IElement | undefined = elements.find(
+                            (el) => el._id === selectedElementId
+                          );
+                          return element ? props.getElementName(element) : "";
+                        })
+                        .join(", ")
+                    }
+                    loading={props.copyLoading || false}
+                    modalOpen={copyModalOpen}
+                    onConfirm={handleCopy}
+                    setModalOpen={setCopyModalOpen}
+                  />,
+                  document.body
+                )}
               </React.Fragment>
             )}
 
@@ -236,45 +230,55 @@ const Elements: React.FunctionComponent<IElementsProps> = (
                 />
               )}
 
-              <ConfirmationModal
-                title={getTranslatedText(staticText?.deleteTitle)}
-                description={
-                  getTranslatedText(staticText?.deleteDescription) +
-                  ": " +
-                  selectedElementsIds
-                    .map((selectedElementId) => {
-                      const element: IElement | undefined = elements.find(
-                        (el) => el._id === selectedElementId
-                      );
-                      return element ? props.getElementName(element) : "";
-                    })
-                    .join(", ")
-                }
-                loading={props.deleteLoading}
-                modalOpen={deleteModalOpen}
-                onConfirm={handleDelete}
-                setModalOpen={setDeleteModalOpen}
-              />
+              {createPortal(
+                <ConfirmationModal
+                  title={getTranslatedText(staticText?.deleteTitle)}
+                  description={
+                    getTranslatedText(staticText?.deleteDescription) +
+                    ": " +
+                    selectedElementsIds
+                      .map((selectedElementId) => {
+                        const element: IElement | undefined = elements.find(
+                          (el) => el._id === selectedElementId
+                        );
+                        return element ? props.getElementName(element) : "";
+                      })
+                      .join(", ")
+                  }
+                  loading={props.deleteLoading}
+                  modalOpen={deleteModalOpen}
+                  onConfirm={handleDelete}
+                  setModalOpen={setDeleteModalOpen}
+                />,
+                document.body
+              )}
             </React.Fragment>
           )}
         </div>
 
-        {(viewType === ViewTypeEnum.Board ||
-          viewType === ViewTypeEnum.BoardForStatusTracking) &&
-          props.isForEntities && (
-            <ElementsBoard
-              modelId={props.modelId?.toString() || ""}
-              entities={
-                props.searchResult && props.searchResult.data.length > 0
-                  ? props.searchResult.data
-                  : (props.elements as IEntityReadDto[])
-              }
-              forStatusTracking={
-                viewType === ViewTypeEnum.BoardForStatusTracking
-              }
-              loading={props.loading}
-            />
-          )}
+        {viewType === ViewTypeEnum.Board && props.isForEntities && (
+          <ElementsBoard
+            modelId={props.modelId?.toString() || ""}
+            entities={
+              props.searchResult && props.searchResult.data.length > 0
+                ? props.searchResult.data
+                : (props.elements as IEntityReadDto[])
+            }
+            loading={props.loading}
+          />
+        )}
+
+        {viewType === ViewTypeEnum.StatusTracking && props.isForEntities && (
+          <ElementsStatusTracking
+            modelId={props.modelId?.toString() || ""}
+            entities={
+              props.searchResult && props.searchResult.data.length > 0
+                ? props.searchResult.data
+                : (props.elements as IEntityReadDto[])
+            }
+            loading={props.loading}
+          />
+        )}
 
         {viewType === ViewTypeEnum.Table && (
           <ElementsTable

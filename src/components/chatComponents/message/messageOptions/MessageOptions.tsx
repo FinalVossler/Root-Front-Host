@@ -1,5 +1,6 @@
 import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import ReactDom from "react-dom";
 
 import useStyles from "./messageOptions.styles";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
@@ -93,14 +94,17 @@ const MessageOptions: React.FunctionComponent<IMessageOptionsProps> = (
 
   return (
     <div className={styles.messageOptionsContainer}>
-      <ConfirmationModal
-        onConfirm={handleModalConfirm}
-        description="This message is going to be deleted for everyone. Are you sure"
-        title="Delete message"
-        modalOpen={deleteModalOpen}
-        setModalOpen={setDeleteModalOpen}
-        loading={deleteLoading}
-      />
+      {ReactDom.createPortal(
+        <ConfirmationModal
+          onConfirm={handleModalConfirm}
+          description="This message is going to be deleted for everyone. Are you sure"
+          title="Delete message"
+          modalOpen={deleteModalOpen}
+          setModalOpen={setDeleteModalOpen}
+          loading={deleteLoading}
+        />,
+        document.body
+      )}
 
       <HiOutlineEmojiHappy
         className={styles.messageOptionsIcon}

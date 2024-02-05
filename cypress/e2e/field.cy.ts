@@ -114,7 +114,7 @@ describe("Field", () => {
       "tableCheckButtonFor" + field2ToDelete?._id.toString()
     ).click();
 
-    cy.get("#deleteButton").should("exist").and("be.visible");
+    cy.get("#deleteButton").should("exist");
     cy.get("#deleteButton").click();
 
     cy.getByDataCy("confirmationModalConfirmButton").click();

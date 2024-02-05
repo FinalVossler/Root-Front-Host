@@ -13,8 +13,6 @@ import moment from "moment";
 import UserProfilePicture from "../../../components/userProfilePicture";
 import { SizeEnum } from "../../../components/userProfilePicture/UserProfilePicture";
 import ElementsBoard from "../../../components/elements/elementsBoard";
-import EntityEditor from "../../../components/editors/entityEditor";
-import { ViewTypeEnum } from "../../../components/elements/Elements";
 import ViewTabs from "../../../components/elements/viewTabs";
 import {
   IEntitiesGetCommand,
@@ -25,6 +23,7 @@ import {
   IRoleReadDto,
   IUserReadDto,
 } from "roottypes";
+import { ViewTypeEnum } from "../../../components/elements/viewTabs/ViewTabs";
 
 const LIMIT = 99;
 
@@ -54,7 +53,7 @@ const TasksByModel: React.FunctionComponent<ITasksByModelProps> = (
   const [page, setPage] = React.useState(1);
   const [roles, setRoles] = React.useState<IRoleReadDto[]>([]);
   const [viewType, setViewType] = React.useState<ViewTypeEnum>(
-    ViewTypeEnum.BoardForStatusTracking
+    ViewTypeEnum.StatusTracking
   );
 
   const styles = useStyles({ theme });
@@ -118,19 +117,11 @@ const TasksByModel: React.FunctionComponent<ITasksByModelProps> = (
       <ViewTabs onViewTabChange={handleViewTypeChange} viewType={viewType} />
 
       <div className={styles.tasksByModelContainer}>
-        {(viewType === ViewTypeEnum.BoardForStatusTracking ||
+        {(viewType === ViewTypeEnum.StatusTracking ||
           viewType === ViewTypeEnum.Board) && (
           <ElementsBoard
             modelId={props.modelId?.toString() || ""}
             entities={assignedEntitiesByModel?.entities || []}
-            forStatusTracking={viewType === ViewTypeEnum.BoardForStatusTracking}
-            Editor={({ element, ...subProps }) => (
-              <EntityEditor
-                {...subProps}
-                entity={element as IEntityReadDto}
-                modelId={props.modelId}
-              />
-            )}
             loading={loading}
           />
         )}

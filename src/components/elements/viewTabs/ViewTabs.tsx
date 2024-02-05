@@ -8,7 +8,7 @@ import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 export enum ViewTypeEnum {
   Table = "Table",
   Board = "Board",
-  BoardForStatusTracking = "BoardForStatusTracking",
+  StatusTracking = "StatusTracking",
 }
 
 interface IViewTypesProps {
@@ -39,13 +39,11 @@ const Elements: React.FunctionComponent<IViewTypesProps> = (
     <div className={styles.viewTabsContainer}>
       <span
         className={
-          props.viewType === ViewTypeEnum.BoardForStatusTracking
+          props.viewType === ViewTypeEnum.StatusTracking
             ? styles.selectedViewTab
             : styles.viewTab
         }
-        onClick={() =>
-          handleViewTypeChange(ViewTypeEnum.BoardForStatusTracking)
-        }
+        onClick={() => handleViewTypeChange(ViewTypeEnum.StatusTracking)}
       >
         {getTranslatedText(staticText?.statusTracking)}
       </span>

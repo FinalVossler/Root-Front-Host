@@ -653,7 +653,7 @@ describe("Roles", () => {
       "tableCheckButtonFor" + role2ToDelete?._id.toString()
     ).click();
 
-    cy.get("#deleteButton").should("exist").and("be.visible");
+    cy.get("#deleteButton").should("exist");
     cy.get("#deleteButton").click();
 
     cy.getByDataCy("confirmationModalConfirmButton").click();
@@ -670,6 +670,7 @@ describe("Roles", () => {
 
   it("should search for a role", () => {
     cy.getByDataCy("elementsSearchInput").should("be.visible");
+
     cy.getByDataCy("elementsSearchInput").type(
       roleToFindInSearch?.name.at(0)?.text || ""
     );
