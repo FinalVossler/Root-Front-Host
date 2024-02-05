@@ -9,7 +9,6 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     backgroundColor: theme.backgroundColor,
     width: "100%",
     alignItems: "center",
-    minHeight: "100vh",
     paddingBottom: 100,
   },
 }));

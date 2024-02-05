@@ -11,4 +11,6 @@ export default defineConfig({
     adminEmail: "hk.kh.pro@gmail.com",
     adminPassword: "rootroot",
   },
+  viewportHeight: 850,
+  viewportWidth: 1600,
 });
