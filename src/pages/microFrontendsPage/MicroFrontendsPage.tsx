@@ -88,7 +88,7 @@ const MicroFrontendsPage: React.FunctionComponent<IMicroFrontendsPageProps> = (
           dispatch(
             editorSlice.actions.addEditor({
               element,
-              editorType: EditorTypeEnum.Field,
+              editorType: EditorTypeEnum.MicroFrontend,
             })
           )
         }
