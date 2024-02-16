@@ -47,11 +47,6 @@ const MicroFrontendEditor: React.FunctionComponent<
     (state) => state.websiteConfiguration?.staticText?.microFrontends
   );
 
-  //#region Local state
-  const [microFrontendModalOpen, setMicroFrontendModalOpen] =
-    React.useState<boolean>(false);
-  //#endregion Local state
-
   const styles = useStyles({ theme });
   const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
@@ -142,7 +137,7 @@ const MicroFrontendEditor: React.FunctionComponent<
 
   const loading = props.microFrontend ? updateLoading : createLoading;
   return (
-    <Modal handleClose={handleCloseModal} open={microFrontendModalOpen}>
+    <Modal handleClose={handleCloseModal} open>
       <form
         onSubmit={handleSubmit}
         className={styles.createMicroFrontendModalContainer}
