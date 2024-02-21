@@ -744,6 +744,10 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
                               "/" +
                               (modelField.field as IFieldReadDto)._id.toString()
                           );
+
+                          if (props.handleCloseEditor) {
+                            props.handleCloseEditor();
+                          }
                         }
                       }
                     }
