@@ -1,4 +1,4 @@
-import { Option } from "../components/inputSelect/InputSelect";
+import { Option } from "../components/fundamentalComponents/inputSelect/InputSelect";
 
 const languages: Option[] = [
   { value: "en", label: "English" },

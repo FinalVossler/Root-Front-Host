@@ -2,10 +2,10 @@ import { AxiosResponse } from "axios";
 import React from "react";
 
 import { useAppDispatch } from "../../store/hooks";
-import { IPageReadDto, pageSlice } from "../../store/slices/pageSlice";
+import { pageSlice } from "../../store/slices/pageSlice";
 
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { IPageCreateCommand } from "roottypes";
+import { IPageCreateCommand, IPageReadDto } from "roottypes";
 
 const useCreatePage = () => {
   const [loading, setLoading] = React.useState<boolean>(false);

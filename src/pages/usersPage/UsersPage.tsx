@@ -2,8 +2,8 @@ import React from "react";
 import { FaDirections } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 
-import Elements from "../../components/elements";
-import UserEditor from "../../components/editors/userEditor";
+import Elements from "../../components/appComponents/elements";
+import UserEditor from "../../components/appComponents/editors/userEditor";
 import { ITheme } from "../../config/theme";
 import useDeleteUsers from "../../hooks/apiHooks/useDeleteUsers";
 import useGetUsers from "../../hooks/apiHooks/useGetUsers";

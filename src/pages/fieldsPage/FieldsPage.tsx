@@ -1,7 +1,7 @@
 import React from "react";
 
-import FieldEditor from "../../components/editors/fieldEditor";
-import Elements from "../../components/elements";
+import FieldEditor from "../../components/appComponents/editors/fieldEditor";
+import Elements from "../../components/appComponents/elements";
 import { ITheme } from "../../config/theme";
 import useCopyFields from "../../hooks/apiHooks/useCopyFields";
 import useDeleteFields from "../../hooks/apiHooks/useDeleteFields";

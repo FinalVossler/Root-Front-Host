@@ -11,7 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import useGetEntity from "../../hooks/apiHooks/useGetEntity";
 import ModuleLoader from "../../moduleLoader/ModuleLoader";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
-import Button from "../../components/button";
+import Button from "../../components/fundamentalComponents/button";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import {
   IEntityReadDto,

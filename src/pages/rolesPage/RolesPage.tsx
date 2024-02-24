@@ -1,7 +1,7 @@
 import React from "react";
 
-import RoleEditor from "../../components/editors/roleEditor";
-import Elements from "../../components/elements";
+import RoleEditor from "../../components/appComponents/editors/roleEditor";
+import Elements from "../../components/appComponents/elements";
 import { ITheme } from "../../config/theme";
 import useDeleteRoles from "../../hooks/apiHooks/useDeleteRoles";
 import useGetRoles from "../../hooks/apiHooks/useGetRoles";

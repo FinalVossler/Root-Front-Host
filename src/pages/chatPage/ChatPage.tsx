@@ -1,14 +1,14 @@
 import React from "react";
 
-import ChatContacts from "../../components/chatComponents/chatContacts";
-import ChatBox from "../../components/chatComponents/chatBox";
+import ChatContacts from "../../components/appComponents/chatComponents/chatContacts";
+import ChatBox from "../../components/appComponents/chatComponents/chatBox";
 
 import { ITheme } from "../../config/theme";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 import useStyles from "./chatPage.styles";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
-import { BoxType } from "../../components/chatComponents/chatBox/ChatBox";
+import { BoxType } from "../../components/appComponents/chatComponents/chatBox/ChatBox";
 import { chatSlice } from "../../store/slices/chatSlice";
 import { IUserReadDto } from "roottypes";
 

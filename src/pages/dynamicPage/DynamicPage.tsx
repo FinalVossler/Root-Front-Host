@@ -1,6 +1,6 @@
 import React from "react";
 
-import Post from "../../components/post";
+import Post from "../../components/fundamentalComponents/post";
 import { ITheme } from "../../config/theme";
 
 import withWrapper from "../../hoc/wrapper";

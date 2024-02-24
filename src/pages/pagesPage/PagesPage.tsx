@@ -1,6 +1,6 @@
 import React from "react";
 
-import Elements from "../../components/elements";
+import Elements from "../../components/appComponents/elements";
 import { ITheme } from "../../config/theme";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useHasPermission from "../../hooks/useHasPermission";
@@ -45,7 +45,7 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
           dispatch(
             editorSlice.actions.addEditor({
               element,
-              editorType: EditorTypeEnum.Field,
+              editorType: EditorTypeEnum.Page,
             })
           )
         }

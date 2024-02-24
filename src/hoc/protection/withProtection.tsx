@@ -1,7 +1,7 @@
 import React from "react";
 
 import { LOCAL_STORAGE_TOKEN_ITEM_NAME } from "../../config/constants";
-import Unauthorized from "../../components/unauthorized";
+import Unauthorized from "../../components/fundamentalComponents/unauthorized";
 
 const withProtection =
   (Component: any): React.FunctionComponent<any> =>

@@ -1,6 +1,6 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
-import MessageFilePreview from "./components/chatComponents/message/messageFilePreview";
+import MessageFilePreview from "./components/appComponents/chatComponents/message/messageFilePreview";
 import { chatSlice } from "./store/slices/chatSlice";
 import {
   IEntityReadDto,
@@ -14,15 +14,15 @@ import {
   PermissionEnum,
 } from "roottypes";
 import { EditorTypeEnum } from "./store/slices/editorSlice";
-import FieldEditor from "./components/editors/fieldEditor";
-import ModelEditor from "./components/editors/modelEditor";
-import EntityEditor from "./components/editors/entityEditor";
-import UserEditor from "./components/editors/userEditor";
-import MicroFrontendEditor from "./components/editors/microFrontendEditor";
-import RoleEditor from "./components/editors/roleEditor";
-import PageEditor from "./components/editors/pageEditor";
+import FieldEditor from "./components/appComponents/editors/fieldEditor";
+import ModelEditor from "./components/appComponents/editors/modelEditor";
+import EntityEditor from "./components/appComponents/editors/entityEditor";
+import UserEditor from "./components/appComponents/editors/userEditor";
+import MicroFrontendEditor from "./components/appComponents/editors/microFrontendEditor";
+import RoleEditor from "./components/appComponents/editors/roleEditor";
+import PageEditor from "./components/appComponents/editors/pageEditor";
 import useHasPermission from "./hooks/useHasPermission";
-import WebsiteConfigurationEditor from "./components/editors/websiteConfigurationEditor";
+import WebsiteConfigurationEditor from "./components/appComponents/editors/websiteConfigurationEditor";
 
 interface IAppModalsAndEditorsProps {}
 

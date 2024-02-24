@@ -1,7 +1,7 @@
 import React from "react";
 
-import ModelEditor from "../../components/editors/modelEditor";
-import Elements from "../../components/elements";
+import ModelEditor from "../../components/appComponents/editors/modelEditor";
+import Elements from "../../components/appComponents/elements";
 import { ITheme } from "../../config/theme";
 import useDeleteModels from "../../hooks/apiHooks/useDeleteModels";
 import useGetModels from "../../hooks/apiHooks/useGetModels";
@@ -16,7 +16,6 @@ import useStyles from "./modelsPage.styles";
 import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 import {
   IFieldReadDto,
-  IModelFieldReadDto,
   IModelReadDto,
   IPaginationResponse,
   PermissionEnum,

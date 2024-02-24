@@ -1,7 +1,7 @@
 import React from "react";
 
-import MicroFrontendEditor from "../../components/editors/microFrontendEditor";
-import Elements from "../../components/elements";
+import MicroFrontendEditor from "../../components/appComponents/editors/microFrontendEditor";
+import Elements from "../../components/appComponents/elements";
 import { ITheme } from "../../config/theme";
 import useGetMicroFrontends from "../../hooks/apiHooks/useGetMicroFrontends";
 import useSearchMicroFrontends from "../../hooks/apiHooks/useSearchMicroFrontends";

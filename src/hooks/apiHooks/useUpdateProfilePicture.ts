@@ -1,11 +1,10 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 
-import IFile from "../../globalTypes/IFile";
 import { useAppDispatch } from "../../store/hooks";
 import { userSlice } from "../../store/slices/userSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { IUserReadDto } from "roottypes";
+import { IFileReadDto, IUserReadDto } from "roottypes";
 
 const useUpdateProfilePicture = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -13,7 +12,7 @@ const useUpdateProfilePicture = () => {
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
-  const updateProfilePicture = (newProfilePicture: IFile | undefined) =>
+  const updateProfilePicture = (newProfilePicture: IFileReadDto | undefined) =>
     new Promise((resolve, reject) => {
       setLoading(true);
       axios

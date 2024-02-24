@@ -1,7 +1,7 @@
 import React from "react";
 
 import Loading from "react-loading";
-import Pagination from "../../../components/pagination";
+import Pagination from "../../../components/fundamentalComponents/pagination";
 import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 import useGetAssignedEntitiesByModel from "../../../hooks/apiHooks/useGetAssignedEntitiesByModel";
@@ -10,10 +10,10 @@ import useStyles from "./tasksByModel.styles";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import { EntityFieldValueComponent } from "../../entitiesPage/entitiesList/EntitiesList";
 import moment from "moment";
-import UserProfilePicture from "../../../components/userProfilePicture";
-import { SizeEnum } from "../../../components/userProfilePicture/UserProfilePicture";
-import ElementsBoard from "../../../components/elements/elementsBoard";
-import ViewTabs from "../../../components/elements/viewTabs";
+import UserProfilePicture from "../../../components/fundamentalComponents/userProfilePicture";
+import { SizeEnum } from "../../../components/fundamentalComponents/userProfilePicture/UserProfilePicture";
+import ElementsBoard from "../../../components/appComponents/elements/elementsBoard";
+import ViewTabs from "../../../components/appComponents/elements/viewTabs";
 import {
   IEntitiesGetCommand,
   IEntityReadDto,
@@ -23,7 +23,7 @@ import {
   IRoleReadDto,
   IUserReadDto,
 } from "roottypes";
-import { ViewTypeEnum } from "../../../components/elements/viewTabs/ViewTabs";
+import { ViewTypeEnum } from "../../../components/appComponents/elements/viewTabs/ViewTabs";
 
 const LIMIT = 99;
 

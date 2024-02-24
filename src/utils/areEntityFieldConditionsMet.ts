@@ -7,7 +7,7 @@ import {
   IModelStateReadDto,
   ModelFieldConditionTypeEnum,
 } from "roottypes";
-import { IEntityFieldValueForm } from "../components/editors/entityEditor/EntityEditorForm";
+import { IEntityFieldValueForm } from "../components/appComponents/editors/entityEditor/EntityEditorForm";
 import { IModelField } from "../store/slices/modelSlice";
 import doesEntityMeetModelStateCondition from "./doesEntityMeetModelStateCondition";
 import getModelStateConcernedFields from "./getModelStateConcernedFields";

@@ -5,7 +5,7 @@ import { ITheme } from "../../../config/theme";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { IPost } from "../../../store/slices/postSlice";
-import Button from "../../button";
+import Button from "../../fundamentalComponents/button";
 
 import useStyles from "./styles";
 import { EditorTypeEnum, editorSlice } from "../../../store/slices/editorSlice";

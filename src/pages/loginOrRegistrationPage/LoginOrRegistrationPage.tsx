@@ -1,14 +1,14 @@
 import React from "react";
 
-import RegistrationForm from "../../components/registrationForm";
-import Login from "../../components/loginForm";
+import RegistrationForm from "../../components/appComponents/formComponents/registrationForm";
+import Login from "../../components/appComponents/formComponents/loginForm";
 
 import { ITheme } from "../../config/theme";
 
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
-import SendChangePasswordRequestForm from "../../components/sendChangePasswordRequestForm";
+import SendChangePasswordRequestForm from "../../components/appComponents/formComponents/sendChangePasswordRequestForm";
 
 import useStyles from "./loginOrRegistrationPage.styles";
 import IFile from "../../globalTypes/IFile";

@@ -1,12 +1,12 @@
 import React from "react";
 
 import { ITheme } from "../../config/theme";
-import Header from "../../components/header";
+import Header from "../../components/appComponents/layoutComponents/header";
 import Footer from "../../components/postsComponents/footer";
 
 import useStyles from "./withWrapper.styles";
 import { useAppSelector } from "../../store/hooks";
-import SideMenu from "../../components/sideMenu/SideMenu";
+import SideMenu from "../../components/appComponents/layoutComponents/sideMenu/SideMenu";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 
 const withWrapper =

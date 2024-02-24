@@ -12,8 +12,8 @@ import useStyles from "./ForgotPasswordChangePasswordPage.styles";
 import { FormikProps, useFormik } from "formik";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useForgotPasswordChangePassword from "../../hooks/apiHooks/useForgotPasswordChangePassword";
-import Input from "../../components/input";
-import Button from "../../components/button";
+import Input from "../../components/fundamentalComponents/input";
+import Button from "../../components/fundamentalComponents/button";
 import { IUserForgotPasswordChangePasswordCommand } from "roottypes";
 
 interface IForgotPasswordChangePasswordFormik {

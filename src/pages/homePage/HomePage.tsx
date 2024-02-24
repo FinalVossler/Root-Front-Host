@@ -11,7 +11,7 @@ import TitleAndText from "../../components/postsComponents/titleAndText";
 import Card from "../../components/postsComponents/card";
 import UnderlinedTitle from "../../components/postsComponents/underlinedTitle";
 
-import ContactForm from "../../components/contactForm";
+import ContactForm from "../../components/appComponents/formComponents/contactForm";
 import Person from "../../components/postsComponents/Person";
 import Video from "../../components/postsComponents/video";
 

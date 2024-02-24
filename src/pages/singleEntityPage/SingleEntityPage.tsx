@@ -10,7 +10,7 @@ import { IModelReadDto } from "../../store/slices/modelSlice";
 
 import useStyles from "./singleEntityPage.styles";
 import { IEntityReadDto } from "../../store/slices/entitySlice";
-import EntityEditorForm from "../../components/editors/entityEditor/EntityEditorForm";
+import EntityEditorForm from "../../components/appComponents/editors/entityEditor/EntityEditorForm";
 
 interface ISingleEntityPageProps {}
 

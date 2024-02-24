@@ -2,8 +2,8 @@ import React from "react";
 import { FaDirections } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-import Elements from "../../../components/elements";
-import { Column } from "../../../components/elements/Elements";
+import Elements from "../../../components/appComponents/elements";
+import { Column } from "../../../components/appComponents/elements/Elements";
 import { ITheme } from "../../../config/theme";
 import useDeleteEntities from "../../../hooks/apiHooks/useDeleteEntities";
 import useGetEntitiesByModel from "../../../hooks/apiHooks/useGetEntitiesByModel";
