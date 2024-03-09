@@ -1,6 +1,6 @@
 import React from "react";
 
-import PostOptions from "../postOption";
+import PostOptions from "../postOptions";
 
 import { ITheme } from "../../../../config/theme";
 import { useAppSelector } from "../../../../store/hooks";

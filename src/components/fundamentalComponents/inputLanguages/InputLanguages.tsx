@@ -6,7 +6,7 @@ import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 import getLanguages from "../../../utils/getLanguages";
 import Checkbox from "../checkbox";
-import { Option } from "../inputSelect/InputSelect";
+import { InputSelectOptionEnum } from "../inputSelect/InputSelect";
 
 import useStyles from "./inputLanguages.styles";
 
@@ -25,9 +25,9 @@ const InputLanguages: React.FunctionComponent<IInputLanguagesProps> = (
   const [extended, setExtended] = React.useState<boolean>(false);
 
   const styles = useStyles({ theme });
-  const languages: Option[] = getLanguages();
+  const languages: InputSelectOptionEnum[] = getLanguages();
 
-  const handleChange = (language: Option) => {
+  const handleChange = (language: InputSelectOptionEnum) => {
     if (props.formik && props.name) {
       let newLanguages: string[] = [...props.formik.values[props.name]];
       const alreadySelected: boolean = newLanguages.some(

@@ -6,11 +6,17 @@ import { useAppSelector } from "../../../store/hooks";
 import useStyles from "./extendSection.styles";
 import { MdArrowDownward, MdArrowUpward } from "react-icons/md";
 
+export enum ExtendSectionSizeEnum {
+  Small = "Small",
+  Average = "Average",
+}
+
 interface IExtendSectionProps {
   onClick: () => void;
   title: string;
   isSectionShown: boolean;
   dataCy?: string;
+  size?: ExtendSectionSizeEnum;
 }
 
 const ExtendSection: React.FunctionComponent<IExtendSectionProps> = (
@@ -25,7 +31,11 @@ const ExtendSection: React.FunctionComponent<IExtendSectionProps> = (
   return (
     <span
       onClick={() => props.onClick()}
-      className={styles.sectionTitle}
+      className={
+        props.size === ExtendSectionSizeEnum.Small
+          ? styles.sectionSmall
+          : styles.sectionTitle
+      }
       {...(props.dataCy ? { ["data-cy"]: props.dataCy } : {})}
     >
       {props.title}

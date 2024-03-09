@@ -13,10 +13,6 @@ import Input from "../../../fundamentalComponents/input";
 import { MdTitle } from "react-icons/md";
 import { ImCross } from "react-icons/im";
 import Button from "../../../fundamentalComponents/button";
-import {
-  websiteConfigurationSlice,
-  IWebsiteConfiguration,
-} from "../../../../store/slices/websiteConfigurationSlice";
 import Checkbox from "../../../fundamentalComponents/checkbox";
 import InputLanguages from "../../../fundamentalComponents/inputLanguages";
 import ColorInput from "../../../fundamentalComponents/colorInput";
@@ -30,8 +26,10 @@ import getLanguages from "../../../../utils/getLanguages";
 import Textarea from "../../../fundamentalComponents/textarea/Textarea";
 import { IFileReadDto, IWebsiteConfigurationUpdateCommand } from "roottypes";
 import { editorSlice } from "../../../../store/slices/editorSlice";
+import StaticTextsForm from "../../formComponents/staticTextsForm";
+import { IWebsiteConfigurationState } from "../../../../store/slices/websiteConfigurationSlice";
 
-interface IWebsiteConfigurationForm extends ITheme {
+export interface IWebsiteConfigurationForm extends ITheme {
   language?: string;
   title?: string;
   description?: string;
@@ -42,12 +40,14 @@ interface IWebsiteConfigurationForm extends ITheme {
   withChat?: boolean;
   withRegistration?: boolean;
   withTaskManagement?: boolean;
-  tabIcon?: IFileReadDto;
-  logo1?: IFileReadDto;
-  logo2?: IFileReadDto;
+  tabIcon?: IFileReadDto | string;
+  logo1?: IFileReadDto | string;
+  logo2?: IFileReadDto | string;
   tabIconAsYetToDownloadFile?: File;
   logo1AsYetToDownloadFile?: File;
   logo2AsYetToDownloadFile?: File;
+
+  staticText?: Object;
 }
 
 interface IWebsiteConfigurationEditorProps {
@@ -58,7 +58,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
   IWebsiteConfigurationEditorProps
 > = (props: IWebsiteConfigurationEditorProps) => {
   //#region store
-  const websiteConfiguration: IWebsiteConfiguration = useAppSelector(
+  const websiteConfiguration: IWebsiteConfigurationState = useAppSelector(
     (state) => state.websiteConfiguration
   );
   const theme: ITheme = useAppSelector(
@@ -90,47 +90,51 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
   const getTranslatedText = useGetTranslatedText();
   //#endregion hooks
 
-  const getInitialValuesBasedOnWebsiteConfiguration = () => {
-    return {
-      title: websiteConfiguration.title,
-      language: formik?.values?.language || language,
-      description:
-        getTranslatedText(
-          websiteConfiguration.description,
-          formik?.values?.language || language
-        ) || "",
-      email: websiteConfiguration.email,
-      phoneNumber: websiteConfiguration.phoneNumber,
-      tabTitle: websiteConfiguration.tabTitle,
-      mainLanguages: websiteConfiguration.mainLanguages,
-      withChat: websiteConfiguration.withChat,
-      withRegistration: websiteConfiguration.withRegistration,
-      withTaskManagement: websiteConfiguration.withTaskManagement,
+  const getInitialValuesBasedOnWebsiteConfiguration =
+    (): IWebsiteConfigurationForm => {
+      return {
+        title: websiteConfiguration.title,
+        language: formik?.values?.language || language,
+        description:
+          getTranslatedText(
+            websiteConfiguration.description,
+            formik?.values?.language || language
+          ) || "",
+        email: websiteConfiguration.email,
+        phoneNumber: websiteConfiguration.phoneNumber,
+        tabTitle: websiteConfiguration.tabTitle,
+        mainLanguages: websiteConfiguration.mainLanguages,
+        withChat: websiteConfiguration.withChat,
+        withRegistration: websiteConfiguration.withRegistration,
+        withTaskManagement: websiteConfiguration.withTaskManagement,
 
-      darkTextColor: websiteConfiguration.theme.darkTextColor,
-      lightTextColor: websiteConfiguration.theme.lightTextColor,
-      primary: websiteConfiguration.theme.primary,
-      darkerPrimary: websiteConfiguration.theme.darkerPrimary,
-      lighterPrimary: websiteConfiguration.theme.lighterPrimary,
-      secondary: websiteConfiguration.theme.secondary,
-      errorColor: websiteConfiguration.theme.errorColor,
-      borderColor: websiteConfiguration.theme.borderColor,
-      formMaxWidth: websiteConfiguration.theme.formMaxWidth,
-      backgroundColor: websiteConfiguration.theme.backgroundColor,
-      contentBackgroundColor: websiteConfiguration.theme.contentBackgroundColor,
-      boxColor: websiteConfiguration.theme.boxColor,
-      transparentBackground: websiteConfiguration.theme.transparentBackground,
-      subContentBackgroundColor:
-        websiteConfiguration.theme.subContentBackgroundColor,
-      boxShadow: websiteConfiguration.theme.boxShadow,
-      tabIcon: websiteConfiguration.tabIcon,
-      tabIconAsYetToDownloadFile: undefined,
-      logo1: websiteConfiguration.logo1,
-      logo1AsYetToDownloadFile: undefined,
-      logo2: websiteConfiguration.logo2,
-      logo2AsYetToDownloadFile: undefined,
+        darkTextColor: websiteConfiguration.theme.darkTextColor,
+        lightTextColor: websiteConfiguration.theme.lightTextColor,
+        primary: websiteConfiguration.theme.primary,
+        darkerPrimary: websiteConfiguration.theme.darkerPrimary,
+        lighterPrimary: websiteConfiguration.theme.lighterPrimary,
+        secondary: websiteConfiguration.theme.secondary,
+        errorColor: websiteConfiguration.theme.errorColor,
+        borderColor: websiteConfiguration.theme.borderColor,
+        formMaxWidth: websiteConfiguration.theme.formMaxWidth,
+        backgroundColor: websiteConfiguration.theme.backgroundColor,
+        contentBackgroundColor:
+          websiteConfiguration.theme.contentBackgroundColor,
+        boxColor: websiteConfiguration.theme.boxColor,
+        transparentBackground: websiteConfiguration.theme.transparentBackground,
+        subContentBackgroundColor:
+          websiteConfiguration.theme.subContentBackgroundColor,
+        boxShadow: websiteConfiguration.theme.boxShadow,
+        tabIcon: websiteConfiguration.tabIcon,
+        tabIconAsYetToDownloadFile: undefined,
+        logo1: websiteConfiguration.logo1,
+        logo1AsYetToDownloadFile: undefined,
+        logo2: websiteConfiguration.logo2,
+        logo2AsYetToDownloadFile: undefined,
+
+        staticText: websiteConfiguration.staticText,
+      };
     };
-  };
 
   //#region formik
   const formik: FormikProps<IWebsiteConfigurationForm> =
@@ -154,13 +158,15 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
         withTaskManagement: Yup.boolean(),
       }),
       onSubmit: async (values: IWebsiteConfigurationForm) => {
-        const filesUploadPromises: Promise<IFileReadDto | undefined>[] = [];
+        const filesUploadPromises: Promise<
+          IFileReadDto | undefined | string
+        >[] = [];
 
         setUploadingFilesLoading(true);
 
         filesUploadPromises.push(
           new Promise(async (resolve, reject) => {
-            let tabIcon: IFileReadDto | undefined = undefined;
+            let tabIcon: IFileReadDto | undefined | string = undefined;
             if (formik.values.tabIcon) {
               tabIcon = formik.values.tabIcon;
             }
@@ -175,7 +181,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
         );
         filesUploadPromises.push(
           new Promise(async (resolve, reject) => {
-            let logo1: IFileReadDto | undefined = undefined;
+            let logo1: IFileReadDto | undefined | string = undefined;
             if (formik.values.logo1) {
               logo1 = formik.values.logo1;
             }
@@ -189,7 +195,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
 
         filesUploadPromises.push(
           new Promise(async (resolve, reject) => {
-            let logo2: IFileReadDto | undefined = undefined;
+            let logo2: IFileReadDto | undefined | string = undefined;
             if (formik.values.logo2) {
               logo2 = formik.values.logo2;
             }
@@ -214,9 +220,9 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           withChat: values.withChat || false,
           withRegistration: values.withRegistration || false,
           withTaskManagement: values.withTaskManagement || false,
-          tabIcon,
-          logo1,
-          logo2,
+          tabIcon: tabIcon as IFileReadDto,
+          logo1: logo1 as IFileReadDto,
+          logo2: logo2 as IFileReadDto,
 
           theme: {
             darkTextColor: values.darkTextColor,
@@ -236,6 +242,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
             boxShadow: values.boxShadow,
           },
           language: values.language || language,
+          staticText: values.staticText || {},
         };
 
         await updateWebsiteConfiguration(command);
@@ -394,7 +401,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
             formik.setFieldValue("tabIcon", null);
           }}
           selectedExistingFiles={
-            formik.values.tabIcon ? [formik.values.tabIcon] : []
+            formik.values.tabIcon ? [formik.values.tabIcon as IFileReadDto] : []
           }
           setSelectedExistingFiles={(existingFiles: IFileReadDto[]) => {
             formik.setFieldValue(
@@ -425,7 +432,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
             formik.setFieldValue("logo1", null);
           }}
           selectedExistingFiles={
-            formik.values.logo1 ? [formik.values.logo1] : []
+            formik.values.logo1 ? [formik.values.logo1 as IFileReadDto] : []
           }
           setSelectedExistingFiles={(existingFiles: IFileReadDto[]) => {
             formik.setFieldValue(
@@ -456,7 +463,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
             formik.setFieldValue("logo2", null);
           }}
           selectedExistingFiles={
-            formik.values.logo2 ? [formik.values.logo2] : []
+            formik.values.logo2 ? [formik.values.logo2 as IFileReadDto] : []
           }
           setSelectedExistingFiles={(existingFiles: IFileReadDto[]) => {
             formik.setFieldValue(
@@ -630,6 +637,12 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
             placeholder: getTranslatedText(staticText?.formMaxWidth),
           }}
           Icon={AiOutlineColumnWidth}
+        />
+
+        <StaticTextsForm
+          language={formik.values.language || language}
+          formik={formik}
+          name="staticText"
         />
 
         <Button

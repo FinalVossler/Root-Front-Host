@@ -22,13 +22,12 @@ const useSetNotificationToClickedBy = () => {
     new Promise<AxiosResponse<void>>((resolve, reject) => {
       setLoading(true);
 
+      console.log("notificationid", notificationId);
       axios
         .request({
           method: "POST",
           url: "/notifications/setNotificationToClickedBy",
-          data: {
-            notificationId,
-          },
+          data: { notificationId },
         })
         .then((_) => {
           dispatch(

@@ -2,12 +2,16 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import theme, { ITheme } from "../../config/theme";
 import changeTabIcon from "../../utils/changeTabIcon";
-import { IFileReadDto, ITranslatedText } from "roottypes";
+import {
+  IFileReadDto,
+  ITranslatedText,
+  IWebsiteConfigurationReadDto,
+} from "roottypes";
 
-export interface IWebsiteConfiguration {
+export interface IWebsiteConfigurationState {
   _id?: string;
   title?: string;
-  description?: string;
+  description?: ITranslatedText[];
   email?: string;
   phoneNumber?: string;
   tabTitle?: string;
@@ -16,407 +20,17 @@ export interface IWebsiteConfiguration {
   withRegistration?: boolean;
   withTaskManagement?: boolean;
   theme: ITheme;
-  tabIcon?: IFileReadDto;
-  logo1?: IFileReadDto;
-  logo2?: IFileReadDto;
-  staticText?: {
-    profile: {
-      alreadyHaveAnAccount: ITranslatedText[];
-      dontHaveAnAccount: ITranslatedText[];
-      loginHere: ITranslatedText[];
-      registerHere: ITranslatedText[];
-      enterFirstName: ITranslatedText[];
-      enterLastName: ITranslatedText[];
-      enterEmail: ITranslatedText[];
-      superAdmin: ITranslatedText[];
-      normal: ITranslatedText[];
-      superRole: ITranslatedText[];
-      updateProfileInformation: ITranslatedText[];
-      firstNameIsRequired: ITranslatedText[];
-      lastNameIsRequired: ITranslatedText[];
-      emailIsRequired: ITranslatedText[];
-      update: ITranslatedText[];
-      chooseFromYourExistingFiles: ITranslatedText[];
-      uploadANewPictureFirst: ITranslatedText[];
-      title: ITranslatedText[];
-      forgotPassword: ITranslatedText[];
-      mustBeOfTypeEmail: ITranslatedText[];
-      userInformationUpdated: ITranslatedText[];
-      create: ITranslatedText[];
-      submit: ITranslatedText[];
-      firstName: ITranslatedText[];
-      lastName: ITranslatedText[];
-      email: ITranslatedText[];
-      password: ITranslatedText[];
-      passwordConfirmation: ITranslatedText[];
-      passwordIsRequired: ITranslatedText[];
-      passwordsDontMatch: ITranslatedText[];
-      visit: ITranslatedText[];
-      role: ITranslatedText[];
-      welcome: ITranslatedText[];
-      solutionDescription: ITranslatedText[];
-      hasMessagingEmailsActivated: ITranslatedText[];
-    };
-    changePassword: {
-      required: ITranslatedText[];
-      passwordsMustMatch: ITranslatedText[];
-      passwordWasChanged: ITranslatedText[];
-      oldPassword: ITranslatedText[];
-      newPassword: ITranslatedText[];
-      sendChangePasswordRequestTitle: ITranslatedText[];
-      email: ITranslatedText[];
-      sendChangePasswordRequest: ITranslatedText[];
-      send: ITranslatedText[];
-      changePasswordRequestHasBeenSent: ITranslatedText[];
-      changePasswordTitle: ITranslatedText[];
-      confirmPassword: ITranslatedText[];
-    };
-    login: {
-      title: ITranslatedText[];
-      emailPlaceholder: ITranslatedText[];
-      passwordPlaceholder: ITranslatedText[];
-    };
-    header: {
-      language: ITranslatedText[];
-      home: ITranslatedText[];
-      chat: ITranslatedText[];
-      menu: ITranslatedText[];
-      markAllUserNotificationAsClicked: ITranslatedText[];
-    };
-    registration: {
-      title: ITranslatedText[];
-      firstNamePlaceholder: ITranslatedText[];
-      lastNamePlaceholder: ITranslatedText[];
-      emailPlaceholder: ITranslatedText[];
-      passwordPlaceholder: ITranslatedText[];
-      confirmPasswordPlaceholder: ITranslatedText[];
-      buttonText: ITranslatedText[];
-    };
-    sideMenu: {
-      pages: ITranslatedText[];
-      profile: ITranslatedText[];
-      fields: ITranslatedText[];
-      models: ITranslatedText[];
-      configuration: ITranslatedText[];
-      users: ITranslatedText[];
-      roles: ITranslatedText[];
-      tasksManagement: ITranslatedText[];
-      microFrontends: ITranslatedText[];
-    };
-    fields: {
-      createField: ITranslatedText[];
-      updateField: ITranslatedText[];
-      namePlaceholder: ITranslatedText[];
-      typePlaceholder: ITranslatedText[];
-      canChooseFromExistingFiles: ITranslatedText[];
-      submit: ITranslatedText[];
-      language: ITranslatedText[];
-      searchFields: ITranslatedText[];
-      options: ITranslatedText[];
-      addOption: ITranslatedText[];
-      label: ITranslatedText[];
-      value: ITranslatedText[];
-      superiorTo: ITranslatedText[];
-      superiorOrEqualTo: ITranslatedText[];
-      inferiorTo: ITranslatedText[];
-      inferiorOrEqualTo: ITranslatedText[];
-      equal: ITranslatedText[];
-      addCondition: ITranslatedText[];
-      condition: ITranslatedText[];
-      field: ITranslatedText[];
-      conditionType: ITranslatedText[];
-      valueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear: ITranslatedText[];
-      required: ITranslatedText[];
-      fields: ITranslatedText[];
-      contributesInFilling: ITranslatedText[];
-      statesConfigurationHint: ITranslatedText[];
-      subStatesConfigurationHint: ITranslatedText[];
-      mainField: ITranslatedText[];
-      stickInTable: ITranslatedText[];
-      fieldShowWhenStateIsAchieved: ITranslatedText[];
-      ifYearTableThenNumberOfYearsInTheFutureIsEqualToValueOfField: ITranslatedText[];
+  tabIcon?: IWebsiteConfigurationReadDto["tabIcon"];
+  logo1?: IWebsiteConfigurationReadDto["logo1"];
+  logo2?: IWebsiteConfigurationReadDto["logo2"];
 
-      columnName: ITranslatedText[];
-      rowName: ITranslatedText[];
-      rows: ITranslatedText[];
-      yearTable: ITranslatedText[];
-      addColumn: ITranslatedText[];
-      addRow: ITranslatedText[];
-      tableName: ITranslatedText[];
-
-      conditions: ITranslatedText[];
-      statesContributions: ITranslatedText[];
-    };
-    microFrontends: {
-      updateMicroFrontend: ITranslatedText[];
-      createMicroFrontend: ITranslatedText[];
-      name: ITranslatedText[];
-      remoteEntry: ITranslatedText[];
-      components: ITranslatedText[];
-      addComponent: ITranslatedText[];
-      componentName: ITranslatedText[];
-      submit: ITranslatedText[];
-      warning: ITranslatedText[];
-      back: ITranslatedText[];
-    };
-    models: {
-      createModel: ITranslatedText[];
-      updateModel: ITranslatedText[];
-      namePlaceholder: ITranslatedText[];
-      fieldsPlaceholder: ITranslatedText[];
-      submit: ITranslatedText[];
-      language: ITranslatedText[];
-      nameIsRequired: ITranslatedText[];
-      addState: ITranslatedText[];
-      states: ITranslatedText[];
-      addSubState: ITranslatedText[];
-      subStates: ITranslatedText[];
-      parentStates: ITranslatedText[];
-      state: ITranslatedText[];
-      subState: ITranslatedText[];
-      exclusive: ITranslatedText[];
-    };
-    events: {
-      eventTrigger: ITranslatedText[];
-      onCreate: ITranslatedText[];
-      onUpdate: ITranslatedText[];
-      onClick: ITranslatedText[];
-      eventType: ITranslatedText[];
-      apiCall: ITranslatedText[];
-      redirection: ITranslatedText[];
-      addEvent: ITranslatedText[];
-      events: ITranslatedText[];
-      event: ITranslatedText[];
-      requestMethod: ITranslatedText[];
-      requestUrl: ITranslatedText[];
-      redirectionUrl: ITranslatedText[];
-      redirectionToSelf: ITranslatedText[];
-      requestData: ITranslatedText[];
-      requestDataIsCreatedEntity: ITranslatedText[];
-      headers: ITranslatedText[];
-      addHeader: ITranslatedText[];
-      key: ITranslatedText[];
-      value: ITranslatedText[];
-      microFrontendRedirection: ITranslatedText[];
-      searchMicroFrontends: ITranslatedText[];
-      components: ITranslatedText[];
-    };
-    elements: {
-      actions: ITranslatedText[];
-      edit: ITranslatedText[];
-      deleteTitle: ITranslatedText[];
-      deleteDescription: ITranslatedText[];
-      copyTitle: ITranslatedText[];
-      copyDescription: ITranslatedText[];
-      search: ITranslatedText[];
-      view: ITranslatedText[];
-      table: ITranslatedText[];
-      board: ITranslatedText[];
-      statusTracking: ITranslatedText[];
-      add: ITranslatedText[];
-    };
-    pages: {
-      deletePageMessage: ITranslatedText[];
-      deletePage: ITranslatedText[];
-      createPage: ITranslatedText[];
-      updatePage: ITranslatedText[];
-      delete: ITranslatedText[];
-      addPage: ITranslatedText[];
-      title: ITranslatedText[];
-      slug: ITranslatedText[];
-      slugError: ITranslatedText[];
-      language: ITranslatedText[];
-      showInHeader: ITranslatedText[];
-      showInSideMenu: ITranslatedText[];
-      visit: ITranslatedText[];
-    };
-    posts: {
-      haveSomethingInMind: ITranslatedText[];
-      iNeedATitleOrADescription: ITranslatedText[];
-      createPost: ITranslatedText[];
-      title: ITranslatedText[];
-      subTitle: ITranslatedText[];
-      addChildrenPosts: ITranslatedText[];
-      language: ITranslatedText[];
-      visibility: ITranslatedText[];
-      design: ITranslatedText[];
-      submit: ITranslatedText[];
-      files: ITranslatedText[];
-      code: ITranslatedText[];
-      codePlaceholder: ITranslatedText[];
-      postUsedInPageAndCantBePrivate: ITranslatedText[];
-    };
-    entities: {
-      createEntity: ITranslatedText[];
-      updateEntity: ITranslatedText[];
-      submit: ITranslatedText[];
-      language: ITranslatedText[];
-      required: ITranslatedText[];
-      visit: ITranslatedText[];
-      success: ITranslatedText[];
-      userAssignment: ITranslatedText[];
-      searchUsers: ITranslatedText[];
-      states: ITranslatedText[];
-      createdAt: ITranslatedText[];
-      assignedTo: ITranslatedText[];
-      taskType: ITranslatedText[];
-      mustBeValidUrl: ITranslatedText[];
-    };
-    contact: {
-      firstNameRequired: ITranslatedText[];
-      lastNameRequired: ITranslatedText[];
-      addressRequired: ITranslatedText[];
-      mustBeValidEmail: ITranslatedText[];
-      emailRequired: ITranslatedText[];
-      messageRequired: ITranslatedText[];
-      getInTouch: ITranslatedText[];
-      firstName: ITranslatedText[];
-      lastName: ITranslatedText[];
-      email: ITranslatedText[];
-      phone: ITranslatedText[];
-      address: ITranslatedText[];
-      message: ITranslatedText[];
-      submit: ITranslatedText[];
-    };
-    websiteConfiguration: {
-      titleIsRequired: ITranslatedText[];
-      emailIsRequired: ITranslatedText[];
-      phoneNumberIsRequired: ITranslatedText[];
-      tabTitleIsRequired: ITranslatedText[];
-      websiteConfiguration: ITranslatedText[];
-      globalConfiguration: ITranslatedText[];
-      language: ITranslatedText[];
-      title: ITranslatedText[];
-      description: ITranslatedText[];
-      email: ITranslatedText[];
-      phoneNumber: ITranslatedText[];
-      tabTitle: ITranslatedText[];
-      withChat: ITranslatedText[];
-      theme: ITranslatedText[];
-      revertThemeConfigurationToDefault: ITranslatedText[];
-      update: ITranslatedText[];
-      withRegistration: ITranslatedText[];
-      withTaskManagement: ITranslatedText[];
-
-      darkTextColor: ITranslatedText[];
-      lightTextColor: ITranslatedText[];
-
-      primary: ITranslatedText[];
-      darkerPrimary: ITranslatedText[];
-      lighterPrimary: ITranslatedText[];
-      secondary: ITranslatedText[];
-      errorColor: ITranslatedText[];
-      borderColor: ITranslatedText[];
-      formMaxWidth: ITranslatedText[];
-      transparentBackground: ITranslatedText[];
-      backgroundColor: ITranslatedText[];
-      contentBackgroundColor: ITranslatedText[];
-      subContentBackgroundColor: ITranslatedText[];
-      boxColor: ITranslatedText[];
-      boxShadow: ITranslatedText[];
-      tabIcon: ITranslatedText[];
-      logo1: ITranslatedText[];
-      logo2: ITranslatedText[];
-    };
-    roles: {
-      editConfiguration: ITranslatedText[];
-      createRole: ITranslatedText[];
-      updateRole: ITranslatedText[];
-      namePlaceholder: ITranslatedText[];
-      submit: ITranslatedText[];
-      language: ITranslatedText[];
-      searchRoles: ITranslatedText[];
-      permissions: ITranslatedText[];
-      entitiesPermisions: ITranslatedText[];
-      searchByModel: ITranslatedText[];
-      nameIsRequired: ITranslatedText[];
-
-      create: ITranslatedText[];
-      read: ITranslatedText[];
-      update: ITranslatedText[];
-      delete: ITranslatedText[];
-
-      createPage: ITranslatedText[];
-      readPage: ITranslatedText[];
-      updatePage: ITranslatedText[];
-      deletePage: ITranslatedText[];
-
-      createPost: ITranslatedText[];
-
-      createField: ITranslatedText[];
-      readField: ITranslatedText[];
-      updateField: ITranslatedText[];
-      deleteField: ITranslatedText[];
-
-      createModel: ITranslatedText[];
-      readModel: ITranslatedText[];
-      updateModel: ITranslatedText[];
-      deleteModel: ITranslatedText[];
-
-      createUser: ITranslatedText[];
-      readUser: ITranslatedText[];
-      updateUser: ITranslatedText[];
-      deleteUser: ITranslatedText[];
-
-      createMicroFrontend: ITranslatedText[];
-      updateMicroFrontend: ITranslatedText[];
-      deleteMicroFrontend: ITranslatedText[];
-
-      readRole: ITranslatedText[];
-      deleteRole: ITranslatedText[];
-
-      entityFieldPermissions: ITranslatedText[];
-      entityEventNotifications: ITranslatedText[];
-
-      onCreate: ITranslatedText[];
-      onAssigned: ITranslatedText[];
-
-      addEvent: ITranslatedText[];
-      eventTitle: ITranslatedText[];
-      eventDescription: ITranslatedText[];
-      eventType: ITranslatedText[];
-      canAssignToUserFromSameRole: ITranslatedText[];
-      roles: ITranslatedText[];
-      assignmentConfigurationTitle: ITranslatedText[];
-    };
-    chat: {
-      title: ITranslatedText[];
-      welcome: ITranslatedText[];
-      welcomeText: ITranslatedText[];
-      searchContacts: ITranslatedText[];
-      createGroup: ITranslatedText[];
-    };
-    files: {
-      dropHere: ITranslatedText[];
-      readAccessOnlyErrorMessage: ITranslatedText[];
-      noFilesFound: ITranslatedText[];
-    };
-  };
-}
-
-interface IWebsiteConfigurationState {
-  _id?: string;
-  title?: string;
-  description?: string;
-  email?: string;
-  phoneNumber?: string;
-  tabTitle?: string;
-  mainLanguages?: string[];
-  withChat?: boolean;
-  withRegistration?: boolean;
-  withTaskManagement?: boolean;
-  theme: ITheme;
-  tabIcon?: IFileReadDto;
-  logo1?: IFileReadDto;
-  logo2?: IFileReadDto;
-
-  staticText?: IWebsiteConfiguration["staticText"];
+  staticText?: IWebsiteConfigurationReadDto["staticText"];
 }
 
 const initialState: IWebsiteConfigurationState = {
   _id: "",
   title: "",
-  description: "",
+  description: [{ text: "", language: "en" }],
   email: "",
   phoneNumber: "",
   tabTitle: "",
@@ -1596,6 +1210,10 @@ const initialState: IWebsiteConfigurationState = {
       ],
     },
     websiteConfiguration: {
+      staticTextsTranslation: [
+        { text: "Static texts translation", language: "en" },
+        { text: "Traduction des textes statiques", language: "fr" },
+      ],
       email: [
         { text: "Email", language: "en" },
         { text: "Email", language: "fr" },
@@ -2071,12 +1689,12 @@ export const websiteConfigurationSlice = createSlice({
   reducers: {
     setConfiguration: (
       state: IWebsiteConfigurationState,
-      action: PayloadAction<IWebsiteConfiguration>
+      action: PayloadAction<IWebsiteConfigurationReadDto>
     ) => {
       state.email = action.payload.email;
       state.title = action.payload.title;
-      (state.description = action.payload.description),
-        (state.phoneNumber = action.payload.phoneNumber);
+      state.description = action.payload.description;
+      state.phoneNumber = action.payload.phoneNumber;
       state.tabTitle = action.payload.tabTitle;
       state.mainLanguages = action.payload.mainLanguages;
       state.withChat = action.payload.withChat;
@@ -2119,7 +1737,7 @@ export const websiteConfigurationSlice = createSlice({
         }
       }
       document.title = action.payload.tabTitle || "Loading";
-      changeTabIcon(state.tabIcon?.url || "");
+      changeTabIcon((state.tabIcon as IFileReadDto)?.url || "");
     },
   },
 });

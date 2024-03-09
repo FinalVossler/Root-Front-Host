@@ -1,4 +1,4 @@
-import IFile from "../globalTypes/IFile";
+import { IFileReadDto } from "roottypes";
 
 export enum FileTypeEnum {
   Image = "Image",
@@ -7,7 +7,7 @@ export enum FileTypeEnum {
   Unknown = "Unknown",
 }
 
-const getFileType = (file: IFile): FileTypeEnum => {
+const getFileType = (file: IFileReadDto): FileTypeEnum => {
   if (file.isImage) {
     return FileTypeEnum.Image;
   }

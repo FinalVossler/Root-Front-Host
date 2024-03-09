@@ -19,7 +19,7 @@ import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import InputSelect from "../../../fundamentalComponents/inputSelect";
 import getLanguages from "../../../../utils/getLanguages";
 import useStyles from "./roleEditor.styles";
-import { Option } from "../../../fundamentalComponents/inputSelect/InputSelect";
+import { InputSelectOptionEnum } from "../../../fundamentalComponents/inputSelect/InputSelect";
 import lowerCaseFirstLetter from "../../../../utils/lowerCaseFirstLetter";
 import SearchInput from "../../../fundamentalComponents/searchInput";
 import useSearchModels from "../../../../hooks/apiHooks/useSearchModels";
@@ -449,17 +449,17 @@ const RoleEditor = (props: IRoleEditorProps) => {
   //#endregion Event listeners
 
   const loading = props.role ? updateLoading : createLoading;
-  const permissionsOptions: Option[] = Object.values(PermissionEnum).map(
-    (permission) => {
-      return {
-        label: getTranslatedText(
-          //@ts-ignore
-          staticText?.[lowerCaseFirstLetter(permission)]
-        ),
-        value: permission,
-      };
-    }
-  );
+  const permissionsOptions: InputSelectOptionEnum[] = Object.values(
+    PermissionEnum
+  ).map((permission) => {
+    return {
+      label: getTranslatedText(
+        //@ts-ignore
+        staticText?.[lowerCaseFirstLetter(permission)]
+      ),
+      value: permission,
+    };
+  });
 
   return (
     <Modal handleClose={handleCloseModal} open>

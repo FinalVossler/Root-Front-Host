@@ -3,7 +3,7 @@ import { BsInstagram, BsFacebook, BsYoutube, BsLinkedin } from "react-icons/bs";
 
 import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
-import { IWebsiteConfiguration } from "../../../store/slices/websiteConfigurationSlice";
+import { IWebsiteConfigurationState } from "../../../store/slices/websiteConfigurationSlice";
 
 import useStyles from "./footer.styles";
 
@@ -23,7 +23,7 @@ const Footer: React.FunctionComponent<IFooterProps> = (props: IFooterProps) => {
   const title: string | undefined = useAppSelector(
     (state) => state.websiteConfiguration.title
   );
-  const conf: IWebsiteConfiguration = useAppSelector(
+  const conf: IWebsiteConfigurationState = useAppSelector(
     (state) => state.websiteConfiguration
   );
 

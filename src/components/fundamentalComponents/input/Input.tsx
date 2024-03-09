@@ -23,6 +23,7 @@ export interface IInputProps {
   containerProps?: any;
   inputDataCy?: string;
   inputErrorDataCy?: string;
+  labelStyles?: React.CSSProperties;
 }
 const Input: React.FunctionComponent<PropsWithChildren<IInputProps>> = (
   props: PropsWithChildren<IInputProps>
@@ -91,7 +92,14 @@ const Input: React.FunctionComponent<PropsWithChildren<IInputProps>> = (
             : styles.labelAndInputContainer
         }
       >
-        {props.label && <span className={styles.label}>{props.label}</span>}
+        {props.label && (
+          <span
+            className={styles.label}
+            style={{ ...(props.labelStyles || {}) }}
+          >
+            {props.label}
+          </span>
+        )}
         {props.Icon && (
           <props.Icon
             onClick={props.onIconClick}

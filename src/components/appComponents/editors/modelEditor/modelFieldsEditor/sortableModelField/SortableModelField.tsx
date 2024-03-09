@@ -13,7 +13,7 @@ import { IModelField } from "../../../../../../store/slices/modelSlice";
 import useStyles from "./sortableModel.styles";
 import { BiPlus } from "react-icons/bi";
 import InputSelect from "../../../../../fundamentalComponents/inputSelect";
-import { Option } from "../../../../../fundamentalComponents/inputSelect/InputSelect";
+import { InputSelectOptionEnum } from "../../../../../fundamentalComponents/inputSelect/InputSelect";
 import { MdDelete, MdTextFields } from "react-icons/md";
 import Input from "../../../../../fundamentalComponents/input";
 import Checkbox from "../../../../../fundamentalComponents/checkbox";
@@ -192,7 +192,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
     props.setSelectedModelFields(newSelectedModelFields);
   };
   const handleSelectConditionStates = (
-    modelStateOption: Option,
+    modelStateOption: InputSelectOptionEnum,
     conditionIndex: number
   ) => {
     const newSelectedModelFields = props.selectedModelFields.map(
@@ -252,7 +252,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
   const sorteStyles = {
     transform: CSS.Transform.toString(transform),
   };
-  const conditionsOptions: Option[] = [
+  const conditionsOptions: InputSelectOptionEnum[] = [
     {
       label: getTranslatedText(staticText?.equal),
       value: ModelFieldConditionTypeEnum.Equal,
@@ -296,7 +296,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
     });
   }
 
-  const fieldsOptions: Option[] = props.selectedModelFields
+  const fieldsOptions: InputSelectOptionEnum[] = props.selectedModelFields
     .filter(
       (selectedModelField: IModelField) =>
         (selectedModelField.field as IFieldReadDto)._id !==
@@ -310,7 +310,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
         value: (selectedModelField.field as IFieldReadDto)._id,
       };
     });
-  const modelStatesOptions: Option[] =
+  const modelStatesOptions: InputSelectOptionEnum[] =
     (props.model?.states as IModelStateReadDto[])?.map((modelState) => ({
       label: getTranslatedText(modelState.name),
       value: getTranslatedText(modelState._id.toString()),
@@ -437,7 +437,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
                       (option) => option.value === condition.conditionType
                     )}
                     options={conditionsOptions}
-                    onChange={(option: Option) =>
+                    onChange={(option: InputSelectOptionEnum) =>
                       handleChangeConditionType(
                         option.value as ModelFieldConditionTypeEnum,
                         conditionIndex

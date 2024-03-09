@@ -20,7 +20,7 @@ import Input from "../../../fundamentalComponents/input";
 import Textarea from "../../../fundamentalComponents/textarea";
 import EntityFieldFiles from "./entityFieldFiles";
 import uploadFiles from "../../../../utils/uploadFiles";
-import { Option } from "../../../fundamentalComponents/inputSelect/InputSelect";
+import { InputSelectOptionEnum } from "../../../fundamentalComponents/inputSelect/InputSelect";
 import useAxios from "../../../../hooks/useAxios";
 import areEntityFieldConditionsMet from "../../../../utils/areEntityFieldConditionsMet";
 
@@ -641,7 +641,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
                 (modelField.field as IFieldReadDto).name
               )}
               disabled={!canEdit}
-              onChange={(option: Option) => {
+              onChange={(option: InputSelectOptionEnum) => {
                 formik.setFieldValue(
                   "entityFieldValues",
                   formik.values.entityFieldValues.map((entityFieldValue) => {

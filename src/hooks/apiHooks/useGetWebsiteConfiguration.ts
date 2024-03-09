@@ -2,12 +2,10 @@ import { AxiosResponse } from "axios";
 import React from "react";
 import { useAppDispatch } from "../../store/hooks";
 import { userPreferenceSlice } from "../../store/slices/userPreferencesSlice";
-import {
-  IWebsiteConfiguration,
-  websiteConfigurationSlice,
-} from "../../store/slices/websiteConfigurationSlice";
+import { websiteConfigurationSlice } from "../../store/slices/websiteConfigurationSlice";
 
 import useAxios from "../useAxios";
+import { IWebsiteConfigurationReadDto } from "roottypes";
 
 const useGetWebsiteConfiguration = () => {
   const [loading, setLoading] = React.useState(false);
@@ -19,7 +17,7 @@ const useGetWebsiteConfiguration = () => {
   const getWebsiteConfiguration = () =>
     new Promise((resolve, reject) => {
       axios
-        .request<AxiosResponse<IWebsiteConfiguration>>({
+        .request<AxiosResponse<IWebsiteConfigurationReadDto>>({
           method: "GET",
           url: "/websiteConfigurations/",
         })

@@ -11,6 +11,10 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     marginBottom: 20,
     fontSize: 30,
   },
+  sectionSmall: {
+    extend: "sectionTitle",
+    fontSize: 20,
+  },
   arrowIcon: {
     position: "relative",
     top: 7,

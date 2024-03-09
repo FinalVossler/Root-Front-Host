@@ -3,11 +3,11 @@ import React from "react";
 import { toast } from "react-toastify";
 
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { websiteConfigurationSlice } from "../../store/slices/websiteConfigurationSlice";
 import {
-  IWebsiteConfiguration,
-  websiteConfigurationSlice,
-} from "../../store/slices/websiteConfigurationSlice";
-import { IWebsiteConfigurationUpdateCommand } from "roottypes";
+  IWebsiteConfigurationReadDto,
+  IWebsiteConfigurationUpdateCommand,
+} from "roottypes";
 
 const useUpdateWebsiteConfiguration = () => {
   // Don't use the useAuthorized axios here (for whatever reasons, weird things are going on and making it send the wrong update data)
@@ -26,7 +26,7 @@ const useUpdateWebsiteConfiguration = () => {
       setLoading(true);
 
       axios
-        .request<AxiosResponse<IWebsiteConfigurationUpdateCommand>>({
+        .request<AxiosResponse<IWebsiteConfigurationReadDto>>({
           baseURL: process.env.REACT_APP_BACKEND_URL,
           url: process.env.REACT_APP_BACKEND_URL + "/websiteConfigurations/",
           method: "PUT",
@@ -38,7 +38,7 @@ const useUpdateWebsiteConfiguration = () => {
         .then((res) => {
           dispatch(
             websiteConfigurationSlice.actions.setConfiguration(
-              res.data.data as IWebsiteConfiguration
+              res.data.data as IWebsiteConfigurationReadDto
             )
           );
           toast.success("Configuration saved");

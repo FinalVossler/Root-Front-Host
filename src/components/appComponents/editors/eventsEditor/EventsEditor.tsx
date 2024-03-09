@@ -20,7 +20,7 @@ import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import SearchInput from "../../../fundamentalComponents/searchInput";
 import useSearchMicroFrontends from "../../../../hooks/apiHooks/useSearchMicroFrontends";
 import InputSelect from "../../../fundamentalComponents/inputSelect";
-import { Option } from "../../../fundamentalComponents/inputSelect/InputSelect";
+import { InputSelectOptionEnum } from "../../../fundamentalComponents/inputSelect/InputSelect";
 import {
   EventTriggerEnum,
   EventTypeEnum,
@@ -135,7 +135,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
   };
   const handleSelectMicroFrontendComponent = (
     index: number,
-    option: Option
+    option: InputSelectOptionEnum
   ) => {
     const newEvents = props.formik.values[props.fieldName].map(
       (event: IEventReadDto, i): IEventReadDto => {
@@ -564,7 +564,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                 {event.microFrontend && (
                   <div className={styles.selectedMicroFrontendContainer}>
                     <span className={styles.microFrontendName}>
-                      {event.microFrontend?.name}
+                      {(event.microFrontend as IMicroFrontendReadDto)?.name}
                     </span>
                     <MdDelete
                       className={styles.unselectMicroFrontendButton}
@@ -576,7 +576,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                     <InputSelect
                       label={getTranslatedText(staticText?.components)}
                       options={(
-                        event.microFrontend
+                        (event.microFrontend as IMicroFrontendReadDto)
                           .components as IMicroFrontendComponentReadDto[]
                       ).map((component) => {
                         return {
@@ -587,7 +587,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                       value={{
                         label:
                           (
-                            event.microFrontend
+                            (event.microFrontend as IMicroFrontendReadDto)
                               .components as IMicroFrontendComponentReadDto[]
                           ).find(
                             (el) =>
@@ -596,7 +596,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                           )?.name || "",
                         value:
                           (
-                            event.microFrontend
+                            (event.microFrontend as IMicroFrontendReadDto)
                               .components as IMicroFrontendComponentReadDto[]
                           ).find(
                             (el) =>

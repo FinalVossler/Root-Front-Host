@@ -1,6 +1,6 @@
-import { Option } from "../components/fundamentalComponents/inputSelect/InputSelect";
+import { InputSelectOptionEnum } from "../components/fundamentalComponents/inputSelect/InputSelect";
 
-const languages: Option[] = [
+const languages: InputSelectOptionEnum[] = [
   { value: "en", label: "English" },
   { value: "fr", label: "French" },
   { value: "de", label: "German" },
@@ -57,7 +57,7 @@ const languages: Option[] = [
   { value: "zh", label: "Chinese" },
 ];
 
-const getLanguages = (): Option[] => {
+const getLanguages = (): InputSelectOptionEnum[] => {
   return languages;
 };
 

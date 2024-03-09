@@ -11,7 +11,7 @@ import useIsLoggedIn from "../../../../hooks/useIsLoggedIn";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import InputSelect from "../../../fundamentalComponents/inputSelect";
 import { userPreferenceSlice } from "../../../../store/slices/userPreferencesSlice";
-import { Option } from "../../../fundamentalComponents/inputSelect/InputSelect";
+import { InputSelectOptionEnum } from "../../../fundamentalComponents/inputSelect/InputSelect";
 import HeaderInbox from "../../chatComponents/headerInbox";
 import HeaderNotifications from "../../headerNotifications";
 
@@ -64,7 +64,7 @@ const Header: React.FunctionComponent<IHeaderProps> = (props: IHeaderProps) => {
     dispatch(userSlice.actions.logout());
     navigate("/auth");
   };
-  const handleChangeLanguage = (option: Option) => {
+  const handleChangeLanguage = (option: InputSelectOptionEnum) => {
     dispatch(userPreferenceSlice.actions.setLanguage(option.value));
   };
   const handleTriggerShowMobileMenu = () => {

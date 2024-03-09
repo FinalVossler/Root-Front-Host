@@ -7,18 +7,18 @@ import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./inputSelect.styles";
 
-export type Option = {
+export type InputSelectOptionEnum = {
   value: string;
   label: string;
 };
 
 interface IInputSelectProps {
-  options: Option[];
+  options: InputSelectOptionEnum[];
   label: string;
-  onChange?: (option: Option) => void;
-  onMultiChange?: (options: Option[]) => void;
+  onChange?: (option: InputSelectOptionEnum) => void;
+  onMultiChange?: (options: InputSelectOptionEnum[]) => void;
   isMulti?: boolean;
-  value?: Option | Option[];
+  value?: InputSelectOptionEnum | InputSelectOptionEnum[];
   formik?: FormikProps<any>;
   name?: string;
   style?: React.CSSProperties;
@@ -36,18 +36,21 @@ const InputSelect: React.FunctionComponent<IInputSelectProps> = (
   );
   const styles = useStyles({ theme });
 
-  const handleOnChange = (option: PropsValue<Option>) => {
+  const handleOnChange = (option: PropsValue<InputSelectOptionEnum>) => {
     if (props.formik && props.name) {
-      props.formik.setFieldValue(props.name, (option as Option).value);
+      props.formik.setFieldValue(
+        props.name,
+        (option as InputSelectOptionEnum).value
+      );
     }
 
     if (props.onChange) {
-      props.onChange(option as Option);
+      props.onChange(option as InputSelectOptionEnum);
     }
   };
 
   const handleOnMultiChange = (optionsParams: any) => {
-    const options: Option[] = optionsParams;
+    const options: InputSelectOptionEnum[] = optionsParams;
     if (props.formik && props.name) {
       props.formik.setFieldValue(
         props.name,

@@ -15,7 +15,7 @@ import Button from "../../../fundamentalComponents/button";
 import { useAppSelector } from "../../../../store/hooks";
 import { IPost } from "../../../../store/slices/postSlice";
 import InputSelect from "../../../fundamentalComponents/inputSelect";
-import { Option } from "../../../fundamentalComponents/inputSelect/InputSelect";
+import { InputSelectOptionEnum } from "../../../fundamentalComponents/inputSelect/InputSelect";
 import Input from "../../../fundamentalComponents/input";
 import PostsEditor from "../pageEditor/postsEditor";
 import getLanguages from "../../../../utils/getLanguages";
@@ -215,11 +215,11 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
     setCode(e.target.value);
   };
 
-  const handleVisibilityChange = (option: Option) => {
+  const handleVisibilityChange = (option: InputSelectOptionEnum) => {
     setVisibility(option.value as PostVisibilityEnum);
   };
 
-  const handleDesignChange = (option: Option) => {
+  const handleDesignChange = (option: InputSelectOptionEnum) => {
     setDesign(option.value as PostDesignEnum);
   };
 
@@ -230,7 +230,7 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
     [setChildren]
   );
 
-  const handleChangeLanguage = (option: Option) => {
+  const handleChangeLanguage = (option: InputSelectOptionEnum) => {
     setLanguage(option.value);
   };
   const handleCloseModal = () => {

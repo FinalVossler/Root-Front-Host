@@ -45,6 +45,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     marginRight: 10,
     textAlign: "start",
     width: 170,
+    wordBreak: "break-word",
   },
   input: {
     border: "none",
