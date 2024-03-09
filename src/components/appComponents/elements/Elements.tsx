@@ -3,7 +3,6 @@ import { createPortal } from "react-dom";
 import { BiCopy } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 
-import { ITheme } from "../../../config/theme";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../store/hooks";
 
@@ -19,6 +18,7 @@ import {
   IEntityReadDto,
   IPaginationCommand,
   IPaginationResponse,
+  ITheme,
 } from "roottypes";
 import ElementsTable from "./elementsTable";
 import { IElement } from "../../../store/slices/editorSlice";

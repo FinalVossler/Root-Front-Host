@@ -1,15 +1,13 @@
-import { FormikProps } from "formik";
 import React from "react";
 
-import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./checkbox.styles";
+import { ITheme } from "roottypes";
 
-interface ICheckboxProps {
+export interface ICheckboxProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
   name?: string;
-  formik?: FormikProps<any>;
   checked?: any;
   onChange?: (checked: boolean) => any;
   label?: string;
@@ -29,9 +27,6 @@ const Checkbox: React.FunctionComponent<ICheckboxProps> = (
     if (props.onChange) {
       props.onChange(e.target.checked);
     }
-    if (props.formik && props.name) {
-      props.formik.setFieldValue(props.name, e.target.checked);
-    }
   };
   //#endregion Event listeners
 
@@ -44,11 +39,7 @@ const Checkbox: React.FunctionComponent<ICheckboxProps> = (
       )}
       <input
         type="checkbox"
-        checked={
-          props.formik && props.name
-            ? props.formik.values[props.name]
-            : props.checked
-        }
+        checked={props.checked}
         className={styles.input}
         name={props.name}
         onChange={handleChange}

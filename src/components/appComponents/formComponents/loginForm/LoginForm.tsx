@@ -7,15 +7,13 @@ import * as Yup from "yup";
 import Input from "../../../fundamentalComponents/input/Input";
 import Button from "../../../fundamentalComponents/button/Button";
 
-import { ITheme } from "../../../../config/theme";
-
 import { useAppSelector } from "../../../../store/hooks";
 
 import useStyles from "./loginForm.styles";
 import useLogin from "../../../../hooks/apiHooks/useLogin";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useNavigate } from "react-router-dom";
-import { IUserLoginCommand } from "roottypes";
+import { ITheme, IUserLoginCommand } from "roottypes";
 
 interface ILoginFormFormik {
   email: string;

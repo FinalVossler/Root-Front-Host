@@ -3,7 +3,6 @@ import React from "react";
 import * as Yup from "yup";
 import { BsFillPersonFill } from "react-icons/bs";
 
-import { ITheme } from "../../../../config/theme";
 import { useAppSelector } from "../../../../store/hooks";
 import Input from "../../../fundamentalComponents/input";
 
@@ -13,7 +12,7 @@ import { IPost } from "../../../../store/slices/postSlice";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import extractContentFromHtml from "../../../../utils/extractContentFromHtml";
 import useSendMail from "../../../../hooks/apiHooks/useSendMail";
-import { IEmailSendCommand } from "roottypes";
+import { IEmailSendCommand, ITheme } from "roottypes";
 
 interface IContactFormFormik {
   firstName: string;

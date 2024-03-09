@@ -7,7 +7,6 @@ import ReactLoading from "react-loading";
 import * as Yup from "yup";
 
 import Modal from "../../../fundamentalComponents/modal";
-import { ITheme } from "../../../../config/theme";
 import Button from "../../../fundamentalComponents/button";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import Input from "../../../fundamentalComponents/input";
@@ -34,6 +33,7 @@ import {
   IModelReadDto,
   IRoleCreateCommand,
   IRoleReadDto,
+  ITheme,
   PermissionEnum,
   StaticPermissionEnum,
 } from "roottypes";

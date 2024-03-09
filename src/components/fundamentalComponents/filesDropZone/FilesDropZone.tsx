@@ -2,12 +2,12 @@ import React from "react";
 import Dropzone from "react-dropzone";
 import { AiOutlineDropbox } from "react-icons/ai";
 
-import { ITheme } from "../../../config/theme";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./filesDropZone.styles";
 import { toast } from "react-toastify";
+import { ITheme } from "roottypes";
 
 interface IFilesDropZoneProps {
   onDrop: (files: File[]) => any;

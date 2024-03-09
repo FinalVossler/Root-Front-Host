@@ -2,13 +2,13 @@ import { FormikProps } from "formik";
 import React from "react";
 import { AiOutlineArrowsAlt } from "react-icons/ai";
 
-import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 import getLanguages from "../../../utils/getLanguages";
 import Checkbox from "../checkbox";
 import { InputSelectOptionEnum } from "../inputSelect/InputSelect";
 
 import useStyles from "./inputLanguages.styles";
+import { ITheme } from "roottypes";
 
 interface IInputLanguagesProps {
   formik: FormikProps<any>;

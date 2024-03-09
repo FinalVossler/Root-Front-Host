@@ -2,12 +2,12 @@ import React, { ReactText } from "react";
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import { Link, useLocation } from "react-router-dom";
 
-import { ITheme } from "../../../../../config/theme";
 import { useAppSelector } from "../../../../../store/hooks";
 
 import useStyles from "./sideMenuOption.styles";
 import { BiPlus } from "react-icons/bi";
 import doNothing from "../../../../../utils/doNothing";
+import { ITheme } from "roottypes";
 
 type SubOption = {
   title: string;

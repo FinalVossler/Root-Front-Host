@@ -1,8 +1,6 @@
 import React from "react";
 
-import FieldEditor from "../../components/appComponents/editors/fieldEditor";
 import Elements from "../../components/appComponents/elements";
-import { ITheme } from "../../config/theme";
 import useCopyFields from "../../hooks/apiHooks/useCopyFields";
 import useDeleteFields from "../../hooks/apiHooks/useDeleteFields";
 import useGetFields from "../../hooks/apiHooks/useGetFields";
@@ -15,7 +13,12 @@ import { fieldSlice } from "../../store/slices/fieldSlice";
 
 import useStyles from "./fieldsPage.styles";
 import { LocalStorageConfNameEnum } from "../../utils/localStorage";
-import { IFieldReadDto, IPaginationResponse, PermissionEnum } from "roottypes";
+import {
+  IFieldReadDto,
+  IPaginationResponse,
+  ITheme,
+  PermissionEnum,
+} from "roottypes";
 import { EditorTypeEnum, editorSlice } from "../../store/slices/editorSlice";
 
 interface IFieldsPageProps {}

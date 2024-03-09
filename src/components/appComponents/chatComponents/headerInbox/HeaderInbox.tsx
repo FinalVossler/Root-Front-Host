@@ -1,7 +1,6 @@
 import React from "react";
 import { BsChatDots } from "react-icons/bs";
 
-import { ITheme } from "../../../../config/theme";
 import useOnClickOutside from "../../../../hooks/useOnClickOutside";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 
@@ -11,6 +10,7 @@ import ChatBoxes from "../chatBoxes";
 import { useLocation } from "react-router-dom";
 import useGetUserTotalUnreadMessages from "../../../../hooks/apiHooks/useGetUserTotalUnreadMessages";
 import LastConversationsLastMessages from "../lastConversationsLastMessages";
+import { ITheme } from "roottypes";
 
 interface IHeaderInboxProps {}
 

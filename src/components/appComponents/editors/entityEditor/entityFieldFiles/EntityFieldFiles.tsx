@@ -11,7 +11,6 @@ import {
   IEntityFieldValueForm,
 } from "../EntityEditorForm";
 import { IModelField } from "../../../../../store/slices/modelSlice";
-import { ITheme } from "../../../../../config/theme";
 import { useAppSelector } from "../../../../../store/hooks";
 import useStyles from "./entityFieldFiles.styles";
 import isFileAnImage from "../../../../../utils/isFileAnImage";
@@ -21,7 +20,7 @@ import ExistingFiles from "../../../existingFiles";
 import { TypeOfFiles } from "../../../existingFiles/ExistingFiles";
 import FilesDropZone from "../../../../fundamentalComponents/filesDropZone";
 import { toast } from "react-toastify";
-import { IFieldReadDto, IFileReadDto } from "roottypes";
+import { IFieldReadDto, IFileReadDto, ITheme } from "roottypes";
 
 type TrackedImage = {
   base64: string;

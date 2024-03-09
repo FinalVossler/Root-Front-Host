@@ -8,15 +8,14 @@ import {
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import Loading from "react-loading";
 
-import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 import isFileAnImage from "../../../utils/isFileAnImage";
 import readAsBase64 from "../../../utils/readAsBase64";
-import ExistingFiles from "../../appComponents/existingFiles";
-import { TypeOfFiles } from "../../appComponents/existingFiles/ExistingFiles";
+import ExistingFiles from "../existingFiles";
+import { TypeOfFiles } from "../existingFiles/ExistingFiles";
 
 import useStyles from "./filesInput.styles";
-import { IFileReadDto } from "roottypes";
+import { IFileReadDto, ITheme } from "roottypes";
 
 // Used to show the new selected images
 type TrackedImage = {

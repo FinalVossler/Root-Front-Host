@@ -1,10 +1,10 @@
 import React from "react";
 import { GoPerson } from "react-icons/go";
 
-import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./userProfilePicture.styles";
+import { ITheme } from "roottypes";
 
 export enum SizeEnum {
   VeryBig = "VeryBig",

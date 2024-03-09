@@ -2,7 +2,6 @@ import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import Loading from "react-loading";
 
-import { ITheme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./microFrontendPage.styles";
@@ -11,12 +10,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import useGetEntity from "../../hooks/apiHooks/useGetEntity";
 import ModuleLoader from "../../moduleLoader/ModuleLoader";
 import useAuthorizedAxios from "../../hooks/useAuthorizedAxios";
-import Button from "../../components/fundamentalComponents/button";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import {
   IEntityReadDto,
   IMicroFrontendReadDto,
   IModelReadDto,
+  ITheme,
 } from "roottypes";
 
 interface IMicroFrontendPageProps {}

@@ -5,7 +5,7 @@ import ReactLoading from "react-loading";
 import { AiOutlineColumnWidth } from "react-icons/ai";
 import { SiShadow } from "react-icons/si";
 
-import defaultTheme, { ITheme } from "../../../../config/theme";
+import defaultTheme from "../../../../config/theme";
 import useStyles from "./websiteConfigurationEditor.styles";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import Modal from "../../../fundamentalComponents/modal";
@@ -13,21 +13,25 @@ import Input from "../../../fundamentalComponents/input";
 import { MdTitle } from "react-icons/md";
 import { ImCross } from "react-icons/im";
 import Button from "../../../fundamentalComponents/button";
-import Checkbox from "../../../fundamentalComponents/checkbox";
 import InputLanguages from "../../../fundamentalComponents/inputLanguages";
 import ColorInput from "../../../fundamentalComponents/colorInput";
 import useUpdateWebsiteConfiguration from "../../../../hooks/apiHooks/useUpdateWebsiteConfiguration";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
-import FilesInput from "../../../fundamentalComponents/filesInput";
+import FilesInput from "../../filesInput";
 import uploadFile from "../../../../utils/uploadFile";
 import { TypeOfFiles } from "../../existingFiles/ExistingFiles";
 import InputSelect from "../../../fundamentalComponents/inputSelect";
 import getLanguages from "../../../../utils/getLanguages";
 import Textarea from "../../../fundamentalComponents/textarea/Textarea";
-import { IFileReadDto, IWebsiteConfigurationUpdateCommand } from "roottypes";
+import {
+  IFileReadDto,
+  ITheme,
+  IWebsiteConfigurationUpdateCommand,
+} from "roottypes";
 import { editorSlice } from "../../../../store/slices/editorSlice";
 import StaticTextsForm from "../../formComponents/staticTextsForm";
 import { IWebsiteConfigurationState } from "../../../../store/slices/websiteConfigurationSlice";
+import FormikCheckbox from "../../../fundamentalComponents/formikCheckbox";
 
 export interface IWebsiteConfigurationForm extends ITheme {
   language?: string;
@@ -359,7 +363,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
 
         <InputLanguages name={"mainLanguages"} formik={formik} />
 
-        <Checkbox
+        <FormikCheckbox
           name="withChat"
           formik={formik}
           label={getTranslatedText(staticText?.withChat)}
@@ -368,7 +372,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           }}
         />
 
-        <Checkbox
+        <FormikCheckbox
           name="withRegistration"
           formik={formik}
           label={getTranslatedText(staticText?.withRegistration)}
@@ -377,7 +381,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           }}
         />
 
-        <Checkbox
+        <FormikCheckbox
           name="withTaskManagement"
           formik={formik}
           label={getTranslatedText(staticText?.withTaskManagement)}

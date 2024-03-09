@@ -1,20 +1,4 @@
-export interface ITheme {
-  darkTextColor: string;
-  lightTextColor: string;
-  primary: string;
-  darkerPrimary: string;
-  lighterPrimary: string;
-  secondary: string;
-  errorColor: string;
-  borderColor: string;
-  formMaxWidth: string;
-  backgroundColor: string;
-  contentBackgroundColor: string;
-  boxColor: string;
-  transparentBackground: string;
-  subContentBackgroundColor: string;
-  boxShadow: string;
-}
+import { ITheme } from "roottypes";
 
 const theme: ITheme = {
   darkTextColor: "#4c4c4d",

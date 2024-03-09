@@ -7,7 +7,6 @@ import slugify from "slugify";
 
 import useStyles from "./fieldEditor.styles";
 import Modal from "../../../fundamentalComponents/modal";
-import { ITheme } from "../../../../config/theme";
 import Button from "../../../fundamentalComponents/button";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import Input from "../../../fundamentalComponents/input";
@@ -32,8 +31,10 @@ import {
   IFieldTableElementReadDto,
   IFieldUpdateCommand,
   IMicroFrontendReadDto,
+  ITheme,
 } from "roottypes";
 import { editorSlice } from "../../../../store/slices/editorSlice";
+import FormikCheckbox from "../../../fundamentalComponents/formikCheckbox";
 
 type FieldOptionForm = {
   label: string;
@@ -311,7 +312,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
         />
 
         {formik.values.type === FieldTypeEnum.File && (
-          <Checkbox
+          <FormikCheckbox
             label={getTranslatedText(staticText?.canChooseFromExistingFiles)}
             checked={formik.values.canChooseFromExistingFiles}
             name="canChooseFromExistingFiles"

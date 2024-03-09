@@ -6,14 +6,13 @@ import * as Yup from "yup";
 import Input from "../../../fundamentalComponents/input/Input";
 import Button from "../../../fundamentalComponents/button/Button";
 
-import { ITheme } from "../../../../config/theme";
-
 import { useAppSelector } from "../../../../store/hooks";
 
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import useSendChangePasswordRequest from "../../../../hooks/apiHooks/useSendChangePasswordRequest";
 
 import useStyles from "./sendChangePasswordRequestForm.styles";
+import { ITheme } from "roottypes";
 
 interface ISendChangePasswordRequestFormik {
   email: string;

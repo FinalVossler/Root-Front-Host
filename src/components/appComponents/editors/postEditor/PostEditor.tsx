@@ -10,7 +10,6 @@ import ReactLoading from "react-loading";
 import useStyles from "./postEditor.styles";
 import WritePostButton from "../../../fundamentalComponents/write-post-button";
 import Modal from "../../../fundamentalComponents/modal";
-import { ITheme } from "../../../../config/theme";
 import Button from "../../../fundamentalComponents/button";
 import { useAppSelector } from "../../../../store/hooks";
 import { IPost } from "../../../../store/slices/postSlice";
@@ -22,7 +21,7 @@ import getLanguages from "../../../../utils/getLanguages";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import useCreatePost from "../../../../hooks/apiHooks/useCreatePost";
 import useUpdatePost from "../../../../hooks/apiHooks/useUpdatePost";
-import FilesInput from "../../../fundamentalComponents/filesInput";
+import FilesInput from "../../filesInput";
 import { TypeOfFiles } from "../../existingFiles/ExistingFiles";
 import { BiCode } from "react-icons/bi";
 import {

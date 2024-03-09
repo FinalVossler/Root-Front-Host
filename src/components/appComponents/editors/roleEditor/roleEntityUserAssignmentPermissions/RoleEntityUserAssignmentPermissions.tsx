@@ -1,7 +1,6 @@
 import React from "react";
 import { MdDelete } from "react-icons/md";
 
-import { ITheme } from "../../../../../config/theme";
 import useSearchRoles from "../../../../../hooks/apiHooks/useSearchRoles";
 import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../../store/hooks";
@@ -9,7 +8,7 @@ import Checkbox from "../../../../fundamentalComponents/checkbox";
 import SearchInput from "../../../../fundamentalComponents/searchInput";
 
 import useStyles from "./roleEntityUserAssignmentPermissions.styles";
-import { IRoleReadDto } from "roottypes";
+import { IRoleReadDto, ITheme } from "roottypes";
 
 interface IRoleEntityUserAssignmentPermissionsProps {
   modelId?: string;

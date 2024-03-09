@@ -2,7 +2,6 @@ import React from "react";
 import { CgProfile } from "react-icons/cg";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 
-import { ITheme } from "../../../../config/theme";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import {
   chatSlice,
@@ -13,7 +12,7 @@ import useStyles from "./ChatBoxParticipants.styles";
 import { BoxType } from "../chatBox/ChatBox";
 import usegetContactsByIds from "../../../../hooks/apiHooks/useGetContactsByIds";
 import ChatBoxParticipantsOptions from "../chatBoxParticipantsOptions";
-import { IFileReadDto, IUserReadDto } from "roottypes";
+import { IFileReadDto, ITheme, IUserReadDto } from "roottypes";
 
 interface IChatBoxParticipantsProps {
   conversationId: string;

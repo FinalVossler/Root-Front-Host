@@ -1,7 +1,6 @@
 import React from "react";
 import Loading from "react-loading";
 
-import { ITheme } from "../../../../config/theme";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../store/hooks";
 import { IModelField } from "../../../../store/slices/modelSlice";
@@ -10,7 +9,12 @@ import getModelStateConcernedFields from "../../../../utils/getModelStateConcern
 
 import useStyles from "./elementsStatusTracking.styles";
 import StateTracking from "../../../postsComponents/stateTracking";
-import { IEntityReadDto, IModelReadDto, IModelStateReadDto } from "roottypes";
+import {
+  IEntityReadDto,
+  IModelReadDto,
+  IModelStateReadDto,
+  ITheme,
+} from "roottypes";
 import EntityCard from "../entityCard";
 import useGetBoardPattern, { IBoardPattern } from "../useGetBoardPattern";
 

@@ -1,10 +1,10 @@
 import React from "react";
 
-import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./extendSection.styles";
 import { MdArrowDownward, MdArrowUpward } from "react-icons/md";
+import { ITheme } from "roottypes";
 
 export enum ExtendSectionSizeEnum {
   Small = "Small",

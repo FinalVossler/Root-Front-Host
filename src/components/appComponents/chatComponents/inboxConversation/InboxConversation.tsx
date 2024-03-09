@@ -1,6 +1,5 @@
 import React from "react";
 
-import { ITheme } from "../../../../config/theme";
 import { useAppSelector } from "../../../../store/hooks";
 
 import { getConversationId } from "../../../../store/slices/chatSlice";
@@ -13,6 +12,7 @@ import shortenString from "../../../../utils/shortenString";
 import {
   IFileReadDto,
   IPopulatedMessageReadDto,
+  ITheme,
   IUserReadDto,
 } from "roottypes";
 

@@ -5,7 +5,6 @@ import { BiPlus } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 import { BiText } from "react-icons/bi";
 
-import { ITheme } from "../../../../config/theme";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../store/hooks";
 import Button from "../../../fundamentalComponents/button";
@@ -28,6 +27,7 @@ import {
   IEventRequestHeaderReadDto,
   IMicroFrontendComponentReadDto,
   IMicroFrontendReadDto,
+  ITheme,
 } from "roottypes";
 
 interface IEventsEditorProps {

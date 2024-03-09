@@ -1,7 +1,6 @@
 import React from "react";
 import ReactLoading from "react-loading";
 
-import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 import { IPost } from "../../../store/slices/postSlice";
 
@@ -9,7 +8,12 @@ import useStyles from "./userPosts.styles";
 import Post from "../../fundamentalComponents/post";
 import PostWrapper from "../postWrappers/postWrapper";
 import useGetPosts from "../../../hooks/apiHooks/useGetPosts";
-import { IPostsGetCommand, IUserReadDto, PostVisibilityEnum } from "roottypes";
+import {
+  IPostsGetCommand,
+  ITheme,
+  IUserReadDto,
+  PostVisibilityEnum,
+} from "roottypes";
 
 interface IUserPostsProps {
   user: IUserReadDto;

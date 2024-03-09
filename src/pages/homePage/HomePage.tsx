@@ -1,6 +1,5 @@
 import React from "react";
 
-import { ITheme } from "../../config/theme";
 import withWrapper from "../../hoc/wrapper";
 import { useAppSelector } from "../../store/hooks";
 import Banner from "../../components/postsComponents/banner";
@@ -17,6 +16,7 @@ import Video from "../../components/postsComponents/video";
 
 import useStyles from "./homePage.styles";
 import withChat from "../../hoc/withChat";
+import { ITheme } from "roottypes";
 
 interface IHomeProps {}
 const Home: React.FunctionComponent<IHomeProps> = (props: IHomeProps) => {

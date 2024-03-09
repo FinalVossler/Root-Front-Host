@@ -1,7 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
-import { ITheme } from "../../config/theme";
 import { MdPassword } from "react-icons/md";
 import * as Yup from "yup";
 
@@ -14,7 +13,7 @@ import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useForgotPasswordChangePassword from "../../hooks/apiHooks/useForgotPasswordChangePassword";
 import Input from "../../components/fundamentalComponents/input";
 import Button from "../../components/fundamentalComponents/button";
-import { IUserForgotPasswordChangePasswordCommand } from "roottypes";
+import { ITheme, IUserForgotPasswordChangePasswordCommand } from "roottypes";
 
 interface IForgotPasswordChangePasswordFormik {
   newPassword: string;

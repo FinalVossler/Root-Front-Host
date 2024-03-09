@@ -1,13 +1,17 @@
 import React from "react";
 
-import { ITheme } from "../../../../../config/theme";
 import { useAppSelector } from "../../../../../store/hooks";
 import useStyles from "./entityEditorStates.styles";
 import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 import doesEntityMeetModelStateCondition from "../../../../../utils/doesEntityMeetModelStateCondition";
 import getModelStateConcernedFields from "../../../../../utils/getModelStateConcernedFields";
 import { BiCheck } from "react-icons/bi";
-import { IEntityReadDto, IModelReadDto, IModelStateReadDto } from "roottypes";
+import {
+  IEntityReadDto,
+  IModelReadDto,
+  IModelStateReadDto,
+  ITheme,
+} from "roottypes";
 
 export interface IEntityEditorStatesProps {
   entity: IEntityReadDto;

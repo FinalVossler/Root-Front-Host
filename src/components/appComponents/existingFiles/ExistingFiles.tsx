@@ -4,8 +4,6 @@ import { AiOutlineFileDone } from "react-icons/ai";
 import _ from "lodash";
 import { BiDownload } from "react-icons/bi";
 
-import { ITheme } from "../../../config/theme";
-
 import { useAppSelector } from "../../../store/hooks";
 import useGetUserAndSelectedFiles from "../../../hooks/apiHooks/useGetUserAndSelectedFiles";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
@@ -19,6 +17,7 @@ import {
   IFileGetUserAndSelectedFilesCommand,
   IFileReadDto,
   IPaginationCommand,
+  ITheme,
 } from "roottypes";
 
 export enum TypeOfFiles {
@@ -52,10 +51,7 @@ const ExistingFiles: React.FunctionComponent<IExistingFilesProps> = (
   const styles = useStyles({ theme });
   const { getUserAndSelectedFiles, loading: getUserAndSelectedFilesLoading } =
     useGetUserAndSelectedFiles();
-  const {
-    getUnownedAndSelectedFiles,
-    loading: getUnownedAndSelectedFilesLoading,
-  } = useGetUnownedFiles();
+  const { getUnownedAndSelectedFiles } = useGetUnownedFiles();
   const getTranslatedText = useGetTranslatedText();
 
   //#region Effects

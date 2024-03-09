@@ -3,8 +3,6 @@ import { BsFillGearFill } from "react-icons/bs";
 
 import ProfileForm from "../../components/appComponents/formComponents/profileForm";
 
-import { ITheme } from "../../config/theme";
-
 import useStyles from "./profilePage.styles";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import PostEditor from "../../components/appComponents/editors/postEditor";
@@ -14,7 +12,7 @@ import { useParams } from "react-router-dom";
 import useGetUser from "../../hooks/apiHooks/useGetUser";
 import UserProfilePicture from "../../components/fundamentalComponents/userProfilePicture";
 import { SizeEnum } from "../../components/fundamentalComponents/userProfilePicture/UserProfilePicture";
-import { IFileReadDto, IUserReadDto } from "roottypes";
+import { IFileReadDto, ITheme, IUserReadDto } from "roottypes";
 
 interface IProfilePageProps {}
 const ProfilePage: React.FunctionComponent<IProfilePageProps> = (

@@ -6,7 +6,6 @@ import * as Yup from "yup";
 
 import useStyles from "./modelEditor.styles";
 import Modal from "../../../fundamentalComponents/modal";
-import { ITheme } from "../../../../config/theme";
 import Button from "../../../fundamentalComponents/button";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import Input from "../../../fundamentalComponents/input";
@@ -33,6 +32,7 @@ import {
   IModelReadDto,
   IModelStateReadDto,
   IModelUpdateCommand,
+  ITheme,
   ModelStateTypeEnum,
 } from "roottypes";
 import { editorSlice } from "../../../../store/slices/editorSlice";

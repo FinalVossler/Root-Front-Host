@@ -4,7 +4,6 @@ import ReactDom from "react-dom";
 import { BsThreeDots } from "react-icons/bs";
 import { toast } from "react-toastify";
 
-import { ITheme } from "../../../../config/theme";
 import useAuthorizedAxios from "../../../../hooks/useAuthorizedAxios";
 import useOnClickOutside from "../../../../hooks/useOnClickOutside";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
@@ -13,7 +12,7 @@ import ConfirmationModal from "../../../fundamentalComponents/confirmationModal"
 import PostEditor from "../../editors/postEditor";
 
 import useStyles from "./postOptions.styles";
-import { IUserReadDto } from "roottypes";
+import { ITheme, IUserReadDto } from "roottypes";
 
 interface IPostOptionsProps {
   post: IPost;

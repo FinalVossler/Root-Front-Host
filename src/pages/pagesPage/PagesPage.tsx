@@ -1,7 +1,6 @@
 import React from "react";
 
 import Elements from "../../components/appComponents/elements";
-import { ITheme } from "../../config/theme";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useHasPermission from "../../hooks/useHasPermission";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
@@ -11,7 +10,7 @@ import useStyles from "./pagesPage.styles";
 import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 import useDeletePages from "../../hooks/apiHooks/useDeletePages";
 import { FaDirections } from "react-icons/fa";
-import { IPageReadDto, PermissionEnum } from "roottypes";
+import { IPageReadDto, ITheme, PermissionEnum } from "roottypes";
 import { EditorTypeEnum, editorSlice } from "../../store/slices/editorSlice";
 
 interface IPagesPageProps {}

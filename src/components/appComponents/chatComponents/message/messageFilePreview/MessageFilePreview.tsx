@@ -1,12 +1,11 @@
 import React from "react";
 
-import { ITheme } from "../../../../../config/theme";
 import { useAppSelector } from "../../../../../store/hooks";
 
 import useStyles from "./messageFilePreview.styles";
 import { CgClose } from "react-icons/cg";
 import getFileType, { FileTypeEnum } from "../../../../../utils/getFileType";
-import { IFileReadDto, IMessageReadDto } from "roottypes";
+import { IFileReadDto, IMessageReadDto, ITheme } from "roottypes";
 
 interface IMessageFilePreviewProps {
   file: IFileReadDto;

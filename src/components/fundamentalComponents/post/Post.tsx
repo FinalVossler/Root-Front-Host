@@ -1,7 +1,6 @@
 import React from "react";
 import { AiOutlineFileDone } from "react-icons/ai";
 
-import { ITheme } from "../../../config/theme";
 import { IPost } from "../../../store/slices/postSlice";
 import extractContentFromHtml from "../../../utils/extractContentFromHtml";
 
@@ -27,7 +26,7 @@ import PostAsEntityEditor from "../../postsComponents/postAsEntityEditor";
 import useStyles from "./post.styles";
 import EntitiesList from "../../../pages/entitiesPage/entitiesList";
 import FullWidthPicture from "../../postsComponents/fullWidthPicture";
-import { IFileReadDto, PostDesignEnum } from "roottypes";
+import { IFileReadDto, ITheme, PostDesignEnum } from "roottypes";
 
 interface IPostProps {
   post: IPost;

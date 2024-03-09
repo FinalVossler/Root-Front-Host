@@ -3,12 +3,11 @@ import { AiOutlineBgColors } from "react-icons/ai";
 import { SketchPicker, ColorChangeHandler, ColorResult } from "react-color";
 import debounce from "lodash.debounce";
 
-import { ITheme } from "../../../config/theme";
-
 import useStyles from "./colorInput.styles";
 import { useAppSelector } from "../../../store/hooks";
 import Input, { IInputProps } from "../input/Input";
 import useOnClickOutside from "../../../hooks/useOnClickOutside";
+import { ITheme } from "roottypes";
 
 interface IColorInputProps extends IInputProps {}
 

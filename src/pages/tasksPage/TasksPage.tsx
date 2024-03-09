@@ -1,11 +1,10 @@
 import React from "react";
 
-import { ITheme } from "../../config/theme";
 import { useAppSelector } from "../../store/hooks";
-import { IModelReadDto } from "../../store/slices/modelSlice";
 import TasksByModel from "./taskByModel";
 
 import useStyles from "./tasksPage.styles";
+import { IModelReadDto, ITheme } from "roottypes";
 
 interface ITasksPageProps {}
 

@@ -3,7 +3,6 @@ import React from "react";
 import { BiPlus, BiText } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
 
-import { ITheme } from "../../../../../config/theme";
 import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../../store/hooks";
 import Button from "../../../../fundamentalComponents/button";
@@ -13,7 +12,7 @@ import Textarea from "../../../../fundamentalComponents/textarea/Textarea";
 import { IEntityEventNotificationForm } from "../RoleEditor";
 
 import useStyles from "./roleEntityEventsNotification.styles";
-import { EntityEventNotificationTriggerEnum } from "roottypes";
+import { EntityEventNotificationTriggerEnum, ITheme } from "roottypes";
 
 interface IRoleEntityEventsNotificationProps {
   entityEventNotifications: IEntityEventNotificationForm[];

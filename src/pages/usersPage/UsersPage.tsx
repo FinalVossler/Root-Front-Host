@@ -3,8 +3,6 @@ import { FaDirections } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 
 import Elements from "../../components/appComponents/elements";
-import UserEditor from "../../components/appComponents/editors/userEditor";
-import { ITheme } from "../../config/theme";
 import useDeleteUsers from "../../hooks/apiHooks/useDeleteUsers";
 import useGetUsers from "../../hooks/apiHooks/useGetUsers";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
@@ -19,6 +17,7 @@ import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 import {
   IPaginationResponse,
   IRoleReadDto,
+  ITheme,
   IUserReadDto,
   PermissionEnum,
   SuperRoleEnum,

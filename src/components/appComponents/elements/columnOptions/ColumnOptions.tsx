@@ -1,11 +1,11 @@
 import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 
-import { ITheme } from "../../../../config/theme";
 import { useAppSelector } from "../../../../store/hooks";
 import useStyles from "./columnOptions.styles";
 import { BiHide } from "react-icons/bi";
 import useOnClickOutside from "../../../../hooks/useOnClickOutside";
+import { ITheme } from "roottypes";
 
 interface IColumnOptionsProps {
   handleHideColumn: () => void;

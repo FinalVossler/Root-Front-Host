@@ -7,8 +7,6 @@ import * as Yup from "yup";
 import Input from "../../../fundamentalComponents/input/Input";
 import Button from "../../../fundamentalComponents/button/Button";
 
-import { ITheme } from "../../../../config/theme";
-
 import { useAppSelector } from "../../../../store/hooks";
 import ProfilePictureUpload from "../../profilePictureUpload";
 import useUpdateUser from "../../../../hooks/apiHooks/useUpdateUser";
@@ -17,8 +15,13 @@ import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import ChangePasswordForm from "../changePasswordForm";
 
 import useStyles from "./profileForm.styles";
-import Checkbox from "../../../fundamentalComponents/checkbox";
-import { IRoleReadDto, IUserReadDto, IUserUpdateCommand } from "roottypes";
+import {
+  IRoleReadDto,
+  ITheme,
+  IUserReadDto,
+  IUserUpdateCommand,
+} from "roottypes";
+import FormikCheckbox from "../../../fundamentalComponents/formikCheckbox";
 
 type ProfileFormik = {
   firstName: string;
@@ -138,7 +141,7 @@ const Profile: React.FunctionComponent<IProfileFormProps> = (
           formik={formik}
         />
 
-        <Checkbox
+        <FormikCheckbox
           name="hasMessagingEmailsActivated"
           formik={formik}
           label={getTranslatedText(staticText?.hasMessagingEmailsActivated)}

@@ -12,19 +12,19 @@ import { ImCross } from "react-icons/im";
 import ReactLoading from "react-loading";
 import { Socket } from "socket.io-client";
 import { socketConnect } from "socket.io-react";
-
-import { ITheme } from "../../../../config/theme";
-import useStyles from "./chatInput.styles";
-import { useAppSelector } from "../../../../store/hooks";
-import { getConversationConversationalistsFromConversationId } from "../../../../store/slices/chatSlice";
-import useSendMessage from "../../../../hooks/apiHooks/useSendMessage";
 import {
   ChatMessagesEnum,
   IMessageSendCommand,
   IPopulatedMessageReadDto,
   ISocketTypingStateCommand,
+  ITheme,
   IUserReadDto,
 } from "roottypes";
+
+import useStyles from "./chatInput.styles";
+import { useAppSelector } from "../../../../store/hooks";
+import { getConversationConversationalistsFromConversationId } from "../../../../store/slices/chatSlice";
+import useSendMessage from "../../../../hooks/apiHooks/useSendMessage";
 
 interface IChatInputProps {
   conversationId: string;

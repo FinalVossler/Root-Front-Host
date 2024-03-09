@@ -2,11 +2,11 @@ import React from "react";
 import { MdSlowMotionVideo } from "react-icons/md";
 import YouTube from "react-youtube";
 
-import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 import Modal from "../../fundamentalComponents/modal";
 
 import useStyles from "./video.styles";
+import { ITheme } from "roottypes";
 
 interface IVideoProps {
   title?: string;

@@ -1,10 +1,10 @@
 import React from "react";
 import PaginationComponent from "rc-pagination";
 
-import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./pagination.styles";
+import { ITheme } from "roottypes";
 
 interface IPaginationProps {
   total: number;

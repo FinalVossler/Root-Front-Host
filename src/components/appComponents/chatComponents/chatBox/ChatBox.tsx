@@ -1,7 +1,6 @@
 import React from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 
-import { ITheme } from "../../../../config/theme";
 import useLoadMessages from "../../../../hooks/apiHooks/useLoadMessages";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import {
@@ -27,6 +26,7 @@ import {
   IMessageMarkAllMessagesAsReadByUserCommand,
   IMessageReadDto,
   IPopulatedMessageReadDto,
+  ITheme,
   IUserReadDto,
 } from "roottypes";
 

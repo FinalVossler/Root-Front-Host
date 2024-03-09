@@ -5,9 +5,8 @@ import UserProfilePicture from "../userProfilePicture";
 import { SizeEnum } from "../userProfilePicture/UserProfilePicture";
 
 import useStyles from "./writePostButton.styles";
-import { ITheme } from "../../../config/theme";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
-import { IFileReadDto } from "roottypes";
+import { IFileReadDto, ITheme } from "roottypes";
 
 interface IWritePostButtonProps {
   onClick?: any;

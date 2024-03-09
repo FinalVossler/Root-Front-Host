@@ -1,11 +1,11 @@
 import React from "react";
 import { BsInstagram, BsFacebook, BsYoutube, BsLinkedin } from "react-icons/bs";
 
-import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 import { IWebsiteConfigurationState } from "../../../store/slices/websiteConfigurationSlice";
 
 import useStyles from "./footer.styles";
+import { ITheme } from "roottypes";
 
 interface IFooterProps {
   title?: string;

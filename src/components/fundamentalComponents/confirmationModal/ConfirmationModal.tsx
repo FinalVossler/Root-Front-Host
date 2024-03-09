@@ -1,11 +1,11 @@
 import React from "react";
 import ReactLoading from "react-loading";
 
-import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 import Button from "../button";
 
 import useStyles from "./confirmationModal.styles";
+import { ITheme } from "roottypes";
 
 interface IConfirmationModalProps {
   onConfirm: () => void;

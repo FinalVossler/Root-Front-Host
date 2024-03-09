@@ -1,9 +1,9 @@
 import React from "react";
 
-import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./spacing.styles";
+import { ITheme } from "roottypes";
 
 interface ISpacingProps {
   height?: string;

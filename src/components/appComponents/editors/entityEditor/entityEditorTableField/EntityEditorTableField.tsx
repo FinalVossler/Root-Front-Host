@@ -1,8 +1,6 @@
 import { FormikProps } from "formik";
 import React from "react";
 
-import { ITheme } from "../../../../../config/theme";
-
 import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../../store/hooks";
 import { IModelField } from "../../../../../store/slices/modelSlice";
@@ -19,6 +17,7 @@ import {
   IFieldReadDto,
   IFieldTableElementReadDto,
   IModelReadDto,
+  ITheme,
   ModelFieldConditionTypeEnum,
 } from "roottypes";
 
@@ -32,9 +31,6 @@ interface IEntityEditorTableFieldProps {
 const EntityEditorTableField: React.FunctionComponent<
   IEntityEditorTableFieldProps
 > = (props: IEntityEditorTableFieldProps) => {
-  const model: IModelReadDto | undefined = useAppSelector((state) =>
-    state.model.models.find((m) => m._id === props.modelId)
-  );
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );

@@ -4,7 +4,6 @@ import { BsHandIndexFill } from "react-icons/bs";
 import { AiFillDelete } from "react-icons/ai";
 import { useSortable } from "@dnd-kit/sortable";
 
-import { ITheme } from "../../../../../../config/theme";
 import { useAppSelector } from "../../../../../../store/hooks";
 import useGetTranslatedText from "../../../../../../hooks/useGetTranslatedText";
 
@@ -25,6 +24,7 @@ import {
   IModelFieldReadDto,
   IModelReadDto,
   IModelStateReadDto,
+  ITheme,
   ModelFieldConditionTypeEnum,
 } from "roottypes";
 

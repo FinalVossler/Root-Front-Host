@@ -2,10 +2,9 @@ import { FormikProps } from "formik";
 import React, { PropsWithChildren } from "react";
 import debounce from "lodash.debounce";
 
-import { ITheme } from "../../../config/theme";
-
 import useStyles from "./input.styles";
 import { useAppSelector } from "../../../store/hooks";
+import { ITheme } from "roottypes";
 
 export interface IInputProps {
   Icon?: any;

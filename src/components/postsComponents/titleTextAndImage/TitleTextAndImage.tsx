@@ -1,9 +1,9 @@
 import React from "react";
 
-import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./titleTextAndImage.styles";
+import { ITheme } from "roottypes";
 
 interface ITitleTextAndImageProps {
   title?: string;

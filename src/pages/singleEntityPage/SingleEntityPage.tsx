@@ -2,15 +2,13 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import Loading from "react-loading";
 
-import { ITheme } from "../../config/theme";
 import useGetEntity from "../../hooks/apiHooks/useGetEntity";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
-import { IModelReadDto } from "../../store/slices/modelSlice";
 
 import useStyles from "./singleEntityPage.styles";
-import { IEntityReadDto } from "../../store/slices/entitySlice";
 import EntityEditorForm from "../../components/appComponents/editors/entityEditor/EntityEditorForm";
+import { IEntityReadDto, IModelReadDto, ITheme } from "roottypes";
 
 interface ISingleEntityPageProps {}
 
@@ -51,13 +49,7 @@ const SingleEntityPage: React.FunctionComponent<ISingleEntityPageProps> = (
 
       {!loading && entity && (
         <div className={styles.entityValuesContainer}>
-          <EntityEditorForm
-            modelId={modelId}
-            entity={entity}
-            // readOnly
-            open={false}
-            setOpen={() => {}}
-          />
+          <EntityEditorForm modelId={modelId} entity={entity} />
         </div>
       )}
     </div>

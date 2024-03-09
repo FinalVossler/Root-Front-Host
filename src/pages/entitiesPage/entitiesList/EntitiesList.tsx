@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 import Elements from "../../../components/appComponents/elements";
 import { Column } from "../../../components/appComponents/elements/Elements";
-import { ITheme } from "../../../config/theme";
 import useDeleteEntities from "../../../hooks/apiHooks/useDeleteEntities";
 import useGetEntitiesByModel from "../../../hooks/apiHooks/useGetEntitiesByModel";
 import useGetModels from "../../../hooks/apiHooks/useGetModels";
@@ -26,6 +25,7 @@ import {
   IModelReadDto,
   IPaginationCommand,
   IPaginationResponse,
+  ITheme,
   StaticPermissionEnum,
 } from "roottypes";
 import { EditorTypeEnum, editorSlice } from "../../../store/slices/editorSlice";

@@ -2,7 +2,6 @@ import React from "react";
 import { MdDelete, MdGroup } from "react-icons/md";
 
 import useStyles from "./chatBoxPartipantsOptions.styles";
-import { ITheme } from "../../../../config/theme";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import useOnClickOutside from "../../../../hooks/useOnClickOutside";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
@@ -14,7 +13,7 @@ import {
 import SearchInput from "../../../fundamentalComponents/searchInput";
 import useSearchUsers from "../../../../hooks/apiHooks/useSearchUsers";
 import { BiPlus } from "react-icons/bi";
-import { IUserReadDto } from "roottypes";
+import { ITheme, IUserReadDto } from "roottypes";
 
 interface IChatBoxParticipantsOptionsProps {
   setShowOptions: (showOptions: boolean) => void;

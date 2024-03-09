@@ -4,7 +4,6 @@ import { arrayMove, SortableContext, useSortable } from "@dnd-kit/sortable";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { BsHandIndexFill } from "react-icons/bs";
 
-import { ITheme } from "../../../../../config/theme";
 import { useAppSelector } from "../../../../../store/hooks";
 import { IPost } from "../../../../../store/slices/postSlice";
 import SearchInput from "../../../../fundamentalComponents/searchInput";
@@ -14,7 +13,7 @@ import useSearchPosts from "../../../../../hooks/apiHooks/useSearchPosts";
 import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 
 import useStyles from "./postsEditor.styles";
-import { IPageReadDto, IUserReadDto } from "roottypes";
+import { IPageReadDto, ITheme, IUserReadDto } from "roottypes";
 
 interface IPostsEditor {
   setSelectedPosts: (posts: IPost[]) => any;

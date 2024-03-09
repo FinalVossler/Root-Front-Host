@@ -1,7 +1,6 @@
 import React from "react";
 import { BiPlus } from "react-icons/bi";
 
-import { ITheme } from "../../../config/theme";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { IPost } from "../../../store/slices/postSlice";
@@ -9,7 +8,7 @@ import Button from "../../fundamentalComponents/button";
 
 import useStyles from "./styles";
 import { EditorTypeEnum, editorSlice } from "../../../store/slices/editorSlice";
-import { IModelReadDto } from "roottypes";
+import { IModelReadDto, ITheme } from "roottypes";
 
 interface IPostAsEntityEditorProps {
   post: IPost;

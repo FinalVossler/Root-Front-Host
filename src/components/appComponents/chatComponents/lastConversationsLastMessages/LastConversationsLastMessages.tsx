@@ -1,22 +1,18 @@
 import React from "react";
 import Loading from "react-loading";
 
-import { ITheme } from "../../../../config/theme";
 import { useAppSelector } from "../../../../store/hooks";
 import useGetLastConversationsLastMessages from "../../../../hooks/apiHooks/useGetLastConversationsLastMessages";
 
 import useStyles from "./lastConversationsLastMessages.styles";
-import {
-  getConversationId,
-  IPopulatedMessageReadDto,
-} from "../../../../store/slices/chatSlice";
-import { IUserReadDto } from "../../../../store/slices/userSlice";
+import { getConversationId } from "../../../../store/slices/chatSlice";
 import Pagination from "../../../fundamentalComponents/pagination";
 import useSearchUsers from "../../../../hooks/apiHooks/useSearchUsers";
 import SearchInput from "../../../fundamentalComponents/searchInput";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import useGetUserTotalUnreadMessages from "../../../../hooks/apiHooks/useGetUserTotalUnreadMessages";
 import InboxConversation from "../inboxConversation";
+import { IPopulatedMessageReadDto, ITheme, IUserReadDto } from "roottypes";
 
 interface ILastConversationsLastMessagesProps {
   onSelectConversation: (conversationId: string) => void;

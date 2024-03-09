@@ -3,7 +3,6 @@ import Loading from "react-loading";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { TbMoodEmpty } from "react-icons/tb";
 
-import { ITheme } from "../../../config/theme";
 import useOnClickOutside from "../../../hooks/useOnClickOutside";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 
@@ -25,6 +24,7 @@ import {
   IFileReadDto,
   INotificationReadDto,
   INotificationsGetCommand,
+  ITheme,
   IUserReadDto,
 } from "roottypes";
 

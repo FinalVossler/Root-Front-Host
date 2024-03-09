@@ -3,16 +3,14 @@ import React from "react";
 import RegistrationForm from "../../components/appComponents/formComponents/registrationForm";
 import Login from "../../components/appComponents/formComponents/loginForm";
 
-import { ITheme } from "../../config/theme";
-
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import SendChangePasswordRequestForm from "../../components/appComponents/formComponents/sendChangePasswordRequestForm";
 
 import useStyles from "./loginOrRegistrationPage.styles";
-import IFile from "../../globalTypes/IFile";
 import { useNavigate } from "react-router-dom";
+import { IFileReadDto, ITheme } from "roottypes";
 
 enum ActiveForm {
   Register = "Register",
@@ -34,7 +32,7 @@ const LoginOrRegistrationPage: React.FunctionComponent<
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
-  const logo1: IFile | undefined = useAppSelector(
+  const logo1: string | IFileReadDto | undefined = useAppSelector(
     (state) => state.websiteConfiguration.logo1
   );
   const websiteTitle = useAppSelector(
@@ -80,7 +78,8 @@ const LoginOrRegistrationPage: React.FunctionComponent<
         {logo1 && (
           <div
             style={{
-              background: "url(" + logo1.url + ")" + " center center",
+              background:
+                "url(" + (logo1 as IFileReadDto).url + ")" + " center center",
             }}
             className={styles.logo1}
           />

@@ -1,12 +1,11 @@
 import React from "react";
 import { CgProfile } from "react-icons/cg";
+import { IFileReadDto, ITheme, IUserReadDto } from "roottypes";
 
-import { ITheme } from "../../../../config/theme";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { chatSlice } from "../../../../store/slices/chatSlice";
 
 import useStyles from "./chatCurrentUser.styles";
-import { IFileReadDto, IUserReadDto } from "roottypes";
 
 interface IChatCurrentUserProps {}
 const ChatContact: React.FunctionComponent<IChatCurrentUserProps> = (

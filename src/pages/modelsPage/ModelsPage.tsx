@@ -1,8 +1,6 @@
 import React from "react";
 
-import ModelEditor from "../../components/appComponents/editors/modelEditor";
 import Elements from "../../components/appComponents/elements";
-import { ITheme } from "../../config/theme";
 import useDeleteModels from "../../hooks/apiHooks/useDeleteModels";
 import useGetModels from "../../hooks/apiHooks/useGetModels";
 import useSearchModels from "../../hooks/apiHooks/useSearchModels";
@@ -18,6 +16,7 @@ import {
   IFieldReadDto,
   IModelReadDto,
   IPaginationResponse,
+  ITheme,
   PermissionEnum,
 } from "roottypes";
 import { EditorTypeEnum, editorSlice } from "../../store/slices/editorSlice";

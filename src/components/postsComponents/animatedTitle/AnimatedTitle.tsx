@@ -1,9 +1,9 @@
 import React from "react";
 
-import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./animatedTitle.styles";
+import { ITheme } from "roottypes";
 
 interface IAnimatedTitleProps {
   title: string;

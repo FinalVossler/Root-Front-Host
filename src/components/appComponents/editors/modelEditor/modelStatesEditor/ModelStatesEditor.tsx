@@ -11,7 +11,6 @@ import { arrayMove, SortableContext, useSortable } from "@dnd-kit/sortable";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 
-import { ITheme } from "../../../../../config/theme";
 import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../../store/hooks";
 import Button from "../../../../fundamentalComponents/button";
@@ -21,7 +20,7 @@ import { IModelForm, ModelFormState } from "../ModelEditor";
 
 import useStyles from "./modelStatesEditor.styles";
 import uuid from "react-uuid";
-import { ModelStateTypeEnum } from "roottypes";
+import { ITheme, ModelStateTypeEnum } from "roottypes";
 
 interface IModelStatesEditorProps {
   formik: FormikProps<IModelForm>;

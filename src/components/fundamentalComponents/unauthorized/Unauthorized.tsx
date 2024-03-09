@@ -1,4 +1,4 @@
-import { ITheme } from "../../../config/theme";
+import { ITheme } from "roottypes";
 import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./unauthorized.styles";

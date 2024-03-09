@@ -2,7 +2,6 @@ import React from "react";
 import { socketConnect } from "socket.io-react";
 import { Socket } from "socket.io-client";
 
-import { ITheme } from "../../../../config/theme";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { Conversation, chatSlice } from "../../../../store/slices/chatSlice";
 
@@ -16,10 +15,10 @@ import { AiFillEye } from "react-icons/ai";
 import getFileType, { FileTypeEnum } from "../../../../utils/getFileType";
 import { BsFiletypeJson } from "react-icons/bs";
 import {
-  IFieldReadDto,
   IFileReadDto,
   IMessageReadDto,
   IReactionReadDto,
+  ITheme,
   IUserReadDto,
   ReactionEnum,
 } from "roottypes";
@@ -39,9 +38,6 @@ const Message: React.FunctionComponent<IMessageComponentProps> = (
   );
 
   const [mouseOver, setMouseOver] = React.useState<boolean>(false);
-  const [fileToPreview, setFileToPreview] = React.useState<IFileReadDto | null>(
-    null
-  );
 
   const styles = useStyles({ theme });
   const dispatch = useAppDispatch();

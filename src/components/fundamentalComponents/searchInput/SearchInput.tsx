@@ -1,8 +1,7 @@
 import React from "react";
 import { BsSearch } from "react-icons/bs";
-import { IPaginationCommand, IPaginationResponse } from "roottypes";
+import { IPaginationCommand, IPaginationResponse, ITheme } from "roottypes";
 
-import { ITheme } from "../../../config/theme";
 import Input from "../input";
 
 import useStyles from "./searchInput.styles";

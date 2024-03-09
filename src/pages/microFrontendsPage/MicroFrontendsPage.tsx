@@ -2,7 +2,6 @@ import React from "react";
 
 import MicroFrontendEditor from "../../components/appComponents/editors/microFrontendEditor";
 import Elements from "../../components/appComponents/elements";
-import { ITheme } from "../../config/theme";
 import useGetMicroFrontends from "../../hooks/apiHooks/useGetMicroFrontends";
 import useSearchMicroFrontends from "../../hooks/apiHooks/useSearchMicroFrontends";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
@@ -18,6 +17,7 @@ import {
   IMicroFrontendComponentReadDto,
   IMicroFrontendReadDto,
   IPaginationResponse,
+  ITheme,
   PermissionEnum,
 } from "roottypes";
 import { EditorTypeEnum, editorSlice } from "../../store/slices/editorSlice";

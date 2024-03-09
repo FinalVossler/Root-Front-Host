@@ -10,7 +10,6 @@ import { MdTextFields } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { SiElement } from "react-icons/si";
 
-import { ITheme } from "../../../../config/theme";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { userPreferenceSlice } from "../../../../store/slices/userPreferencesSlice";
@@ -32,6 +31,7 @@ import {
   IPageReadDto,
   IRoleReadDto,
   IRolesGetCommand,
+  ITheme,
   IUserReadDto,
   PermissionEnum,
   StaticPermissionEnum,
@@ -53,7 +53,7 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
   const title: string | undefined = useAppSelector(
     (state) => state.websiteConfiguration.title
   );
-  const websiteLogo2: IFileReadDto | undefined = useAppSelector(
+  const websiteLogo2: string | IFileReadDto | undefined = useAppSelector(
     (state) => state.websiteConfiguration.logo2
   );
   const withTaskManagement: boolean | undefined = useAppSelector(
@@ -161,7 +161,10 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
       {isSideMenuOpen && (
         <div className={styles.sideMenuContent}>
           {websiteLogo2 && (
-            <img src={websiteLogo2.url} className={styles.websiteLogo2} />
+            <img
+              src={(websiteLogo2 as IFileReadDto).url}
+              className={styles.websiteLogo2}
+            />
           )}
           {!websiteLogo2 && <span className={styles.appName}>{title}</span>}
           {pages.map((page: IPageReadDto) => {

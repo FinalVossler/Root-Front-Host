@@ -1,9 +1,9 @@
 import React from "react";
 
-import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./underlinedTitle.styles";
+import { ITheme } from "roottypes";
 
 interface IUnderlinedTitleProps {
   title: string;

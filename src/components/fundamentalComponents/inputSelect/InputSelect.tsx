@@ -2,10 +2,10 @@ import { FormikProps } from "formik";
 import React from "react";
 import Select, { PropsValue } from "react-select";
 
-import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./inputSelect.styles";
+import { ITheme } from "roottypes";
 
 export type InputSelectOptionEnum = {
   value: string;

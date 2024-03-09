@@ -2,7 +2,6 @@ import React from "react";
 
 import Loading from "react-loading";
 import Pagination from "../../../components/fundamentalComponents/pagination";
-import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 import useGetAssignedEntitiesByModel from "../../../hooks/apiHooks/useGetAssignedEntitiesByModel";
 
@@ -21,6 +20,7 @@ import {
   IFileReadDto,
   IModelReadDto,
   IRoleReadDto,
+  ITheme,
   IUserReadDto,
 } from "roottypes";
 import { ViewTypeEnum } from "../../../components/appComponents/elements/viewTabs/ViewTabs";

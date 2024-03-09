@@ -4,7 +4,6 @@ import ReactLoading from "react-loading";
 import { toast } from "react-toastify";
 
 import Button from "../../fundamentalComponents/button";
-import { ITheme } from "../../../config/theme";
 
 import useStyles from "./profilePictureUpload.styles";
 import { useAppSelector } from "../../../store/hooks";
@@ -14,9 +13,9 @@ import { SizeEnum } from "../../fundamentalComponents/userProfilePicture/UserPro
 import readAsBase64 from "../../../utils/readAsBase64";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import useUpdateProfilePicture from "../../../hooks/apiHooks/useUpdateProfilePicture";
-import FilesInput from "../../fundamentalComponents/filesInput";
+import FilesInput from "../filesInput";
 import { TypeOfFiles } from "../existingFiles/ExistingFiles";
-import { IFileReadDto } from "roottypes";
+import { IFileReadDto, ITheme } from "roottypes";
 
 interface IProfilePictureUploadProps {}
 const ImageUpload: React.FunctionComponent<IProfilePictureUploadProps> = (

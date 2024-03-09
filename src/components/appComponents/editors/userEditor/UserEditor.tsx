@@ -8,7 +8,6 @@ import * as Yup from "yup";
 
 import useStyles from "./userEditor.styles";
 import Modal from "../../../fundamentalComponents/modal";
-import { ITheme } from "../../../../config/theme";
 import Button from "../../../fundamentalComponents/button";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import Input from "../../../fundamentalComponents/input";
@@ -20,6 +19,7 @@ import InputSelect from "../../../fundamentalComponents/inputSelect";
 import {
   IRoleReadDto,
   IRolesGetCommand,
+  ITheme,
   IUserCreateCommand,
   IUserReadDto,
   IUserUpdateCommand,

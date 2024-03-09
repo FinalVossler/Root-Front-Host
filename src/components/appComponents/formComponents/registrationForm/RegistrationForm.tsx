@@ -9,12 +9,10 @@ import Input from "../../../fundamentalComponents/input/Input";
 import Button from "../../../fundamentalComponents/button/Button";
 import { useAppSelector } from "../../../../store/hooks";
 
-import { ITheme } from "../../../../config/theme";
-
 import useStyles from "./registrationForm.styles";
 import useRegister from "../../../../hooks/apiHooks/useRegister";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
-import { IUserRegisterCommand } from "roottypes";
+import { ITheme, IUserRegisterCommand } from "roottypes";
 
 interface IRegistrationFormFormik {
   firstName: string;

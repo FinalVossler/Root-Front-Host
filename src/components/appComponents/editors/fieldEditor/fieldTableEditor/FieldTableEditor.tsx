@@ -5,7 +5,6 @@ import uuid from "react-uuid";
 import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 
-import { ITheme } from "../../../../../config/theme";
 import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../../store/hooks";
 import Button from "../../../../fundamentalComponents/button";
@@ -17,7 +16,7 @@ import SortableColumnOrRow, {
   ColumnOrRow,
 } from "./sortableColumnOrRow/SortableColumnOrRow";
 import Input from "../../../../fundamentalComponents/input";
-import { FieldTypeEnum } from "roottypes";
+import { FieldTypeEnum, ITheme } from "roottypes";
 
 interface IFieldTableEditorProps {
   formik: FormikProps<IFieldFormFormik>;

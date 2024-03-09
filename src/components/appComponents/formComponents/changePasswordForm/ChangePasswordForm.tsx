@@ -5,15 +5,13 @@ import * as Yup from "yup";
 import Input from "../../../fundamentalComponents/input/Input";
 import Button from "../../../fundamentalComponents/button/Button";
 
-import { ITheme } from "../../../../config/theme";
-
 import { useAppSelector } from "../../../../store/hooks";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 
 import useStyles from "./changePasswordForm.styles";
 import useChangePassword from "../../../../hooks/apiHooks/useChangePassword";
 import { MdPassword } from "react-icons/md";
-import { IUserChangePasswordCommand, IUserReadDto } from "roottypes";
+import { ITheme, IUserChangePasswordCommand, IUserReadDto } from "roottypes";
 
 type ChangePasswordFormik = {
   oldPassword: string;

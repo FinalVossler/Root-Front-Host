@@ -2,7 +2,6 @@ import React from "react";
 
 import RoleEditor from "../../components/appComponents/editors/roleEditor";
 import Elements from "../../components/appComponents/elements";
-import { ITheme } from "../../config/theme";
 import useDeleteRoles from "../../hooks/apiHooks/useDeleteRoles";
 import useGetRoles from "../../hooks/apiHooks/useGetRoles";
 import useSearchRoles from "../../hooks/apiHooks/useSearchRoles";
@@ -14,7 +13,12 @@ import { roleSlice } from "../../store/slices/roleSlice";
 import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 
 import useStyles from "./rolesPage.styles";
-import { IPaginationResponse, IRoleReadDto, PermissionEnum } from "roottypes";
+import {
+  IPaginationResponse,
+  IRoleReadDto,
+  ITheme,
+  PermissionEnum,
+} from "roottypes";
 import { EditorTypeEnum, editorSlice } from "../../store/slices/editorSlice";
 
 interface IRolesPageProps {}

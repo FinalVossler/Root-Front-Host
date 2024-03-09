@@ -1,11 +1,11 @@
 import React from "react";
 
-import { ITheme } from "../../../config/theme";
 import { useAppSelector } from "../../../store/hooks";
 import { IPost } from "../../../store/slices/postSlice";
 import Post from "../../fundamentalComponents/post";
 
 import useStyles from "./childrenContainer.styles";
+import { ITheme } from "roottypes";
 
 interface IChildrenContainerProps {
   post: IPost;

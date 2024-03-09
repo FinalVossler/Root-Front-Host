@@ -2,11 +2,10 @@ import { FormikProps } from "formik";
 import React from "react";
 import debounce from "lodash.debounce";
 
-import { ITheme } from "../../../config/theme";
-
 import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./textarea.styles";
+import { ITheme } from "roottypes";
 
 export interface ITextareaProps {
   textareaProps?: React.InputHTMLAttributes<HTMLTextAreaElement> & {

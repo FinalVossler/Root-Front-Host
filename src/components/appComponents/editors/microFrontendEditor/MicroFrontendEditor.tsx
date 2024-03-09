@@ -7,7 +7,6 @@ import * as Yup from "yup";
 
 import useStyles from "./microFrontendEditor.styles";
 import Modal from "../../../fundamentalComponents/modal";
-import { ITheme } from "../../../../config/theme";
 import Button from "../../../fundamentalComponents/button";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import Input from "../../../fundamentalComponents/input";
@@ -23,6 +22,7 @@ import {
   IMicroFrontendCreateCommand,
   IMicroFrontendReadDto,
   IMicroFrontendUpdateCommand,
+  ITheme,
 } from "roottypes";
 import { editorSlice } from "../../../../store/slices/editorSlice";
 

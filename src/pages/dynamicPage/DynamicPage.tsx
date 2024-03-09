@@ -1,15 +1,14 @@
 import React from "react";
 
 import Post from "../../components/fundamentalComponents/post";
-import { ITheme } from "../../config/theme";
 
 import withWrapper from "../../hoc/wrapper";
 import { useAppSelector } from "../../store/hooks";
-import { IPageReadDto } from "../../store/slices/pageSlice";
 
 import useStyles from "./dynamicPage.styles";
 import { useParams } from "react-router-dom";
 import withChat from "../../hoc/withChat";
+import { IPageReadDto, ITheme } from "roottypes";
 
 interface IDynamicPageProps {}
 

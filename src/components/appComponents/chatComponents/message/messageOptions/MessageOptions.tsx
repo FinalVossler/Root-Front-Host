@@ -4,7 +4,6 @@ import ReactDom from "react-dom";
 
 import useStyles from "./messageOptions.styles";
 import { useAppDispatch, useAppSelector } from "../../../../../store/hooks";
-import { ITheme } from "../../../../../config/theme";
 import useOnClickOutside from "../../../../../hooks/useOnClickOutside";
 import ConfirmationModal from "../../../../fundamentalComponents/confirmationModal";
 import useAuthorizedAxios from "../../../../../hooks/useAuthorizedAxios";
@@ -19,6 +18,7 @@ import useCreateReaction from "../../../../../hooks/apiHooks/useCreateReaction";
 import {
   IMessageReadDto,
   IReactionCreateCommand,
+  ITheme,
   IUserReadDto,
   ReactionEnum,
 } from "roottypes";

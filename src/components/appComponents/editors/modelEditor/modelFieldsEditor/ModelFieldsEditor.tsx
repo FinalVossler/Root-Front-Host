@@ -2,7 +2,6 @@ import React from "react";
 import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 
-import { ITheme } from "../../../../../config/theme";
 import { useAppSelector } from "../../../../../store/hooks";
 import SearchInput from "../../../../fundamentalComponents/searchInput";
 import useSearchFields from "../../../../../hooks/apiHooks/useSearchFields";
@@ -14,7 +13,7 @@ import SortableModelField from "./sortableModelField";
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import { FormikProps } from "formik";
 import { IModelForm } from "../ModelEditor";
-import { IFieldReadDto, IModelReadDto } from "roottypes";
+import { IFieldReadDto, IModelReadDto, ITheme } from "roottypes";
 
 interface IFieldsEditorProps {
   setSelectedModelFields: (modelFields: IModelField[]) => any;

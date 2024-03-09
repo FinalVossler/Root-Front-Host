@@ -5,7 +5,6 @@ import * as Yup from "yup";
 import { MdDelete, MdTextFields } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
-import { ITheme } from "../../../../config/theme";
 import Button from "../../../fundamentalComponents/button";
 import { useAppSelector } from "../../../../store/hooks";
 import { ImCross } from "react-icons/im";
@@ -58,6 +57,7 @@ import {
   EventTypeEnum,
   IEventReadDto,
   IMicroFrontendReadDto,
+  ITheme,
 } from "roottypes";
 
 export interface IEntityFieldValueForm {

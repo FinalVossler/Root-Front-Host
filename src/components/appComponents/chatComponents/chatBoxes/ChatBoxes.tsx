@@ -1,10 +1,10 @@
 import React from "react";
 
-import { ITheme } from "../../../../config/theme";
 import { useAppSelector } from "../../../../store/hooks";
 import ChatBox, { BoxType } from "../chatBox/ChatBox";
 
 import useStyles from "./chatBoxes.styles";
+import { ITheme } from "roottypes";
 
 interface IChatboxesProps {}
 const ChatBoxes: React.FunctionComponent<IChatboxesProps> = (

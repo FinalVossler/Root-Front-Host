@@ -1,6 +1,5 @@
 import { createUseStyles } from "react-jss";
-
-import { ITheme } from "../../../../config/theme";
+import { ITheme } from "roottypes";
 
 const useStyles = createUseStyles((theme: ITheme) => ({
   postOptionsContainer: {

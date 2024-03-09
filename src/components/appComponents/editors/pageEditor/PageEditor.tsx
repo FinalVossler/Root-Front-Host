@@ -5,7 +5,6 @@ import ReactLoading from "react-loading";
 import * as Yup from "yup";
 
 import Modal from "../../../fundamentalComponents/modal";
-import { ITheme } from "../../../../config/theme";
 import Button from "../../../fundamentalComponents/button";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { IPost } from "../../../../store/slices/postSlice";
@@ -21,14 +20,15 @@ import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import useCreatePage from "../../../../hooks/apiHooks/useCreatePage";
 import useUpdatePage from "../../../../hooks/apiHooks/useUpdatePage";
 import useHasPermission from "../../../../hooks/useHasPermission";
-import Checkbox from "../../../fundamentalComponents/checkbox";
 import {
   IPageCreateCommand,
   IPageReadDto,
   IPageUpdateCommand,
+  ITheme,
   PermissionEnum,
 } from "roottypes";
 import { editorSlice } from "../../../../store/slices/editorSlice";
+import FormikCheckbox from "../../../fundamentalComponents/formikCheckbox";
 
 interface IPageEditorForm {
   title: string;
@@ -53,10 +53,10 @@ const PageEditor: React.FunctionComponent<IPageEditorProps> = (
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.pages
   );
-
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
+
   const styles = useStyles({ theme });
   const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
@@ -191,13 +191,13 @@ const PageEditor: React.FunctionComponent<IPageEditorProps> = (
           }}
         />
 
-        <Checkbox
+        <FormikCheckbox
           label={getTranslatedText(staticText?.showInHeader)}
           formik={formik}
           name="showInHeader"
         />
 
-        <Checkbox
+        <FormikCheckbox
           label={getTranslatedText(staticText?.showInSideMenu)}
           formik={formik}
           name="showInSideMenu"

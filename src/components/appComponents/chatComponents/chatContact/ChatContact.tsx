@@ -2,7 +2,6 @@ import React from "react";
 import { CgProfile } from "react-icons/cg";
 import { RiNotificationFill } from "react-icons/ri";
 
-import { ITheme } from "../../../../config/theme";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import {
   chatSlice,
@@ -14,7 +13,7 @@ import useStyles from "./chatContact.styles";
 import UserProfilePicture from "../../../fundamentalComponents/userProfilePicture";
 import { SizeEnum } from "../../../fundamentalComponents/userProfilePicture/UserProfilePicture";
 import useGetConversationTotalUnreadMessages from "../../../../hooks/apiHooks/useGetConversationTotalUnreadMessages";
-import { IFileReadDto, IUserReadDto } from "roottypes";
+import { IFileReadDto, ITheme, IUserReadDto } from "roottypes";
 
 interface IChatContactProps {
   contact: IUserReadDto;

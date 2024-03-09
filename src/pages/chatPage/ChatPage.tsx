@@ -3,14 +3,13 @@ import React from "react";
 import ChatContacts from "../../components/appComponents/chatComponents/chatContacts";
 import ChatBox from "../../components/appComponents/chatComponents/chatBox";
 
-import { ITheme } from "../../config/theme";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 import useStyles from "./chatPage.styles";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import { BoxType } from "../../components/appComponents/chatComponents/chatBox/ChatBox";
 import { chatSlice } from "../../store/slices/chatSlice";
-import { IUserReadDto } from "roottypes";
+import { ITheme, IUserReadDto } from "roottypes";
 
 interface IChagePageProps {}
 const ChatPage: React.FunctionComponent<IChagePageProps> = (

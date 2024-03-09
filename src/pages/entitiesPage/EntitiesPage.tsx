@@ -1,12 +1,12 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
-import { ITheme } from "../../config/theme";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppSelector } from "../../store/hooks";
 import EntitiesList from "./entitiesList";
 
 import useStyles from "./entitiesPage.styles";
+import { ITheme } from "roottypes";
 
 interface IEntitiesPageProps {}
 
