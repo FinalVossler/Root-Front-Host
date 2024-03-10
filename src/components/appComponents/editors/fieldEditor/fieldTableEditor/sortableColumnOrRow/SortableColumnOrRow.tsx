@@ -5,7 +5,7 @@ import { CSS } from "@dnd-kit/utilities";
 
 import useGetTranslatedText from "../../../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../../../store/hooks";
-import Input from "../../../../../fundamentalComponents/input";
+import Input from "../../../../../fundamentalComponents/inputs/input";
 import { FieldTableElementForm, IFieldFormFormik } from "../../FieldEditor";
 import { BsHandIndexFill } from "react-icons/bs";
 

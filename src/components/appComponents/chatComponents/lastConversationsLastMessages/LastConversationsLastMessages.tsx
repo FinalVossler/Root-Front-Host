@@ -8,7 +8,7 @@ import useStyles from "./lastConversationsLastMessages.styles";
 import { getConversationId } from "../../../../store/slices/chatSlice";
 import Pagination from "../../../fundamentalComponents/pagination";
 import useSearchUsers from "../../../../hooks/apiHooks/useSearchUsers";
-import SearchInput from "../../../fundamentalComponents/searchInput";
+import SearchInput from "../../../fundamentalComponents/inputs/searchInput";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import useGetUserTotalUnreadMessages from "../../../../hooks/apiHooks/useGetUserTotalUnreadMessages";
 import InboxConversation from "../inboxConversation";

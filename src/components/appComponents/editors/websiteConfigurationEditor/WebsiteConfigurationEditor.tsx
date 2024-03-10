@@ -9,20 +9,17 @@ import defaultTheme from "../../../../config/theme";
 import useStyles from "./websiteConfigurationEditor.styles";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import Modal from "../../../fundamentalComponents/modal";
-import Input from "../../../fundamentalComponents/input";
 import { MdTitle } from "react-icons/md";
 import { ImCross } from "react-icons/im";
 import Button from "../../../fundamentalComponents/button";
-import InputLanguages from "../../../fundamentalComponents/inputLanguages";
-import ColorInput from "../../../fundamentalComponents/colorInput";
+import InputLanguages from "../../../fundamentalComponents/inputs/inputLanguages";
 import useUpdateWebsiteConfiguration from "../../../../hooks/apiHooks/useUpdateWebsiteConfiguration";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import FilesInput from "../../filesInput";
 import uploadFile from "../../../../utils/uploadFile";
 import { TypeOfFiles } from "../../existingFiles/ExistingFiles";
-import InputSelect from "../../../fundamentalComponents/inputSelect";
 import getLanguages from "../../../../utils/getLanguages";
-import Textarea from "../../../fundamentalComponents/textarea/Textarea";
+import Textarea from "../../../fundamentalComponents/inputs/textarea/Textarea";
 import {
   IFileReadDto,
   ITheme,
@@ -31,7 +28,12 @@ import {
 import { editorSlice } from "../../../../store/slices/editorSlice";
 import StaticTextsForm from "../../formComponents/staticTextsForm";
 import { IWebsiteConfigurationState } from "../../../../store/slices/websiteConfigurationSlice";
-import FormikCheckbox from "../../../fundamentalComponents/formikCheckbox";
+import FormikCheckbox from "../../../fundamentalComponents/formikInputs/formikCheckbox";
+import FormikInput from "../../../fundamentalComponents/formikInputs/formikInput";
+import FormikColorInput from "../../../fundamentalComponents/formikInputs/formikColorInput.ts";
+import FormikInputSelect from "../../../fundamentalComponents/formikInputs/formikInputSelect";
+import FormikTextarea from "../../../fundamentalComponents/formikInputs/formikTextarea";
+import FormikInputLanguages from "../../../fundamentalComponents/formikInputs/formikInputLanguages";
 
 export interface IWebsiteConfigurationForm extends ITheme {
   language?: string;
@@ -292,7 +294,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           {getTranslatedText(staticText?.globalConfiguration)}:{" "}
         </h2>
 
-        <InputSelect
+        <FormikInputSelect
           label={getTranslatedText(staticText?.language)}
           name="language"
           formik={formik}
@@ -303,7 +305,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           }
         />
 
-        <Input
+        <FormikInput
           Icon={MdTitle}
           name={"title"}
           label={getTranslatedText(staticText?.title)}
@@ -314,9 +316,8 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           }}
         />
 
-        <Textarea
+        <FormikTextarea
           label={getTranslatedText(staticText?.description)}
-          value={formik.values.description}
           textareaProps={{
             placeholder: getTranslatedText(staticText?.description),
           }}
@@ -328,7 +329,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           }}
         />
 
-        <Input
+        <FormikInput
           Icon={MdTitle}
           name={"email"}
           label={getTranslatedText(staticText?.email)}
@@ -339,7 +340,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           }}
         />
 
-        <Input
+        <FormikInput
           Icon={MdTitle}
           name={"phoneNumber"}
           label={getTranslatedText(staticText?.phoneNumber)}
@@ -350,7 +351,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           }}
         />
 
-        <Input
+        <FormikInput
           Icon={MdTitle}
           name={"tabTitle"}
           label={getTranslatedText(staticText?.tabTitle)}
@@ -361,7 +362,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           }}
         />
 
-        <InputLanguages name={"mainLanguages"} formik={formik} />
+        <FormikInputLanguages name={"mainLanguages"} formik={formik} />
 
         <FormikCheckbox
           name="withChat"
@@ -489,7 +490,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           {getTranslatedText(staticText?.theme)}:
         </h2>
 
-        <ColorInput
+        <FormikColorInput
           name="darkTextColor"
           label={getTranslatedText(staticText?.darkTextColor)}
           formik={formik}
@@ -499,7 +500,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           }}
         />
 
-        <ColorInput
+        <FormikColorInput
           name="lightTextColor"
           label={getTranslatedText(staticText?.lightTextColor)}
           formik={formik}
@@ -509,7 +510,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           }}
         />
 
-        <ColorInput
+        <FormikColorInput
           name="primary"
           label={getTranslatedText(staticText?.primary)}
           formik={formik}
@@ -519,7 +520,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           }}
         />
 
-        <ColorInput
+        <FormikColorInput
           name="darkerPrimary"
           label={getTranslatedText(staticText?.darkerPrimary)}
           formik={formik}
@@ -529,7 +530,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           }}
         />
 
-        <ColorInput
+        <FormikColorInput
           name="lighterPrimary"
           label={getTranslatedText(staticText?.lighterPrimary)}
           formik={formik}
@@ -539,7 +540,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           }}
         />
 
-        <ColorInput
+        <FormikColorInput
           name="secondary"
           label={getTranslatedText(staticText?.secondary)}
           formik={formik}
@@ -549,7 +550,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           }}
         />
 
-        <ColorInput
+        <FormikColorInput
           name="errorColor"
           label={getTranslatedText(staticText?.errorColor)}
           formik={formik}
@@ -559,7 +560,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           }}
         />
 
-        <ColorInput
+        <FormikColorInput
           name="borderColor"
           label={getTranslatedText(staticText?.borderColor)}
           formik={formik}
@@ -569,7 +570,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           }}
         />
 
-        <ColorInput
+        <FormikColorInput
           name="backgroundColor"
           label={getTranslatedText(staticText?.backgroundColor)}
           formik={formik}
@@ -579,7 +580,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           }}
         />
 
-        <ColorInput
+        <FormikColorInput
           name="contentBackgroundColor"
           label={getTranslatedText(staticText?.contentBackgroundColor)}
           formik={formik}
@@ -589,7 +590,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           }}
         />
 
-        <ColorInput
+        <FormikColorInput
           name="boxColor"
           label={getTranslatedText(staticText?.boxColor)}
           formik={formik}
@@ -599,7 +600,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           }}
         />
 
-        <ColorInput
+        <FormikColorInput
           name="transparentBackground"
           label={getTranslatedText(staticText?.transparentBackground)}
           formik={formik}
@@ -609,7 +610,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           }}
         />
 
-        <ColorInput
+        <FormikColorInput
           name="subContentBackgroundColor"
           label={getTranslatedText(staticText?.subContentBackgroundColor)}
           formik={formik}
@@ -621,7 +622,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           }}
         />
 
-        <Input
+        <FormikInput
           name="boxShadow"
           label={getTranslatedText(staticText?.boxShadow)}
           formik={formik}
@@ -632,7 +633,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           Icon={SiShadow}
         />
 
-        <Input
+        <FormikInput
           name="formMaxWidth"
           label={getTranslatedText(staticText?.formMaxWidth)}
           formik={formik}

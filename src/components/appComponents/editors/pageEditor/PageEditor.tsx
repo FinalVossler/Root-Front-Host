@@ -9,13 +9,12 @@ import Button from "../../../fundamentalComponents/button";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { IPost } from "../../../../store/slices/postSlice";
 import { FormikProps, useFormik } from "formik";
-import Input from "../../../fundamentalComponents/input";
 import PostsEditor from "./postsEditor";
 
 import useStyles from "./pageEditor.styles";
 import getNavigatorLanguage from "../../../../utils/getNavigatorLanguage";
 import getLanguages from "../../../../utils/getLanguages";
-import InputSelect from "../../../fundamentalComponents/inputSelect";
+import InputSelect from "../../../fundamentalComponents/inputs/inputSelect";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import useCreatePage from "../../../../hooks/apiHooks/useCreatePage";
 import useUpdatePage from "../../../../hooks/apiHooks/useUpdatePage";
@@ -28,7 +27,9 @@ import {
   PermissionEnum,
 } from "roottypes";
 import { editorSlice } from "../../../../store/slices/editorSlice";
-import FormikCheckbox from "../../../fundamentalComponents/formikCheckbox";
+import FormikCheckbox from "../../../fundamentalComponents/formikInputs/formikCheckbox";
+import FormikInput from "../../../fundamentalComponents/formikInputs/formikInput";
+import FormikInputSelect from "../../../fundamentalComponents/formikInputs/formikInputSelect";
 
 interface IPageEditorForm {
   title: string;
@@ -173,7 +174,7 @@ const PageEditor: React.FunctionComponent<IPageEditorProps> = (
           <ImCross onClick={handleCloseModal} className={styles.closeButton} />
         </div>
 
-        <Input
+        <FormikInput
           Icon={MdTitle}
           formik={formik}
           name="title"
@@ -182,7 +183,7 @@ const PageEditor: React.FunctionComponent<IPageEditorProps> = (
           }}
         />
 
-        <Input
+        <FormikInput
           Icon={MdTitle}
           formik={formik}
           name="slug"
@@ -203,7 +204,7 @@ const PageEditor: React.FunctionComponent<IPageEditorProps> = (
           name="showInSideMenu"
         />
 
-        <InputSelect
+        <FormikInputSelect
           label={getTranslatedText(staticText?.language)}
           name="language"
           formik={formik}

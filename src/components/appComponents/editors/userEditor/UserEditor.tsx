@@ -10,12 +10,11 @@ import useStyles from "./userEditor.styles";
 import Modal from "../../../fundamentalComponents/modal";
 import Button from "../../../fundamentalComponents/button";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-import Input from "../../../fundamentalComponents/input";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import useUpdateUser from "../../../../hooks/apiHooks/useUpdateUser";
 import useCreateUser from "../../../../hooks/apiHooks/useCreateUser";
 import useGetRoles from "../../../../hooks/apiHooks/useGetRoles";
-import InputSelect from "../../../fundamentalComponents/inputSelect";
+import InputSelect from "../../../fundamentalComponents/inputs/inputSelect";
 import {
   IRoleReadDto,
   IRolesGetCommand,
@@ -26,6 +25,8 @@ import {
   SuperRoleEnum,
 } from "roottypes";
 import { editorSlice } from "../../../../store/slices/editorSlice";
+import FormikInput from "../../../fundamentalComponents/formikInputs/formikInput";
+import FormikInputSelect from "../../../fundamentalComponents/formikInputs/formikInputSelect";
 
 interface IUserFormFormik {
   firstName: string;
@@ -193,7 +194,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
           <ImCross onClick={handleCloseModal} className={styles.closeButton} />
         </div>
 
-        <Input
+        <FormikInput
           Icon={MdTitle}
           formik={formik}
           name="firstName"
@@ -205,7 +206,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
           inputErrorDataCy="firstNameInputError"
         />
 
-        <Input
+        <FormikInput
           Icon={MdTitle}
           formik={formik}
           name="lastName"
@@ -217,7 +218,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
           inputErrorDataCy="lastNameInputError"
         />
 
-        <Input
+        <FormikInput
           Icon={MdTitle}
           formik={formik}
           name="email"
@@ -241,7 +242,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
           onChange={(option) => formik.setFieldValue("superRole", option.value)}
         />
 
-        <InputSelect
+        <FormikInputSelect
           label={getTranslatedText(staticText?.role)}
           value={{
             label: getTranslatedText(
@@ -257,7 +258,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
           name="roleId"
         />
 
-        <Input
+        <FormikInput
           Icon={MdPassword}
           formik={formik}
           name="password"
@@ -270,7 +271,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
           inputErrorDataCy="passwordInputError"
         />
 
-        <Input
+        <FormikInput
           Icon={MdPassword}
           formik={formik}
           name="confirmPassword"

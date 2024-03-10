@@ -5,7 +5,6 @@ import { FormikProps, useFormik } from "formik";
 import { RiLockPasswordLine } from "react-icons/ri";
 import * as Yup from "yup";
 
-import Input from "../../../fundamentalComponents/input/Input";
 import Button from "../../../fundamentalComponents/button/Button";
 import { useAppSelector } from "../../../../store/hooks";
 
@@ -13,6 +12,7 @@ import useStyles from "./registrationForm.styles";
 import useRegister from "../../../../hooks/apiHooks/useRegister";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { ITheme, IUserRegisterCommand } from "roottypes";
+import FormikInput from "../../../fundamentalComponents/formikInputs/formikInput";
 
 interface IRegistrationFormFormik {
   firstName: string;
@@ -97,7 +97,7 @@ const Registration: React.FunctionComponent<IRegistrationFormProps> = (
       </h2>
 
       <div className={styles.firstNameAndLastName}>
-        <Input
+        <FormikInput
           Icon={CgProfile}
           name="firstName"
           formik={formik}
@@ -107,7 +107,7 @@ const Registration: React.FunctionComponent<IRegistrationFormProps> = (
           inputDataCy="registrationFormFirstNameInput"
           inputErrorDataCy="registrationFormFirstNameInputError"
         />
-        <Input
+        <FormikInput
           inputProps={{
             placeholder: getTranslatedText(staticText?.lastNamePlaceholder),
           }}
@@ -118,7 +118,7 @@ const Registration: React.FunctionComponent<IRegistrationFormProps> = (
           inputErrorDataCy="registrationFormLastNameInputError"
         />
       </div>
-      <Input
+      <FormikInput
         Icon={AiOutlineMail}
         inputProps={{
           placeholder: getTranslatedText(staticText?.emailPlaceholder),
@@ -129,7 +129,7 @@ const Registration: React.FunctionComponent<IRegistrationFormProps> = (
         inputDataCy="registrationFormEmailInput"
         inputErrorDataCy="registrationFormEmailInputError"
       />
-      <Input
+      <FormikInput
         Icon={RiLockPasswordLine}
         inputProps={{
           type: "password",
@@ -140,7 +140,7 @@ const Registration: React.FunctionComponent<IRegistrationFormProps> = (
         inputDataCy="registrationFormPasswordInput"
         inputErrorDataCy="registrationFormPasswordInputError"
       />
-      <Input
+      <FormikInput
         inputProps={{
           type: "password",
           placeholder: getTranslatedText(staticText?.passwordPlaceholder),

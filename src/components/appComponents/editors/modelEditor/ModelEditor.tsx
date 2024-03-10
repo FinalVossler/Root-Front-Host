@@ -8,12 +8,12 @@ import useStyles from "./modelEditor.styles";
 import Modal from "../../../fundamentalComponents/modal";
 import Button from "../../../fundamentalComponents/button";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-import Input from "../../../fundamentalComponents/input";
+import Input from "../../../fundamentalComponents/inputs/input";
 import { ImCross } from "react-icons/im";
 import { FormikProps, useFormik } from "formik";
 import useCreateModel from "../../../../hooks/apiHooks/useCreateModel";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
-import InputSelect from "../../../fundamentalComponents/inputSelect";
+import InputSelect from "../../../fundamentalComponents/inputs/inputSelect";
 import getLanguages from "../../../../utils/getLanguages";
 import { IModelField } from "../../../../store/slices/modelSlice";
 import useUpdateModel from "../../../../hooks/apiHooks/useUpdateModel";
@@ -36,6 +36,8 @@ import {
   ModelStateTypeEnum,
 } from "roottypes";
 import { editorSlice } from "../../../../store/slices/editorSlice";
+import FormikInput from "../../../fundamentalComponents/formikInputs/formikInput";
+import FormikInputSelect from "../../../fundamentalComponents/formikInputs/formikInputSelect";
 
 export type ModelFormState = {
   _id?: string;
@@ -303,7 +305,7 @@ const ModelEditor = (props: IModelEditorProps) => {
           <ImCross onClick={handleCloseModal} className={styles.closeButton} />
         </div>
 
-        <Input
+        <FormikInput
           Icon={MdTitle}
           formik={formik}
           name="name"
@@ -313,7 +315,7 @@ const ModelEditor = (props: IModelEditorProps) => {
           inputDataCy="modelNameInput"
         />
 
-        <InputSelect
+        <FormikInputSelect
           label={getTranslatedText(staticText?.language)}
           name="language"
           formik={formik}

@@ -4,7 +4,7 @@ import React from "react";
 import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../../store/hooks";
 import { IModelField } from "../../../../../store/slices/modelSlice";
-import Input from "../../../../fundamentalComponents/input";
+import Input from "../../../../fundamentalComponents/inputs/input";
 import {
   IEntityEditorFormFormik,
   IEntityFieldValueForm,

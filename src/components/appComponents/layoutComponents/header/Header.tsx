@@ -7,9 +7,9 @@ import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { userSlice } from "../../../../store/slices/userSlice";
 import useIsLoggedIn from "../../../../hooks/useIsLoggedIn";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
-import InputSelect from "../../../fundamentalComponents/inputSelect";
+import InputSelect from "../../../fundamentalComponents/inputs/inputSelect";
 import { userPreferenceSlice } from "../../../../store/slices/userPreferencesSlice";
-import { InputSelectOptionEnum } from "../../../fundamentalComponents/inputSelect/InputSelect";
+import { InputSelectOptionEnum } from "../../../fundamentalComponents/inputs/inputSelect/InputSelect";
 import HeaderInbox from "../../chatComponents/headerInbox";
 import HeaderNotifications from "../../headerNotifications";
 

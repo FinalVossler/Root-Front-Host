@@ -79,7 +79,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     top: -5,
     right: -5,
     backgroundColor: "black",
-    opacity: 0.9,
+    opacity: 0.4,
     width: "calc(100% + 10px)",
     height: "calc(100% + 10px)",
     borderRadius: 10,

@@ -6,9 +6,9 @@ import { MdDelete } from "react-icons/md";
 import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../../store/hooks";
 import Button from "../../../../fundamentalComponents/button";
-import Checkbox from "../../../../fundamentalComponents/checkbox";
-import Input from "../../../../fundamentalComponents/input";
-import Textarea from "../../../../fundamentalComponents/textarea/Textarea";
+import Checkbox from "../../../../fundamentalComponents/inputs/checkbox";
+import Input from "../../../../fundamentalComponents/inputs/input";
+import Textarea from "../../../../fundamentalComponents/inputs/textarea/Textarea";
 import { IEntityEventNotificationForm } from "../RoleEditor";
 
 import useStyles from "./roleEntityEventsNotification.styles";

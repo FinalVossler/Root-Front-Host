@@ -9,7 +9,7 @@ import useStyles from "./microFrontendEditor.styles";
 import Modal from "../../../fundamentalComponents/modal";
 import Button from "../../../fundamentalComponents/button";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-import Input from "../../../fundamentalComponents/input";
+import Input from "../../../fundamentalComponents/inputs/input";
 import { ImCross } from "react-icons/im";
 import { FormikProps, useFormik } from "formik";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
@@ -25,6 +25,7 @@ import {
   ITheme,
 } from "roottypes";
 import { editorSlice } from "../../../../store/slices/editorSlice";
+import FormikInput from "../../../fundamentalComponents/formikInputs/formikInput";
 
 export interface IMicroFrontendForm {
   name: string;
@@ -155,7 +156,7 @@ const MicroFrontendEditor: React.FunctionComponent<
           <ImCross onClick={handleCloseModal} className={styles.closeButton} />
         </div>
 
-        <Input
+        <FormikInput
           Icon={MdTitle}
           formik={formik}
           name="name"
@@ -164,7 +165,7 @@ const MicroFrontendEditor: React.FunctionComponent<
           }}
         />
 
-        <Input
+        <FormikInput
           Icon={MdTitle}
           formik={formik}
           name="remoteEntry"

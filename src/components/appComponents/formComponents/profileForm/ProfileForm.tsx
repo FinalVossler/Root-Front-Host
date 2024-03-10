@@ -4,7 +4,6 @@ import { FormikProps, useFormik } from "formik";
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import * as Yup from "yup";
 
-import Input from "../../../fundamentalComponents/input/Input";
 import Button from "../../../fundamentalComponents/button/Button";
 
 import { useAppSelector } from "../../../../store/hooks";
@@ -21,7 +20,8 @@ import {
   IUserReadDto,
   IUserUpdateCommand,
 } from "roottypes";
-import FormikCheckbox from "../../../fundamentalComponents/formikCheckbox";
+import FormikCheckbox from "../../../fundamentalComponents/formikInputs/formikCheckbox";
+import FormikInput from "../../../fundamentalComponents/formikInputs/formikInput";
 
 type ProfileFormik = {
   firstName: string;
@@ -112,7 +112,7 @@ const Profile: React.FunctionComponent<IProfileFormProps> = (
       <br />
 
       <form className={styles.profileForm} onSubmit={handleSubmit}>
-        <Input
+        <FormikInput
           Icon={CgProfile}
           name="firstName"
           formik={formik}
@@ -121,7 +121,7 @@ const Profile: React.FunctionComponent<IProfileFormProps> = (
             disabled: actualLoading,
           }}
         />
-        <Input
+        <FormikInput
           Icon={CgProfile}
           inputProps={{
             placeholder: getTranslatedText(staticText?.enterLastName),
@@ -130,7 +130,7 @@ const Profile: React.FunctionComponent<IProfileFormProps> = (
           name="lastName"
           formik={formik}
         />
-        <Input
+        <FormikInput
           Icon={CgProfile}
           inputProps={{
             placeholder: getTranslatedText(staticText?.enterEmail),

@@ -14,8 +14,8 @@ import { CSS } from "@dnd-kit/utilities";
 import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../../store/hooks";
 import Button from "../../../../fundamentalComponents/button";
-import Checkbox from "../../../../fundamentalComponents/checkbox";
-import Input from "../../../../fundamentalComponents/input";
+import Checkbox from "../../../../fundamentalComponents/inputs/checkbox";
+import Input from "../../../../fundamentalComponents/inputs/input";
 import { IModelForm, ModelFormState } from "../ModelEditor";
 
 import useStyles from "./modelStatesEditor.styles";

@@ -8,18 +8,18 @@ import { BiText } from "react-icons/bi";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../store/hooks";
 import Button from "../../../fundamentalComponents/button";
-import Checkbox from "../../../fundamentalComponents/checkbox";
-import Input from "../../../fundamentalComponents/input";
+import Checkbox from "../../../fundamentalComponents/inputs/checkbox";
+import Input from "../../../fundamentalComponents/inputs/input";
 
 import useStyles from "./eventsEditor.styles";
-import Textarea from "../../../fundamentalComponents/textarea/Textarea";
+import Textarea from "../../../fundamentalComponents/inputs/textarea/Textarea";
 import { CgAdd } from "react-icons/cg";
 import { HiKey } from "react-icons/hi";
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
-import SearchInput from "../../../fundamentalComponents/searchInput";
+import SearchInput from "../../../fundamentalComponents/inputs/searchInput";
 import useSearchMicroFrontends from "../../../../hooks/apiHooks/useSearchMicroFrontends";
-import InputSelect from "../../../fundamentalComponents/inputSelect";
-import { InputSelectOptionEnum } from "../../../fundamentalComponents/inputSelect/InputSelect";
+import InputSelect from "../../../fundamentalComponents/inputs/inputSelect";
+import { InputSelectOptionEnum } from "../../../fundamentalComponents/inputs/inputSelect/InputSelect";
 import {
   EventTriggerEnum,
   EventTypeEnum,

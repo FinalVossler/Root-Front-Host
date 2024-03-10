@@ -2,7 +2,7 @@ import React from "react";
 import { FormikProps, useFormik } from "formik";
 import * as Yup from "yup";
 
-import Input from "../../../fundamentalComponents/input/Input";
+import Input from "../../../fundamentalComponents/inputs/input/Input";
 import Button from "../../../fundamentalComponents/button/Button";
 
 import { useAppSelector } from "../../../../store/hooks";
@@ -12,6 +12,7 @@ import useStyles from "./changePasswordForm.styles";
 import useChangePassword from "../../../../hooks/apiHooks/useChangePassword";
 import { MdPassword } from "react-icons/md";
 import { ITheme, IUserChangePasswordCommand, IUserReadDto } from "roottypes";
+import FormikInput from "../../../fundamentalComponents/formikInputs/formikInput";
 
 type ChangePasswordFormik = {
   oldPassword: string;
@@ -91,7 +92,7 @@ const ChangePasswordForm: React.FunctionComponent<IChangePasswordFormProps> = (
       </h2>
 
       <form className={styles.changePasswordForm} onSubmit={handleSubmit}>
-        <Input
+        <FormikInput
           Icon={MdPassword}
           name="oldPassword"
           formik={formik}
@@ -101,7 +102,7 @@ const ChangePasswordForm: React.FunctionComponent<IChangePasswordFormProps> = (
             type: "password",
           }}
         />
-        <Input
+        <FormikInput
           Icon={MdPassword}
           inputProps={{
             placeholder: getTranslatedText(staticText?.newPassword),
@@ -112,7 +113,7 @@ const ChangePasswordForm: React.FunctionComponent<IChangePasswordFormProps> = (
           formik={formik}
         />
 
-        <Input
+        <FormikInput
           Icon={MdPassword}
           inputProps={{
             placeholder: getTranslatedText(staticText?.confirmPassword),

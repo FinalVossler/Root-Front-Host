@@ -13,9 +13,9 @@ import Modal from "../../../fundamentalComponents/modal";
 import Button from "../../../fundamentalComponents/button";
 import { useAppSelector } from "../../../../store/hooks";
 import { IPost } from "../../../../store/slices/postSlice";
-import InputSelect from "../../../fundamentalComponents/inputSelect";
-import { InputSelectOptionEnum } from "../../../fundamentalComponents/inputSelect/InputSelect";
-import Input from "../../../fundamentalComponents/input";
+import InputSelect from "../../../fundamentalComponents/inputs/inputSelect";
+import { InputSelectOptionEnum } from "../../../fundamentalComponents/inputs/inputSelect/InputSelect";
+import Input from "../../../fundamentalComponents/inputs/input";
 import PostsEditor from "../pageEditor/postsEditor";
 import getLanguages from "../../../../utils/getLanguages";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
@@ -30,6 +30,7 @@ import {
   IPostCreateCommand,
   IPostReadDto,
   IPostUpdateCommand,
+  ITheme,
   IUserReadDto,
   PostDesignEnum,
   PostVisibilityEnum,

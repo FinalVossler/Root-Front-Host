@@ -6,7 +6,7 @@ import { BsHandIndexFill } from "react-icons/bs";
 
 import { useAppSelector } from "../../../../../store/hooks";
 import { IPost } from "../../../../../store/slices/postSlice";
-import SearchInput from "../../../../fundamentalComponents/searchInput";
+import SearchInput from "../../../../fundamentalComponents/inputs/searchInput";
 import { AiFillDelete } from "react-icons/ai";
 import Post from "../../../../fundamentalComponents/post";
 import useSearchPosts from "../../../../../hooks/apiHooks/useSearchPosts";

@@ -9,19 +9,17 @@ import useStyles from "./fieldEditor.styles";
 import Modal from "../../../fundamentalComponents/modal";
 import Button from "../../../fundamentalComponents/button";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-import Input from "../../../fundamentalComponents/input";
+import Input from "../../../fundamentalComponents/inputs/input";
 import { ImCross } from "react-icons/im";
 import { FormikProps, useFormik } from "formik";
 import useCreateField from "../../../../hooks/apiHooks/useCreateField";
 import useUpdateField from "../../../../hooks/apiHooks/useUpdateField";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
-import InputSelect from "../../../fundamentalComponents/inputSelect";
 import getLanguages from "../../../../utils/getLanguages";
 import { BiLabel } from "react-icons/bi";
 import EventsEditor from "../eventsEditor/EventsEditor";
 import FieldTableEditor from "./fieldTableEditor";
 import uuid from "react-uuid";
-import Checkbox from "../../../fundamentalComponents/checkbox";
 import {
   EventTriggerEnum,
   FieldTypeEnum,
@@ -34,7 +32,9 @@ import {
   ITheme,
 } from "roottypes";
 import { editorSlice } from "../../../../store/slices/editorSlice";
-import FormikCheckbox from "../../../fundamentalComponents/formikCheckbox";
+import FormikCheckbox from "../../../fundamentalComponents/formikInputs/formikCheckbox";
+import FormikInput from "../../../fundamentalComponents/formikInputs/formikInput";
+import FormikInputSelect from "../../../fundamentalComponents/formikInputs/formikInputSelect";
 
 type FieldOptionForm = {
   label: string;
@@ -289,7 +289,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
           <ImCross onClick={handleCloseModal} className={styles.closeButton} />
         </div>
 
-        <Input
+        <FormikInput
           Icon={MdTitle}
           formik={formik}
           name="name"
@@ -299,7 +299,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
           inputDataCy="fieldNameInput"
         />
 
-        <InputSelect
+        <FormikInputSelect
           options={Object.values(FieldTypeEnum).map((el) => ({
             value: el,
             label: el,
@@ -320,7 +320,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
           />
         )}
 
-        <InputSelect
+        <FormikInputSelect
           label={getTranslatedText(staticText?.language)}
           name="language"
           formik={formik}

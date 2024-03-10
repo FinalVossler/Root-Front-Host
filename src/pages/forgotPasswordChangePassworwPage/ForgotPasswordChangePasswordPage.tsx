@@ -11,9 +11,9 @@ import useStyles from "./ForgotPasswordChangePasswordPage.styles";
 import { FormikProps, useFormik } from "formik";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useForgotPasswordChangePassword from "../../hooks/apiHooks/useForgotPasswordChangePassword";
-import Input from "../../components/fundamentalComponents/input";
 import Button from "../../components/fundamentalComponents/button";
 import { ITheme, IUserForgotPasswordChangePasswordCommand } from "roottypes";
+import FormikInput from "../../components/fundamentalComponents/formikInputs/formikInput";
 
 interface IForgotPasswordChangePasswordFormik {
   newPassword: string;
@@ -76,7 +76,7 @@ const ForgotPasswordChangePasswordPage: React.FunctionComponent<
           {getTranslatedText(staticText?.changePasswordTitle)}:
         </h2>
 
-        <Input
+        <FormikInput
           Icon={MdPassword}
           formik={formik}
           name="newPassword"
@@ -86,7 +86,7 @@ const ForgotPasswordChangePasswordPage: React.FunctionComponent<
             placeholder: getTranslatedText(staticText?.newPassword),
           }}
         />
-        <Input
+        <FormikInput
           Icon={MdPassword}
           formik={formik}
           name="confirmNewPassword"

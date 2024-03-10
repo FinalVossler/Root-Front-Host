@@ -2,8 +2,8 @@ import { FormikProps } from "formik";
 import React from "react";
 import { AiOutlineArrowsAlt } from "react-icons/ai";
 
-import { useAppSelector } from "../../../store/hooks";
-import getLanguages from "../../../utils/getLanguages";
+import { useAppSelector } from "../../../../store/hooks";
+import getLanguages from "../../../../utils/getLanguages";
 import Checkbox from "../checkbox";
 import { InputSelectOptionEnum } from "../inputSelect/InputSelect";
 
@@ -11,8 +11,8 @@ import useStyles from "./inputLanguages.styles";
 import { ITheme } from "roottypes";
 
 interface IInputLanguagesProps {
-  formik: FormikProps<any>;
-  name: string;
+  value: string[];
+  onChange: (languages: string[]) => void;
 }
 
 const InputLanguages: React.FunctionComponent<IInputLanguagesProps> = (
@@ -28,23 +28,20 @@ const InputLanguages: React.FunctionComponent<IInputLanguagesProps> = (
   const languages: InputSelectOptionEnum[] = getLanguages();
 
   const handleChange = (language: InputSelectOptionEnum) => {
-    if (props.formik && props.name) {
-      let newLanguages: string[] = [...props.formik.values[props.name]];
-      const alreadySelected: boolean = newLanguages.some(
-        (el) => el === language.value
-      );
-      if (alreadySelected) {
-        newLanguages = newLanguages.filter((el) => el !== language.value);
-      } else {
-        newLanguages.push(language.value);
-      }
-
-      props.formik.setFieldValue(props.name, newLanguages);
+    let newLanguages: string[] = [...props.value];
+    const alreadySelected: boolean = newLanguages.some(
+      (el) => el === language.value
+    );
+    if (alreadySelected) {
+      newLanguages = newLanguages.filter((el) => el !== language.value);
+    } else {
+      newLanguages.push(language.value);
     }
+    props.onChange(newLanguages);
   };
 
   return (
-    <div className={styles.inputLanguagesContainer} {...props}>
+    <div className={styles.inputLanguagesContainer}>
       <div className={styles.selectedLanguagesContainer}>
         <AiOutlineArrowsAlt
           color={theme.primary}
@@ -52,7 +49,7 @@ const InputLanguages: React.FunctionComponent<IInputLanguagesProps> = (
           onClick={() => setExtended(!extended)}
         />
 
-        {props.formik?.values[props.name]?.map((language, index) => {
+        {props.value.map((language, index) => {
           return (
             <img
               className={styles.icon}
@@ -81,15 +78,7 @@ const InputLanguages: React.FunctionComponent<IInputLanguagesProps> = (
                 />
 
                 <Checkbox
-                  checked={
-                    props.formik && props.name
-                      ? props.formik.values[props.name].indexOf(
-                          language.value
-                        ) !== -1
-                      : props.formik.values[props.name]?.indexOf(
-                          language.value
-                        ) !== -1
-                  }
+                  checked={props.value?.indexOf(language.value) !== -1}
                   labelStyles={{ width: 20 }}
                   label={language.value}
                   onChange={() => handleChange(language)}

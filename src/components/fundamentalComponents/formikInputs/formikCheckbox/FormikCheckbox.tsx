@@ -1,7 +1,7 @@
 import { FormikProps } from "formik";
 import React from "react";
 
-import Checkbox, { ICheckboxProps } from "../checkbox/Checkbox";
+import Checkbox, { ICheckboxProps } from "../../inputs/checkbox/Checkbox";
 
 interface IFormikCheckboxProps extends ICheckboxProps {
   formik: FormikProps<any>;

@@ -9,7 +9,7 @@ import { useAppSelector } from "../../../store/hooks";
 import useStyles from "./elements.styles";
 import ConfirmationModal from "../../fundamentalComponents/confirmationModal";
 import Pagination from "../../fundamentalComponents/pagination";
-import SearchInput from "../../fundamentalComponents/searchInput";
+import SearchInput from "../../fundamentalComponents/inputs/searchInput";
 import ElementsBoard from "./elementsBoard";
 import Button from "../../fundamentalComponents/button";
 import { LocalStorageConfNameEnum } from "../../../utils/localStorage";

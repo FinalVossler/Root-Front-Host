@@ -5,9 +5,9 @@ import { IPaginationCommand, IPaginationResponse, ITheme } from "roottypes";
 import Input from "../input";
 
 import useStyles from "./searchInput.styles";
-import useOnClickOutside from "../../../hooks/useOnClickOutside";
-import { useAppSelector } from "../../../store/hooks";
-import Pagination from "../pagination";
+import useOnClickOutside from "../../../../hooks/useOnClickOutside";
+import { useAppSelector } from "../../../../store/hooks";
+import Pagination from "../../pagination";
 
 interface ISearchInputProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;

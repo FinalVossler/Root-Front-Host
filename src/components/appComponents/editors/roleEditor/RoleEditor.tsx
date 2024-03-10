@@ -9,20 +9,19 @@ import * as Yup from "yup";
 import Modal from "../../../fundamentalComponents/modal";
 import Button from "../../../fundamentalComponents/button";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-import Input from "../../../fundamentalComponents/input";
 import useCreateRole from "../../../../hooks/apiHooks/useCreateRole";
 import useUpdateRole, {
   RoleUpdateCommand,
 } from "../../../../hooks/apiHooks/useUpdateRole";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
-import InputSelect from "../../../fundamentalComponents/inputSelect";
+import InputSelect from "../../../fundamentalComponents/inputs/inputSelect";
 import getLanguages from "../../../../utils/getLanguages";
 import useStyles from "./roleEditor.styles";
-import { InputSelectOptionEnum } from "../../../fundamentalComponents/inputSelect/InputSelect";
+import { InputSelectOptionEnum } from "../../../fundamentalComponents/inputs/inputSelect/InputSelect";
 import lowerCaseFirstLetter from "../../../../utils/lowerCaseFirstLetter";
-import SearchInput from "../../../fundamentalComponents/searchInput";
+import SearchInput from "../../../fundamentalComponents/inputs/searchInput";
 import useSearchModels from "../../../../hooks/apiHooks/useSearchModels";
-import Checkbox from "../../../fundamentalComponents/checkbox";
+import Checkbox from "../../../fundamentalComponents/inputs/checkbox";
 import RoleEntityEventsNotification from "./roleEntityEventsNotification/RoleEntityEventsNotification";
 import RoleEntityUserAssignmentPermissions from "./roleEntityUserAssignmentPermissions";
 import ExtendSection from "../../../fundamentalComponents/extendSection";
@@ -38,6 +37,8 @@ import {
   StaticPermissionEnum,
 } from "roottypes";
 import { editorSlice } from "../../../../store/slices/editorSlice";
+import FormikInput from "../../../fundamentalComponents/formikInputs/formikInput";
+import FormikInputSelect from "../../../fundamentalComponents/formikInputs/formikInputSelect";
 
 export interface IEntityEventNotificationForm {
   _id?: string;
@@ -478,7 +479,7 @@ const RoleEditor = (props: IRoleEditorProps) => {
           <ImCross onClick={handleCloseModal} className={styles.closeButton} />
         </div>
 
-        <Input
+        <FormikInput
           Icon={MdTitle}
           formik={formik}
           name="name"
@@ -489,7 +490,7 @@ const RoleEditor = (props: IRoleEditorProps) => {
           inputErrorDataCy="roleNameInputError"
         />
 
-        <InputSelect
+        <FormikInputSelect
           label={getTranslatedText(staticText?.language)}
           name="language"
           formik={formik}
@@ -500,7 +501,7 @@ const RoleEditor = (props: IRoleEditorProps) => {
           }
         />
 
-        <InputSelect
+        <FormikInputSelect
           label={getTranslatedText(staticText?.permissions)}
           name="permissions"
           formik={formik}

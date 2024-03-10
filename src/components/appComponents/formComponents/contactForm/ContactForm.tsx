@@ -4,7 +4,6 @@ import * as Yup from "yup";
 import { BsFillPersonFill } from "react-icons/bs";
 
 import { useAppSelector } from "../../../../store/hooks";
-import Input from "../../../fundamentalComponents/input";
 
 import useStyles from "./contactForm.styles";
 import Button from "../../../fundamentalComponents/button";
@@ -13,6 +12,7 @@ import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import extractContentFromHtml from "../../../../utils/extractContentFromHtml";
 import useSendMail from "../../../../hooks/apiHooks/useSendMail";
 import { IEmailSendCommand, ITheme } from "roottypes";
+import FormikInput from "../../../fundamentalComponents/formikInputs/formikInput";
 
 interface IContactFormFormik {
   firstName: string;
@@ -96,7 +96,7 @@ const ContactForm: React.FunctionComponent<
       <p className={styles.description}>
         {extractContentFromHtml(getTranslatedText(props.post?.content || ""))}
       </p>
-      <Input
+      <FormikInput
         Icon={BsFillPersonFill}
         label={getTranslatedText(staticText?.firstName)}
         formik={formik}
@@ -104,7 +104,7 @@ const ContactForm: React.FunctionComponent<
         name="firstName"
       />
 
-      <Input
+      <FormikInput
         Icon={BsFillPersonFill}
         label={getTranslatedText(staticText?.lastName)}
         formik={formik}
@@ -112,7 +112,7 @@ const ContactForm: React.FunctionComponent<
         name="lastName"
       />
 
-      <Input
+      <FormikInput
         Icon={BsFillPersonFill}
         label={getTranslatedText(staticText?.email)}
         formik={formik}
@@ -120,7 +120,7 @@ const ContactForm: React.FunctionComponent<
         name="email"
       />
 
-      <Input
+      <FormikInput
         Icon={BsFillPersonFill}
         label={getTranslatedText(staticText?.phone)}
         formik={formik}
@@ -128,7 +128,7 @@ const ContactForm: React.FunctionComponent<
         name="phone"
       />
 
-      <Input
+      <FormikInput
         Icon={BsFillPersonFill}
         label={getTranslatedText(staticText?.address)}
         formik={formik}
@@ -136,7 +136,7 @@ const ContactForm: React.FunctionComponent<
         name="address"
       />
 
-      <Input
+      <FormikInput
         Icon={BsFillPersonFill}
         label={getTranslatedText(staticText?.message)}
         formik={formik}

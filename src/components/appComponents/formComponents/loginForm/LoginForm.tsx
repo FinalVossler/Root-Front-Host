@@ -4,7 +4,6 @@ import { FormikProps, useFormik } from "formik";
 import { RiLockPasswordLine } from "react-icons/ri";
 import * as Yup from "yup";
 
-import Input from "../../../fundamentalComponents/input/Input";
 import Button from "../../../fundamentalComponents/button/Button";
 
 import { useAppSelector } from "../../../../store/hooks";
@@ -14,6 +13,7 @@ import useLogin from "../../../../hooks/apiHooks/useLogin";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useNavigate } from "react-router-dom";
 import { ITheme, IUserLoginCommand } from "roottypes";
+import FormikInput from "../../../fundamentalComponents/formikInputs/formikInput";
 
 interface ILoginFormFormik {
   email: string;
@@ -75,7 +75,7 @@ const LoginForm: React.FunctionComponent<ILoginFormProps> = (
         <h2 className={styles.loginTitle}>
           {getTranslatedText(staticText?.login.title)}
         </h2>
-        <Input
+        <FormikInput
           Icon={AiOutlineMail}
           inputProps={{
             type: "email",
@@ -86,7 +86,7 @@ const LoginForm: React.FunctionComponent<ILoginFormProps> = (
           inputDataCy="loginFormEmailInput"
           inputErrorDataCy="loginFormEmailInputError"
         />
-        <Input
+        <FormikInput
           Icon={RiLockPasswordLine}
           inputProps={{
             type: "password",

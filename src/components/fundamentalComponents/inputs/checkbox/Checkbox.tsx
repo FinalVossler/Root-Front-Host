@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useAppSelector } from "../../../store/hooks";
+import { useAppSelector } from "../../../../store/hooks";
 
 import useStyles from "./checkbox.styles";
 import { ITheme } from "roottypes";

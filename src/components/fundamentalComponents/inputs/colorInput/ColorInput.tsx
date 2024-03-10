@@ -4,12 +4,17 @@ import { SketchPicker, ColorChangeHandler, ColorResult } from "react-color";
 import debounce from "lodash.debounce";
 
 import useStyles from "./colorInput.styles";
-import { useAppSelector } from "../../../store/hooks";
+import { useAppSelector } from "../../../../store/hooks";
 import Input, { IInputProps } from "../input/Input";
-import useOnClickOutside from "../../../hooks/useOnClickOutside";
+import useOnClickOutside from "../../../../hooks/useOnClickOutside";
 import { ITheme } from "roottypes";
 
-interface IColorInputProps extends IInputProps {}
+export interface IColorInputProps extends IInputProps {
+  onChange?: (
+    e: React.ChangeEvent<HTMLInputElement>,
+    colorResult?: ColorResult
+  ) => any;
+}
 
 const ColorInput: React.FunctionComponent<IColorInputProps> = (
   props: IColorInputProps
@@ -30,11 +35,8 @@ const ColorInput: React.FunctionComponent<IColorInputProps> = (
     colorResult: ColorResult,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    if (props.formik && props.name) {
-      props.formik.setFieldValue(props.name, colorResult.hex);
-    }
     if (props.onChange) {
-      props.onChange(e);
+      props.onChange(e, colorResult);
     }
   };
   const debouncedChange = debounce(handleColorChange, 500);
@@ -44,9 +46,7 @@ const ColorInput: React.FunctionComponent<IColorInputProps> = (
     <Input
       Icon={AiOutlineBgColors}
       onIconClick={handleTriggerShowPicker}
-      iconColor={
-        props.formik && props.name ? props.formik.values[props.name] : ""
-      }
+      iconColor={props.value || ""}
       {...props}
     >
       {showPicker && (
@@ -56,11 +56,7 @@ const ColorInput: React.FunctionComponent<IColorInputProps> = (
         >
           <SketchPicker
             onChange={debouncedChange}
-            color={
-              props.formik && props.name
-                ? props.formik.values[props.name]
-                : props.value
-            }
+            color={props.value}
             className={styles.picker}
           />
         </div>

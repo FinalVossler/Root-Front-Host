@@ -11,11 +11,11 @@ import { IModelField } from "../../../../../../store/slices/modelSlice";
 
 import useStyles from "./sortableModel.styles";
 import { BiPlus } from "react-icons/bi";
-import InputSelect from "../../../../../fundamentalComponents/inputSelect";
-import { InputSelectOptionEnum } from "../../../../../fundamentalComponents/inputSelect/InputSelect";
+import InputSelect from "../../../../../fundamentalComponents/inputs/inputSelect";
+import { InputSelectOptionEnum } from "../../../../../fundamentalComponents/inputs/inputSelect/InputSelect";
 import { MdDelete, MdTextFields } from "react-icons/md";
-import Input from "../../../../../fundamentalComponents/input";
-import Checkbox from "../../../../../fundamentalComponents/checkbox";
+import Input from "../../../../../fundamentalComponents/inputs/input";
+import Checkbox from "../../../../../fundamentalComponents/inputs/checkbox";
 import ExtendSection from "../../../../../fundamentalComponents/extendSection";
 import {
   FieldTypeEnum,

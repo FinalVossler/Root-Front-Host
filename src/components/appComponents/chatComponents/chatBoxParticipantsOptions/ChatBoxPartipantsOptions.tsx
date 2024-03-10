@@ -10,7 +10,7 @@ import {
   Conversation,
   getConversationId,
 } from "../../../../store/slices/chatSlice";
-import SearchInput from "../../../fundamentalComponents/searchInput";
+import SearchInput from "../../../fundamentalComponents/inputs/searchInput";
 import useSearchUsers from "../../../../hooks/apiHooks/useSearchUsers";
 import { BiPlus } from "react-icons/bi";
 import { ITheme, IUserReadDto } from "roottypes";

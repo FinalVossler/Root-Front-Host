@@ -8,14 +8,14 @@ import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../../store/hooks";
 import Button from "../../../../fundamentalComponents/button";
-import Checkbox from "../../../../fundamentalComponents/checkbox";
+import Checkbox from "../../../../fundamentalComponents/inputs/checkbox";
 import { FieldTableElementForm, IFieldFormFormik } from "../FieldEditor";
 
 import useStyles from "./fieldTableEditor.styles";
 import SortableColumnOrRow, {
   ColumnOrRow,
 } from "./sortableColumnOrRow/SortableColumnOrRow";
-import Input from "../../../../fundamentalComponents/input";
+import Input from "../../../../fundamentalComponents/inputs/input";
 import { FieldTypeEnum, ITheme } from "roottypes";
 
 interface IFieldTableEditorProps {

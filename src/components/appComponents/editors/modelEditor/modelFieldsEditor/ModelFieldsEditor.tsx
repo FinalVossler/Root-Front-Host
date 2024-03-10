@@ -3,7 +3,7 @@ import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 
 import { useAppSelector } from "../../../../../store/hooks";
-import SearchInput from "../../../../fundamentalComponents/searchInput";
+import SearchInput from "../../../../fundamentalComponents/inputs/searchInput";
 import useSearchFields from "../../../../../hooks/apiHooks/useSearchFields";
 import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 

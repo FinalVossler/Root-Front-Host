@@ -2,7 +2,7 @@ import React from "react";
 import { ITranslatedText } from "roottypes";
 
 import ExtendSection from "../../../fundamentalComponents/extendSection";
-import Input from "../../../fundamentalComponents/input";
+import Input from "../../../fundamentalComponents/inputs/input";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 
 import useStyles from "./staticTextsForm.styles";

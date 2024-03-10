@@ -1,16 +1,15 @@
-import { FormikProps } from "formik";
 import React, { PropsWithChildren } from "react";
 import debounce from "lodash.debounce";
 
 import useStyles from "./input.styles";
-import { useAppSelector } from "../../../store/hooks";
+import { useAppSelector } from "../../../../store/hooks";
 import { ITheme } from "roottypes";
+import { ColorResult } from "react-color";
 
 export interface IInputProps {
   Icon?: any;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
   name?: string;
-  formik?: FormikProps<any>;
   value?: any;
   error?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => any;
@@ -50,9 +49,6 @@ const Input: React.FunctionComponent<PropsWithChildren<IInputProps>> = (
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (props.formik && props.name && !props.onChange) {
-      props.formik.setFieldValue(props.name, e.target.value);
-    }
     if (props.onChange) {
       props.onChange(e);
     }
@@ -64,9 +60,7 @@ const Input: React.FunctionComponent<PropsWithChildren<IInputProps>> = (
     ? {}
     : {
         value:
-          props.value !== undefined && props.value !== null
-            ? props.value
-            : props.formik?.values[props.name || ""] || "",
+          props.value !== undefined && props.value !== null ? props.value : "",
       };
   //#endregion Event listeners
 
@@ -108,8 +102,7 @@ const Input: React.FunctionComponent<PropsWithChildren<IInputProps>> = (
             style={iconStyles}
           />
         )}
-        {((props.name && props.formik?.values[props.name]) !== undefined ||
-          props.value !== undefined) && (
+        {props.value !== undefined && (
           <input
             ref={inputRef}
             onBlur={handleFocus}
@@ -134,9 +127,6 @@ const Input: React.FunctionComponent<PropsWithChildren<IInputProps>> = (
           ? { ["data-cy"]: props.inputErrorDataCy }
           : {})}
       >
-        {/* @ts-ignore */}
-        {props.formik?.touched[props.name] &&
-          props.formik?.errors[props.name || ""]}
         {props.error?.toString()}
       </span>
     </div>

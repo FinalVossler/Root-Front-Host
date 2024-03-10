@@ -4,8 +4,8 @@ import { MdDelete } from "react-icons/md";
 import useSearchRoles from "../../../../../hooks/apiHooks/useSearchRoles";
 import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../../store/hooks";
-import Checkbox from "../../../../fundamentalComponents/checkbox";
-import SearchInput from "../../../../fundamentalComponents/searchInput";
+import Checkbox from "../../../../fundamentalComponents/inputs/checkbox";
+import SearchInput from "../../../../fundamentalComponents/inputs/searchInput";
 
 import useStyles from "./roleEntityUserAssignmentPermissions.styles";
 import { IRoleReadDto, ITheme } from "roottypes";

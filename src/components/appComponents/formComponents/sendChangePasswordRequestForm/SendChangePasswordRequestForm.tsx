@@ -3,7 +3,6 @@ import { AiOutlineMail } from "react-icons/ai";
 import { FormikProps, useFormik } from "formik";
 import * as Yup from "yup";
 
-import Input from "../../../fundamentalComponents/input/Input";
 import Button from "../../../fundamentalComponents/button/Button";
 
 import { useAppSelector } from "../../../../store/hooks";
@@ -13,6 +12,7 @@ import useSendChangePasswordRequest from "../../../../hooks/apiHooks/useSendChan
 
 import useStyles from "./sendChangePasswordRequestForm.styles";
 import { ITheme } from "roottypes";
+import FormikInput from "../../../fundamentalComponents/formikInputs/formikInput";
 
 interface ISendChangePasswordRequestFormik {
   email: string;
@@ -62,7 +62,7 @@ const Registration: React.FunctionComponent<ISendChangePasswordRequestProps> = (
           {getTranslatedText(staticText?.sendChangePasswordRequestTitle)}
         </h2>
 
-        <Input
+        <FormikInput
           Icon={AiOutlineMail}
           inputProps={{
             type: "email",

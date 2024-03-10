@@ -10,23 +10,21 @@ import { useAppSelector } from "../../../../store/hooks";
 import { ImCross } from "react-icons/im";
 import { FormikProps, useFormik } from "formik";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
-import InputSelect from "../../../fundamentalComponents/inputSelect";
+import InputSelect from "../../../fundamentalComponents/inputs/inputSelect";
 import getLanguages from "../../../../utils/getLanguages";
 import useUpdateEntity from "../../../../hooks/apiHooks/useUpdateEntity";
 import useCreateEntity from "../../../../hooks/apiHooks/useCreateEntity";
 import { IModelField } from "../../../../store/slices/modelSlice";
-import Input from "../../../fundamentalComponents/input";
-import Textarea from "../../../fundamentalComponents/textarea";
 import EntityFieldFiles from "./entityFieldFiles";
 import uploadFiles from "../../../../utils/uploadFiles";
-import { InputSelectOptionEnum } from "../../../fundamentalComponents/inputSelect/InputSelect";
+import { InputSelectOptionEnum } from "../../../fundamentalComponents/inputs/inputSelect/InputSelect";
 import useAxios from "../../../../hooks/useAxios";
 import areEntityFieldConditionsMet from "../../../../utils/areEntityFieldConditionsMet";
 
 import useStyles from "./entityEditor.styles";
 import sendEventApiCall from "../../../../utils/sendEventApiCall";
 import useGetRoles from "../../../../hooks/apiHooks/useGetRoles";
-import SearchInput from "../../../fundamentalComponents/searchInput";
+import SearchInput from "../../../fundamentalComponents/inputs/searchInput";
 import useSearchUsersByRole from "../../../../hooks/apiHooks/useSearchUsersByRole";
 import UserProfilePicture, {
   SizeEnum,
@@ -59,6 +57,9 @@ import {
   IMicroFrontendReadDto,
   ITheme,
 } from "roottypes";
+import FormikInputSelect from "../../../fundamentalComponents/formikInputs/formikInputSelect";
+import FormikTextarea from "../../../fundamentalComponents/formikInputs/formikTextarea";
+import Input from "../../../fundamentalComponents/inputs/input";
 
 export interface IEntityFieldValueForm {
   fieldId: string;
@@ -528,7 +529,6 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
             <React.Fragment key={modelFieldIndex}>
               <Input
                 Icon={MdTextFields}
-                formik={formik}
                 name="entityFieldValues"
                 value={value}
                 label={getTranslatedText(
@@ -580,7 +580,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
           (modelField.field as IFieldReadDto).type === FieldTypeEnum.Paragraph
         ) {
           return (
-            <Textarea
+            <FormikTextarea
               key={modelFieldIndex}
               formik={formik}
               name="entityFieldValues"
@@ -868,7 +868,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
           );
         })}
 
-      <InputSelect
+      <FormikInputSelect
         label={getTranslatedText(staticText?.language)}
         name="language"
         formik={formik}
