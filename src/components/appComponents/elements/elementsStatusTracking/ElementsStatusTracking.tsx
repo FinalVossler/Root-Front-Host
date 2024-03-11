@@ -73,6 +73,7 @@ const ElementsStatusTracking: React.FunctionComponent<
                 mainModelFields={mainModelFields}
               />
               <StateTracking
+                theme={theme}
                 states={
                   (model.states as IModelStateReadDto[])?.map((modelState) => ({
                     _id: modelState._id,
