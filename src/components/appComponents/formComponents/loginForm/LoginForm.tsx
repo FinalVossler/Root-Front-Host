@@ -76,6 +76,7 @@ const LoginForm: React.FunctionComponent<ILoginFormProps> = (
           {getTranslatedText(staticText?.login.title)}
         </h2>
         <FormikInput
+          theme={theme}
           Icon={AiOutlineMail}
           inputProps={{
             type: "email",
@@ -87,6 +88,7 @@ const LoginForm: React.FunctionComponent<ILoginFormProps> = (
           inputErrorDataCy="loginFormEmailInputError"
         />
         <FormikInput
+          theme={theme}
           Icon={RiLockPasswordLine}
           inputProps={{
             type: "password",
@@ -100,7 +102,11 @@ const LoginForm: React.FunctionComponent<ILoginFormProps> = (
           inputErrorDataCy="loginFormPasswordInputError"
         />
 
-        <Button disabled={loading} buttonDataCy="loginFormSubmitButton">
+        <Button
+          theme={theme}
+          disabled={loading}
+          buttonDataCy="loginFormSubmitButton"
+        >
           {getTranslatedText(staticText?.login.title)}
         </Button>
       </form>

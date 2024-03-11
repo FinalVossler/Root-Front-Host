@@ -2,30 +2,27 @@ import React from "react";
 import { AiOutlineBgColors } from "react-icons/ai";
 import { SketchPicker, ColorChangeHandler, ColorResult } from "react-color";
 import debounce from "lodash.debounce";
+import { ITheme } from "roottypes";
 
-import useStyles from "./colorInput.styles";
-import { useAppSelector } from "../../../../store/hooks";
 import Input, { IInputProps } from "../input/Input";
 import useOnClickOutside from "../../../../hooks/useOnClickOutside";
-import { ITheme } from "roottypes";
+
+import useStyles from "./colorInput.styles";
 
 export interface IColorInputProps extends IInputProps {
   onChange?: (
     e: React.ChangeEvent<HTMLInputElement>,
     colorResult?: ColorResult
   ) => any;
+  theme: ITheme;
 }
 
 const ColorInput: React.FunctionComponent<IColorInputProps> = (
   props: IColorInputProps
 ) => {
-  const theme: ITheme = useAppSelector(
-    (state) => state.websiteConfiguration.theme
-  );
-
   const [showPicker, setShowPicker] = React.useState(false);
 
-  const styles = useStyles({ theme });
+  const styles = useStyles({ theme: props.theme });
   const pickerContainerRef = React.useRef<HTMLDivElement>();
   useOnClickOutside(pickerContainerRef, () => setShowPicker(false));
 

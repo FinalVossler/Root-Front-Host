@@ -122,6 +122,7 @@ const ChatBoxParticipantsOptions: React.FunctionComponent<
             {getTranslatedText(staticText?.searchContacts)}:
           </span>
           <SearchInput
+            theme={theme}
             getElementTitle={(u: IUserReadDto) =>
               u.firstName + " " + u.lastName
             }

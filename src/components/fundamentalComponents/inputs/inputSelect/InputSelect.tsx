@@ -1,10 +1,8 @@
 import React from "react";
 import Select, { PropsValue } from "react-select";
-
-import { useAppSelector } from "../../../../store/hooks";
+import { ITheme } from "roottypes";
 
 import useStyles from "./inputSelect.styles";
-import { ITheme } from "roottypes";
 
 export type InputSelectOptionEnum = {
   value: string;
@@ -24,15 +22,13 @@ export interface IInputSelectProps {
   placeholder?: string;
   error?: string;
   selectorClassName?: string;
+  theme: ITheme;
 }
 
 const InputSelect: React.FunctionComponent<IInputSelectProps> = (
   props: IInputSelectProps
 ) => {
-  const theme: ITheme = useAppSelector(
-    (state) => state.websiteConfiguration.theme
-  );
-  const styles = useStyles({ theme });
+  const styles = useStyles({ theme: props.theme });
 
   const handleOnChange = (option: PropsValue<InputSelectOptionEnum>) => {
     if (props.onChange) {

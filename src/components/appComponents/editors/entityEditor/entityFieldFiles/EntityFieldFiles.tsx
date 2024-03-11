@@ -5,6 +5,8 @@ import {
   AiOutlineFileSearch,
 } from "react-icons/ai";
 import { FormikProps } from "formik";
+import { toast } from "react-toastify";
+import { IFieldReadDto, IFileReadDto, ITheme } from "roottypes";
 
 import {
   IEntityEditorFormFormik,
@@ -16,11 +18,10 @@ import useStyles from "./entityFieldFiles.styles";
 import isFileAnImage from "../../../../../utils/isFileAnImage";
 import readAsBase64 from "../../../../../utils/readAsBase64";
 import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
-import ExistingFiles from "../../../existingFiles";
-import { TypeOfFiles } from "../../../existingFiles/ExistingFiles";
 import FilesDropZone from "../../../../fundamentalComponents/filesDropZone";
-import { toast } from "react-toastify";
-import { IFieldReadDto, IFileReadDto, ITheme } from "roottypes";
+import AppExistingFiles, {
+  TypeOfFiles,
+} from "../../../appExistingFiles/AppExistingFiles";
 
 type TrackedImage = {
   base64: string;
@@ -219,7 +220,17 @@ const EntityFieldFiles: React.FunctionComponent<IEntityFieldFilesProps> = (
           />
         )}
 
-        <FilesDropZone onDrop={handleDropFiles} disabled={props.disabled} />
+        <FilesDropZone
+          theme={theme}
+          onDrop={handleDropFiles}
+          disabled={props.disabled}
+          text={{
+            dropHere: getTranslatedText(staticText.dropHere),
+            readAccessOnlyErrorMessage: getTranslatedText(
+              staticText.readAccessOnlyErrorMessage
+            ),
+          }}
+        />
 
         <input
           onChange={handleNewFilesChange}
@@ -269,7 +280,7 @@ const EntityFieldFiles: React.FunctionComponent<IEntityFieldFilesProps> = (
       </div>
 
       {existingFilesOpen && (
-        <ExistingFiles
+        <AppExistingFiles
           selectedExistingFiles={
             props.entityFieldValue?.selectedExistingFiles || []
           }

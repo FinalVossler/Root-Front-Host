@@ -178,7 +178,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
   //#endregion view
 
   return (
-    <Modal handleClose={handleCloseModal} open>
+    <Modal theme={theme} handleClose={handleCloseModal} open>
       <form
         onSubmit={handleSubmit}
         className={styles.createFieldModalContainer}
@@ -195,6 +195,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
         </div>
 
         <FormikInput
+          theme={theme}
           Icon={MdTitle}
           formik={formik}
           name="firstName"
@@ -207,6 +208,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
         />
 
         <FormikInput
+          theme={theme}
           Icon={MdTitle}
           formik={formik}
           name="lastName"
@@ -219,6 +221,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
         />
 
         <FormikInput
+          theme={theme}
           Icon={MdTitle}
           formik={formik}
           name="email"
@@ -232,6 +235,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
         />
 
         <InputSelect
+          theme={theme}
           name="superRole"
           disabled={user.superRole !== SuperRoleEnum.SuperAdmin}
           label={getTranslatedText(staticText?.superRole)}
@@ -243,6 +247,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
         />
 
         <FormikInputSelect
+          theme={theme}
           label={getTranslatedText(staticText?.role)}
           value={{
             label: getTranslatedText(
@@ -259,6 +264,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
         />
 
         <FormikInput
+          theme={theme}
           Icon={MdPassword}
           formik={formik}
           name="password"
@@ -272,6 +278,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
         />
 
         <FormikInput
+          theme={theme}
           Icon={MdPassword}
           formik={formik}
           name="confirmPassword"
@@ -286,6 +293,7 @@ const UserEditor: React.FunctionComponent<IUserEditorProps> = (
 
         {!loading && (
           <Button
+            theme={theme}
             disabled={loading}
             type="submit"
             style={{}}

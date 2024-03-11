@@ -1,10 +1,8 @@
 import React, { PropsWithChildren } from "react";
 import debounce from "lodash.debounce";
+import { ITheme } from "roottypes";
 
 import useStyles from "./input.styles";
-import { useAppSelector } from "../../../../store/hooks";
-import { ITheme } from "roottypes";
-import { ColorResult } from "react-color";
 
 export interface IInputProps {
   Icon?: any;
@@ -22,16 +20,14 @@ export interface IInputProps {
   inputDataCy?: string;
   inputErrorDataCy?: string;
   labelStyles?: React.CSSProperties;
+  theme: ITheme;
 }
 const Input: React.FunctionComponent<PropsWithChildren<IInputProps>> = (
   props: PropsWithChildren<IInputProps>
 ) => {
   const [isFocused, setIsFocused] = React.useState(false);
 
-  const theme: ITheme = useAppSelector(
-    (state) => state.websiteConfiguration.theme
-  );
-  const styles = useStyles({ theme });
+  const styles = useStyles({ theme: props.theme });
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
@@ -68,8 +64,8 @@ const Input: React.FunctionComponent<PropsWithChildren<IInputProps>> = (
     ? { color: props.iconColor }
     : {
         color: props.inputProps?.disabled
-          ? theme.lightTextColor
-          : theme.primary,
+          ? props.theme.lightTextColor
+          : props.theme.primary,
       };
   return (
     <div

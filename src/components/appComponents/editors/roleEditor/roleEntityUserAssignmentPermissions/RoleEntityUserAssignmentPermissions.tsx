@@ -107,6 +107,7 @@ const RoleEntityUserAssignmentPermissions: React.FunctionComponent<
       data-cy={"roleEntityUserAssignmentPermissionsForModel" + props.modelId}
     >
       <Checkbox
+        theme={theme}
         checked={
           props.entityUserAssignmentPermissionsByRole
             .canAssignToUserFromSameRole
@@ -119,6 +120,8 @@ const RoleEntityUserAssignmentPermissions: React.FunctionComponent<
         }
       />
       <SearchInput
+        theme={theme}
+        theme={theme}
         getElementTitle={(el) => getTranslatedText(el.name)}
         searchPromise={handleSearchRolesPromise}
         label={getTranslatedText(staticText?.roles)}

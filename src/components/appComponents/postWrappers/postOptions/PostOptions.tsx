@@ -98,6 +98,7 @@ const PostWrapper: React.FunctionComponent<IPostOptionsProps> = (
 
       {ReactDom.createPortal(
         <ConfirmationModal
+          theme={theme}
           onConfirm={handleDeletePost}
           loading={deletePostLoading}
           modalOpen={deletePostModalOpen}

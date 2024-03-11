@@ -14,7 +14,6 @@ import PostsEditor from "./postsEditor";
 import useStyles from "./pageEditor.styles";
 import getNavigatorLanguage from "../../../../utils/getNavigatorLanguage";
 import getLanguages from "../../../../utils/getLanguages";
-import InputSelect from "../../../fundamentalComponents/inputs/inputSelect";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import useCreatePage from "../../../../hooks/apiHooks/useCreatePage";
 import useUpdatePage from "../../../../hooks/apiHooks/useUpdatePage";
@@ -159,7 +158,7 @@ const PageEditor: React.FunctionComponent<IPageEditorProps> = (
 
   const loading = createLoading || updateLoading;
   return (
-    <Modal handleClose={handleCloseModal} open>
+    <Modal theme={theme} handleClose={handleCloseModal} open>
       <form
         onSubmit={formik.handleSubmit}
         className={styles.createPageModalContainer}
@@ -175,6 +174,7 @@ const PageEditor: React.FunctionComponent<IPageEditorProps> = (
         </div>
 
         <FormikInput
+          theme={theme}
           Icon={MdTitle}
           formik={formik}
           name="title"
@@ -184,6 +184,7 @@ const PageEditor: React.FunctionComponent<IPageEditorProps> = (
         />
 
         <FormikInput
+          theme={theme}
           Icon={MdTitle}
           formik={formik}
           name="slug"
@@ -193,18 +194,21 @@ const PageEditor: React.FunctionComponent<IPageEditorProps> = (
         />
 
         <FormikCheckbox
+          theme={theme}
           label={getTranslatedText(staticText?.showInHeader)}
           formik={formik}
           name="showInHeader"
         />
 
         <FormikCheckbox
+          theme={theme}
           label={getTranslatedText(staticText?.showInSideMenu)}
           formik={formik}
           name="showInSideMenu"
         />
 
         <FormikInputSelect
+          theme={theme}
           label={getTranslatedText(staticText?.language)}
           name="language"
           formik={formik}
@@ -222,6 +226,7 @@ const PageEditor: React.FunctionComponent<IPageEditorProps> = (
 
         {!loading && (
           <Button
+            theme={theme}
             disabled={loading}
             type="submit"
             style={{}}

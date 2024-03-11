@@ -1,6 +1,6 @@
 import React from "react";
 
-import Post from "../../components/fundamentalComponents/post";
+import Post from "../../components/appComponents/post";
 
 import withWrapper from "../../hoc/wrapper";
 import { useAppSelector } from "../../store/hooks";

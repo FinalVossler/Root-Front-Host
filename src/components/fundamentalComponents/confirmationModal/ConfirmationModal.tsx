@@ -1,11 +1,10 @@
 import React from "react";
 import ReactLoading from "react-loading";
+import { ITheme } from "roottypes";
 
-import { useAppSelector } from "../../../store/hooks";
 import Button from "../button";
 
 import useStyles from "./confirmationModal.styles";
-import { ITheme } from "roottypes";
 
 interface IConfirmationModalProps {
   onConfirm: () => void;
@@ -14,15 +13,13 @@ interface IConfirmationModalProps {
   title: string;
   description: string;
   loading: boolean;
+  theme: ITheme;
 }
 
 const ConfirmationModal: React.FunctionComponent<
   React.PropsWithChildren<IConfirmationModalProps>
 > = (props: React.PropsWithChildren<IConfirmationModalProps>) => {
-  const theme: ITheme = useAppSelector(
-    (state) => state.websiteConfiguration.theme
-  );
-  const styles = useStyles({ theme });
+  const styles = useStyles({ theme: props.theme });
 
   const handleClose = () => {
     props.setModalOpen(false);
@@ -41,6 +38,7 @@ const ConfirmationModal: React.FunctionComponent<
         <div className={styles.buttonsContainer}>
           {!props.loading && (
             <Button
+              theme={props.theme}
               buttonDataCy="confirmationModalConfirmButton"
               disabled={props.loading}
               onClick={props.onConfirm}
@@ -49,7 +47,11 @@ const ConfirmationModal: React.FunctionComponent<
             </Button>
           )}
 
-          <Button disabled={props.loading} onClick={handleClose}>
+          <Button
+            theme={props.theme}
+            disabled={props.loading}
+            onClick={handleClose}
+          >
             Cancel
           </Button>
         </div>

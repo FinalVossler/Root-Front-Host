@@ -159,6 +159,7 @@ const Elements: React.FunctionComponent<IElementsProps> = (
         >
           {props.searchPromise && props.setSearchResult && (
             <SearchInput
+              theme={theme}
               getElementTitle={props.getElementName}
               searchPromise={props.searchPromise}
               setSearchResult={props.setSearchResult}
@@ -196,6 +197,7 @@ const Elements: React.FunctionComponent<IElementsProps> = (
                 />
                 {createPortal(
                   <ConfirmationModal
+                    theme={theme}
                     title={getTranslatedText(staticText?.copyTitle)}
                     description={
                       getTranslatedText(staticText?.copyDescription) +
@@ -232,6 +234,7 @@ const Elements: React.FunctionComponent<IElementsProps> = (
 
               {createPortal(
                 <ConfirmationModal
+                  theme={theme}
                   title={getTranslatedText(staticText?.deleteTitle)}
                   description={
                     getTranslatedText(staticText?.deleteDescription) +

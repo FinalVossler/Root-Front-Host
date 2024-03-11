@@ -103,6 +103,7 @@ const Header: React.FunctionComponent<IHeaderProps> = (props: IHeaderProps) => {
           }
         >
           <InputSelect
+            theme={theme}
             options={
               mainLanguages?.map((language) => ({
                 label: language.toUpperCase(),

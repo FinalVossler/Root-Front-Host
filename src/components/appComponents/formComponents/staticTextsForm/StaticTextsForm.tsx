@@ -9,6 +9,7 @@ import useStyles from "./staticTextsForm.styles";
 import { FormikProps } from "formik";
 import { IWebsiteConfigurationForm } from "../../editors/websiteConfigurationEditor/WebsiteConfigurationEditor";
 import { ExtendSectionSizeEnum } from "../../../fundamentalComponents/extendSection/ExtendSection";
+import { useAppSelector } from "../../../../store/hooks";
 
 interface IStaticTextsFormProps {
   language: string;
@@ -19,6 +20,8 @@ interface IStaticTextsFormProps {
 const StaticTextsForm: React.FunctionComponent<IStaticTextsFormProps> = (
   props: IStaticTextsFormProps
 ) => {
+  const theme = useAppSelector((state) => state.websiteConfiguration.theme);
+
   const [show, setShow] = React.useState<boolean>(false);
   const [shownSections, setShownSections] = React.useState<number[]>([]);
 
@@ -60,6 +63,7 @@ const StaticTextsForm: React.FunctionComponent<IStaticTextsFormProps> = (
   return (
     <div className={styles.staticTextsFormContainer}>
       <ExtendSection
+        theme={theme}
         isSectionShown={show}
         onClick={() => setShow(!show)}
         title={getTranslatedText(
@@ -75,6 +79,7 @@ const StaticTextsForm: React.FunctionComponent<IStaticTextsFormProps> = (
           return (
             <React.Fragment key={i}>
               <ExtendSection
+                theme={theme}
                 isSectionShown={shownSections.includes(i)}
                 onClick={handleTriggerSectionShown(i)}
                 title={key}
@@ -85,6 +90,7 @@ const StaticTextsForm: React.FunctionComponent<IStaticTextsFormProps> = (
                   {Object.keys(value[key]).map((subKey, subKeyIndex) => {
                     return (
                       <Input
+                        theme={theme}
                         key={subKeyIndex}
                         onChange={handleOnTextChange({ key, subKey })}
                         label={subKey}

@@ -113,6 +113,7 @@ const Profile: React.FunctionComponent<IProfileFormProps> = (
 
       <form className={styles.profileForm} onSubmit={handleSubmit}>
         <FormikInput
+          theme={theme}
           Icon={CgProfile}
           name="firstName"
           formik={formik}
@@ -122,6 +123,7 @@ const Profile: React.FunctionComponent<IProfileFormProps> = (
           }}
         />
         <FormikInput
+          theme={theme}
           Icon={CgProfile}
           inputProps={{
             placeholder: getTranslatedText(staticText?.enterLastName),
@@ -131,6 +133,7 @@ const Profile: React.FunctionComponent<IProfileFormProps> = (
           formik={formik}
         />
         <FormikInput
+          theme={theme}
           Icon={CgProfile}
           inputProps={{
             placeholder: getTranslatedText(staticText?.enterEmail),
@@ -142,6 +145,7 @@ const Profile: React.FunctionComponent<IProfileFormProps> = (
         />
 
         <FormikCheckbox
+          theme={theme}
           name="hasMessagingEmailsActivated"
           formik={formik}
           label={getTranslatedText(staticText?.hasMessagingEmailsActivated)}
@@ -160,7 +164,7 @@ const Profile: React.FunctionComponent<IProfileFormProps> = (
         </span>
         <br />
 
-        <Button disabled={actualLoading}>
+        <Button theme={theme} disabled={actualLoading}>
           {getTranslatedText(staticText?.updateProfileInformation)}
         </Button>
 
@@ -172,6 +176,7 @@ const Profile: React.FunctionComponent<IProfileFormProps> = (
       {changePasswordFormShowing && <ChangePasswordForm />}
 
       <Button
+        theme={theme}
         disabled={actualLoading}
         onClick={() => setChangePasswordFormShowing(!changePasswordFormShowing)}
       >

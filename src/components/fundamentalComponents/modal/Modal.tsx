@@ -1,22 +1,18 @@
 import React from "react";
-import { useAppSelector } from "../../../store/hooks";
+import { ITheme } from "roottypes";
 
 import useStyles from "./modal.styles";
-import { ITheme } from "roottypes";
 
 interface IModalProps {
   open: Boolean;
   handleClose: any;
+  theme: ITheme;
 }
 
 const Modal: React.FunctionComponent<React.PropsWithChildren<IModalProps>> = (
   props: React.PropsWithChildren<IModalProps>
 ) => {
-  const theme: ITheme = useAppSelector(
-    (state) => state.websiteConfiguration.theme
-  );
-
-  const styles = useStyles({ theme });
+  const styles = useStyles({ theme: props.theme });
 
   const handleLayerClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();

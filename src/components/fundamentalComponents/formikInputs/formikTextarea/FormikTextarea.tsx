@@ -1,5 +1,5 @@
-import { FormikProps } from "formik";
 import React from "react";
+import { FormikProps } from "formik";
 
 import Textarea, { ITextareaProps } from "../../inputs/textarea/Textarea";
 

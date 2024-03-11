@@ -81,6 +81,7 @@ const LastConversationsLastMessages: React.FunctionComponent<
   return (
     <div className={styles.lastConversationsLastMessagesContainer}>
       <SearchInput
+        theme={theme}
         getElementTitle={(user: IUserReadDto) =>
           user.firstName + " " + user.lastName
         }

@@ -1,10 +1,8 @@
 import React from "react";
-
-import { useAppSelector } from "../../../store/hooks";
+import { ITheme } from "roottypes";
+import { MdArrowDownward, MdArrowUpward } from "react-icons/md";
 
 import useStyles from "./extendSection.styles";
-import { MdArrowDownward, MdArrowUpward } from "react-icons/md";
-import { ITheme } from "roottypes";
 
 export enum ExtendSectionSizeEnum {
   Small = "Small",
@@ -17,16 +15,13 @@ interface IExtendSectionProps {
   isSectionShown: boolean;
   dataCy?: string;
   size?: ExtendSectionSizeEnum;
+  theme: ITheme;
 }
 
 const ExtendSection: React.FunctionComponent<IExtendSectionProps> = (
   props: IExtendSectionProps
 ) => {
-  const theme: ITheme = useAppSelector(
-    (state) => state.websiteConfiguration.theme
-  );
-
-  const styles = useStyles({ theme });
+  const styles = useStyles({ theme: props.theme });
 
   return (
     <span

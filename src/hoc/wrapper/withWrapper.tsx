@@ -1,7 +1,7 @@
 import React from "react";
 
 import Header from "../../components/appComponents/layoutComponents/header";
-import Footer from "../../components/postsComponents/footer";
+import Footer from "../../components/fundamentalComponents/postsComponents/footer";
 
 import useStyles from "./withWrapper.styles";
 import { useAppSelector } from "../../store/hooks";
@@ -21,6 +21,7 @@ const withWrapper =
     const theme: ITheme = useAppSelector(
       (state) => state.websiteConfiguration.theme
     );
+    const title = useAppSelector((state) => state.websiteConfiguration.title);
 
     const [scrolledDown, setScrolledDown] = React.useState(
       window.scrollY >= 80
@@ -63,7 +64,7 @@ const withWrapper =
         >
           <Header scrolledDown={scrolledDown} />
           <Component {...props} />
-          {options.withFooter && <Footer />}
+          {options.withFooter && <Footer theme={theme} title={title} />}
         </div>
       </div>
     );

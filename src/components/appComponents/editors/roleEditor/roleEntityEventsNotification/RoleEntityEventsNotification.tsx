@@ -110,6 +110,7 @@ const RoleEntityEventsNotification: React.FunctionComponent<
                 className={styles.deleteIcon}
               />
               <Checkbox
+                theme={theme}
                 label={getTranslatedText(staticText?.onCreate)}
                 checked={
                   entityEventNotification.trigger ===
@@ -125,6 +126,7 @@ const RoleEntityEventsNotification: React.FunctionComponent<
                 labelStyles={{ width: 100 }}
               />
               <Checkbox
+                theme={theme}
                 label={getTranslatedText(staticText?.onAssigned)}
                 checked={
                   entityEventNotification.trigger ===
@@ -140,6 +142,7 @@ const RoleEntityEventsNotification: React.FunctionComponent<
                 labelStyles={{ width: 100 }}
               />
               <Input
+                theme={theme}
                 onChange={(e) =>
                   handleFieldChange(e.target.value, index, "title")
                 }
@@ -152,6 +155,7 @@ const RoleEntityEventsNotification: React.FunctionComponent<
                 }
               />
               <Textarea
+                theme={theme}
                 onChange={(e) =>
                   handleFieldChange(e.target.value, index, "text")
                 }
@@ -169,6 +173,7 @@ const RoleEntityEventsNotification: React.FunctionComponent<
       )}
 
       <Button
+        theme={theme}
         onClick={handleAddEvent}
         buttonDataCy={
           "entityEventNoitificationAddEventButtonForModel" + props.modelId

@@ -92,6 +92,7 @@ const ModelFieldsEditor: React.FunctionComponent<IFieldsEditorProps> = (
 
       {openFields && (
         <SearchInput
+          theme={theme}
           inputProps={{
             placeholder:
               props.placeholder || getTranslatedText(staticText?.searchFields),

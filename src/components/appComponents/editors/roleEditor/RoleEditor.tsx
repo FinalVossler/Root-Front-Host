@@ -463,7 +463,7 @@ const RoleEditor = (props: IRoleEditorProps) => {
   });
 
   return (
-    <Modal handleClose={handleCloseModal} open>
+    <Modal theme={theme} handleClose={handleCloseModal} open>
       <form
         onSubmit={handleSubmit}
         className={styles.createRoleModalContainer}
@@ -480,6 +480,7 @@ const RoleEditor = (props: IRoleEditorProps) => {
         </div>
 
         <FormikInput
+          theme={theme}
           Icon={MdTitle}
           formik={formik}
           name="name"
@@ -491,6 +492,7 @@ const RoleEditor = (props: IRoleEditorProps) => {
         />
 
         <FormikInputSelect
+          theme={theme}
           label={getTranslatedText(staticText?.language)}
           name="language"
           formik={formik}
@@ -502,6 +504,7 @@ const RoleEditor = (props: IRoleEditorProps) => {
         />
 
         <FormikInputSelect
+          theme={theme}
           label={getTranslatedText(staticText?.permissions)}
           name="permissions"
           formik={formik}
@@ -511,6 +514,8 @@ const RoleEditor = (props: IRoleEditorProps) => {
         />
 
         <SearchInput
+          theme={theme}
+          theme={theme}
           getElementTitle={(model: IModelReadDto) =>
             getTranslatedText(model.name)
           }
@@ -545,6 +550,7 @@ const RoleEditor = (props: IRoleEditorProps) => {
                     {getTranslatedText(entityPermission.model.name)}:
                   </span>
                   <Checkbox
+                    theme={theme}
                     label={getTranslatedText(staticText?.create)}
                     checked={
                       entityPermission.permissions.find(
@@ -565,6 +571,7 @@ const RoleEditor = (props: IRoleEditorProps) => {
                     }
                   />
                   <Checkbox
+                    theme={theme}
                     label={getTranslatedText(staticText?.read)}
                     checked={
                       entityPermission.permissions.find(
@@ -584,6 +591,7 @@ const RoleEditor = (props: IRoleEditorProps) => {
                     }
                   />
                   <Checkbox
+                    theme={theme}
                     label={getTranslatedText(staticText?.update)}
                     checked={
                       entityPermission.permissions.find(
@@ -604,6 +612,7 @@ const RoleEditor = (props: IRoleEditorProps) => {
                     }
                   />
                   <Checkbox
+                    theme={theme}
                     label={getTranslatedText(staticText?.delete)}
                     checked={
                       entityPermission.permissions.find(
@@ -625,6 +634,7 @@ const RoleEditor = (props: IRoleEditorProps) => {
                   />
 
                   <ExtendSection
+                    theme={theme}
                     onClick={() =>
                       setShowFieldPermissions(!showFieldPermissions)
                     }
@@ -659,6 +669,7 @@ const RoleEditor = (props: IRoleEditorProps) => {
                             </span>
 
                             <Checkbox
+                              theme={theme}
                               label={getTranslatedText(staticText?.read)}
                               checked={
                                 entityPermission.entityFieldPermissions
@@ -691,6 +702,7 @@ const RoleEditor = (props: IRoleEditorProps) => {
                               }
                             />
                             <Checkbox
+                              theme={theme}
                               label={getTranslatedText(staticText?.update)}
                               checked={
                                 entityPermission.entityFieldPermissions
@@ -728,6 +740,7 @@ const RoleEditor = (props: IRoleEditorProps) => {
                     )}
 
                   <ExtendSection
+                    theme={theme}
                     onClick={() =>
                       setShowEventNotifications(!showEventNotifications)
                     }
@@ -755,6 +768,7 @@ const RoleEditor = (props: IRoleEditorProps) => {
                   )}
 
                   <ExtendSection
+                    theme={theme}
                     onClick={() => setShowUserAssignment(!showUserAssignment)}
                     title={getTranslatedText(
                       staticText?.assignmentConfigurationTitle
@@ -785,6 +799,7 @@ const RoleEditor = (props: IRoleEditorProps) => {
 
         {!loading && (
           <Button
+            theme={theme}
             disabled={loading}
             type="submit"
             style={{}}

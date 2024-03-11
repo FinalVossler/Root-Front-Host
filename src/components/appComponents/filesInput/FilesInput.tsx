@@ -7,15 +7,16 @@ import {
 } from "react-icons/ai";
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import Loading from "react-loading";
+import { IFileReadDto, ITheme } from "roottypes";
 
 import { useAppSelector } from "../../../store/hooks";
 import isFileAnImage from "../../../utils/isFileAnImage";
 import readAsBase64 from "../../../utils/readAsBase64";
-import ExistingFiles from "../existingFiles";
-import { TypeOfFiles } from "../existingFiles/ExistingFiles";
+import AppExistingFiles, {
+  TypeOfFiles,
+} from "../appExistingFiles/AppExistingFiles";
 
 import useStyles from "./filesInput.styles";
-import { IFileReadDto, ITheme } from "roottypes";
 
 // Used to show the new selected images
 type TrackedImage = {
@@ -211,7 +212,7 @@ const FilesInput: React.FunctionComponent<IFilesInputProps> = (
         </div>
       )}
       {existingFilesOpen && isShowing && (
-        <ExistingFiles
+        <AppExistingFiles
           selectedExistingFiles={props.selectedExistingFiles}
           setSelectedExistingFiles={props.setSelectedExistingFiles}
           typeOfFiles={props.typeOfFiles}

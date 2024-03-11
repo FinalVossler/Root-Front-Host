@@ -528,6 +528,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
           return (
             <React.Fragment key={modelFieldIndex}>
               <Input
+                theme={theme}
                 Icon={MdTextFields}
                 name="entityFieldValues"
                 value={value}
@@ -581,6 +582,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
         ) {
           return (
             <FormikTextarea
+              theme={theme}
               key={modelFieldIndex}
               formik={formik}
               name="entityFieldValues"
@@ -621,6 +623,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
             })) || [];
           return (
             <InputSelect
+              theme={theme}
               key={modelFieldIndex}
               label={getTranslatedText(
                 (modelField.field as IFieldReadDto).name
@@ -686,6 +689,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
         if ((modelField.field as IFieldReadDto).type === FieldTypeEnum.Button) {
           return (
             <Button
+              theme={theme}
               key={modelFieldIndex}
               style={{
                 width: 300,
@@ -806,6 +810,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
               className={styles.assignedUsersByRoleInputContainer}
             >
               <SearchInput
+                theme={theme}
                 searchPromise={handleSearchUsersByRolePromise(
                   role._id.toString()
                 )}
@@ -855,6 +860,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
                         className={styles.deleteAssignedUserIcon}
                       />
                       <UserProfilePicture
+                        theme={theme}
                         url={(user.profilePicture as IFileReadDto)?.url}
                         size={SizeEnum.Average}
                       />
@@ -869,6 +875,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
         })}
 
       <FormikInputSelect
+        theme={theme}
         label={getTranslatedText(staticText?.language)}
         name="language"
         formik={formik}
@@ -895,6 +902,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
 
       {!loading && !props.readOnly && (
         <Button
+          theme={theme}
           disabled={loading}
           type="submit"
           style={{}}

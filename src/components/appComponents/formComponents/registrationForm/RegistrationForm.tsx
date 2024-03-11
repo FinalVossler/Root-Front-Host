@@ -98,6 +98,7 @@ const Registration: React.FunctionComponent<IRegistrationFormProps> = (
 
       <div className={styles.firstNameAndLastName}>
         <FormikInput
+          theme={theme}
           Icon={CgProfile}
           name="firstName"
           formik={formik}
@@ -108,6 +109,7 @@ const Registration: React.FunctionComponent<IRegistrationFormProps> = (
           inputErrorDataCy="registrationFormFirstNameInputError"
         />
         <FormikInput
+          theme={theme}
           inputProps={{
             placeholder: getTranslatedText(staticText?.lastNamePlaceholder),
           }}
@@ -119,6 +121,7 @@ const Registration: React.FunctionComponent<IRegistrationFormProps> = (
         />
       </div>
       <FormikInput
+        theme={theme}
         Icon={AiOutlineMail}
         inputProps={{
           placeholder: getTranslatedText(staticText?.emailPlaceholder),
@@ -130,6 +133,7 @@ const Registration: React.FunctionComponent<IRegistrationFormProps> = (
         inputErrorDataCy="registrationFormEmailInputError"
       />
       <FormikInput
+        theme={theme}
         Icon={RiLockPasswordLine}
         inputProps={{
           type: "password",
@@ -141,6 +145,7 @@ const Registration: React.FunctionComponent<IRegistrationFormProps> = (
         inputErrorDataCy="registrationFormPasswordInputError"
       />
       <FormikInput
+        theme={theme}
         inputProps={{
           type: "password",
           placeholder: getTranslatedText(staticText?.passwordPlaceholder),
@@ -152,7 +157,11 @@ const Registration: React.FunctionComponent<IRegistrationFormProps> = (
         inputErrorDataCy="registrationFormConfirmPasswordInputError"
       />
 
-      <Button disabled={loading} buttonDataCy="registrationFormSubmitButton">
+      <Button
+        theme={theme}
+        disabled={loading}
+        buttonDataCy="registrationFormSubmitButton"
+      >
         {getTranslatedText(staticText?.buttonText)}
       </Button>
     </form>

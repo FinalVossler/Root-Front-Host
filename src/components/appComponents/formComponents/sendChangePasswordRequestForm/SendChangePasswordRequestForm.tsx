@@ -63,6 +63,7 @@ const Registration: React.FunctionComponent<ISendChangePasswordRequestProps> = (
         </h2>
 
         <FormikInput
+          theme={theme}
           Icon={AiOutlineMail}
           inputProps={{
             type: "email",

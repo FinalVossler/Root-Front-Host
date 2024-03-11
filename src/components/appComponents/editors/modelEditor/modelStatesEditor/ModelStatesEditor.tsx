@@ -215,6 +215,7 @@ const ModelStatesEditor: React.FunctionComponent<IModelStatesEditorProps> = (
             </div>
           )}
           <Button
+            theme={theme}
             onClick={handleAddModelState}
             buttonDataCy="addModelStateButton"
           >
@@ -248,7 +249,7 @@ const ModelStatesEditor: React.FunctionComponent<IModelStatesEditorProps> = (
               </DndContext>
             </div>
           )}
-          <Button onClick={handleAddModelSubState}>
+          <Button theme={theme} onClick={handleAddModelSubState}>
             {getTranslatedText(staticText?.addSubState)}
           </Button>
         </>
@@ -294,6 +295,7 @@ const SortableModelState: React.FunctionComponent<ISortableModelState> = (
       className={styles.singleStateContainer}
     >
       <Input
+        theme={theme}
         Icon={FaNetworkWired}
         onChange={(e) => props.onStateChange(e, props.stateIndex)}
         label={getTranslatedText(staticText?.state)}
@@ -305,6 +307,7 @@ const SortableModelState: React.FunctionComponent<ISortableModelState> = (
         inputDataCy={"modelStateNameForState" + props.stateIndex}
       />
       <Checkbox
+        theme={theme}
         label={getTranslatedText(staticText?.exclusive)}
         onChange={(checked) =>
           props.onExclusiveChange(checked, props.stateIndex)

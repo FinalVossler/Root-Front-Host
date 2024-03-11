@@ -1,14 +1,7 @@
 import React from "react";
-import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-import { IModelField } from "../../../../store/slices/modelSlice";
-import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
-
-import useStyles from "./entityCard.styles";
 import { BiEdit } from "react-icons/bi";
 import { FaDirections } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import getModelStateConcernedFields from "../../../../utils/getModelStateConcernedFields";
-import doesEntityMeetModelStateCondition from "../../../../utils/doesEntityMeetModelStateCondition";
 import {
   IEntityReadDto,
   IFieldReadDto,
@@ -16,10 +9,19 @@ import {
   IModelStateReadDto,
   IUserReadDto,
 } from "roottypes";
+
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
+import { IModelField } from "../../../../store/slices/modelSlice";
+import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
+
+import getModelStateConcernedFields from "../../../../utils/getModelStateConcernedFields";
+import doesEntityMeetModelStateCondition from "../../../../utils/doesEntityMeetModelStateCondition";
+
 import {
   EditorTypeEnum,
   editorSlice,
 } from "../../../../store/slices/editorSlice";
+import useStyles from "./entityCard.styles";
 
 interface IEntityCardProps {
   entity: IEntityReadDto;

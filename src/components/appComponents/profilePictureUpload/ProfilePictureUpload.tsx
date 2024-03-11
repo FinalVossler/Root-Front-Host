@@ -14,8 +14,8 @@ import readAsBase64 from "../../../utils/readAsBase64";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import useUpdateProfilePicture from "../../../hooks/apiHooks/useUpdateProfilePicture";
 import FilesInput from "../filesInput";
-import { TypeOfFiles } from "../existingFiles/ExistingFiles";
 import { IFileReadDto, ITheme } from "roottypes";
+import { TypeOfFiles } from "../appExistingFiles/AppExistingFiles";
 
 interface IProfilePictureUploadProps {}
 const ImageUpload: React.FunctionComponent<IProfilePictureUploadProps> = (
@@ -98,6 +98,7 @@ const ImageUpload: React.FunctionComponent<IProfilePictureUploadProps> = (
       {(profilePicture?.url || fileAsBase64) && !loading && (
         <>
           <UserProfilePicture
+            theme={theme}
             url={
               fileAsBase64
                 ? fileAsBase64
@@ -134,7 +135,7 @@ const ImageUpload: React.FunctionComponent<IProfilePictureUploadProps> = (
         onChange={handleFileChange}
       />
 
-      <Button disabled={actualLoading} onClick={handleUpload}>
+      <Button theme={theme} disabled={actualLoading} onClick={handleUpload}>
         {getTranslatedText(staticText?.update)}
       </Button>
 

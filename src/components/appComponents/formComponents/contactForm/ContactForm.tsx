@@ -97,6 +97,7 @@ const ContactForm: React.FunctionComponent<
         {extractContentFromHtml(getTranslatedText(props.post?.content || ""))}
       </p>
       <FormikInput
+        theme={theme}
         Icon={BsFillPersonFill}
         label={getTranslatedText(staticText?.firstName)}
         formik={formik}
@@ -105,6 +106,7 @@ const ContactForm: React.FunctionComponent<
       />
 
       <FormikInput
+        theme={theme}
         Icon={BsFillPersonFill}
         label={getTranslatedText(staticText?.lastName)}
         formik={formik}
@@ -113,6 +115,7 @@ const ContactForm: React.FunctionComponent<
       />
 
       <FormikInput
+        theme={theme}
         Icon={BsFillPersonFill}
         label={getTranslatedText(staticText?.email)}
         formik={formik}
@@ -121,6 +124,7 @@ const ContactForm: React.FunctionComponent<
       />
 
       <FormikInput
+        theme={theme}
         Icon={BsFillPersonFill}
         label={getTranslatedText(staticText?.phone)}
         formik={formik}
@@ -129,6 +133,7 @@ const ContactForm: React.FunctionComponent<
       />
 
       <FormikInput
+        theme={theme}
         Icon={BsFillPersonFill}
         label={getTranslatedText(staticText?.address)}
         formik={formik}
@@ -137,6 +142,7 @@ const ContactForm: React.FunctionComponent<
       />
 
       <FormikInput
+        theme={theme}
         Icon={BsFillPersonFill}
         label={getTranslatedText(staticText?.message)}
         formik={formik}
@@ -146,7 +152,7 @@ const ContactForm: React.FunctionComponent<
 
       <br />
 
-      <Button disabled={loading}>
+      <Button theme={theme} disabled={loading}>
         {getTranslatedText(staticText?.submit)}
       </Button>
     </form>

@@ -77,6 +77,7 @@ const ForgotPasswordChangePasswordPage: React.FunctionComponent<
         </h2>
 
         <FormikInput
+          theme={theme}
           Icon={MdPassword}
           formik={formik}
           name="newPassword"
@@ -87,6 +88,7 @@ const ForgotPasswordChangePasswordPage: React.FunctionComponent<
           }}
         />
         <FormikInput
+          theme={theme}
           Icon={MdPassword}
           formik={formik}
           name="confirmNewPassword"
@@ -97,7 +99,7 @@ const ForgotPasswordChangePasswordPage: React.FunctionComponent<
           }}
         />
 
-        <Button disabled={loading}>
+        <Button theme={theme} disabled={loading}>
           {getTranslatedText(staticText?.send)}
         </Button>
       </form>

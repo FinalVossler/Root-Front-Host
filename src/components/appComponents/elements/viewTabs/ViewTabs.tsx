@@ -1,9 +1,10 @@
 import React from "react";
+import { ITheme } from "roottypes";
 
-import useStyles from "./viewTabs.styles";
 import { useAppSelector } from "../../../../store/hooks";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
-import { ITheme } from "roottypes";
+
+import useStyles from "./viewTabs.styles";
 
 export enum ViewTypeEnum {
   Table = "Table",

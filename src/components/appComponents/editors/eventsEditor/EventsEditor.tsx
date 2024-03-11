@@ -184,6 +184,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                   props.activeTriggers?.indexOf(EventTriggerEnum.OnCreate) !==
                     -1) && (
                   <Checkbox
+                    theme={theme}
                     label={getTranslatedText(staticText?.onCreate)}
                     checked={event.eventTrigger === EventTriggerEnum.OnCreate}
                     onChange={() =>
@@ -197,6 +198,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                   props.activeTriggers?.indexOf(EventTriggerEnum.OnUpdate) !==
                     -1) && (
                   <Checkbox
+                    theme={theme}
                     label={getTranslatedText(staticText?.onUpdate)}
                     checked={event.eventTrigger === EventTriggerEnum.OnUpdate}
                     onChange={() =>
@@ -210,6 +212,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                   props.activeTriggers?.indexOf(EventTriggerEnum.OnClick) !==
                     -1) && (
                   <Checkbox
+                    theme={theme}
                     label={getTranslatedText(staticText?.onClick)}
                     checked={event.eventTrigger === EventTriggerEnum.OnClick}
                     onChange={() =>
@@ -223,6 +226,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                   {getTranslatedText(staticText?.eventType)}:
                 </span>
                 <Checkbox
+                  theme={theme}
                   label={getTranslatedText(staticText?.apiCall)}
                   checked={event.eventType === EventTypeEnum.ApiCall}
                   onChange={() =>
@@ -231,6 +235,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                   labelStyles={{ width: 100 }}
                 />
                 <Checkbox
+                  theme={theme}
                   label={getTranslatedText(staticText?.redirection)}
                   checked={event.eventType === EventTypeEnum.Redirection}
                   onChange={() =>
@@ -239,6 +244,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                   labelStyles={{ width: 100 }}
                 />
                 <Checkbox
+                  theme={theme}
                   label={getTranslatedText(
                     staticText?.microFrontendRedirection
                   )}
@@ -261,6 +267,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                     </span>
 
                     <Input
+                      theme={theme}
                       Icon={AiFillApi}
                       value={event.requestMethod}
                       inputProps={{
@@ -285,6 +292,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                       label={getTranslatedText(staticText?.requestMethod)}
                     />
                     <Input
+                      theme={theme}
                       value={event.requestUrl}
                       Icon={AiFillApi}
                       inputProps={{
@@ -307,6 +315,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                       label={getTranslatedText(staticText?.requestUrl)}
                     />
                     <Textarea
+                      theme={theme}
                       label={getTranslatedText(staticText?.requestData)}
                       value={event.requestData}
                       textareaProps={{
@@ -328,6 +337,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                       }}
                     />
                     <Checkbox
+                      theme={theme}
                       label={getTranslatedText(
                         staticText?.requestDataIsCreatedEntity
                       )}
@@ -379,6 +389,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                               />
 
                               <Input
+                                theme={theme}
                                 inputProps={{
                                   placeholder: getTranslatedText(
                                     staticText?.key
@@ -422,6 +433,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                                 }}
                               />
                               <Input
+                                theme={theme}
                                 inputProps={{
                                   placeholder: getTranslatedText(
                                     staticText?.value
@@ -470,6 +482,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                       )}
 
                       <Button
+                        theme={theme}
                         onClick={(
                           e: React.MouseEvent<HTMLButtonElement, MouseEvent>
                         ) => {
@@ -509,6 +522,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                     </span>
 
                     <Input
+                      theme={theme}
                       Icon={AiFillApi}
                       value={event.redirectionUrl}
                       inputProps={{
@@ -533,6 +547,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                       label={getTranslatedText(staticText?.redirectionUrl)}
                     />
                     <Checkbox
+                      theme={theme}
                       checked={event.redirectionToSelf}
                       onChange={(checked: boolean) => {
                         const newEvents = props.formik.values[
@@ -553,6 +568,8 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                 )}
                 {event.eventType === EventTypeEnum.MicroFrontendRedirection && (
                   <SearchInput
+                    theme={theme}
+                    theme={theme}
                     getElementTitle={(el: IMicroFrontendReadDto) => el.name}
                     searchPromise={handleSearchMicroFrontendsPromise}
                     label={getTranslatedText(staticText?.searchMicroFrontends)}
@@ -574,6 +591,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                     />
 
                     <InputSelect
+                      theme={theme}
                       label={getTranslatedText(staticText?.components)}
                       options={(
                         (event.microFrontend as IMicroFrontendReadDto)
@@ -616,7 +634,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
         )}
 
       {open && (
-        <Button onClick={handleAddEvent}>
+        <Button theme={theme} onClick={handleAddEvent}>
           {getTranslatedText(staticText?.addEvent)}{" "}
           <BiPlus className={styles.plusButton} />
         </Button>

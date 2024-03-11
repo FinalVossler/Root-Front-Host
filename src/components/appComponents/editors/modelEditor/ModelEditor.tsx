@@ -289,7 +289,7 @@ const ModelEditor = (props: IModelEditorProps) => {
 
   const loading = props.model ? updateLoading : createLoading;
   return (
-    <Modal handleClose={handleCloseModal} open>
+    <Modal theme={theme} handleClose={handleCloseModal} open>
       <form
         onSubmit={handleSubmit}
         className={styles.createModelModalContainer}
@@ -306,6 +306,7 @@ const ModelEditor = (props: IModelEditorProps) => {
         </div>
 
         <FormikInput
+          theme={theme}
           Icon={MdTitle}
           formik={formik}
           name="name"
@@ -316,6 +317,7 @@ const ModelEditor = (props: IModelEditorProps) => {
         />
 
         <FormikInputSelect
+          theme={theme}
           label={getTranslatedText(staticText?.language)}
           name="language"
           formik={formik}
@@ -352,6 +354,7 @@ const ModelEditor = (props: IModelEditorProps) => {
 
         {!loading && (
           <Button
+            theme={theme}
             disabled={loading}
             type="submit"
             style={{}}

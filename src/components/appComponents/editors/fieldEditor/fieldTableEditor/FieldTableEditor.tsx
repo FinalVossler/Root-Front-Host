@@ -114,12 +114,12 @@ const FieldTableEditor: React.FunctionComponent<IFieldTableEditorProps> = (
         onChange={handleYearTableChange}
       />
       {!props.formik.values.tableOptions?.yearTable && (
-        <Button onClick={handleAddColumn}>
+        <Button theme={theme} onClick={handleAddColumn}>
           {getTranslatedText(staticText?.addColumn)} <MdAdd />
         </Button>
       )}
       <br />
-      <Button onClick={handleAddRow}>
+      <Button theme={theme} onClick={handleAddRow}>
         {getTranslatedText(staticText?.addRow)}
         <MdAdd />
       </Button>
@@ -128,6 +128,7 @@ const FieldTableEditor: React.FunctionComponent<IFieldTableEditorProps> = (
           <tr>
             <th>
               <Input
+                theme={theme}
                 onChange={handleTableNameChange}
                 inputProps={{
                   placeholder: getTranslatedText(staticText?.tableName),

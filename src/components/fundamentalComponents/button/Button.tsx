@@ -1,22 +1,17 @@
 import React from "react";
-
-import { useAppSelector } from "../../../store/hooks";
+import { ITheme } from "roottypes";
 
 import useStyles from "./button.styles";
-import { ITheme } from "roottypes";
 
 interface IButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   buttonDataCy?: string;
+  theme: ITheme;
 }
 
 const Button: React.FunctionComponent<
   React.PropsWithChildren<IButtonProps>
 > = ({ buttonDataCy, ...rest }: React.PropsWithChildren<IButtonProps>) => {
-  const theme: ITheme = useAppSelector(
-    (state) => state.websiteConfiguration.theme
-  );
-
-  const styles = useStyles({ theme });
+  const styles = useStyles({ theme: rest.theme });
 
   return (
     <button

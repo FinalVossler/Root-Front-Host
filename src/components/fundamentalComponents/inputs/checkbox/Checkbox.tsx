@@ -1,9 +1,7 @@
 import React from "react";
-
-import { useAppSelector } from "../../../../store/hooks";
+import { ITheme } from "roottypes";
 
 import useStyles from "./checkbox.styles";
-import { ITheme } from "roottypes";
 
 export interface ICheckboxProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
@@ -13,14 +11,12 @@ export interface ICheckboxProps {
   label?: string;
   labelStyles?: React.CSSProperties;
   inputDataCy?: string;
+  theme: ITheme;
 }
 const Checkbox: React.FunctionComponent<ICheckboxProps> = (
   props: ICheckboxProps
 ) => {
-  const theme: ITheme = useAppSelector(
-    (state) => state.websiteConfiguration.theme
-  );
-  const styles = useStyles({ theme });
+  const styles = useStyles({ theme: props.theme });
 
   //#region Event listeners
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

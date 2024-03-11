@@ -1,17 +1,14 @@
 import { ITheme } from "roottypes";
-import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./unauthorized.styles";
 
-interface IUnauthorizedProps {}
+interface IUnauthorizedProps {
+  theme: ITheme;
+}
 const Unauthorized: React.FunctionComponent<IUnauthorizedProps> = (
   props: IUnauthorizedProps
 ) => {
-  const theme: ITheme = useAppSelector(
-    (state) => state.websiteConfiguration.theme
-  );
-
-  const styles = useStyles({ theme });
+  const styles = useStyles({ theme: props.theme });
 
   return (
     <div className={styles.unauthorizedContainer}>

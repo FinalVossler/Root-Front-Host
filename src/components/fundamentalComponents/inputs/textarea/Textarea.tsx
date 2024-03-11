@@ -1,11 +1,9 @@
 import { FormikProps } from "formik";
 import React from "react";
 import debounce from "lodash.debounce";
-
-import { useAppSelector } from "../../../../store/hooks";
+import { ITheme } from "roottypes";
 
 import useStyles from "./textarea.styles";
-import { ITheme } from "roottypes";
 
 export interface ITextareaProps {
   textareaProps?: React.InputHTMLAttributes<HTMLTextAreaElement> & {
@@ -19,17 +17,14 @@ export interface ITextareaProps {
   debounce?: boolean;
   onFocus?: (e: React.FocusEvent<HTMLTextAreaElement, Element>) => any;
   label?: string;
+  theme: ITheme;
 }
 const Textarea: React.FunctionComponent<
   React.PropsWithChildren<ITextareaProps>
 > = (props: React.PropsWithChildren<ITextareaProps>) => {
-  const theme: ITheme = useAppSelector(
-    (state) => state.websiteConfiguration.theme
-  );
-
   const [isFocused, setIsFocused] = React.useState(false);
 
-  const styles = useStyles({ theme });
+  const styles = useStyles({ theme: props.theme });
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
 
   React.useEffect(() => {

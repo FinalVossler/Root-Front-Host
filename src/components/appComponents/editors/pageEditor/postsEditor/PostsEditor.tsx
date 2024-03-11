@@ -8,7 +8,7 @@ import { useAppSelector } from "../../../../../store/hooks";
 import { IPost } from "../../../../../store/slices/postSlice";
 import SearchInput from "../../../../fundamentalComponents/inputs/searchInput";
 import { AiFillDelete } from "react-icons/ai";
-import Post from "../../../../fundamentalComponents/post";
+import Post from "../../../post";
 import useSearchPosts from "../../../../../hooks/apiHooks/useSearchPosts";
 import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 
@@ -66,6 +66,7 @@ const PostsEditor = (props: IPostsEditor) => {
   return (
     <div className={styles.postsEditorContainer}>
       <SearchInput
+        theme={theme}
         inputProps={{
           placeholder: props.placeholder || "Search Posts",
         }}

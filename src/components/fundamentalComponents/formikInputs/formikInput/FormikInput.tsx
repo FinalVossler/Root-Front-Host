@@ -25,6 +25,7 @@ const FormikInput: React.FunctionComponent<
   return (
     <Input
       {...props}
+      theme={props.theme}
       value={props.formik.values[props.name]}
       onChange={handleChange}
       error={

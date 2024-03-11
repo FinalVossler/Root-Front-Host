@@ -96,6 +96,7 @@ const MessageOptions: React.FunctionComponent<IMessageOptionsProps> = (
     <div className={styles.messageOptionsContainer}>
       {ReactDom.createPortal(
         <ConfirmationModal
+          theme={theme}
           onConfirm={handleModalConfirm}
           description="This message is going to be deleted for everyone. Are you sure"
           title="Delete message"

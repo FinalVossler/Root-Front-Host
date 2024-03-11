@@ -22,7 +22,6 @@ import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import useCreatePost from "../../../../hooks/apiHooks/useCreatePost";
 import useUpdatePost from "../../../../hooks/apiHooks/useUpdatePost";
 import FilesInput from "../../filesInput";
-import { TypeOfFiles } from "../../existingFiles/ExistingFiles";
 import { BiCode } from "react-icons/bi";
 import {
   IFileReadDto,
@@ -35,6 +34,7 @@ import {
   PostDesignEnum,
   PostVisibilityEnum,
 } from "roottypes";
+import { TypeOfFiles } from "../../appExistingFiles/AppExistingFiles";
 
 interface IPostEditorProps {
   post?: IPost;
@@ -45,6 +45,9 @@ interface IPostEditorProps {
 const PostEditor: React.FunctionComponent<IPostEditorProps> = (
   props: IPostEditorProps
 ) => {
+  const profilePicture: IFileReadDto | undefined = useAppSelector(
+    (state) => state.user.user.profilePicture as IFileReadDto
+  );
   const user: IUserReadDto = useAppSelector((state) => state.user.user);
   const pages: IPageReadDto[] = useAppSelector((state) => state.page.pages);
   const theme: ITheme = useAppSelector(
@@ -248,9 +251,20 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
   const loading = props.post ? updateLoading : createLoading;
   return (
     <div className={styles.postEditorContainer}>
-      {!props.post && <WritePostButton onClick={handleOpenModal} />}
+      {!props.post && (
+        <WritePostButton
+          onClick={handleOpenModal}
+          theme={theme}
+          text={{
+            haveSomethingInMind: getTranslatedText(
+              staticText?.haveSomethingInMind
+            ),
+          }}
+          profilePicture={profilePicture}
+        />
+      )}
 
-      <Modal handleClose={handleCloseModal} open={postModalOpen}>
+      <Modal theme={theme} handleClose={handleCloseModal} open={postModalOpen}>
         <form
           onSubmit={handleSubmit}
           className={styles.createPostModalContainer}
@@ -268,6 +282,7 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
           </div>
 
           <Input
+            theme={theme}
             Icon={MdTitle}
             value={title}
             inputProps={{
@@ -278,6 +293,7 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
           />
 
           <Input
+            theme={theme}
             Icon={MdTitle}
             value={subTitle}
             inputProps={{
@@ -288,6 +304,7 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
           />
 
           <Input
+            theme={theme}
             Icon={BiCode}
             value={code}
             inputProps={{
@@ -304,6 +321,7 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
           />
 
           <InputSelect
+            theme={theme}
             label={getTranslatedText(staticText?.language)}
             onChange={handleChangeLanguage}
             options={getLanguages()}
@@ -314,6 +332,7 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
           />
 
           <InputSelect
+            theme={theme}
             options={Object.values(PostVisibilityEnum).map((el) => ({
               value: el,
               label: el,
@@ -325,6 +344,7 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
           />
 
           <InputSelect
+            theme={theme}
             options={Object.values(PostDesignEnum).map((el) => ({
               value: el,
               label: el,
@@ -351,6 +371,7 @@ const PostEditor: React.FunctionComponent<IPostEditorProps> = (
 
           {!loading && (
             <Button
+              theme={theme}
               disabled={loading}
               type="submit"
               style={{}}

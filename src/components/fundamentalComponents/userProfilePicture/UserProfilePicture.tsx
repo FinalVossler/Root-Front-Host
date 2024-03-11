@@ -1,10 +1,8 @@
 import React from "react";
 import { GoPerson } from "react-icons/go";
-
-import { useAppSelector } from "../../../store/hooks";
+import { ITheme } from "roottypes";
 
 import useStyles from "./userProfilePicture.styles";
-import { ITheme } from "roottypes";
 
 export enum SizeEnum {
   VeryBig = "VeryBig",
@@ -18,16 +16,13 @@ interface IUserProfilePictureProps {
   url: string | undefined;
   size: SizeEnum;
   onClick?: any;
+  theme: ITheme;
 }
 
 const UserProfilePicture: React.FunctionComponent<IUserProfilePictureProps> = (
   props: IUserProfilePictureProps
 ) => {
-  const theme: ITheme = useAppSelector(
-    (state) => state.websiteConfiguration.theme
-  );
-
-  const styles = useStyles({ theme });
+  const styles = useStyles({ theme: props.theme });
 
   // Create an empty object if the profile picture name is undefined or null
   const styleObject = props.url

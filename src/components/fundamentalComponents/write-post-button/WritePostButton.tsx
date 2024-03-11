@@ -1,43 +1,39 @@
 import React from "react";
+import { IFileReadDto, ITheme } from "roottypes";
 
-import { useAppSelector } from "../../../store/hooks";
 import UserProfilePicture from "../userProfilePicture";
 import { SizeEnum } from "../userProfilePicture/UserProfilePicture";
 
 import useStyles from "./writePostButton.styles";
-import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
-import { IFileReadDto, ITheme } from "roottypes";
 
 interface IWritePostButtonProps {
   onClick?: any;
+  theme: ITheme;
+  text: {
+    haveSomethingInMind: string;
+  };
+  profilePicture: IFileReadDto | undefined;
 }
 
 const WritePostButton: React.FunctionComponent<IWritePostButtonProps> = (
   props: IWritePostButtonProps
 ) => {
-  const profilePicture: IFileReadDto | undefined = useAppSelector(
-    (state) => state.user.user.profilePicture as IFileReadDto
-  );
-  const theme: ITheme = useAppSelector(
-    (state) => state.websiteConfiguration.theme
-  );
-  const staticText = useAppSelector(
-    (state) => state.websiteConfiguration.staticText?.posts
-  );
-
-  const styles = useStyles({ theme });
-  const getTranslatedText = useGetTranslatedText();
+  const styles = useStyles({ theme: props.theme });
 
   return (
     <div className={styles.writePostButtonContainer}>
-      <UserProfilePicture url={profilePicture?.url} size={SizeEnum.Big} />
+      <UserProfilePicture
+        theme={props.theme}
+        url={props.profilePicture?.url}
+        size={SizeEnum.Big}
+      />
 
       <div
         onClick={props.onClick}
         className={styles.placeholder}
         data-cy="writePostButton"
       >
-        {getTranslatedText(staticText?.haveSomethingInMind)}
+        {props.text.haveSomethingInMind}
       </div>
     </div>
   );

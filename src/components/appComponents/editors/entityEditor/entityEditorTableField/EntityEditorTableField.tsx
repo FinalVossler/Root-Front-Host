@@ -227,6 +227,7 @@ const EntityEditorTableField: React.FunctionComponent<
                   return (
                     <td className={styles.inputTd} key={columnIndex}>
                       <Input
+                        theme={theme}
                         inputProps={{
                           disabled: !Boolean(props.canEdit),
                           style: {

@@ -138,7 +138,7 @@ const MicroFrontendEditor: React.FunctionComponent<
 
   const loading = props.microFrontend ? updateLoading : createLoading;
   return (
-    <Modal handleClose={handleCloseModal} open>
+    <Modal theme={theme} handleClose={handleCloseModal} open>
       <form
         onSubmit={handleSubmit}
         className={styles.createMicroFrontendModalContainer}
@@ -157,6 +157,7 @@ const MicroFrontendEditor: React.FunctionComponent<
         </div>
 
         <FormikInput
+          theme={theme}
           Icon={MdTitle}
           formik={formik}
           name="name"
@@ -166,6 +167,7 @@ const MicroFrontendEditor: React.FunctionComponent<
         />
 
         <FormikInput
+          theme={theme}
           Icon={MdTitle}
           formik={formik}
           name="remoteEntry"
@@ -194,6 +196,7 @@ const MicroFrontendEditor: React.FunctionComponent<
                   onClick={() => handleDeleteComponent(componentIndex)}
                 />
                 <Input
+                  theme={theme}
                   label={getTranslatedText(staticText?.componentName)}
                   value={component.name}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -218,6 +221,7 @@ const MicroFrontendEditor: React.FunctionComponent<
 
         {!loading && (
           <Button
+            theme={theme}
             disabled={loading}
             type="submit"
             style={{}}

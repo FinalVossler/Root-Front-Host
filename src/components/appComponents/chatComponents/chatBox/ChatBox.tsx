@@ -226,7 +226,11 @@ const ChatBox: React.FunctionComponent<IChatBoxProps> = (
       >
         {total > messages.length && !loadingMessages && (
           <div className={styles.loadMoreButtonContainer}>
-            <Button className={styles.loadMoreButton} onClick={handleLoadMore}>
+            <Button
+              theme={theme}
+              className={styles.loadMoreButton}
+              onClick={handleLoadMore}
+            >
               ...
             </Button>
           </div>

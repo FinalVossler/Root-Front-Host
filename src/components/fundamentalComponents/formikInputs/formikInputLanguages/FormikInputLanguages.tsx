@@ -1,10 +1,13 @@
 import { FormikProps } from "formik";
 import React from "react";
+import { ITheme } from "roottypes";
+
 import InputLanguages from "../../inputs/inputLanguages";
 
 interface IFormikInputLanguages {
   formik: FormikProps<any>;
   name: string;
+  theme: ITheme;
 }
 
 const FormikInputLanguages: React.FunctionComponent<IFormikInputLanguages> = (
@@ -18,6 +21,7 @@ const FormikInputLanguages: React.FunctionComponent<IFormikInputLanguages> = (
     <InputLanguages
       value={props.formik.values[props.name]}
       onChange={handleChange}
+      theme={props.theme}
     />
   );
 };

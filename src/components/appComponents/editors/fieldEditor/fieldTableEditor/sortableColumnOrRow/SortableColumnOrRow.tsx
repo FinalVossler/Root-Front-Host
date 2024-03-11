@@ -99,6 +99,7 @@ const SortableColumnOrRow: React.FunctionComponent<
     return (
       <th ref={setNodeRef} style={sorteStyles} className={styles.columnOrRow}>
         <Input
+          theme={theme}
           onChange={(e) => {
             handleChangeColumnName(e, props.index);
           }}
@@ -125,6 +126,7 @@ const SortableColumnOrRow: React.FunctionComponent<
       <tr ref={setNodeRef} style={sorteStyles}>
         <td className={styles.columnOrRow}>
           <Input
+            theme={theme}
             onChange={(e) => {
               handleChangeRowName(e, props.index);
             }}
@@ -150,7 +152,7 @@ const SortableColumnOrRow: React.FunctionComponent<
           (column: FieldTableElementForm, columnIndex: number) => {
             return (
               <td key={columnIndex}>
-                <Input inputProps={{ disabled: true }} value="" />
+                <Input theme={theme} inputProps={{ disabled: true }} value="" />
               </td>
             );
           }

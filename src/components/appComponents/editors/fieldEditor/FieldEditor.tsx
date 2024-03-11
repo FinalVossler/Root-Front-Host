@@ -273,7 +273,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
 
   const loading = props.field ? updateLoading : createLoading;
   return (
-    <Modal handleClose={handleCloseModal} open>
+    <Modal theme={theme} handleClose={handleCloseModal} open>
       <form
         onSubmit={handleSubmit}
         className={styles.createFieldModalContainer}
@@ -290,6 +290,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
         </div>
 
         <FormikInput
+          theme={theme}
           Icon={MdTitle}
           formik={formik}
           name="name"
@@ -300,6 +301,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
         />
 
         <FormikInputSelect
+          theme={theme}
           options={Object.values(FieldTypeEnum).map((el) => ({
             value: el,
             label: el,
@@ -313,6 +315,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
 
         {formik.values.type === FieldTypeEnum.File && (
           <FormikCheckbox
+            theme={theme}
             label={getTranslatedText(staticText?.canChooseFromExistingFiles)}
             checked={formik.values.canChooseFromExistingFiles}
             name="canChooseFromExistingFiles"
@@ -321,6 +324,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
         )}
 
         <FormikInputSelect
+          theme={theme}
           label={getTranslatedText(staticText?.language)}
           name="language"
           formik={formik}
@@ -347,6 +351,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
                     onClick={() => handleDeleteOption(option)}
                   />
                   <Input
+                    theme={theme}
                     label={getTranslatedText(staticText?.label)}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       formik.setFieldValue(
@@ -365,6 +370,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
                     Icon={BiLabel}
                   />
                   <Input
+                    theme={theme}
                     label={getTranslatedText(staticText?.namePlaceholder)}
                     value={option.value}
                     Icon={MdDriveFileRenameOutline}
@@ -396,6 +402,7 @@ const FieldEditor: React.FunctionComponent<IFieldEditorProps> = (
 
         {!loading && (
           <Button
+            theme={theme}
             disabled={loading}
             type="submit"
             style={{}}

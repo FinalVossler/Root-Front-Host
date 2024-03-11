@@ -4,7 +4,7 @@ import "suneditor/dist/css/suneditor.min.css";
 
 import Modal from "../../../fundamentalComponents/modal";
 import EntityEditorForm from "./EntityEditorForm";
-import { IEntityReadDto } from "roottypes";
+import { IEntityReadDto, ITheme } from "roottypes";
 import { useAppDispatch } from "../../../../store/hooks";
 import { editorSlice } from "../../../../store/slices/editorSlice";
 
@@ -12,6 +12,7 @@ export interface IEntityEditorProps {
   entity?: IEntityReadDto;
   modelId?: string;
   id: string;
+  theme: ITheme;
 }
 
 const EntityEditor: React.FunctionComponent<IEntityEditorProps> = (
@@ -31,7 +32,7 @@ const EntityEditor: React.FunctionComponent<IEntityEditorProps> = (
   //#endregion Event listeners
 
   return (
-    <Modal handleClose={handleCloseEditor} open>
+    <Modal theme={props.theme} handleClose={handleCloseEditor} open>
       <EntityEditorForm
         entity={props.entity}
         modelId={actualModelId}

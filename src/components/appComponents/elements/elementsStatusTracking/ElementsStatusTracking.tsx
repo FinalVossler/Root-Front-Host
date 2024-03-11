@@ -8,7 +8,7 @@ import doesEntityMeetModelStateCondition from "../../../../utils/doesEntityMeetM
 import getModelStateConcernedFields from "../../../../utils/getModelStateConcernedFields";
 
 import useStyles from "./elementsStatusTracking.styles";
-import StateTracking from "../../../postsComponents/stateTracking";
+import StateTracking from "../../../fundamentalComponents/postsComponents/stateTracking";
 import {
   IEntityReadDto,
   IModelReadDto,

@@ -348,16 +348,19 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
 
       <div className={styles.fieldConfigurationContainer}>
         <Checkbox
+          theme={theme}
           label={getTranslatedText(staticText?.required)}
           checked={Boolean(props.modelField.required)}
           onChange={handleCheckOrUncheckRequired}
         />
         <Checkbox
+          theme={theme}
           label={getTranslatedText(staticText?.mainField)}
           checked={Boolean(props.modelField.mainField)}
           onChange={handleCheckOrUncheckMainField}
         />
         <Checkbox
+          theme={theme}
           label={getTranslatedText(staticText?.stickInTable)}
           checked={Boolean(props.modelField.stickInTable)}
           onChange={handleCheckOrUncheckStickInTable}
@@ -365,6 +368,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
       </div>
 
       <ExtendSection
+        theme={theme}
         onClick={() => setShowConditions(!showConditions)}
         title={getTranslatedText(staticText?.conditions)}
         isSectionShown={showConditions}
@@ -415,6 +419,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
                     onClick={() => handleDeleteCondition(conditionIndex)}
                   />
                   <InputSelect
+                    theme={theme}
                     label={getTranslatedText(staticText?.field)}
                     value={fieldsOptions.find(
                       (option) =>
@@ -432,6 +437,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
                     }
                   />
                   <InputSelect
+                    theme={theme}
                     label={getTranslatedText(staticText?.conditionType)}
                     value={conditionsOptions.find(
                       (option) => option.value === condition.conditionType
@@ -445,6 +451,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
                     }
                   />
                   <Input
+                    theme={theme}
                     label={getTranslatedText(staticText?.value)}
                     value={condition.value}
                     onChange={(e) =>
@@ -465,6 +472,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
                   {condition.conditionType ===
                     ModelFieldConditionTypeEnum.StateConditionsMet && (
                     <InputSelect
+                      theme={theme}
                       label={getTranslatedText(
                         staticText?.fieldShowWhenStateIsAchieved
                       )}
@@ -489,6 +497,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
       )}
 
       <ExtendSection
+        theme={theme}
         onClick={() => setShowStatesConfiguration(!showStatesConfiguration)}
         title={getTranslatedText(staticText?.statesContributions)}
         isSectionShown={showStatesConfiguration}
@@ -506,6 +515,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
                 return (
                   <Checkbox
                     key={stateIndex}
+                    theme={theme}
                     label={getTranslatedText(state.name)}
                     onChange={() => handleTriggerStateForField(state)}
                     labelStyles={{
@@ -533,6 +543,7 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
               (state, stateIndex) => {
                 return (
                   <Checkbox
+                    theme={theme}
                     key={stateIndex}
                     label={getTranslatedText(state.name)}
                     onChange={() => handleTriggerStateForField(state)}

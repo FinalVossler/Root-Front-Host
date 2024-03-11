@@ -93,6 +93,7 @@ const ChangePasswordForm: React.FunctionComponent<IChangePasswordFormProps> = (
 
       <form className={styles.changePasswordForm} onSubmit={handleSubmit}>
         <FormikInput
+          theme={theme}
           Icon={MdPassword}
           name="oldPassword"
           formik={formik}
@@ -103,6 +104,7 @@ const ChangePasswordForm: React.FunctionComponent<IChangePasswordFormProps> = (
           }}
         />
         <FormikInput
+          theme={theme}
           Icon={MdPassword}
           inputProps={{
             placeholder: getTranslatedText(staticText?.newPassword),
@@ -114,6 +116,7 @@ const ChangePasswordForm: React.FunctionComponent<IChangePasswordFormProps> = (
         />
 
         <FormikInput
+          theme={theme}
           Icon={MdPassword}
           inputProps={{
             placeholder: getTranslatedText(staticText?.confirmPassword),
@@ -124,7 +127,7 @@ const ChangePasswordForm: React.FunctionComponent<IChangePasswordFormProps> = (
           formik={formik}
         />
 
-        <Button disabled={actualLoading}>
+        <Button theme={theme} disabled={actualLoading}>
           {getTranslatedText(staticText?.send)}
         </Button>
 

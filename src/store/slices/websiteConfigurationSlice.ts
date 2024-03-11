@@ -1,9 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import theme, { ITheme } from "../../config/theme";
+import theme from "../../config/theme";
 import changeTabIcon from "../../utils/changeTabIcon";
 import {
   IFileReadDto,
+  ITheme,
   ITranslatedText,
   IWebsiteConfigurationReadDto,
 } from "roottypes";

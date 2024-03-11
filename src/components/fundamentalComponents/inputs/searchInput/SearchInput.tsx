@@ -3,11 +3,10 @@ import { BsSearch } from "react-icons/bs";
 import { IPaginationCommand, IPaginationResponse, ITheme } from "roottypes";
 
 import Input from "../input";
+import useOnClickOutside from "../../../../hooks/useOnClickOutside";
+import Pagination from "../../pagination";
 
 import useStyles from "./searchInput.styles";
-import useOnClickOutside from "../../../../hooks/useOnClickOutside";
-import { useAppSelector } from "../../../../store/hooks";
-import Pagination from "../../pagination";
 
 interface ISearchInputProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
@@ -21,6 +20,7 @@ interface ISearchInputProps {
   label?: string;
   showSearchResult?: boolean;
   inputDataCy?: string;
+  theme: ITheme;
 }
 
 const LIMIT = 10;
@@ -28,10 +28,6 @@ const LIMIT = 10;
 const SearchInput: React.FunctionComponent<ISearchInputProps> = (
   props: ISearchInputProps
 ) => {
-  const theme: ITheme = useAppSelector(
-    (state) => state.websiteConfiguration.theme
-  );
-
   const [value, setValue] = React.useState("");
   const [paginationCommand, setPaginationCommand] =
     React.useState<IPaginationCommand>({
@@ -44,7 +40,7 @@ const SearchInput: React.FunctionComponent<ISearchInputProps> = (
     IPaginationResponse<any>
   >({ data: [], total: 0 });
 
-  const styles = useStyles({ theme });
+  const styles = useStyles({ theme: props.theme });
   const searchBoxRef = React.useRef(null);
   useOnClickOutside(searchBoxRef, () => setShowSearchResult(false));
 
@@ -110,6 +106,7 @@ const SearchInput: React.FunctionComponent<ISearchInputProps> = (
   return (
     <div ref={searchBoxRef} className={styles.searchInputContainer}>
       <Input
+        theme={props.theme}
         inputProps={{ ...props.inputProps }}
         Icon={BsSearch}
         value={value}
@@ -138,6 +135,7 @@ const SearchInput: React.FunctionComponent<ISearchInputProps> = (
             ))}
 
             <Pagination
+              theme={props.theme}
               page={paginationCommand.page}
               onPageChange={handlePageChange}
               limit={LIMIT}
