@@ -64,6 +64,15 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     margin: "auto",
     marginTop: 10,
   },
+  priceOrQuantityFieldContainer: {
+    marginBottom: 10,
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  removePriceOrQuantityFieldIcon: {
+    cursor: "pointer",
+    color: theme.errorColor,
+  },
   "@media (max-width: 850px)": {
     createModelModalContainer: {
       width: "70vw",

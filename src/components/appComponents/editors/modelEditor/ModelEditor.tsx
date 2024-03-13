@@ -3,27 +3,13 @@ import "suneditor/dist/css/suneditor.min.css";
 import { MdTitle } from "react-icons/md";
 import ReactLoading from "react-loading";
 import * as Yup from "yup";
-
-import useStyles from "./modelEditor.styles";
-import Modal from "../../../fundamentalComponents/modal";
-import Button from "../../../fundamentalComponents/button";
-import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-import Input from "../../../fundamentalComponents/inputs/input";
-import { ImCross } from "react-icons/im";
-import { FormikProps, useFormik } from "formik";
-import useCreateModel from "../../../../hooks/apiHooks/useCreateModel";
-import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
-import InputSelect from "../../../fundamentalComponents/inputs/inputSelect";
-import getLanguages from "../../../../utils/getLanguages";
-import { IModelField } from "../../../../store/slices/modelSlice";
-import useUpdateModel from "../../../../hooks/apiHooks/useUpdateModel";
-import ModelFieldsEditor from "./modelFieldsEditor";
-import EventsEditor from "../eventsEditor";
-import ModelStatesEditor from "./modelStatesEditor";
 import uuid from "react-uuid";
+import { toast } from "react-toastify";
+import { IoIosRemoveCircleOutline } from "react-icons/io";
 import {
   EventTriggerEnum,
   EventTypeEnum,
+  FieldTypeEnum,
   IEventReadDto,
   IEventRequestHeaderReadDto,
   IFieldReadDto,
@@ -35,9 +21,27 @@ import {
   ITheme,
   ModelStateTypeEnum,
 } from "roottypes";
+
+import useStyles from "./modelEditor.styles";
+import Modal from "../../../fundamentalComponents/modal";
+import Button from "../../../fundamentalComponents/button";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
+import { ImCross } from "react-icons/im";
+import { FormikProps, useFormik } from "formik";
+import useCreateModel from "../../../../hooks/apiHooks/useCreateModel";
+import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
+import getLanguages from "../../../../utils/getLanguages";
+import { IModelField } from "../../../../store/slices/modelSlice";
+import useUpdateModel from "../../../../hooks/apiHooks/useUpdateModel";
+import ModelFieldsEditor from "./modelFieldsEditor";
+import EventsEditor from "../eventsEditor";
+import ModelStatesEditor from "./modelStatesEditor";
 import { editorSlice } from "../../../../store/slices/editorSlice";
 import FormikInput from "../../../fundamentalComponents/formikInputs/formikInput";
 import FormikInputSelect from "../../../fundamentalComponents/formikInputs/formikInputSelect";
+import FormikCheckbox from "../../../fundamentalComponents/formikInputs/formikCheckbox";
+import useSearchFields from "../../../../hooks/apiHooks/useSearchFields";
+import SearchInput from "../../../fundamentalComponents/inputs/searchInput";
 
 export type ModelFormState = {
   _id?: string;
@@ -56,6 +60,9 @@ export interface IModelForm {
   modelEvents: IEventReadDto[];
   states: ModelFormState[];
   subStates: ModelFormState[];
+  isForSale: boolean;
+  quantityField?: IFieldReadDto;
+  priceField?: IFieldReadDto;
   language: string;
 }
 
@@ -80,6 +87,7 @@ const ModelEditor = (props: IModelEditorProps) => {
   const dispatch = useAppDispatch();
   const { createModel, loading: createLoading } = useCreateModel();
   const { updateModel, loading: updateLoading } = useUpdateModel();
+  const { handleSearchFieldsPromise } = useSearchFields(props.model);
   const formik: FormikProps<IModelForm> = useFormik<IModelForm>({
     initialValues: {
       name: "",
@@ -88,6 +96,7 @@ const ModelEditor = (props: IModelEditorProps) => {
       modelEvents: [],
       states: [],
       subStates: [],
+      isForSale: false,
     },
     validationSchema: Yup.object().shape({
       name: Yup.string().required(
@@ -146,6 +155,9 @@ const ModelEditor = (props: IModelEditorProps) => {
             stateType: state.stateType,
             _id: state._id,
           })),
+          isForSale: Boolean(values.isForSale),
+          quantityFieldId: values.quantityField?._id,
+          priceFieldId: values.priceField?._id,
           language: values.language,
         };
 
@@ -266,6 +278,10 @@ const ModelEditor = (props: IModelEditorProps) => {
             exclusive: Boolean((modelSubState as IModelStateReadDto).exlusive),
             uuid: uuid(),
           })) || [],
+        isForSale: Boolean(props.model?.isForSale),
+        priceField: props.model?.priceField as IFieldReadDto,
+        quantityField: props.model?.quantityField as IFieldReadDto,
+
         language: formik.values.language,
       },
     });
@@ -315,6 +331,78 @@ const ModelEditor = (props: IModelEditorProps) => {
           }}
           inputDataCy="modelNameInput"
         />
+
+        <FormikCheckbox
+          formik={formik}
+          name="isForSale"
+          theme={theme}
+          label={getTranslatedText(staticText?.isForSale)}
+        />
+
+        {formik.values.isForSale && !formik.values.priceField && (
+          <SearchInput
+            theme={theme}
+            inputProps={{
+              placeholder: getTranslatedText(staticText?.priceField),
+            }}
+            searchPromise={handleSearchFieldsPromise}
+            getElementTitle={(field: IFieldReadDto) =>
+              getTranslatedText(field.name)
+            }
+            onElementClick={(priceField: IFieldReadDto) => {
+              if (priceField.type !== FieldTypeEnum.Number) {
+                return toast.error(
+                  getTranslatedText(staticText?.priceFieldShouldBeOfTypeNumber)
+                );
+              }
+              formik.setFieldValue("priceField", priceField);
+            }}
+          />
+        )}
+
+        {formik.values.isForSale && formik.values.priceField && (
+          <div className={styles.priceOrQuantityFieldContainer}>
+            {getTranslatedText(staticText?.priceField)}:{" "}
+            {getTranslatedText(formik.values.priceField.name)}
+            <IoIosRemoveCircleOutline
+              className={styles.removePriceOrQuantityFieldIcon}
+              onClick={() => formik.setFieldValue("priceField", undefined)}
+            />
+          </div>
+        )}
+
+        {formik.values.isForSale && !formik.values.quantityField && (
+          <SearchInput
+            theme={theme}
+            inputProps={{
+              placeholder: getTranslatedText(staticText?.quantityField),
+            }}
+            searchPromise={handleSearchFieldsPromise}
+            getElementTitle={(field: IFieldReadDto) =>
+              getTranslatedText(field.name)
+            }
+            onElementClick={(quantityField: IFieldReadDto) => {
+              if (quantityField.type !== FieldTypeEnum.Number) {
+                return toast.error(
+                  getTranslatedText(
+                    staticText?.quantityFieldShouldBeOfTypeNumber
+                  )
+                );
+              }
+              formik.setFieldValue("quantityField", quantityField);
+            }}
+          />
+        )}
+        {formik.values.isForSale && formik.values.quantityField && (
+          <div className={styles.priceOrQuantityFieldContainer}>
+            {getTranslatedText(staticText?.quantityField)}:{" "}
+            {getTranslatedText(formik.values.quantityField.name)}
+            <IoIosRemoveCircleOutline
+              className={styles.removePriceOrQuantityFieldIcon}
+              onClick={() => formik.setFieldValue("quantityField", undefined)}
+            />
+          </div>
+        )}
 
         <FormikInputSelect
           theme={theme}
