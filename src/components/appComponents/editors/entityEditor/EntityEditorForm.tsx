@@ -17,7 +17,7 @@ import useCreateEntity from "../../../../hooks/apiHooks/useCreateEntity";
 import { IModelField } from "../../../../store/slices/modelSlice";
 import EntityFieldFiles from "./entityFieldFiles";
 import uploadFiles from "../../../../utils/uploadFiles";
-import { InputSelectOptionEnum } from "../../../fundamentalComponents/inputs/inputSelect/InputSelect";
+import { IInputSelectOption } from "../../../fundamentalComponents/inputs/inputSelect/InputSelect";
 import useAxios from "../../../../hooks/useAxios";
 import areEntityFieldConditionsMet from "../../../../utils/areEntityFieldConditionsMet";
 
@@ -474,12 +474,12 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
 
         // Check if we can edit
         const canEdit =
-          foundFieldPermissions === undefined ||
-          foundFieldPermissions?.permissions.indexOf(
-            StaticPermissionEnum.Update
-          ) !== -1 ||
-          user.superRole === SuperRoleEnum.SuperAdmin;
-        !props.readOnly;
+          !props.readOnly &&
+          (foundFieldPermissions === undefined ||
+            foundFieldPermissions?.permissions.indexOf(
+              StaticPermissionEnum.Update
+            ) !== -1 ||
+            user.superRole === SuperRoleEnum.SuperAdmin);
 
         // Check if we can show the field based on conditions second
         const conditionsMet: boolean = areEntityFieldConditionsMet({
@@ -644,7 +644,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
                 (modelField.field as IFieldReadDto).name
               )}
               disabled={!canEdit}
-              onChange={(option: InputSelectOptionEnum) => {
+              onChange={(option: IInputSelectOption) => {
                 formik.setFieldValue(
                   "entityFieldValues",
                   formik.values.entityFieldValues.map((entityFieldValue) => {

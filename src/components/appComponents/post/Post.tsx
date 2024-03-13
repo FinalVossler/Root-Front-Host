@@ -14,7 +14,7 @@ import TitleAndText from "../../fundamentalComponents/postsComponents/titleAndTe
 import Card from "../../fundamentalComponents/postsComponents/card";
 import AnimatedTitle from "../../fundamentalComponents/postsComponents/animatedTitle";
 import UnderlinedTitle from "../../fundamentalComponents/postsComponents/underlinedTitle";
-import Footer from "../../fundamentalComponents/postsComponents/footer";
+import Footer from "../layoutComponents/footer";
 import extractLinksFromText from "../../../utils/extractLinksFromText";
 import ContactForm from "../formComponents/contactForm";
 import Person from "../../fundamentalComponents/postsComponents/Person";

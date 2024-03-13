@@ -4,18 +4,18 @@ import { ITheme } from "roottypes";
 
 import useStyles from "./inputSelect.styles";
 
-export type InputSelectOptionEnum = {
+export type IInputSelectOption = {
   value: string;
   label: string;
 };
 
 export interface IInputSelectProps {
-  options: InputSelectOptionEnum[];
+  options: IInputSelectOption[];
   label: string;
-  onChange?: (option: InputSelectOptionEnum) => void;
-  onMultiChange?: (options: InputSelectOptionEnum[]) => void;
+  onChange?: (option: IInputSelectOption) => void;
+  onMultiChange?: (options: IInputSelectOption[]) => void;
   isMulti?: boolean;
-  value?: InputSelectOptionEnum | InputSelectOptionEnum[];
+  value?: IInputSelectOption | IInputSelectOption[];
   name?: string;
   style?: React.CSSProperties;
   disabled?: boolean;
@@ -30,14 +30,16 @@ const InputSelect: React.FunctionComponent<IInputSelectProps> = (
 ) => {
   const styles = useStyles({ theme: props.theme });
 
-  const handleOnChange = (option: PropsValue<InputSelectOptionEnum>) => {
+  const handleOnChange = (option: IInputSelectOption) => {
     if (props.onChange) {
-      props.onChange(option as InputSelectOptionEnum);
+      props.onChange(option as IInputSelectOption);
     }
   };
 
-  const handleOnMultiChange = (optionsParams: any) => {
-    const options: InputSelectOptionEnum[] = optionsParams;
+  const handleOnMultiChange = (optionsParams: IInputSelectOption[]) => {
+    const options: IInputSelectOption[] = optionsParams;
+
+    console.log("options", options);
 
     if (props.onMultiChange) {
       props.onMultiChange(options);
@@ -52,6 +54,7 @@ const InputSelect: React.FunctionComponent<IInputSelectProps> = (
         )}
         <Select
           isMulti={props.isMulti}
+          //@ts-ignore
           onChange={props.isMulti ? handleOnMultiChange : handleOnChange}
           options={props.options}
           isDisabled={props.disabled}

@@ -44,6 +44,8 @@ const EntityEditorStates: React.FunctionComponent<IEntityEditorStatesProps> = (
 
   //#endregion Event listeners
 
+  if (!model?.states || model.states.length === 0) return null;
+
   return (
     <div className={styles.entityEditorStatesContainer}>
       <h2 className={styles.entityEditorStatesTitle}>

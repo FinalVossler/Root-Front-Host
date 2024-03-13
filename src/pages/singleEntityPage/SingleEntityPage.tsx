@@ -8,7 +8,15 @@ import { useAppSelector } from "../../store/hooks";
 
 import useStyles from "./singleEntityPage.styles";
 import EntityEditorForm from "../../components/appComponents/editors/entityEditor/EntityEditorForm";
-import { IEntityReadDto, IModelReadDto, ITheme } from "roottypes";
+import {
+  IEntityReadDto,
+  IModelReadDto,
+  ITheme,
+  IUserReadDto,
+  StaticPermissionEnum,
+  SuperRoleEnum,
+} from "roottypes";
+import useHasPermission from "../../hooks/useHasPermission";
 
 interface ISingleEntityPageProps {}
 
@@ -23,12 +31,14 @@ const SingleEntityPage: React.FunctionComponent<ISingleEntityPageProps> = (
   const model: IModelReadDto | undefined = useAppSelector(
     (state) => state.model.models
   ).find((model) => model._id === modelId);
+  const user: IUserReadDto = useAppSelector((state) => state.user.user);
 
   const [entity, setEntity] = React.useState<IEntityReadDto>();
 
   const styles = useStyles({ theme });
   const isLoggedIn: boolean = useIsLoggedIn();
   const { getEntity, loading } = useGetEntity();
+  const { hasEntityPermission } = useHasPermission();
 
   React.useEffect(() => {
     const handleGetEntity = async () => {
@@ -49,7 +59,17 @@ const SingleEntityPage: React.FunctionComponent<ISingleEntityPageProps> = (
 
       {!loading && entity && (
         <div className={styles.entityValuesContainer}>
-          <EntityEditorForm modelId={modelId} entity={entity} />
+          <EntityEditorForm
+            modelId={modelId}
+            entity={entity}
+            readOnly={
+              user.superRole !== SuperRoleEnum.SuperAdmin &&
+              !hasEntityPermission(
+                StaticPermissionEnum.Update,
+                modelId as string
+              )
+            }
+          />
         </div>
       )}
     </div>

@@ -4,7 +4,7 @@ import { PropsValue } from "react-select";
 
 import InputSelect, {
   IInputSelectProps,
-  InputSelectOptionEnum,
+  IInputSelectOption,
 } from "../../inputs/inputSelect/InputSelect";
 
 interface IFormikInputSelectProps extends IInputSelectProps {
@@ -15,18 +15,19 @@ interface IFormikInputSelectProps extends IInputSelectProps {
 const FormikInputSelect: React.FunctionComponent<IFormikInputSelectProps> = (
   props: IFormikInputSelectProps
 ) => {
-  const handleOnChange = (option: PropsValue<InputSelectOptionEnum>) => {
+  const handleOnChange = (option: PropsValue<IInputSelectOption>) => {
     props.formik.setFieldValue(
       props.name,
-      (option as InputSelectOptionEnum).value
+      (option as IInputSelectOption).value
     );
+
     if (props.onChange) {
-      props.onChange(option as InputSelectOptionEnum);
+      props.onChange(option as IInputSelectOption);
     }
   };
 
   const handleOnMultiChange = (optionsParams: any) => {
-    const options: InputSelectOptionEnum[] = optionsParams;
+    const options: IInputSelectOption[] = optionsParams;
     props.formik.setFieldValue(
       props.name,
       options.map((option) => option.value)
@@ -35,6 +36,8 @@ const FormikInputSelect: React.FunctionComponent<IFormikInputSelectProps> = (
       props.onMultiChange(options);
     }
   };
+
+  console.log("kdf");
 
   return (
     <InputSelect
@@ -45,6 +48,7 @@ const FormikInputSelect: React.FunctionComponent<IFormikInputSelectProps> = (
           : props.error
       }
       onChange={props.isMulti ? handleOnMultiChange : handleOnChange}
+      onMultiChange={props.isMulti ? handleOnMultiChange : handleOnChange}
       value={
         props.isMulti
           ? props.options.filter((option) =>

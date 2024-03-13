@@ -17,7 +17,7 @@ import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import InputSelect from "../../../fundamentalComponents/inputs/inputSelect";
 import getLanguages from "../../../../utils/getLanguages";
 import useStyles from "./roleEditor.styles";
-import { InputSelectOptionEnum } from "../../../fundamentalComponents/inputs/inputSelect/InputSelect";
+import { IInputSelectOption } from "../../../fundamentalComponents/inputs/inputSelect/InputSelect";
 import lowerCaseFirstLetter from "../../../../utils/lowerCaseFirstLetter";
 import SearchInput from "../../../fundamentalComponents/inputs/searchInput";
 import useSearchModels from "../../../../hooks/apiHooks/useSearchModels";
@@ -450,7 +450,7 @@ const RoleEditor = (props: IRoleEditorProps) => {
   //#endregion Event listeners
 
   const loading = props.role ? updateLoading : createLoading;
-  const permissionsOptions: InputSelectOptionEnum[] = Object.values(
+  const permissionsOptions: IInputSelectOption[] = Object.values(
     PermissionEnum
   ).map((permission) => {
     return {
@@ -514,7 +514,6 @@ const RoleEditor = (props: IRoleEditorProps) => {
         />
 
         <SearchInput
-          theme={theme}
           theme={theme}
           getElementTitle={(model: IModelReadDto) =>
             getTranslatedText(model.name)

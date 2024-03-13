@@ -19,7 +19,7 @@ import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import SearchInput from "../../../fundamentalComponents/inputs/searchInput";
 import useSearchMicroFrontends from "../../../../hooks/apiHooks/useSearchMicroFrontends";
 import InputSelect from "../../../fundamentalComponents/inputs/inputSelect";
-import { InputSelectOptionEnum } from "../../../fundamentalComponents/inputs/inputSelect/InputSelect";
+import { IInputSelectOption } from "../../../fundamentalComponents/inputs/inputSelect/InputSelect";
 import {
   EventTriggerEnum,
   EventTypeEnum,
@@ -135,7 +135,7 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
   };
   const handleSelectMicroFrontendComponent = (
     index: number,
-    option: InputSelectOptionEnum
+    option: IInputSelectOption
   ) => {
     const newEvents = props.formik.values[props.fieldName].map(
       (event: IEventReadDto, i): IEventReadDto => {
@@ -568,7 +568,6 @@ const EventsEditor: React.FunctionComponent<IEventsEditorProps> = (
                 )}
                 {event.eventType === EventTypeEnum.MicroFrontendRedirection && (
                   <SearchInput
-                    theme={theme}
                     theme={theme}
                     getElementTitle={(el: IMicroFrontendReadDto) => el.name}
                     searchPromise={handleSearchMicroFrontendsPromise}

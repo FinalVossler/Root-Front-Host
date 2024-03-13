@@ -1,7 +1,7 @@
 import React from "react";
 
 import Header from "../../components/appComponents/layoutComponents/header";
-import Footer from "../../components/fundamentalComponents/postsComponents/footer";
+import Footer from "../../components/appComponents/layoutComponents/footer";
 
 import useStyles from "./withWrapper.styles";
 import { useAppSelector } from "../../store/hooks";

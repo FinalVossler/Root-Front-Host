@@ -4,7 +4,7 @@ import { ITheme } from "roottypes";
 
 import getLanguages from "../../../../utils/getLanguages";
 import Checkbox from "../checkbox";
-import { InputSelectOptionEnum } from "../inputSelect/InputSelect";
+import { IInputSelectOption } from "../inputSelect/InputSelect";
 
 import useStyles from "./inputLanguages.styles";
 
@@ -20,9 +20,9 @@ const InputLanguages: React.FunctionComponent<IInputLanguagesProps> = (
   const [extended, setExtended] = React.useState<boolean>(false);
 
   const styles = useStyles({ theme: props.theme });
-  const languages: InputSelectOptionEnum[] = getLanguages();
+  const languages: IInputSelectOption[] = getLanguages();
 
-  const handleChange = (language: InputSelectOptionEnum) => {
+  const handleChange = (language: IInputSelectOption) => {
     let newLanguages: string[] = [...props.value];
     const alreadySelected: boolean = newLanguages.some(
       (el) => el === language.value

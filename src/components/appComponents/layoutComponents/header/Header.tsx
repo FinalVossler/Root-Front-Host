@@ -9,12 +9,11 @@ import useIsLoggedIn from "../../../../hooks/useIsLoggedIn";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import InputSelect from "../../../fundamentalComponents/inputs/inputSelect";
 import { userPreferenceSlice } from "../../../../store/slices/userPreferencesSlice";
-import { InputSelectOptionEnum } from "../../../fundamentalComponents/inputs/inputSelect/InputSelect";
+import { IInputSelectOption } from "../../../fundamentalComponents/inputs/inputSelect/InputSelect";
 import HeaderInbox from "../../chatComponents/headerInbox";
 import HeaderNotifications from "../../headerNotifications";
 
 import useStyles from "./header.styles";
-import useHasPermission from "../../../../hooks/useHasPermission";
 import { IPageReadDto, ITheme } from "roottypes";
 
 interface IHeaderProps {
@@ -55,14 +54,13 @@ const Header: React.FunctionComponent<IHeaderProps> = (props: IHeaderProps) => {
   const getTranslatedText = useGetTranslatedText();
   const location = useLocation();
   const navigate = useNavigate();
-  const { hasPermission } = useHasPermission();
 
   //#region Event listeners
   const handleLogout = () => {
     dispatch(userSlice.actions.logout());
     navigate("/auth");
   };
-  const handleChangeLanguage = (option: InputSelectOptionEnum) => {
+  const handleChangeLanguage = (option: IInputSelectOption) => {
     dispatch(userPreferenceSlice.actions.setLanguage(option.value));
   };
   const handleTriggerShowMobileMenu = () => {
