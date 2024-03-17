@@ -23,17 +23,30 @@ import withChat from "./hoc/withChat";
 import { DynamicPageForLoggedIn } from "./pages/dynamicPage/DynamicPage";
 import withProtection from "./hoc/protection/index";
 import AppModalsAndEditors from "./AppModalsAndEditors";
+import { useAppSelector } from "./store/hooks";
+import useGetCart from "./hooks/apiHooks/useGetCart";
 
 function AuthenticatedApp() {
+  const withEcommerce: boolean | undefined = useAppSelector(
+    (state) => state.websiteConfiguration.withEcommerce
+  );
+
   useNotifications();
   const isLoggedIn = useIsLoggedIn();
   const navigate = useNavigate();
+  const { getCart } = useGetCart();
 
   React.useEffect(() => {
     if (!isLoggedIn) {
       navigate("/auth");
     }
   }, [isLoggedIn]);
+
+  React.useEffect(() => {
+    if (withEcommerce) {
+      getCart();
+    }
+  }, [withEcommerce]);
 
   return (
     <React.Fragment>
