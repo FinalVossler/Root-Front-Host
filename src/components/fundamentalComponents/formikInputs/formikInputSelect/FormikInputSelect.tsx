@@ -37,8 +37,6 @@ const FormikInputSelect: React.FunctionComponent<IFormikInputSelectProps> = (
     }
   };
 
-  console.log("kdf");
-
   return (
     <InputSelect
       {...props}

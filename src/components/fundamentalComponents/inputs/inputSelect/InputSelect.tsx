@@ -39,8 +39,6 @@ const InputSelect: React.FunctionComponent<IInputSelectProps> = (
   const handleOnMultiChange = (optionsParams: IInputSelectOption[]) => {
     const options: IInputSelectOption[] = optionsParams;
 
-    console.log("options", options);
-
     if (props.onMultiChange) {
       props.onMultiChange(options);
     }

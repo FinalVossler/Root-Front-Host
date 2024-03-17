@@ -22,7 +22,6 @@ const useSetNotificationToClickedBy = () => {
     new Promise<AxiosResponse<void>>((resolve, reject) => {
       setLoading(true);
 
-      console.log("notificationid", notificationId);
       axios
         .request({
           method: "POST",
