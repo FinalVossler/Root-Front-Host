@@ -60,6 +60,7 @@ import {
 import FormikInputSelect from "../../../fundamentalComponents/formikInputs/formikInputSelect";
 import FormikTextarea from "../../../fundamentalComponents/formikInputs/formikTextarea";
 import Input from "../../../fundamentalComponents/inputs/input";
+import Textarea from "../../../fundamentalComponents/inputs/textarea/Textarea";
 
 export interface IEntityFieldValueForm {
   fieldId: string;
@@ -581,11 +582,9 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
           (modelField.field as IFieldReadDto).type === FieldTypeEnum.Paragraph
         ) {
           return (
-            <FormikTextarea
+            <Textarea
               theme={theme}
               key={modelFieldIndex}
-              formik={formik}
-              name="entityFieldValues"
               value={value}
               label={getTranslatedText(
                 (modelField.field as IFieldReadDto).name

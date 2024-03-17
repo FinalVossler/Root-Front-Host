@@ -13,11 +13,11 @@ const FormikInput: React.FunctionComponent<
 > = (props: PropsWithChildren<IFormikInputProps>) => {
   //#region Event listeners
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!props.onChange) {
+      props.formik.setFieldValue(props.name, e.target.value);
+    }
     if (props.onChange) {
       props.onChange(e);
-    }
-    if (props.formik && props.name && !props.onChange) {
-      props.formik.setFieldValue(props.name, e.target.value);
     }
   };
   //#endregion Event listeners

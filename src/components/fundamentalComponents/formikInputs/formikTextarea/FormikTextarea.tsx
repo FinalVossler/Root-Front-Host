@@ -13,7 +13,9 @@ const FormikTextarea: React.FunctionComponent<
 > = (props: React.PropsWithChildren<IFormikTextareaProps>) => {
   //#region Event listeners
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    props.formik.setFieldValue(props.name, e.target.value);
+    if (!props.onChange) {
+      props.formik.setFieldValue(props.name, e.target.value);
+    }
     if (props.onChange) {
       props.onChange(e);
     }
