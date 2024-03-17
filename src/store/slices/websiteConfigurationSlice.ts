@@ -20,6 +20,7 @@ export interface IWebsiteConfigurationState {
   withChat?: boolean;
   withRegistration?: boolean;
   withTaskManagement?: boolean;
+  withEcommerce?: boolean;
   theme: ITheme;
   tabIcon?: IWebsiteConfigurationReadDto["tabIcon"];
   logo1?: IWebsiteConfigurationReadDto["logo1"];
@@ -1303,6 +1304,13 @@ const staticText = {
         language: "fr",
       },
     ],
+    withEcommerce: [
+      { text: "With Ecommerce", language: "en" },
+      {
+        text: "Avec Ecommerce",
+        language: "fr",
+      },
+    ],
     darkTextColor: [
       { text: "Dark text color", language: "en" },
       { text: "Couleur du texte sombre", language: "fr" },
@@ -1701,6 +1709,7 @@ const initialState: IWebsiteConfigurationState = {
   withChat: false,
   withRegistration: false,
   withTaskManagement: false,
+  withEcommerce: false,
   theme,
   tabIcon: undefined,
   logo1: undefined,
@@ -1726,6 +1735,7 @@ export const websiteConfigurationSlice = createSlice({
       state.withChat = action.payload.withChat;
       state.withRegistration = action.payload.withRegistration;
       state.withTaskManagement = action.payload.withTaskManagement;
+      state.withEcommerce = action.payload.withEcommerce;
       state.theme = action.payload.theme;
       state.tabIcon = action.payload.tabIcon;
       state.logo1 = action.payload.logo1;

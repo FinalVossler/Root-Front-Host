@@ -4,6 +4,11 @@ import * as Yup from "yup";
 import ReactLoading from "react-loading";
 import { AiOutlineColumnWidth } from "react-icons/ai";
 import { SiShadow } from "react-icons/si";
+import {
+  IFileReadDto,
+  ITheme,
+  IWebsiteConfigurationUpdateCommand,
+} from "roottypes";
 
 import defaultTheme from "../../../../config/theme";
 import useStyles from "./websiteConfigurationEditor.styles";
@@ -17,11 +22,6 @@ import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import FilesInput from "../../filesInput";
 import uploadFile from "../../../../utils/uploadFile";
 import getLanguages from "../../../../utils/getLanguages";
-import {
-  IFileReadDto,
-  ITheme,
-  IWebsiteConfigurationUpdateCommand,
-} from "roottypes";
 import { editorSlice } from "../../../../store/slices/editorSlice";
 import StaticTextsForm from "../../formComponents/staticTextsForm";
 import { IWebsiteConfigurationState } from "../../../../store/slices/websiteConfigurationSlice";
@@ -44,6 +44,7 @@ export interface IWebsiteConfigurationForm extends ITheme {
   withChat?: boolean;
   withRegistration?: boolean;
   withTaskManagement?: boolean;
+  withEcommerce?: boolean;
   tabIcon?: IFileReadDto | string;
   logo1?: IFileReadDto | string;
   logo2?: IFileReadDto | string;
@@ -111,6 +112,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
         withChat: websiteConfiguration.withChat,
         withRegistration: websiteConfiguration.withRegistration,
         withTaskManagement: websiteConfiguration.withTaskManagement,
+        withEcommerce: websiteConfiguration.withEcommerce,
 
         darkTextColor: websiteConfiguration.theme.darkTextColor,
         lightTextColor: websiteConfiguration.theme.lightTextColor,
@@ -160,6 +162,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
         withChat: Yup.boolean(),
         withRegistration: Yup.boolean(),
         withTaskManagement: Yup.boolean(),
+        withEcommerce: Yup.boolean(),
       }),
       onSubmit: async (values: IWebsiteConfigurationForm) => {
         const filesUploadPromises: Promise<
@@ -224,6 +227,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           withChat: values.withChat || false,
           withRegistration: values.withRegistration || false,
           withTaskManagement: values.withTaskManagement || false,
+          withEcommerce: values.withEcommerce || false,
           tabIcon: tabIcon as IFileReadDto,
           logo1: logo1 as IFileReadDto,
           logo2: logo2 as IFileReadDto,
@@ -398,6 +402,16 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           name="withTaskManagement"
           formik={formik}
           label={getTranslatedText(staticText?.withTaskManagement)}
+          inputProps={{
+            disabled: actualLoading,
+          }}
+        />
+
+        <FormikCheckbox
+          theme={theme}
+          name="withEcommerce"
+          formik={formik}
+          label={getTranslatedText(staticText?.withEcommerce)}
           inputProps={{
             disabled: actualLoading,
           }}
