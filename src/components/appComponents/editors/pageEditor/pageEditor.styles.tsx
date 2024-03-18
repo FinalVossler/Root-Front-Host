@@ -5,14 +5,13 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   createPageModalContainer: {
     display: "flex",
     flexDirection: "column",
-    maxHeight: "calc(100vh - 200px)",
     position: "relative",
-    overflow: "auto",
-    paddingRight: 45,
-    paddingBottom: 200,
+    paddingRight: 10,
+    paddingBottom: 15,
     width: "65vw",
     boxSizing: "border-box",
     paddingLeft: 5,
+    height: "100%",
   },
   createPageHeader: {
     display: "flex",

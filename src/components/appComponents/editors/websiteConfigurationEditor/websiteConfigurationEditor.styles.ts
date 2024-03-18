@@ -8,8 +8,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     paddingBottom: 15,
     maxHeight: "calc(100vh - 200px)",
     position: "relative",
-    overflow: "auto",
-    paddingRight: 45,
+    paddingRight: 10,
     width: "65vw",
   },
   header: {

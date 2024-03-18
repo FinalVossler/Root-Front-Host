@@ -33,6 +33,7 @@ const AppModalsAndEditors: React.FunctionComponent<
     (state) => state.chat.messageFilePreviews
   );
   const editors = useAppSelector((state) => state.editor.editors);
+  const theme = useAppSelector((state) => state.websiteConfiguration.theme);
 
   const dispatch = useAppDispatch();
   const { hasPermission } = useHasPermission();
@@ -84,6 +85,7 @@ const AppModalsAndEditors: React.FunctionComponent<
           case EditorTypeEnum.Entity:
             return (
               <EntityEditor
+                theme={theme}
                 key={e.id}
                 id={e.id}
                 entity={e.element as IEntityReadDto}

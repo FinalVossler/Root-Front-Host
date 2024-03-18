@@ -9,13 +9,13 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     display: "flex",
     flexDirection: "column",
     paddingBottom: 15,
-    maxHeight: "calc(100vh - 200px)",
     position: "relative",
-    overflow: "auto",
-    paddingRight: 45,
+    paddingRight: 10,
+
     paddingLeft: 5,
 
     width: "60vw",
+    height: "100%",
   },
   createPostHeader: {
     display: "flex",

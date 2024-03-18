@@ -5,11 +5,12 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   singleEntityPageContainer: {
     display: "flex",
     flexDirection: "column",
-    paddingTop: 100,
     color: theme.lightTextColor,
     alignItems: "center",
     width: "90%",
     margin: "auto",
+    marginBottom: 10,
+    marginTop: 100,
   },
   entityValuesContainer: {
     display: "flex",

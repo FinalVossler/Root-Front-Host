@@ -8,9 +8,16 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     paddingBottom: 15,
     maxHeight: "calc(100vh - 200px)",
     position: "relative",
-    overflow: "auto",
-    paddingRight: 45,
     width: "60vw",
+    paddingRight: 10,
+  },
+  createEntityForm: {
+    display: "flex",
+    flexDirection: "column",
+    position: "relative",
+    paddingRight: 25,
+    paddingBottom: 20,
+    width: "100%",
   },
   createEntityHeader: {
     display: "flex",

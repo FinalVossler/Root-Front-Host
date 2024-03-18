@@ -28,9 +28,10 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     padding: "20px",
     paddingBottom: "5px",
     backgroundColor: theme.lightTextColor,
+    overflow: "auto",
 
     boxShadow: theme.boxShadow,
-    borderRadius: "40px",
+    borderRadius: "10px",
     zIndex: 102,
     maxHeight: "90%",
   },

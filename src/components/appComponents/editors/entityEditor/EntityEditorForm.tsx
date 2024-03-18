@@ -454,7 +454,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
   return (
     <form
       onSubmit={handleSubmit}
-      className={styles.createEntityModalContainer}
+      className={styles.createEntityForm}
       data-cy="entityEditorForm"
     >
       {!props.readOnly && (

@@ -5,13 +5,12 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   createRoleModalContainer: {
     display: "flex",
     flexDirection: "column",
-    paddingBottom: 15,
-    maxHeight: "calc(100vh - 200px)",
+    paddingBottom: 20,
     position: "relative",
-    overflow: "auto",
     paddingLeft: 5,
-    paddingRight: 45,
+    paddingRight: 10,
     width: "60vw",
+    height: "100%",
   },
   createRoleHeader: {
     display: "flex",

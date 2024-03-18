@@ -5,8 +5,9 @@ import "suneditor/dist/css/suneditor.min.css";
 import Modal from "../../../fundamentalComponents/modal";
 import EntityEditorForm from "./EntityEditorForm";
 import { IEntityReadDto, ITheme } from "roottypes";
-import { useAppDispatch } from "../../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { editorSlice } from "../../../../store/slices/editorSlice";
+import useStyles from "./entityEditor.styles";
 
 export interface IEntityEditorProps {
   entity?: IEntityReadDto;
@@ -18,6 +19,9 @@ export interface IEntityEditorProps {
 const EntityEditor: React.FunctionComponent<IEntityEditorProps> = (
   props: IEntityEditorProps
 ) => {
+  const theme = useAppSelector((state) => state.websiteConfiguration.theme);
+
+  const styles = useStyles({ theme });
   const dispatch = useAppDispatch();
   const { modelId } = useParams();
   const actualModelId = React.useMemo(
@@ -33,11 +37,13 @@ const EntityEditor: React.FunctionComponent<IEntityEditorProps> = (
 
   return (
     <Modal theme={props.theme} handleClose={handleCloseEditor} open>
-      <EntityEditorForm
-        entity={props.entity}
-        modelId={actualModelId}
-        handleCloseEditor={handleCloseEditor}
-      />
+      <div className={styles.createEntityModalContainer}>
+        <EntityEditorForm
+          entity={props.entity}
+          modelId={actualModelId}
+          handleCloseEditor={handleCloseEditor}
+        />
+      </div>
     </Modal>
   );
 };
