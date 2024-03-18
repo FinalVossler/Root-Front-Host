@@ -1,18 +1,6 @@
 import React from "react";
-
 import Loading from "react-loading";
-import Pagination from "../../../components/fundamentalComponents/pagination";
-import { useAppSelector } from "../../../store/hooks";
-import useGetAssignedEntitiesByModel from "../../../hooks/apiHooks/useGetAssignedEntitiesByModel";
-
-import useStyles from "./tasksByModel.styles";
-import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
-import { EntityFieldValueComponent } from "../../entitiesPage/entitiesList/EntitiesList";
 import moment from "moment";
-import UserProfilePicture from "../../../components/fundamentalComponents/userProfilePicture";
-import { SizeEnum } from "../../../components/fundamentalComponents/userProfilePicture/UserProfilePicture";
-import ElementsBoard from "../../../components/appComponents/elements/elementsBoard";
-import ViewTabs from "../../../components/appComponents/elements/viewTabs";
 import {
   IEntitiesGetCommand,
   IEntityReadDto,
@@ -23,7 +11,20 @@ import {
   ITheme,
   IUserReadDto,
 } from "roottypes";
-import { ViewTypeEnum } from "../../../components/appComponents/elements/viewTabs/ViewTabs";
+
+import Pagination from "../../../components/fundamentalComponents/pagination";
+import { useAppSelector } from "../../../store/hooks";
+import useGetAssignedEntitiesByModel from "../../../hooks/apiHooks/useGetAssignedEntitiesByModel";
+
+import useStyles from "./tasksByModel.styles";
+import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
+import { EntityFieldValueComponent } from "../../entitiesPage/entitiesList/EntitiesList";
+import UserProfilePicture from "../../../components/fundamentalComponents/userProfilePicture";
+import { SizeEnum } from "../../../components/fundamentalComponents/userProfilePicture/UserProfilePicture";
+import ElementsBoard from "../../../components/appComponents/elements/elementsBoard";
+import ViewTabs from "../../../components/fundamentalComponents/viewTabs";
+import { EntitiesViewTabTypeEnum } from "../../../components/appComponents/elements/Elements";
+import { IViewTabType } from "../../../components/fundamentalComponents/viewTabs/ViewTabs";
 
 const LIMIT = 99;
 
@@ -49,17 +50,37 @@ const TasksByModel: React.FunctionComponent<ITasksByModelProps> = (
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.entities
   );
+  const elementsStaticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.elements
+  );
+
+  const getTranslatedText = useGetTranslatedText();
+
+  const entitiesViewTabTypes: IViewTabType[] = [
+    {
+      name: EntitiesViewTabTypeEnum.StatusTracking,
+      title: getTranslatedText(elementsStaticText?.statusTracking),
+    },
+    {
+      name: EntitiesViewTabTypeEnum.Board,
+      title: getTranslatedText(elementsStaticText?.board),
+    },
+    {
+      name: EntitiesViewTabTypeEnum.Table,
+      title: getTranslatedText(elementsStaticText?.table),
+    },
+  ];
 
   const [page, setPage] = React.useState(1);
-  const [roles, setRoles] = React.useState<IRoleReadDto[]>([]);
-  const [viewType, setViewType] = React.useState<ViewTypeEnum>(
-    ViewTypeEnum.StatusTracking
+  const [viewType, setViewType] = React.useState<IViewTabType>(
+    entitiesViewTabTypes.find(
+      (el) => el.name === EntitiesViewTabTypeEnum.StatusTracking
+    ) as IViewTabType
   );
 
   const styles = useStyles({ theme });
   const { getAssignedEntitiesByModel, loading } =
     useGetAssignedEntitiesByModel();
-  const getTranslatedText = useGetTranslatedText();
 
   //#region use effects
   React.useEffect(() => {
@@ -74,25 +95,6 @@ const TasksByModel: React.FunctionComponent<ITasksByModelProps> = (
     getAssignedEntitiesByModel(command);
   }, []);
 
-  React.useEffect(() => {
-    const newRoles: IRoleReadDto[] = [];
-    assignedEntitiesByModel?.entities.forEach((entity) => {
-      (entity.assignedUsers as IUserReadDto[])?.forEach((user) => {
-        if (
-          newRoles.some(
-            (role) =>
-              (user.role as IRoleReadDto)?._id.toString() ===
-              role._id.toString()
-          ) &&
-          user.role
-        ) {
-          newRoles.push(user.role as IRoleReadDto);
-        }
-      });
-    });
-
-    setRoles(newRoles);
-  }, [assignedEntitiesByModel]);
   //#endregion use effects
 
   const handlePageChange = (page: number) => {
@@ -107,25 +109,30 @@ const TasksByModel: React.FunctionComponent<ITasksByModelProps> = (
     getAssignedEntitiesByModel(command);
   };
 
-  const handleViewTypeChange = (viewType: ViewTypeEnum) =>
+  const handleViewTypeChange = (viewType: IViewTabType) =>
     setViewType(viewType);
 
   if (!model) return null;
 
   return (
     <React.Fragment>
-      <ViewTabs onViewTabChange={handleViewTypeChange} viewType={viewType} />
+      <ViewTabs
+        theme={theme}
+        selectedViewTabType={viewType}
+        onViewTabChange={handleViewTypeChange}
+        viewTabTypes={entitiesViewTabTypes}
+      />
 
       <div className={styles.tasksByModelContainer}>
-        {(viewType === ViewTypeEnum.StatusTracking ||
-          viewType === ViewTypeEnum.Board) && (
+        {(viewType.name === EntitiesViewTabTypeEnum.StatusTracking ||
+          viewType.name === EntitiesViewTabTypeEnum.Board) && (
           <ElementsBoard
             modelId={props.modelId?.toString() || ""}
             entities={assignedEntitiesByModel?.entities || []}
             loading={loading}
           />
         )}
-        {viewType === ViewTypeEnum.Table && (
+        {viewType.name === EntitiesViewTabTypeEnum.Table && (
           <table className={styles.tasksByModelTable}>
             <thead className={styles.tableHeader}>
               <tr className={styles.tableRow}>
@@ -172,6 +179,7 @@ const TasksByModel: React.FunctionComponent<ITasksByModelProps> = (
                                 <td className={styles.tableColumn}>
                                   <div className={styles.subColumnContainer}>
                                     <UserProfilePicture
+                                      theme={theme}
                                       size={SizeEnum.Small}
                                       url={
                                         (user.profilePicture as IFileReadDto)
@@ -229,11 +237,12 @@ const TasksByModel: React.FunctionComponent<ITasksByModelProps> = (
           </table>
         )}
 
-        {viewType === ViewTypeEnum.Table && loading && (
+        {viewType.name === EntitiesViewTabTypeEnum.Table && loading && (
           <Loading color={theme.primary} />
         )}
 
         <Pagination
+          theme={theme}
           total={total || 0}
           onPageChange={handlePageChange}
           limit={LIMIT}

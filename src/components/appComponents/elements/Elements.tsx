@@ -13,9 +13,10 @@ import SearchInput from "../../fundamentalComponents/inputs/searchInput";
 import ElementsBoard from "./elementsBoard";
 import Button from "../../fundamentalComponents/button";
 import { LocalStorageConfNameEnum } from "../../../utils/localStorage";
-import ViewTabs from "./viewTabs";
+import ViewTabs from "../../fundamentalComponents/viewTabs";
 import {
   IEntityReadDto,
+  IModelReadDto,
   IPaginationCommand,
   IPaginationResponse,
   ITheme,
@@ -23,7 +24,7 @@ import {
 import ElementsTable from "./elementsTable";
 import { IElement } from "../../../store/slices/editorSlice";
 import ElementsStatusTracking from "./elementsStatusTracking";
-import { ViewTypeEnum } from "./viewTabs/ViewTabs";
+import { IViewTabType } from "../../fundamentalComponents/viewTabs/ViewTabs";
 
 export type Column = {
   label: string;
@@ -33,6 +34,12 @@ export type Column = {
   defaultHide?: boolean;
   stick?: boolean;
 };
+
+export enum EntitiesViewTabTypeEnum {
+  Table = "Table",
+  Board = "Board",
+  StatusTracking = "StatusTracking",
+}
 
 interface IElementsProps {
   handleOpenEditor: (element?: IElement) => void;
@@ -74,17 +81,44 @@ const Elements: React.FunctionComponent<IElementsProps> = (
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.elements
   );
+  const model: IModelReadDto | undefined = useAppSelector(
+    (state) => state.model.models
+  ).find((model) => model._id.toString() === props.modelId);
 
   const [deleteModalOpen, setDeleteModalOpen] = React.useState<boolean>(false);
   const [copyModalOpen, setCopyModalOpen] = React.useState<boolean>(false);
   const [selectedElementsIds, setSelectedElementsIds] = React.useState<
     string[]
   >([]);
-  const [viewType, setViewType] = React.useState<ViewTypeEnum>(
-    props.isForEntities ? ViewTypeEnum.StatusTracking : ViewTypeEnum.Table
+
+  const getTranslatedText = useGetTranslatedText();
+  const entitiesViewTabTypes: IViewTabType[] = [
+    {
+      name: EntitiesViewTabTypeEnum.Table,
+      title: getTranslatedText(staticText?.table),
+    },
+  ];
+  if (model && model.states && model.states.length > 0) {
+    entitiesViewTabTypes.unshift({
+      name: EntitiesViewTabTypeEnum.StatusTracking,
+      title: getTranslatedText(staticText?.statusTracking),
+    });
+    entitiesViewTabTypes.unshift({
+      name: EntitiesViewTabTypeEnum.Board,
+      title: getTranslatedText(staticText?.board),
+    });
+  }
+
+  const [viewType, setViewType] = React.useState<IViewTabType>(
+    props.isForEntities && model?.states?.length && model.states.length > 0
+      ? (entitiesViewTabTypes.find(
+          (el) => el.name === EntitiesViewTabTypeEnum.StatusTracking
+        ) as IViewTabType)
+      : (entitiesViewTabTypes.find(
+          (el) => el.name === EntitiesViewTabTypeEnum.Table
+        ) as IViewTabType)
   );
   const styles = useStyles({ theme });
-  const getTranslatedText = useGetTranslatedText();
 
   React.useEffect(() => {
     setSelectedElementsIds([]);
@@ -131,7 +165,7 @@ const Elements: React.FunctionComponent<IElementsProps> = (
       props.onPageChange(1);
     }
   };
-  const handleViewTypeChange = (viewType: ViewTypeEnum) => {
+  const handleViewTypeChange = (viewType: IViewTabType) => {
     setViewType(viewType);
   };
   //#endregion Event listeners
@@ -145,7 +179,12 @@ const Elements: React.FunctionComponent<IElementsProps> = (
   return (
     <React.Fragment>
       {props.isForEntities && (
-        <ViewTabs viewType={viewType} onViewTabChange={handleViewTypeChange} />
+        <ViewTabs
+          theme={theme}
+          selectedViewTabType={viewType}
+          onViewTabChange={handleViewTypeChange}
+          viewTabTypes={entitiesViewTabTypes}
+        />
       )}
       <div
         className={styles.elementsContainer}
@@ -179,6 +218,7 @@ const Elements: React.FunctionComponent<IElementsProps> = (
 
           {props.canCreate && !props.loading && (
             <Button
+              theme={theme}
               onClick={() => props.handleOpenEditor()}
               style={{ paddingLeft: 40, paddingRight: 40, marginLeft: 10 }}
               buttonDataCy="addElementButton"
@@ -259,31 +299,33 @@ const Elements: React.FunctionComponent<IElementsProps> = (
           )}
         </div>
 
-        {viewType === ViewTypeEnum.Board && props.isForEntities && (
-          <ElementsBoard
-            modelId={props.modelId?.toString() || ""}
-            entities={
-              props.searchResult && props.searchResult.data.length > 0
-                ? props.searchResult.data
-                : (props.elements as IEntityReadDto[])
-            }
-            loading={props.loading}
-          />
-        )}
+        {viewType.name === EntitiesViewTabTypeEnum.Board.toString() &&
+          props.isForEntities && (
+            <ElementsBoard
+              modelId={props.modelId?.toString() || ""}
+              entities={
+                props.searchResult && props.searchResult.data.length > 0
+                  ? props.searchResult.data
+                  : (props.elements as IEntityReadDto[])
+              }
+              loading={props.loading}
+            />
+          )}
 
-        {viewType === ViewTypeEnum.StatusTracking && props.isForEntities && (
-          <ElementsStatusTracking
-            modelId={props.modelId?.toString() || ""}
-            entities={
-              props.searchResult && props.searchResult.data.length > 0
-                ? props.searchResult.data
-                : (props.elements as IEntityReadDto[])
-            }
-            loading={props.loading}
-          />
-        )}
+        {viewType.name === EntitiesViewTabTypeEnum.StatusTracking.toString() &&
+          props.isForEntities && (
+            <ElementsStatusTracking
+              modelId={props.modelId?.toString() || ""}
+              entities={
+                props.searchResult && props.searchResult.data.length > 0
+                  ? props.searchResult.data
+                  : (props.elements as IEntityReadDto[])
+              }
+              loading={props.loading}
+            />
+          )}
 
-        {viewType === ViewTypeEnum.Table && (
+        {viewType.name === EntitiesViewTabTypeEnum.Table.toString() && (
           <ElementsTable
             handleEdit={handleEdit}
             canDelete={props.canDelete}
@@ -301,6 +343,7 @@ const Elements: React.FunctionComponent<IElementsProps> = (
 
         {props.withPagination !== false && (
           <Pagination
+            theme={theme}
             total={
               props.searchResult && props.searchResult.data.length > 0
                 ? props.searchResult.total
