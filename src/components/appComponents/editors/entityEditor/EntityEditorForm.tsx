@@ -58,9 +58,9 @@ import {
   ITheme,
 } from "roottypes";
 import FormikInputSelect from "../../../fundamentalComponents/formikInputs/formikInputSelect";
-import FormikTextarea from "../../../fundamentalComponents/formikInputs/formikTextarea";
 import Input from "../../../fundamentalComponents/inputs/input";
 import Textarea from "../../../fundamentalComponents/inputs/textarea/Textarea";
+import EntityEditorEcommerceAddons from "./entityEditorEcommerceAddons";
 
 export interface IEntityFieldValueForm {
   fieldId: string;
@@ -762,6 +762,10 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
           );
         }
       })}
+
+      {model?.isForSale && props.entity && (
+        <EntityEditorEcommerceAddons entity={props.entity} model={model} />
+      )}
 
       <h3 className={styles.userAssignmentTitle}>
         {getTranslatedText(staticText?.userAssignment)}

@@ -1159,6 +1159,14 @@ const staticText = {
       { language: "en", text: "Must be a valid URL" },
       { language: "fr", text: "Doit être un Url valide" },
     ],
+    addToCart: [
+      { language: "en", text: "Add to cart" },
+      { language: "en", text: "Ajouter au panier" },
+    ],
+    quantity: [
+      { language: "en", text: "Quantity" },
+      { language: "en", text: "Quantité" },
+    ],
   },
   contact: {
     address: [

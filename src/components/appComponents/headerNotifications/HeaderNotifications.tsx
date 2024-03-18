@@ -148,6 +148,7 @@ const HeaderNotifications: React.FunctionComponent<
 
           {totalUnclicked > 0 && !markAllAsReadLoading && (
             <Button
+              theme={theme}
               style={{ marginBottom: 10 }}
               onClick={handleMarkAllUserNotificationAsClicked}
             >
@@ -182,6 +183,7 @@ const HeaderNotifications: React.FunctionComponent<
                     >
                       {(notification.image as IFileReadDto)?.url && (
                         <UserProfilePicture
+                          theme={theme}
                           url={(notification.image as IFileReadDto)?.url}
                           size={SizeEnum.Small}
                         />
@@ -198,6 +200,7 @@ const HeaderNotifications: React.FunctionComponent<
 
           {!loading && notifications.length === 0 && <TbMoodEmpty />}
           <Pagination
+            theme={theme}
             total={total}
             page={page}
             onPageChange={handlePageChange}
