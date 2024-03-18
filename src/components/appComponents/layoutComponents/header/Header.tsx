@@ -15,6 +15,7 @@ import HeaderNotifications from "../../headerNotifications";
 
 import useStyles from "./header.styles";
 import { IPageReadDto, ITheme } from "roottypes";
+import HeaderCart from "../../headerCart";
 
 interface IHeaderProps {
   scrolledDown: boolean;
@@ -29,6 +30,9 @@ const Header: React.FunctionComponent<IHeaderProps> = (props: IHeaderProps) => {
   );
   const withRegistration: boolean | undefined = useAppSelector(
     (state) => state.websiteConfiguration.withRegistration
+  );
+  const withEcommerce: boolean | undefined = useAppSelector(
+    (state) => state.websiteConfiguration.withEcommerce
   );
   const mainLanguages: string[] | undefined = useAppSelector(
     (state) => state.websiteConfiguration.mainLanguages
@@ -153,6 +157,8 @@ const Header: React.FunctionComponent<IHeaderProps> = (props: IHeaderProps) => {
           {withChat && isLoggedIn && location.pathname !== "/chat" && (
             <HeaderInbox />
           )}
+
+          {withEcommerce && isLoggedIn && <HeaderCart />}
 
           {withRegistration && isLoggedIn && <HeaderNotifications />}
 

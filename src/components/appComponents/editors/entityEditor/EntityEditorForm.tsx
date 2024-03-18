@@ -422,6 +422,35 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
   const loading =
     (props.entity ? updateLoading : createLoading) || uploadFilesLoading;
 
+  const canAssignToRoles = roles.filter((role) => {
+    if (user.superRole === SuperRoleEnum.SuperAdmin) {
+      return true;
+    }
+
+    const userPermissionsOnEntity: IEntityPermissionReadDto | undefined = (
+      (user.role as IRoleReadDto)
+        ?.entityPermissions as IEntityPermissionReadDto[]
+    ).find(
+      (e) => (e.model as IModelReadDto)._id.toString() === model?._id.toString()
+    );
+
+    if (!userPermissionsOnEntity) {
+      return false;
+    } else {
+      if (
+        userPermissionsOnEntity.entityUserAssignmentPermissionsByRole
+          ?.canAssignToUserFromSameRole &&
+        role._id.toString() === (user.role as IRoleReadDto)?._id.toString()
+      ) {
+        return true;
+      } else {
+        return (
+          userPermissionsOnEntity.entityUserAssignmentPermissionsByRole
+            ?.otherRoles as IRoleReadDto[]
+        ).some((otherRole) => otherRole._id.toString() === role._id.toString());
+      }
+    }
+  });
   return (
     <form
       onSubmit={handleSubmit}
@@ -763,119 +792,81 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
         }
       })}
 
-      {model?.isForSale && props.entity && (
-        <EntityEditorEcommerceAddons entity={props.entity} model={model} />
+      {canAssignToRoles.length > 0 && (
+        <h3 className={styles.userAssignmentTitle}>
+          {getTranslatedText(staticText?.userAssignment)}
+        </h3>
       )}
-
-      <h3 className={styles.userAssignmentTitle}>
-        {getTranslatedText(staticText?.userAssignment)}
-      </h3>
-      {roles
-        .filter((role) => {
-          if (user.superRole === SuperRoleEnum.SuperAdmin) {
-            return true;
-          }
-
-          const userPermissionsOnEntity: IEntityPermissionReadDto | undefined =
-            (
-              (user.role as IRoleReadDto)
-                ?.entityPermissions as IEntityPermissionReadDto[]
-            ).find(
-              (e) =>
-                (e.model as IModelReadDto)._id.toString() ===
-                model?._id.toString()
-            );
-
-          if (!userPermissionsOnEntity) {
-            return false;
-          } else {
-            if (
-              userPermissionsOnEntity.entityUserAssignmentPermissionsByRole
-                ?.canAssignToUserFromSameRole &&
-              role._id.toString() ===
-                (user.role as IRoleReadDto)?._id.toString()
-            ) {
-              return true;
-            } else {
-              return (
-                userPermissionsOnEntity.entityUserAssignmentPermissionsByRole
-                  ?.otherRoles as IRoleReadDto[]
-              ).some(
-                (otherRole) => otherRole._id.toString() === role._id.toString()
-              );
-            }
-          }
-        })
-        .map((role: IRoleReadDto) => {
-          return (
-            <div
-              key={role._id}
-              className={styles.assignedUsersByRoleInputContainer}
-            >
-              <SearchInput
-                theme={theme}
-                searchPromise={handleSearchUsersByRolePromise(
-                  role._id.toString()
-                )}
-                label={getTranslatedText(role?.name) + ":"}
-                getElementTitle={(user: IUserReadDto) =>
-                  user.firstName + " " + user.lastName
+      {canAssignToRoles.map((role: IRoleReadDto) => {
+        return (
+          <div
+            key={role._id}
+            className={styles.assignedUsersByRoleInputContainer}
+          >
+            <SearchInput
+              theme={theme}
+              searchPromise={handleSearchUsersByRolePromise(
+                role._id.toString()
+              )}
+              label={getTranslatedText(role?.name) + ":"}
+              getElementTitle={(user: IUserReadDto) =>
+                user.firstName + " " + user.lastName
+              }
+              inputProps={{
+                placeholder: getTranslatedText(staticText?.searchUsers),
+              }}
+              onElementClick={(user: IUserReadDto) => {
+                if (
+                  !formik.values.assignedUsers.some(
+                    (u) => u._id.toString() === user._id.toString()
+                  )
+                ) {
+                  formik.setFieldValue("assignedUsers", [
+                    ...formik.values.assignedUsers,
+                    user,
+                  ]);
                 }
-                inputProps={{
-                  placeholder: getTranslatedText(staticText?.searchUsers),
-                }}
-                onElementClick={(user: IUserReadDto) => {
-                  if (
-                    !formik.values.assignedUsers.some(
-                      (u) => u._id.toString() === user._id.toString()
-                    )
-                  ) {
-                    formik.setFieldValue("assignedUsers", [
-                      ...formik.values.assignedUsers,
-                      user,
-                    ]);
-                  }
-                }}
-                inputDataCy={"searchUserToAssignForRole" + role._id.toString()}
-              />
+              }}
+              inputDataCy={"searchUserToAssignForRole" + role._id.toString()}
+            />
 
-              {formik.values.assignedUsers
-                .filter(
-                  (u) =>
-                    (u.role as IRoleReadDto)?._id.toString() ===
-                    role._id.toString()
-                )
-                .map((user: IUserReadDto) => {
-                  return (
-                    <div
-                      key={user._id}
-                      className={styles.assignedUsersByRoleContainer}
-                    >
-                      <MdDelete
-                        onClick={() => {
-                          formik.setFieldValue(
-                            "assignedUsers",
-                            formik.values.assignedUsers.filter(
-                              (u) => u._id !== user._id
-                            )
-                          );
-                        }}
-                        className={styles.deleteAssignedUserIcon}
-                      />
-                      <UserProfilePicture
-                        theme={theme}
-                        url={(user.profilePicture as IFileReadDto)?.url}
-                        size={SizeEnum.Average}
-                      />
-                      <span className={styles.assignedUsername}>
-                        {user.firstName + " " + user.lastName}
-                      </span>
-                    </div>
-                  );
-                })}
-            </div>
-          );
-        })}
+            {formik.values.assignedUsers
+              .filter(
+                (u) =>
+                  (u.role as IRoleReadDto)?._id.toString() ===
+                  role._id.toString()
+              )
+              .map((user: IUserReadDto) => {
+                return (
+                  <div
+                    key={user._id}
+                    className={styles.assignedUsersByRoleContainer}
+                  >
+                    <MdDelete
+                      onClick={() => {
+                        formik.setFieldValue(
+                          "assignedUsers",
+                          formik.values.assignedUsers.filter(
+                            (u) => u._id !== user._id
+                          )
+                        );
+                      }}
+                      className={styles.deleteAssignedUserIcon}
+                    />
+                    <UserProfilePicture
+                      theme={theme}
+                      url={(user.profilePicture as IFileReadDto)?.url}
+                      size={SizeEnum.Average}
+                    />
+                    <span className={styles.assignedUsername}>
+                      {user.firstName + " " + user.lastName}
+                    </span>
+                  </div>
+                );
+              })}
+          </div>
+        );
+      })}
 
       <FormikInputSelect
         theme={theme}
@@ -892,6 +883,10 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
 
       {props.entity && props.modelId && (
         <EntityEditorStates entity={props.entity} modelId={props.modelId} />
+      )}
+
+      {model?.isForSale && props.entity && (
+        <EntityEditorEcommerceAddons entity={props.entity} model={model} />
       )}
 
       {/* Errored fields error text */}

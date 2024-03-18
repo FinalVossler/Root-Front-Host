@@ -13,7 +13,7 @@ import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import { notificationSlice } from "../../../store/slices/notificationSlice";
 import useGetNotifications from "../../../hooks/apiHooks/useGetNotifications";
 import useSetNotificationToClickedBy from "../../../hooks/apiHooks/useSetNotificationToClickedBy";
-import HeaderOptionNotificationSignal from "./headerOptionNotificationSignal";
+import HeaderOptionNotificationSignal from "../headerOptionNotificationSignal";
 
 import useStyles from "./headerNotifications.styles";
 import withNotifications from "../../../hoc/withNotifications";

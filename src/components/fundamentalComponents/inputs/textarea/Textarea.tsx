@@ -75,7 +75,11 @@ const Textarea: React.FunctionComponent<
           ref={textareaRef}
           onBlur={handleFocus}
           onFocus={handleFocus}
-          className={styles.textarea}
+          className={
+            props.textareaProps?.disabled
+              ? styles.textareaDisabled
+              : styles.textarea
+          }
           name={props.name}
           onChange={props.debounce ? debouncedChange : handleChange}
           rows={5}

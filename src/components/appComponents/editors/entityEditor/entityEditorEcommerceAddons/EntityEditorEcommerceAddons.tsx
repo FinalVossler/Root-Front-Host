@@ -7,6 +7,7 @@ import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 import Input from "../../../../fundamentalComponents/inputs/input";
 import React from "react";
 import { cartSlice } from "../../../../../store/slices/cartSlice";
+import { toast } from "react-toastify";
 
 interface IEntityEditorEcommerceAddonsProps {
   entity: IEntityReadDto;
@@ -36,6 +37,7 @@ const EntityEditorEcommerceAddons: React.FunctionComponent<
         quantity,
       })
     );
+    toast.success(getTranslatedText(staticText?.addedToCart));
   };
 
   if (!props.model.isForSale) {

@@ -5,10 +5,8 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
-- Set an entity's owner
 - Create a view tab for a user's products in the profile page.
-- Create the add to cart button in a sellable entity's form
-- Add the cart button and its signal in the header
+- Update the cart in the backend when the add to cart button is clicked
 - Add the search entity in the header and the ability to configure it by model
 
 # https://www.vivamed.com/

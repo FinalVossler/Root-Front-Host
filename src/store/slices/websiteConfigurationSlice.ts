@@ -1167,6 +1167,10 @@ const staticText = {
       { language: "en", text: "Quantity" },
       { language: "en", text: "Quantité" },
     ],
+    addedToCart: [
+      { language: "en", text: "Added to cat" },
+      { language: "en", text: "Ajouté au panier" },
+    ],
   },
   contact: {
     address: [
