@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-import theme from "../../config/theme";
-import changeTabIcon from "../../utils/changeTabIcon";
 import {
   IFileReadDto,
   ITheme,
   ITranslatedText,
   IWebsiteConfigurationReadDto,
 } from "roottypes";
+
+import theme from "../../config/theme";
+import changeTabIcon from "../../utils/changeTabIcon";
 
 export interface IWebsiteConfigurationState {
   _id?: string;
