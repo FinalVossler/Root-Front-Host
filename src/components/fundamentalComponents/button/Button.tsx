@@ -15,11 +15,14 @@ const Button: React.FunctionComponent<
 
   return (
     <button
-      className={
-        rest.disabled ? styles.disabledButtonContainer : styles.buttonContainer
-      }
       {...(buttonDataCy ? { ["data-cy"]: buttonDataCy } : {})}
       {...rest}
+      className={
+        (rest.disabled
+          ? styles.disabledButtonContainer
+          : styles.buttonContainer) +
+        (rest.className ? " " + rest.className : "")
+      }
     >
       {rest.children}
     </button>

@@ -1522,19 +1522,58 @@ const staticText = {
       { language: "en", text: "Delete role" },
       { language: "fr", text: "Supprimer un rôle" },
     ],
-
+    readMicroFrontend: [
+      { language: "en", text: "Read micro-Frontend" },
+      { language: "fr", text: "Lire un micro-Frontend" },
+    ],
     createMicroFrontend: [
-      { language: "en", text: "Create Micro-Frontend" },
-      { language: "fr", text: "Créer un Micro-Frontend" },
+      { language: "en", text: "Create micro-Frontend" },
+      { language: "fr", text: "Créer un micro-Frontend" },
     ],
     updateMicroFrontend: [
-      { language: "en", text: "Update Micro-Frontend" },
-      { language: "fr", text: "Mettre à jour un Micro-Frontend" },
+      { language: "en", text: "Update micro-Frontend" },
+      { language: "fr", text: "Mettre à jour un micro-Frontend" },
     ],
     deleteMicroFrontend: [
-      { language: "en", text: "Delete Micro-Frontend" },
-      { language: "fr", text: "Supprimer un Micro-Frontend" },
+      { language: "en", text: "Delete micro-Frontend" },
+      { language: "fr", text: "Supprimer un micro-Frontend" },
     ],
+
+    createPaymentMethod: [
+      { language: "en", text: "Create payment method" },
+      { language: "fr", text: "Créer un mode de paiement" },
+    ],
+    updatePaymentMethod: [
+      { language: "en", text: "Update payment method" },
+      { language: "fr", text: "Mettre à jour une méthode de paiement" },
+    ],
+
+    readPaymentMethod: [
+      { language: "en", text: "Read payment method" },
+      { language: "fr", text: "Lire un mode de paiement" },
+    ],
+
+    deletePaymentMethod: [
+      { language: "en", text: "Delete payment method" },
+      { language: "fr", text: "Supprimer un mode de paiement" },
+    ],
+    createShippingMethod: [
+      { language: "en", text: "Create shipping method" },
+      { language: "fr", text: "Créer un mode d'expédition" },
+    ],
+    updateShippingMethod: [
+      { language: "en", text: "Update shipping method" },
+      { language: "fr", text: "Mettre à jour un mode d'expédition" },
+    ],
+    readShippingMethod: [
+      { language: "en", text: "Read shipping method" },
+      { language: "fr", text: "Lire un mode d'expédition" },
+    ],
+    deleteShippingMethod: [
+      { language: "en", text: "Delete shipping method" },
+      { language: "fr", text: "Supprimer un mode d'expédition" },
+    ],
+
     create: [
       { language: "en", text: "Create" },
       { language: "fr", text: "Créer" },
