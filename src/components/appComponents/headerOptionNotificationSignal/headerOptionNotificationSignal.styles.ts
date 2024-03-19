@@ -13,6 +13,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     position: "absolute",
     top: 20,
     right: 20,
+    cursor: "pointer",
   },
   numberOfNotifications: {
     color: theme.lightTextColor,

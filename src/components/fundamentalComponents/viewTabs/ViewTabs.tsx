@@ -32,6 +32,7 @@ const Elements: React.FunctionComponent<IViewTypesProps> = (
       {props.viewTabTypes.map((viewTabType) => {
         return (
           <span
+            key={viewTabType.name}
             className={
               props.selectedViewTabType.name === viewTabType.name.toString()
                 ? styles.selectedViewTab

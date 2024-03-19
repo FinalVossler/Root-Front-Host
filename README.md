@@ -6,8 +6,11 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 # Todos:
 
 - Create a view tab for a user's products in the profile page.
-- Update the cart in the backend when the add to cart button is clicked
 - Add the search entity in the header and the ability to configure it by model
+- Add the cart's side menu
+- Add cart sided products logic
+- Add the cart's page
+- Add the sided items' section
 
 # https://www.vivamed.com/
 

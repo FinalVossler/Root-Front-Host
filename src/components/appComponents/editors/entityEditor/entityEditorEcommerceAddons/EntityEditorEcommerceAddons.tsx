@@ -1,4 +1,5 @@
 import { IEntityReadDto, IModelReadDto, ITheme } from "roottypes";
+import { toast } from "react-toastify";
 
 import useStyles from "./entityEditorEcommerceAddons.styles";
 import { useAppDispatch, useAppSelector } from "../../../../../store/hooks";
@@ -6,8 +7,8 @@ import Button from "../../../../fundamentalComponents/button";
 import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 import Input from "../../../../fundamentalComponents/inputs/input";
 import React from "react";
-import { cartSlice } from "../../../../../store/slices/cartSlice";
-import { toast } from "react-toastify";
+import { updateCartThunk } from "../../../../../store/slices/cartSlice";
+import useUpdateCart from "../../../../../hooks/apiHooks/useUpdateCarts";
 
 interface IEntityEditorEcommerceAddonsProps {
   entity: IEntityReadDto;
@@ -29,14 +30,19 @@ const EntityEditorEcommerceAddons: React.FunctionComponent<
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
   const dispatch = useAppDispatch();
+  const { updateCart } = useUpdateCart();
 
   const handleAddToCart = () => {
     dispatch(
-      cartSlice.actions.setCartProductQuantity({
+      updateCartThunk({
         entity: props.entity,
         quantity,
+        updateApiCart: async (command) => {
+          await updateCart(command);
+        },
       })
     );
+
     toast.success(getTranslatedText(staticText?.addedToCart));
   };
 
