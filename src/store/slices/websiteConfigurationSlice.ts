@@ -1190,9 +1190,9 @@ const staticText = {
       { language: "en", text: "Not enough quantity" },
       { language: "en", text: "Pas assez de quantité" },
     ],
-    total: [
-      { language: "en", text: "Total" },
-      { language: "en", text: "Totale" },
+    subTotal: [
+      { language: "en", text: "Subtotal" },
+      { language: "en", text: "Sous-totale" },
     ],
   },
   contact: {

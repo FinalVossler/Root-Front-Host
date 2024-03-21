@@ -87,10 +87,10 @@ const Cart: React.FunctionComponent<ICartProps> = (props: ICartProps) => {
     <div className={styles.cartContainer}>
       {cart && (
         <div className={styles.totalContainer}>
-          <span className={styles.total}>
-            {getTranslatedText(staticText?.total)}:{" "}
-            <span className={styles.actualTotal}>{getCartTotal(cart)} $</span>
+          <span className={styles.subTotalTitle}>
+            {getTranslatedText(staticText?.subTotal)}
           </span>
+          <span className={styles.subTotal}>{getCartTotal(cart)}$</span>
         </div>
       )}
 

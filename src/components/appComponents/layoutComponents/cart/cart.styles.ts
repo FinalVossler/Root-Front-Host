@@ -11,17 +11,23 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     overflow: "auto",
   },
   totalContainer: {
-    borderBottom: ".5px solid " + theme.borderColor,
+    borderBottom: "1px solid " + theme.borderColor,
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
-    height: 80,
+    height: 81,
+    fontSize: 15,
+    padding: 10,
+    textAlign: "center",
     justifyContent: "center",
+    boxSizing: "border-box",
   },
-  actualTotal: {
+  subTotal: {
     color: theme.errorColor,
+    fontSize: 20,
+    fontWeight: "bold",
   },
-  total: {},
+  subTotalTitle: { marginBottom: 5 },
   cartSingleProduct: {
     display: "flex",
     flexDirection: "column",
