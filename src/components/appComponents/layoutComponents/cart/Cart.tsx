@@ -4,23 +4,24 @@ import {
   IFileReadDto,
   IModelReadDto,
   ITheme,
+  ICartReadDto,
 } from "roottypes";
 import { FaRegTrashCan } from "react-icons/fa6";
 
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import Input from "../../../fundamentalComponents/inputs/input";
-
 import { updateCartThunk } from "../../../../store/slices/cartSlice";
-
-import useStyles from "./cart.styles";
-import { ICartReadDto } from "roottypes";
 import useUpdateCart from "../../../../hooks/apiHooks/useUpdateCarts";
 import validateProductQuantity from "../../../../utils/validateProductQuantity";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
+import getCartTotal from "../../../../utils/getCartTotal";
+
+import useStyles from "./cart.styles";
 
 interface ICartProps {}
 
 const Cart: React.FunctionComponent<ICartProps> = (props: ICartProps) => {
+  //#region selectors
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
@@ -30,12 +31,16 @@ const Cart: React.FunctionComponent<ICartProps> = (props: ICartProps) => {
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.entities
   );
+  //#endregion selectors
 
+  //#region hooks
   const styles = useStyles({ theme });
   const dispatch = useAppDispatch();
   const { updateCart } = useUpdateCart();
   const getTranslatedText = useGetTranslatedText();
+  //#endregion hooks
 
+  //#region Event listeners
   const handleUpdateCart = (
     productInfo: { product: IEntityReadDto | string; quantity: number },
     quantity: number
@@ -76,9 +81,19 @@ const Cart: React.FunctionComponent<ICartProps> = (props: ICartProps) => {
     () => {
       handleUpdateCart(productInfo, 0);
     };
+  //#endregion Event listeners
 
   return (
     <div className={styles.cartContainer}>
+      {cart && (
+        <div className={styles.totalContainer}>
+          <span className={styles.total}>
+            {getTranslatedText(staticText?.total)}:{" "}
+            <span className={styles.actualTotal}>{getCartTotal(cart)} $</span>
+          </span>
+        </div>
+      )}
+
       {cart?.products.map((productInfo) => {
         const model = (productInfo.product as IEntityReadDto)
           .model as IModelReadDto;
@@ -117,6 +132,7 @@ const Cart: React.FunctionComponent<ICartProps> = (props: ICartProps) => {
                 theme={theme}
                 inputProps={{ style: { marginLeft: 0, height: 30 } }}
                 containerProps={{ style: { marginLeft: 10, marginBottom: 0 } }}
+                debounce
               />
 
               <FaRegTrashCan

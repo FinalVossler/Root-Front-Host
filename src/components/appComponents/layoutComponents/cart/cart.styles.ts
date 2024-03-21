@@ -10,6 +10,18 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     backgroundColor: theme.lightTextColor,
     overflow: "auto",
   },
+  totalContainer: {
+    borderBottom: ".5px solid " + theme.borderColor,
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
+    height: 80,
+    justifyContent: "center",
+  },
+  actualTotal: {
+    color: theme.errorColor,
+  },
+  total: {},
   cartSingleProduct: {
     display: "flex",
     flexDirection: "column",
@@ -22,6 +34,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   productImage: {
     width: "85%",
     margin: "auto",
+    marginBottom: 10,
   },
   price: {},
   productActionsContainer: {
@@ -31,7 +44,8 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   },
   trashIcon: {
     cursor: "pointer",
-    marginLeft: 10,
+    marginLeft: 5,
+    marginRight: 5,
     padding: 5,
     position: "relative",
     bottom: 2,
