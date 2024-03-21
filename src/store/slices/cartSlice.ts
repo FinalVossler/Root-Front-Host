@@ -44,17 +44,17 @@ export const updateCartThunk = createAsyncThunk<
 >("cart/updateCart", (params, thunkApi) => {
   const state: RootState = thunkApi.getState() as RootState;
 
-  if (!state.cart.cart) {
-    return;
-  }
-
   const newStateCart: typeof state.cart.cart = {
-    _id: state.cart.cart._id,
-    products: state.cart.cart.products.map((p) => ({
-      product: { ...(p.product as IEntityReadDto) },
-      quantity: p.quantity,
-    })),
-    user: { ...(state.cart.cart.user as IUserReadDto) },
+    _id: state.cart.cart?._id || "",
+    products:
+      state.cart.cart?.products.map((p) => ({
+        product: { ...(p.product as IEntityReadDto) },
+        quantity: p.quantity,
+      })) || [],
+    user: {
+      ...((state.cart.cart?.user as IUserReadDto | undefined) ||
+        state.user.user),
+    },
   };
 
   const stateProductInfo = newStateCart.products.find(

@@ -799,6 +799,11 @@ const staticText = {
       { language: "en", text: "Champ du prix" },
     ],
 
+    imageField: [
+      { language: "en", text: "Image field" },
+      { language: "en", text: "Champ de l'image" },
+    ],
+
     priceFieldShouldBeOfTypeNumber: [
       { language: "en", text: "The price field should be of type number" },
       { language: "en", text: "Le champ du prix doit être de type nombre" },
@@ -809,6 +814,11 @@ const staticText = {
         language: "en",
         text: "Le champ de la quantité doit être de type nombre",
       },
+    ],
+
+    imageFieldShouldBeOfTypeFile: [
+      { language: "en", text: "The image field should be of type file" },
+      { language: "en", text: "Le champ de l'image doit être de type fichier" },
     ],
   },
   events: {
@@ -1170,6 +1180,15 @@ const staticText = {
     addedToCart: [
       { language: "en", text: "Added to cat" },
       { language: "en", text: "Ajouté au panier" },
+    ],
+
+    unknownMaxQuantity: [
+      { language: "en", text: "Uknown max quatity" },
+      { language: "en", text: "La quantité maximale est inconnue" },
+    ],
+    notEnoughQuantity: [
+      { language: "en", text: "Not enough quantity" },
+      { language: "en", text: "Pas assez de quantité" },
     ],
   },
   contact: {

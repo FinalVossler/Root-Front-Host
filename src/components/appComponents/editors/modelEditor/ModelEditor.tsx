@@ -42,6 +42,7 @@ import FormikInputSelect from "../../../fundamentalComponents/formikInputs/formi
 import FormikCheckbox from "../../../fundamentalComponents/formikInputs/formikCheckbox";
 import useSearchFields from "../../../../hooks/apiHooks/useSearchFields";
 import SearchInput from "../../../fundamentalComponents/inputs/searchInput";
+import ModelEcommerceFields from "./modelEcommerceFields";
 
 export type ModelFormState = {
   _id?: string;
@@ -63,6 +64,7 @@ export interface IModelForm {
   isForSale: boolean;
   quantityField?: IFieldReadDto;
   priceField?: IFieldReadDto;
+  imageField?: IFieldReadDto;
   language: string;
 }
 
@@ -87,7 +89,6 @@ const ModelEditor = (props: IModelEditorProps) => {
   const dispatch = useAppDispatch();
   const { createModel, loading: createLoading } = useCreateModel();
   const { updateModel, loading: updateLoading } = useUpdateModel();
-  const { handleSearchFieldsPromise } = useSearchFields(props.model);
   const formik: FormikProps<IModelForm> = useFormik<IModelForm>({
     initialValues: {
       name: "",
@@ -158,6 +159,7 @@ const ModelEditor = (props: IModelEditorProps) => {
           isForSale: Boolean(values.isForSale),
           quantityFieldId: values.quantityField?._id,
           priceFieldId: values.priceField?._id,
+          imageFieldId: values.imageField?._id,
           language: values.language,
         };
 
@@ -280,6 +282,7 @@ const ModelEditor = (props: IModelEditorProps) => {
           })) || [],
         isForSale: Boolean(props.model?.isForSale),
         priceField: props.model?.priceField as IFieldReadDto,
+        imageField: props.model?.imageField as IFieldReadDto,
         quantityField: props.model?.quantityField as IFieldReadDto,
 
         language: formik.values.language,
@@ -339,69 +342,8 @@ const ModelEditor = (props: IModelEditorProps) => {
           label={getTranslatedText(staticText?.isForSale)}
         />
 
-        {formik.values.isForSale && !formik.values.priceField && (
-          <SearchInput
-            theme={theme}
-            inputProps={{
-              placeholder: getTranslatedText(staticText?.priceField),
-            }}
-            searchPromise={handleSearchFieldsPromise}
-            getElementTitle={(field: IFieldReadDto) =>
-              getTranslatedText(field.name)
-            }
-            onElementClick={(priceField: IFieldReadDto) => {
-              if (priceField.type !== FieldTypeEnum.Number) {
-                return toast.error(
-                  getTranslatedText(staticText?.priceFieldShouldBeOfTypeNumber)
-                );
-              }
-              formik.setFieldValue("priceField", priceField);
-            }}
-          />
-        )}
-
-        {formik.values.isForSale && formik.values.priceField && (
-          <div className={styles.priceOrQuantityFieldContainer}>
-            {getTranslatedText(staticText?.priceField)}:{" "}
-            {getTranslatedText(formik.values.priceField.name)}
-            <IoIosRemoveCircleOutline
-              className={styles.removePriceOrQuantityFieldIcon}
-              onClick={() => formik.setFieldValue("priceField", undefined)}
-            />
-          </div>
-        )}
-
-        {formik.values.isForSale && !formik.values.quantityField && (
-          <SearchInput
-            theme={theme}
-            inputProps={{
-              placeholder: getTranslatedText(staticText?.quantityField),
-            }}
-            searchPromise={handleSearchFieldsPromise}
-            getElementTitle={(field: IFieldReadDto) =>
-              getTranslatedText(field.name)
-            }
-            onElementClick={(quantityField: IFieldReadDto) => {
-              if (quantityField.type !== FieldTypeEnum.Number) {
-                return toast.error(
-                  getTranslatedText(
-                    staticText?.quantityFieldShouldBeOfTypeNumber
-                  )
-                );
-              }
-              formik.setFieldValue("quantityField", quantityField);
-            }}
-          />
-        )}
-        {formik.values.isForSale && formik.values.quantityField && (
-          <div className={styles.priceOrQuantityFieldContainer}>
-            {getTranslatedText(staticText?.quantityField)}:{" "}
-            {getTranslatedText(formik.values.quantityField.name)}
-            <IoIosRemoveCircleOutline
-              className={styles.removePriceOrQuantityFieldIcon}
-              onClick={() => formik.setFieldValue("quantityField", undefined)}
-            />
-          </div>
+        {formik.values.isForSale && (
+          <ModelEcommerceFields formik={formik} model={props.model} />
         )}
 
         <FormikInputSelect

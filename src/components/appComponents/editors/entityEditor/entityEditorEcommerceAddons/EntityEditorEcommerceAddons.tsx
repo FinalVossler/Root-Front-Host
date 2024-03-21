@@ -1,14 +1,16 @@
+import React from "react";
 import { IEntityReadDto, IModelReadDto, ITheme } from "roottypes";
 import { toast } from "react-toastify";
 
-import useStyles from "./entityEditorEcommerceAddons.styles";
 import { useAppDispatch, useAppSelector } from "../../../../../store/hooks";
 import Button from "../../../../fundamentalComponents/button";
 import useGetTranslatedText from "../../../../../hooks/useGetTranslatedText";
 import Input from "../../../../fundamentalComponents/inputs/input";
-import React from "react";
 import { updateCartThunk } from "../../../../../store/slices/cartSlice";
 import useUpdateCart from "../../../../../hooks/apiHooks/useUpdateCarts";
+import validateProductQuantity from "../../../../../utils/validateProductQuantity";
+
+import useStyles from "./entityEditorEcommerceAddons.styles";
 
 interface IEntityEditorEcommerceAddonsProps {
   entity: IEntityReadDto;
@@ -33,17 +35,31 @@ const EntityEditorEcommerceAddons: React.FunctionComponent<
   const { updateCart } = useUpdateCart();
 
   const handleAddToCart = () => {
-    dispatch(
-      updateCartThunk({
-        entity: props.entity,
+    if (
+      validateProductQuantity({
+        product: props.entity,
+        model: props.entity.model as IModelReadDto,
+        notEnoughQuantityErrorText: getTranslatedText(
+          staticText?.notEnoughQuantity
+        ),
         quantity,
-        updateApiCart: async (command) => {
-          await updateCart(command);
-        },
+        unknownQuantityErrorText: getTranslatedText(
+          staticText?.unknownMaxQuantity
+        ),
       })
-    );
+    ) {
+      dispatch(
+        updateCartThunk({
+          entity: props.entity,
+          quantity,
+          updateApiCart: async (command) => {
+            await updateCart(command);
+          },
+        })
+      );
 
-    toast.success(getTranslatedText(staticText?.addedToCart));
+      toast.success(getTranslatedText(staticText?.addedToCart));
+    }
   };
 
   if (!props.model.isForSale) {
@@ -55,7 +71,11 @@ const EntityEditorEcommerceAddons: React.FunctionComponent<
       <Input
         theme={theme}
         label={getTranslatedText(staticText?.quantity)}
-        value={quantity}
+        value={
+          typeof quantity === "number" && !Number.isNaN(quantity)
+            ? quantity
+            : ""
+        }
         inputProps={{ type: "number" }}
         onChange={(e) => setQuantity(parseInt(e.target.value))}
       />

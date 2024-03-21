@@ -1,0 +1,134 @@
+import {
+  IEntityReadDto,
+  IFieldReadDto,
+  IFileReadDto,
+  IModelReadDto,
+  ITheme,
+} from "roottypes";
+import { FaRegTrashCan } from "react-icons/fa6";
+
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
+import Input from "../../../fundamentalComponents/inputs/input";
+
+import { updateCartThunk } from "../../../../store/slices/cartSlice";
+
+import useStyles from "./cart.styles";
+import { ICartReadDto } from "roottypes";
+import useUpdateCart from "../../../../hooks/apiHooks/useUpdateCarts";
+import validateProductQuantity from "../../../../utils/validateProductQuantity";
+import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
+
+interface ICartProps {}
+
+const Cart: React.FunctionComponent<ICartProps> = (props: ICartProps) => {
+  const theme: ITheme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
+  const cart: ICartReadDto | undefined = useAppSelector(
+    (state) => state.cart.cart
+  );
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.entities
+  );
+
+  const styles = useStyles({ theme });
+  const dispatch = useAppDispatch();
+  const { updateCart } = useUpdateCart();
+  const getTranslatedText = useGetTranslatedText();
+
+  const handleUpdateCart = (
+    productInfo: { product: IEntityReadDto | string; quantity: number },
+    quantity: number
+  ) => {
+    if (cart) {
+      dispatch(
+        updateCartThunk({
+          entity: productInfo.product as IEntityReadDto,
+          quantity,
+          updateApiCart: async (command) => {
+            await updateCart(command);
+          },
+        })
+      );
+    }
+  };
+  const handleProductInfoQuantityChange =
+    (productInfo: { product: IEntityReadDto | string; quantity: number }) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (
+        validateProductQuantity({
+          product: productInfo.product as IEntityReadDto,
+          model: (productInfo.product as IEntityReadDto).model as IModelReadDto,
+          notEnoughQuantityErrorText: getTranslatedText(
+            staticText?.notEnoughQuantity
+          ),
+          quantity: parseInt(e.target.value),
+          unknownQuantityErrorText: getTranslatedText(
+            staticText?.unknownMaxQuantity
+          ),
+        })
+      ) {
+        handleUpdateCart(productInfo, parseInt(e.target.value));
+      }
+    };
+  const handleRemoveProduct =
+    (productInfo: { product: IEntityReadDto | string; quantity: number }) =>
+    () => {
+      handleUpdateCart(productInfo, 0);
+    };
+
+  return (
+    <div className={styles.cartContainer}>
+      {cart?.products.map((productInfo) => {
+        const model = (productInfo.product as IEntityReadDto)
+          .model as IModelReadDto;
+        const product = productInfo.product as IEntityReadDto;
+        const imageFieldId = model.imageField as string;
+        const priceFieldId = model.priceField as string;
+
+        const imageFiles = product.entityFieldValues.find(
+          (efv) => (efv.field as IFieldReadDto)._id.toString() === imageFieldId
+        )?.files as IFileReadDto[] | undefined;
+
+        const price = product.entityFieldValues.find(
+          (efv) => (efv.field as IFieldReadDto)._id.toString() === priceFieldId
+        )?.value;
+
+        return (
+          <div
+            key={(productInfo.product as IEntityReadDto)._id.toString()}
+            className={styles.cartSingleProduct}
+          >
+            {imageFiles && imageFiles.length > 0 && (
+              <img className={styles.productImage} src={imageFiles[0].url} />
+            )}
+
+            <span className={styles.price}>{getTranslatedText(price)} $</span>
+
+            <div className={styles.productActionsContainer}>
+              <Input
+                value={
+                  typeof productInfo.quantity === "number" &&
+                  !Number.isNaN(productInfo.quantity)
+                    ? productInfo.quantity
+                    : ""
+                }
+                onChange={handleProductInfoQuantityChange(productInfo)}
+                theme={theme}
+                inputProps={{ style: { marginLeft: 0, height: 30 } }}
+                containerProps={{ style: { marginLeft: 10, marginBottom: 0 } }}
+              />
+
+              <FaRegTrashCan
+                className={styles.trashIcon}
+                onClick={handleRemoveProduct(productInfo)}
+              />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export default Cart;
