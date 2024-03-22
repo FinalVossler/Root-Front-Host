@@ -5,7 +5,6 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   cartProductContainer: {
     display: "flex",
     flexDirection: "row",
-    borderBottom: "1px solid " + theme.borderColor,
     justifyContent: "space-between",
     padding: 30,
     boxSizing: "border-box",
@@ -28,13 +27,14 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     display: "flex",
     flexDirection: "column",
   },
+  price: {},
   productSingleMainInfoTitle: {
     color: theme.darkerPrimary,
-    fontSize: 20,
+    fontSize: 16,
   },
   productSingleManInfoValue: {
     color: theme.darkTextColor,
-    marginLeft: 10,
+    marginLeft: 5,
   },
 }));
 

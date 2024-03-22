@@ -85,7 +85,19 @@ const CartProduct: React.FunctionComponent<ICartProductProps> = (
             })}
         </div>
       </div>
-      <div className={styles.right}></div>
+      <div className={styles.right}>
+        <span className={styles.price}>
+          {getTranslatedText(
+            (
+              props.productInfo.product as IEntityReadDto
+            ).entityFieldValues.find(
+              (efv) =>
+                (efv.field as IFieldReadDto)._id.toString() === priceFieldId
+            )?.value
+          )}
+          $
+        </span>
+      </div>
     </div>
   );
 };

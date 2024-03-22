@@ -1198,6 +1198,15 @@ const staticText = {
       { language: "en", text: "Proceed to checkout" },
       { language: "en", text: "Passer la commande" },
     ],
+    yourCart: [
+      { language: "en", text: "Your cart" },
+      { language: "en", text: "Votre panier" },
+    ],
+
+    price: [
+      { language: "en", text: "Price" },
+      { language: "en", text: "Prix" },
+    ],
   },
   contact: {
     address: [

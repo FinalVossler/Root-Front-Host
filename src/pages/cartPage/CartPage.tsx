@@ -36,6 +36,12 @@ const CartPage: React.FunctionComponent<ICartPageProps> = (
   return (
     <div className={styles.cartPageContainer}>
       <div className={styles.cartProducts}>
+        <div className={styles.yourCartTitle}>
+          {getTranslatedText(staticText?.yourCart)}
+        </div>
+        <span className={styles.priceTitle}>
+          {getTranslatedText(staticText?.price)}
+        </span>
         {cart.products.map((productInfo, i) => {
           return (
             <CartProduct
