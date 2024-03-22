@@ -21,6 +21,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     height: "fit-content",
     marginLeft: 10,
     boxShadow: theme.boxShadow,
+    borderRadius: 5,
   },
   subTotalContainer: {
     display: "flex",
@@ -31,6 +32,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     top: 0,
     height: "fit-content",
     padding: 20,
+    borderRadius: 5,
     boxShadow: theme.boxShadow,
   },
   subTotalTitleAndValueContainer: {

@@ -1,14 +1,14 @@
 import React from "react";
+import { IPageReadDto, ITheme } from "roottypes";
 
 import Post from "../../components/appComponents/post";
-
 import withWrapper from "../../hoc/wrapper";
 import { useAppSelector } from "../../store/hooks";
-
-import useStyles from "./dynamicPage.styles";
 import { useParams } from "react-router-dom";
 import withChat from "../../hoc/withChat";
-import { IPageReadDto, ITheme } from "roottypes";
+import { IPost } from "../../store/slices/postSlice";
+
+import useStyles from "./dynamicPage.styles";
 
 interface IDynamicPageProps {}
 
@@ -35,7 +35,7 @@ const DynamicPage: React.FunctionComponent<IDynamicPageProps> = (
   return (
     <div className={styles.dynamicPageContainer}>
       {actualPage.posts.map((post, index) => {
-        return <Post key={index} post={post} />;
+        return <Post key={index} post={post as IPost} />;
       })}
     </div>
   );

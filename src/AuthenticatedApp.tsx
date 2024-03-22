@@ -22,7 +22,6 @@ import useNotifications from "./hooks/useNotifications";
 import withChat from "./hoc/withChat";
 import { DynamicPageForLoggedIn } from "./pages/dynamicPage/DynamicPage";
 import withProtection from "./hoc/protection/index";
-import AppModalsAndEditors from "./AppModalsAndEditors";
 import { useAppSelector } from "./store/hooks";
 import useGetCart from "./hooks/apiHooks/useGetCart";
 import CartPage from "./pages/cartPage/CartPage";
@@ -44,15 +43,13 @@ function AuthenticatedApp() {
   }, [isLoggedIn]);
 
   React.useEffect(() => {
-    if (withEcommerce) {
+    if (withEcommerce && isLoggedIn) {
       getCart();
     }
-  }, [withEcommerce]);
+  }, [withEcommerce, isLoggedIn]);
 
   return (
     <React.Fragment>
-      <AppModalsAndEditors />
-
       <Routes>
         <Route
           path="/dynamicPage/:pageSlug"

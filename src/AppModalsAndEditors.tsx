@@ -37,6 +37,7 @@ const AppModalsAndEditors: React.FunctionComponent<
 
   const dispatch = useAppDispatch();
   const { hasPermission } = useHasPermission();
+
   return (
     <React.Fragment>
       {messageFilePreviews.map((messageFilePreview) => {

@@ -8,9 +8,9 @@ import {
 } from "roottypes";
 
 import { useAppSelector } from "../../../store/hooks";
+import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 
 import useStyles from "./cartProduct.styles";
-import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 
 interface ICartProductProps {
   productInfo: {
@@ -60,7 +60,7 @@ const CartProduct: React.FunctionComponent<ICartProductProps> = (
         <div className={styles.productInfo}>
           {props.model.modelFields
             .filter((modelField) => modelField.mainField)
-            .map((modelField) => {
+            .map((modelField, i) => {
               const value = (
                 props.productInfo.product as IEntityReadDto
               ).entityFieldValues.find(
@@ -70,7 +70,7 @@ const CartProduct: React.FunctionComponent<ICartProductProps> = (
               )?.value;
 
               return (
-                <span className={styles.productMainInfo}>
+                <span key={i} className={styles.productMainInfo}>
                   <span className={styles.productSingleMainInfoTitle}>
                     {getTranslatedText(
                       (modelField.field as IFieldReadDto).name

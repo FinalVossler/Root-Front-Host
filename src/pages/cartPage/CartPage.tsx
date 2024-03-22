@@ -8,8 +8,8 @@ import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import getCartTotal from "../../utils/getCartTotal";
 import Button from "../../components/fundamentalComponents/button";
 
-import useStyles from "./cartPage.styles";
 import CartProduct from "./cartProduct/CartProduct";
+import useStyles from "./cartPage.styles";
 
 interface ICartPageProps {}
 
