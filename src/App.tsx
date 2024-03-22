@@ -49,21 +49,26 @@ function App() {
 
       <BrowserRouter>
         <Routes>
-          {!homePage && <Route path="/" element={<HomePage />}></Route>}
-          {homePage && <Route path="/" element={<DynamicPage />}></Route>}
+          {isLoggedIn && (
+            <Route path="*" element={<AuthenticatedApp />}></Route>
+          )}
 
           {!isLoggedIn && (
-            <Route
-              path="/dynamicPage/:pageSlug"
-              element={<DynamicPage />}
-            ></Route>
+            <React.Fragment>
+              {!homePage && <Route path="/" element={<HomePage />}></Route>}
+              {homePage && <Route path="/" element={<DynamicPage />}></Route>}
+              <Route
+                path="/dynamicPage/:pageSlug"
+                element={<DynamicPage />}
+              ></Route>
+
+              <Route path="/auth" element={<LoginOrRegistrationPage />}></Route>
+              <Route
+                path="/changePassword/:token"
+                element={<ForgotPasswordChangePasswordPage />}
+              ></Route>
+            </React.Fragment>
           )}
-          <Route path="/auth" element={<LoginOrRegistrationPage />}></Route>
-          <Route
-            path="/changePassword/:token"
-            element={<ForgotPasswordChangePasswordPage />}
-          ></Route>
-          <Route path="*" element={<AuthenticatedApp />}></Route>
         </Routes>
       </BrowserRouter>
     </React.Fragment>

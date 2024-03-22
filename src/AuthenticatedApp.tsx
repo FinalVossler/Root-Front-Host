@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { IPageReadDto } from "roottypes";
 import "react-toastify/dist/ReactToastify.css";
 
 import ProfilePage from "./pages/profilePage";
@@ -25,11 +26,16 @@ import withProtection from "./hoc/protection/index";
 import { useAppSelector } from "./store/hooks";
 import useGetCart from "./hooks/apiHooks/useGetCart";
 import CartPage from "./pages/cartPage/CartPage";
+import { HomePageForLoggedIn } from "./pages/homePage/HomePage";
+import AppModalsAndEditors from "./AppModalsAndEditors";
 
 function AuthenticatedApp() {
   const withEcommerce: boolean | undefined = useAppSelector(
     (state) => state.websiteConfiguration.withEcommerce
   );
+  const homePage: IPageReadDto | undefined = useAppSelector(
+    (state) => state.page.pages
+  ).find((page) => page.slug.length === 0);
 
   useNotifications();
   const isLoggedIn = useIsLoggedIn();
@@ -50,6 +56,7 @@ function AuthenticatedApp() {
 
   return (
     <React.Fragment>
+      <AppModalsAndEditors />
       <Routes>
         <Route
           path="/dynamicPage/:pageSlug"
@@ -80,6 +87,18 @@ function AuthenticatedApp() {
         />
         <Route path="/microFrontends/" element={<MicroFrontendsPage />} />
         <Route path="/cart" element={<CartPage />} />
+
+        {!homePage && (
+          <Route path="/" element={<HomePageForLoggedIn />}></Route>
+        )}
+        {homePage && (
+          <Route path="/" element={<DynamicPageForLoggedIn />}></Route>
+        )}
+
+        <Route
+          path="/dynamicPage/:pageSlug"
+          element={<DynamicPageForLoggedIn />}
+        ></Route>
       </Routes>
     </React.Fragment>
   );

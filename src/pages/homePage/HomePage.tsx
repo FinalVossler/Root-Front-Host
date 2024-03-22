@@ -19,7 +19,7 @@ import withChat from "../../hoc/withChat";
 import { ITheme } from "roottypes";
 
 interface IHomeProps {}
-const Home: React.FunctionComponent<IHomeProps> = (props: IHomeProps) => {
+const HomePage: React.FunctionComponent<IHomeProps> = (props: IHomeProps) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
@@ -119,8 +119,10 @@ const Home: React.FunctionComponent<IHomeProps> = (props: IHomeProps) => {
   );
 };
 
+export const HomePageForLoggedIn = React.memo(HomePage);
+
 export default withChat(
-  withWrapper(React.memo(Home), {
+  withWrapper(React.memo(HomePage), {
     withFooter: true,
     withSideMenu: true,
   })
