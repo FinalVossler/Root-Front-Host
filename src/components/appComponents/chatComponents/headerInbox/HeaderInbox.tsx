@@ -48,7 +48,7 @@ const HeaderInbox: React.FunctionComponent<IHeaderInboxProps> = (
   }, []);
 
   const handleOpenInbox = () => {
-    setInboxOpen(!inboxOpen);
+    setInboxOpen(true);
   };
 
   const handleSelectConversation = (conversationId: string) => {
@@ -60,9 +60,10 @@ const HeaderInbox: React.FunctionComponent<IHeaderInboxProps> = (
     <div
       className={styles.headerInboxContainer}
       ref={inboxRef as React.RefObject<HTMLDivElement>}
+      onClick={handleOpenInbox}
       {...props}
     >
-      <BsChatDots onClick={handleOpenInbox} className={styles.inboxIcon} />
+      <BsChatDots className={styles.inboxIcon} />
 
       {totalUnreadMessages > 0 && (
         <span className={styles.notificationNumber}>{totalUnreadMessages}</span>

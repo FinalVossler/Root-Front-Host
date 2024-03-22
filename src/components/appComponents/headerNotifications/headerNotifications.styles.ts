@@ -4,18 +4,22 @@ import { ITheme } from "roottypes";
 const useStyles = createUseStyles((theme: ITheme) => ({
   headerNotificationContainer: {
     position: "relative",
+    transition: "all .2s ease-in-out",
+    cursor: "pointer",
+
+    "&:hover": {
+      boxShadow: theme.boxShadow,
+    },
   },
   headerNotificationLoading: {
     fill: theme.primary + "!important",
   },
-  notificationIconContainer: {
-    cursor: "pointer",
-  },
+  notificationIconContainer: {},
   notificationIcon: {
     fontSize: 26,
     color: theme.darkTextColor,
     cursor: "pointer",
-    margin: 20,
+    margin: 19,
     padding: 5,
   },
   notificationPopup: {

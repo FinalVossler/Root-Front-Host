@@ -84,12 +84,21 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     margin: 0,
   },
   option: {
+    display: "flex",
+    alignItems: "center",
+    height: "100%",
     color: theme.darkTextColor,
-    margin: "15px",
+    margin: 0,
     position: "relative",
     textDecoration: "none",
     whiteSpace: "nowrap",
+    cursor: "pointer",
+    paddingRight: 10,
+    paddingLeft: 10,
 
+    "&:hover": {
+      boxShadow: theme.boxShadow,
+    },
     "& a": {
       textDecoration: "none",
       color: theme.darkTextColor,
@@ -97,10 +106,6 @@ const useStyles = createUseStyles((theme: ITheme) => ({
       borderRadius: 10,
 
       transition: "all .2s ease-in-out",
-
-      "&:hover": {
-        boxShadow: "0px 0px 100px 0px" + theme.primary,
-      },
     },
   },
   optionATag: {
@@ -121,12 +126,12 @@ const useStyles = createUseStyles((theme: ITheme) => ({
       color: theme.primary,
     },
   },
-  "@media (max-width: 1200px)": {
+  "@media (max-width: 1300px)": {
     left: {
       display: "none",
     },
   },
-  "@media (max-width: 800px)": {
+  "@media (max-width: 1000px)": {
     triggerMenuButton: {
       display: "flex",
     },
@@ -178,6 +183,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
       padding: 0,
       justifyContent: "flex-end",
       height: 60,
+      right: "0px!important",
     },
     headerTitle: {
       display: "none",

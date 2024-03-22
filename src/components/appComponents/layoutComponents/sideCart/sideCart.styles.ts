@@ -56,6 +56,12 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     position: "relative",
     bottom: 2,
   },
+
+  "@media (max-width: 1000px)": {
+    sideCartContainer: {
+      display: "none",
+    },
+  },
 }));
 
 export default useStyles;

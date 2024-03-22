@@ -42,11 +42,11 @@ const HeaderCart: React.FunctionComponent<IHeaderCartProps> = (
     [cart]
   );
   return (
-    <div className={styles.headerCartContainer}>
-      <FiShoppingCart
-        className={styles.cartIcon}
-        onClick={handleNavigateToCartPage}
-      />
+    <div
+      className={styles.headerCartContainer}
+      onClick={handleNavigateToCartPage}
+    >
+      <FiShoppingCart className={styles.cartIcon} />
 
       <HeaderOptionNotificationSignal numberOfNotifications={total} />
     </div>

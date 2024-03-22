@@ -16,6 +16,7 @@ import HeaderNotifications from "../../headerNotifications";
 import useStyles from "./header.styles";
 import { IPageReadDto, ITheme } from "roottypes";
 import HeaderCart from "../../headerCart";
+import useIsSideCartShowing from "../../../../hooks/useIsSideCartShowing";
 
 interface IHeaderProps {
   scrolledDown: boolean;
@@ -59,6 +60,7 @@ const Header: React.FunctionComponent<IHeaderProps> = (props: IHeaderProps) => {
   const getTranslatedText = useGetTranslatedText();
   const location = useLocation();
   const navigate = useNavigate();
+  const isSideCartShowing: boolean = useIsSideCartShowing();
 
   //#region Event listeners
   const handleLogout = () => {
@@ -83,7 +85,7 @@ const Header: React.FunctionComponent<IHeaderProps> = (props: IHeaderProps) => {
       style={{
         backgroundColor: theme.transparentBackground,
         left: isSideMenuOpen ? 300 : 0,
-        right: cart?.products && cart?.products.length > 0 ? 130 : 0,
+        right: isSideCartShowing ? 130 : 0,
       }}
     >
       <div className={styles.left}>
@@ -124,7 +126,7 @@ const Header: React.FunctionComponent<IHeaderProps> = (props: IHeaderProps) => {
               value: userPreferenceLanguage,
             }}
             onChange={handleChangeLanguage}
-            style={{ marginBottom: 0 }}
+            style={{ marginBottom: 0, marginRight: 10 }}
             selectorClassName="mainLanguageSelector"
           />
 

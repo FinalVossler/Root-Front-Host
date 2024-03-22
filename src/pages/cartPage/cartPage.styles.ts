@@ -62,6 +62,12 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     marginRight: 10,
   },
   subTotal: {},
+
+  "@media (max-width: 1300px)": {
+    cartPageContainer: {
+      // flexDirection: "column",
+    },
+  },
 }));
 
 export default useStyles;
