@@ -49,6 +49,7 @@ const Header: React.FunctionComponent<IHeaderProps> = (props: IHeaderProps) => {
   const isSideMenuOpen: boolean = useAppSelector(
     (state) => state.userPreferences.isSideMenuOpen
   );
+  const cart = useAppSelector((state) => state.cart.cart);
 
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
 
@@ -81,6 +82,8 @@ const Header: React.FunctionComponent<IHeaderProps> = (props: IHeaderProps) => {
       }
       style={{
         backgroundColor: theme.transparentBackground,
+        left: isSideMenuOpen ? 300 : 0,
+        right: cart?.products && cart?.products.length > 0 ? 130 : 0,
       }}
     >
       <div className={styles.left}>
