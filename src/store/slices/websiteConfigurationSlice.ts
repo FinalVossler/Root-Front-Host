@@ -1194,6 +1194,10 @@ const staticText = {
       { language: "en", text: "Subtotal" },
       { language: "en", text: "Sous-totale" },
     ],
+    proceedToCheckout: [
+      { language: "en", text: "Proceed to checkout" },
+      { language: "en", text: "Passer la commande" },
+    ],
   },
   contact: {
     address: [

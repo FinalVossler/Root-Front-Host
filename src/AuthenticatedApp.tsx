@@ -25,6 +25,7 @@ import withProtection from "./hoc/protection/index";
 import AppModalsAndEditors from "./AppModalsAndEditors";
 import { useAppSelector } from "./store/hooks";
 import useGetCart from "./hooks/apiHooks/useGetCart";
+import CartPage from "./pages/cartPage/CartPage";
 
 function AuthenticatedApp() {
   const withEcommerce: boolean | undefined = useAppSelector(
@@ -81,6 +82,7 @@ function AuthenticatedApp() {
           element={<MicroFrontendPage />}
         />
         <Route path="/microFrontends/" element={<MicroFrontendsPage />} />
+        <Route path="/cart" element={<CartPage />} />
       </Routes>
     </React.Fragment>
   );

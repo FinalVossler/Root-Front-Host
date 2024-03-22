@@ -8,6 +8,7 @@ import withNotifications from "../../../hoc/withNotifications";
 import HeaderOptionNotificationSignal from "../headerOptionNotificationSignal";
 
 import useStyles from "./headerCart.styles";
+import { useNavigate } from "react-router-dom";
 
 interface IHeaderCartProps {}
 
@@ -25,11 +26,15 @@ const HeaderCart: React.FunctionComponent<IHeaderCartProps> = (
   //#endregion Store
 
   const styles = useStyles({ theme });
+  const navigate = useNavigate();
 
   //#region Hooks
   //#endregion Hooks
 
   //#region Event listeners
+  const handleNavigateToCartPage = () => {
+    navigate("/cart");
+  };
   //#endregion Event listeners
 
   const total: number = React.useMemo(
@@ -38,7 +43,10 @@ const HeaderCart: React.FunctionComponent<IHeaderCartProps> = (
   );
   return (
     <div className={styles.headerCartContainer}>
-      <FiShoppingCart className={styles.cartIcon} />
+      <FiShoppingCart
+        className={styles.cartIcon}
+        onClick={handleNavigateToCartPage}
+      />
 
       <HeaderOptionNotificationSignal numberOfNotifications={total} />
     </div>

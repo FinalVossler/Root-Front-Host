@@ -2,7 +2,7 @@ import { createUseStyles } from "react-jss";
 import { ITheme } from "roottypes";
 
 const useStyles = createUseStyles((theme: ITheme) => ({
-  cartContainer: {
+  sideCartContainer: {
     boxShadow: theme.boxShadow,
     width: 129,
     borderLeft: ".5px solid " + theme.borderColor,

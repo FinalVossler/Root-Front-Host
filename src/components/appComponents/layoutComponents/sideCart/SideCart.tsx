@@ -16,11 +16,13 @@ import validateProductQuantity from "../../../../utils/validateProductQuantity";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import getCartTotal from "../../../../utils/getCartTotal";
 
-import useStyles from "./cart.styles";
+import useStyles from "./sideCart.styles";
 
-interface ICartProps {}
+interface ISideCartProps {}
 
-const Cart: React.FunctionComponent<ICartProps> = (props: ICartProps) => {
+const SideCart: React.FunctionComponent<ISideCartProps> = (
+  props: ISideCartProps
+) => {
   //#region selectors
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
@@ -84,7 +86,7 @@ const Cart: React.FunctionComponent<ICartProps> = (props: ICartProps) => {
   //#endregion Event listeners
 
   return (
-    <div className={styles.cartContainer}>
+    <div className={styles.sideCartContainer}>
       {cart && (
         <div className={styles.totalContainer}>
           <span className={styles.subTotalTitle}>
@@ -147,4 +149,4 @@ const Cart: React.FunctionComponent<ICartProps> = (props: ICartProps) => {
   );
 };
 
-export default Cart;
+export default SideCart;

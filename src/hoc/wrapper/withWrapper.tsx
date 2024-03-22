@@ -8,7 +8,7 @@ import useStyles from "./withWrapper.styles";
 import { useAppSelector } from "../../store/hooks";
 import SideMenu from "../../components/appComponents/layoutComponents/sideMenu/SideMenu";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
-import Cart from "../../components/appComponents/layoutComponents/cart";
+import SideCart from "../../components/appComponents/layoutComponents/sideCart";
 
 const withWrapper =
   (
@@ -77,7 +77,7 @@ const withWrapper =
         {withEcommerce &&
           isLoggedIn &&
           cartTotalProducts &&
-          cartTotalProducts > 0 && <Cart />}
+          cartTotalProducts > 0 && <SideCart />}
       </div>
     );
   };
