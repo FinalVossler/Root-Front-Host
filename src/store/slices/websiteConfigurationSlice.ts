@@ -1171,45 +1171,45 @@ const staticText = {
     ],
     addToCart: [
       { language: "en", text: "Add to cart" },
-      { language: "en", text: "Ajouter au panier" },
+      { language: "fr", text: "Ajouter au panier" },
     ],
     quantity: [
       { language: "en", text: "Quantity" },
-      { language: "en", text: "Quantité" },
+      { language: "fr", text: "Quantité" },
     ],
     addedToCart: [
       { language: "en", text: "Added to cat" },
-      { language: "en", text: "Ajouté au panier" },
+      { language: "fr", text: "Ajouté au panier" },
     ],
 
     unknownMaxQuantity: [
       { language: "en", text: "Uknown max quatity" },
-      { language: "en", text: "La quantité maximale est inconnue" },
+      { language: "fr", text: "La quantité maximale est inconnue" },
     ],
     notEnoughQuantity: [
       { language: "en", text: "Not enough quantity" },
-      { language: "en", text: "Pas assez de quantité" },
+      { language: "fr", text: "Pas assez de quantité" },
     ],
     subTotal: [
       { language: "en", text: "Subtotal" },
-      { language: "en", text: "Sous-totale" },
+      { language: "fr", text: "Sous-totale" },
     ],
     proceedToCheckout: [
       { language: "en", text: "Proceed to checkout" },
-      { language: "en", text: "Passer la commande" },
+      { language: "fr", text: "Passer la commande" },
     ],
     yourCart: [
       { language: "en", text: "Your cart" },
-      { language: "en", text: "Votre panier" },
+      { language: "fr", text: "Votre panier" },
     ],
 
     price: [
       { language: "en", text: "Price" },
-      { language: "en", text: "Prix" },
+      { language: "fr", text: "Prix" },
     ],
     articles: [
       { language: "en", text: "Article(s)" },
-      { language: "en", text: "Article(s)" },
+      { language: "fr", text: "Article(s)" },
     ],
   },
   contact: {
@@ -1316,7 +1316,7 @@ const staticText = {
     ],
     language: [
       { text: "Language", language: "en" },
-      { text: "Lange", language: "fr" },
+      { text: "Langue", language: "fr" },
     ],
     title: [
       { text: "Title", language: "en" },

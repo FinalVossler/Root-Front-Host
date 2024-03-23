@@ -31,6 +31,7 @@ const CartProductActions: React.FunctionComponent<ICartProductActions> = (
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.entities
   );
+  const language = useAppSelector((state) => state.userPreferences.language);
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
@@ -76,6 +77,7 @@ const CartProductActions: React.FunctionComponent<ICartProductActions> = (
         }
         debounce
         theme={theme}
+        inputProps={{ type: "number" }}
         labelStyles={{ width: "fit-content" }}
       />
     </div>

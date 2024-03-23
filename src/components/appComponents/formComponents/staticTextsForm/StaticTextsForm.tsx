@@ -49,11 +49,24 @@ const StaticTextsForm: React.FunctionComponent<IStaticTextsFormProps> = (
         return;
       }
       const newStaticText = JSON.parse(JSON.stringify(value));
-      const text: ITranslatedText | undefined = (
-        newStaticText[key][subKey] as ITranslatedText[]
-      ).find((el) => el.language === props.language);
-      if (text) {
-        text.text = e.target.value;
+      const translatedText: ITranslatedText[] | undefined = newStaticText[key][
+        subKey
+      ] as ITranslatedText[];
+
+      if (translatedText) {
+        const text: ITranslatedText | undefined = translatedText.find(
+          (el) => el.language === props.language
+        );
+
+        if (text) {
+          text.text = e.target.value;
+        } else {
+          translatedText.push({
+            language: props.language,
+            text: e.target.value,
+          });
+        }
+
         props.formik.setFieldValue(props.name, newStaticText);
       }
     };
@@ -98,7 +111,7 @@ const StaticTextsForm: React.FunctionComponent<IStaticTextsFormProps> = (
                         value={
                           (value[key][subKey] as ITranslatedText[]).find(
                             (el) => el.language === props.language
-                          )?.text
+                          )?.text || ""
                         }
                         debounce
                       />
