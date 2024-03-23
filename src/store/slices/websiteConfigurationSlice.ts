@@ -1614,6 +1614,23 @@ const staticText = {
       { language: "fr", text: "Supprimer un mode d'expédition" },
     ],
 
+    createAddress: [
+      { language: "en", text: "Create address" },
+      { language: "fr", text: "Créer une adresse" },
+    ],
+    updateAddress: [
+      { language: "en", text: "Update address" },
+      { language: "fr", text: "Mettre à jour une adresse" },
+    ],
+    readAddress: [
+      { language: "en", text: "Read address" },
+      { language: "fr", text: "Lire une adresse" },
+    ],
+    deleteAddress: [
+      { language: "en", text: "Delete address" },
+      { language: "fr", text: "Supprimer une adresse" },
+    ],
+
     create: [
       { language: "en", text: "Create" },
       { language: "fr", text: "Créer" },

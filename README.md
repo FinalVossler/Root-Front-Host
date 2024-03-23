@@ -5,6 +5,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
+- Add tests for addresses (don't forget the tests to get a user's list of addresses)
 - Add the remove product to the cart actions section
 - Add cart sided products logic
 - Add the sided items' section

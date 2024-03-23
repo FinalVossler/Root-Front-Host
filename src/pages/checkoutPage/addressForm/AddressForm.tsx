@@ -77,7 +77,6 @@ const AddressForm: React.FunctionComponent<IAddressFormProps> = (
         }}
         theme={theme}
       />
-      {/* <div className={styles.section}> */}
       <FormikInput
         name="addressLine1"
         formik={formik}
@@ -100,7 +99,6 @@ const AddressForm: React.FunctionComponent<IAddressFormProps> = (
         }}
         theme={theme}
       />
-      {/* </div> */}
 
       <div className={styles.section}>
         <FormikInput
