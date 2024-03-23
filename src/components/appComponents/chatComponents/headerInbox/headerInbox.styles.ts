@@ -5,8 +5,8 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   headerInboxContainer: {
     position: "relative",
     cursor: "pointer",
+    height: "100%",
 
-    transition: "all .2s ease-in-out",
     "&:hover": {
       boxShadow: theme.boxShadow,
     },
@@ -14,9 +14,9 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   inboxIcon: {
     fontSize: 26,
     color: theme.darkTextColor,
-    cursor: "pointer",
     margin: 19,
     padding: 5,
+    width: 40,
   },
   notificationNumber: {
     position: "absolute",
@@ -31,7 +31,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     backgroundColor: theme.contentBackgroundColor,
     boxShadow: theme.boxShadow,
     position: "absolute",
-    top: 70,
+    top: 80.5,
     minHeight: 200,
     right: -50,
     borderRadius: 5,
@@ -43,10 +43,9 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     zIndex: 8,
     boxSizing: "border-box",
   },
-
-  "@media (max-width: 800px)": {
-    inboxPopup: {
-      width: 300,
+  "@media (max-width: 1000px)": {
+    headerInboxContainer: {
+      display: "none!important",
     },
   },
 }));

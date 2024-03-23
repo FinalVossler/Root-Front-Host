@@ -61,9 +61,12 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     cursor: "pointer",
     fontSize: 30,
   },
-  "@media (max-width: 850px)": {
+  "@media (max-width: 1000px)": {
     chatWelcome: {
       display: "none",
+    },
+    chatPageContent: {
+      marginTop: 0,
     },
   },
 }));

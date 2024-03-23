@@ -1,5 +1,6 @@
 import { createUseStyles } from "react-jss";
 import { ITheme } from "roottypes";
+import HeaderInbox from "../../chatComponents/headerInbox/HeaderInbox";
 
 const useStyles = createUseStyles((theme: ITheme) => ({
   headerContainer: {
@@ -14,7 +15,6 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     position: "fixed",
     top: "0%",
     zIndex: 11,
-    transition: "all .2s ease-in-out",
     height: 80,
     width: "-webkit-fill-available",
 
@@ -74,6 +74,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     display: "flex",
     justifyContent: "flex-end",
     flexDirection: "row",
+    height: "100%",
   },
   optionsList: {
     display: "flex",
@@ -83,10 +84,10 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     position: "relative",
     margin: 0,
   },
-  option: {
+  optionATag: {
     display: "flex",
     alignItems: "center",
-    height: "100%",
+    justifyContent: "center",
     color: theme.darkTextColor,
     margin: 0,
     position: "relative",
@@ -95,6 +96,9 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     cursor: "pointer",
     paddingRight: 10,
     paddingLeft: 10,
+    width: 88,
+    height: "100%",
+    boxSizing: "border-box",
 
     "&:hover": {
       boxShadow: theme.boxShadow,
@@ -104,11 +108,9 @@ const useStyles = createUseStyles((theme: ITheme) => ({
       color: theme.darkTextColor,
       padding: 10,
       borderRadius: 10,
-
-      transition: "all .2s ease-in-out",
     },
   },
-  optionATag: {
+  option: {
     display: "flex",
   },
   mobileOptionsList: {
@@ -143,33 +145,34 @@ const useStyles = createUseStyles((theme: ITheme) => ({
       position: "fixed",
       width: "100%",
       margin: "0px",
-      backgroundColor: theme.contentBackgroundColor,
-      paddingTop: "80px",
+      backgroundColor: theme.boxColor,
+      borderTop: "1px solid " + theme.borderColor,
+      marginTop: "60px",
       paddingLeft: "100px",
       height: "100%",
       alignItems: "center",
 
-      "& li, >div": {
-        boxSizing: "border-box",
-        border: "1px solid " + theme.darkTextColor,
-        margin: 0,
-        width: "90%",
-        height: 70,
-        display: "flex",
-        alignItems: "center",
-      },
       "& >div": {
         paddingLeft: 50,
         paddingRight: 50,
-      },
-      "& a": {
-        padding: 0,
-        height: "100%",
-        display: "flex",
-        alignItems: "center",
         width: "100%",
-        paddingLeft: 50,
-        paddingRight: 50,
+        display: "flex",
+        justifyContent: "center",
+        height: 50,
+        alignItems: "center",
+        marginLeft: 10,
+        marginRight: 10,
+        boxSizing: "border-box",
+        borderBottom: "1px solid " + theme.borderColor,
+
+        "&:hover": {
+          backgroundColor: theme.darkerPrimary,
+          color: theme.lightTextColor,
+
+          "& svg": {
+            color: theme.lightTextColor,
+          },
+        },
       },
       "& svg": {
         margin: 0,
@@ -188,10 +191,21 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     headerTitle: {
       display: "none",
     },
-    option: {
+    optionATag: {
       fontSize: 15,
       margin: 0,
-      color: theme.primary,
+      height: 50,
+      width: "100%",
+      color: theme.darkTextColor,
+      marginLeft: 10,
+      marginRight: 10,
+      boxSizing: "border-box",
+      borderBottom: "1px solid " + theme.borderColor,
+
+      "&:hover": {
+        backgroundColor: theme.darkerPrimary,
+        color: theme.lightTextColor,
+      },
     },
   },
 }));

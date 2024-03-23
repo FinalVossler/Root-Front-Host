@@ -64,13 +64,16 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     fontWeight: "bold",
     fontSize: 15,
   },
-  "@media (max-width: 930px)": {
+  "@media (max-width: 1000px)": {
     left: {
       display: "none",
     },
     right: {
       paddingTop: 50,
       width: "100%",
+    },
+    switchFormContainer: {
+      flexDirection: "column",
     },
   },
 }));

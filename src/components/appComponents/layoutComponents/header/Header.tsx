@@ -50,7 +50,6 @@ const Header: React.FunctionComponent<IHeaderProps> = (props: IHeaderProps) => {
   const isSideMenuOpen: boolean = useAppSelector(
     (state) => state.userPreferences.isSideMenuOpen
   );
-  const cart = useAppSelector((state) => state.cart.cart);
 
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
 
@@ -62,6 +61,9 @@ const Header: React.FunctionComponent<IHeaderProps> = (props: IHeaderProps) => {
   const navigate = useNavigate();
   const isSideCartShowing: boolean = useIsSideCartShowing();
 
+  React.useEffect(() => {
+    setShowMobileMenu(false);
+  }, [location]);
   //#region Event listeners
   const handleLogout = () => {
     dispatch(userSlice.actions.logout());
@@ -84,7 +86,7 @@ const Header: React.FunctionComponent<IHeaderProps> = (props: IHeaderProps) => {
       }
       style={{
         backgroundColor: theme.transparentBackground,
-        left: isSideMenuOpen ? 300 : 0,
+        left: isSideMenuOpen && isLoggedIn ? 300 : 0,
         right: isSideCartShowing ? 130 : 0,
       }}
     >
@@ -134,29 +136,28 @@ const Header: React.FunctionComponent<IHeaderProps> = (props: IHeaderProps) => {
             if (page.showInHeader === false) return null;
             if (getTranslatedText(page.title) === "") return null;
             return (
-              <li key={page._id} className={styles.option}>
-                <NavLink
-                  className={styles.optionATag}
-                  to={"/dynamicPage/" + page.slug}
-                >
+              <NavLink
+                className={styles.optionATag}
+                to={"/dynamicPage/" + page.slug}
+              >
+                <li key={page._id} className={styles.option}>
                   {getTranslatedText(page.title)}
-                </NavLink>
-              </li>
+                </li>
+              </NavLink>
             );
           })}
-
-          <li className={styles.option}>
-            <NavLink className={styles.optionATag} to="/">
+          <NavLink className={styles.optionATag} to="/">
+            <li className={styles.option}>
               {getTranslatedText(staticText?.home)}
-            </NavLink>
-          </li>
+            </li>
+          </NavLink>
 
           {withChat && isLoggedIn && (
-            <li className={styles.option}>
-              <NavLink className={styles.optionATag} to="/chat">
+            <NavLink className={styles.optionATag} to="/chat">
+              <li className={styles.option}>
                 {getTranslatedText(staticText?.chat)}
-              </NavLink>
-            </li>
+              </li>
+            </NavLink>
           )}
 
           {withChat && isLoggedIn && location.pathname !== "/chat" && (
@@ -168,23 +169,23 @@ const Header: React.FunctionComponent<IHeaderProps> = (props: IHeaderProps) => {
           {withRegistration && isLoggedIn && <HeaderNotifications />}
 
           {withRegistration && !isLoggedIn && (
-            <li className={styles.option + " " + styles.headerIcon}>
-              <NavLink className={styles.optionATag} to={"/auth"}>
+            <NavLink className={styles.optionATag} to={"/auth"}>
+              <li className={styles.option + " " + styles.headerIcon}>
                 <CgProfile />
-              </NavLink>
-            </li>
+              </li>
+            </NavLink>
           )}
 
           {isLoggedIn && (
-            <li className={styles.option + " " + styles.headerIcon}>
-              <NavLink
-                onClick={handleLogout}
-                className={styles.optionATag}
-                to="/auth"
-              >
+            <NavLink
+              onClick={handleLogout}
+              className={styles.optionATag}
+              to="/auth"
+            >
+              <li className={styles.option + " " + styles.headerIcon}>
                 <AiOutlineLogout />
-              </NavLink>
-            </li>
+              </li>
+            </NavLink>
           )}
         </ul>
       </div>
