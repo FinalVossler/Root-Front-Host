@@ -52,6 +52,7 @@ const EntityEditorEcommerceAddons: React.FunctionComponent<
         updateCartThunk({
           entity: props.entity,
           quantity,
+          sided: false,
           updateApiCart: async (command) => {
             await updateCart(command);
           },

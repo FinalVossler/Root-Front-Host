@@ -38,7 +38,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   },
   priceTitle: {
     position: "absolute",
-    right: 27,
+    right: 30,
     top: 35,
     fontSize: 15,
   },

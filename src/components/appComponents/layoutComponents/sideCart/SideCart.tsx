@@ -52,6 +52,7 @@ const SideCart: React.FunctionComponent<ISideCartProps> = (
         updateCartThunk({
           entity: productInfo.product as IEntityReadDto,
           quantity,
+          sided: false,
           updateApiCart: async (command) => {
             await updateCart(command);
           },
@@ -96,55 +97,61 @@ const SideCart: React.FunctionComponent<ISideCartProps> = (
         </div>
       )}
 
-      {cart?.products.map((productInfo) => {
-        const model = (productInfo.product as IEntityReadDto)
-          .model as IModelReadDto;
-        const product = productInfo.product as IEntityReadDto;
-        const imageFieldId = model.imageField as string;
-        const priceFieldId = model.priceField as string;
+      {cart?.products
+        .filter((productInfo) => !productInfo.sided)
+        .map((productInfo) => {
+          const model = (productInfo.product as IEntityReadDto)
+            .model as IModelReadDto;
+          const product = productInfo.product as IEntityReadDto;
+          const imageFieldId = model.imageField as string;
+          const priceFieldId = model.priceField as string;
 
-        const imageFiles = product.entityFieldValues.find(
-          (efv) => (efv.field as IFieldReadDto)._id.toString() === imageFieldId
-        )?.files as IFileReadDto[] | undefined;
+          const imageFiles = product.entityFieldValues.find(
+            (efv) =>
+              (efv.field as IFieldReadDto)._id.toString() === imageFieldId
+          )?.files as IFileReadDto[] | undefined;
 
-        const price = product.entityFieldValues.find(
-          (efv) => (efv.field as IFieldReadDto)._id.toString() === priceFieldId
-        )?.value;
+          const price = product.entityFieldValues.find(
+            (efv) =>
+              (efv.field as IFieldReadDto)._id.toString() === priceFieldId
+          )?.value;
 
-        return (
-          <div
-            key={(productInfo.product as IEntityReadDto)._id.toString()}
-            className={styles.cartSingleProduct}
-          >
-            {imageFiles && imageFiles.length > 0 && (
-              <img className={styles.productImage} src={imageFiles[0].url} />
-            )}
+          return (
+            <div
+              key={(productInfo.product as IEntityReadDto)._id.toString()}
+              className={styles.cartSingleProduct}
+            >
+              {imageFiles && imageFiles.length > 0 && (
+                <img className={styles.productImage} src={imageFiles[0].url} />
+              )}
 
-            <span className={styles.price}>{getTranslatedText(price)} $</span>
+              <span className={styles.price}>{getTranslatedText(price)} $</span>
 
-            <div className={styles.productActionsContainer}>
-              <Input
-                value={
-                  typeof productInfo.quantity === "number" &&
-                  !Number.isNaN(productInfo.quantity)
-                    ? productInfo.quantity
-                    : ""
-                }
-                onChange={handleProductInfoQuantityChange(productInfo)}
-                theme={theme}
-                inputProps={{ style: { marginLeft: 0, height: 30 } }}
-                containerProps={{ style: { marginLeft: 10, marginBottom: 0 } }}
-                debounce
-              />
+              <div className={styles.productActionsContainer}>
+                <Input
+                  value={
+                    typeof productInfo.quantity === "number" &&
+                    !Number.isNaN(productInfo.quantity)
+                      ? productInfo.quantity
+                      : ""
+                  }
+                  onChange={handleProductInfoQuantityChange(productInfo)}
+                  theme={theme}
+                  inputProps={{ style: { marginLeft: 0, height: 30 } }}
+                  containerProps={{
+                    style: { marginLeft: 10, marginBottom: 0 },
+                  }}
+                  debounce
+                />
 
-              <FaRegTrashCan
-                className={styles.trashIcon}
-                onClick={handleRemoveProduct(productInfo)}
-              />
+                <FaRegTrashCan
+                  className={styles.trashIcon}
+                  onClick={handleRemoveProduct(productInfo)}
+                />
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
     </div>
   );
 };

@@ -56,6 +56,7 @@ const CartProductActions: React.FunctionComponent<ICartProductActions> = (
         updateCartThunk({
           entity: props.productInfo.product,
           quantity: parseInt(e.target.value),
+          sided: false,
           updateApiCart: async (command: ICartUpdateCommand) => {
             await updateCart(command);
           },

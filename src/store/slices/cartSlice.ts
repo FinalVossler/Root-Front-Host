@@ -39,6 +39,7 @@ export const updateCartThunk = createAsyncThunk<
   {
     entity: IEntityReadDto;
     quantity: number;
+    sided: boolean;
     updateApiCart: (command: ICartUpdateCommand) => Promise<void>;
   }
 >("cart/updateCart", (params, thunkApi) => {
@@ -50,6 +51,7 @@ export const updateCartThunk = createAsyncThunk<
       state.cart.cart?.products.map((p) => ({
         product: { ...(p.product as IEntityReadDto) },
         quantity: p.quantity,
+        sided: p.sided,
       })) || [],
     user: {
       ...((state.cart.cart?.user as IUserReadDto | undefined) ||
@@ -80,6 +82,7 @@ export const updateCartThunk = createAsyncThunk<
     newStateCart.products.push({
       product: params.entity,
       quantity: params.quantity,
+      sided: params.sided,
     });
   }
 
@@ -88,6 +91,7 @@ export const updateCartThunk = createAsyncThunk<
     products: newStateCart.products.map((p) => ({
       productId: (p.product as IEntityReadDto)._id.toString(),
       quantity: p.quantity,
+      sided: p.sided,
     })),
     userId: state.user.user._id.toString(),
   };

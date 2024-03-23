@@ -1787,6 +1787,44 @@ const staticText = {
       { text: "Pas de fichiers trouvés", language: "fr" },
     ],
   },
+  checkout: {
+    required: [
+      { language: "en", text: "Required" },
+      { language: "fr", text: "Requis" },
+    ],
+    country: [
+      { language: "en", text: "Country" },
+      { language: "fr", text: "Pays" },
+    ],
+    postalCode: [
+      { language: "en", text: "Postal code" },
+      { language: "fr", text: "Code postale" },
+    ],
+    addressLine1: [
+      { language: "en", text: "Address line 1" },
+      { language: "fr", text: "Ligne d'adresse 1" },
+    ],
+    addressLine2: [
+      { language: "en", text: "Address line 2" },
+      { language: "fr", text: "Ligne d'adresse 1" },
+    ],
+    region: [
+      { language: "en", text: "region" },
+      { language: "fr", text: "Région" },
+    ],
+    city: [
+      { language: "en", text: "City" },
+      { language: "fr", text: "Cité" },
+    ],
+    save: [
+      { language: "en", text: "Save" },
+      { language: "fr", text: "Enregistrer" },
+    ],
+    address: [
+      { language: "en", text: "Address" },
+      { language: "fr", text: "Adresse" },
+    ],
+  },
 };
 
 const initialState: IWebsiteConfigurationState = {
