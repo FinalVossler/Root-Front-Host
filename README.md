@@ -5,8 +5,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
-- Add the number of articles detail in the subtotal version of the cart's page
-- Add the "your cart" title on top of the cart's products in the cart's page
+- Add the remove product to the cart actions section
 - Add cart sided products logic
 - Add the sided items' section
 - Create a view tab for a user's products in the profile page.

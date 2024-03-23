@@ -10,6 +10,7 @@ import Button from "../../components/fundamentalComponents/button";
 
 import CartProduct from "./cartProduct/CartProduct";
 import useStyles from "./cartPage.styles";
+import getCartTotalProducts from "../../utils/getCartTotalProducts";
 
 interface ICartPageProps {}
 
@@ -61,20 +62,66 @@ const CartPage: React.FunctionComponent<ICartPageProps> = (
             />
           );
         })}
+        <CartSubTotal />
       </div>
 
-      <div className={styles.subTotalContainer}>
-        <div className={styles.subTotalTitleAndValueContainer}>
-          <span className={styles.subTotalTitle}>
-            {getTranslatedText(staticText?.subTotal)}:
-          </span>
-          <span className={styles.subTotal}>{getCartTotal(cart)}$</span>
-        </div>
+      <CartSideSubtotal />
+    </div>
+  );
+};
 
-        <Button theme={theme}>
-          {getTranslatedText(staticText?.proceedToCheckout)}
-        </Button>
+const CartSubTotal = () => {
+  const theme = useAppSelector((state) => state.websiteConfiguration.theme);
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.entities
+  );
+  const cart = useAppSelector((state) => state.cart.cart);
+
+  const styles = useStyles({ theme });
+  const getTranslatedText = useGetTranslatedText();
+
+  if (!cart) return null;
+
+  return (
+    <div className={styles.subTotalContainer}>
+      <div className={styles.subTotalTitleAndValueContainer}>
+        <span className={styles.subTotalTitle}>
+          {getTranslatedText(staticText?.subTotal)} (
+          {getCartTotalProducts(cart)} {getTranslatedText(staticText?.articles)}
+          ):
+        </span>
+        <span className={styles.subTotal}>{getCartTotal(cart)}$</span>
       </div>
+    </div>
+  );
+};
+
+const CartSideSubtotal = () => {
+  const theme = useAppSelector((state) => state.websiteConfiguration.theme);
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.entities
+  );
+  const cart = useAppSelector((state) => state.cart.cart);
+
+  const styles = useStyles({ theme });
+  const getTranslatedText = useGetTranslatedText();
+
+  if (!cart) return null;
+
+  return (
+    <div className={styles.sideSubTotalContainer}>
+      <div className={styles.subTotalTitleAndValueContainer}>
+        <span className={styles.subTotalTitle}>
+          {getTranslatedText(staticText?.subTotal)} (
+          {getCartTotalProducts(cart)} {getTranslatedText(staticText?.articles)}
+          ):
+        </span>
+        <span className={styles.subTotal}>{getCartTotal(cart)}$</span>
+      </div>
+
+      <Button theme={theme}>
+        {getTranslatedText(staticText?.proceedToCheckout)}
+      </Button>
     </div>
   );
 };

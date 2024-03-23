@@ -1207,6 +1207,10 @@ const staticText = {
       { language: "en", text: "Price" },
       { language: "en", text: "Prix" },
     ],
+    articles: [
+      { language: "en", text: "Article(s)" },
+      { language: "en", text: "Article(s)" },
+    ],
   },
   contact: {
     address: [

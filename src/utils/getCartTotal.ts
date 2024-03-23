@@ -23,7 +23,7 @@ const getCartTotal = (cart: ICartReadDto): number => {
     return acc + subTotal;
   }, 0);
 
-  return total;
+  return Number.isNaN(total) ? 0 : total;
 };
 
 export default getCartTotal;

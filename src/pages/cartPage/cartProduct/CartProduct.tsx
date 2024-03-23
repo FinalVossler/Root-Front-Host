@@ -11,6 +11,7 @@ import { useAppSelector } from "../../../store/hooks";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 
 import useStyles from "./cartProduct.styles";
+import CartProductActions from "../cartProductActions/CartProductActions";
 
 interface ICartProductProps {
   productInfo: {
@@ -57,32 +58,35 @@ const CartProduct: React.FunctionComponent<ICartProductProps> = (
     <div className={styles.cartProductContainer}>
       <div className={styles.left}>
         <img className={styles.productImage} src={imageUrl} />
-        <div className={styles.productInfo}>
-          {props.model.modelFields
-            .filter((modelField) => modelField.mainField)
-            .map((modelField, i) => {
-              const value = (
-                props.productInfo.product as IEntityReadDto
-              ).entityFieldValues.find(
-                (efv) =>
-                  (efv.field as IFieldReadDto)._id.toString() ===
-                  (modelField.field as IFieldReadDto)._id.toString()
-              )?.value;
+        <div className={styles.productInfoAndActions}>
+          <div className={styles.productMainFields}>
+            {props.model.modelFields
+              .filter((modelField) => modelField.mainField)
+              .map((modelField, i) => {
+                const value = (
+                  props.productInfo.product as IEntityReadDto
+                ).entityFieldValues.find(
+                  (efv) =>
+                    (efv.field as IFieldReadDto)._id.toString() ===
+                    (modelField.field as IFieldReadDto)._id.toString()
+                )?.value;
 
-              return (
-                <span key={i} className={styles.productMainInfo}>
-                  <span className={styles.productSingleMainInfoTitle}>
-                    {getTranslatedText(
-                      (modelField.field as IFieldReadDto).name
-                    )}
-                    :{" "}
+                return (
+                  <span key={i} className={styles.productMainInfo}>
+                    <span className={styles.productSingleMainInfoTitle}>
+                      {getTranslatedText(
+                        (modelField.field as IFieldReadDto).name
+                      )}
+                      :{" "}
+                    </span>
+                    <span className={styles.productSingleManInfoValue}>
+                      {getTranslatedText(value)}
+                    </span>
                   </span>
-                  <span className={styles.productSingleManInfoValue}>
-                    {getTranslatedText(value)}
-                  </span>
-                </span>
-              );
-            })}
+                );
+              })}
+          </div>
+          <CartProductActions productInfo={props.productInfo} />
         </div>
       </div>
       <div className={styles.right}>

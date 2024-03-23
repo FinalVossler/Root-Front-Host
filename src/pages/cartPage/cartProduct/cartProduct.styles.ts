@@ -18,11 +18,16 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     width: 150,
     marginRight: 30,
   },
-  productInfo: {
+  productInfoAndActions: {
     display: "flex",
     flexDirection: "column",
+    justifyContent: "space-between",
   },
-  productMainInfo: {},
+  productMainFields: { display: "flex", flexDirection: "column" },
+
+  productMainInfo: {
+    marginBottom: 5,
+  },
   right: {
     display: "flex",
     flexDirection: "column",
