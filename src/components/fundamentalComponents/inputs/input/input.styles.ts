@@ -48,7 +48,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   },
   input: {
     border: "none",
-    padding: 13,
+    padding: 11,
     fontSize: 17,
     transition: "all .2s ease-int-out",
     color: theme.darkTextColor,

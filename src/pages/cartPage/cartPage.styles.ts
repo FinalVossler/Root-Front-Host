@@ -13,6 +13,12 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     justifyContent: "space-between",
     boxSizing: "border-box",
   },
+  cartPageLeft: {
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
+    height: "fit-content",
+  },
   cartProducts: {
     display: "flex",
     flexDirection: "column",
@@ -24,10 +30,13 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     borderRadius: 5,
     position: "relative",
   },
+  cartSidedProducts: {
+    extend: "cartProducts",
+    marginTop: 20,
+  },
   yourCartTitle: {
     display: "flex",
     fontSize: 30,
-    flex: 1,
     margin: 20,
     marginTop: 10,
     marginBottom: 0,
@@ -35,6 +44,9 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     paddingTop: 5,
     borderBottom: "1px solid " + theme.borderColor,
     boxSizing: "border-box",
+  },
+  sidedProductsTitle: {
+    extend: "yourCartTitle",
   },
   priceTitle: {
     position: "absolute",

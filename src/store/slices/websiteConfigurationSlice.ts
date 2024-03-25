@@ -1215,6 +1215,22 @@ const staticText = {
       { language: "en", text: "Article(s)" },
       { language: "fr", text: "Article(s)" },
     ],
+    delete: [
+      { language: "en", text: "Delete" },
+      { language: "fr", text: "Supprimer" },
+    ],
+    setForLater: [
+      { language: "en", text: "Set for later" },
+      { language: "fr", text: "Mettre à côté" },
+    ],
+    sidedProducts: [
+      { language: "en", text: "Produits mis de côté" },
+      { language: "fr", text: "Sided products" },
+    ],
+    putBackInCart: [
+      { language: "en", text: "Put back in cart" },
+      { language: "fr", text: "Remettre dans le panier" },
+    ],
   },
   contact: {
     address: [

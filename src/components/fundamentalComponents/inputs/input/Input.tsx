@@ -117,14 +117,16 @@ const Input: React.FunctionComponent<PropsWithChildren<IInputProps>> = (
         {props.children}
       </div>
 
-      <span
-        className={styles.inputError}
-        {...(props.inputErrorDataCy
-          ? { ["data-cy"]: props.inputErrorDataCy }
-          : {})}
-      >
-        {props.error?.toString()}
-      </span>
+      {props.error && (
+        <span
+          className={styles.inputError}
+          {...(props.inputErrorDataCy
+            ? { ["data-cy"]: props.inputErrorDataCy }
+            : {})}
+        >
+          {props.error?.toString()}
+        </span>
+      )}
     </div>
   );
 };

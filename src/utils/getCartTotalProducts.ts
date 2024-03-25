@@ -1,6 +1,10 @@
 import { ICartReadDto } from "roottypes";
 
-const getCartTotalProducts = (cart: ICartReadDto): number => {
+const getCartTotalProducts = (
+  cart: ICartReadDto | undefined | null
+): number => {
+  if (!cart) return 0;
+
   const totalProducts: number = cart.products
     .filter((productInfo) => !productInfo.sided)
     .reduce((acc, productInfo) => acc + productInfo.quantity, 0);

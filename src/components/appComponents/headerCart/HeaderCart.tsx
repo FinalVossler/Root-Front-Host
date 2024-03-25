@@ -9,6 +9,7 @@ import HeaderOptionNotificationSignal from "../headerOptionNotificationSignal";
 
 import useStyles from "./headerCart.styles";
 import { useNavigate } from "react-router-dom";
+import getCartTotalProducts from "../../../utils/getCartTotalProducts";
 
 interface IHeaderCartProps {}
 
@@ -37,10 +38,7 @@ const HeaderCart: React.FunctionComponent<IHeaderCartProps> = (
   };
   //#endregion Event listeners
 
-  const total: number = React.useMemo(
-    () => cart?.products.reduce((acc, curr) => acc + curr.quantity, 0) || 0,
-    [cart]
-  );
+  const total: number = React.useMemo(() => getCartTotalProducts(cart), [cart]);
   return (
     <div
       className={styles.headerCartContainer}

@@ -40,33 +40,71 @@ const CartPage: React.FunctionComponent<ICartPageProps> = (
 
   return (
     <div className={styles.cartPageContainer}>
-      <div className={styles.cartProducts}>
-        <div className={styles.yourCartTitle}>
-          {getTranslatedText(staticText?.yourCart)}
+      <div className={styles.cartPageLeft}>
+        <div className={styles.cartProducts}>
+          <div className={styles.yourCartTitle}>
+            {getTranslatedText(staticText?.yourCart)}
+          </div>
+          <span className={styles.priceTitle}>
+            {getTranslatedText(staticText?.price)}
+          </span>
+          {cart.products
+            .filter((p) => !p.sided)
+            .map((productInfo, i) => {
+              return (
+                <CartProduct
+                  key={i}
+                  model={models.find(
+                    (model) =>
+                      model._id.toString() ===
+                      (
+                        (productInfo.product as IEntityReadDto)
+                          .model as IModelReadDto
+                      )._id.toString()
+                  )}
+                  productInfo={{
+                    product: productInfo.product as IEntityReadDto,
+                    quantity: productInfo.quantity,
+                    sided: Boolean(productInfo.sided),
+                  }}
+                />
+              );
+            })}
+          <CartSubTotal />
         </div>
-        <span className={styles.priceTitle}>
-          {getTranslatedText(staticText?.price)}
-        </span>
-        {cart.products.map((productInfo, i) => {
-          return (
-            <CartProduct
-              key={i}
-              model={models.find(
-                (model) =>
-                  model._id.toString() ===
-                  (
-                    (productInfo.product as IEntityReadDto)
-                      .model as IModelReadDto
-                  )._id.toString()
-              )}
-              productInfo={{
-                product: productInfo.product as IEntityReadDto,
-                quantity: productInfo.quantity,
-              }}
-            />
-          );
-        })}
-        <CartSubTotal />
+
+        {cart.products.filter((p) => p.sided).length > 0 && (
+          <div className={styles.cartSidedProducts}>
+            <div className={styles.sidedProductsTitle}>
+              {getTranslatedText(staticText?.sidedProducts)}
+            </div>
+            <span className={styles.priceTitle}>
+              {getTranslatedText(staticText?.price)}
+            </span>
+            {cart.products
+              .filter((p) => p.sided)
+              .map((productInfo, i) => {
+                return (
+                  <CartProduct
+                    key={i}
+                    model={models.find(
+                      (model) =>
+                        model._id.toString() ===
+                        (
+                          (productInfo.product as IEntityReadDto)
+                            .model as IModelReadDto
+                        )._id.toString()
+                    )}
+                    productInfo={{
+                      product: productInfo.product as IEntityReadDto,
+                      quantity: productInfo.quantity,
+                      sided: Boolean(productInfo.sided),
+                    }}
+                  />
+                );
+              })}
+          </div>
+        )}
       </div>
 
       <CartSideSubtotal />

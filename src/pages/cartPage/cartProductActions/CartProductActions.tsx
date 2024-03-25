@@ -14,11 +14,13 @@ import useUpdateCart from "../../../hooks/apiHooks/useUpdateCarts";
 import validateProductQuantity from "../../../utils/validateProductQuantity";
 
 import useStyles from "./cartProductActions.styles";
+import Button from "../../../components/fundamentalComponents/button";
 
 interface ICartProductActions {
   productInfo: {
     quantity: number;
     product: IEntityReadDto;
+    sided: boolean;
   };
 }
 
@@ -64,23 +66,64 @@ const CartProductActions: React.FunctionComponent<ICartProductActions> = (
       );
     }
   };
+  const handleDeleteProduct = () => {
+    dispatch(
+      updateCartThunk({
+        entity: props.productInfo.product,
+        quantity: 0,
+        sided: false,
+        updateApiCart: async (command: ICartUpdateCommand) => {
+          await updateCart(command);
+        },
+      })
+    );
+  };
+
+  const handleSetForLaterOrPutBackInCart = () => {
+    dispatch(
+      updateCartThunk({
+        entity: props.productInfo.product,
+        quantity: props.productInfo.quantity,
+        sided: !props.productInfo.sided,
+        updateApiCart: async (command: ICartUpdateCommand) => {
+          await updateCart(command);
+        },
+      })
+    );
+  };
 
   return (
     <div className={styles.cartProductActionsContainer}>
-      <Input
-        onChange={handleQuantityChange}
-        label={getTranslatedText(staticText?.quantity) + ":"}
-        value={
-          typeof props.productInfo.quantity === "number" &&
-          !Number.isNaN(props.productInfo.quantity)
-            ? props.productInfo.quantity
-            : ""
-        }
-        debounce
+      {!props.productInfo.sided && (
+        <Input
+          onChange={handleQuantityChange}
+          label={getTranslatedText(staticText?.quantity) + ":"}
+          value={
+            typeof props.productInfo.quantity === "number" &&
+            !Number.isNaN(props.productInfo.quantity)
+              ? props.productInfo.quantity
+              : ""
+          }
+          debounce
+          theme={theme}
+          inputProps={{ type: "number", style: { width: 70 } }}
+          labelStyles={{ width: "fit-content" }}
+          containerProps={{ style: { marginBottom: 0, marginRight: 10 } }}
+        />
+      )}
+
+      <Button theme={theme} onClick={handleDeleteProduct}>
+        {getTranslatedText(staticText?.delete)}
+      </Button>
+      <Button
         theme={theme}
-        inputProps={{ type: "number" }}
-        labelStyles={{ width: "fit-content" }}
-      />
+        onClick={handleSetForLaterOrPutBackInCart}
+        style={{ marginLeft: 10 }}
+      >
+        {props.productInfo.sided
+          ? getTranslatedText(staticText?.putBackInCart)
+          : getTranslatedText(staticText?.setForLater)}
+      </Button>
     </div>
   );
 };

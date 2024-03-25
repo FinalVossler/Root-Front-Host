@@ -5,13 +5,12 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
-- Add the ability to set an address as default (api hook)
-- Frontend: ability to add an address to the current user in the checkout section
 - Add the remove product to the cart actions section
 - Add the sided items' section
 - Create a view tab for a user's products in the profile page.
 - Add the search entity in the header and the ability to configure it by model
 - Support price conversion from dollar to euro depending on the selected language
+- Write the payment methods cypress tests
 
 # https://www.vivamed.com/
 

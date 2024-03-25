@@ -74,9 +74,10 @@ export const updateCartThunk = createAsyncThunk<
           (productInfo.product as IEntityReadDto)._id.toString() !==
           params.entity._id.toString()
       );
-      return;
+    } else {
+      stateProductInfo.quantity = params.quantity;
+      stateProductInfo.sided = params.sided;
     }
-    stateProductInfo.quantity = params.quantity;
   } else {
     // Add the product to the cart
     newStateCart.products.push({

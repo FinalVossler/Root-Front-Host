@@ -17,6 +17,7 @@ interface ICartProductProps {
   productInfo: {
     product: IEntityReadDto;
     quantity: number;
+    sided: boolean;
   };
   model: IModelReadDto | undefined;
 }
@@ -30,6 +31,10 @@ const CartProduct: React.FunctionComponent<ICartProductProps> = (
   const getTranslatedText = useGetTranslatedText();
 
   const styles = useStyles({ theme });
+
+  if (!props.model) {
+    return null;
+  }
 
   const priceFieldId: string | undefined = (
     props.model?.priceField as IFieldReadDto
