@@ -47,6 +47,15 @@ export const addressSlice = createSlice({
         ),
       }));
     },
+    deleteAddresses: (
+      state: IAddressState,
+      action: PayloadAction<string[]>
+    ) => {
+      const addressesIds: string[] = action.payload;
+      state.currentUserAddresses = state.currentUserAddresses.filter(
+        (f) => addressesIds.indexOf(f._id) === -1
+      );
+    },
   },
 });
 

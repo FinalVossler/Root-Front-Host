@@ -1862,8 +1862,8 @@ const staticText = {
       { language: "fr", text: "Adresse" },
     ],
     addAddress: [
-      { language: "en", text: "Add Address" },
-      { language: "fr", text: "Ajouter une adresse" },
+      { language: "en", text: "Add a new Address" },
+      { language: "fr", text: "Ajouter une nouvelle adresse" },
     ],
     setAsDefault: [
       { language: "en", text: "Set as default" },
@@ -1876,6 +1876,10 @@ const staticText = {
     select: [
       { language: "en", text: "Select" },
       { language: "fr", text: "Sélectionner" },
+    ],
+    delete: [
+      { language: "en", text: "Delete" },
+      { language: "fr", text: "Supprimer" },
     ],
     showOtherAddresses: [
       { language: "en", text: "Show my other addresses" },

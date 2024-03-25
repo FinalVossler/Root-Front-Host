@@ -8,6 +8,11 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     display: "flex",
     flexDirection: "column",
   },
+  checkoutActions: {
+    display: "flex",
+    alignItems: "center",
+    gap: 5,
+  },
 }));
 
 export default useStyles;

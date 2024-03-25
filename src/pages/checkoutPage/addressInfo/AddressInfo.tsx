@@ -1,12 +1,14 @@
 import React from "react";
 import { IAddressReadDto, ITheme } from "roottypes";
 import { MdOutlineEdit } from "react-icons/md";
+import Loading from "react-loading";
 
 import { useAppSelector } from "../../../store/hooks";
 
 import useStyles from "./addressInfo.styles";
 import AddressForm from "../addressForm/AddressForm";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
+import useDeleteAddresses from "../../../hooks/apiHooks/useDeleteAddresses";
 
 interface IAddressInfoProps {
   address: IAddressReadDto;
@@ -28,6 +30,8 @@ const AddressInfo: React.FunctionComponent<IAddressInfoProps> = (
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
+  const { deleteAddresses, loading: deleteAddressLoading } =
+    useDeleteAddresses();
 
   const handleEditClick = (e: React.MouseEvent<SVGElement>) => {
     e.stopPropagation();
@@ -35,6 +39,9 @@ const AddressInfo: React.FunctionComponent<IAddressInfoProps> = (
   };
   const handleSelect = () => {
     props.onSelect();
+  };
+  const handleDelete = () => {
+    deleteAddresses([props.address._id.toString()]);
   };
   const handleSubmit = () => {
     setIsEditing(false);
@@ -49,17 +56,23 @@ const AddressInfo: React.FunctionComponent<IAddressInfoProps> = (
           : styles.addressInfoContainer
       }
     >
-      {!isEditing && (
+      {deleteAddressLoading && <Loading color={theme.primary} />}
+      {!isEditing && !deleteAddressLoading && (
         <React.Fragment>
-          <MdOutlineEdit
-            onClick={handleEditClick}
-            className={styles.editButton}
-          />
-          {!props.isSelected && (
-            <span className={styles.select} onClick={handleSelect}>
-              {getTranslatedText(staticText?.select)}
+          <div className={styles.addressActionsContainer}>
+            <span className={styles.actionButton} onClick={handleDelete}>
+              {getTranslatedText(staticText?.delete)}
             </span>
-          )}
+            {!props.isSelected && (
+              <span className={styles.actionButton} onClick={handleSelect}>
+                {getTranslatedText(staticText?.select)}
+              </span>
+            )}
+            <MdOutlineEdit
+              onClick={handleEditClick}
+              className={styles.editButton}
+            />
+          </div>
 
           {props.address.addressLine1 ||
             (props.address.addressLine2 && (
@@ -89,7 +102,7 @@ const AddressInfo: React.FunctionComponent<IAddressInfoProps> = (
         </React.Fragment>
       )}
 
-      {isEditing && (
+      {isEditing && !deleteAddressLoading && (
         <React.Fragment>
           <AddressForm
             address={props.address}

@@ -162,7 +162,7 @@ const CartSideSubtotal = () => {
       </div>
 
       <Link to="/checkout">
-        <Button theme={theme}>
+        <Button theme={theme} disabled={getCartTotalProducts(cart) === 0}>
           {getTranslatedText(staticText?.proceedToCheckout)}
         </Button>
       </Link>

@@ -10,6 +10,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     padding: 20,
     boxSizing: "border-box",
     borderRadius: 5,
+    marginBottom: 20,
   },
   addressTitle: {},
   section: {

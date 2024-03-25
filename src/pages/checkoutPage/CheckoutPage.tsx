@@ -10,6 +10,7 @@ import useGetUserAddresses from "../../hooks/apiHooks/useGetUserAddresses";
 import useStyles from "./checkoutPage.styles";
 import Button from "../../components/fundamentalComponents/button";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
+import { BiPlus } from "react-icons/bi";
 
 interface ICheckoutPageProps {}
 
@@ -115,28 +116,30 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
             />
           )}
 
-          {currentUserAddresses.length > 1 && (
-            <Button
-              onClick={() =>
-                setIsShowingOtherAddresses(!isShowingOtherAddresses)
-              }
-              theme={theme}
-            >
-              {isShowingOtherAddresses
-                ? getTranslatedText(staticText?.hideOtherAddresses)
-                : getTranslatedText(staticText?.showOtherAddresses)}
-            </Button>
-          )}
+          <div className={styles.checkoutActions}>
+            {currentUserAddresses.length > 1 && (
+              <Button
+                onClick={() =>
+                  setIsShowingOtherAddresses(!isShowingOtherAddresses)
+                }
+                theme={theme}
+              >
+                {isShowingOtherAddresses
+                  ? getTranslatedText(staticText?.hideOtherAddresses)
+                  : getTranslatedText(staticText?.showOtherAddresses)}
+              </Button>
+            )}
 
-          {!isAddingAddress && (
-            <Button
-              onClick={() => setIsAddingAddress(!isAddingAddress)}
-              theme={theme}
-              style={{ marginTop: 10 }}
-            >
-              {getTranslatedText(staticText?.addAddress)}
-            </Button>
-          )}
+            {!isAddingAddress && (
+              <Button
+                onClick={() => setIsAddingAddress(!isAddingAddress)}
+                theme={theme}
+              >
+                {getTranslatedText(staticText?.addAddress)}{" "}
+                <BiPlus style={{ marginLeft: 10 }} />
+              </Button>
+            )}
+          </div>
         </React.Fragment>
       )}
     </div>

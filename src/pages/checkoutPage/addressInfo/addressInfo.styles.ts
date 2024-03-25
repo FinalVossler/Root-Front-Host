@@ -28,10 +28,15 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   horizontalInfo: {
     marginRight: 3,
   },
-  editButton: {
+  addressActionsContainer: {
+    display: "flex",
+    alignItems: "center",
+
     position: "absolute",
     right: 5,
     top: 5,
+  },
+  editButton: {
     padding: 5,
     cursor: "pointer",
     borderRadius: 5,
@@ -41,13 +46,15 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     },
   },
 
-  select: {
-    position: "absolute",
-    right: 35,
-    top: 5,
+  actionButton: {
     padding: 5,
     cursor: "pointer",
     borderRadius: 5,
+    backgroundColor: theme.lightTextColor,
+    color: theme.primary,
+    border: "1px solid " + theme.primary,
+    marginLeft: 5,
+    marginRight: 5,
     "&:hover": {
       backgroundColor: theme.primary,
       color: theme.lightTextColor,
