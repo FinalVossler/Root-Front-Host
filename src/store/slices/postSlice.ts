@@ -143,4 +143,6 @@ export const postSlice = createSlice({
   },
 });
 
-export default postSlice.reducer;
+const postReducer = postSlice.reducer;
+
+export default postReducer;

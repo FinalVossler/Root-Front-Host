@@ -11,6 +11,7 @@ import Button from "../../components/fundamentalComponents/button";
 import CartProduct from "./cartProduct/CartProduct";
 import useStyles from "./cartPage.styles";
 import getCartTotalProducts from "../../utils/getCartTotalProducts";
+import { Link } from "react-router-dom";
 
 interface ICartPageProps {}
 
@@ -27,12 +28,15 @@ const CartPage: React.FunctionComponent<ICartPageProps> = (
     (state) => state.cart.cart
   );
   const models = useAppSelector((state) => state.model.models);
+  const withEcommerce = useAppSelector(
+    (state) => state.websiteConfiguration.withEcommerce
+  );
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
   const isLoggedIn: boolean = useIsLoggedIn();
 
-  if (!isLoggedIn || !cart) return null;
+  if (!isLoggedIn || !cart || !withEcommerce) return null;
 
   return (
     <div className={styles.cartPageContainer}>
@@ -119,9 +123,11 @@ const CartSideSubtotal = () => {
         <span className={styles.subTotal}>{getCartTotal(cart)}$</span>
       </div>
 
-      <Button theme={theme}>
-        {getTranslatedText(staticText?.proceedToCheckout)}
-      </Button>
+      <Link to="/checkout">
+        <Button theme={theme}>
+          {getTranslatedText(staticText?.proceedToCheckout)}
+        </Button>
+      </Link>
     </div>
   );
 };

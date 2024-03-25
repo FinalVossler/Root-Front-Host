@@ -39,4 +39,6 @@ export const pageSlice = createSlice({
   },
 });
 
-export default pageSlice.reducer;
+const pageReducer = pageSlice.reducer;
+
+export default pageReducer;

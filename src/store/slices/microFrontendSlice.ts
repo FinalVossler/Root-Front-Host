@@ -76,4 +76,6 @@ export const microFrontendSlice = createSlice({
   },
 });
 
-export default microFrontendSlice.reducer;
+const microFrontendReducer = microFrontendSlice.reducer;
+
+export default microFrontendReducer;

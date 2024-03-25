@@ -77,4 +77,6 @@ export const notificationSlice = createSlice({
   },
 });
 
-export default notificationSlice.reducer;
+const notificationReducer = notificationSlice.reducer;
+
+export default notificationReducer;

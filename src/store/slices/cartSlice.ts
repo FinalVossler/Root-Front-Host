@@ -100,4 +100,6 @@ export const updateCartThunk = createAsyncThunk<
   return newStateCart;
 });
 
-export default cartSlice.reducer;
+const cartReducer = cartSlice.reducer;
+
+export default cartReducer;

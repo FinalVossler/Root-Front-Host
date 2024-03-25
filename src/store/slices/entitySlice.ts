@@ -170,4 +170,6 @@ export const getEntityName = ({ entity, getTranslatedText }) => {
     .join(", ");
 };
 
-export default entitySlice.reducer;
+const entityReducer = entitySlice.reducer;
+
+export default entityReducer;

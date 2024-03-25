@@ -1833,13 +1833,29 @@ const staticText = {
       { language: "en", text: "City" },
       { language: "fr", text: "Cité" },
     ],
-    save: [
-      { language: "en", text: "Save" },
-      { language: "fr", text: "Enregistrer" },
+    saveAddress: [
+      { language: "en", text: "Save Address" },
+      { language: "fr", text: "Enregistrer l'adresse" },
     ],
     address: [
       { language: "en", text: "Address" },
       { language: "fr", text: "Adresse" },
+    ],
+    addAddress: [
+      { language: "en", text: "Add Address" },
+      { language: "fr", text: "Ajouter une adresse" },
+    ],
+    setAsDefault: [
+      { language: "en", text: "Set as default" },
+      { language: "fr", text: "Mettre par défaut" },
+    ],
+    cancel: [
+      { language: "en", text: "Cancel" },
+      { language: "fr", text: "Annuler" },
+    ],
+    select: [
+      { language: "en", text: "Select" },
+      { language: "fr", text: "Sélectionner" },
     ],
   },
 };
@@ -1924,4 +1940,6 @@ export const websiteConfigurationSlice = createSlice({
   },
 });
 
-export default websiteConfigurationSlice.reducer;
+const websiteConfigurationReducer = websiteConfigurationSlice.reducer;
+
+export default websiteConfigurationReducer;

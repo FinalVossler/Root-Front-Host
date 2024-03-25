@@ -72,4 +72,6 @@ export const editorSlice = createSlice({
   },
 });
 
-export default editorSlice.reducer;
+const editorReducer = editorSlice.reducer;
+
+export default editorReducer;

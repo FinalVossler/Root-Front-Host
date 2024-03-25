@@ -6,12 +6,20 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     display: "flex",
     flexDirection: "column",
     width: "100%",
+    backgroundColor: theme.lightTextColor,
+    padding: 20,
+    boxSizing: "border-box",
+    borderRadius: 5,
   },
   addressTitle: {},
   section: {
     display: "flex",
     alignItems: "center",
     gap: 10,
+  },
+  actions: {
+    display: "flex",
+    alignItems: "center",
   },
 }));
 

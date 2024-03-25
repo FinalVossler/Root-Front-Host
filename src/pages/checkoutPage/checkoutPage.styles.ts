@@ -4,8 +4,9 @@ import { ITheme } from "roottypes";
 const useStyles = createUseStyles((theme: ITheme) => ({
   checkoutPageContainer: {
     padding: 50,
-    marginTop: 60,
+    marginTop: 40,
     display: "flex",
+    flexDirection: "column",
   },
 }));
 

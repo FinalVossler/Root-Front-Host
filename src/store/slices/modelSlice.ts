@@ -80,4 +80,6 @@ export const modelSlice = createSlice({
   },
 });
 
-export default modelSlice.reducer;
+const modelReducer = modelSlice.reducer;
+
+export default modelReducer;

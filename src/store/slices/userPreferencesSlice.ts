@@ -45,4 +45,6 @@ export const userPreferenceSlice = createSlice({
   },
 });
 
-export default userPreferenceSlice.reducer;
+const userPreferenceReducer = userPreferenceSlice.reducer;
+
+export default userPreferenceReducer;

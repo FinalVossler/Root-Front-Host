@@ -60,4 +60,6 @@ export const fieldSlice = createSlice({
   },
 });
 
-export default fieldSlice.reducer;
+const fieldReducer = fieldSlice.reducer;
+
+export default fieldReducer;

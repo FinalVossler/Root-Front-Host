@@ -480,4 +480,6 @@ export const getConversationConversationalistsFromConversationId = (
   return conversationId.split(";;");
 };
 
-export default chatSlice.reducer;
+const chatReducer = chatSlice.reducer;
+
+export default chatReducer;

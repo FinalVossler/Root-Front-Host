@@ -63,4 +63,6 @@ export const roleSlice = createSlice({
   },
 });
 
-export default roleSlice.reducer;
+const roleReducer = roleSlice.reducer;
+
+export default roleReducer;
