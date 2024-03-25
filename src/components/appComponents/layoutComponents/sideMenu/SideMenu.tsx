@@ -301,6 +301,13 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
               link="/microFrontends"
             />
           )}
+          {hasPermission(PermissionEnum.ReadPaymentMethod) && (
+            <SideMenuOption
+              Icon={MdTextFields}
+              title={getTranslatedText(staticText?.paymentMethods)}
+              link="/paymentMethods"
+            />
+          )}
         </div>
       )}
 

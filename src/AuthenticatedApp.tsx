@@ -29,6 +29,7 @@ import CartPage from "./pages/cartPage/CartPage";
 import { HomePageForLoggedIn } from "./pages/homePage/HomePage";
 import AppModalsAndEditors from "./AppModalsAndEditors";
 import CheckoutPage from "./pages/checkoutPage";
+import PaymentMethodsPage from "./pages/paymentMethodsPage";
 
 function AuthenticatedApp() {
   const withEcommerce: boolean | undefined = useAppSelector(
@@ -87,6 +88,7 @@ function AuthenticatedApp() {
           element={<MicroFrontendPage />}
         />
         <Route path="/microFrontends/" element={<MicroFrontendsPage />} />
+        <Route path="/paymentMethods/" element={<PaymentMethodsPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
 

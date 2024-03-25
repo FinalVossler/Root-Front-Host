@@ -364,6 +364,10 @@ const staticText = {
       { language: "en", text: "Micro-Frontends" },
       { language: "fr", text: "Micro-Frontends" },
     ],
+    paymentMethods: [
+      { language: "en", text: "Payment methods" },
+      { language: "fr", text: "Méthodes de paiement" },
+    ],
   },
   fields: {
     createField: [
@@ -1865,6 +1869,34 @@ const staticText = {
     hideOtherAddresses: [
       { language: "en", text: "Hide my other addresses" },
       { language: "fr", text: "Cacher mes autres adresses" },
+    ],
+  },
+  paymentMethods: {
+    createPaymentMethod: [
+      { language: "en", text: "Create a payment method" },
+      { language: "fr", text: "Créer une méthode de paiement" },
+    ],
+    updatePaymentMethod: [
+      { language: "en", text: "Update payment method" },
+      { language: "fr", text: "Modifier une méthode de paiement" },
+    ],
+
+    namePlaceholder: [
+      { language: "en", text: "Name" },
+      { language: "fr", text: "Nom" },
+    ],
+
+    slugPlaceholder: [
+      { language: "en", text: "Slug" },
+      { language: "fr", text: "Slug" },
+    ],
+    submit: [
+      { language: "en", text: "Submit" },
+      { language: "fr", text: "Enregistrer" },
+    ],
+    required: [
+      { language: "en", text: "Required" },
+      { language: "fr", text: "Requis" },
     ],
   },
 };

@@ -7,6 +7,7 @@ import {
   IMicroFrontendReadDto,
   IModelReadDto,
   IPageReadDto,
+  IPaymentMethodReadDto,
   IRoleReadDto,
   IUserReadDto,
 } from "roottypes";
@@ -20,6 +21,7 @@ export enum EditorTypeEnum {
   MicroFrontend = "MicroFrontend",
   Page = "Page",
   WebsiteConfiguration = "WebsiteConfiguration",
+  PaymentMethod = "PaymentMethod",
 }
 
 export type IElement =
@@ -29,7 +31,8 @@ export type IElement =
   | IUserReadDto
   | IRoleReadDto
   | IMicroFrontendReadDto
-  | IPageReadDto;
+  | IPageReadDto
+  | IPaymentMethodReadDto;
 
 interface IEditor {
   id: string;

@@ -6,6 +6,7 @@ export enum LocalStorageConfNameEnum {
   USERS = "USERS",
   ROLES = "ROLES",
   MICRO_FRONTENDS = "MICRO_FRONTENDS",
+  PAYMENT_METHODS = "PAYMENT_METHODS",
 }
 
 // For the "Elements" component

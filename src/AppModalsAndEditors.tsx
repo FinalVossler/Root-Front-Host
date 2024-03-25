@@ -1,7 +1,4 @@
 import React from "react";
-import { useAppDispatch, useAppSelector } from "./store/hooks";
-import MessageFilePreview from "./components/appComponents/chatComponents/message/messageFilePreview";
-import { chatSlice } from "./store/slices/chatSlice";
 import {
   IEntityReadDto,
   IFieldReadDto,
@@ -9,10 +6,15 @@ import {
   IMicroFrontendReadDto,
   IModelReadDto,
   IPageReadDto,
+  IPaymentMethodReadDto,
   IRoleReadDto,
   IUserReadDto,
   PermissionEnum,
 } from "roottypes";
+
+import { useAppDispatch, useAppSelector } from "./store/hooks";
+import MessageFilePreview from "./components/appComponents/chatComponents/message/messageFilePreview";
+import { chatSlice } from "./store/slices/chatSlice";
 import { EditorTypeEnum } from "./store/slices/editorSlice";
 import FieldEditor from "./components/appComponents/editors/fieldEditor";
 import ModelEditor from "./components/appComponents/editors/modelEditor";
@@ -23,6 +25,7 @@ import RoleEditor from "./components/appComponents/editors/roleEditor";
 import PageEditor from "./components/appComponents/editors/pageEditor";
 import useHasPermission from "./hooks/useHasPermission";
 import WebsiteConfigurationEditor from "./components/appComponents/editors/websiteConfigurationEditor";
+import PaymentMethodEditor from "./components/appComponents/editors/paymentMethodEditor";
 
 interface IAppModalsAndEditorsProps {}
 
@@ -127,6 +130,14 @@ const AppModalsAndEditors: React.FunctionComponent<
                 key={e.id}
                 id={e.id}
                 page={e.element as IPageReadDto}
+              />
+            );
+          case EditorTypeEnum.PaymentMethod:
+            return (
+              <PaymentMethodEditor
+                key={e.id}
+                id={e.id}
+                paymentMethod={e.element as IPaymentMethodReadDto}
               />
             );
           default:

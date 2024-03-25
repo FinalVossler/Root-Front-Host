@@ -2,35 +2,30 @@ import { AxiosResponse } from "axios";
 import React from "react";
 
 import { useAppDispatch } from "../../store/hooks";
-import { fieldSlice } from "../../store/slices/fieldSlice";
 
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import {
-  IFieldReadDto,
-  IFieldsGetCommand,
-  IPaginationResponse,
-} from "roottypes";
+import { IPaymentMethodReadDto, IPaginationResponse } from "roottypes";
+import { paymentMethodSlice } from "../../store/slices/paymentMethodSlice";
 
-const useGetFields = () => {
+const useGetPaymentMethods = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
 
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
-  const getFields = (command: IFieldsGetCommand) =>
+  const getPaymentMethods = () =>
     new Promise((resolve, reject) => {
       setLoading(true);
       axios
-        .request<AxiosResponse<IPaginationResponse<IFieldReadDto>>>({
-          method: "POST",
-          url: "/fields/getFields",
-          data: command,
+        .request<AxiosResponse<IPaymentMethodReadDto[]>>({
+          method: "GET",
+          url: "/paymentMethods",
         })
         .then((res) => {
           dispatch(
-            fieldSlice.actions.setFields({
-              fields: res.data.data.data,
-              total: res.data.data.total,
+            paymentMethodSlice.actions.setPaymentMethods({
+              paymentMethods: res.data.data,
+              total: res.data.data.length,
             })
           );
           resolve(null);
@@ -39,7 +34,7 @@ const useGetFields = () => {
         .catch((e) => reject(e));
     });
 
-  return { getFields: getFields, loading };
+  return { getPaymentMethods: getPaymentMethods, loading };
 };
 
-export default useGetFields;
+export default useGetPaymentMethods;

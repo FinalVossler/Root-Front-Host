@@ -15,6 +15,7 @@ import microFrontendReducer from "./slices/microFrontendSlice";
 import editorReducer from "./slices/editorSlice";
 import cartReducer from "./slices/cartSlice";
 import addressReducer from "./slices/addressSlice";
+import paymentMethodReducer from "./slices/paymentMethodSlice";
 
 export const store = configureStore({
   reducer: {
@@ -33,6 +34,7 @@ export const store = configureStore({
     editor: editorReducer,
     cart: cartReducer,
     address: addressReducer,
+    paymentMethod: paymentMethodReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

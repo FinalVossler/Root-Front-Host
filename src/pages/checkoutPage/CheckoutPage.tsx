@@ -69,6 +69,7 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
 
   const handleSelectAddress = (address: IAddressReadDto) => () => {
     setSelectedAddressId(address._id.toString());
+    setIsShowingOtherAddresses(false);
   };
 
   if (!cart || !withEcommerce) return null;

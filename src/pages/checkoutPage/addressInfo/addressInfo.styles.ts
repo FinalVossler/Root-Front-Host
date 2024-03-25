@@ -5,15 +5,16 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   addressInfoContainer: {
     display: "flex",
     flexDirection: "column",
-    backgroundColor: theme.contentBackgroundColor,
+    backgroundColor: theme.subContentBackgroundColor,
     padding: 20,
     borderRadius: 5,
     position: "relative",
     marginBottom: 10,
+    boxShadow: theme.boxShadow,
   },
   selectedAddressInfoContainer: {
     extend: "addressInfoContainer",
-    backgroundColor: theme.primary,
+    backgroundColor: theme.contentBackgroundColor,
   },
   horizontalDetails: {
     display: "flex",
@@ -35,7 +36,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     cursor: "pointer",
     borderRadius: 5,
     "&:hover": {
-      backgroundColor: theme.darkTextColor,
+      backgroundColor: theme.primary,
       color: theme.lightTextColor,
     },
   },
@@ -48,7 +49,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     cursor: "pointer",
     borderRadius: 5,
     "&:hover": {
-      backgroundColor: theme.darkTextColor,
+      backgroundColor: theme.primary,
       color: theme.lightTextColor,
     },
   },
