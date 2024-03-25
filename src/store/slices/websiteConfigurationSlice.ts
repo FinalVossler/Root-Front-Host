@@ -1857,6 +1857,15 @@ const staticText = {
       { language: "en", text: "Select" },
       { language: "fr", text: "Sélectionner" },
     ],
+    showOtherAddresses: [
+      { language: "en", text: "Show my other addresses" },
+      { language: "fr", text: "Afficher mes autres adresses" },
+    ],
+
+    hideOtherAddresses: [
+      { language: "en", text: "Hide my other addresses" },
+      { language: "fr", text: "Cacher mes autres adresses" },
+    ],
   },
 };
 

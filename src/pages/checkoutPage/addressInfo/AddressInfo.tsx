@@ -36,6 +36,10 @@ const AddressInfo: React.FunctionComponent<IAddressInfoProps> = (
   const handleSelect = () => {
     props.onSelect();
   };
+  const handleSubmit = () => {
+    setIsEditing(false);
+    props.onSelect();
+  };
 
   return (
     <div
@@ -90,7 +94,7 @@ const AddressInfo: React.FunctionComponent<IAddressInfoProps> = (
           <AddressForm
             address={props.address}
             onCancelClick={() => setIsEditing(false)}
-            onSubmit={() => setIsEditing(false)}
+            onSubmit={handleSubmit}
           />
         </React.Fragment>
       )}

@@ -39,6 +39,8 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
   >();
 
   const [isAddingAddress, setIsAddingAddress] = React.useState<boolean>(false);
+  const [isShowingOtherAddresses, setIsShowingOtherAddresses] =
+    React.useState<boolean>(false);
   //#endregion State
 
   //#region Hooks
@@ -57,7 +59,10 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
         ? currentUserAddresses.find((address) => Boolean(address.isDefault)) ||
           currentUserAddresses[0]
         : undefined;
-    if (!selectedAddressId)
+    if (
+      !selectedAddressId ||
+      !currentUserAddresses.some((a) => a._id.toString() === selectedAddressId)
+    )
       setSelectedAddressId(defaultAddress?._id.toString());
   }, [currentUserAddresses]);
   //#endregion Effects
@@ -68,12 +73,30 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
 
   if (!cart || !withEcommerce) return null;
 
+  {
+    /* I'm using this logic to always show the select address at the top */
+  }
+  let addressesToShow = [...currentUserAddresses];
+  if (selectedAddressId) {
+    addressesToShow = [
+      currentUserAddresses.find(
+        (a) => a._id === selectedAddressId
+      ) as IAddressReadDto,
+      ...currentUserAddresses.filter(
+        (a) => a._id.toString() !== selectedAddressId
+      ),
+    ];
+  }
   return (
     <div className={styles.checkoutPageContainer}>
       {loading && <Loading color={theme.primary} />}
       {!loading && (
         <React.Fragment>
-          {currentUserAddresses.map((address) => {
+          {(isShowingOtherAddresses
+            ? currentUserAddresses
+            : addressesToShow
+          ).map((address, i) => {
+            if (!isShowingOtherAddresses && i > 0) return null;
             return (
               <AddressInfo
                 key={address._id}
@@ -91,10 +114,24 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
             />
           )}
 
+          {currentUserAddresses.length > 1 && (
+            <Button
+              onClick={() =>
+                setIsShowingOtherAddresses(!isShowingOtherAddresses)
+              }
+              theme={theme}
+            >
+              {isShowingOtherAddresses
+                ? getTranslatedText(staticText?.hideOtherAddresses)
+                : getTranslatedText(staticText?.showOtherAddresses)}
+            </Button>
+          )}
+
           {!isAddingAddress && (
             <Button
               onClick={() => setIsAddingAddress(!isAddingAddress)}
               theme={theme}
+              style={{ marginTop: 10 }}
             >
               {getTranslatedText(staticText?.addAddress)}
             </Button>
