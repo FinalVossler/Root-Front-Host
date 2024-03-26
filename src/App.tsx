@@ -55,7 +55,7 @@ function App() {
 
           {!isLoggedIn && (
             <React.Fragment>
-              {!homePage && <Route path="/" element={<HomePage />}></Route>}
+              {!homePage && <Route path="*" element={<HomePage />}></Route>}
               {homePage && <Route path="/" element={<DynamicPage />}></Route>}
               <Route
                 path="/dynamicPage/:pageSlug"
