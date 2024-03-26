@@ -7,7 +7,11 @@ const getTranslatedText =
     translatedTexts: ITranslatedText[] | undefined | string,
     language: string | undefined = userPreferenceLanguage
   ): string => {
-    if (typeof translatedTexts === "string") return translatedTexts;
+    if (
+      typeof translatedTexts === "string" ||
+      typeof translatedTexts === "number"
+    )
+      return translatedTexts;
 
     if (typeof translatedTexts === "boolean")
       return (translatedTexts as Boolean).toString();

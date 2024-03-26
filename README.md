@@ -14,6 +14,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 - Add the search entity in the header and the ability to configure it by model
 - Support price conversion from dollar to euro depending on the selected language
 - Write the payment methods cypress tests
+- Write the shipping methods cypress tests
 
 # https://www.vivamed.com/
 

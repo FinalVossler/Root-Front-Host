@@ -294,18 +294,26 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
               dataCy="sideMenuRoleOption"
             />
           )}
-          {hasPermission(PermissionEnum.ReadMicroFrontend) && (
-            <SideMenuOption
-              Icon={MdTextFields}
-              title={getTranslatedText(staticText?.microFrontends)}
-              link="/microFrontends"
-            />
-          )}
           {hasPermission(PermissionEnum.ReadPaymentMethod) && (
             <SideMenuOption
               Icon={MdTextFields}
               title={getTranslatedText(staticText?.paymentMethods)}
               link="/paymentMethods"
+            />
+          )}
+
+          {hasPermission(PermissionEnum.ReadShippingMethod) && (
+            <SideMenuOption
+              Icon={MdTextFields}
+              title={getTranslatedText(staticText?.shippingMethods)}
+              link="/shippingMethods"
+            />
+          )}
+          {hasPermission(PermissionEnum.ReadMicroFrontend) && (
+            <SideMenuOption
+              Icon={MdTextFields}
+              title={getTranslatedText(staticText?.microFrontends)}
+              link="/microFrontends"
             />
           )}
         </div>

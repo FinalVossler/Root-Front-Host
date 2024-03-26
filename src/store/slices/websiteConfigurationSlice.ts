@@ -368,6 +368,10 @@ const staticText = {
       { language: "en", text: "Payment methods" },
       { language: "fr", text: "Méthodes de paiement" },
     ],
+    shippingMethods: [
+      { language: "en", text: "Shipping methods" },
+      { language: "fr", text: "Méthodes de livraison" },
+    ],
   },
   fields: {
     createField: [
@@ -1909,6 +1913,34 @@ const staticText = {
     slugPlaceholder: [
       { language: "en", text: "Slug" },
       { language: "fr", text: "Slug" },
+    ],
+    submit: [
+      { language: "en", text: "Submit" },
+      { language: "fr", text: "Enregistrer" },
+    ],
+    required: [
+      { language: "en", text: "Required" },
+      { language: "fr", text: "Requis" },
+    ],
+  },
+  shippingMethods: {
+    createShippingMethod: [
+      { language: "en", text: "Create a shipping method" },
+      { language: "fr", text: "Créer une méthode de paiement" },
+    ],
+    updateShippingMethod: [
+      { language: "en", text: "Update shipping method" },
+      { language: "fr", text: "Modifier une méthode de paiement" },
+    ],
+
+    namePlaceholder: [
+      { language: "en", text: "Name" },
+      { language: "fr", text: "Nom" },
+    ],
+
+    pricePlaceholder: [
+      { language: "en", text: "Price" },
+      { language: "fr", text: "Prix" },
     ],
     submit: [
       { language: "en", text: "Submit" },

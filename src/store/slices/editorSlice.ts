@@ -9,6 +9,7 @@ import {
   IPageReadDto,
   IPaymentMethodReadDto,
   IRoleReadDto,
+  IShippingMethodReadDto,
   IUserReadDto,
 } from "roottypes";
 
@@ -22,6 +23,7 @@ export enum EditorTypeEnum {
   Page = "Page",
   WebsiteConfiguration = "WebsiteConfiguration",
   PaymentMethod = "PaymentMethod",
+  ShippingMethod = "ShippingMethod",
 }
 
 export type IElement =
@@ -32,7 +34,8 @@ export type IElement =
   | IRoleReadDto
   | IMicroFrontendReadDto
   | IPageReadDto
-  | IPaymentMethodReadDto;
+  | IPaymentMethodReadDto
+  | IShippingMethodReadDto;
 
 interface IEditor {
   id: string;

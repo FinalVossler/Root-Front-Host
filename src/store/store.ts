@@ -16,6 +16,7 @@ import editorReducer from "./slices/editorSlice";
 import cartReducer from "./slices/cartSlice";
 import addressReducer from "./slices/addressSlice";
 import paymentMethodReducer from "./slices/paymentMethodSlice";
+import shippingMethodReducer from "./slices/shippingMethodSlice";
 
 export const store = configureStore({
   reducer: {
@@ -35,6 +36,7 @@ export const store = configureStore({
     cart: cartReducer,
     address: addressReducer,
     paymentMethod: paymentMethodReducer,
+    shippingMethod: shippingMethodReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -8,6 +8,7 @@ import {
   IPageReadDto,
   IPaymentMethodReadDto,
   IRoleReadDto,
+  IShippingMethodReadDto,
   IUserReadDto,
   PermissionEnum,
 } from "roottypes";
@@ -26,6 +27,7 @@ import PageEditor from "./components/appComponents/editors/pageEditor";
 import useHasPermission from "./hooks/useHasPermission";
 import WebsiteConfigurationEditor from "./components/appComponents/editors/websiteConfigurationEditor";
 import PaymentMethodEditor from "./components/appComponents/editors/paymentMethodEditor";
+import ShippingMethodEditor from "./components/appComponents/editors/shippingMethodEditor";
 
 interface IAppModalsAndEditorsProps {}
 
@@ -138,6 +140,14 @@ const AppModalsAndEditors: React.FunctionComponent<
                 key={e.id}
                 id={e.id}
                 paymentMethod={e.element as IPaymentMethodReadDto}
+              />
+            );
+          case EditorTypeEnum.ShippingMethod:
+            return (
+              <ShippingMethodEditor
+                key={e.id}
+                id={e.id}
+                shippingMethod={e.element as IShippingMethodReadDto}
               />
             );
           default:

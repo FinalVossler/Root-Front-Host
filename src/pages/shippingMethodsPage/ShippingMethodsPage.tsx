@@ -7,25 +7,25 @@ import useHasPermission from "../../hooks/useHasPermission";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
-import useStyles from "./paymentMethodsPage.styles";
+import useStyles from "./shippingMethodsPage.styles";
 import { LocalStorageConfNameEnum } from "../../utils/localStorage";
 import { EditorTypeEnum, editorSlice } from "../../store/slices/editorSlice";
-import useGetPaymentMethods from "../../hooks/apiHooks/useGetPaymentMethods";
-import useDeletePaymentMethods from "../../hooks/apiHooks/useDeletePaymentMethods";
+import useGetShippingMethods from "../../hooks/apiHooks/useGetShippingMethods";
+import useDeleteShippingMethods from "../../hooks/apiHooks/useDeleteShippingMethods";
 
-interface IPaymentMethodsProps {}
+interface IShippingMethodsProps {}
 
-const PaymentMethodsPage: React.FunctionComponent<IPaymentMethodsProps> = (
-  props: IPaymentMethodsProps
+const ShippingMethodsPage: React.FunctionComponent<IShippingMethodsProps> = (
+  props: IShippingMethodsProps
 ) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
   const staticText = useAppSelector(
-    (state) => state.websiteConfiguration.staticText?.paymentMethods
+    (state) => state.websiteConfiguration.staticText?.shippingMethods
   );
-  const { paymentMethods, total } = useAppSelector(
-    (state) => state.paymentMethod
+  const { shippingMethods, total } = useAppSelector(
+    (state) => state.shippingMethod
   );
 
   const [limit, setLimit] = React.useState<number>(10);
@@ -34,10 +34,10 @@ const PaymentMethodsPage: React.FunctionComponent<IPaymentMethodsProps> = (
   const styles = useStyles({ theme });
   const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
-  const { getPaymentMethods, loading } = useGetPaymentMethods();
+  const { getShippingMethods, loading } = useGetShippingMethods();
   const isLoggedIn: boolean = useIsLoggedIn();
-  const { deletePaymentMethods, loading: deleteLoading } =
-    useDeletePaymentMethods();
+  const { deleteShippingMethods, loading: deleteLoading } =
+    useDeleteShippingMethods();
   const { hasPermission } = useHasPermission();
 
   React.useEffect(() => {
@@ -45,7 +45,7 @@ const PaymentMethodsPage: React.FunctionComponent<IPaymentMethodsProps> = (
   }, [page]);
 
   const handleFetchElements = () => {
-    getPaymentMethods();
+    getShippingMethods();
   };
 
   const handlePageChange = (page: number) => {
@@ -54,19 +54,19 @@ const PaymentMethodsPage: React.FunctionComponent<IPaymentMethodsProps> = (
 
   if (!isLoggedIn) return null;
 
-  if (!hasPermission(PermissionEnum.ReadPaymentMethod)) return null;
+  if (!hasPermission(PermissionEnum.ReadShippingMethod)) return null;
 
   return (
     <div
-      className={styles.paymentMethodsPageContainer}
-      data-cy="paymentMethodsPage"
+      className={styles.shippingMethodsPageContainer}
+      data-cy="shippingMethodsPage"
     >
       <Elements
         handleOpenEditor={(element) => {
           dispatch(
             editorSlice.actions.addEditor({
               element,
-              editorType: EditorTypeEnum.PaymentMethod,
+              editorType: EditorTypeEnum.ShippingMethod,
             })
           );
         }}
@@ -76,29 +76,29 @@ const PaymentMethodsPage: React.FunctionComponent<IPaymentMethodsProps> = (
             name: "name",
           },
           {
-            label: getTranslatedText(staticText?.slugPlaceholder),
-            name: "slug",
+            label: getTranslatedText(staticText?.pricePlaceholder),
+            name: "price",
           },
         ]}
-        elements={paymentMethods}
+        elements={shippingMethods}
         total={total}
         limit={limit}
         page={page}
         loading={loading}
-        deletePromise={deletePaymentMethods}
+        deletePromise={deleteShippingMethods}
         deleteLoading={deleteLoading}
-        getElementName={(paymentMethod: any) =>
-          getTranslatedText(paymentMethod.name)
+        getElementName={(shippingMethod: any) =>
+          getTranslatedText(shippingMethod.name)
         }
         onPageChange={handlePageChange}
-        canCreate={hasPermission(PermissionEnum.CreatePaymentMethod)}
-        canUpdate={hasPermission(PermissionEnum.UpdatePaymentMethod)}
-        canDelete={hasPermission(PermissionEnum.DeletePaymentMethod)}
+        canCreate={hasPermission(PermissionEnum.CreateShippingMethod)}
+        canUpdate={hasPermission(PermissionEnum.UpdateShippingMethod)}
+        canDelete={hasPermission(PermissionEnum.DeleteShippingMethod)}
         elementsLocalStorageConfName={LocalStorageConfNameEnum.PAYMENT_METHODS}
-        tableDataCy="paymentMethodsTable"
+        tableDataCy="shippingMethodsTable"
       />
     </div>
   );
 };
 
-export default React.memo(PaymentMethodsPage);
+export default React.memo(ShippingMethodsPage);
