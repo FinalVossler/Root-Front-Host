@@ -101,7 +101,7 @@ const CheckoutShippingMethods: React.FunctionComponent<
                     : styles.shippingMethodInfo
                 }
               >
-                <div className={styles.actionsContainer}>
+                <div className={styles.actionsAndPriceContainer}>
                   {props.selectedShippingMethodId !==
                     shippingMethod._id.toString() && (
                     <span
@@ -111,24 +111,21 @@ const CheckoutShippingMethods: React.FunctionComponent<
                       {getTranslatedText(staticText?.select)}
                     </span>
                   )}
+
+                  <span className={styles.price}>
+                    {getTranslatedText(shippingMethod.price + "")}$
+                  </span>
                 </div>
 
                 <div className={styles.horizontalDetails}>
-                  <span className={styles.singleInfoTitle}>
-                    {getTranslatedText(staticText?.shippingMethod)}:
-                  </span>
                   <span className={styles.singleInfoValue}>
                     {getTranslatedText(shippingMethod.name)}
                   </span>
                 </div>
-                <div className={styles.horizontalDetails}>
-                  <span className={styles.singleInfoTitle}>
-                    {getTranslatedText(staticText?.price)}:{" "}
-                  </span>
-                  <span className={styles.singleInfoValue}>
-                    {getTranslatedText(shippingMethod.price + "")}$
-                  </span>
-                </div>
+
+                {/* <span className={styles.price}>
+                  {getTranslatedText(shippingMethod.price + "")}$
+                </span> */}
               </div>
             );
           })}

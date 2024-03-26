@@ -4,6 +4,7 @@ import { ITheme } from "roottypes";
 const useStyles = createUseStyles((theme: ITheme) => ({
   checkoutShippingMethodsContainer: {
     padding: 15,
+    paddingTop: 0,
   },
   shippingMethodTitle: {
     marginBottom: 10,
@@ -48,13 +49,14 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     marginTop: 10,
   },
 
-  actionsContainer: {
+  actionsAndPriceContainer: {
     display: "flex",
     alignItems: "center",
 
     position: "absolute",
-    right: 5,
-    top: 5,
+    right: 10,
+    top: 0,
+    height: "100%",
   },
   actionButton: {
     padding: 5,
@@ -69,6 +71,9 @@ const useStyles = createUseStyles((theme: ITheme) => ({
       backgroundColor: theme.primary,
       color: theme.lightTextColor,
     },
+  },
+  price: {
+    fontWeight: "bold",
   },
 }));
 
