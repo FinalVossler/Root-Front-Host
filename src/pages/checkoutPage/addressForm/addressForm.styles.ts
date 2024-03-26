@@ -11,6 +11,8 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     boxSizing: "border-box",
     borderRadius: 5,
     marginBottom: 20,
+    boxShadow: theme.boxShadow,
+    marginTop: 15,
   },
   addressTitle: {},
   section: {
@@ -21,6 +23,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   actions: {
     display: "flex",
     alignItems: "center",
+    marginTop: 15,
   },
 }));
 
