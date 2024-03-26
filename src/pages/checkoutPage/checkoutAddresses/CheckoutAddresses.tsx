@@ -79,12 +79,14 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
   {
     /* I'm using this logic to always show the select address at the top */
   }
-  let addressesToShow = [...currentUserAddresses];
+  let addressesToShow: (IAddressReadDto | undefined)[] = [
+    ...currentUserAddresses,
+  ];
   if (props.selectedAddressId) {
     addressesToShow = [
-      currentUserAddresses.find(
-        (a) => a._id === props.selectedAddressId
-      ) as IAddressReadDto,
+      currentUserAddresses.find((a) => a._id === props.selectedAddressId) as
+        | IAddressReadDto
+        | undefined,
       ...currentUserAddresses.filter(
         (a) => a._id.toString() !== props.selectedAddressId
       ),
@@ -99,7 +101,7 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
             ? currentUserAddresses
             : addressesToShow
           ).map((address, i) => {
-            if (!isShowingOtherAddresses && i > 0) return null;
+            if (!address || (!isShowingOtherAddresses && i > 0)) return null;
             return (
               <AddressInfo
                 key={address._id}
@@ -131,7 +133,7 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
               </Button>
             )}
 
-            {!isAddingAddress && (
+            {!isAddingAddress && currentUserAddresses.length > 0 && (
               <Button
                 onClick={() => setIsAddingAddress(!isAddingAddress)}
                 theme={theme}

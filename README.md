@@ -5,7 +5,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
-- Add the shipping method CRUD
+- Build the nothing to show component for the cart
 - Select the payment method in the checkout page
 - Select the shipping method in the checkout page
 - Backend: Add the ability to update the payment method in the order service
