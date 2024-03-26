@@ -38,22 +38,6 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     extend: "actionIcon",
     color: theme.primary,
   },
-  hiddenColumns: {
-    display: "flex",
-    flex: 1,
-    overflow: "auto",
-    alignItems: "center",
-    paddingBottom: 15,
-  },
-  hiddenColumn: {
-    boxShadow: theme.boxShadow,
-    margin: 5,
-    cursor: "pointer",
-    padding: 10,
-    display: "flex",
-    alignItems: "center",
-    whiteSpace: "nowrap",
-  },
   "@media (max-width: 800px)": {},
 }));
 

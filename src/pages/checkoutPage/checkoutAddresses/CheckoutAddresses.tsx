@@ -12,13 +12,13 @@ import Button from "../../../components/fundamentalComponents/button";
 
 import useStyles from "./checkoutAddresses.styles";
 
-interface ICheckoutPageProps {
+interface ICheckoutAddressesProps {
   selectedAddressId?: string;
   setSelectedAddressId: (selectedAddressId: string | undefined) => void;
 }
 
-const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
-  props: ICheckoutPageProps
+const CheckoutAddresses: React.FunctionComponent<ICheckoutAddressesProps> = (
+  props: ICheckoutAddressesProps
 ) => {
   //#region Store
   const theme: ITheme = useAppSelector(
@@ -77,7 +77,7 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
   if (!cart || !withEcommerce) return null;
 
   {
-    /* I'm using this logic to always show the select address at the top */
+    /* I'm using this logic to always show the selected address at the top */
   }
   let addressesToShow: (IAddressReadDto | undefined)[] = [
     ...currentUserAddresses,
@@ -94,6 +94,9 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
   }
   return (
     <div className={styles.checkoutAddressesContainer}>
+      <h2 className={styles.addressTitle}>
+        {getTranslatedText(staticText?.address)}:
+      </h2>
       {loading && <Loading color={theme.primary} />}
       {!loading && (
         <React.Fragment>
@@ -122,10 +125,17 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
           <div className={styles.checkoutActions}>
             {currentUserAddresses.length > 1 && (
               <Button
+                type="button"
                 onClick={() =>
                   setIsShowingOtherAddresses(!isShowingOtherAddresses)
                 }
                 theme={theme}
+                style={{
+                  background: "transparent",
+                  color: theme.darkerPrimary,
+                  fontSize: 15,
+                  padding: 0,
+                }}
               >
                 {isShowingOtherAddresses
                   ? getTranslatedText(staticText?.hideOtherAddresses)
@@ -135,11 +145,19 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
 
             {!isAddingAddress && currentUserAddresses.length > 0 && (
               <Button
+                type="button"
                 onClick={() => setIsAddingAddress(!isAddingAddress)}
                 theme={theme}
+                style={{
+                  background: "transparent",
+                  color: theme.darkerPrimary,
+                  fontSize: 15,
+                }}
               >
                 {getTranslatedText(staticText?.addAddress)}{" "}
-                <BiPlus style={{ marginLeft: 10 }} />
+                <BiPlus
+                  style={{ marginLeft: 5, position: "relative", top: 1 }}
+                />
               </Button>
             )}
           </div>
@@ -149,4 +167,4 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
   );
 };
 
-export default CheckoutPage;
+export default CheckoutAddresses;

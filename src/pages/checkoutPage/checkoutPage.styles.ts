@@ -13,6 +13,11 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     alignItems: "center",
     gap: 5,
   },
+  error: {
+    color: theme.errorColor,
+    marginLeft: 15,
+    marginBottom: 10,
+  },
 }));
 
 export default useStyles;

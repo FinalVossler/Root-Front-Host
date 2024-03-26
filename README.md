@@ -5,6 +5,8 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
+- Add number of days to shipping method
+- Add billing address logic (same as shipping too?)
 - Build the nothing to show component for the cart
 - Select the payment method in the checkout page
 - Select the shipping method in the checkout page
@@ -15,6 +17,8 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 - Support price conversion from dollar to euro depending on the selected language
 - Write the payment methods cypress tests
 - Write the shipping methods cypress tests
+- Rename FileInptus to inputFiles for consistency with InputSelect
+- Add a border color to the selectable columns in the elements component
 
 # https://www.vivamed.com/
 

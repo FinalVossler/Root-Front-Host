@@ -29,7 +29,6 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     marginBottom: 10,
   },
   textarea: {
-    borderColor: theme.darkTextColor,
     borderWidth: "1px",
     padding: 13,
     paddingLeft: 13,
@@ -40,10 +39,17 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     borderRadius: 5,
     boxSizing: "border-box",
     width: "100%",
+    border: "1px solid " + theme.primary,
 
     "&::placeholder": {
       color: theme.darkTextColor,
+      boxSizing: "border-box",
       opacity: 0.5,
+    },
+
+    "&:focus": {
+      border: "1px solid " + theme.darkerPrimary,
+      outline: "none",
     },
   },
   textareaDisabled: {

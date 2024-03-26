@@ -75,6 +75,9 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
   const user: IUserReadDto = useAppSelector((state) => state.user.user);
   const pages: IPageReadDto[] = useAppSelector((state) => state.page.pages);
   const roles: IRoleReadDto[] = useAppSelector((state) => state.role.roles);
+  const withEcommerce = useAppSelector(
+    (state) => state.websiteConfiguration.withEcommerce
+  );
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
@@ -294,7 +297,7 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
               dataCy="sideMenuRoleOption"
             />
           )}
-          {hasPermission(PermissionEnum.ReadPaymentMethod) && (
+          {hasPermission(PermissionEnum.ReadPaymentMethod) && withEcommerce && (
             <SideMenuOption
               Icon={MdTextFields}
               title={getTranslatedText(staticText?.paymentMethods)}
@@ -302,13 +305,14 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
             />
           )}
 
-          {hasPermission(PermissionEnum.ReadShippingMethod) && (
-            <SideMenuOption
-              Icon={MdTextFields}
-              title={getTranslatedText(staticText?.shippingMethods)}
-              link="/shippingMethods"
-            />
-          )}
+          {hasPermission(PermissionEnum.ReadShippingMethod) &&
+            withEcommerce && (
+              <SideMenuOption
+                Icon={MdTextFields}
+                title={getTranslatedText(staticText?.shippingMethods)}
+                link="/shippingMethods"
+              />
+            )}
           {hasPermission(PermissionEnum.ReadMicroFrontend) && (
             <SideMenuOption
               Icon={MdTextFields}

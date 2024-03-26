@@ -47,7 +47,6 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     wordBreak: "break-word",
   },
   input: {
-    border: "none",
     padding: 11,
     fontSize: 17,
     transition: "all .2s ease-int-out",
@@ -57,13 +56,14 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     boxSizing: "border-box",
     width: "100%",
     boxShadow: theme.boxShadow,
+    border: "1px solid " + theme.primary,
 
     "&::placeholder": {
       color: theme.darkTextColor,
       opacity: 0.5,
     },
     "&:focus-visible": {
-      outline: "2px solid " + theme.secondary,
+      outline: "1px solid " + theme.darkerPrimary,
     },
   },
   inputWithLabel: {

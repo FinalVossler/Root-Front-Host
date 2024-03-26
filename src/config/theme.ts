@@ -12,11 +12,11 @@ const theme: ITheme = {
   borderColor: "#9f9f9f",
   formMaxWidth: "470px",
   transparentBackground: "#FFFFFF",
-  backgroundColor: "#F5FDFB",
+  backgroundColor: "#F7F8FB",
   contentBackgroundColor: "#d3f8eb",
   subContentBackgroundColor: "#FFFFFF",
   boxColor: "#FFFFFF",
-  boxShadow: "0px 1px 4px rgba(0, 0, 0, 0.25)",
+  boxShadow: "0px 1px 4px rgb(165 165 165 / 25%)",
 };
 
 export default theme;

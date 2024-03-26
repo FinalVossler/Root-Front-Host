@@ -19,11 +19,16 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   select: {
     backgroundColor: theme.lightTextColor,
     flex: 1,
+    boxSizing: "border-box",
 
     "& .react-select__control": {
-      border: "none",
+      border: "1px solid " + theme.primary,
       boxShadow: theme.boxShadow,
       minHeight: 47,
+    },
+
+    "& .react-select__control--is-focused": {
+      border: "1px solid " + theme.darkerPrimary,
     },
 
     "& .select__indicator": {

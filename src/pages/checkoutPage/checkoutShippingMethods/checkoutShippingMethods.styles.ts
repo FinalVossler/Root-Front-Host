@@ -2,20 +2,29 @@ import { createUseStyles } from "react-jss";
 import { ITheme } from "roottypes";
 
 const useStyles = createUseStyles((theme: ITheme) => ({
-  addressInfoContainer: {
+  checkoutShippingMethodsContainer: {
+    padding: 15,
+  },
+  shippingMethodTitle: {
+    marginBottom: 10,
+    marginTop: 0,
+    color: theme.darkTextColor,
+    fontWeight: "inherit",
+  },
+  shippingMethodInfo: {
     display: "flex",
     flexDirection: "column",
     backgroundColor: theme.subContentBackgroundColor,
-    padding: 20,
+    padding: 15,
     borderRadius: 5,
     position: "relative",
-    // marginBottom: 10,
     boxShadow: theme.boxShadow,
   },
-  selectedAddressInfoContainer: {
-    extend: "addressInfoContainer",
+  selectedShippingMethodInfo: {
+    extend: "shippingMethodInfo",
     backgroundColor: theme.contentBackgroundColor,
   },
+
   horizontalDetails: {
     display: "flex",
     alignItems: "center",
@@ -25,10 +34,21 @@ const useStyles = createUseStyles((theme: ITheme) => ({
       marginBottom: 5,
     },
   },
-  horizontalInfo: {
-    marginRight: 3,
+  singleInfoTitle: {
+    marginRight: 5,
   },
-  addressActionsContainer: {
+  singleInfoValue: {
+    textDecoration: "undeline",
+    fontWeight: "bold",
+  },
+  checkoutActions: {
+    display: "flex",
+    alignItems: "center",
+    gap: 5,
+    marginTop: 10,
+  },
+
+  actionsContainer: {
     display: "flex",
     alignItems: "center",
 
@@ -36,16 +56,6 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     right: 5,
     top: 5,
   },
-  editButton: {
-    padding: 5,
-    cursor: "pointer",
-    borderRadius: 5,
-    "&:hover": {
-      backgroundColor: theme.primary,
-      color: theme.lightTextColor,
-    },
-  },
-
   actionButton: {
     padding: 5,
     cursor: "pointer",

@@ -86,6 +86,8 @@ const useStyles = createUseStyles(
     },
     hiddenColumn: {
       boxShadow: theme.boxShadow,
+      border: ".5px solid " + theme.primary,
+      borderRadius: 5,
       margin: 5,
       cursor: "pointer",
       padding: 10,

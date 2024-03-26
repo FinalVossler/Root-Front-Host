@@ -1894,6 +1894,39 @@ const staticText = {
       { language: "en", text: "Hide my other addresses" },
       { language: "fr", text: "Cacher mes autres adresses" },
     ],
+    showOtherShippingMethods: [
+      { language: "en", text: "Show other shipping methods" },
+      { language: "fr", text: "Afficher les autres méthodes de livraison" },
+    ],
+    hideOtherShippingMethods: [
+      { language: "en", text: "Hide other shipping methods" },
+      { language: "fr", text: "Cacher les autres méthodes de livraison" },
+    ],
+    shippingMethod: [
+      { language: "en", text: "Shipping method" },
+      { language: "fr", text: "Méthod de livraison" },
+    ],
+    paymentMethod: [
+      { language: "en", text: "Payment method" },
+      { language: "fr", text: "Méthod de paiement" },
+    ],
+    price: [
+      { language: "en", text: "Price" },
+      { language: "fr", text: "Prix" },
+    ],
+    addressRequired: [
+      { language: "en", text: "Address is required" },
+      { language: "fr", text: "L'adresse est requise" },
+    ],
+
+    shippingMethodRequired: [
+      { language: "en", text: "Shipping method is required" },
+      { language: "fr", text: "La méthode de livraison est requise" },
+    ],
+    placeYourOrderAndPay: [
+      { language: "en", text: "Place your order and pay" },
+      { language: "fr", text: "Placer votre commande et payer" },
+    ],
   },
   paymentMethods: {
     createPaymentMethod: [

@@ -11,7 +11,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     display: "flex",
     flexDirection: "column",
     marginBottom: 20,
-    border: "1px solid " + theme.darkTextColor,
+    border: "1px solid " + theme.primary,
     padding: 10,
     boxSizing: "border-box",
     borderRadius: 5,
