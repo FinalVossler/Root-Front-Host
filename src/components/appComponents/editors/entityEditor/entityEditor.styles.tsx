@@ -75,7 +75,6 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   assignedUsersByRoleInputContainer: {
     display: "flex",
     flexDirection: "column",
-    border: "1px solid " + theme.darkTextColor,
     padding: 10,
     paddingBottom: 0,
     marginBottom: 10,
