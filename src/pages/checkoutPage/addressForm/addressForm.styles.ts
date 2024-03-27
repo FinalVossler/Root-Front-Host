@@ -8,11 +8,10 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     width: "100%",
     backgroundColor: theme.lightTextColor,
     padding: 20,
+    paddingTop: 0,
     boxSizing: "border-box",
     borderRadius: 5,
-    marginBottom: 20,
     boxShadow: theme.boxShadow,
-    marginTop: 15,
   },
   addressTitle: {},
   section: {

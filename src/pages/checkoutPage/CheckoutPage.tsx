@@ -156,7 +156,6 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
           onClick={handleSubmit}
           theme={theme}
           disabled={createOrderLoading}
-          style={{ marginTop: 20 }}
         >
           {getTranslatedText(staticText?.placeYourOrderAndPay)}
         </Button>
