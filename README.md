@@ -5,6 +5,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
+- Add the total before and with the "Place your order and pay" button;
 - Create the successful and cancelled payment pages (their receive the orderId as a parameter in the url)
 - Create a utils function for a more readable product name in stripe
 - Add support for language in payment method and shipping method forms

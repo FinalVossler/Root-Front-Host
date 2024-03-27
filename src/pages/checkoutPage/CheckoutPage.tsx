@@ -104,7 +104,6 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
           region: address.region,
         },
         status: OrderStatusEnum.Pending,
-        total: getCartTotal(cart),
         userId: currentUser._id.toString(),
       };
       createOrder(orderCreateCommand);
