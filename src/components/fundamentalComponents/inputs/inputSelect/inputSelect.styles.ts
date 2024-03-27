@@ -22,7 +22,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     boxSizing: "border-box",
 
     "& .react-select__control": {
-      border: "1px solid " + theme.primary,
+      border: "0.5 px solid " + theme.primary,
       boxShadow: theme.boxShadow,
       minHeight: 47,
     },

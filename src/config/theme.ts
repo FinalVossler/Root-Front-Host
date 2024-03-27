@@ -4,7 +4,7 @@ const theme: ITheme = {
   darkTextColor: "#4c4c4d",
   lightTextColor: "#FFFFFF",
 
-  primary: "#4BE3AE",
+  primary: "#09bf96",
   darkerPrimary: "#2DB39E",
   lighterPrimary: "#ecf2f0",
   secondary: "#7aeaaf",
