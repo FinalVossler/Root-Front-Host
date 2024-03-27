@@ -21,6 +21,7 @@ const useCreateOrder = () => {
         })
         .then((res) => {
           const order: IOrderReadDto = res.data.data;
+          window.location.href = res.data.data.checkoutSessionUrl;
           resolve(order);
         })
         .finally(() => setLoading(false))

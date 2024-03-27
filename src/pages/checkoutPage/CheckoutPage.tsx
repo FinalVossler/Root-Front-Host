@@ -22,10 +22,12 @@ import getProductPrice from "../../utils/getProductPrice";
 import { toast } from "react-toastify";
 import getCartTotal from "../../utils/getCartTotal";
 import Loading from "react-loading";
+import CheckoutPaymentMethods from "./checkoutPaymentMethods";
 
 interface ICheckoutPageForm {
   addressId: string | undefined;
   shippingMethodId: string | undefined;
+  paymentMethodId: string | undefined;
 }
 
 interface ICheckoutPageProps {}
@@ -59,6 +61,7 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
     initialValues: {
       addressId: "",
       shippingMethodId: "",
+      paymentMethodId: "",
     },
     validationSchema: Yup.object().shape({
       addressId: Yup.string().required(
@@ -66,6 +69,9 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
       ),
       shippingMethodId: Yup.string().required(
         getTranslatedText(staticText?.shippingMethodRequired)
+      ),
+      paymentMethodId: Yup.string().required(
+        getTranslatedText(staticText?.paymentMethodRequired)
       ),
     }),
     onSubmit: async (values) => {
@@ -78,7 +84,8 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
 
       const orderCreateCommand: IOrderCreateCommand = {
         date: new Date().toString(),
-        paymentMethodId: "",
+        paymentMethodId: values.paymentMethodId as string,
+        shippingMethodId: values.shippingMethodId as string,
         products:
           cart?.products.map((p) => ({
             price: getProductPrice({
@@ -96,7 +103,6 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
           postalCode: address.postalCode,
           region: address.region,
         },
-        shippingMethodId: values.shippingMethodId as string,
         status: OrderStatusEnum.Pending,
         total: getCartTotal(cart),
         userId: currentUser._id.toString(),
@@ -147,6 +153,16 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
       />
       {formik.errors.shippingMethodId && (
         <span className={styles.error}>{formik.errors.shippingMethodId}</span>
+      )}
+
+      <CheckoutPaymentMethods
+        selectedPaymentMethodId={formik.values.paymentMethodId}
+        setSelectedPaymentMethodId={(paymentMethodId) =>
+          formik.setFieldValue("paymentMethodId", paymentMethodId)
+        }
+      />
+      {formik.errors.paymentMethodId && (
+        <span className={styles.error}>{formik.errors.paymentMethodId}</span>
       )}
 
       {createOrderLoading && <Loading color={theme.primary} />}

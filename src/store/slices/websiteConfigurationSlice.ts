@@ -1890,6 +1890,11 @@ const staticText = {
       { language: "fr", text: "Afficher mes autres adresses" },
     ],
 
+    slug: [
+      { language: "en", text: "Slug" },
+      { language: "fr", text: "Slug" },
+    ],
+
     hideOtherAddresses: [
       { language: "en", text: "Hide my other addresses" },
       { language: "fr", text: "Cacher mes autres adresses" },
@@ -1900,6 +1905,15 @@ const staticText = {
     ],
     hideOtherShippingMethods: [
       { language: "en", text: "Hide other shipping methods" },
+      { language: "fr", text: "Cacher les autres méthodes de livraison" },
+    ],
+
+    showOtherPaymentMethods: [
+      { language: "en", text: "Show other payment methods" },
+      { language: "fr", text: "Afficher les autres méthodes de livraison" },
+    ],
+    hideOtherPaymentMethods: [
+      { language: "en", text: "Hide other payment methods" },
       { language: "fr", text: "Cacher les autres méthodes de livraison" },
     ],
     shippingMethod: [
@@ -1922,6 +1936,10 @@ const staticText = {
     shippingMethodRequired: [
       { language: "en", text: "Shipping method is required" },
       { language: "fr", text: "La méthode de livraison est requise" },
+    ],
+    paymentMethodRequired: [
+      { language: "en", text: "Payment method is required" },
+      { language: "fr", text: "La méthode de paiement est requise" },
     ],
     placeYourOrderAndPay: [
       { language: "en", text: "Place your order and pay" },

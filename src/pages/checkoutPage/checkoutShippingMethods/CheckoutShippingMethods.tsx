@@ -23,9 +23,6 @@ const CheckoutShippingMethods: React.FunctionComponent<
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
-  const withEcommerce = useAppSelector(
-    (state) => state.websiteConfiguration.withEcommerce
-  );
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.checkout
   );

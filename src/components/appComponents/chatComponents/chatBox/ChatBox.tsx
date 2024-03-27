@@ -1,5 +1,14 @@
 import React from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
+import {
+  IFileReadDto,
+  IMessageGetBetweenUsersCommand,
+  IMessageMarkAllMessagesAsReadByUserCommand,
+  IMessageReadDto,
+  IPopulatedMessageReadDto,
+  ITheme,
+  IUserReadDto,
+} from "roottypes";
 
 import useLoadMessages from "../../../../hooks/apiHooks/useLoadMessages";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
@@ -20,15 +29,6 @@ import UserProfilePicture from "../../../fundamentalComponents/userProfilePictur
 import { SizeEnum } from "../../../fundamentalComponents/userProfilePicture/UserProfilePicture";
 import { BsThreeDots } from "react-icons/bs";
 import useGetUsersWithTheirLastReadMessageInConversation from "../../../../hooks/apiHooks/useGetUsersWithTheirLastReadMessageInConversation";
-import {
-  IFileReadDto,
-  IMessageGetBetweenUsersCommand,
-  IMessageMarkAllMessagesAsReadByUserCommand,
-  IMessageReadDto,
-  IPopulatedMessageReadDto,
-  ITheme,
-  IUserReadDto,
-} from "roottypes";
 
 export enum BoxType {
   SmallBox = "SmallBox",
@@ -249,6 +249,7 @@ const ChatBox: React.FunctionComponent<IChatBoxProps> = (
         {conversation?.typingUsers?.map((u) => (
           <div key={u._id.toString()} className={styles.typingUserContainer}>
             <UserProfilePicture
+              theme={theme}
               size={SizeEnum.Small}
               url={(u.profilePicture as IFileReadDto)?.url}
             />

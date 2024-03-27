@@ -53,6 +53,7 @@ const InboxConversation: React.FunctionComponent<IInboxConversationProps> = (
       className={styles.conversationContainer}
     >
       <UserProfilePicture
+        theme={theme}
         url={(props.otherUser?.profilePicture as IFileReadDto)?.url}
         size={SizeEnum.Small}
       />
