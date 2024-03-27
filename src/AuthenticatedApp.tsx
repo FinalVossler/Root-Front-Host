@@ -31,6 +31,7 @@ import AppModalsAndEditors from "./AppModalsAndEditors";
 import CheckoutPage from "./pages/checkoutPage";
 import PaymentMethodsPage from "./pages/paymentMethodsPage";
 import ShippingMethodsPage from "./pages/shippingMethodsPage";
+import SuccessfulPaymentPage from "./pages/successfulPaymentPage";
 
 function AuthenticatedApp() {
   const withEcommerce: boolean | undefined = useAppSelector(
@@ -93,6 +94,10 @@ function AuthenticatedApp() {
         <Route path="/shippingMethods/" element={<ShippingMethodsPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+        <Route
+          path="/successfulPayment/:orderId"
+          element={<SuccessfulPaymentPage />}
+        />
 
         {!homePage && (
           <Route path="/" element={<HomePageForLoggedIn />}></Route>

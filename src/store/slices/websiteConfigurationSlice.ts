@@ -2002,6 +2002,36 @@ const staticText = {
       { language: "fr", text: "Requis" },
     ],
   },
+  successfulPayment: {
+    success: [
+      { language: "en", text: "Success" },
+      { language: "fr", text: "Succès" },
+    ],
+
+    successfulPaymentTitle: [
+      { language: "en", text: "Your payment has been processed successfully" },
+      { language: "fr", text: "Votre paiement a été effectué en succès" },
+    ],
+    confirmationEmailNotice: [
+      { language: "en", text: "You'll receive a confirmation shortly" },
+      {
+        language: "fr",
+        text: "Vous allez recevoir un email de confirmation dans quelques instants",
+      },
+    ],
+
+    orderIdMissingInUrl: [
+      { language: "en", text: "Missing order Id in the url" },
+      {
+        language: "fr",
+        text: "L'id de la commande est manquant dans l'URL",
+      },
+    ],
+    continueShopping: [
+      { language: "en", text: "Continue shopping" },
+      { language: "fr", text: "Continuer les courses" },
+    ],
+  },
 };
 
 const initialState: IWebsiteConfigurationState = {

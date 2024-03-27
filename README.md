@@ -5,6 +5,8 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
+- Turn the stripe key into an environment variable
+- Write an integration test for the "isPaymentSuccessful" endpoint in orders
 - Add the total before and with the "Place your order and pay" button;
 - Create the successful and cancelled payment pages (their receive the orderId as a parameter in the url)
 - Create a utils function for a more readable product name in stripe
@@ -21,6 +23,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 - Write the shipping methods cypress tests
 - Rename FileInptus to inputFiles for consistency with InputSelect
 - Add a border color to the selectable columns in the elements component
+- Fix the total price from euros to centimes
 
 # https://www.vivamed.com/
 
