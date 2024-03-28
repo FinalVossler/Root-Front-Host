@@ -22,6 +22,8 @@ import useStyles from "./paymentMethodEditor.styles";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import useCreatePaymentMethod from "../../../../hooks/apiHooks/useCreatePaymentMethod";
 import useUpdatePaymentMethod from "../../../../hooks/apiHooks/useUpdatePaymentMethod";
+import FormikInputSelect from "../../../fundamentalComponents/formikInputs/formikInputSelect";
+import getLanguages from "../../../../utils/getLanguages";
 
 export interface IPaymentMethodFormFormik {
   name: string;
@@ -154,6 +156,19 @@ const PaymentMethodEditor: React.FunctionComponent<
             placeholder: getTranslatedText(staticText?.slugPlaceholder),
           }}
           inputDataCy="paymentMethodNameInput"
+        />
+
+        <FormikInputSelect
+          theme={theme}
+          label={getTranslatedText(staticText?.language)}
+          name="language"
+          formik={formik}
+          options={getLanguages()}
+          value={
+            getLanguages().find((el) => el.value === formik.values.language) ||
+            getLanguages()[0]
+          }
+          selectorClassName="paymentMethodLanguageSelect"
         />
 
         {!loading && (

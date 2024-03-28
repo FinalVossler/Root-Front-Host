@@ -23,6 +23,8 @@ import useCreateShippingMethod from "../../../../hooks/apiHooks/useCreateShippin
 import useUpdateShippingMethod from "../../../../hooks/apiHooks/useUpdateShippingMethod";
 
 import useStyles from "./shippingMethodEditor.styles";
+import getLanguages from "../../../../utils/getLanguages";
+import FormikInputSelect from "../../../fundamentalComponents/formikInputs/formikInputSelect";
 
 export interface IShippingMethodFormFormik {
   name: string;
@@ -159,6 +161,19 @@ const ShippingMethodEditor: React.FunctionComponent<
           }}
           label={getTranslatedText(staticText?.pricePlaceholder)}
           inputDataCy="shippingMethodNameInput"
+        />
+
+        <FormikInputSelect
+          theme={theme}
+          label={getTranslatedText(staticText?.language)}
+          name="language"
+          formik={formik}
+          options={getLanguages()}
+          value={
+            getLanguages().find((el) => el.value === formik.values.language) ||
+            getLanguages()[0]
+          }
+          selectorClassName="paymentMethodLanguageSelect"
         />
 
         {!loading && (

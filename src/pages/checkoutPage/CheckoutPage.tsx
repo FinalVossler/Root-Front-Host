@@ -172,7 +172,6 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
 
       <div className={styles.right}>
         {createOrderLoading && <Loading color={theme.primary} />}
-
         {cart && (
           <React.Fragment>
             <span className={styles.productsTotalContainer}>
@@ -220,18 +219,13 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
             </span>
           </React.Fragment>
         )}
-
-        {!createOrderLoading && (
-          <Button
-            onClick={handleSubmit}
-            theme={theme}
-            disabled={
-              createOrderLoading || Object.keys(formik.errors).length > 0
-            }
-          >
-            {getTranslatedText(staticText?.placeYourOrderAndPay)}
-          </Button>
-        )}
+        <Button
+          onClick={handleSubmit}
+          theme={theme}
+          disabled={createOrderLoading || Object.keys(formik.errors).length > 0}
+        >
+          {getTranslatedText(staticText?.placeYourOrderAndPay)}
+        </Button>
       </div>
     </div>
   );

@@ -1972,6 +1972,10 @@ const staticText = {
       { language: "en", text: "Update payment method" },
       { language: "fr", text: "Modifier une méthode de paiement" },
     ],
+    language: [
+      { language: "en", text: "Language" },
+      { language: "fr", text: "Langue" },
+    ],
 
     namePlaceholder: [
       { language: "en", text: "Name" },
@@ -2001,6 +2005,10 @@ const staticText = {
       { language: "fr", text: "Modifier une méthode de paiement" },
     ],
 
+    language: [
+      { language: "en", text: "Language" },
+      { language: "fr", text: "Langue" },
+    ],
     namePlaceholder: [
       { language: "en", text: "Name" },
       { language: "fr", text: "Nom" },
@@ -2048,7 +2056,7 @@ const staticText = {
       { language: "fr", text: "Réessayer" },
     ],
     confirmationEmailNotice: [
-      { language: "en", text: "You'll receive a confirmation shortly" },
+      { language: "en", text: "You'll receive a confirmation email shortly" },
       {
         language: "fr",
         text: "Vous allez recevoir un email de confirmation dans quelques instants",

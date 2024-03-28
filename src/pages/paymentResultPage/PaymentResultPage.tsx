@@ -1,5 +1,5 @@
 import React from "react";
-import { IOrderReadDto, ITheme } from "roottypes";
+import { ICartUpdateCommand, IOrderReadDto, ITheme } from "roottypes";
 import { FaCheckCircle } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import Loading from "react-loading";
@@ -7,12 +7,14 @@ import { toast } from "react-toastify";
 import { ImCross } from "react-icons/im";
 
 import useStyles from "./paymentResultPage.styles";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useGetIsPaymentSuccessful from "../../hooks/apiHooks/useGetIsPaymentSuccessful";
 import Button from "../../components/fundamentalComponents/button";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 import Unauthorized from "../../components/fundamentalComponents/unauthorized";
+import { emptyCartThunk, updateCartThunk } from "../../store/slices/cartSlice";
+import useUpdateCart from "../../hooks/apiHooks/useUpdateCarts";
 
 interface ISuccessfulPaymentPageProps {}
 
@@ -36,7 +38,9 @@ const PaymentResultPage: React.FunctionComponent<
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
+  const dispatch = useAppDispatch();
   const { getIsPaymentSuccessful, loading } = useGetIsPaymentSuccessful();
+  const { updateCart } = useUpdateCart();
   const isLoggedIn: boolean = useIsLoggedIn();
 
   React.useEffect(() => {
@@ -46,6 +50,17 @@ const PaymentResultPage: React.FunctionComponent<
     getIsPaymentSuccessful(orderId as string).then((res) => {
       setIsPaymentSuccessful(res.isPaymentSuccessful);
       setOrder(res.order);
+
+      // Empty cart here
+      if (res.isPaymentSuccessful) {
+        dispatch(
+          emptyCartThunk({
+            updateApiCart: async (command) => {
+              await updateCart(command);
+            },
+          })
+        );
+      }
     });
   }, [orderId]);
 

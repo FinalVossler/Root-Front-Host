@@ -13,6 +13,7 @@ const styles = createUseStyles((theme: ITheme) => ({
   success: {
     fontSize: 50,
     marginBottom: 10,
+    color: theme.primary,
     marginTop: 10,
   },
   paymentTitle: {

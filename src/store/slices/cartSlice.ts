@@ -31,6 +31,12 @@ export const cartSlice = createSlice({
         state.cart = action.payload;
       }
     );
+    builder.addCase(
+      emptyCartThunk.fulfilled,
+      (state: ICartState, action: PayloadAction<ICartReadDto | undefined>) => {
+        state.cart = action.payload;
+      }
+    );
   },
 });
 
@@ -99,6 +105,28 @@ export const updateCartThunk = createAsyncThunk<
   params.updateApiCart(command);
 
   return newStateCart;
+});
+
+export const emptyCartThunk = createAsyncThunk<
+  ICartState["cart"],
+  { updateApiCart: (command: ICartUpdateCommand) => Promise<void> }
+>("cart/emptyCart", (params, thunkApi) => {
+  const state = thunkApi.getState() as RootState;
+
+  const emptiedCart: ICartState["cart"] = {
+    _id: state.cart.cart?._id || "",
+    products: [],
+    user: state.cart.cart?.user || state.user.user,
+  };
+
+  // Now update the cart in the backend
+  const command: ICartUpdateCommand = {
+    products: [],
+    userId: state.user.user._id.toString(),
+  };
+  params.updateApiCart(command);
+
+  return emptiedCart;
 });
 
 const cartReducer = cartSlice.reducer;

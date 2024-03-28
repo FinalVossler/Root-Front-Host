@@ -5,25 +5,20 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
-- Turn the stripe key into an environment variable
+- Add the order history page with their statuses (workflow )
+- Then backend (getOrderTotal) needs to take only one currency into consideration when picking the price value for each product. If the languages for the prices are inconsistent, then throw an error during the price calculation
 - Write an integration test for the "isPaymentSuccessful" endpoint in orders
-- Add the total before and with the "Place your order and pay" button;
-- Create the successful and cancelled payment pages (their receive the orderId as a parameter in the url)
 - Create a utils function for a more readable product name in stripe
-- Add support for language in payment method and shipping method forms
 - Add number of days to shipping method
 - Add billing address logic (same as shipping too?)
 - Build the nothing to show component for the cart
 - Backend: Add the ability to update the payment method in the order service
-- Add the verify products in the checkout page
 - Create a view tab for a user's products in the profile page.
 - Add the search entity in the header and the ability to configure it by model
 - Support price conversion from dollar to euro depending on the selected language
 - Write the payment methods cypress tests
 - Write the shipping methods cypress tests
 - Rename FileInptus to inputFiles for consistency with InputSelect
-- Add a border color to the selectable columns in the elements component
-- Fix the total price from euros to cents
 
 # https://www.vivamed.com/
 
