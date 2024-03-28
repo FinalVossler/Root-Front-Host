@@ -1,17 +1,18 @@
 import React from "react";
 import { ICartReadDto, IEntityReadDto, IModelReadDto, ITheme } from "roottypes";
+import { Link } from "react-router-dom";
 
 import { useAppSelector } from "../../store/hooks";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 
-import getCartTotal from "../../utils/getCartTotal";
+import getCartSubTotal from "../../utils/getCartSubTotal";
 import Button from "../../components/fundamentalComponents/button";
 
 import CartProduct from "./cartProduct/CartProduct";
 import useStyles from "./cartPage.styles";
 import getCartTotalProducts from "../../utils/getCartTotalProducts";
-import { Link } from "react-router-dom";
+import formatCentsToDollars from "../../utils/formatCentsToDollars";
 
 interface ICartPageProps {}
 
@@ -23,6 +24,9 @@ const CartPage: React.FunctionComponent<ICartPageProps> = (
   );
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.entities
+  );
+  const checkoutStaticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.checkout
   );
   const cart: ICartReadDto | undefined = useAppSelector(
     (state) => state.cart.cart
@@ -117,6 +121,9 @@ const CartSubTotal = () => {
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.entities
   );
+  const checkoutStaticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.checkout
+  );
   const cart = useAppSelector((state) => state.cart.cart);
 
   const styles = useStyles({ theme });
@@ -132,7 +139,10 @@ const CartSubTotal = () => {
           {getCartTotalProducts(cart)} {getTranslatedText(staticText?.articles)}
           ):
         </span>
-        <span className={styles.subTotal}>{getCartTotal(cart)}$</span>
+        <span className={styles.subTotal}>
+          {formatCentsToDollars(getCartSubTotal(cart))}{" "}
+          {getTranslatedText(checkoutStaticText?.moneyUnit)}
+        </span>
       </div>
     </div>
   );
@@ -144,6 +154,9 @@ const CartSideSubtotal = () => {
     (state) => state.websiteConfiguration.staticText?.entities
   );
   const cart = useAppSelector((state) => state.cart.cart);
+  const checkoutStaticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.checkout
+  );
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
@@ -158,7 +171,10 @@ const CartSideSubtotal = () => {
           {getCartTotalProducts(cart)} {getTranslatedText(staticText?.articles)}
           ):
         </span>
-        <span className={styles.subTotal}>{getCartTotal(cart)}$</span>
+        <span className={styles.subTotal}>
+          {formatCentsToDollars(getCartSubTotal(cart))}
+          {getTranslatedText(checkoutStaticText?.moneyUnit)}
+        </span>
       </div>
 
       <Link to="/checkout">

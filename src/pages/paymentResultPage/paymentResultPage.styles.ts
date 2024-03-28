@@ -2,7 +2,7 @@ import { createUseStyles } from "react-jss";
 import { ITheme } from "roottypes";
 
 const styles = createUseStyles((theme: ITheme) => ({
-  successfulPaymentPageContainer: {
+  paymentResultPageContainer: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -15,13 +15,20 @@ const styles = createUseStyles((theme: ITheme) => ({
     marginBottom: 10,
     marginTop: 10,
   },
-  successfulPaymentTitle: {
+  paymentTitle: {
     marginBottom: 10,
     color: theme.darkTextColor,
 
     marginTop: 0,
   },
   confirmationEmailNotice: {},
+  retryOrContinueShopping: {},
+  actions: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 15,
+  },
 }));
 
 export default styles;

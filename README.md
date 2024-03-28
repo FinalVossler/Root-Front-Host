@@ -23,7 +23,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 - Write the shipping methods cypress tests
 - Rename FileInptus to inputFiles for consistency with InputSelect
 - Add a border color to the selectable columns in the elements component
-- Fix the total price from euros to centimes
+- Fix the total price from euros to cents
 
 # https://www.vivamed.com/
 

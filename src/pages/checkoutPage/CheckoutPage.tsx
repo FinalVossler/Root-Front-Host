@@ -2,7 +2,6 @@ import React from "react";
 import {
   IAddressReadDto,
   IEntityReadDto,
-  IModelReadDto,
   IOrderCreateCommand,
   ITheme,
   OrderStatusEnum,
@@ -20,9 +19,11 @@ import useCreateOrder from "../../hooks/apiHooks/useCreateOrder";
 import Button from "../../components/fundamentalComponents/button";
 import getProductPrice from "../../utils/getProductPrice";
 import { toast } from "react-toastify";
-import getCartTotal from "../../utils/getCartTotal";
 import Loading from "react-loading";
 import CheckoutPaymentMethods from "./checkoutPaymentMethods";
+import getCartTotal from "../../utils/getCartTotal";
+import getCartSubTotal from "../../utils/getCartSubTotal";
+import formatCentsToDollars from "../../utils/formatCentsToDollars";
 
 interface ICheckoutPageForm {
   addressId: string | undefined;
@@ -48,6 +49,9 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
   );
   const currentUser = useAppSelector((state) => state.user.user);
   const models = useAppSelector((state) => state.model.models);
+  const shippingMethods = useAppSelector(
+    (state) => state.shippingMethod.shippingMethods
+  );
   //#endregion Store
 
   //#region State
@@ -135,46 +139,100 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
 
   return (
     <div className={styles.checkoutPageContainer}>
-      <CheckoutAddresses
-        selectedAddressId={formik.values.addressId}
-        setSelectedAddressId={(addressId) =>
-          formik.setFieldValue("addressId", addressId)
-        }
-      />
-      {formik.errors.addressId && (
-        <span className={styles.error}>{formik.errors.addressId}</span>
-      )}
-      <CheckoutShippingMethods
-        selectedShippingMethodId={formik.values.shippingMethodId}
-        setSelectedShippingMethodId={(shippingMethodId) =>
-          formik.setFieldValue("shippingMethodId", shippingMethodId)
-        }
-      />
-      {formik.errors.shippingMethodId && (
-        <span className={styles.error}>{formik.errors.shippingMethodId}</span>
-      )}
+      <div className={styles.left}>
+        <CheckoutAddresses
+          selectedAddressId={formik.values.addressId}
+          setSelectedAddressId={(addressId) =>
+            formik.setFieldValue("addressId", addressId)
+          }
+        />
+        {formik.errors.addressId && (
+          <span className={styles.error}>{formik.errors.addressId}</span>
+        )}
+        <CheckoutShippingMethods
+          selectedShippingMethodId={formik.values.shippingMethodId}
+          setSelectedShippingMethodId={(shippingMethodId) =>
+            formik.setFieldValue("shippingMethodId", shippingMethodId)
+          }
+        />
+        {formik.errors.shippingMethodId && (
+          <span className={styles.error}>{formik.errors.shippingMethodId}</span>
+        )}
 
-      <CheckoutPaymentMethods
-        selectedPaymentMethodId={formik.values.paymentMethodId}
-        setSelectedPaymentMethodId={(paymentMethodId) =>
-          formik.setFieldValue("paymentMethodId", paymentMethodId)
-        }
-      />
-      {formik.errors.paymentMethodId && (
-        <span className={styles.error}>{formik.errors.paymentMethodId}</span>
-      )}
+        <CheckoutPaymentMethods
+          selectedPaymentMethodId={formik.values.paymentMethodId}
+          setSelectedPaymentMethodId={(paymentMethodId) =>
+            formik.setFieldValue("paymentMethodId", paymentMethodId)
+          }
+        />
+        {formik.errors.paymentMethodId && (
+          <span className={styles.error}>{formik.errors.paymentMethodId}</span>
+        )}
+      </div>
 
-      {createOrderLoading && <Loading color={theme.primary} />}
+      <div className={styles.right}>
+        {createOrderLoading && <Loading color={theme.primary} />}
 
-      {!createOrderLoading && (
-        <Button
-          onClick={handleSubmit}
-          theme={theme}
-          disabled={createOrderLoading}
-        >
-          {getTranslatedText(staticText?.placeYourOrderAndPay)}
-        </Button>
-      )}
+        {cart && (
+          <React.Fragment>
+            <span className={styles.productsTotalContainer}>
+              <span>{getTranslatedText(staticText?.productsTotal)}: </span>
+              <span>
+                {formatCentsToDollars(getCartSubTotal(cart))}
+                {getTranslatedText(staticText?.moneyUnit)}
+              </span>
+            </span>
+            {formik.values.shippingMethodId &&
+              shippingMethods.find(
+                (s) =>
+                  s._id.toString() ===
+                  formik.values.shippingMethodId?.toString()
+              ) && (
+                <div className={styles.shippingMethodPriceContainer}>
+                  <span>{getTranslatedText(staticText?.shipping)}: </span>
+                  <span>
+                    {formatCentsToDollars(
+                      shippingMethods.find(
+                        (s) =>
+                          s._id.toString() ===
+                          formik.values.shippingMethodId?.toString()
+                      )?.price || 0
+                    )}
+                    {getTranslatedText(staticText?.moneyUnit)}
+                  </span>
+                </div>
+              )}
+            <span className={styles.total}>
+              <span>{getTranslatedText(staticText?.total)}: </span>
+              <span>
+                {formatCentsToDollars(
+                  getCartTotal(
+                    cart,
+                    shippingMethods.find(
+                      (s) =>
+                        s._id.toString() ===
+                        formik.values.shippingMethodId?.toString()
+                    )
+                  )
+                )}
+                {getTranslatedText(staticText?.moneyUnit)}
+              </span>
+            </span>
+          </React.Fragment>
+        )}
+
+        {!createOrderLoading && (
+          <Button
+            onClick={handleSubmit}
+            theme={theme}
+            disabled={
+              createOrderLoading || Object.keys(formik.errors).length > 0
+            }
+          >
+            {getTranslatedText(staticText?.placeYourOrderAndPay)}
+          </Button>
+        )}
+      </div>
     </div>
   );
 };

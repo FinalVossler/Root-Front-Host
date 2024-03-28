@@ -12,6 +12,7 @@ import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 
 import useStyles from "./cartProduct.styles";
 import CartProductActions from "../cartProductActions/CartProductActions";
+import formatCentsToDollars from "../../../utils/formatCentsToDollars";
 
 interface ICartProductProps {
   productInfo: {
@@ -29,6 +30,9 @@ const CartProduct: React.FunctionComponent<ICartProductProps> = (
     (state) => state.websiteConfiguration.theme
   );
   const getTranslatedText = useGetTranslatedText();
+  const checkoutStaticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.checkout
+  );
 
   const styles = useStyles({ theme });
 
@@ -96,15 +100,17 @@ const CartProduct: React.FunctionComponent<ICartProductProps> = (
       </div>
       <div className={styles.right}>
         <span className={styles.price}>
-          {getTranslatedText(
-            (
-              props.productInfo.product as IEntityReadDto
-            ).entityFieldValues.find(
-              (efv) =>
-                (efv.field as IFieldReadDto)._id.toString() === priceFieldId
-            )?.value
+          {formatCentsToDollars(
+            getTranslatedText(
+              (
+                props.productInfo.product as IEntityReadDto
+              ).entityFieldValues.find(
+                (efv) =>
+                  (efv.field as IFieldReadDto)._id.toString() === priceFieldId
+              )?.value
+            )
           )}
-          $
+          {getTranslatedText(checkoutStaticText?.moneyUnit)}
         </span>
       </div>
     </div>

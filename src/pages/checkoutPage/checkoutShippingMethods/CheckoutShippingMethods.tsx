@@ -8,6 +8,7 @@ import Button from "../../../components/fundamentalComponents/button";
 
 import useStyles from "./checkoutShippingMethods.styles";
 import useGetShippingMethods from "../../../hooks/apiHooks/useGetShippingMethods";
+import formatCentsToDollars from "../../../utils/formatCentsToDollars";
 
 interface ICheckoutShippingMethodsProps {
   selectedShippingMethodId?: string;
@@ -110,7 +111,10 @@ const CheckoutShippingMethods: React.FunctionComponent<
                   )}
 
                   <span className={styles.price}>
-                    {getTranslatedText(shippingMethod.price + "")}$
+                    {formatCentsToDollars(
+                      getTranslatedText(shippingMethod.price + "")
+                    )}{" "}
+                    {getTranslatedText(staticText?.moneyUnit)}
                   </span>
                 </div>
 
@@ -119,10 +123,6 @@ const CheckoutShippingMethods: React.FunctionComponent<
                     {getTranslatedText(shippingMethod.name)}
                   </span>
                 </div>
-
-                {/* <span className={styles.price}>
-                  {getTranslatedText(shippingMethod.price + "")}$
-                </span> */}
               </div>
             );
           })}

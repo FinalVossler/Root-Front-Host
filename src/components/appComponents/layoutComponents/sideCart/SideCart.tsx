@@ -14,9 +14,10 @@ import { updateCartThunk } from "../../../../store/slices/cartSlice";
 import useUpdateCart from "../../../../hooks/apiHooks/useUpdateCarts";
 import validateProductQuantity from "../../../../utils/validateProductQuantity";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
-import getCartTotal from "../../../../utils/getCartTotal";
+import getCartSubTotal from "../../../../utils/getCartSubTotal";
 
 import useStyles from "./sideCart.styles";
+import formatCentsToDollars from "../../../../utils/formatCentsToDollars";
 
 interface ISideCartProps {}
 
@@ -32,6 +33,9 @@ const SideCart: React.FunctionComponent<ISideCartProps> = (
   );
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.entities
+  );
+  const checkoutStaticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.checkout
   );
   //#endregion selectors
 
@@ -93,7 +97,10 @@ const SideCart: React.FunctionComponent<ISideCartProps> = (
           <span className={styles.subTotalTitle}>
             {getTranslatedText(staticText?.subTotal)}
           </span>
-          <span className={styles.subTotal}>{getCartTotal(cart)}$</span>
+          <span className={styles.subTotal}>
+            {formatCentsToDollars(getCartSubTotal(cart))}
+            {getTranslatedText(checkoutStaticText?.moneyUnit)}
+          </span>
         </div>
       )}
 
@@ -125,7 +132,10 @@ const SideCart: React.FunctionComponent<ISideCartProps> = (
                 <img className={styles.productImage} src={imageFiles[0].url} />
               )}
 
-              <span className={styles.price}>{getTranslatedText(price)} $</span>
+              <span className={styles.price}>
+                {formatCentsToDollars(getTranslatedText(price))}{" "}
+                {getTranslatedText(checkoutStaticText?.moneyUnit)}
+              </span>
 
               <div className={styles.productActionsContainer}>
                 <Input

@@ -1829,6 +1829,14 @@ const staticText = {
     ],
   },
   checkout: {
+    moneyUnit: [
+      { language: "en", text: "$" },
+      { language: "fr", text: "€" },
+    ],
+    productsTotal: [
+      { language: "en", text: "Products total" },
+      { language: "fr", text: "Total des produits" },
+    ],
     required: [
       { language: "en", text: "Required" },
       { language: "fr", text: "Requis" },
@@ -1920,6 +1928,11 @@ const staticText = {
       { language: "en", text: "Shipping method" },
       { language: "fr", text: "Méthod de livraison" },
     ],
+
+    shipping: [
+      { language: "en", text: "Shipping" },
+      { language: "fr", text: "Livraison" },
+    ],
     paymentMethod: [
       { language: "en", text: "Payment method" },
       { language: "fr", text: "Méthod de paiement" },
@@ -1927,6 +1940,10 @@ const staticText = {
     price: [
       { language: "en", text: "Price" },
       { language: "fr", text: "Prix" },
+    ],
+    total: [
+      { language: "en", text: "Total" },
+      { language: "fr", text: "Total" },
     ],
     addressRequired: [
       { language: "en", text: "Address is required" },
@@ -1990,8 +2007,8 @@ const staticText = {
     ],
 
     pricePlaceholder: [
-      { language: "en", text: "Price" },
-      { language: "fr", text: "Prix" },
+      { language: "en", text: "Price (in cents)" },
+      { language: "fr", text: "Prix (en centimes)" },
     ],
     submit: [
       { language: "en", text: "Submit" },
@@ -2002,15 +2019,33 @@ const staticText = {
       { language: "fr", text: "Requis" },
     ],
   },
-  successfulPayment: {
+  paymentResult: {
     success: [
       { language: "en", text: "Success" },
       { language: "fr", text: "Succès" },
     ],
 
-    successfulPaymentTitle: [
+    failure: [
+      { language: "en", text: "Failure" },
+      { language: "fr", text: "Echec" },
+    ],
+
+    paymentResultTitle: [
       { language: "en", text: "Your payment has been processed successfully" },
       { language: "fr", text: "Votre paiement a été effectué en succès" },
+    ],
+    failedOrUnporcessedPayment: [
+      { language: "en", text: "Failed or unprocessed payment" },
+      { language: "fr", text: "Echec de paiement ou paiement non effectué" },
+    ],
+    retryOrContinueShopping: [
+      { language: "en", text: "Retry or continue shopping" },
+      { language: "fr", text: "Réessayer ou acheter d'autres objets" },
+    ],
+
+    retry: [
+      { language: "en", text: "Retry" },
+      { language: "fr", text: "Réessayer" },
     ],
     confirmationEmailNotice: [
       { language: "en", text: "You'll receive a confirmation shortly" },
@@ -2030,6 +2065,10 @@ const staticText = {
     continueShopping: [
       { language: "en", text: "Continue shopping" },
       { language: "fr", text: "Continuer les courses" },
+    ],
+    errorFindingCheckoutSession: [
+      { language: "en", text: "Error finding checkout session" },
+      { language: "fr", text: "Erreur de recherche de la session de paiement" },
     ],
   },
 };
