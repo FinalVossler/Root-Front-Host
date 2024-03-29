@@ -2048,7 +2048,7 @@ const staticText = {
     ],
 
     paymentResultTitle: [
-      { language: "en", text: "Your payment has been processed successfully" },
+      { language: "en", text: "Your payment was successfully processed" },
       { language: "fr", text: "Votre paiement a été effectué en succès" },
     ],
     failedOrUnporcessedPayment: [
@@ -2095,8 +2095,8 @@ const staticText = {
       { language: "fr", text: "Vos commandes" },
     ],
     total: [
-      { language: "en", text: "Your orders" },
-      { language: "fr", text: "Vos commandes" },
+      { language: "en", text: "Total" },
+      { language: "fr", text: "Total" },
     ],
     showOrderDetails: [
       { language: "en", text: "Show order details" },
@@ -2123,6 +2123,10 @@ const staticText = {
     showArticle: [
       { language: "en", text: "Show article" },
       { language: "fr", text: "Afficher l'article" },
+    ],
+    status: [
+      { language: "en", text: "Order Status" },
+      { language: "fr", text: "Status de la commande" },
     ],
   },
 };

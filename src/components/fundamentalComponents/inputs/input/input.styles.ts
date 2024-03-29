@@ -56,7 +56,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     boxSizing: "border-box",
     width: "100%",
     boxShadow: theme.boxShadow,
-    border: "0.5px solid " + theme.primary,
+    border: "0.5px solid " + theme.borderColor,
 
     "&::placeholder": {
       color: theme.darkTextColor,

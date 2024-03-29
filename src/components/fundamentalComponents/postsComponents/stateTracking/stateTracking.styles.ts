@@ -16,8 +16,8 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     marginLeft: 0,
   },
   bullet: {
-    width: 35,
-    height: 35,
+    width: 20,
+    height: 20,
     borderRadius: "50%",
     backgroundColor: "#cbcbcb",
     position: "relative",
@@ -30,7 +30,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   },
   stateName: {
     position: "absolute",
-    top: 60,
+    top: 30,
     color: "#cbcbcb",
     textAlign: "center",
     width: 100,

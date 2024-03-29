@@ -9,6 +9,7 @@ import { BsFillGearFill, BsPerson } from "react-icons/bs";
 import { MdTextFields } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { SiElement } from "react-icons/si";
+import { FaLuggageCart } from "react-icons/fa";
 
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
@@ -300,7 +301,7 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
 
           {withEcommerce && (
             <SideMenuOption
-              Icon={MdTextFields}
+              Icon={FaLuggageCart}
               title={getTranslatedText(staticText?.myOrders)}
               link={"/orders/" + user._id.toString()}
             />

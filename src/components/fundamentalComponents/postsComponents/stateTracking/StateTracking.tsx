@@ -3,13 +3,13 @@ import { ITheme } from "roottypes";
 
 import useStyles from "./stateTracking.styles";
 
-interface IState {
+export interface IState {
   _id: string;
   stateName: string;
 }
 
 interface IStateTrackingProps {
-  currentState: IState;
+  currentState: IState | undefined;
   states: IState[];
   theme: ITheme;
 }
@@ -19,9 +19,8 @@ const StateTracking: React.FunctionComponent<IStateTrackingProps> = (
 ) => {
   const styles = useStyles({ theme: props.theme });
 
-  const indexOfCurrent: number = props.states.findIndex(
-    (el) => el._id === props.currentState._id
-  );
+  const indexOfCurrent: number =
+    props.states.findIndex((el) => el._id === props.currentState?._id) || -1;
   const numberOfLinesToHighlight = indexOfCurrent;
 
   const numberOfLines = props.states.length - 1;

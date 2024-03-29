@@ -1,13 +1,10 @@
 import { AxiosResponse } from "axios";
 import React from "react";
+import { IPaginationCommand } from "roottypes";
 
 import { useAppDispatch } from "../../store/hooks";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import {
-  IOrderReadDto,
-  IPaginationCommand,
-  IPaginationResponse,
-} from "roottypes";
+import { IOrderReadDto, IPaginationResponse } from "roottypes";
 import { orderSlice } from "../../store/slices/orderSlice";
 
 const useGetUserOrders = () => {
@@ -16,13 +13,16 @@ const useGetUserOrders = () => {
   const axios = useAuthorizedAxios();
   const dispatch = useAppDispatch();
 
-  const getUserOrders = (command: IPaginationCommand, userId: string) =>
+  const getUserOrders = (
+    paginationCommand: IPaginationCommand,
+    userId: string
+  ) =>
     new Promise((resolve, reject) => {
       axios
         .request<AxiosResponse<IPaginationResponse<IOrderReadDto>>>({
           method: "POST",
           url: "/orders/getUserOrders",
-          data: command,
+          data: { paginationCommand, userId },
         })
         .then((res) => {
           dispatch(
