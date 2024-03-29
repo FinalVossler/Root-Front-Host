@@ -5,6 +5,8 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
+- Add the seller order history page (Mes ventes) (getSellerOrders)
+- Add pagination to the orders' page
 - Write the custom entities for
 
   - The entire order
@@ -19,7 +21,6 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 - Add the nothing to show in the orders' page when the user as no orders
 - Add the order history page with their statuses (workflow)
-- Add the seller order history page (Mes ventes) (getSellerOrders)
 - Write an integration test for the getUserOrders endpoint
 - Add order number field in the order model
 - Then backend (getOrderTotal) needs to take only one currency into consideration when picking the price value for each product. If the languages for the prices are inconsistent, then throw an error during the price calculation

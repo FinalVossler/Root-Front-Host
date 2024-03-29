@@ -7,6 +7,7 @@ import useGetUserOrders from "../../hooks/apiHooks/useGetUserOrders";
 import { useParams } from "react-router-dom";
 import OrderInfo from "../orderInfo/OrderInfo";
 import Loading from "react-loading";
+import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 
 interface IOrdersPageProps {}
 
@@ -18,6 +19,9 @@ const OrdersPage: React.FunctionComponent<IOrdersPageProps> = (
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.orders
+  );
   const user: IUserReadDto = useAppSelector((state) => state.user.user);
   const userOrders = useAppSelector((state) => state.order.userOrders).find(
     (userOrder) => userOrder.userId.toString() === user._id.toString()
@@ -27,6 +31,7 @@ const OrdersPage: React.FunctionComponent<IOrdersPageProps> = (
 
   const styles = useStyles({ theme });
   const { getUserOrders, loading } = useGetUserOrders();
+  const getTranslatedText = useGetTranslatedText();
 
   React.useEffect(() => {
     if (userId) getUserOrders({ limit: 99, page }, userId);
@@ -34,6 +39,12 @@ const OrdersPage: React.FunctionComponent<IOrdersPageProps> = (
 
   return (
     <div className={styles.ordersPageContainer}>
+      <h2 className={styles.ordersTitle}>
+        {getTranslatedText(
+          userId === user._id ? staticText?.myOrders : staticText?.orders
+        )}
+        :
+      </h2>
       {loading && <Loading color={theme.primary} />}
       {userOrders &&
         !loading &&

@@ -2090,6 +2090,14 @@ const staticText = {
   },
 
   orders: {
+    myOrders: [
+      { language: "en", text: "My Orders" },
+      { language: "fr", text: "Mes commandes" },
+    ],
+    orders: [
+      { language: "en", text: "Orders" },
+      { language: "fr", text: "Commandes" },
+    ],
     yourOrders: [
       { language: "en", text: "Your orders" },
       { language: "fr", text: "Vos commandes" },

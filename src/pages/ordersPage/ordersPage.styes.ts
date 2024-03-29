@@ -2,6 +2,9 @@ import { createUseStyles } from "react-jss";
 import { ITheme } from "roottypes";
 
 const useStyles = createUseStyles((theme: ITheme) => ({
+  ordersTitle: {
+    color: theme.darkTextColor,
+  },
   ordersPageContainer: {
     display: "flex",
     flexDirection: "column",
