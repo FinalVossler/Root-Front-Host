@@ -95,6 +95,7 @@ function AuthenticatedApp() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/paymentResult/:orderId" element={<PaymentResultPage />} />
+        <Route path="/orders/:userId" element={<PaymentResultPage />} />
 
         {!homePage && (
           <Route path="/" element={<HomePageForLoggedIn />}></Route>

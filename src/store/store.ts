@@ -17,6 +17,7 @@ import cartReducer from "./slices/cartSlice";
 import addressReducer from "./slices/addressSlice";
 import paymentMethodReducer from "./slices/paymentMethodSlice";
 import shippingMethodReducer from "./slices/shippingMethodSlice";
+import orderReducer from "./slices/orderSlice";
 
 export const store = configureStore({
   reducer: {
@@ -37,6 +38,7 @@ export const store = configureStore({
     address: addressReducer,
     paymentMethod: paymentMethodReducer,
     shippingMethod: shippingMethodReducer,
+    order: orderReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

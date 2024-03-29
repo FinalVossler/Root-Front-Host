@@ -297,6 +297,14 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
               dataCy="sideMenuRoleOption"
             />
           )}
+
+          {withEcommerce && (
+            <SideMenuOption
+              Icon={MdTextFields}
+              title={getTranslatedText(staticText?.myOrders)}
+              link={"/orders/" + user._id.toString()}
+            />
+          )}
           {hasPermission(PermissionEnum.ReadPaymentMethod) && withEcommerce && (
             <SideMenuOption
               Icon={MdTextFields}

@@ -332,6 +332,11 @@ const staticText = {
       { language: "en", text: "Pages" },
       { language: "fr", text: "Pages" },
     ],
+
+    myOrders: [
+      { language: "en", text: "My orders" },
+      { language: "fr", text: "Mes commandes" },
+    ],
     profile: [
       { language: "en", text: "Profile" },
       { language: "fr", text: "Profile" },
@@ -2026,6 +2031,10 @@ const staticText = {
       { language: "en", text: "Required" },
       { language: "fr", text: "Requis" },
     ],
+    writeComment: [
+      { language: "en", text: "Write a comment on the product" },
+      { language: "fr", text: "Écrire un commentaire sur le produit" },
+    ],
   },
   paymentResult: {
     success: [
@@ -2077,6 +2086,43 @@ const staticText = {
     errorFindingCheckoutSession: [
       { language: "en", text: "Error finding checkout session" },
       { language: "fr", text: "Erreur de recherche de la session de paiement" },
+    ],
+  },
+
+  orders: {
+    yourOrders: [
+      { language: "en", text: "Your orders" },
+      { language: "fr", text: "Vos commandes" },
+    ],
+    total: [
+      { language: "en", text: "Your orders" },
+      { language: "fr", text: "Vos commandes" },
+    ],
+    showOrderDetails: [
+      { language: "en", text: "Show order details" },
+      { language: "fr", text: "Afficher les détails de la commande" },
+    ],
+    orderMadeIn: [
+      { language: "en", text: "Order made in" },
+      { language: "fr", text: "Commande effectuée le" },
+    ],
+
+    shipmentTo: [
+      { language: "en", text: "Shipment to" },
+      { language: "fr", text: "Livraison à" },
+    ],
+
+    orderNumer: [
+      { language: "en", text: "Order number" },
+      { language: "fr", text: "Numéro de commande" },
+    ],
+    writeAComment: [
+      { language: "en", text: "Write a comment" },
+      { language: "fr", text: "Écrire un commentaire sur le produit" },
+    ],
+    showArticle: [
+      { language: "en", text: "Show article" },
+      { language: "fr", text: "Afficher l'article" },
     ],
   },
 };
