@@ -9,6 +9,8 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     width: "100%",
     backgroundColor: theme.subContentBackgroundColor,
     color: theme.darkTextColor,
+    marginBottom: 20,
+    boxShadow: theme.boxShadow,
   },
   orderInfoHeader: {
     display: "flex",

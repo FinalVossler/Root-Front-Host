@@ -5,6 +5,7 @@ import {
   IFileReadDto,
   IModelReadDto,
   IOrderReadDto,
+  IShippingMethodReadDto,
   ITheme,
   OrderNegativeStatusEnum,
   OrderStatusEnum,
@@ -132,6 +133,13 @@ const OrderInfo: React.FunctionComponent<IOrderInfo> = (props: IOrderInfo) => {
                     </span>
                   );
                 })}
+                <span className={styles.productMainInfo}>
+                  {getTranslatedText(orderStaticText?.shippingMethod) +
+                    ": " +
+                    getTranslatedText(
+                      (p.shippingMethod as IShippingMethodReadDto).name
+                    )}
+                </span>
               </div>
             </div>
 

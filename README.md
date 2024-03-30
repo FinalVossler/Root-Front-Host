@@ -5,7 +5,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
-- Take the available shipping methods for each product/entity into consideration in the cart
+- Show the user orders in a reversed way
 - Add the seller order history page (Mes ventes) (getSellerOrders)
 - Add pagination to the orders' page
 - Write the custom entities for
@@ -41,6 +41,9 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 - Add backend verifications for when a shipping method is deleted (make sure to delete it for orders too => make the shipping method options )
 - Add backend verification for when an entity is deleted (make sure to delete it for orders too => make the product optional)
+
+- 2 Mains problems: (1) Data redondancy between objects (would be good to have a frontend database like meteor or apollo client), and (2) cascade deleting and optional foreign keys (objects)
+- Test performance when there is a thousand of products in the db
 
 # https://www.vivamed.com/
 
