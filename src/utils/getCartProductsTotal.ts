@@ -5,7 +5,7 @@ import {
   IModelReadDto,
 } from "roottypes";
 
-const getCartSubTotal = (cart: ICartReadDto): number => {
+const getCartProductsTotal = (cart: ICartReadDto): number => {
   const total: number = cart.products
     .filter((productInfo) => !productInfo.sided)
     .reduce((acc, productInfo) => {
@@ -29,4 +29,4 @@ const getCartSubTotal = (cart: ICartReadDto): number => {
   return Number.isNaN(total) ? 0 : total;
 };
 
-export default getCartSubTotal;
+export default getCartProductsTotal;

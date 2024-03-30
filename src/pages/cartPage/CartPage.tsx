@@ -6,7 +6,7 @@ import { useAppSelector } from "../../store/hooks";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import useIsLoggedIn from "../../hooks/useIsLoggedIn";
 
-import getCartSubTotal from "../../utils/getCartSubTotal";
+import getCartProductsTotal from "../../utils/getCartProductsTotal";
 import Button from "../../components/fundamentalComponents/button";
 
 import CartProduct from "./cartProduct/CartProduct";
@@ -140,7 +140,7 @@ const CartSubTotal = () => {
           ):
         </span>
         <span className={styles.subTotal}>
-          {formatCentsToDollars(getCartSubTotal(cart))}{" "}
+          {formatCentsToDollars(getCartProductsTotal(cart))}{" "}
           {getTranslatedText(checkoutStaticText?.moneyUnit)}
         </span>
       </div>
@@ -172,7 +172,7 @@ const CartSideSubtotal = () => {
           ):
         </span>
         <span className={styles.subTotal}>
-          {formatCentsToDollars(getCartSubTotal(cart))}
+          {formatCentsToDollars(getCartProductsTotal(cart))}
           {getTranslatedText(checkoutStaticText?.moneyUnit)}
         </span>
       </div>

@@ -14,7 +14,7 @@ import { updateCartThunk } from "../../../../store/slices/cartSlice";
 import useUpdateCart from "../../../../hooks/apiHooks/useUpdateCarts";
 import validateProductQuantity from "../../../../utils/validateProductQuantity";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
-import getCartSubTotal from "../../../../utils/getCartSubTotal";
+import getCartProductsTotal from "../../../../utils/getCartProductsTotal";
 
 import useStyles from "./sideCart.styles";
 import formatCentsToDollars from "../../../../utils/formatCentsToDollars";
@@ -98,7 +98,7 @@ const SideCart: React.FunctionComponent<ISideCartProps> = (
             {getTranslatedText(staticText?.subTotal)}
           </span>
           <span className={styles.subTotal}>
-            {formatCentsToDollars(getCartSubTotal(cart))}
+            {formatCentsToDollars(getCartProductsTotal(cart))}
             {getTranslatedText(checkoutStaticText?.moneyUnit)}
           </span>
         </div>

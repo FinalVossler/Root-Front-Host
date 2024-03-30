@@ -5,6 +5,9 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   checkoutShippingMethodsContainer: {
     padding: 15,
     paddingTop: 0,
+    display: "flex",
+    flexDirection: "column",
+    gap: 20,
   },
   shippingMethodTitle: {
     marginBottom: 10,
@@ -49,6 +52,29 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     marginTop: 10,
   },
 
+  productInfoAndShippingMethodsAndActionsContainer: {
+    display: "flex",
+    width: "100%",
+    flexDirection: "column",
+  },
+  productInfoAndShippingMethodsContainer: {
+    display: "flex",
+    width: "100%",
+    flexDirection: "row",
+  },
+  productShippingMethodsContainer: {
+    display: "flex",
+    width: "100%",
+    flexDirection: "column",
+  },
+  productInfo: {
+    display: "flex",
+    flexDirection: "column",
+    marginRight: 10,
+  },
+  productImage: {
+    width: 100,
+  },
   actionsAndPriceContainer: {
     display: "flex",
     alignItems: "center",

@@ -22,13 +22,19 @@ import { toast } from "react-toastify";
 import Loading from "react-loading";
 import CheckoutPaymentMethods from "./checkoutPaymentMethods";
 import getCartTotal from "../../utils/getCartTotal";
-import getCartSubTotal from "../../utils/getCartSubTotal";
+import getCartProductsTotal from "../../utils/getCartProductsTotal";
 import formatCentsToDollars from "../../utils/formatCentsToDollars";
+import getCartShippingMethodsTotal from "../../utils/getCartShippingMethodsTotal";
+
+export interface IProductSelectedShippingMethod {
+  productId: string;
+  shippingMethodId: string;
+}
 
 interface ICheckoutPageForm {
   addressId: string | undefined;
-  shippingMethodId: string | undefined;
   paymentMethodId: string | undefined;
+  productSelectedShippingMethods: IProductSelectedShippingMethod[];
 }
 
 interface ICheckoutPageProps {}
@@ -64,18 +70,19 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
   const formik = useFormik<ICheckoutPageForm>({
     initialValues: {
       addressId: "",
-      shippingMethodId: "",
       paymentMethodId: "",
+      productSelectedShippingMethods: [],
     },
     validationSchema: Yup.object().shape({
       addressId: Yup.string().required(
         getTranslatedText(staticText?.addressRequired)
       ),
-      shippingMethodId: Yup.string().required(
-        getTranslatedText(staticText?.shippingMethodRequired)
-      ),
       paymentMethodId: Yup.string().required(
         getTranslatedText(staticText?.paymentMethodRequired)
+      ),
+      productSelectedShippingMethods: Yup.array().length(
+        cart?.products.length || 0,
+        getTranslatedText(staticText?.shippingMethodsError)
       ),
     }),
     onSubmit: async (values) => {
@@ -89,7 +96,6 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
       const orderCreateCommand: IOrderCreateCommand = {
         date: new Date().toString(),
         paymentMethodId: values.paymentMethodId as string,
-        shippingMethodId: values.shippingMethodId as string,
         products:
           cart?.products.map((p) => ({
             price: getProductPrice({
@@ -98,6 +104,11 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
             }),
             productId: (p.product as IEntityReadDto)._id.toString(),
             quantity: p.quantity,
+            shippingMethodId:
+              values.productSelectedShippingMethods.find(
+                (el) =>
+                  el.productId === (p.product as IEntityReadDto)._id.toString()
+              )?.shippingMethodId || "",
           })) || [],
         shippingAddress: {
           addressLine1: address.addressLine1,
@@ -126,7 +137,7 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
       toast.error(getTranslatedText(staticText?.addressRequired));
     }
 
-    if (formik.errors.shippingMethodId) {
+    if (formik.errors.productSelectedShippingMethods) {
       error = true;
       toast.error(getTranslatedText(staticText?.shippingMethodRequired));
     }
@@ -150,13 +161,40 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
           <span className={styles.error}>{formik.errors.addressId}</span>
         )}
         <CheckoutShippingMethods
-          selectedShippingMethodId={formik.values.shippingMethodId}
-          setSelectedShippingMethodId={(shippingMethodId) =>
-            formik.setFieldValue("shippingMethodId", shippingMethodId)
+          products={
+            cart?.products.map(
+              (productInfo) => productInfo.product as IEntityReadDto
+            ) || []
           }
+          productsSelectedShippingMethod={
+            formik.values.productSelectedShippingMethods
+          }
+          setSelectedShippingMethodId={(shippingMethodId, productId) => {
+            const foundShippingMethod = Boolean(
+              formik.values.productSelectedShippingMethods.find(
+                (p) => p.productId === productId
+              )?.shippingMethodId
+            );
+
+            if (foundShippingMethod) {
+              formik.setFieldValue(
+                "productSelectedShippingMethods",
+                formik.values.productSelectedShippingMethods.map((p) =>
+                  p.productId === productId ? { ...p, shippingMethodId } : p
+                )
+              );
+            } else {
+              formik.setFieldValue("productSelectedShippingMethods", [
+                ...formik.values.productSelectedShippingMethods,
+                { productId, shippingMethodId },
+              ]);
+            }
+          }}
         />
-        {formik.errors.shippingMethodId && (
-          <span className={styles.error}>{formik.errors.shippingMethodId}</span>
+        {formik.errors.productSelectedShippingMethods && (
+          <span className={styles.error}>
+            {formik.errors.productSelectedShippingMethods}
+          </span>
         )}
 
         <CheckoutPaymentMethods
@@ -177,41 +215,45 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
             <span className={styles.productsTotalContainer}>
               <span>{getTranslatedText(staticText?.productsTotal)}: </span>
               <span>
-                {formatCentsToDollars(getCartSubTotal(cart))}
+                {formatCentsToDollars(getCartProductsTotal(cart))}
                 {getTranslatedText(staticText?.moneyUnit)}
               </span>
             </span>
-            {formik.values.shippingMethodId &&
-              shippingMethods.find(
-                (s) =>
-                  s._id.toString() ===
-                  formik.values.shippingMethodId?.toString()
-              ) && (
-                <div className={styles.shippingMethodPriceContainer}>
-                  <span>{getTranslatedText(staticText?.shipping)}: </span>
-                  <span>
-                    {formatCentsToDollars(
-                      shippingMethods.find(
-                        (s) =>
-                          s._id.toString() ===
-                          formik.values.shippingMethodId?.toString()
-                      )?.price || 0
-                    )}
-                    {getTranslatedText(staticText?.moneyUnit)}
-                  </span>
-                </div>
-              )}
+            <div className={styles.shippingMethodPriceContainer}>
+              <span>{getTranslatedText(staticText?.shipping)}: </span>
+              <span>
+                {formatCentsToDollars(
+                  getCartShippingMethodsTotal({
+                    productsInfo: cart.products.map((productInfo) => {
+                      const selectedShippingMethodId =
+                        formik.values.productSelectedShippingMethods.find(
+                          (el) =>
+                            el.productId ===
+                            (productInfo.product as IEntityReadDto)._id
+                        )?.shippingMethodId;
+                      return {
+                        product: productInfo.product as IEntityReadDto,
+                        quantity: productInfo.quantity,
+                        shippingMethod: shippingMethods.find(
+                          (shippingMethod) =>
+                            shippingMethod._id.toString() ===
+                            selectedShippingMethodId
+                        ),
+                      };
+                    }),
+                  })
+                )}
+                {getTranslatedText(staticText?.moneyUnit)}
+              </span>
+            </div>
             <span className={styles.total}>
               <span>{getTranslatedText(staticText?.total)}: </span>
               <span>
                 {formatCentsToDollars(
                   getCartTotal(
                     cart,
-                    shippingMethods.find(
-                      (s) =>
-                        s._id.toString() ===
-                        formik.values.shippingMethodId?.toString()
-                    )
+                    formik.values.productSelectedShippingMethods,
+                    shippingMethods
                   )
                 )}
                 {getTranslatedText(staticText?.moneyUnit)}

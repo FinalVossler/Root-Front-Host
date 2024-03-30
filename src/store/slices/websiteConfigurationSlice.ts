@@ -1898,7 +1898,7 @@ const staticText = {
       { language: "fr", text: "€" },
     ],
     productsTotal: [
-      { language: "en", text: "Products total" },
+      { language: "en", text: "Sub-total" },
       { language: "fr", text: "Total des produits" },
     ],
     required: [
@@ -1992,6 +1992,16 @@ const staticText = {
       { language: "en", text: "Shipping method" },
       { language: "fr", text: "Méthod de livraison" },
     ],
+    shippingMethodsError: [
+      {
+        language: "en",
+        text: "You must select a shipping method for each product",
+      },
+      {
+        language: "fr",
+        text: "Vous devez sélectionner une méthode de livraison pour chaque produit",
+      },
+    ],
 
     shipping: [
       { language: "en", text: "Shipping" },
@@ -2015,8 +2025,14 @@ const staticText = {
     ],
 
     shippingMethodRequired: [
-      { language: "en", text: "Shipping method is required" },
-      { language: "fr", text: "La méthode de livraison est requise" },
+      {
+        language: "en",
+        text: "A shipping method must be selected for each product",
+      },
+      {
+        language: "fr",
+        text: "Une méthode de livraison doit être sélectionnée pour chaque produit",
+      },
     ],
     paymentMethodRequired: [
       { language: "en", text: "Payment method is required" },

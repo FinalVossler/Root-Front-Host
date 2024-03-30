@@ -5,7 +5,6 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
-- Set the available shipping methods for each product/entity
 - Take the available shipping methods for each product/entity into consideration in the cart
 - Add the seller order history page (Mes ventes) (getSellerOrders)
 - Add pagination to the orders' page
@@ -21,6 +20,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
   - A single modifiable object
   - Many addable objects (like for comments)
 
+- Add an additional backend verification for the shipping method for each product based on its available shipping methods
 - Add the nothing to show in the orders' page when the user has no orders
 - Add the order history page with their statuses (workflow)
 - Write an integration test for the getUserOrders endpoint
@@ -38,6 +38,9 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 - Write the payment methods cypress tests
 - Write the shipping methods cypress tests
 - Rename FileInptus to inputFiles for consistency with InputSelect
+
+- Add backend verifications for when a shipping method is deleted (make sure to delete it for orders too => make the shipping method options )
+- Add backend verification for when an entity is deleted (make sure to delete it for orders too => make the product optional)
 
 # https://www.vivamed.com/
 
