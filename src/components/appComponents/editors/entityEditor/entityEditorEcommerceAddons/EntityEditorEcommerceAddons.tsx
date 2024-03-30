@@ -1,6 +1,7 @@
 import React from "react";
 import { IEntityReadDto, IModelReadDto, ITheme } from "roottypes";
 import { toast } from "react-toastify";
+import { FormikProps } from "formik";
 
 import { useAppDispatch, useAppSelector } from "../../../../../store/hooks";
 import Button from "../../../../fundamentalComponents/button";
@@ -11,10 +12,15 @@ import useUpdateCart from "../../../../../hooks/apiHooks/useUpdateCarts";
 import validateProductQuantity from "../../../../../utils/validateProductQuantity";
 
 import useStyles from "./entityEditorEcommerceAddons.styles";
+import useGetShippingMethods from "../../../../../hooks/apiHooks/useGetShippingMethods";
+import InputSelect from "../../../../fundamentalComponents/inputs/inputSelect";
+import { IInputSelectOption } from "../../../../fundamentalComponents/inputs/inputSelect/InputSelect";
+import { IEntityEditorFormFormik } from "../EntityEditorForm";
 
 interface IEntityEditorEcommerceAddonsProps {
   entity: IEntityReadDto;
   model: IModelReadDto;
+  formik: FormikProps<IEntityEditorFormFormik>;
 }
 
 const EntityEditorEcommerceAddons: React.FunctionComponent<
@@ -28,11 +34,21 @@ const EntityEditorEcommerceAddons: React.FunctionComponent<
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.entities
   );
+  const shippingMethods = useAppSelector(
+    (state) => state.shippingMethod.shippingMethods
+  );
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
   const dispatch = useAppDispatch();
   const { updateCart } = useUpdateCart();
+  const { getShippingMethods, loading: loadingShippingMethods } =
+    useGetShippingMethods();
+
+  // Loading shipping methods if the entity model is sellable
+  React.useEffect(() => {
+    getShippingMethods();
+  }, []);
 
   const handleAddToCart = () => {
     if (
@@ -67,22 +83,48 @@ const EntityEditorEcommerceAddons: React.FunctionComponent<
     return null;
   }
 
+  const shippingMethodsOptions: IInputSelectOption[] = shippingMethods?.map(
+    (s) => ({ label: getTranslatedText(s.name), value: s._id })
+  );
+
   return (
     <div className={styles.entityEditorEcommerceAddonsContainer}>
-      <Input
+      <InputSelect
+        isMulti
         theme={theme}
-        label={getTranslatedText(staticText?.quantity)}
-        value={
-          typeof quantity === "number" && !Number.isNaN(quantity)
-            ? quantity
-            : ""
+        onMultiChange={(options) =>
+          props.formik.setFieldValue(
+            "availableShippingMethodsIds",
+            options.map((o) => o.value)
+          )
         }
-        inputProps={{ type: "number" }}
-        onChange={(e) => setQuantity(parseInt(e.target.value))}
+        value={shippingMethodsOptions.filter((el) =>
+          props.formik.values.availableShippingMethodsIds.some(
+            (sid) => sid === el.value
+          )
+        )}
+        label={getTranslatedText(staticText?.availableShippingMethods)}
+        options={shippingMethodsOptions}
       />
-      <Button type="button" theme={theme} onClick={handleAddToCart}>
-        {getTranslatedText(staticText?.addToCart)}
-      </Button>
+      {props.entity && (
+        <React.Fragment>
+          {" "}
+          <Input
+            theme={theme}
+            label={getTranslatedText(staticText?.quantity)}
+            value={
+              typeof quantity === "number" && !Number.isNaN(quantity)
+                ? quantity
+                : ""
+            }
+            inputProps={{ type: "number" }}
+            onChange={(e) => setQuantity(parseInt(e.target.value))}
+          />
+          <Button type="button" theme={theme} onClick={handleAddToCart}>
+            {getTranslatedText(staticText?.addToCart)}
+          </Button>
+        </React.Fragment>
+      )}
     </div>
   );
 };

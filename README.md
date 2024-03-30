@@ -5,6 +5,8 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
+- Set the available shipping methods for each product/entity
+- Take the available shipping methods for each product/entity into consideration in the cart
 - Add the seller order history page (Mes ventes) (getSellerOrders)
 - Add pagination to the orders' page
 - Write the custom entities for

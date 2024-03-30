@@ -1295,6 +1295,10 @@ const staticText = {
       { language: "en", text: "Put back in cart" },
       { language: "fr", text: "Remettre dans le panier" },
     ],
+    availableShippingMethods: [
+      { language: "en", text: "Available Shipping Methods" },
+      { language: "fr", text: "Méthode de livraison disponible(s)" },
+    ],
   },
   contact: {
     address: [

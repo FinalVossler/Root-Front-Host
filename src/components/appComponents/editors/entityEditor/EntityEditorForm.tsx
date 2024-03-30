@@ -56,6 +56,7 @@ import {
   IEventReadDto,
   IMicroFrontendReadDto,
   ITheme,
+  IShippingMethodReadDto,
 } from "roottypes";
 import FormikInputSelect from "../../../fundamentalComponents/formikInputs/formikInputSelect";
 import Input from "../../../fundamentalComponents/inputs/input";
@@ -79,6 +80,7 @@ export interface IEntityEditorFormFormik {
   modelId: string;
   entityFieldValues: IEntityFieldValueForm[];
   assignedUsers: IUserReadDto[];
+  availableShippingMethodsIds: string[];
   language: string;
 }
 
@@ -135,6 +137,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
         entityFieldValues: [],
         language,
         assignedUsers: [],
+        availableShippingMethodsIds: [],
       },
       validationSchema: Yup.object().shape({
         entityFieldValues: Yup.mixed().test(
@@ -270,6 +273,8 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
             assignedUsersIds: values.assignedUsers.map((u) => u._id),
             language: values.language,
             modelId: values.modelId,
+            availableShippingMethodsIds:
+              formik.values.availableShippingMethodsIds,
           };
 
           createdOrUpdateEntity = await updateEntity(command);
@@ -285,6 +290,8 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
             assignedUsersIds: values.assignedUsers.map((u) => u._id),
             language: values.language,
             modelId: values.modelId,
+            availableShippingMethodsIds:
+              formik.values.availableShippingMethodsIds,
           };
 
           createdOrUpdateEntity = await createEntity(command);
@@ -394,6 +401,12 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
         assignedUsers: (props.entity?.assignedUsers as IUserReadDto[]) || [],
         modelId:
           props.modelId || (props.entity?.model as IModelReadDto)._id || "",
+        availableShippingMethodsIds:
+          (
+            props.entity?.availableShippingMethods as
+              | IShippingMethodReadDto[]
+              | undefined
+          )?.map((s) => s._id) || [],
         language: formik.values.language,
       },
     });
@@ -409,6 +422,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
     };
     getRoles(command);
   }, []);
+
   //#endregion Effects
 
   //#region Event listeners
@@ -886,7 +900,11 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
       )}
 
       {model?.isForSale && props.entity && (
-        <EntityEditorEcommerceAddons entity={props.entity} model={model} />
+        <EntityEditorEcommerceAddons
+          entity={props.entity}
+          model={model}
+          formik={formik}
+        />
       )}
 
       {/* Errored fields error text */}
