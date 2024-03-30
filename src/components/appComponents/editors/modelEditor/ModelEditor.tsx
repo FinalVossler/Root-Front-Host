@@ -15,6 +15,7 @@ import {
   IFieldReadDto,
   IMicroFrontendReadDto,
   IModelCreateCommand,
+  IModelOrderAssociationConfig,
   IModelReadDto,
   IModelStateReadDto,
   IModelUpdateCommand,
@@ -40,8 +41,6 @@ import { editorSlice } from "../../../../store/slices/editorSlice";
 import FormikInput from "../../../fundamentalComponents/formikInputs/formikInput";
 import FormikInputSelect from "../../../fundamentalComponents/formikInputs/formikInputSelect";
 import FormikCheckbox from "../../../fundamentalComponents/formikInputs/formikCheckbox";
-import useSearchFields from "../../../../hooks/apiHooks/useSearchFields";
-import SearchInput from "../../../fundamentalComponents/inputs/searchInput";
 import ModelEcommerceFields from "./modelEcommerceFields";
 
 export type ModelFormState = {
@@ -65,6 +64,8 @@ export interface IModelForm {
   quantityField?: IFieldReadDto;
   priceField?: IFieldReadDto;
   imageField?: IFieldReadDto;
+  isForOrders: boolean;
+  orderAssociationConfig?: IModelOrderAssociationConfig;
   language: string;
 }
 
@@ -98,6 +99,7 @@ const ModelEditor = (props: IModelEditorProps) => {
       states: [],
       subStates: [],
       isForSale: false,
+      isForOrders: false,
     },
     validationSchema: Yup.object().shape({
       name: Yup.string().required(
@@ -160,6 +162,10 @@ const ModelEditor = (props: IModelEditorProps) => {
           quantityFieldId: values.quantityField?._id,
           priceFieldId: values.priceField?._id,
           imageFieldId: values.imageField?._id,
+
+          isForOrders: Boolean(values.isForOrders),
+          orderAssociationConfig: values.orderAssociationConfig,
+
           language: values.language,
         };
 
@@ -206,6 +212,15 @@ const ModelEditor = (props: IModelEditorProps) => {
             stateType: state.stateType,
             _id: state._id,
           })),
+
+          isForSale: Boolean(values.isForSale),
+          quantityFieldId: values.quantityField?._id,
+          priceFieldId: values.priceField?._id,
+          imageFieldId: values.imageField?._id,
+
+          isForOrders: Boolean(values.isForOrders),
+          orderAssociationConfig: values.orderAssociationConfig,
+
           language: values.language,
         };
 
@@ -285,6 +300,9 @@ const ModelEditor = (props: IModelEditorProps) => {
         imageField: props.model?.imageField as IFieldReadDto,
         quantityField: props.model?.quantityField as IFieldReadDto,
 
+        isForOrders: Boolean(props.model?.isForOrders),
+        orderAssociationConfig:
+          props.model?.orderAssociationConfig || undefined,
         language: formik.values.language,
       },
     });
@@ -342,9 +360,7 @@ const ModelEditor = (props: IModelEditorProps) => {
           label={getTranslatedText(staticText?.isForSale)}
         />
 
-        {formik.values.isForSale && (
-          <ModelEcommerceFields formik={formik} model={props.model} />
-        )}
+        <ModelEcommerceFields formik={formik} model={props.model} />
 
         <FormikInputSelect
           theme={theme}

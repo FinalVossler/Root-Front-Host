@@ -833,6 +833,61 @@ const staticText = {
       { language: "en", text: "The image field should be of type file" },
       { language: "en", text: "Le champ de l'image doit être de type fichier" },
     ],
+    isForOrders: [
+      { language: "en", text: "Is information on orders (sales)" },
+      { language: "en", text: "Considéré comme information sur les commandes" },
+    ],
+    modelOrderAssociationPermission: [
+      { language: "en", text: "Information to fill by who" },
+      { language: "en", text: "Information à remplir par quis" },
+    ],
+
+    ForSeller: [
+      { language: "en", text: "By the seller" },
+      { language: "en", text: "Par le vendeur" },
+    ],
+    ForBuyer: [
+      { language: "en", text: "By the buyer" },
+      { language: "en", text: "Par l'acheteur" },
+    ],
+    ForBothSellerAndBuyer: [
+      { language: "en", text: "By both the seller and the buyer" },
+      { language: "en", text: "Par les deux (Vendeur et acheteur)" },
+    ],
+    seller: [
+      { language: "en", text: "The Seller" },
+      { language: "en", text: "Le vendeur" },
+    ],
+    buyer: [
+      { language: "en", text: "The Buyer" },
+      { language: "en", text: "L'acheteur" },
+    ],
+    bothSellerAndBuyer: [
+      { language: "en", text: "Both (the seller and the buyer)" },
+      { language: "en", text: "Les deux (L'acheteur et le vendeur)" },
+    ],
+    modelOrderAssociationLevel: [
+      { language: "en", text: "Association level" },
+      { language: "en", text: "Niveau d'association" },
+    ],
+    OrderLevel: [
+      { language: "en", text: "Order level" },
+      { language: "en", text: "Au niveau de la commande" },
+    ],
+    ProductLevel: [
+      { language: "en", text: "Product level" },
+      { language: "en", text: "Au niveau du produit" },
+    ],
+    isList: [
+      {
+        language: "en",
+        text: "Edited as a list of entities of this model (example: comments)",
+      },
+      {
+        language: "en",
+        text: "Ajouté en tant que liste d'entités basée sur ce modèle (comme pour les commentaires)",
+      },
+    ],
   },
   events: {
     eventTrigger: [

@@ -46,14 +46,6 @@ const OrderInfo: React.FunctionComponent<IOrderInfo> = (props: IOrderInfo) => {
     return getOrderedStates(Object.values(OrderNegativeStatusEnum));
   }, []);
 
-  console.log("order status", props.order.status);
-  console.log(
-    "order status id",
-    positiveStatuses.find(
-      (state) => state._id === getIdFromStatus(props.order.status)
-    )
-  );
-
   return (
     <div className={styles.orderInfoContainer}>
       <div className={styles.orderInfoHeader}>
