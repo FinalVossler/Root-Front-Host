@@ -940,7 +940,6 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
           {props.entity
             ? getTranslatedText(staticText?.updateEntity) + " "
             : getTranslatedText(staticText?.createEntity) + " "}
-          {getTranslatedText(model?.name)}
         </Button>
       )}
 

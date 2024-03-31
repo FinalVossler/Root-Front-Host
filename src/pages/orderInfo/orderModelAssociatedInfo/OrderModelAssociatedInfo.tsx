@@ -16,6 +16,7 @@ import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import EntityEditorForm from "../../../components/appComponents/editors/entityEditor/EntityEditorForm";
 import Button from "../../../components/fundamentalComponents/button";
 import ExtendSection from "../../../components/fundamentalComponents/extendSection";
+import { ExtendSectionSizeEnum } from "../../../components/fundamentalComponents/extendSection/ExtendSection";
 
 interface IOrderModelAssociatedInfoProps {
   order: IOrderReadDto;
@@ -80,6 +81,7 @@ const OrderModelAssociatedInfo: React.FunctionComponent<
         onClick={() => setShown(!shown)}
         theme={theme}
         title={getTranslatedText(props.model.name)}
+        size={ExtendSectionSizeEnum.Small}
       />
 
       {shown && (

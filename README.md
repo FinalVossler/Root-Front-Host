@@ -5,6 +5,8 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
+- Add the ability to edit the status for the seller (clickable state tracking bullets)
+- Send notifications when an order entity associated info was added or edited
 - Show the user orders in a reversed way
 - Add the seller order history page (Mes ventes) (getSellerOrders)
 - Write the custom entities for
