@@ -16,6 +16,15 @@ const useStyles = createUseStyles((theme: ITheme) => ({
       padding: "20px!important",
       boxSizing: "border-box",
     },
+
+    "& >span": {
+      marginBottom: 0,
+    },
+  },
+  orderProductModelAssociatedInfo: {
+    extend: "orderModelAssociatedInfo",
+    border: "none",
+    borderTop: "1px solid " + theme.borderColor,
   },
   "@media (max-width: 1000px)": {},
 }));

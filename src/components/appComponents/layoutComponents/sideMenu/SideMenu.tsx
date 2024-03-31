@@ -17,21 +17,17 @@ import { userPreferenceSlice } from "../../../../store/slices/userPreferencesSli
 
 import useStyles from "./sideMenu.styles";
 import SideMenuOption from "./sideMenuOption";
-import useGetModels from "../../../../hooks/apiHooks/useGetModels";
 import useIsLoggedIn from "../../../../hooks/useIsLoggedIn";
 import { FaPager } from "react-icons/fa";
 import { RiPagesLine, RiUserStarFill } from "react-icons/ri";
 import useHasPermission from "../../../../hooks/useHasPermission";
 import { BiTask } from "react-icons/bi";
-import useGetRoles from "../../../../hooks/apiHooks/useGetRoles";
 import {
   IEntityPermissionReadDto,
   IFileReadDto,
   IModelReadDto,
-  IModelsGetCommand,
   IPageReadDto,
   IRoleReadDto,
-  IRolesGetCommand,
   ITheme,
   IUserReadDto,
   PermissionEnum,
@@ -83,38 +79,8 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
   const dispatch = useAppDispatch();
-  const { getModels } = useGetModels();
   const isLoggedIn: boolean = useIsLoggedIn();
   const { hasPermission } = useHasPermission();
-  const { getRoles, loading: getRolesLoading } = useGetRoles();
-
-  React.useEffect(() => {
-    if (models.length === 0) {
-      const command: IModelsGetCommand = {
-        paginationCommand: {
-          limit: 99999,
-          page: 1,
-        },
-      };
-      getModels(command);
-    }
-  }, []);
-
-  // Get the roles in order to show users by roles
-  React.useEffect(() => {
-    if (
-      user.superRole === SuperRoleEnum.SuperAdmin ||
-      (user.role as IRoleReadDto)?.permissions.indexOf(PermissionEnum.ReadRole)
-    ) {
-      const command: IRolesGetCommand = {
-        paginationCommand: {
-          limit: 9999,
-          page: 1,
-        },
-      };
-      getRoles(command);
-    }
-  }, []);
 
   //#region Event listeners
   const handleToggleMenuOpen = () =>

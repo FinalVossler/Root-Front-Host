@@ -98,7 +98,7 @@ export interface IEntityEditorFormProps {
   withoutTitle?: boolean;
   withoutLanguage?: boolean;
   withoutUserAssignment?: boolean;
-  automaticallyAssignedUserIds?: string[];
+  automaticallyAssignedUsers?: IUserReadDto[];
 
   orderAssociationConfig?: {
     orderId: string;
@@ -138,7 +138,6 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
   const navigate = useNavigate();
   const { getRoles } = useGetRoles();
   const { handleSearchUsersByRolePromise } = useSearchUsersByRole();
-  const { getUsersByIds } = useGetUsersByIds();
 
   const formik: FormikProps<IEntityEditorFormFormik> =
     useFormik<IEntityEditorFormFormik>({
@@ -425,31 +424,15 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
     });
   }, [props.entity, formik.values.language, model]);
 
-  // Loading roles (useful for entity user assignment)
-  React.useEffect(() => {
-    const command: IRolesGetCommand = {
-      paginationCommand: {
-        limit: 999,
-        page: 1,
-      },
-    };
-    getRoles(command);
-  }, []);
-
   // Loading automatically assigned users
   React.useEffect(() => {
     if (
-      props.automaticallyAssignedUserIds &&
-      props.automaticallyAssignedUserIds.length > 0
+      props.automaticallyAssignedUsers &&
+      props.automaticallyAssignedUsers.length > 0
     ) {
-      getUsersByIds(props.automaticallyAssignedUserIds).then(
-        (assignedUsers) => {
-          formik.setFieldValue("assignedUsers", assignedUsers);
-        }
-      );
+      formik.setFieldValue("assignedUsers", props.automaticallyAssignedUsers);
     }
-  }, [props.automaticallyAssignedUserIds]);
-
+  }, [props.automaticallyAssignedUsers]);
   //#endregion Effects
 
   //#region Event listeners

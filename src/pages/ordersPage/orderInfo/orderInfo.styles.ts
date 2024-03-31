@@ -48,6 +48,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   orderNumber: {},
   productContent: {
     display: "flex",
+    flexDirection: "column",
     justifyContent: "space-between",
     border: "1px solid " + theme.borderColor,
     borderTop: "none",
@@ -56,9 +57,10 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     padding: 20,
     boxSizing: "border-box",
   },
-  productContentLeft: {
+  productBasicContent: {
     display: "flex",
     flex: 1,
+    paddingBottom: 10,
   },
   productImage: {
     width: 60,
@@ -72,10 +74,6 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   },
   productMainInfo: {
     marginBottom: 5,
-  },
-  productContentRight: {
-    display: "flex",
-    flexDirection: "column",
   },
   statusesContainer: {
     display: "flex",

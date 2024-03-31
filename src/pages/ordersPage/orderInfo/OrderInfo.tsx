@@ -137,7 +137,7 @@ const OrderInfo: React.FunctionComponent<IOrderInfoProps> = (
 
         return (
           <div className={styles.productContent} key={product._id}>
-            <div className={styles.productContentLeft}>
+            <div className={styles.productBasicContent}>
               <img className={styles.productImage} src={imageFile.url} />
               <div className={styles.productInfo}>
                 {mainFields.map((modelMainField, i) => {
@@ -166,24 +166,22 @@ const OrderInfo: React.FunctionComponent<IOrderInfoProps> = (
                       (p.shippingMethod as IShippingMethodReadDto).name
                     )}
                 </span>
-
-                {orderProductLevelModels.map((model) => {
-                  return (
-                    <OrderModelAssociatedInfo
-                      key={model._id}
-                      order={props.order}
-                      model={model}
-                      modelOrderAssociationConfig={
-                        model.orderAssociationConfig as IModelOrderAssociationConfig
-                      }
-                      product={product}
-                    />
-                  );
-                })}
               </div>
             </div>
 
-            <div className={styles.productContentRight}></div>
+            {orderProductLevelModels.map((model) => {
+              return (
+                <OrderModelAssociatedInfo
+                  key={model._id}
+                  order={props.order}
+                  model={model}
+                  modelOrderAssociationConfig={
+                    model.orderAssociationConfig as IModelOrderAssociationConfig
+                  }
+                  product={product}
+                />
+              );
+            })}
           </div>
         );
       })}

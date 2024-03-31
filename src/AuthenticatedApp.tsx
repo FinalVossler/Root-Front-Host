@@ -1,6 +1,11 @@
 import React from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { IPageReadDto } from "roottypes";
+import {
+  IModelReadDto,
+  IModelsGetCommand,
+  IPageReadDto,
+  IRolesGetCommand,
+} from "roottypes";
 import "react-toastify/dist/ReactToastify.css";
 
 import ProfilePage from "./pages/profilePage";
@@ -34,6 +39,8 @@ import ShippingMethodsPage from "./pages/shippingMethodsPage";
 import PaymentResultPage from "./pages/paymentResultPage";
 import OrdersPage from "./pages/ordersPage/OrdersPage";
 import SalesPage from "./pages/salesPage";
+import useGetRoles from "./hooks/apiHooks/useGetRoles";
+import useGetModels from "./hooks/apiHooks/useGetModels";
 
 function AuthenticatedApp() {
   const withEcommerce: boolean | undefined = useAppSelector(
@@ -42,11 +49,14 @@ function AuthenticatedApp() {
   const homePage: IPageReadDto | undefined = useAppSelector(
     (state) => state.page.pages
   ).find((page) => page.slug.length === 0);
+  const models: IModelReadDto[] = useAppSelector((state) => state.model.models);
 
   useNotifications();
   const isLoggedIn = useIsLoggedIn();
   const navigate = useNavigate();
   const { getCart } = useGetCart();
+  const { getModels } = useGetModels();
+  const { getRoles, loading: getRolesLoading } = useGetRoles();
 
   React.useEffect(() => {
     if (!isLoggedIn) {
@@ -59,6 +69,34 @@ function AuthenticatedApp() {
       getCart();
     }
   }, [withEcommerce, isLoggedIn]);
+
+  // Get the models. Useful for the
+  // 1- The side menu
+  // 2- Orders
+  React.useEffect(() => {
+    if (models.length === 0) {
+      const command: IModelsGetCommand = {
+        paginationCommand: {
+          limit: 99999,
+          page: 1,
+        },
+      };
+      getModels(command);
+    }
+  }, []);
+
+  // Get the roles. Always useful for these situations:
+  // 1- Show the users by roles in the side menu
+  // 2- For user assigned entities
+  React.useEffect(() => {
+    const command: IRolesGetCommand = {
+      paginationCommand: {
+        limit: 9999,
+        page: 1,
+      },
+    };
+    getRoles(command);
+  }, []);
 
   return (
     <React.Fragment>

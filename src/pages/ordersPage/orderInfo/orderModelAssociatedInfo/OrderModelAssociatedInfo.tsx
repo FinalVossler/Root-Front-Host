@@ -8,6 +8,7 @@ import {
   IUserReadDto,
   ModelOrderAssociationPermissionEnum,
 } from "roottypes";
+import _ from "lodash";
 
 import useStyles from "./orderModelAssociatedInfo.styles";
 import { useAppSelector } from "../../../../store/hooks";
@@ -16,7 +17,6 @@ import ExtendSection from "../../../../components/fundamentalComponents/extendSe
 import { ExtendSectionSizeEnum } from "../../../../components/fundamentalComponents/extendSection/ExtendSection";
 import EntityEditorForm from "../../../../components/appComponents/editors/entityEditor/EntityEditorForm";
 import Button from "../../../../components/fundamentalComponents/button";
-import _ from "lodash";
 
 interface IOrderModelAssociatedInfoProps {
   order: IOrderReadDto;
@@ -85,32 +85,39 @@ const OrderModelAssociatedInfo: React.FunctionComponent<
     (orderModelAssociatedEntities.length === 0 &&
       !props.modelOrderAssociationConfig.isList);
 
-  const automaticallyAssignedUsersIds = React.useMemo((): string[] => {
-    const buyerUserId: string = (props.order.user as IUserReadDto)._id;
-    const sellersUsersIds: string[] = [];
+  const automaticallyAssignedUsers = React.useMemo((): IUserReadDto[] => {
+    const buyerUser: IUserReadDto = props.order.user as IUserReadDto;
+    const sellersUsers: IUserReadDto[] = [];
     props.order.products?.forEach((productInfo) => {
-      const userId: string = (
-        (productInfo.product as IEntityReadDto).owner as IUserReadDto
-      )._id;
-      if (sellersUsersIds.indexOf(userId) === -1) {
-        sellersUsersIds.push(userId);
+      const seller = (productInfo.product as IEntityReadDto)
+        .owner as IUserReadDto;
+      if (
+        sellersUsers.find((el) => el._id.toString() === seller._id.toString())
+      ) {
+        sellersUsers.push(seller);
       }
     });
 
     // If current user is the buyer, then set the automatically assigned users to all sellers
     if (currentUserIsBuyer) {
-      return sellersUsersIds;
+      return sellersUsers;
     }
     if (currentUserIsSeller) {
       // If current user is not a buyer, then set the automatically assigned user to the buyer
-      return [buyerUserId];
+      return [buyerUser];
     }
 
-    return _.uniq([...sellersUsersIds, buyerUserId]);
+    return _.uniq([...sellersUsers, buyerUser]);
   }, [currentUserIsBuyer, currentUserIsSeller, props.order.products]);
 
   return (
-    <div className={styles.orderModelAssociatedInfo}>
+    <div
+      className={
+        props.product
+          ? styles.orderProductModelAssociatedInfo
+          : styles.orderModelAssociatedInfo
+      }
+    >
       <ExtendSection
         isSectionShown={shown}
         onClick={() => setShown(!shown)}
@@ -138,7 +145,7 @@ const OrderModelAssociatedInfo: React.FunctionComponent<
                   withoutLanguage
                   withoutTitle
                   withoutUserAssignment
-                  automaticallyAssignedUserIds={automaticallyAssignedUsersIds}
+                  automaticallyAssignedUsers={automaticallyAssignedUsers}
                   orderAssociationConfig={{
                     orderId: props.order._id,
                     productId: props.product?._id,
@@ -153,7 +160,7 @@ const OrderModelAssociatedInfo: React.FunctionComponent<
               withoutLanguage
               withoutTitle
               withoutUserAssignment
-              automaticallyAssignedUserIds={automaticallyAssignedUsersIds}
+              automaticallyAssignedUsers={automaticallyAssignedUsers}
               orderAssociationConfig={{
                 orderId: props.order._id,
                 productId: props.product?._id,
