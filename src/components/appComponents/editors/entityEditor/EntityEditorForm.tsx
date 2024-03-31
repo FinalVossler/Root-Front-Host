@@ -62,6 +62,7 @@ import FormikInputSelect from "../../../fundamentalComponents/formikInputs/formi
 import Input from "../../../fundamentalComponents/inputs/input";
 import Textarea from "../../../fundamentalComponents/inputs/textarea/Textarea";
 import EntityEditorEcommerceAddons from "./entityEditorEcommerceAddons";
+import useGetUsersByIds from "../../../../hooks/apiHooks/useGetUsersByIds";
 
 export interface IEntityFieldValueForm {
   fieldId: string;
@@ -96,6 +97,8 @@ export interface IEntityEditorFormProps {
   handleCloseEditor?: () => void;
   withoutTitle?: boolean;
   withoutLanguage?: boolean;
+  withoutUserAssignment?: boolean;
+  automaticallyAssignedUserIds?: string[];
 
   orderAssociationConfig?: {
     orderId: string;
@@ -135,6 +138,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
   const navigate = useNavigate();
   const { getRoles } = useGetRoles();
   const { handleSearchUsersByRolePromise } = useSearchUsersByRole();
+  const { getUsersByIds } = useGetUsersByIds();
 
   const formik: FormikProps<IEntityEditorFormFormik> =
     useFormik<IEntityEditorFormFormik>({
@@ -432,6 +436,20 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
     getRoles(command);
   }, []);
 
+  // Loading automatically assigned users
+  React.useEffect(() => {
+    if (
+      props.automaticallyAssignedUserIds &&
+      props.automaticallyAssignedUserIds.length > 0
+    ) {
+      getUsersByIds(props.automaticallyAssignedUserIds).then(
+        (assignedUsers) => {
+          formik.setFieldValue("assignedUsers", assignedUsers);
+        }
+      );
+    }
+  }, [props.automaticallyAssignedUserIds]);
+
   //#endregion Effects
 
   //#region Event listeners
@@ -445,7 +463,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
   const loading =
     (props.entity ? updateLoading : createLoading) || uploadFilesLoading;
 
-  const canAssignToRoles = roles.filter((role) => {
+  const rolesToWhichCurrentUserCanAssign = roles.filter((role) => {
     if (user.superRole === SuperRoleEnum.SuperAdmin) {
       return true;
     }
@@ -816,81 +834,84 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
         }
       })}
 
-      {canAssignToRoles.length > 0 && (
-        <h3 className={styles.userAssignmentTitle}>
-          {getTranslatedText(staticText?.userAssignment)}
-        </h3>
-      )}
-      {canAssignToRoles.map((role: IRoleReadDto) => {
-        return (
-          <div
-            key={role._id}
-            className={styles.assignedUsersByRoleInputContainer}
-          >
-            <SearchInput
-              theme={theme}
-              searchPromise={handleSearchUsersByRolePromise(
-                role._id.toString()
-              )}
-              label={getTranslatedText(role?.name) + ":"}
-              getElementTitle={(user: IUserReadDto) =>
-                user.firstName + " " + user.lastName
-              }
-              inputProps={{
-                placeholder: getTranslatedText(staticText?.searchUsers),
-              }}
-              onElementClick={(user: IUserReadDto) => {
-                if (
-                  !formik.values.assignedUsers.some(
-                    (u) => u._id.toString() === user._id.toString()
-                  )
-                ) {
-                  formik.setFieldValue("assignedUsers", [
-                    ...formik.values.assignedUsers,
-                    user,
-                  ]);
-                }
-              }}
-              inputDataCy={"searchUserToAssignForRole" + role._id.toString()}
-            />
-
-            {formik.values.assignedUsers
-              .filter(
-                (u) =>
-                  (u.role as IRoleReadDto)?._id.toString() ===
+      {!props.withoutUserAssignment &&
+        rolesToWhichCurrentUserCanAssign.length > 0 && (
+          <h3 className={styles.userAssignmentTitle}>
+            {getTranslatedText(staticText?.userAssignment)}
+          </h3>
+        )}
+      {!props.withoutUserAssignment &&
+        rolesToWhichCurrentUserCanAssign.map((role: IRoleReadDto) => {
+          return (
+            <div
+              key={role._id}
+              className={styles.assignedUsersByRoleInputContainer}
+            >
+              <SearchInput
+                theme={theme}
+                searchPromise={handleSearchUsersByRolePromise(
                   role._id.toString()
-              )
-              .map((user: IUserReadDto) => {
-                return (
-                  <div
-                    key={user._id}
-                    className={styles.assignedUsersByRoleContainer}
-                  >
-                    <MdDelete
-                      onClick={() => {
-                        formik.setFieldValue(
-                          "assignedUsers",
-                          formik.values.assignedUsers.filter(
-                            (u) => u._id !== user._id
-                          )
-                        );
-                      }}
-                      className={styles.deleteAssignedUserIcon}
-                    />
-                    <UserProfilePicture
-                      theme={theme}
-                      url={(user.profilePicture as IFileReadDto)?.url}
-                      size={SizeEnum.Average}
-                    />
-                    <span className={styles.assignedUsername}>
-                      {user.firstName + " " + user.lastName}
-                    </span>
-                  </div>
-                );
-              })}
-          </div>
-        );
-      })}
+                )}
+                label={getTranslatedText(role?.name) + ":"}
+                getElementTitle={(user: IUserReadDto) =>
+                  user.firstName + " " + user.lastName
+                }
+                inputProps={{
+                  placeholder: getTranslatedText(staticText?.searchUsers),
+                  disabled: Boolean(props.readOnly),
+                }}
+                onElementClick={(user: IUserReadDto) => {
+                  if (
+                    !formik.values.assignedUsers.some(
+                      (u) => u._id.toString() === user._id.toString()
+                    )
+                  ) {
+                    formik.setFieldValue("assignedUsers", [
+                      ...formik.values.assignedUsers,
+                      user,
+                    ]);
+                  }
+                }}
+                inputDataCy={"searchUserToAssignForRole" + role._id.toString()}
+              />
+
+              {formik.values.assignedUsers
+                .filter(
+                  (u) =>
+                    (u.role as IRoleReadDto)?._id.toString() ===
+                    role._id.toString()
+                )
+                .map((user: IUserReadDto) => {
+                  return (
+                    <div
+                      key={user._id}
+                      className={styles.assignedUsersByRoleContainer}
+                    >
+                      <MdDelete
+                        onClick={() => {
+                          formik.setFieldValue(
+                            "assignedUsers",
+                            formik.values.assignedUsers.filter(
+                              (u) => u._id !== user._id
+                            )
+                          );
+                        }}
+                        className={styles.deleteAssignedUserIcon}
+                      />
+                      <UserProfilePicture
+                        theme={theme}
+                        url={(user.profilePicture as IFileReadDto)?.url}
+                        size={SizeEnum.Average}
+                      />
+                      <span className={styles.assignedUsername}>
+                        {user.firstName + " " + user.lastName}
+                      </span>
+                    </div>
+                  );
+                })}
+            </div>
+          );
+        })}
 
       {!props.withoutLanguage && (
         <FormikInputSelect
@@ -916,6 +937,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
           entity={props.entity}
           model={model}
           formik={formik}
+          readOnly={Boolean(props.readOnly)}
         />
       )}
 

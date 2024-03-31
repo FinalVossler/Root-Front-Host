@@ -5,6 +5,12 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
+- The buyer receives two notifications instead of one when comment is added => Problem with the notifications system => to fix
+- Show the redirection button to an order or a product in an entity's page. (if the entity has this information)
+- Inside an entity, show the list of all the entities that has the concerned entity as a productId inside its orderAssociationConfig (like showing the comments of an entity)
+- Limit the number of times we make a call to getRoles and getUsersByIds for each entity
+- Add the "automatically assigned role at registration" in the website configuration section
+- Add the associated entity creator information in the associated entity form (the owner is the creator)
 - Add the ability to edit the status for the seller (clickable state tracking bullets)
 - Send notifications when an order entity associated info was added or edited
 - Show the user orders in a reversed way

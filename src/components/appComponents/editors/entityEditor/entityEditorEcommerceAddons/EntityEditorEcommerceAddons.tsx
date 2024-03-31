@@ -21,6 +21,7 @@ interface IEntityEditorEcommerceAddonsProps {
   entity: IEntityReadDto;
   model: IModelReadDto;
   formik: FormikProps<IEntityEditorFormFormik>;
+  readOnly: boolean;
 }
 
 const EntityEditorEcommerceAddons: React.FunctionComponent<
@@ -105,6 +106,7 @@ const EntityEditorEcommerceAddons: React.FunctionComponent<
         )}
         label={getTranslatedText(staticText?.availableShippingMethods)}
         options={shippingMethodsOptions}
+        disabled={props.readOnly}
       />
       {props.entity && (
         <React.Fragment>

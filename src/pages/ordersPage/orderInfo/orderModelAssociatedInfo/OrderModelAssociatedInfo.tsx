@@ -16,6 +16,7 @@ import ExtendSection from "../../../../components/fundamentalComponents/extendSe
 import { ExtendSectionSizeEnum } from "../../../../components/fundamentalComponents/extendSection/ExtendSection";
 import EntityEditorForm from "../../../../components/appComponents/editors/entityEditor/EntityEditorForm";
 import Button from "../../../../components/fundamentalComponents/button";
+import _ from "lodash";
 
 interface IOrderModelAssociatedInfoProps {
   order: IOrderReadDto;
@@ -50,16 +51,26 @@ const OrderModelAssociatedInfo: React.FunctionComponent<
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
 
-  const currentUserIsBuyer =
-    (props.order.user as IUserReadDto)._id === currentUser._id;
-  const currentUserIsSeller =
-    (props.product?.owner as IUserReadDto)?._id === currentUser._id ||
-    (!props.product &&
-      props.order.products.some(
-        (productInfo) =>
-          ((productInfo.product as IEntityReadDto).owner as IUserReadDto)
-            ._id === currentUser._id.toString()
-      ));
+  const currentUserIsBuyer = React.useMemo(
+    () => (props.order.user as IUserReadDto)._id === currentUser._id,
+    [currentUser._id, (props.order.user as IUserReadDto)._id]
+  );
+  const currentUserIsSeller = React.useMemo(
+    () =>
+      (props.product?.owner as IUserReadDto)?._id === currentUser._id ||
+      (!props.product &&
+        props.order.products.some(
+          (productInfo) =>
+            ((productInfo.product as IEntityReadDto).owner as IUserReadDto)
+              ._id === currentUser._id.toString()
+        )),
+    [
+      (props.product?.owner as IUserReadDto)?._id,
+      currentUser._id,
+      props.order.products,
+    ]
+  );
+
   const readOnly =
     (!currentUserIsBuyer &&
       props.modelOrderAssociationConfig.modelOrderAssociationPermission ===
@@ -73,6 +84,31 @@ const OrderModelAssociatedInfo: React.FunctionComponent<
     (addNew && props.modelOrderAssociationConfig.isList) ||
     (orderModelAssociatedEntities.length === 0 &&
       !props.modelOrderAssociationConfig.isList);
+
+  const automaticallyAssignedUsersIds = React.useMemo((): string[] => {
+    const buyerUserId: string = (props.order.user as IUserReadDto)._id;
+    const sellersUsersIds: string[] = [];
+    props.order.products?.forEach((productInfo) => {
+      const userId: string = (
+        (productInfo.product as IEntityReadDto).owner as IUserReadDto
+      )._id;
+      if (sellersUsersIds.indexOf(userId) === -1) {
+        sellersUsersIds.push(userId);
+      }
+    });
+
+    // If current user is the buyer, then set the automatically assigned users to all sellers
+    if (currentUserIsBuyer) {
+      return sellersUsersIds;
+    }
+    if (currentUserIsSeller) {
+      // If current user is not a buyer, then set the automatically assigned user to the buyer
+      return [buyerUserId];
+    }
+
+    return _.uniq([...sellersUsersIds, buyerUserId]);
+  }, [currentUserIsBuyer, currentUserIsSeller, props.order.products]);
+
   return (
     <div className={styles.orderModelAssociatedInfo}>
       <ExtendSection
@@ -85,27 +121,39 @@ const OrderModelAssociatedInfo: React.FunctionComponent<
 
       {shown && (
         <React.Fragment>
-          {orderModelAssociatedEntities.map((associatedEntity) => {
-            return (
-              <EntityEditorForm
-                key={associatedEntity._id}
-                entity={associatedEntity}
-                modelId={props.model._id}
-                withoutLanguage
-                withoutTitle
-                orderAssociationConfig={{
-                  orderId: props.order._id,
-                  productId: props.product?._id,
-                }}
-                readOnly={readOnly}
-              />
-            );
-          })}
+          {orderModelAssociatedEntities
+            .filter((associationedEntity) =>
+              associationedEntity.orderAssociationConfig?.productId &&
+              props.product?._id
+                ? associationedEntity.orderAssociationConfig?.productId ===
+                  props.product?._id
+                : true
+            )
+            .map((associatedEntity) => {
+              return (
+                <EntityEditorForm
+                  key={associatedEntity._id}
+                  entity={associatedEntity}
+                  modelId={props.model._id}
+                  withoutLanguage
+                  withoutTitle
+                  withoutUserAssignment
+                  automaticallyAssignedUserIds={automaticallyAssignedUsersIds}
+                  orderAssociationConfig={{
+                    orderId: props.order._id,
+                    productId: props.product?._id,
+                  }}
+                  readOnly
+                />
+              );
+            })}
           {showNewForm && (
             <EntityEditorForm
               modelId={props.model._id}
               withoutLanguage
               withoutTitle
+              withoutUserAssignment
+              automaticallyAssignedUserIds={automaticallyAssignedUsersIds}
               orderAssociationConfig={{
                 orderId: props.order._id,
                 productId: props.product?._id,

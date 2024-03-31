@@ -5,6 +5,7 @@ import { useAppDispatch } from "../../store/hooks";
 import { entitySlice } from "../../store/slices/entitySlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 import { IEntityCreateCommand, IEntityReadDto } from "roottypes";
+import { orderSlice } from "../../store/slices/orderSlice";
 
 const useCreateEntity = () => {
   const [loading, setLoading] = React.useState(false);
@@ -27,6 +28,13 @@ const useCreateEntity = () => {
           dispatch(
             entitySlice.actions.addEntity({ entity, modelId: command.modelId })
           );
+          if (entity.orderAssociationConfig) {
+            dispatch(
+              orderSlice.actions.addOrderAssociatedEntity({
+                associatedEntity: entity,
+              })
+            );
+          }
           resolve(entity);
         })
         .finally(() => setLoading(false))

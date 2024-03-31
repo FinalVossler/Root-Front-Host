@@ -51,8 +51,11 @@ const CheckoutAddresses: React.FunctionComponent<ICheckoutAddressesProps> = (
 
   //#region Effects
   React.useEffect(() => {
-    getUserAddresses(currentUser._id.toString());
-  }, []);
+    if (currentUser._id) {
+      getUserAddresses(currentUser._id.toString());
+    }
+  }, [currentUser._id]);
+
   React.useEffect(() => {
     const defaultAddress =
       currentUserAddresses.length > 0

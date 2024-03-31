@@ -87,6 +87,21 @@ export const orderSlice = createSlice({
       state.orderAssociatedEntities[action.payload.orderId] =
         action.payload.associatedEntities;
     },
+    addOrderAssociatedEntity: (
+      state: IOrderState,
+      action: PayloadAction<{ associatedEntity: IEntityReadDto }>
+    ) => {
+      const orderId =
+        action.payload.associatedEntity.orderAssociationConfig?.orderId;
+      if (!orderId) {
+        return;
+      }
+
+      state.orderAssociatedEntities[orderId] = [
+        ...(state.orderAssociatedEntities[orderId] || []),
+        action.payload.associatedEntity,
+      ];
+    },
   },
 });
 
