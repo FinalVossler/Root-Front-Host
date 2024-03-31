@@ -32,6 +32,7 @@ import FormikInputSelect from "../../../fundamentalComponents/formikInputs/formi
 import FormikTextarea from "../../../fundamentalComponents/formikInputs/formikTextarea";
 import FormikInputLanguages from "../../../fundamentalComponents/formikInputs/formikInputLanguages";
 import { TypeOfFiles } from "../../appExistingFiles/AppExistingFiles";
+import InputSelect from "../../../fundamentalComponents/inputs/inputSelect";
 
 export interface IWebsiteConfigurationForm extends ITheme {
   language?: string;
@@ -51,6 +52,7 @@ export interface IWebsiteConfigurationForm extends ITheme {
   tabIconAsYetToDownloadFile?: File;
   logo1AsYetToDownloadFile?: File;
   logo2AsYetToDownloadFile?: File;
+  automaticallyAssignedRoleIdAtRegistration?: string;
 
   staticText?: Object;
 }
@@ -75,6 +77,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
   const language: string = useAppSelector(
     (state) => state.userPreferences.language
   );
+  const roles = useAppSelector((state) => state.role.roles);
   //#endregion store
 
   //#region local state
@@ -137,6 +140,8 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
         logo1AsYetToDownloadFile: undefined,
         logo2: websiteConfiguration.logo2,
         logo2AsYetToDownloadFile: undefined,
+        automaticallyAssignedRoleIdAtRegistration:
+          websiteConfiguration.automaticallyAssignedRoleIdAtRegistration,
 
         staticText: websiteConfiguration.staticText,
       };
@@ -199,7 +204,6 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
             resolve(logo1);
           })
         );
-
         filesUploadPromises.push(
           new Promise(async (resolve, reject) => {
             let logo2: IFileReadDto | undefined | string = undefined;
@@ -231,6 +235,8 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           tabIcon: tabIcon as IFileReadDto,
           logo1: logo1 as IFileReadDto,
           logo2: logo2 as IFileReadDto,
+          automaticallyAssignedRoleIdAtRegistration:
+            values.automaticallyAssignedRoleIdAtRegistration,
 
           theme: {
             darkTextColor: values.darkTextColor,
@@ -395,6 +401,47 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           inputProps={{
             disabled: actualLoading,
           }}
+        />
+
+        <InputSelect
+          options={roles.map((role) => ({
+            label: getTranslatedText(role.name),
+            value: role._id,
+          }))}
+          onChange={(roleOption) =>
+            formik.setFieldValue(
+              "automaticallyAssignedRoleIdAtRegistration",
+              roleOption.value
+            )
+          }
+          value={
+            roles.find(
+              (r) =>
+                r._id ===
+                formik.values.automaticallyAssignedRoleIdAtRegistration
+            )
+              ? {
+                  label: getTranslatedText(
+                    roles.find(
+                      (r) =>
+                        r._id ===
+                        formik.values.automaticallyAssignedRoleIdAtRegistration
+                    )?.name
+                  ),
+                  value:
+                    roles.find(
+                      (r) =>
+                        r._id ===
+                        formik.values.automaticallyAssignedRoleIdAtRegistration
+                    )?._id || "",
+                }
+              : undefined
+          }
+          theme={theme}
+          name="automaticallyAssignedRoleIdAtRegistration"
+          label={getTranslatedText(
+            staticText?.automaticallyAssignedRoleAtRegistration
+          )}
         />
 
         <FormikCheckbox

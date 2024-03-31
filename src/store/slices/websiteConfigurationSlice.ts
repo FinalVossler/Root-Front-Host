@@ -25,6 +25,7 @@ export interface IWebsiteConfigurationState {
   tabIcon?: IWebsiteConfigurationReadDto["tabIcon"];
   logo1?: IWebsiteConfigurationReadDto["logo1"];
   logo2?: IWebsiteConfigurationReadDto["logo2"];
+  automaticallyAssignedRoleIdAtRegistration?: string;
 
   staticText?: typeof staticText;
 }
@@ -1528,6 +1529,13 @@ const staticText = {
       { text: "Secondary logo", language: "en" },
       { text: "Logo secondaire", language: "fr" },
     ],
+    automaticallyAssignedRoleAtRegistration: [
+      { text: "Automatically assigned role at registration", language: "en" },
+      {
+        text: "Rôle assigné automatiquement au moment de l'enregistrement",
+        language: "fr",
+      },
+    ],
   },
 
   roles: {
@@ -2248,6 +2256,7 @@ const initialState: IWebsiteConfigurationState = {
   tabIcon: undefined,
   logo1: undefined,
   logo2: undefined,
+  automaticallyAssignedRoleIdAtRegistration: undefined,
 
   staticText,
 };
@@ -2274,6 +2283,8 @@ export const websiteConfigurationSlice = createSlice({
       state.tabIcon = action.payload.tabIcon;
       state.logo1 = action.payload.logo1;
       state.logo2 = action.payload.logo2;
+      state.automaticallyAssignedRoleIdAtRegistration = action.payload
+        .automaticallyAssignedRoleAtRegistration as string;
 
       // We override the initial values defined here by whatever is stored in the database
       // But we keep the values that aren't stored in the db.
