@@ -935,7 +935,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
 
       {props.entity?.owner && (
         <div className={styles.createdBy}>
-          {getTranslatedText(staticText?.createdBy) + ": "}
+          {getTranslatedText(staticText?.owner) + ": "}
           {(props.entity.owner as IUserReadDto).firstName +
             " " +
             (props.entity.owner as IUserReadDto).lastName}
