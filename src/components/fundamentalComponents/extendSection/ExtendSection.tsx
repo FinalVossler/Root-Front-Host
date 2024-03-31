@@ -36,7 +36,13 @@ const ExtendSection: React.FunctionComponent<IExtendSectionProps> = (
     >
       {props.title}
       {!props.isSectionShown && (
-        <MdArrowDownward className={styles.arrowIcon} />
+        <MdArrowDownward
+          className={
+            props.size === ExtendSectionSizeEnum.Small
+              ? styles.arrowSmallIcon
+              : styles.arrowIcon
+          }
+        />
       )}
       {props.isSectionShown && <MdArrowUpward className={styles.arrowIcon} />}
     </span>

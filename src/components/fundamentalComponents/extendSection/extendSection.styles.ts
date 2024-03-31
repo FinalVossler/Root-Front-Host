@@ -19,6 +19,10 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     top: 7,
     marginLeft: 10,
   },
+  arrowSmallIcon: {
+    extend: "arrowIcon",
+    top: 5,
+  },
   "@media (max-width: 800px)": {},
 }));
 
