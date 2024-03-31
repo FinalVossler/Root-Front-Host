@@ -4,7 +4,6 @@ import { ICartReadDto, ITheme } from "roottypes";
 
 import { useAppSelector } from "../../../store/hooks";
 
-import withNotifications from "../../../hoc/withNotifications";
 import HeaderOptionNotificationSignal from "../headerOptionNotificationSignal";
 
 import useStyles from "./headerCart.styles";
@@ -51,4 +50,4 @@ const HeaderCart: React.FunctionComponent<IHeaderCartProps> = (
   );
 };
 
-export default withNotifications(React.memo(HeaderCart));
+export default React.memo(HeaderCart);

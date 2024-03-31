@@ -8,7 +8,6 @@ import LoginOrRegistrationPage from "./pages/loginOrRegistrationPage";
 
 import useGetAndSetUser from "./hooks/apiHooks/useGetAndSetUser";
 
-import useNotifications from "./hooks/useNotifications";
 import DynamicPage from "./pages/dynamicPage";
 import useGetPages from "./hooks/apiHooks/useGetPages";
 import useGetWebwiteConfiguration from "./hooks/apiHooks/useGetWebsiteConfiguration";
@@ -28,7 +27,6 @@ function App() {
 
   const isLoggedIn: boolean = useIsLoggedIn();
   useGetAndSetUser();
-  useNotifications();
   const { getPages, finished: finishedFetchingPages } = useGetPages();
   const {
     getWebsiteConfiguration,

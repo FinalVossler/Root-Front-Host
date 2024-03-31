@@ -13,12 +13,9 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     padding: 10,
 
     "& >form": {
-      padding: "20px!important",
+      padding: "0px!important",
       boxSizing: "border-box",
-    },
-
-    "& >span": {
-      marginBottom: 0,
+      margin: 0,
     },
   },
   orderProductModelAssociatedInfo: {

@@ -35,7 +35,6 @@ const OrderModelAssociatedInfo: React.FunctionComponent<
     (state) => state.websiteConfiguration.staticText?.orders
   );
   const currentUser = useAppSelector((state) => state.user.user);
-  const models = useAppSelector((state) => state.model.models);
   const orderModelAssociatedEntities = (
     useAppSelector((state) => state.order.orderAssociatedEntities)[
       props.order._id.toString()
@@ -170,7 +169,15 @@ const OrderModelAssociatedInfo: React.FunctionComponent<
           )}
 
           {props.modelOrderAssociationConfig.isList && (
-            <Button theme={theme} onClick={() => setAddNew(!addNew)}>
+            <Button
+              theme={theme}
+              onClick={() => setAddNew(!addNew)}
+              style={{
+                marginTop: 10,
+                width: "100%",
+                background: theme.secondary,
+              }}
+            >
               {!addNew
                 ? getTranslatedText(props.model.name) + " +"
                 : getTranslatedText(staticText?.cancel)}
