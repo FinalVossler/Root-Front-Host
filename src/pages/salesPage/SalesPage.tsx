@@ -4,12 +4,12 @@ import React from "react";
 import { useParams } from "react-router-dom";
 
 import { useAppSelector } from "../../store/hooks";
-import OrderInfo from "../orderInfo/OrderInfo";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import Pagination from "../../components/fundamentalComponents/pagination";
 import useGetUserSales from "../../hooks/apiHooks/useGetUserSales";
 
 import useStyles from "./salesPage.styles";
+import OrderInfo from "../ordersPage/orderInfo/OrderInfo";
 
 interface ISalesPageProps {}
 

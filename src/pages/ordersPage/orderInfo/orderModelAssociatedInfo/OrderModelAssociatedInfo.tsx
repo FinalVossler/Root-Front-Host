@@ -9,14 +9,13 @@ import {
   ModelOrderAssociationPermissionEnum,
 } from "roottypes";
 
-import { useAppSelector } from "../../../store/hooks";
-
 import useStyles from "./orderModelAssociatedInfo.styles";
-import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
-import EntityEditorForm from "../../../components/appComponents/editors/entityEditor/EntityEditorForm";
-import Button from "../../../components/fundamentalComponents/button";
-import ExtendSection from "../../../components/fundamentalComponents/extendSection";
-import { ExtendSectionSizeEnum } from "../../../components/fundamentalComponents/extendSection/ExtendSection";
+import { useAppSelector } from "../../../../store/hooks";
+import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
+import ExtendSection from "../../../../components/fundamentalComponents/extendSection";
+import { ExtendSectionSizeEnum } from "../../../../components/fundamentalComponents/extendSection/ExtendSection";
+import EntityEditorForm from "../../../../components/appComponents/editors/entityEditor/EntityEditorForm";
+import Button from "../../../../components/fundamentalComponents/button";
 
 interface IOrderModelAssociatedInfoProps {
   order: IOrderReadDto;

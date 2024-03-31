@@ -208,7 +208,7 @@ const Elements: React.FunctionComponent<IElementsProps> = (
                 style: {
                   marginRight: 10,
                   position: "relative",
-                  top: 8,
+                  top: 5,
                   height: 42,
                 },
               }}

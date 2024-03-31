@@ -1,13 +1,13 @@
+import React from "react";
 import { ITheme, IUserReadDto } from "roottypes";
+import { useParams } from "react-router-dom";
+import Loading from "react-loading";
 
 import { useAppSelector } from "../../store/hooks";
-import React from "react";
 import useGetUserOrders from "../../hooks/apiHooks/useGetUserOrders";
-import { useParams } from "react-router-dom";
-import OrderInfo from "../orderInfo/OrderInfo";
-import Loading from "react-loading";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import Pagination from "../../components/fundamentalComponents/pagination";
+import OrderInfo from "./orderInfo/OrderInfo";
 
 import useStyles from "./ordersPage.styles";
 
