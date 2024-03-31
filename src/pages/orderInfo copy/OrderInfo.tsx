@@ -3,34 +3,28 @@ import {
   IEntityReadDto,
   IFieldReadDto,
   IFileReadDto,
-  IModelOrderAssociationConfig,
   IModelReadDto,
   IOrderReadDto,
   IShippingMethodReadDto,
   ITheme,
-  ModelOrderAssociationLevelEnum,
   OrderNegativeStatusEnum,
   OrderStatusEnum,
 } from "roottypes";
 
-import { useAppSelector } from "../../store/hooks";
-import useGetTranslatedText from "../../hooks/useGetTranslatedText";
-import formatCentsToDollars from "../../utils/formatCentsToDollars";
+import { useAppSelector } from "../../../store/hooks";
+import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
+import formatCentsToDollars from "../../../utils/formatCentsToDollars";
 
 import useStyles from "./orderInfo.styles";
-import showWithSpacingIfDefined from "../../utils/showWithSpacingIfDefined";
-import StateTracking from "../../components/fundamentalComponents/postsComponents/stateTracking";
-import { IState } from "../../components/fundamentalComponents/postsComponents/stateTracking/StateTracking";
-import OrderModelAssociatedInfo from "./orderModelAssociatedInfo";
-import useGetOrderAssociatedEntities from "../../hooks/apiHooks/useGetOrderAssociatedEntities";
+import showWithSpacingIfDefined from "../../../utils/showWithSpacingIfDefined";
+import StateTracking from "../../../components/fundamentalComponents/postsComponents/stateTracking";
+import { IState } from "../../../components/fundamentalComponents/postsComponents/stateTracking/StateTracking";
 
-interface IOrderInfoProps {
+interface IOrderInfo {
   order: IOrderReadDto;
 }
 
-const OrderInfo: React.FunctionComponent<IOrderInfoProps> = (
-  props: IOrderInfoProps
-) => {
+const OrderInfo: React.FunctionComponent<IOrderInfo> = (props: IOrderInfo) => {
   const theme: ITheme = useAppSelector(
     (state) => state.websiteConfiguration.theme
   );
@@ -41,36 +35,9 @@ const OrderInfo: React.FunctionComponent<IOrderInfoProps> = (
     (state) => state.websiteConfiguration.staticText?.checkout
   );
   const models = useAppSelector((state) => state.model.models);
-  const orderOrderLevelModels = models
-    .filter((model) => model.isForOrders)
-    .filter(
-      (model) =>
-        model.orderAssociationConfig?.modelOrderAssociationLevel ===
-        ModelOrderAssociationLevelEnum.OrderLevel
-    );
-  const orderProductLevelModels = models
-    .filter((model) => model.isForOrders)
-    .filter(
-      (model) =>
-        model.orderAssociationConfig?.modelOrderAssociationLevel ===
-        ModelOrderAssociationLevelEnum.ProductLevel
-    );
-
-  const [associatedEntities, setAssociatedEntities] = React.useState<
-    IEntityReadDto[]
-  >([]);
-
-  const { getOrderAssociatedEntities, loading } =
-    useGetOrderAssociatedEntities();
 
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
-
-  React.useEffect(() => {
-    getOrderAssociatedEntities(props.order._id).then((associatedEntities) => {
-      setAssociatedEntities(associatedEntities);
-    });
-  }, [props.order]);
 
   const positiveStatuses = React.useMemo(() => {
     return getOrderedStates(Object.values(OrderStatusEnum));
@@ -143,13 +110,13 @@ const OrderInfo: React.FunctionComponent<IOrderInfoProps> = (
         );
 
         return (
-          <div className={styles.productContent} key={product._id}>
+          <div className={styles.productContent}>
             <div className={styles.productContentLeft}>
               <img className={styles.productImage} src={imageFile.url} />
               <div className={styles.productInfo}>
-                {mainFields.map((modelMainField, i) => {
+                {mainFields.map((modelMainField) => {
                   return (
-                    <span className={styles.productMainInfo} key={i}>
+                    <span className={styles.productMainInfo}>
                       {getTranslatedText(
                         (modelMainField.field as IFieldReadDto).name
                       )}
@@ -173,38 +140,11 @@ const OrderInfo: React.FunctionComponent<IOrderInfoProps> = (
                       (p.shippingMethod as IShippingMethodReadDto).name
                     )}
                 </span>
-
-                {orderProductLevelModels.map((model) => {
-                  return (
-                    <OrderModelAssociatedInfo
-                      key={model._id}
-                      order={props.order}
-                      model={model}
-                      modelOrderAssociationConfig={
-                        model.orderAssociationConfig as IModelOrderAssociationConfig
-                      }
-                      product={product}
-                    />
-                  );
-                })}
               </div>
             </div>
 
             <div className={styles.productContentRight}></div>
           </div>
-        );
-      })}
-
-      {orderOrderLevelModels.map((model) => {
-        return (
-          <OrderModelAssociatedInfo
-            key={model._id}
-            order={props.order}
-            model={model}
-            modelOrderAssociationConfig={
-              model.orderAssociationConfig as IModelOrderAssociationConfig
-            }
-          />
         );
       })}
 

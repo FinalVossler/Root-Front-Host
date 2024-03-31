@@ -33,6 +33,7 @@ import PaymentMethodsPage from "./pages/paymentMethodsPage";
 import ShippingMethodsPage from "./pages/shippingMethodsPage";
 import PaymentResultPage from "./pages/paymentResultPage";
 import OrdersPage from "./pages/ordersPage/OrdersPage";
+import SalesPage from "./pages/salesPage";
 
 function AuthenticatedApp() {
   const withEcommerce: boolean | undefined = useAppSelector(
@@ -97,6 +98,7 @@ function AuthenticatedApp() {
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/paymentResult/:orderId" element={<PaymentResultPage />} />
         <Route path="/orders/:userId" element={<OrdersPage />} />
+        <Route path="/sales/:userId" element={<SalesPage />} />
 
         {!homePage && (
           <Route path="/" element={<HomePageForLoggedIn />}></Route>

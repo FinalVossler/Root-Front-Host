@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import _ from "lodash";
 
-import { IOrderReadDto } from "roottypes";
+import { IEntityReadDto, IOrderReadDto } from "roottypes";
 
 interface IUserOrderState {
   orders: IOrderReadDto[];
@@ -11,10 +11,14 @@ interface IUserOrderState {
 
 interface IOrderState {
   userOrders: IUserOrderState[];
+  userSales: IUserOrderState[];
+  orderAssociatedEntities: { [orderId: string]: IEntityReadDto[] };
 }
 
 const initialState: IOrderState = {
   userOrders: [],
+  userSales: [],
+  orderAssociatedEntities: {},
 };
 
 export const orderSlice = createSlice({
@@ -46,6 +50,42 @@ export const orderSlice = createSlice({
           userId: action.payload.userId,
         });
       }
+    },
+    setUserSales: (
+      state: IOrderState,
+      action: PayloadAction<{
+        orders: IOrderReadDto[];
+        userId: string;
+        total: number;
+      }>
+    ) => {
+      if (
+        state.userSales.some(
+          (userOrder) => userOrder.userId === action.payload.userId
+        )
+      ) {
+        const userSale = state.userSales.find(
+          (userOrder) => userOrder.userId === action.payload.userId
+        ) as IUserOrderState;
+        userSale.orders = action.payload.orders;
+        userSale.total = action.payload.total;
+      } else {
+        state.userSales.push({
+          orders: action.payload.orders,
+          total: action.payload.total,
+          userId: action.payload.userId,
+        });
+      }
+    },
+    setOrderAssociatedEntities: (
+      state: IOrderState,
+      action: PayloadAction<{
+        orderId: string;
+        associatedEntities: IEntityReadDto[];
+      }>
+    ) => {
+      state.orderAssociatedEntities[action.payload.orderId] =
+        action.payload.associatedEntities;
     },
   },
 });

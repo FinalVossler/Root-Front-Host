@@ -61,6 +61,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   },
   productImage: {
     width: 60,
+    height: "fit-content ",
   },
   productInfo: {
     display: "flex",

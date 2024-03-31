@@ -306,6 +306,13 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
               link={"/orders/" + user._id.toString()}
             />
           )}
+          {withEcommerce && (
+            <SideMenuOption
+              Icon={FaLuggageCart}
+              title={getTranslatedText(staticText?.mySales)}
+              link={"/sales/" + user._id.toString()}
+            />
+          )}
           {hasPermission(PermissionEnum.ReadPaymentMethod) && withEcommerce && (
             <SideMenuOption
               Icon={MdTextFields}

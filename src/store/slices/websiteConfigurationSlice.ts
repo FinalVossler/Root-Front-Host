@@ -337,6 +337,11 @@ const staticText = {
       { language: "en", text: "My orders" },
       { language: "fr", text: "Mes commandes" },
     ],
+
+    mySales: [
+      { language: "en", text: "My Sales" },
+      { language: "fr", text: "Mes ventes" },
+    ],
     profile: [
       { language: "en", text: "Profile" },
       { language: "fr", text: "Profile" },
@@ -2169,9 +2174,22 @@ const staticText = {
       { language: "en", text: "My Orders" },
       { language: "fr", text: "Mes commandes" },
     ],
+    mySales: [
+      { language: "en", text: "My Sales" },
+      { language: "fr", text: "Mes ventes" },
+    ],
     orders: [
       { language: "en", text: "Orders" },
       { language: "fr", text: "Commandes" },
+    ],
+
+    sales: [
+      { language: "en", text: "Sales" },
+      { language: "fr", text: "Ventes" },
+    ],
+    cancel: [
+      { language: "en", text: "Cancel" },
+      { language: "fr", text: "Annuler" },
     ],
     yourOrders: [
       { language: "en", text: "Your orders" },

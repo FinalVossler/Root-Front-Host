@@ -94,6 +94,12 @@ export interface IEntityEditorFormProps {
   modelId?: string;
   readOnly?: boolean;
   handleCloseEditor?: () => void;
+  withoutLanguage?: boolean;
+
+  orderAssociationConfig?: {
+    orderId: string;
+    productId?: string;
+  };
 }
 
 const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
@@ -275,6 +281,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
             modelId: values.modelId,
             availableShippingMethodsIds:
               formik.values.availableShippingMethodsIds,
+            orderAssociationConfig: props.orderAssociationConfig,
           };
 
           createdOrUpdateEntity = await updateEntity(command);
@@ -292,6 +299,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
             modelId: values.modelId,
             availableShippingMethodsIds:
               formik.values.availableShippingMethodsIds,
+            orderAssociationConfig: props.orderAssociationConfig,
           };
 
           createdOrUpdateEntity = await createEntity(command);
@@ -476,7 +484,8 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
           <h2 className={styles.createEntityTitle}>
             {props.entity
               ? getTranslatedText(staticText?.updateEntity)
-              : getTranslatedText(staticText?.createEntity)}
+              : getTranslatedText(staticText?.createEntity) + " "}
+            {getTranslatedText(model?.name)}
           </h2>
 
           {props.handleCloseEditor && (
@@ -882,18 +891,20 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
         );
       })}
 
-      <FormikInputSelect
-        theme={theme}
-        label={getTranslatedText(staticText?.language)}
-        name="language"
-        formik={formik}
-        options={getLanguages()}
-        value={
-          getLanguages().find((el) => el.value === formik.values.language) ||
-          getLanguages()[0]
-        }
-        selectorClassName="entityFormLanguageSelector"
-      />
+      {!props.withoutLanguage && (
+        <FormikInputSelect
+          theme={theme}
+          label={getTranslatedText(staticText?.language)}
+          name="language"
+          formik={formik}
+          options={getLanguages()}
+          value={
+            getLanguages().find((el) => el.value === formik.values.language) ||
+            getLanguages()[0]
+          }
+          selectorClassName="entityFormLanguageSelector"
+        />
+      )}
 
       {props.entity && props.modelId && (
         <EntityEditorStates entity={props.entity} modelId={props.modelId} />

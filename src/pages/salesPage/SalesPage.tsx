@@ -1,20 +1,20 @@
 import { ITheme, IUserReadDto } from "roottypes";
+import Loading from "react-loading";
+import React from "react";
+import { useParams } from "react-router-dom";
 
 import { useAppSelector } from "../../store/hooks";
-import React from "react";
-import useGetUserOrders from "../../hooks/apiHooks/useGetUserOrders";
-import { useParams } from "react-router-dom";
 import OrderInfo from "../orderInfo/OrderInfo";
-import Loading from "react-loading";
 import useGetTranslatedText from "../../hooks/useGetTranslatedText";
 import Pagination from "../../components/fundamentalComponents/pagination";
+import useGetUserSales from "../../hooks/apiHooks/useGetUserSales";
 
-import useStyles from "./ordersPage.styles";
+import useStyles from "./salesPage.styles";
 
-interface IOrdersPageProps {}
+interface ISalesPageProps {}
 
-const OrdersPage: React.FunctionComponent<IOrdersPageProps> = (
-  props: IOrdersPageProps
+const SalesPage: React.FunctionComponent<ISalesPageProps> = (
+  props: ISalesPageProps
 ) => {
   const { userId } = useParams();
 
@@ -25,7 +25,7 @@ const OrdersPage: React.FunctionComponent<IOrdersPageProps> = (
     (state) => state.websiteConfiguration.staticText?.orders
   );
   const user: IUserReadDto = useAppSelector((state) => state.user.user);
-  const userOrders = useAppSelector((state) => state.order.userOrders).find(
+  const userSales = useAppSelector((state) => state.order.userSales).find(
     (userOrder) => userOrder.userId.toString() === user._id.toString()
   );
 
@@ -33,11 +33,11 @@ const OrdersPage: React.FunctionComponent<IOrdersPageProps> = (
   const [limit, setLimit] = React.useState<number>(99);
 
   const styles = useStyles({ theme });
-  const { getUserOrders, loading } = useGetUserOrders();
+  const { getUserSales, loading } = useGetUserSales();
   const getTranslatedText = useGetTranslatedText();
 
   React.useEffect(() => {
-    if (userId) getUserOrders({ limit, page }, userId);
+    if (userId) getUserSales({ limit, page }, userId);
   }, [page, userId, limit]);
 
   const handlePageChange = (page: number) => {
@@ -45,22 +45,22 @@ const OrdersPage: React.FunctionComponent<IOrdersPageProps> = (
   };
 
   return (
-    <div className={styles.ordersPageContainer}>
-      <h2 className={styles.ordersTitle}>
+    <div className={styles.salesPageContainer}>
+      <h2 className={styles.salesTitle}>
         {getTranslatedText(
-          userId === user._id ? staticText?.myOrders : staticText?.orders
+          userId === user._id ? staticText?.mySales : staticText?.sales
         )}
       </h2>
       {loading && <Loading color={theme.primary} />}
-      {userOrders &&
+      {userSales &&
         !loading &&
-        userOrders.orders.map((order) => {
+        userSales.orders.map((order) => {
           return <OrderInfo key={order._id.toString()} order={order} />;
         })}
 
       <Pagination
         page={page}
-        total={userOrders?.total || 0}
+        total={userSales?.total || 0}
         limit={limit}
         onPageChange={handlePageChange}
         theme={theme}
@@ -69,4 +69,4 @@ const OrdersPage: React.FunctionComponent<IOrdersPageProps> = (
   );
 };
 
-export default OrdersPage;
+export default SalesPage;
