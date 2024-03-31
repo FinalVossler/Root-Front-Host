@@ -933,6 +933,15 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
         </span>
       )}
 
+      {props.entity?.owner && (
+        <div className={styles.createdBy}>
+          {getTranslatedText(staticText?.createdBy) + ": "}
+          {(props.entity.owner as IUserReadDto).firstName +
+            " " +
+            (props.entity.owner as IUserReadDto).lastName}
+        </div>
+      )}
+
       {!loading && !props.readOnly && (
         <Button
           theme={theme}

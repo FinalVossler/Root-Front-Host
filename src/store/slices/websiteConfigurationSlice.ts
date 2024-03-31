@@ -1305,6 +1305,10 @@ const staticText = {
       { language: "en", text: "Available Shipping Methods" },
       { language: "fr", text: "Méthode de livraison disponible(s)" },
     ],
+    owner: [
+      { language: "en", text: "Created by" },
+      { language: "fr", text: "Créé par" },
+    ],
   },
   contact: {
     address: [

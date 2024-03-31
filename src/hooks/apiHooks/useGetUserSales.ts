@@ -18,6 +18,7 @@ const useGetUserSales = () => {
     userId: string
   ) =>
     new Promise((resolve, reject) => {
+      setLoading(true);
       axios
         .request<AxiosResponse<IPaginationResponse<IOrderReadDto>>>({
           method: "POST",

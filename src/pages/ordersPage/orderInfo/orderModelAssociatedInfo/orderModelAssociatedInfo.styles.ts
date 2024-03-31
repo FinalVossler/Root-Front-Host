@@ -16,6 +16,8 @@ const useStyles = createUseStyles((theme: ITheme) => ({
       padding: "0px!important",
       boxSizing: "border-box",
       margin: 0,
+      borderBottom: "1px solid " + theme.borderColor,
+      marginBottom: 10,
     },
   },
   orderProductModelAssociatedInfo: {

@@ -5,7 +5,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
-- Add the "automatically assigned role at registration" in the website configuration section
+- Add the "show in side menu" option for a model
 - Add the associated entity creator information in the associated entity form (the owner is the creator)
 - Add the ability to edit the status for the seller (clickable state tracking bullets)
 

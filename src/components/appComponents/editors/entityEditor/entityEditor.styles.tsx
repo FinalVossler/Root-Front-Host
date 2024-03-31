@@ -103,6 +103,11 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     fontSize: 20,
   },
   fieldIframe: {},
+  createdBy: {
+    color: theme.borderColor,
+    marginBottom: 10,
+    position: "relative",
+  },
   "@media (max-width: 850px)": {
     createEntityModalContainer: {
       width: "70vw",
