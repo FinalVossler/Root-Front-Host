@@ -58,6 +58,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   },
   productContentLeft: {
     display: "flex",
+    flex: 1,
   },
   productImage: {
     width: 60,
@@ -67,6 +68,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     display: "flex",
     flexDirection: "column",
     marginLeft: 20,
+    flex: 1,
   },
   productMainInfo: {
     marginBottom: 5,

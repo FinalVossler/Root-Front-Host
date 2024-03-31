@@ -70,7 +70,7 @@ const OrderInfo: React.FunctionComponent<IOrderInfoProps> = (
     getOrderAssociatedEntities(props.order._id).then((associatedEntities) => {
       setAssociatedEntities(associatedEntities);
     });
-  }, [props.order]);
+  }, [props.order._id]);
 
   const positiveStatuses = React.useMemo(() => {
     return getOrderedStates(Object.values(OrderStatusEnum));

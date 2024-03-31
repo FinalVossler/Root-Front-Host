@@ -56,8 +56,6 @@ const getCartShippingMethodsTotal = (
     );
   }, 0);
 
-  console.log("totalShippingMethodsPrice", totalShippingMethodsPrice);
-
   return totalShippingMethodsPrice;
 };
 

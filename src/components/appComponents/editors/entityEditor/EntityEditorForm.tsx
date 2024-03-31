@@ -94,6 +94,7 @@ export interface IEntityEditorFormProps {
   modelId?: string;
   readOnly?: boolean;
   handleCloseEditor?: () => void;
+  withoutTitle?: boolean;
   withoutLanguage?: boolean;
 
   orderAssociationConfig?: {
@@ -479,11 +480,11 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
       className={styles.createEntityForm}
       data-cy="entityEditorForm"
     >
-      {!props.readOnly && (
+      {!props.readOnly && !props.withoutTitle && (
         <div className={styles.createEntityHeader}>
           <h2 className={styles.createEntityTitle}>
             {props.entity
-              ? getTranslatedText(staticText?.updateEntity)
+              ? getTranslatedText(staticText?.updateEntity) + " "
               : getTranslatedText(staticText?.createEntity) + " "}
             {getTranslatedText(model?.name)}
           </h2>
@@ -936,7 +937,10 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
           className={styles.button}
           buttonDataCy="entityFormSubmitButton"
         >
-          {getTranslatedText(staticText?.submit)}
+          {props.entity
+            ? getTranslatedText(staticText?.updateEntity) + " "
+            : getTranslatedText(staticText?.createEntity) + " "}
+          {getTranslatedText(model?.name)}
         </Button>
       )}
 

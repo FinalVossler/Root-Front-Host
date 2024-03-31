@@ -31,6 +31,7 @@ const ExtendSection: React.FunctionComponent<IExtendSectionProps> = (
           ? styles.sectionSmall
           : styles.sectionTitle
       }
+      style={{ ...(props.isSectionShown ? {} : { marginBottom: 5 }) }}
       {...(props.dataCy ? { ["data-cy"]: props.dataCy } : {})}
     >
       {props.title}

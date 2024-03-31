@@ -15,6 +15,7 @@ import useStyles from "./orderModelAssociatedInfo.styles";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import EntityEditorForm from "../../../components/appComponents/editors/entityEditor/EntityEditorForm";
 import Button from "../../../components/fundamentalComponents/button";
+import ExtendSection from "../../../components/fundamentalComponents/extendSection";
 
 interface IOrderModelAssociatedInfoProps {
   order: IOrderReadDto;
@@ -43,6 +44,7 @@ const OrderModelAssociatedInfo: React.FunctionComponent<
       (e.model as IModelReadDto)._id.toString() === props.model._id.toString()
   );
 
+  const [shown, setShown] = React.useState<boolean>(true);
   const [addNew, setAddNew] = React.useState<boolean>(false);
 
   const styles = useStyles({ theme });
@@ -51,7 +53,13 @@ const OrderModelAssociatedInfo: React.FunctionComponent<
   const currentUserIsBuyer =
     (props.order.user as IUserReadDto)._id === currentUser._id;
   const currentUserIsSeller =
-    (props.product?.owner as IUserReadDto)?._id === currentUser._id;
+    (props.product?.owner as IUserReadDto)?._id === currentUser._id ||
+    (!props.product &&
+      props.order.products.some(
+        (productInfo) =>
+          ((productInfo.product as IEntityReadDto).owner as IUserReadDto)
+            ._id === currentUser._id.toString()
+      ));
   const readOnly =
     (!currentUserIsBuyer &&
       props.modelOrderAssociationConfig.modelOrderAssociationPermission ===
@@ -61,49 +69,58 @@ const OrderModelAssociatedInfo: React.FunctionComponent<
         ModelOrderAssociationPermissionEnum.ForSeller) ||
     (!currentUserIsBuyer && !currentUserIsSeller);
 
-  console.log(
-    "addNew && props.modelOrderAssociationConfig.isList)",
-    addNew && props.modelOrderAssociationConfig.isList
-  );
   const showNewForm =
     (addNew && props.modelOrderAssociationConfig.isList) ||
     (orderModelAssociatedEntities.length === 0 &&
       !props.modelOrderAssociationConfig.isList);
   return (
     <div className={styles.orderModelAssociatedInfo}>
-      {orderModelAssociatedEntities.map((associatedEntity) => {
-        return (
-          <EntityEditorForm
-            key={associatedEntity._id}
-            entity={associatedEntity}
-            modelId={props.model._id}
-            withoutLanguage
-            orderAssociationConfig={{
-              orderId: props.order._id,
-              productId: props.product?._id,
-            }}
-            readOnly={readOnly}
-          />
-        );
-      })}
-      {showNewForm && (
-        <EntityEditorForm
-          modelId={props.model._id}
-          withoutLanguage
-          orderAssociationConfig={{
-            orderId: props.order._id,
-            productId: props.product?._id,
-          }}
-          readOnly={readOnly}
-        />
-      )}
+      <ExtendSection
+        isSectionShown={shown}
+        onClick={() => setShown(!shown)}
+        theme={theme}
+        title={getTranslatedText(props.model.name)}
+      />
 
-      {props.modelOrderAssociationConfig.isList && (
-        <Button theme={theme} onClick={() => setAddNew(!addNew)}>
-          {!addNew
-            ? getTranslatedText(props.model.name) + " +"
-            : getTranslatedText(staticText?.cancel)}
-        </Button>
+      {shown && (
+        <React.Fragment>
+          {orderModelAssociatedEntities.map((associatedEntity) => {
+            return (
+              <EntityEditorForm
+                key={associatedEntity._id}
+                entity={associatedEntity}
+                modelId={props.model._id}
+                withoutLanguage
+                withoutTitle
+                orderAssociationConfig={{
+                  orderId: props.order._id,
+                  productId: props.product?._id,
+                }}
+                readOnly={readOnly}
+              />
+            );
+          })}
+          {showNewForm && (
+            <EntityEditorForm
+              modelId={props.model._id}
+              withoutLanguage
+              withoutTitle
+              orderAssociationConfig={{
+                orderId: props.order._id,
+                productId: props.product?._id,
+              }}
+              readOnly={readOnly}
+            />
+          )}
+
+          {props.modelOrderAssociationConfig.isList && (
+            <Button theme={theme} onClick={() => setAddNew(!addNew)}>
+              {!addNew
+                ? getTranslatedText(props.model.name) + " +"
+                : getTranslatedText(staticText?.cancel)}
+            </Button>
+          )}
+        </React.Fragment>
       )}
     </div>
   );
