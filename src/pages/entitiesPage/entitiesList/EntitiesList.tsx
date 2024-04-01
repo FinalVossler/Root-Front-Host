@@ -29,6 +29,7 @@ import {
   StaticPermissionEnum,
 } from "roottypes";
 import { EditorTypeEnum, editorSlice } from "../../../store/slices/editorSlice";
+import useCopyEntities from "../../../hooks/apiHooks/useCopyEntities";
 
 interface IEntitiesListProps {
   modelId: string;
@@ -68,6 +69,7 @@ const EntitiesList: React.FunctionComponent<IEntitiesListProps> = (
   const dispatch = useAppDispatch();
   const getTranslatedText = useGetTranslatedText();
   const { getEntitiesByModel, loading } = useGetEntitiesByModel();
+  const { copyEntities, loading: copyLoading } = useCopyEntities();
   const { getModels } = useGetModels();
   const isLoggedIn: boolean = useIsLoggedIn();
   const { deleteEntities, loading: deleteLoading } = useDeleteEntities(
@@ -110,6 +112,24 @@ const EntitiesList: React.FunctionComponent<IEntitiesListProps> = (
     },
     []
   );
+
+  const handleFetchElements = () => {
+    getEntitiesByModel({
+      modelId: props.modelId,
+      paginationCommand: {
+        limit,
+        page,
+      },
+    });
+  };
+
+  const handleCopyFinished = () => {
+    if (page === 1) {
+      handleFetchElements();
+    } else {
+      setPage(1);
+    }
+  };
 
   if (!isLoggedIn) return null;
 
@@ -163,6 +183,9 @@ const EntitiesList: React.FunctionComponent<IEntitiesListProps> = (
       loading={loading}
       deletePromise={deleteEntities}
       deleteLoading={deleteLoading}
+      copyPromise={(ids) => copyEntities(props.modelId, ids)}
+      copyLoading={copyLoading}
+      onCopyFinished={handleCopyFinished}
       getElementName={(entity: any) => {
         return getEntityName({ entity, getTranslatedText });
       }}

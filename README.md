@@ -5,7 +5,6 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
-- Add the ability to copy an entity
 - Add the RUD permissions for own elements for each element, and manage them in the application
 - Add the ability to assign a field as a variation field in the model editing form (condition: The field should be of type selector)
 - Add the magic button to generate as many variations as options in variation fields in the entity editor form => Implement entity parent foreign key in each entity
