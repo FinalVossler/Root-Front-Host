@@ -5,8 +5,12 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
-- Add the "show in side menu" option for a model
-- Add the associated entity creator information in the associated entity form (the owner is the creator)
+- Add the ability to copy an entity
+- Add the RUD permissions for own elements for each element, and manage them in the application
+- Add the ability to assign a field as a variation field in the model editing form (condition: The field should be of type selector)
+- Add the magic button to generate as many variations as options in variation fields in the entity editor form => Implement entity parent foreign key in each entity
+- Add a magic button in the models page that shows a modal that's automatically filled with product model fields
+
 - Add the ability to edit the status for the seller (clickable state tracking bullets)
 
 - Show the redirection button to an order or a product in an entity's page. (if the entity has this information)
@@ -15,6 +19,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 - Add an additional backend verification for the shipping method for each product based on its available shipping methods
 - Add the nothing to show in the orders' page when the user has no orders
 
+- Write an integration test for copying an entity
 - Write an integration test for the getUserOrders endpoint
 - Write a get user sales integration test
 - Write an integration test for the getOrderAssociatedEntities endpoint
@@ -34,6 +39,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 - Add the search entity in the header and the ability to configure it by model
 - Support price conversion from dollar to euro depending on the selected language
 - Rename FileInptus to inputFiles for consistency with InputSelect
+- Add the "show in side menu" option for a model
 
 - Add backend verifications for when a shipping method is deleted (make sure to delete it for orders too => make the shipping method options )
 - Add backend verification for when an entity is deleted (make sure to delete it for orders too => make the product optional)

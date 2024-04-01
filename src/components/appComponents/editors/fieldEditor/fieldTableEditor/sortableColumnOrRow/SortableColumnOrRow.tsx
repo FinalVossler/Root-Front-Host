@@ -30,6 +30,7 @@ const SortableColumnOrRow: React.FunctionComponent<
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.fields
   );
+  const theme = useAppSelector((state) => state.websiteConfiguration.theme);
 
   const styles = useStyles();
   const getTranslatedText = useGetTranslatedText();

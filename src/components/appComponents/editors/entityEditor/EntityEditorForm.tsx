@@ -817,6 +817,30 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
         }
       })}
 
+      {!props.withoutLanguage && (
+        <FormikInputSelect
+          theme={theme}
+          label={getTranslatedText(staticText?.language)}
+          name="language"
+          formik={formik}
+          options={getLanguages()}
+          value={
+            getLanguages().find((el) => el.value === formik.values.language) ||
+            getLanguages()[0]
+          }
+          selectorClassName="entityFormLanguageSelector"
+        />
+      )}
+
+      {props.entity?.owner && (
+        <div className={styles.createdBy}>
+          {getTranslatedText(staticText?.owner) + ": "}
+          {(props.entity.owner as IUserReadDto).firstName +
+            " " +
+            (props.entity.owner as IUserReadDto).lastName}
+        </div>
+      )}
+
       {!props.withoutUserAssignment &&
         rolesToWhichCurrentUserCanAssign.length > 0 && (
           <h3 className={styles.userAssignmentTitle}>
@@ -896,21 +920,6 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
           );
         })}
 
-      {!props.withoutLanguage && (
-        <FormikInputSelect
-          theme={theme}
-          label={getTranslatedText(staticText?.language)}
-          name="language"
-          formik={formik}
-          options={getLanguages()}
-          value={
-            getLanguages().find((el) => el.value === formik.values.language) ||
-            getLanguages()[0]
-          }
-          selectorClassName="entityFormLanguageSelector"
-        />
-      )}
-
       {props.entity && props.modelId && (
         <EntityEditorStates entity={props.entity} modelId={props.modelId} />
       )}
@@ -931,15 +940,6 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
             .map((erroredField) => getTranslatedText(erroredField.errorText))
             .join(", ")}
         </span>
-      )}
-
-      {props.entity?.owner && (
-        <div className={styles.createdBy}>
-          {getTranslatedText(staticText?.owner) + ": "}
-          {(props.entity.owner as IUserReadDto).firstName +
-            " " +
-            (props.entity.owner as IUserReadDto).lastName}
-        </div>
       )}
 
       {!loading && !props.readOnly && (

@@ -22,6 +22,7 @@ import formatCentsToDollars from "../../../utils/formatCentsToDollars";
 import OrderModelAssociatedInfo from "./orderModelAssociatedInfo";
 import StateTracking from "../../../components/fundamentalComponents/postsComponents/stateTracking";
 import { IState } from "../../../components/fundamentalComponents/postsComponents/stateTracking/StateTracking";
+import { MdArrowDownward, MdArrowUpward } from "react-icons/md";
 
 interface IOrderInfoProps {
   order: IOrderReadDto;
@@ -55,9 +56,10 @@ const OrderInfo: React.FunctionComponent<IOrderInfoProps> = (
         ModelOrderAssociationLevelEnum.ProductLevel
     );
 
+  const [showingDetails, setShowingDetails] = React.useState<boolean>(false);
+
   const { getOrderAssociatedEntities, loading } =
     useGetOrderAssociatedEntities();
-
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
 
@@ -75,8 +77,16 @@ const OrderInfo: React.FunctionComponent<IOrderInfoProps> = (
 
   return (
     <div className={styles.orderInfoContainer}>
-      <div className={styles.orderInfoHeader}>
+      <div
+        className={styles.orderInfoHeader}
+        onClick={() => setShowingDetails(!showingDetails)}
+      >
         <div className={styles.headerLeft}>
+          {!showingDetails && (
+            <MdArrowDownward className={styles.extendDetails} />
+          )}
+          {showingDetails && <MdArrowUpward className={styles.extendDetails} />}
+
           <div className={styles.orderDate}>
             {getTranslatedText(staticText?.orderMadeIn) +
               " " +
@@ -110,122 +120,129 @@ const OrderInfo: React.FunctionComponent<IOrderInfoProps> = (
         </div>
       </div>
 
-      {props.order.products.map((p) => {
-        const product: IEntityReadDto = p.product as IEntityReadDto;
-        const model: IModelReadDto | undefined = models.find(
-          (m) =>
-            m._id.toString() === (product.model as IModelReadDto)._id.toString()
-        );
-        if (!model) return null;
+      {showingDetails &&
+        props.order.products.map((p) => {
+          const product: IEntityReadDto = p.product as IEntityReadDto;
+          const model: IModelReadDto | undefined = models.find(
+            (m) =>
+              m._id.toString() ===
+              (product.model as IModelReadDto)._id.toString()
+          );
+          if (!model) return null;
 
-        const imageFieldId = (model.imageField as IFieldReadDto)._id.toString();
+          const imageFieldId = (
+            model.imageField as IFieldReadDto
+          )._id.toString();
 
-        if (!imageFieldId) return null;
+          if (!imageFieldId) return null;
 
-        const imageFile: IFileReadDto | undefined = product.entityFieldValues
-          .find(
-            (efv) =>
-              (efv.field as IFieldReadDto)?._id.toString() === imageFieldId
-          )
-          ?.files.at(0) as undefined | IFileReadDto;
+          const imageFile: IFileReadDto | undefined = product.entityFieldValues
+            .find(
+              (efv) =>
+                (efv.field as IFieldReadDto)?._id.toString() === imageFieldId
+            )
+            ?.files.at(0) as undefined | IFileReadDto;
 
-        if (!imageFile) return null;
+          if (!imageFile) return null;
 
-        const mainFields = model.modelFields.filter(
-          (modelField) => modelField.mainField
-        );
+          const mainFields = model.modelFields.filter(
+            (modelField) => modelField.mainField
+          );
 
-        return (
-          <div className={styles.productContent} key={product._id}>
-            <div className={styles.productBasicContent}>
-              <img className={styles.productImage} src={imageFile.url} />
-              <div className={styles.productInfo}>
-                {mainFields.map((modelMainField, i) => {
-                  return (
-                    <span className={styles.productMainInfo} key={i}>
-                      {getTranslatedText(
-                        (modelMainField.field as IFieldReadDto).name
+          return (
+            <div className={styles.productContent} key={product._id}>
+              <div className={styles.productBasicContent}>
+                <img className={styles.productImage} src={imageFile.url} />
+                <div className={styles.productInfo}>
+                  {mainFields.map((modelMainField, i) => {
+                    return (
+                      <span className={styles.productMainInfo} key={i}>
+                        {getTranslatedText(
+                          (modelMainField.field as IFieldReadDto).name
+                        )}
+                        :{" "}
+                        {getTranslatedText(
+                          product.entityFieldValues.find(
+                            (efv) =>
+                              (efv.field as IFieldReadDto)._id.toString() ===
+                              (
+                                modelMainField.field as IFieldReadDto
+                              )._id.toString()
+                          )?.value
+                        )}
+                      </span>
+                    );
+                  })}
+                  <span className={styles.productMainInfo}>
+                    {getTranslatedText(orderStaticText?.shippingMethod) +
+                      ": " +
+                      getTranslatedText(
+                        (p.shippingMethod as IShippingMethodReadDto).name
                       )}
-                      :{" "}
-                      {getTranslatedText(
-                        product.entityFieldValues.find(
-                          (efv) =>
-                            (efv.field as IFieldReadDto)._id.toString() ===
-                            (
-                              modelMainField.field as IFieldReadDto
-                            )._id.toString()
-                        )?.value
-                      )}
-                    </span>
-                  );
-                })}
-                <span className={styles.productMainInfo}>
-                  {getTranslatedText(orderStaticText?.shippingMethod) +
-                    ": " +
-                    getTranslatedText(
-                      (p.shippingMethod as IShippingMethodReadDto).name
-                    )}
-                </span>
+                  </span>
+                </div>
               </div>
+
+              {orderProductLevelModels.map((model) => {
+                return (
+                  <OrderModelAssociatedInfo
+                    key={model._id}
+                    order={props.order}
+                    model={model}
+                    modelOrderAssociationConfig={
+                      model.orderAssociationConfig as IModelOrderAssociationConfig
+                    }
+                    product={product}
+                  />
+                );
+              })}
             </div>
+          );
+        })}
 
-            {orderProductLevelModels.map((model) => {
-              return (
-                <OrderModelAssociatedInfo
-                  key={model._id}
-                  order={props.order}
-                  model={model}
-                  modelOrderAssociationConfig={
-                    model.orderAssociationConfig as IModelOrderAssociationConfig
-                  }
-                  product={product}
-                />
-              );
-            })}
-          </div>
-        );
-      })}
+      {showingDetails &&
+        orderOrderLevelModels.map((model) => {
+          return (
+            <OrderModelAssociatedInfo
+              key={model._id}
+              order={props.order}
+              model={model}
+              modelOrderAssociationConfig={
+                model.orderAssociationConfig as IModelOrderAssociationConfig
+              }
+            />
+          );
+        })}
 
-      {orderOrderLevelModels.map((model) => {
-        return (
-          <OrderModelAssociatedInfo
-            key={model._id}
-            order={props.order}
-            model={model}
-            modelOrderAssociationConfig={
-              model.orderAssociationConfig as IModelOrderAssociationConfig
-            }
-          />
-        );
-      })}
-
-      <div className={styles.statusesContainer}>
-        <h2 className={styles.statusesTitle}>
-          {getTranslatedText(staticText?.status)}
-        </h2>
-        <div className={styles.positiveStatusesContainer}>
-          <StateTracking
-            currentState={positiveStatuses.find(
-              (state) => state._id === getIdFromStatus(props.order.status)
-            )}
-            states={positiveStatuses}
-            theme={theme}
-          />
-        </div>
-        {negativeStatuses.find(
-          (state) => state._id === getIdFromStatus(props.order.status)
-        ) && (
-          <div className={styles.negativeStatusesContainer}>
+      {showingDetails && (
+        <div className={styles.statusesContainer}>
+          <h2 className={styles.statusesTitle}>
+            {getTranslatedText(staticText?.status)}
+          </h2>
+          <div className={styles.positiveStatusesContainer}>
             <StateTracking
-              currentState={negativeStatuses.find(
+              currentState={positiveStatuses.find(
                 (state) => state._id === getIdFromStatus(props.order.status)
               )}
-              states={negativeStatuses}
+              states={positiveStatuses}
               theme={theme}
             />
           </div>
-        )}
-      </div>
+          {negativeStatuses.find(
+            (state) => state._id === getIdFromStatus(props.order.status)
+          ) && (
+            <div className={styles.negativeStatusesContainer}>
+              <StateTracking
+                currentState={negativeStatuses.find(
+                  (state) => state._id === getIdFromStatus(props.order.status)
+                )}
+                states={negativeStatuses}
+                theme={theme}
+              />
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

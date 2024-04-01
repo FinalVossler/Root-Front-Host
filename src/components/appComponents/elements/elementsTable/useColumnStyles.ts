@@ -24,7 +24,7 @@ const useColumnStyle = () => {
 
   React.useEffect(() => {
     setOffsetLeft(columnRef.current?.offsetLeft || 0);
-  }, [columnRef.current]);
+  }, [columnRef.current?.offsetLeft]);
 
   return { styles, stickLeft: offsetLeft - PAGE_PADDING, columnRef };
 };

@@ -25,6 +25,8 @@ const useStyles = createUseStyles((theme: ITheme) => ({
 
     borderTopLeftRadius: "5px",
     borderTopRightRadius: 5,
+
+    cursor: "pointer",
   },
   headerLeft: {
     display: "flex",
@@ -94,8 +96,8 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   positiveStatusesContainer: {},
   negativeStatusesContainer: {
     marginTop: 30,
-    // extend: "positiveStatusesContainer",
   },
+  extendDetails: {},
   "@media (max-width: 1000px)": {
     orderInfoHeader: {
       flexDirection: "column",
