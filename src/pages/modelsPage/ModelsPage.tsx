@@ -110,8 +110,28 @@ const ModelsPage: React.FunctionComponent<IModelsPageProps> = (
         onPageChange={handlePageChange}
         searchPromise={handleSearchModelsPromise}
         canCreate={hasPermission(PermissionEnum.CreateModel)}
-        canUpdate={hasPermission(PermissionEnum.UpdateModel)}
-        canDelete={hasPermission(PermissionEnum.DeleteModel)}
+        canUpdate={hasPermission(
+          PermissionEnum.UpdateModel,
+          PermissionEnum.UpdateOwnModel
+        )}
+        canUpdateElement={(model) =>
+          hasPermission(
+            PermissionEnum.UpdateModel,
+            PermissionEnum.UpdateOwnModel,
+            [(model as IModelReadDto).owner]
+          )
+        }
+        canDelete={hasPermission(
+          PermissionEnum.DeleteModel,
+          PermissionEnum.DeleteOwnField
+        )}
+        canDeleteElements={(models) =>
+          hasPermission(
+            PermissionEnum.DeleteField,
+            PermissionEnum.DeleteOwnField,
+            (models as IModelReadDto[]).map((m) => m.owner)
+          )
+        }
         searchResult={searchResult}
         setSearchResult={handleSetSearchResult}
         elementsLocalStorageConfName={LocalStorageConfNameEnum.MODELS}

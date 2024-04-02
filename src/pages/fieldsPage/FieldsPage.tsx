@@ -82,7 +82,11 @@ const FieldsPage: React.FunctionComponent<IFieldsPageProps> = (
 
   if (!isLoggedIn) return null;
 
-  if (!hasPermission(PermissionEnum.ReadField)) return null;
+  if (
+    !hasPermission(PermissionEnum.ReadField) &&
+    !hasPermission(PermissionEnum.ReadOwnField)
+  )
+    return null;
 
   return (
     <div className={styles.fieldsPageContainer} data-cy="fieldsPage">
@@ -129,8 +133,28 @@ const FieldsPage: React.FunctionComponent<IFieldsPageProps> = (
         getElementName={(field: any) => getTranslatedText(field.name)}
         onPageChange={handlePageChange}
         canCreate={hasPermission(PermissionEnum.CreateField)}
-        canUpdate={hasPermission(PermissionEnum.UpdateField)}
-        canDelete={hasPermission(PermissionEnum.DeleteField)}
+        canUpdate={hasPermission(
+          PermissionEnum.UpdateField,
+          PermissionEnum.UpdateOwnField
+        )}
+        canUpdateElement={(field) =>
+          hasPermission(
+            PermissionEnum.UpdateField,
+            PermissionEnum.UpdateOwnField,
+            [(field as IFieldReadDto).owner]
+          )
+        }
+        canDelete={hasPermission(
+          PermissionEnum.DeleteField,
+          PermissionEnum.DeleteOwnField
+        )}
+        canDeleteElements={(fields) =>
+          hasPermission(
+            PermissionEnum.DeleteField,
+            PermissionEnum.DeleteOwnField,
+            (fields as IFieldReadDto[]).map((f) => f.owner)
+          )
+        }
         searchPromise={handleSearchFieldsPromise}
         searchResult={searchResult}
         setSearchResult={handleSetSearchResult}

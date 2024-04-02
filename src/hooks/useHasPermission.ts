@@ -4,34 +4,61 @@ import {
   IRoleReadDto,
   IUserReadDto,
   PermissionEnum,
-  StaticPermissionEnum,
+  EntityStaticPermissionEnum,
   SuperRoleEnum,
 } from "roottypes";
 import { useAppSelector } from "../store/hooks";
 
 const useHasPermission = () => {
-  const user: IUserReadDto = useAppSelector((state) => state.user.user);
+  const currentUser: IUserReadDto = useAppSelector((state) => state.user.user);
 
-  const hasPermission = (permission: PermissionEnum): boolean => {
-    if (!user) return false;
+  const hasPermission = (
+    permission: PermissionEnum,
+    ownStaticPermission?: PermissionEnum,
+    owners?: (string | IUserReadDto | undefined)[]
+  ): boolean => {
+    if (!currentUser) return false;
 
-    if (user.superRole === SuperRoleEnum.SuperAdmin) return true;
+    if (currentUser.superRole === SuperRoleEnum.SuperAdmin) return true;
 
-    return Boolean(
-      user.role &&
-        (user.role as IRoleReadDto).permissions &&
-        (user.role as IRoleReadDto)?.permissions.indexOf(permission) > -1
+    const permissionGranted = Boolean(
+      currentUser.role &&
+        (currentUser.role as IRoleReadDto).permissions &&
+        (currentUser.role as IRoleReadDto)?.permissions.indexOf(permission) > -1
     );
+
+    if (!permissionGranted) {
+      if (owners && owners.length > 0 && ownStaticPermission) {
+        const isOwner: boolean = owners.every(
+          (owner) =>
+            (typeof owner === "string" ? owner : owner?._id.toString()) ===
+            currentUser._id
+        );
+        if (isOwner) {
+          return hasPermission(ownStaticPermission);
+        }
+        return false;
+      }
+      if (ownStaticPermission && (!owners || owners.length === 0)) {
+        return hasPermission(ownStaticPermission);
+      }
+      return false;
+    }
+
+    return permissionGranted;
   };
 
   const hasEntityPermission = (
-    staticPermission: StaticPermissionEnum,
-    modelId: string
+    staticPermission: EntityStaticPermissionEnum,
+    modelId: string,
+
+    ownStaticPermission?: EntityStaticPermissionEnum,
+    owners?: (string | IUserReadDto | undefined)[]
   ): boolean => {
-    return (
-      user.superRole === SuperRoleEnum.SuperAdmin ||
+    const hasPermission: boolean =
+      currentUser.superRole === SuperRoleEnum.SuperAdmin ||
       (
-        (user.role as IRoleReadDto)?.entityPermissions as
+        (currentUser.role as IRoleReadDto)?.entityPermissions as
           | IEntityPermissionReadDto[]
           | undefined
       )
@@ -39,8 +66,27 @@ const useHasPermission = () => {
           (ePermission) =>
             (ePermission?.model as IModelReadDto)?._id === modelId
         )
-        ?.permissions.indexOf(staticPermission) !== -1
-    );
+        ?.permissions.indexOf(staticPermission) !== -1;
+
+    if (!hasPermission) {
+      if (owners && owners.length > 0 && ownStaticPermission) {
+        const isOwner: boolean = owners.every(
+          (owner) =>
+            (typeof owner === "string" ? owner : owner?._id.toString()) ===
+            currentUser._id
+        );
+        if (isOwner) {
+          return hasEntityPermission(ownStaticPermission, modelId);
+        }
+        return false;
+      }
+      if (ownStaticPermission && (!owners || owners.length === 0)) {
+        return hasEntityPermission(ownStaticPermission, modelId);
+      }
+      return false;
+    }
+
+    return hasPermission;
   };
 
   return { hasPermission, hasEntityPermission };

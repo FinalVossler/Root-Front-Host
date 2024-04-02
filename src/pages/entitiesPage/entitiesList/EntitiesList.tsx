@@ -26,7 +26,7 @@ import {
   IPaginationCommand,
   IPaginationResponse,
   ITheme,
-  StaticPermissionEnum,
+  EntityStaticPermissionEnum,
 } from "roottypes";
 import { EditorTypeEnum, editorSlice } from "../../../store/slices/editorSlice";
 import useCopyEntities from "../../../hooks/apiHooks/useCopyEntities";
@@ -198,17 +198,35 @@ const EntitiesList: React.FunctionComponent<IEntitiesListProps> = (
         )
       }
       canCreate={hasEntityPermission(
-        StaticPermissionEnum.Create,
+        EntityStaticPermissionEnum.Create,
         props.modelId || ""
       )}
       canUpdate={hasEntityPermission(
-        StaticPermissionEnum.Update,
-        props.modelId || ""
+        EntityStaticPermissionEnum.Update,
+        props.modelId || "",
+        EntityStaticPermissionEnum.UpdateOwn
       )}
+      canUpdateElement={(entity) =>
+        hasEntityPermission(
+          EntityStaticPermissionEnum.Update,
+          props.modelId || "",
+          EntityStaticPermissionEnum.UpdateOwn,
+          [(entity as IEntityReadDto).owner]
+        )
+      }
       canDelete={hasEntityPermission(
-        StaticPermissionEnum.Delete,
-        props.modelId || ""
+        EntityStaticPermissionEnum.Delete,
+        props.modelId || "",
+        EntityStaticPermissionEnum.DeleteOwn
       )}
+      canDeleteElements={(entities) =>
+        hasEntityPermission(
+          EntityStaticPermissionEnum.Delete,
+          props.modelId || "",
+          EntityStaticPermissionEnum.DeleteOwn,
+          (entities as IEntityReadDto[]).map((e) => e.owner)
+        )
+      }
       searchResult={searchResult || { data: [], total: 0 }}
       setSearchResult={handleSetSearchResult}
       isForEntities={true}

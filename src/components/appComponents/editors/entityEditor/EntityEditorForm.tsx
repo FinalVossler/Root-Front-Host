@@ -50,7 +50,7 @@ import {
   IMicroFrontendComponentReadDto,
   IFieldTableElementReadDto,
   IRolesGetCommand,
-  StaticPermissionEnum,
+  EntityStaticPermissionEnum,
   EventTriggerEnum,
   EventTypeEnum,
   IEventReadDto,
@@ -520,7 +520,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
           // By default, if we don't find the field permission in the db for the role, then all the permissions should apply
           foundFieldPermissions &&
           foundFieldPermissions.permissions.indexOf(
-            StaticPermissionEnum.Read
+            EntityStaticPermissionEnum.Read
           ) === -1 &&
           user.superRole !== SuperRoleEnum.SuperAdmin
         ) {
@@ -532,7 +532,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
           !props.readOnly &&
           (foundFieldPermissions === undefined ||
             foundFieldPermissions?.permissions.indexOf(
-              StaticPermissionEnum.Update
+              EntityStaticPermissionEnum.Update
             ) !== -1 ||
             user.superRole === SuperRoleEnum.SuperAdmin);
 

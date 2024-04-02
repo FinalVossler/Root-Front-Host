@@ -5,6 +5,8 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
+- Rename StaticPermission to EntityStaticPermission
+- Implement Entity owner permissions
 - Add the RUD permissions for own elements for each element, and manage them in the application
 - Add the ability to assign a field as a variation field in the model editing form (condition: The field should be of type selector)
 - Add the magic button to generate as many variations as options in variation fields in the entity editor form => Implement entity parent foreign key in each entity
@@ -18,6 +20,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 - Add an additional backend verification for the shipping method for each product based on its available shipping methods
 - Add the nothing to show in the orders' page when the user has no orders
 
+- Write an integration test for updating an entity by (1) someone who isn't an owner and then someone who is an owner (2)
 - Write an integration test for copying an entity
 - Write an integration test for the getUserOrders endpoint
 - Write a get user sales integration test

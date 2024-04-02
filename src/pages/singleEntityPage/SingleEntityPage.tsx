@@ -13,7 +13,7 @@ import {
   IModelReadDto,
   ITheme,
   IUserReadDto,
-  StaticPermissionEnum,
+  EntityStaticPermissionEnum,
   SuperRoleEnum,
 } from "roottypes";
 import useHasPermission from "../../hooks/useHasPermission";
@@ -65,7 +65,7 @@ const SingleEntityPage: React.FunctionComponent<ISingleEntityPageProps> = (
             readOnly={
               user.superRole !== SuperRoleEnum.SuperAdmin &&
               !hasEntityPermission(
-                StaticPermissionEnum.Update,
+                EntityStaticPermissionEnum.Update,
                 modelId as string
               )
             }

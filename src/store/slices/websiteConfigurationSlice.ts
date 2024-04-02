@@ -1056,6 +1056,13 @@ const staticText = {
       { language: "en", text: "Add" },
       { language: "fr", text: "Ajouter " },
     ],
+    tryingToDeleteUnownedElements: [
+      { language: "en", text: "You are trying to delete unowned elements" },
+      {
+        language: "fr",
+        text: "Vous essayez de supprimer des éléments qui ne sont pas les vôtres ",
+      },
+    ],
   },
   pages: {
     deletePageMessage: [
@@ -1625,6 +1632,18 @@ const staticText = {
       { language: "en", text: "Delete field" },
       { language: "fr", text: "Supprmier un champ" },
     ],
+    readOwnField: [
+      { language: "en", text: "Read own field" },
+      { language: "fr", text: "Like son propre champ" },
+    ],
+    updateOwnField: [
+      { language: "en", text: "Update own field" },
+      { language: "fr", text: "Mettre à jour son champ" },
+    ],
+    deleteOwnField: [
+      { language: "en", text: "Delete own field" },
+      { language: "fr", text: "Supprmier son champ" },
+    ],
 
     createModel: [
       { language: "en", text: "Create model" },
@@ -1641,6 +1660,18 @@ const staticText = {
     deleteModel: [
       { language: "en", text: "Delete model" },
       { language: "fr", text: "Supprmier un modèle" },
+    ],
+    readOwnModel: [
+      { language: "en", text: "Read own model" },
+      { language: "fr", text: "Lire son modèle" },
+    ],
+    updateOwnModel: [
+      { language: "en", text: "Update own model" },
+      { language: "fr", text: "Mettre un jour son modèle" },
+    ],
+    deleteOwnModel: [
+      { language: "en", text: "Delete own model" },
+      { language: "fr", text: "Supprmier son modèle" },
     ],
 
     createUser: [
@@ -1744,13 +1775,25 @@ const staticText = {
       { language: "en", text: "Update" },
       { language: "fr", text: "Mettre à jour" },
     ],
+    updateOwn: [
+      { language: "en", text: "Update Own" },
+      { language: "fr", text: "Mettre à jour ses propres entités" },
+    ],
     read: [
       { language: "en", text: "Read" },
       { language: "fr", text: "Lire" },
     ],
+    readOwn: [
+      { language: "en", text: "Read Own" },
+      { language: "fr", text: "Lire ses propres entités" },
+    ],
     delete: [
       { language: "en", text: "Delete" },
       { language: "fr", text: "Supprimer" },
+    ],
+    deleteOwn: [
+      { language: "en", text: "Delete Own" },
+      { language: "fr", text: "Supprimer ses propres entités" },
     ],
     entityFieldPermissions: [
       {

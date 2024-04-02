@@ -93,6 +93,9 @@ const ShippingMethodsPage: React.FunctionComponent<IShippingMethodsProps> = (
         onPageChange={handlePageChange}
         canCreate={hasPermission(PermissionEnum.CreateShippingMethod)}
         canUpdate={hasPermission(PermissionEnum.UpdateShippingMethod)}
+        canUpdateElement={() =>
+          hasPermission(PermissionEnum.UpdateShippingMethod)
+        }
         canDelete={hasPermission(PermissionEnum.DeleteShippingMethod)}
         elementsLocalStorageConfName={LocalStorageConfNameEnum.PAYMENT_METHODS}
         tableDataCy="shippingMethodsTable"

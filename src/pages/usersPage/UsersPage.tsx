@@ -140,6 +140,7 @@ const UsersPage: React.FunctionComponent<IUsersPageProps> = (
         onPageChange={handlePageChange}
         searchPromise={handleSearchUsersPromise}
         canUpdate={hasPermission(PermissionEnum.UpdatePage)}
+        canUpdateElement={() => hasPermission(PermissionEnum.UpdatePage)}
         canCreate={hasPermission(PermissionEnum.CreatePage)}
         canDelete={hasPermission(PermissionEnum.DeletePage)}
         searchResult={searchResult}

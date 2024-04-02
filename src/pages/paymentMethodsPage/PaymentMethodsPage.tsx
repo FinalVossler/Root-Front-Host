@@ -93,6 +93,9 @@ const PaymentMethodsPage: React.FunctionComponent<IPaymentMethodsProps> = (
         onPageChange={handlePageChange}
         canCreate={hasPermission(PermissionEnum.CreatePaymentMethod)}
         canUpdate={hasPermission(PermissionEnum.UpdatePaymentMethod)}
+        canUpdateElement={() =>
+          hasPermission(PermissionEnum.UpdatePaymentMethod)
+        }
         canDelete={hasPermission(PermissionEnum.DeletePaymentMethod)}
         elementsLocalStorageConfName={LocalStorageConfNameEnum.PAYMENT_METHODS}
         tableDataCy="paymentMethodsTable"

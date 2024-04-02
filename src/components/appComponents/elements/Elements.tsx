@@ -25,6 +25,7 @@ import ElementsTable from "./elementsTable";
 import { IElement } from "../../../store/slices/editorSlice";
 import ElementsStatusTracking from "./elementsStatusTracking";
 import { IViewTabType } from "../../fundamentalComponents/viewTabs/ViewTabs";
+import { toast } from "react-toastify";
 
 export type Column = {
   label: string;
@@ -62,7 +63,9 @@ interface IElementsProps {
     paginationCommand: IPaginationCommand
   ) => Promise<IPaginationResponse<any>>;
   canDelete: boolean;
+  canDeleteElements?: (elements: IElement[]) => boolean;
   canUpdate: boolean;
+  canUpdateElement: (element: IElement) => boolean;
   canCreate: boolean;
   searchResult?: IPaginationResponse<any>;
   setSearchResult?: (result: IPaginationResponse<any>) => void;
@@ -146,6 +149,19 @@ const Elements: React.FunctionComponent<IElementsProps> = (
   };
   const handleDelete = async () => {
     if (!props.canDelete) return;
+
+    if (
+      props.canDeleteElements &&
+      !props.canDeleteElements(
+        props.elements.filter(
+          (e) => selectedElementsIds.indexOf(e._id.toString()) !== -1
+        )
+      )
+    ) {
+      return toast.error(
+        getTranslatedText(staticText?.tryingToDeleteUnownedElements)
+      );
+    }
 
     await props.deletePromise(selectedElementsIds);
     setDeleteModalOpen(false);
@@ -330,6 +346,7 @@ const Elements: React.FunctionComponent<IElementsProps> = (
             handleEdit={handleEdit}
             canDelete={props.canDelete}
             canUpdate={props.canUpdate}
+            canUpdateElement={props.canUpdateElement}
             columns={props.columns}
             elements={elements}
             elementsLocalStorageConfName={props.elementsLocalStorageConfName}

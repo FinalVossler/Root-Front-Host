@@ -31,7 +31,7 @@ import {
   ITheme,
   IUserReadDto,
   PermissionEnum,
-  StaticPermissionEnum,
+  EntityStaticPermissionEnum,
   SuperRoleEnum,
 } from "roottypes";
 import {
@@ -101,7 +101,7 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
                 | undefined
             )
               ?.find((e) => (e.model as IModelReadDto)._id === m._id)
-              ?.permissions.find((p) => p === StaticPermissionEnum.Read)
+              ?.permissions.find((p) => p === EntityStaticPermissionEnum.Read)
         )
         .map((model) => ({
           Icon: SiElement,
@@ -181,7 +181,8 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
               link="/pages"
             />
           )}
-          {hasPermission(PermissionEnum.ReadField) && (
+          {(hasPermission(PermissionEnum.ReadField) ||
+            hasPermission(PermissionEnum.ReadOwnField)) && (
             <SideMenuOption
               Icon={MdTextFields}
               title={getTranslatedText(staticText?.fields)}
@@ -189,7 +190,8 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
               dataCy="sideMenuFieldOption"
             />
           )}
-          {hasPermission(PermissionEnum.ReadModel) && (
+          {(hasPermission(PermissionEnum.ReadModel) ||
+            hasPermission(PermissionEnum.ReadOwnModel)) && (
             <SideMenuOption
               link="/models"
               Icon={SiThemodelsresource}
@@ -203,6 +205,7 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
             />
           )}
           {!hasPermission(PermissionEnum.ReadModel) &&
+            !hasPermission(PermissionEnum.ReadOwnModel) &&
             (
               (user.role as IRoleReadDto)?.entityPermissions as
                 | IEntityPermissionReadDto[]
@@ -210,7 +213,7 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
             )?.map((entityPermission, entityPermissionIndex) => {
               if (
                 entityPermission.permissions.indexOf(
-                  StaticPermissionEnum.Read
+                  EntityStaticPermissionEnum.Read
                 ) !== -1
               ) {
                 return (

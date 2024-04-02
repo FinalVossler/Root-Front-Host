@@ -5,7 +5,7 @@ import {
   IRoleReadDto,
   IUserCreateCommand,
   IUserReadDto,
-  StaticPermissionEnum,
+  EntityStaticPermissionEnum,
   SuperRoleEnum,
 } from "roottypes";
 import {
@@ -68,8 +68,8 @@ describe("Roles", () => {
             language: "en",
             modelId: (model as IModelReadDto)?._id.toString(),
             permissions: [
-              StaticPermissionEnum.Read,
-              StaticPermissionEnum.Update,
+              EntityStaticPermissionEnum.Read,
+              EntityStaticPermissionEnum.Update,
             ],
           },
         ],

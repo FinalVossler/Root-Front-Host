@@ -86,6 +86,7 @@ const PagesPage: React.FunctionComponent<IPagesPageProps> = (
         getElementName={(field: any) => getTranslatedText(field.name)}
         canCreate={hasPermission(PermissionEnum.CreateField)}
         canUpdate={hasPermission(PermissionEnum.UpdateField)}
+        canUpdateElement={() => hasPermission(PermissionEnum.UpdateField)}
         canDelete={hasPermission(PermissionEnum.DeleteField)}
         elementsLocalStorageConfName={LocalStorageConfNameEnum.FIELDS}
         tableDataCy="pagesPage"

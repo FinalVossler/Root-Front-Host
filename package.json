@@ -84,7 +84,7 @@
     "react-toastify": "^9.1.1",
     "react-uuid": "^2.0.0",
     "react-youtube": "^10.1.0",
-    "roottypes": "^1.0.87",
+    "roottypes": "^1.0.90",
     "slugify": "^1.6.5",
     "socket.io-client": "^4.5.4",
     "socket.io-react": "^1.2.0",

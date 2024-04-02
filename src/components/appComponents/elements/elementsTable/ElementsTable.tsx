@@ -26,6 +26,7 @@ interface IElementsTableProps {
   loading: boolean;
   canDelete: boolean;
   canUpdate: boolean;
+  canUpdateElement: (element: IElement) => boolean;
   elementsLocalStorageConfName: LocalStorageConfNameEnum | string;
   tableDataCy?: string;
   selectedElementsIds: string[];
@@ -212,12 +213,14 @@ const ElementsTable: React.FunctionComponent<IElementsTableProps> = (
                       // This data-cy is used for when we don't know the id of the element, but we know the index (for example, using first() in cypress)
                       data-cy="elementEdit"
                     >
-                      <AiFillEdit
-                        onClick={() => props.handleEdit(element)}
-                        className={styles.editIcon}
-                        // This data is for when we know the id of the element
-                        id={"editButtonFor" + element["_id"].toString()}
-                      />
+                      {props.canUpdateElement(element) && (
+                        <AiFillEdit
+                          onClick={() => props.handleEdit(element)}
+                          className={styles.editIcon}
+                          // This data is for when we know the id of the element
+                          id={"editButtonFor" + element["_id"].toString()}
+                        />
+                      )}
                     </td>
                   )}
 

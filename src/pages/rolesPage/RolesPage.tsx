@@ -100,6 +100,7 @@ const RolesPage: React.FunctionComponent<IRolesPageProps> = (
         searchPromise={handleSearchRolesPromise}
         canCreate={hasPermission(PermissionEnum.CreateRole)}
         canUpdate={hasPermission(PermissionEnum.UpdateRole)}
+        canUpdateElement={() => hasPermission(PermissionEnum.UpdateRole)}
         canDelete={hasPermission(PermissionEnum.DeleteRole)}
         searchResult={searchResult}
         setSearchResult={handleSetSearchResult}

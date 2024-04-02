@@ -126,6 +126,9 @@ const MicroFrontendsPage: React.FunctionComponent<IMicroFrontendsPageProps> = (
         onPageChange={handlePageChange}
         canCreate={hasPermission(PermissionEnum.CreateMicroFrontend)}
         canUpdate={hasPermission(PermissionEnum.UpdateMicroFrontend)}
+        canUpdateElement={() =>
+          hasPermission(PermissionEnum.UpdateMicroFrontend)
+        }
         canDelete={hasPermission(PermissionEnum.DeleteMicroFrontend)}
         searchPromise={handleSearchMicroFrontendsPromise}
         searchResult={searchResult}

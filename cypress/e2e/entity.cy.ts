@@ -11,7 +11,7 @@ import {
   IRoleReadDto,
   IUserCreateCommand,
   IUserReadDto,
-  StaticPermissionEnum,
+  EntityStaticPermissionEnum,
   SuperRoleEnum,
 } from "roottypes";
 import {
@@ -111,7 +111,7 @@ describe("Entity", () => {
             entityFieldPermissions: [
               {
                 fieldId: modelField1?._id.toString() || "",
-                permissions: [StaticPermissionEnum.Read],
+                permissions: [EntityStaticPermissionEnum.Read],
               },
               {
                 fieldId: modelField2?._id.toString() || "",
@@ -119,13 +119,13 @@ describe("Entity", () => {
               },
               {
                 fieldId: modelField3OfTypeFile?._id.toString() || "",
-                permissions: [StaticPermissionEnum.Read],
+                permissions: [EntityStaticPermissionEnum.Read],
               },
               {
                 fieldId: modelField4?._id.toString() || "",
                 permissions: [
-                  StaticPermissionEnum.Read,
-                  StaticPermissionEnum.Update,
+                  EntityStaticPermissionEnum.Read,
+                  EntityStaticPermissionEnum.Update,
                 ],
               },
             ],
@@ -136,8 +136,8 @@ describe("Entity", () => {
             language: "en",
             modelId: (model as IModelReadDto)?._id.toString(),
             permissions: [
-              StaticPermissionEnum.Read,
-              StaticPermissionEnum.Update,
+              EntityStaticPermissionEnum.Read,
+              EntityStaticPermissionEnum.Update,
             ],
           },
         ],
