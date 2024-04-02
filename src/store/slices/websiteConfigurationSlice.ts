@@ -1221,6 +1221,24 @@ const staticText = {
       { language: "en", text: "Submit" },
       { language: "fr", text: "Soumettre" },
     ],
+    generateVariations: [
+      { language: "en", text: "Generate variations" },
+      { language: "fr", text: "Générer toutes les variations" },
+    ],
+    variationsConfirmation: [
+      {
+        language: "en",
+        text: "Are you sure you want to generate all the variations?",
+      },
+      {
+        language: "fr",
+        text: "Vous êtes sûr de vouloir générer toutes les variations ?",
+      },
+    ],
+    numberOfVariationsToGenerate: [
+      { language: "en", text: "Number of variations to generate" },
+      { language: "fr", text: "Le nombre de variations à générer" },
+    ],
     updateEntity: [
       { language: "en", text: "Update" },
       { language: "fr", text: "Mettre à jour" },

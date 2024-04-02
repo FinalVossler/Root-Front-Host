@@ -4,6 +4,7 @@ import ReactLoading from "react-loading";
 import * as Yup from "yup";
 import { MdDelete, MdTextFields } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { createPortal } from "react-dom";
 
 import Button from "../../../fundamentalComponents/button";
 import { useAppSelector } from "../../../../store/hooks";
@@ -63,6 +64,8 @@ import Input from "../../../fundamentalComponents/inputs/input";
 import Textarea from "../../../fundamentalComponents/inputs/textarea/Textarea";
 import EntityEditorEcommerceAddons from "./entityEditorEcommerceAddons";
 import useGetUsersByIds from "../../../../hooks/apiHooks/useGetUsersByIds";
+import ConfirmationModal from "../../../fundamentalComponents/confirmationModal";
+import useGenerateVariations from "../../../../hooks/apiHooks/useGenerateVariations";
 
 export interface IEntityFieldValueForm {
   fieldId: string;
@@ -128,6 +131,10 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
   const [uploadFilesLoading, setUploadFilesLoading] =
     React.useState<boolean>(false);
   const [erroredFields, setErroredFields] = React.useState<IErroredField[]>([]);
+  const [
+    generateVariationsConfirmationModalOpen,
+    setGenerateVariationsConfirmationOpen,
+  ] = React.useState<boolean>(false);
   //#endregion Local state
 
   const styles = useStyles({ theme });
@@ -136,8 +143,9 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
   const { updateEntity, loading: updateLoading } = useUpdateEntity();
   const axios = useAxios();
   const navigate = useNavigate();
-  const { getRoles } = useGetRoles();
   const { handleSearchUsersByRolePromise } = useSearchUsersByRole();
+  const { generateVariations, loading: generateVariationsLoading } =
+    useGenerateVariations();
 
   const formik: FormikProps<IEntityEditorFormFormik> =
     useFormik<IEntityEditorFormFormik>({
@@ -441,6 +449,14 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
     formik.handleSubmit();
   };
 
+  const handleGenerateVariations = () => {
+    if (props.entity?._id) {
+      generateVariations(props.entity?._id.toString()).then(() =>
+        setGenerateVariationsConfirmationOpen(false)
+      );
+    }
+  };
+
   //#endregion Event listeners
 
   const loading =
@@ -481,6 +497,30 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
       className={styles.createEntityForm}
       data-cy="entityEditorForm"
     >
+      {createPortal(
+        <ConfirmationModal
+          description={
+            getTranslatedText(staticText?.numberOfVariationsToGenerate) +
+            ": " +
+            model?.modelFields.reduce(
+              (acc, modelField) =>
+                acc *
+                (modelField.isVariation
+                  ? (modelField.field as IFieldReadDto).options?.length || 1
+                  : 1),
+              1
+            )
+          }
+          loading={generateVariationsLoading}
+          modalOpen={generateVariationsConfirmationModalOpen}
+          onConfirm={handleGenerateVariations}
+          setModalOpen={setGenerateVariationsConfirmationOpen}
+          theme={theme}
+          title={getTranslatedText(staticText?.generateVariations)}
+        />,
+        document.body
+      )}
+
       {!props.readOnly && !props.withoutTitle && (
         <div className={styles.createEntityHeader}>
           <h2 className={styles.createEntityTitle}>
@@ -941,6 +981,20 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
             .join(", ")}
         </span>
       )}
+
+      {!loading &&
+        !props.readOnly &&
+        props.entity &&
+        model?.modelFields.some((f) => f.isVariation) && (
+          <Button
+            theme={theme}
+            type="button"
+            onClick={() => setGenerateVariationsConfirmationOpen(true)}
+            style={{ marginTop: 5 }}
+          >
+            {getTranslatedText(staticText?.generateVariations)}
+          </Button>
+        )}
 
       {!loading && !props.readOnly && (
         <Button
