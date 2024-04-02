@@ -27,6 +27,7 @@ import {
   ITheme,
   ModelFieldConditionTypeEnum,
 } from "roottypes";
+import { toast } from "react-toastify";
 
 interface ISortableModelFieldProps {
   modelField: IModelField;
@@ -184,6 +185,24 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
       (modelField: IModelField, index: number) => {
         if (index === props.modelFieldIndex) {
           modelField.stickInTable = stickInTable;
+        }
+        return modelField;
+      }
+    );
+
+    props.setSelectedModelFields(newSelectedModelFields);
+  };
+  const handleCheckOrUncheckIsVariation = (isVariation: boolean) => {
+    const newSelectedModelFields = props.selectedModelFields.map(
+      (modelField: IModelField, index: number) => {
+        if (index === props.modelFieldIndex) {
+          if (
+            (modelField.field as IFieldReadDto).type !== FieldTypeEnum.Selector
+          ) {
+            toast.error(
+              getTranslatedText(staticText?.fieldShouldBeOfTypeSelect)
+            );
+          } else modelField.isVariation = isVariation;
         }
         return modelField;
       }
@@ -364,6 +383,12 @@ const SortableModelField: React.FunctionComponent<ISortableModelFieldProps> = (
           label={getTranslatedText(staticText?.stickInTable)}
           checked={Boolean(props.modelField.stickInTable)}
           onChange={handleCheckOrUncheckStickInTable}
+        />
+        <Checkbox
+          theme={theme}
+          label={getTranslatedText(staticText?.isVariation)}
+          checked={Boolean(props.modelField.isVariation)}
+          onChange={handleCheckOrUncheckIsVariation}
         />
       </div>
 

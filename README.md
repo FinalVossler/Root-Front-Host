@@ -5,14 +5,11 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
-- Rename StaticPermission to EntityStaticPermission
-- Implement Entity owner permissions
-- Add the RUD permissions for own elements for each element, and manage them in the application
-- Add the ability to assign a field as a variation field in the model editing form (condition: The field should be of type selector)
+- Fix the field copy function. It can be simpler
 - Add the magic button to generate as many variations as options in variation fields in the entity editor form => Implement entity parent foreign key in each entity
 - Add a magic button in the models page that shows a modal that's automatically filled with product model fields
 
-- Add the ability to edit the status for the seller (clickable state tracking bullets)
+- Add the ability to edit the order status for the seller (clickable state tracking bullets)
 
 - Show the redirection button to an order or a product in an entity's page. (if the entity has this information)
 - Inside an entity, show the list of all the entities that has the concerned entity as a productId inside its orderAssociationConfig (like showing the comments of an entity)
@@ -48,6 +45,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 - 2 Mains problems: (1) Data redondancy between objects (would be good to have a frontend database like meteor or apollo client), and (2) cascade deleting and optional foreign keys (objects)
 - Test performance when there is a thousand of products in the db
+- replace all (element as IType) with the getElement function in both back and front
 
 # https://www.vivamed.com/
 

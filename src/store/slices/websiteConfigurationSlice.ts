@@ -534,6 +534,19 @@ const staticText = {
       { language: "en", text: "Stick in table?" },
       { language: "fr", text: "Toujours affiché dans les tableaux ?" },
     ],
+
+    isVariation: [
+      { language: "en", text: "Is a variation? (product variation)" },
+      { language: "fr", text: "C'est un champ de variation (produit)" },
+    ],
+
+    fieldShouldBeOfTypeSelect: [
+      { language: "en", text: "The variation field should be of type select" },
+      {
+        language: "fr",
+        text: "Le champ de variation doit être de type select",
+      },
+    ],
     valueInferiorOrEqualToCurrentYearPlusValueOfFieldAndSuperiorOrEqualToCurrentYear:
       [
         {

@@ -4,12 +4,9 @@ import { MdTitle } from "react-icons/md";
 import ReactLoading from "react-loading";
 import * as Yup from "yup";
 import uuid from "react-uuid";
-import { toast } from "react-toastify";
-import { IoIosRemoveCircleOutline } from "react-icons/io";
 import {
   EventTriggerEnum,
   EventTypeEnum,
-  FieldTypeEnum,
   IEventReadDto,
   IEventRequestHeaderReadDto,
   IFieldReadDto,
@@ -129,6 +126,7 @@ const ModelEditor = (props: IModelEditorProps) => {
                 ) || [],
               mainField: modelField.mainField || false,
               stickInTable: modelField.stickInTable || false,
+              isVariation: modelField.isVariation || false,
             })) || [],
           modelEvents: values.modelEvents.map((modelEvent) => ({
             eventTrigger: modelEvent.eventTrigger,
@@ -192,6 +190,7 @@ const ModelEditor = (props: IModelEditorProps) => {
                 ) || [],
               mainField: modelField.mainField || false,
               stickInTable: modelField.stickInTable || false,
+              isVariation: modelField.isVariation || false,
             })) || [],
           modelEvents: values.modelEvents.map((modelEvent) => ({
             ...modelEvent,
