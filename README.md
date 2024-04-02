@@ -5,7 +5,6 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
-- Fix the field copy function. It can be simpler
 - Add the magic button to generate as many variations as options in variation fields in the entity editor form => Implement entity parent foreign key in each entity
 - Add a magic button in the models page that shows a modal that's automatically filled with product model fields
 
@@ -17,6 +16,8 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 - Add an additional backend verification for the shipping method for each product based on its available shipping methods
 - Add the nothing to show in the orders' page when the user has no orders
 
+- Write an integration test for when we delete a parent entity and have a random child entity assigned as the new parent.
+- Write an integration test for generating variations
 - Write an integration test for updating an entity by (1) someone who isn't an owner and then someone who is an owner (2)
 - Write an integration test for copying an entity
 - Write an integration test for the getUserOrders endpoint
@@ -42,6 +43,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 - Add backend verifications for when a shipping method is deleted (make sure to delete it for orders too => make the shipping method options )
 - Add backend verification for when an entity is deleted (make sure to delete it for orders too => make the product optional)
+- Fix the field copy function. It can be simpler
 
 - 2 Mains problems: (1) Data redondancy between objects (would be good to have a frontend database like meteor or apollo client), and (2) cascade deleting and optional foreign keys (objects)
 - Test performance when there is a thousand of products in the db
