@@ -100,7 +100,7 @@ const OrderModelAssociatedInfo: React.FunctionComponent<
       const seller = (productInfo.product as IEntityReadDto)
         .owner as IUserReadDto;
       if (
-        sellersUsers.find((el) => el._id.toString() === seller._id.toString())
+        !sellersUsers.find((el) => el._id.toString() === seller._id.toString())
       ) {
         sellersUsers.push(seller);
       }

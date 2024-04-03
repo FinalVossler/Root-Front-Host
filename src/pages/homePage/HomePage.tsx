@@ -43,37 +43,34 @@ const HomePage: React.FunctionComponent<IHomeProps> = (props: IHomeProps) => {
 
       <TitleTextAndImage
         theme={theme}
-        description="Bienvenue sur ma page personnelle ! Je suis une conseillère commerciale spécialisée dans divers domaines. J'ai un master en sciences appliquées et technologies et des compétences communicationnelles hors du commun !"
-        title="Salut Tout le monde, je suis Nozha!"
+        description="This is a description placeholder. This CMS is made to be configured by a super admin to behave as either a Marketplace, a social network, or a data analysis plateforme..."
+        title="Hello everyone!"
       />
 
       <div className={styles.cardsContainer}>
         <RotatingCard
           theme={theme}
-          description="If you've tried your hand at data analysis, you know that it can sometimes make decision making much more complex. Dashboarding is what we offer..."
+          description="This is a description placeholder. This CMS is made to be configured by a super admin to behave as either a Marketplace, a social network, or a data analysis plateforme..."
         />
         <RotatingCard
           theme={theme}
-          description="If you've tried your hand at data analysis, you know that it can sometimes make decision making much more complex. Dashboarding is what we offer..."
+          description="This is a description placeholder. This CMS is made to be configured by a super admin to behave as either a Marketplace, a social network, or a data analysis plateforme..."
         />
         <RotatingCard
           theme={theme}
-          description="If you've tried your hand at data analysis, you know that it can sometimes make decision making much more complex. Dashboarding is what we offer..."
+          description="This is a description placeholder. This CMS is made to be configured by a super admin to behave as either a Marketplace, a social network, or a data analysis plateforme..."
         />
       </div>
 
       <TitleAndText
         theme={theme}
-        title="Why 16 types?"
-        description="The sociotype is formed by a set of psyche features identified by Carl
-          Gustav Jung, namely: rationality / irrationality, extraversion /
-          introversion, logic / ethics, and sensibility / intuition."
+        title="Why though?"
+        description="To not have to repeat oneself"
       />
       <TitleAndText
         theme={theme}
-        title="Sociotype"
-        description="Humanitarian socionics in the description of types is based on its own Energetic model of the psyche - Model G. Descriptions of types, features of behavior are presented from the point of view of pure types.
-          It should be understood that the behavior of each type in real life is greatly influenced by the subtype and accentuations formed under the influence of the surrounding reality."
+        title="For who"
+        description="Anyone interested?"
       />
 
       <br />

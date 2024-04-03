@@ -18,14 +18,12 @@ const Banner: React.FunctionComponent<IBannerProps> = (props: IBannerProps) => {
       <div className={styles.bannerImage}></div>
       <div className={styles.bannerLayer}></div>
       {!props.hideTitle && (
-        <h2 className={styles.bannerTitle}>
-          {props.title ?? "Socionic type assessment"}
-        </h2>
+        <h2 className={styles.bannerTitle}>{props.title ?? "CMS"}</h2>
       )}
       {!props.hideDescription && (
         <p className={styles.bannerDescription}>
           {props.description ??
-            "Socionics. Online personality type test. The official socionics test of Viktor Gulenko"}
+            "E-Commerce, Social Network, Data Analysis, Dashboarding, Showcasing"}
         </p>
       )}
     </div>

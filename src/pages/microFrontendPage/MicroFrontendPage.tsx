@@ -63,7 +63,7 @@ const MicroFrontendPage: React.FunctionComponent<IMicroFrontendPageProps> = (
       getMicroFrontend(microFrontendId).then(setMicroFrontend);
     }
     if (entityId) {
-      getEntity(entityId).then(setEntity);
+      getEntity(entityId).then(({ entity }) => setEntity(entity));
     }
   }, [microFrontendId]);
   const handleCancel = () => {

@@ -1209,6 +1209,10 @@ const staticText = {
       { language: "en", text: "Save" },
       { language: "fr", text: "Enregistrer" },
     ],
+    concernedOrder: [
+      { language: "en", text: "Concerned order" },
+      { language: "fr", text: "Commande concernée" },
+    ],
     language: [
       { language: "en", text: "Language" },
       { language: "fr", text: "Langue" },

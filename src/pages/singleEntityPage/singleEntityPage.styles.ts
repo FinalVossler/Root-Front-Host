@@ -17,6 +17,13 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     flexDirection: "column",
     width: "100%",
   },
+  concernedOrderTitle: {
+    marginTop: 0,
+    color: theme.darkTextColor,
+    borderTop: ".5px solid " + theme.darkTextColor,
+    paddingTop: 20,
+    width: "100%",
+  },
 }));
 
 export default useStyles;
