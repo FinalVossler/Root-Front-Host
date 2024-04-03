@@ -127,6 +127,22 @@ const RoleEntityEventsNotification: React.FunctionComponent<
               />
               <Checkbox
                 theme={theme}
+                label={getTranslatedText(staticText?.onUpdate)}
+                checked={
+                  entityEventNotification.trigger ===
+                  EntityEventNotificationTriggerEnum.OnUpdate
+                }
+                onChange={() =>
+                  handleFieldChange(
+                    EntityEventNotificationTriggerEnum.OnUpdate,
+                    index,
+                    "trigger"
+                  )
+                }
+                labelStyles={{ width: 100 }}
+              />
+              <Checkbox
+                theme={theme}
                 label={getTranslatedText(staticText?.onAssigned)}
                 checked={
                   entityEventNotification.trigger ===
@@ -135,6 +151,22 @@ const RoleEntityEventsNotification: React.FunctionComponent<
                 onChange={() =>
                   handleFieldChange(
                     EntityEventNotificationTriggerEnum.OnAssigned,
+                    index,
+                    "trigger"
+                  )
+                }
+                labelStyles={{ width: 100 }}
+              />
+              <Checkbox
+                theme={theme}
+                label={getTranslatedText(staticText?.onUpdateWhenAssigned)}
+                checked={
+                  entityEventNotification.trigger ===
+                  EntityEventNotificationTriggerEnum.OnUpdateWhenAssigned
+                }
+                onChange={() =>
+                  handleFieldChange(
+                    EntityEventNotificationTriggerEnum.OnUpdateWhenAssigned,
                     index,
                     "trigger"
                   )

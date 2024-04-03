@@ -1206,8 +1206,8 @@ const staticText = {
   },
   entities: {
     createEntity: [
-      { language: "en", text: "Create" },
-      { language: "fr", text: "Créer" },
+      { language: "en", text: "Save" },
+      { language: "fr", text: "Enregistrer" },
     ],
     language: [
       { language: "en", text: "Language" },
@@ -1252,8 +1252,8 @@ const staticText = {
       { text: "Succès", language: "fr" },
     ],
     userAssignment: [
-      { text: "User assignments", language: "en" },
-      { text: "Assignations des utilisateurs", language: "fr" },
+      { text: "Assigned users", language: "en" },
+      { text: "Utilisateurs assignés", language: "fr" },
     ],
     searchUsers: [
       { text: "Search users", language: "en" },
@@ -1856,6 +1856,16 @@ const staticText = {
         text: "Suite à la création",
       },
     ],
+    onUpdate: [
+      {
+        language: "en",
+        text: "On update",
+      },
+      {
+        language: "fr",
+        text: "Suite à la mise à jour",
+      },
+    ],
     onAssigned: [
       {
         language: "en",
@@ -1864,6 +1874,17 @@ const staticText = {
       {
         language: "fr",
         text: "À l'assignation",
+      },
+    ],
+
+    onUpdateWhenAssigned: [
+      {
+        language: "en",
+        text: "On update when already assigned",
+      },
+      {
+        language: "fr",
+        text: "À la mise à jour quand on est déjà assigné ",
       },
     ],
     addEvent: [

@@ -44,7 +44,7 @@ const OrderModelAssociatedInfo: React.FunctionComponent<
       (e.model as IModelReadDto)._id.toString() === props.model._id.toString()
   );
 
-  const [shown, setShown] = React.useState<boolean>(true);
+  const [shown, setShown] = React.useState<boolean>(false);
   const [addNew, setAddNew] = React.useState<boolean>(false);
 
   const styles = useStyles({ theme });
