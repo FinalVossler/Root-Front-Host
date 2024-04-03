@@ -7,7 +7,6 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 - Add a field of type state tracking (Can be used for a product order status or the order status)
 - Add a magic button in the models page that shows a modal that's automatically filled with product model fields (in order to simplify the creation process of a custom product for the seller)
-- In role event notifications, add the event "On update when assigned" => Used to send a notification to assigned users when an order tracking number was changed
 - Incomplete addresses permissions: implement own address deletion, update and read permissions (back and front)
 
 - Show the redirection button to an order or a product in an entity's page. (if the entity has this information)

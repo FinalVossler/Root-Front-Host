@@ -15,7 +15,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     paddingLeft: 5,
 
     width: "60vw",
-    height: "100%",
+    height: "fit-content",
   },
   createPostHeader: {
     display: "flex",

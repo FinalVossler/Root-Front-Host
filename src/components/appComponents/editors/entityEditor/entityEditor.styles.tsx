@@ -10,6 +10,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     position: "relative",
     width: "60vw",
     paddingRight: 10,
+    height: "fit-content",
   },
   createEntityForm: {
     display: "flex",

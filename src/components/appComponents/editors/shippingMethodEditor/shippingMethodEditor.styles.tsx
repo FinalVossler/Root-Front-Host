@@ -10,7 +10,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     paddingRight: 10,
     width: "60vw",
     paddingLeft: 2,
-    height: "100%",
+    height: "fit-content",
   },
   createShippingMethodHeader: {
     display: "flex",

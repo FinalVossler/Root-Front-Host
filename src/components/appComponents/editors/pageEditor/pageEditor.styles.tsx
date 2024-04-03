@@ -11,7 +11,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     width: "65vw",
     boxSizing: "border-box",
     paddingLeft: 5,
-    height: "100%",
+    height: "fit-content",
   },
   createPageHeader: {
     display: "flex",

@@ -10,7 +10,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     paddingRight: 10,
     paddingLeft: 5,
     width: "60vw",
-    height: "100%",
+    height: "fit-content",
   },
   createModelHeader: {
     display: "flex",

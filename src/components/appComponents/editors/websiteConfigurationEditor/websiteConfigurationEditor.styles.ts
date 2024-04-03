@@ -8,7 +8,8 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     paddingBottom: 15,
     position: "relative",
     paddingRight: 10,
-    height: "100%",
+    height: "fit-content",
+
     width: "65vw",
   },
   header: {
