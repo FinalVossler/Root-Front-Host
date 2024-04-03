@@ -22,8 +22,8 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   },
   orderProductModelAssociatedInfo: {
     extend: "orderModelAssociatedInfo",
-    border: "none",
-    borderTop: "1px solid " + theme.borderColor,
+    border: "1px solid " + theme.borderColor,
+    borderTop: "none",
   },
   "@media (max-width: 1000px)": {},
 }));

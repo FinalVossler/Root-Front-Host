@@ -1,6 +1,6 @@
 import React from "react";
 import Loading from "react-loading";
-import { IAddressReadDto, ITheme } from "roottypes";
+import { IAddressReadDto, ITheme, PermissionEnum } from "roottypes";
 import { BiPlus } from "react-icons/bi";
 
 import { useAppSelector } from "../../../store/hooks";
@@ -11,6 +11,7 @@ import AddressForm from "../addressForm/AddressForm";
 import Button from "../../../components/fundamentalComponents/button";
 
 import useStyles from "./checkoutAddresses.styles";
+import useHasPermission from "../../../hooks/useHasPermission";
 
 interface ICheckoutAddressesProps {
   selectedAddressId?: string;
@@ -47,6 +48,7 @@ const CheckoutAddresses: React.FunctionComponent<ICheckoutAddressesProps> = (
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
   const { getUserAddresses, loading } = useGetUserAddresses();
+  const { hasPermission } = useHasPermission();
   //#endregion Hooks
 
   //#region Effects
@@ -118,12 +120,13 @@ const CheckoutAddresses: React.FunctionComponent<ICheckoutAddressesProps> = (
             );
           })}
 
-          {(currentUserAddresses.length === 0 || isAddingAddress) && (
-            <AddressForm
-              onSubmit={() => setIsAddingAddress(false)}
-              onCancelClick={() => setIsAddingAddress(false)}
-            />
-          )}
+          {(currentUserAddresses.length === 0 || isAddingAddress) &&
+            hasPermission(PermissionEnum.CreateAddress) && (
+              <AddressForm
+                onSubmit={() => setIsAddingAddress(false)}
+                onCancelClick={() => setIsAddingAddress(false)}
+              />
+            )}
 
           <div className={styles.checkoutActions}>
             {currentUserAddresses.length > 1 && (

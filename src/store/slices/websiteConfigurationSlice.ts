@@ -2311,9 +2311,9 @@ const staticText = {
       { language: "en", text: "Show article" },
       { language: "fr", text: "Afficher l'article" },
     ],
-    status: [
-      { language: "en", text: "Order Status" },
-      { language: "fr", text: "Status de la commande" },
+    paymentStatus: [
+      { language: "en", text: "Payment Status" },
+      { language: "fr", text: "Status du paiement" },
     ],
   },
 };

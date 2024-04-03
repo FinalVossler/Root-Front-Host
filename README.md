@@ -5,16 +5,17 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
-- Add the magic button to generate as many variations as options in variation fields in the entity editor form => Implement entity parent foreign key in each entity
-- Add a magic button in the models page that shows a modal that's automatically filled with product model fields
-
-- Add the ability to edit the order status for the seller (clickable state tracking bullets)
+- Add a field of type state tracking (Can be used for a product order status or the order status)
+- Add a magic button in the models page that shows a modal that's automatically filled with product model fields (in order to simplify the creation process of a custom product for the seller)
+- In role event notifications, add the event "On update when assigned" => Used to send a notification to assigned users when an order tracking number was changed
+- Incomplete addresses permissions: implement own address deletion, update and read permissions (back and front)
 
 - Show the redirection button to an order or a product in an entity's page. (if the entity has this information)
-- Inside an entity, show the list of all the entities that has the concerned entity as a productId inside its orderAssociationConfig (like showing the comments of an entity)
+- Inside an entity, show the list of all the entities that have the concerned entity as a productId inside its orderAssociationConfig (like showing the comments of an entity)
 
 - Add an additional backend verification for the shipping method for each product based on its available shipping methods
 - Add the nothing to show in the orders' page when the user has no orders
+- Build the nothing to show component for the cart: import { GiIsland } from "react-icons/gi";
 
 - Write an integration test for when we delete a parent entity and have a random child entity assigned as the new parent.
 - Write an integration test for generating variations
@@ -33,7 +34,6 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 - Create a utils function for a more readable product name in stripe
 - Add number of days to shipping method
 - Add billing address logic (same as shipping too?)
-- Build the nothing to show component for the cart: import { GiIsland } from "react-icons/gi";
 - Backend: Add the ability to update the payment method in the order service
 - Create a view tab for a user's products in the profile page.
 - Add the search entity in the header and the ability to configure it by model
@@ -41,8 +41,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 - Rename FileInptus to inputFiles for consistency with InputSelect
 - Add the "show in side menu" option for a model
 
-- Add backend verifications for when a shipping method is deleted (make sure to delete it for orders too => make the shipping method options )
-- Add backend verification for when an entity is deleted (make sure to delete it for orders too => make the product optional)
+- Add backend verifications for when a shipping method is about to be deleted. Block the deletion when it's used for an existing order
 - Fix the field copy function. It can be simpler
 
 - 2 Mains problems: (1) Data redondancy between objects (would be good to have a frontend database like meteor or apollo client), and (2) cascade deleting and optional foreign keys (objects)

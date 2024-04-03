@@ -50,6 +50,15 @@ const OrderModelAssociatedInfo: React.FunctionComponent<
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
 
+  //#region View
+  const existingEntities: IEntityReadDto[] =
+    orderModelAssociatedEntities.filter((associatedEntity) =>
+      associatedEntity.orderAssociationConfig?.productId && props.product?._id
+        ? associatedEntity.orderAssociationConfig?.productId ===
+          props.product?._id
+        : true
+    );
+
   const currentUserIsBuyer = React.useMemo(
     () => (props.order.user as IUserReadDto)._id === currentUser._id,
     [currentUser._id, (props.order.user as IUserReadDto)._id]
@@ -81,7 +90,7 @@ const OrderModelAssociatedInfo: React.FunctionComponent<
 
   const showNewForm =
     (addNew && props.modelOrderAssociationConfig.isList) ||
-    (orderModelAssociatedEntities.length === 0 &&
+    (existingEntities.length === 0 &&
       !props.modelOrderAssociationConfig.isList);
 
   const automaticallyAssignedUsers = React.useMemo((): IUserReadDto[] => {
@@ -108,6 +117,7 @@ const OrderModelAssociatedInfo: React.FunctionComponent<
 
     return _.uniq([...sellersUsers, buyerUser]);
   }, [currentUserIsBuyer, currentUserIsSeller, props.order.products]);
+  //#endregion View
 
   return (
     <div
@@ -128,10 +138,10 @@ const OrderModelAssociatedInfo: React.FunctionComponent<
       {shown && (
         <React.Fragment>
           {orderModelAssociatedEntities
-            .filter((associationedEntity) =>
-              associationedEntity.orderAssociationConfig?.productId &&
+            .filter((associatedEntity) =>
+              associatedEntity.orderAssociationConfig?.productId &&
               props.product?._id
-                ? associationedEntity.orderAssociationConfig?.productId ===
+                ? associatedEntity.orderAssociationConfig?.productId ===
                   props.product?._id
                 : true
             )
@@ -149,7 +159,13 @@ const OrderModelAssociatedInfo: React.FunctionComponent<
                     orderId: props.order._id,
                     productId: props.product?._id,
                   }}
-                  readOnly
+                  readOnly={
+                    associatedEntity.owner
+                      ? (
+                          associatedEntity.owner as IUserReadDto
+                        )._id.toString() !== currentUser._id.toString()
+                      : true
+                  }
                 />
               );
             })}

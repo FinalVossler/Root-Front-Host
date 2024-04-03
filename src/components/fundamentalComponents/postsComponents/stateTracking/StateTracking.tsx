@@ -2,16 +2,20 @@ import React from "react";
 import { ITheme } from "roottypes";
 
 import useStyles from "./stateTracking.styles";
+import doNothing from "../../../../utils/doNothing";
 
-export interface IState {
+export interface IStateTrackingState {
   _id: string;
   stateName: string;
 }
 
 interface IStateTrackingProps {
-  currentState: IState | undefined;
-  states: IState[];
+  currentState: IStateTrackingState | undefined;
+  states: IStateTrackingState[];
   theme: ITheme;
+  clickableBullets?: boolean;
+  onStateClick?: (state: IStateTrackingState) => void;
+  disabled?: boolean;
 }
 
 const StateTracking: React.FunctionComponent<IStateTrackingProps> = (
@@ -43,10 +47,16 @@ const StateTracking: React.FunctionComponent<IStateTrackingProps> = (
       {props.states.map((state, stateIndex) => {
         return (
           <div
+            key={stateIndex}
             className={
               stateIndex <= indexOfCurrent ? styles.activeBullet : styles.bullet
             }
-            key={stateIndex}
+            style={{ ...(props.clickableBullets ? { cursor: "pointer" } : {}) }}
+            onClick={() =>
+              props.onStateClick && !props.disabled
+                ? props.onStateClick(state)
+                : doNothing()
+            }
           >
             <span
               className={

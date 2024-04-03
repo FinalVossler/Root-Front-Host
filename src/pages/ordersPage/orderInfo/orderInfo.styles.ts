@@ -90,12 +90,8 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     border: "1px solid " + theme.borderColor,
     borderTop: "none",
   },
-  statusesTitle: {
+  paymentStatusesTitle: {
     marginBottom: 0,
-  },
-  positiveStatusesContainer: {},
-  negativeStatusesContainer: {
-    marginTop: 30,
   },
   extendDetails: {},
   "@media (max-width: 1000px)": {

@@ -4,8 +4,6 @@ import Loading from "react-loading";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../../store/hooks";
 import { IModelField } from "../../../../store/slices/modelSlice";
-import doesEntityMeetModelStateCondition from "../../../../utils/doesEntityMeetModelStateCondition";
-import getModelStateConcernedFields from "../../../../utils/getModelStateConcernedFields";
 
 import useStyles from "./elementsStatusTracking.styles";
 import StateTracking from "../../../fundamentalComponents/postsComponents/stateTracking";

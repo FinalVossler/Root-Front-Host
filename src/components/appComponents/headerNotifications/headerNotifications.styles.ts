@@ -70,6 +70,10 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     extend: "notificationContainer",
     backgroundColor: theme.primary,
     color: theme.darkTextColor,
+
+    "& $notificationText": {
+      color: theme.lightTextColor,
+    },
   },
   notificationText: {
     display: "flex",

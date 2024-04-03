@@ -1,5 +1,5 @@
 import React from "react";
-import { IAddressReadDto, ITheme } from "roottypes";
+import { IAddressReadDto, ITheme, PermissionEnum } from "roottypes";
 import { MdOutlineEdit } from "react-icons/md";
 import Loading from "react-loading";
 
@@ -9,6 +9,7 @@ import useStyles from "./addressInfo.styles";
 import AddressForm from "../addressForm/AddressForm";
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import useDeleteAddresses from "../../../hooks/apiHooks/useDeleteAddresses";
+import useHasPermission from "../../../hooks/useHasPermission";
 
 interface IAddressInfoProps {
   address: IAddressReadDto;
@@ -32,6 +33,7 @@ const AddressInfo: React.FunctionComponent<IAddressInfoProps> = (
   const getTranslatedText = useGetTranslatedText();
   const { deleteAddresses, loading: deleteAddressLoading } =
     useDeleteAddresses();
+  const { hasPermission } = useHasPermission();
 
   const handleEditClick = (e: React.MouseEvent<SVGElement>) => {
     e.stopPropagation();
@@ -60,18 +62,22 @@ const AddressInfo: React.FunctionComponent<IAddressInfoProps> = (
       {!isEditing && !deleteAddressLoading && (
         <React.Fragment>
           <div className={styles.addressActionsContainer}>
-            <span className={styles.actionButton} onClick={handleDelete}>
-              {getTranslatedText(staticText?.delete)}
-            </span>
+            {hasPermission(PermissionEnum.DeleteAddress) && (
+              <span className={styles.actionButton} onClick={handleDelete}>
+                {getTranslatedText(staticText?.delete)}
+              </span>
+            )}
             {!props.isSelected && (
               <span className={styles.actionButton} onClick={handleSelect}>
                 {getTranslatedText(staticText?.select)}
               </span>
             )}
-            <MdOutlineEdit
-              onClick={handleEditClick}
-              className={styles.editButton}
-            />
+            {hasPermission(PermissionEnum.UpdateAddress) && (
+              <MdOutlineEdit
+                onClick={handleEditClick}
+                className={styles.editButton}
+              />
+            )}
           </div>
 
           {props.address.addressLine1 ||
@@ -102,15 +108,17 @@ const AddressInfo: React.FunctionComponent<IAddressInfoProps> = (
         </React.Fragment>
       )}
 
-      {isEditing && !deleteAddressLoading && (
-        <React.Fragment>
-          <AddressForm
-            address={props.address}
-            onCancelClick={() => setIsEditing(false)}
-            onSubmit={handleSubmit}
-          />
-        </React.Fragment>
-      )}
+      {isEditing &&
+        !deleteAddressLoading &&
+        hasPermission(PermissionEnum.UpdateAddress) && (
+          <React.Fragment>
+            <AddressForm
+              address={props.address}
+              onCancelClick={() => setIsEditing(false)}
+              onSubmit={handleSubmit}
+            />
+          </React.Fragment>
+        )}
     </div>
   );
 };

@@ -9,9 +9,10 @@ import {
   IShippingMethodReadDto,
   ITheme,
   ModelOrderAssociationLevelEnum,
-  OrderNegativeStatusEnum,
-  OrderStatusEnum,
+  OrderPaymentStatusEnum,
 } from "roottypes";
+import { MdArrowDownward, MdArrowUpward } from "react-icons/md";
+import _ from "lodash";
 
 import useStyles from "./orderInfo.styles";
 import { useAppSelector } from "../../../store/hooks";
@@ -21,8 +22,8 @@ import showWithSpacingIfDefined from "../../../utils/showWithSpacingIfDefined";
 import formatCentsToDollars from "../../../utils/formatCentsToDollars";
 import OrderModelAssociatedInfo from "./orderModelAssociatedInfo";
 import StateTracking from "../../../components/fundamentalComponents/postsComponents/stateTracking";
-import { IState } from "../../../components/fundamentalComponents/postsComponents/stateTracking/StateTracking";
-import { MdArrowDownward, MdArrowUpward } from "react-icons/md";
+import { IStateTrackingState } from "../../../components/fundamentalComponents/postsComponents/stateTracking/StateTracking";
+import Loading from "react-loading";
 
 interface IOrderInfoProps {
   order: IOrderReadDto;
@@ -58,8 +59,10 @@ const OrderInfo: React.FunctionComponent<IOrderInfoProps> = (
 
   const [showingDetails, setShowingDetails] = React.useState<boolean>(false);
 
-  const { getOrderAssociatedEntities, loading } =
-    useGetOrderAssociatedEntities();
+  const {
+    getOrderAssociatedEntities,
+    loading: getOrderAssociatedEntitiesLoading,
+  } = useGetOrderAssociatedEntities();
   const styles = useStyles({ theme });
   const getTranslatedText = useGetTranslatedText();
 
@@ -67,13 +70,11 @@ const OrderInfo: React.FunctionComponent<IOrderInfoProps> = (
     getOrderAssociatedEntities(props.order._id);
   }, [props.order._id]);
 
-  const positiveStatuses = React.useMemo(() => {
-    return getOrderedStates(Object.values(OrderStatusEnum));
+  //#region View
+  const paymentStatuses = React.useMemo(() => {
+    return getOrderedStates(Object.values(OrderPaymentStatusEnum));
   }, []);
-
-  const negativeStatuses = React.useMemo(() => {
-    return getOrderedStates(Object.values(OrderNegativeStatusEnum));
-  }, []);
+  //#endregion View
 
   return (
     <div className={styles.orderInfoContainer}>
@@ -183,24 +184,31 @@ const OrderInfo: React.FunctionComponent<IOrderInfoProps> = (
                 </div>
               </div>
 
-              {orderProductLevelModels.map((model) => {
-                return (
-                  <OrderModelAssociatedInfo
-                    key={model._id}
-                    order={props.order}
-                    model={model}
-                    modelOrderAssociationConfig={
-                      model.orderAssociationConfig as IModelOrderAssociationConfig
-                    }
-                    product={product}
-                  />
-                );
-              })}
+              {getOrderAssociatedEntitiesLoading && (
+                <Loading color={theme.primary} />
+              )}
+              {!getOrderAssociatedEntitiesLoading &&
+                orderProductLevelModels.map((model) => {
+                  return (
+                    <OrderModelAssociatedInfo
+                      key={model._id}
+                      order={props.order}
+                      model={model}
+                      modelOrderAssociationConfig={
+                        model.orderAssociationConfig as IModelOrderAssociationConfig
+                      }
+                      product={product}
+                    />
+                  );
+                })}
             </div>
           );
         })}
 
-      {showingDetails &&
+      {getOrderAssociatedEntitiesLoading && <Loading color={theme.primary} />}
+
+      {!getOrderAssociatedEntitiesLoading &&
+        showingDetails &&
         orderOrderLevelModels.map((model) => {
           return (
             <OrderModelAssociatedInfo
@@ -216,43 +224,25 @@ const OrderInfo: React.FunctionComponent<IOrderInfoProps> = (
 
       {showingDetails && (
         <div className={styles.statusesContainer}>
-          <h2 className={styles.statusesTitle}>
-            {getTranslatedText(staticText?.status)}
+          <h2 className={styles.paymentStatusesTitle}>
+            {getTranslatedText(staticText?.paymentStatus)}
           </h2>
-          <div className={styles.positiveStatusesContainer}>
-            <StateTracking
-              currentState={positiveStatuses.find(
-                (state) => state._id === getIdFromStatus(props.order.status)
-              )}
-              states={positiveStatuses}
-              theme={theme}
-            />
-          </div>
-          {negativeStatuses.find(
-            (state) => state._id === getIdFromStatus(props.order.status)
-          ) && (
-            <div className={styles.negativeStatusesContainer}>
-              <StateTracking
-                currentState={negativeStatuses.find(
-                  (state) => state._id === getIdFromStatus(props.order.status)
-                )}
-                states={negativeStatuses}
-                theme={theme}
-              />
-            </div>
-          )}
+          <StateTracking
+            currentState={paymentStatuses.find(
+              (state) => state._id === props.order.paymentStatus
+            )}
+            states={paymentStatuses}
+            theme={theme}
+          />
         </div>
       )}
     </div>
   );
 };
 
-const getIdFromStatus = (state: OrderStatusEnum | OrderNegativeStatusEnum) =>
-  state.replace(/\s+/g, "");
-
 const getOrderedStates = (objectValuesOfEnum) => {
-  const states: IState[] = objectValuesOfEnum.map((status) => ({
-    _id: getIdFromStatus(status),
+  const states: IStateTrackingState[] = objectValuesOfEnum.map((status) => ({
+    _id: status,
     stateName: status,
   }));
 

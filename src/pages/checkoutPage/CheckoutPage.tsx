@@ -4,7 +4,7 @@ import {
   IEntityReadDto,
   IOrderCreateCommand,
   ITheme,
-  OrderStatusEnum,
+  OrderPaymentStatusEnum,
 } from "roottypes";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -118,7 +118,7 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
           postalCode: address.postalCode,
           region: address.region,
         },
-        status: OrderStatusEnum.Pending,
+        paymentStatus: OrderPaymentStatusEnum.Pending,
         userId: currentUser._id.toString(),
       };
       createOrder(orderCreateCommand);
