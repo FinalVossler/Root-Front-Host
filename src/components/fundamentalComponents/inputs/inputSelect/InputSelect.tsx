@@ -59,7 +59,7 @@ const InputSelect: React.FunctionComponent<IInputSelectProps> = (
           placeholder={props.placeholder}
           value={props.value}
           className={
-            (props.disabled ? styles.dislabedSelect : styles.select) +
+            (props.disabled ? styles.disabledSelect : styles.select) +
             (props.selectorClassName ? " " + props.selectorClassName : "")
           }
           classNamePrefix="react-select"

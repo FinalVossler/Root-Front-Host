@@ -818,6 +818,10 @@ const staticText = {
       { language: "en", text: "Is an exclusive state" },
       { language: "fr", text: "Is an exclusive state" },
     ],
+    showInSideMenu: [
+      { language: "en", text: "Show in side menu" },
+      { language: "en", text: "Montrer dans le menu de côté" },
+    ],
     isForSale: [
       { language: "en", text: "Is for sale" },
       { language: "en", text: "À vendre" },
@@ -1531,10 +1535,15 @@ const staticText = {
       { text: "Darker primary", language: "en" },
       { text: "Primaire sombre", language: "fr" },
     ],
+    disabledColor: [
+      { text: "Disabled color", language: "en" },
+      { text: "couleur des inputs désactivés", language: "fr" },
+    ],
     errorColor: [
       { text: "Error color", language: "en" },
       { text: "couleur en erreur", language: "fr" },
     ],
+
     formMaxWidth: [
       { text: "Form max width", language: "en" },
       { text: "Largeur maximale d'un formulaire", language: "fr" },

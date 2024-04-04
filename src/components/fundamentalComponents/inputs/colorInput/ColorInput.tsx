@@ -28,6 +28,7 @@ const ColorInput: React.FunctionComponent<IColorInputProps> = (
 
   //#region Event listeners
   const handleTriggerShowPicker = () => setShowPicker(!showPicker);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
   const handleColorChange: ColorChangeHandler = (
     colorResult: ColorResult,
     e: React.ChangeEvent<HTMLInputElement>

@@ -123,6 +123,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
         darkerPrimary: websiteConfiguration.theme.darkerPrimary,
         lighterPrimary: websiteConfiguration.theme.lighterPrimary,
         secondary: websiteConfiguration.theme.secondary,
+        disabledColor: websiteConfiguration.theme.disabledColor,
         errorColor: websiteConfiguration.theme.errorColor,
         borderColor: websiteConfiguration.theme.borderColor,
         formMaxWidth: websiteConfiguration.theme.formMaxWidth,
@@ -245,6 +246,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
             darkerPrimary: values.darkerPrimary,
             lighterPrimary: values.lighterPrimary,
             secondary: values.secondary,
+            disabledColor: values.disabledColor,
             errorColor: values.errorColor,
             borderColor: values.borderColor,
             formMaxWidth: values.formMaxWidth,
@@ -626,6 +628,17 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           inputProps={{
             disabled: actualLoading,
             placeholder: getTranslatedText(staticText?.secondary),
+          }}
+        />
+
+        <FormikColorInput
+          theme={theme}
+          name="disabledColor"
+          label={getTranslatedText(staticText?.disabledColor)}
+          formik={formik}
+          inputProps={{
+            disabled: actualLoading,
+            placeholder: getTranslatedText(staticText?.disabledColor),
           }}
         />
 

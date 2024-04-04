@@ -8,6 +8,7 @@ const theme: ITheme = {
   darkerPrimary: "#2DB39E",
   lighterPrimary: "#ecf2f0",
   secondary: "#7aeaaf",
+  disabledColor: "#efefef",
   errorColor: "red",
   borderColor: "#9f9f9f",
   formMaxWidth: "470px",

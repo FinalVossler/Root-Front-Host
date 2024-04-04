@@ -94,14 +94,17 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
       models
         .filter(
           (m) =>
-            user.superRole === SuperRoleEnum.SuperAdmin ||
-            (
-              (user.role as IRoleReadDto)?.entityPermissions as
-                | IEntityPermissionReadDto[]
-                | undefined
-            )
-              ?.find((e) => (e.model as IModelReadDto)._id === m._id)
-              ?.permissions.find((p) => p === EntityStaticPermissionEnum.Read)
+            (user.superRole === SuperRoleEnum.SuperAdmin ||
+              (
+                (user.role as IRoleReadDto)?.entityPermissions as
+                  | IEntityPermissionReadDto[]
+                  | undefined
+              )
+                ?.find((e) => (e.model as IModelReadDto)._id === m._id)
+                ?.permissions.find(
+                  (p) => p === EntityStaticPermissionEnum.Read
+                )) &&
+            (m.showInSideMenu === undefined || m.showInSideMenu === true)
         )
         .map((model) => ({
           Icon: SiElement,
@@ -211,6 +214,11 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
                 | IEntityPermissionReadDto[]
                 | undefined
             )?.map((entityPermission, entityPermissionIndex) => {
+              if (
+                (entityPermission.model as IModelReadDto).showInSideMenu ===
+                false
+              )
+                return null;
               if (
                 entityPermission.permissions.indexOf(
                   EntityStaticPermissionEnum.Read

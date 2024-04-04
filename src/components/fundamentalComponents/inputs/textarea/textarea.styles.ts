@@ -54,7 +54,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   },
   textareaDisabled: {
     extend: "textarea",
-    backgroundColor: theme.secondary,
+    backgroundColor: theme.disabledColor,
   },
   textareaError: {
     color: theme.errorColor,

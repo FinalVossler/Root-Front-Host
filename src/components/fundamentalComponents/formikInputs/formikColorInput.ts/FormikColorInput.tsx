@@ -20,7 +20,10 @@ const FormikColorInput: React.FunctionComponent<IFormikColorInputProps> = (
     colorResult?: ColorResult
   ) => {
     if (props.formik && props.name) {
-      props.formik.setFieldValue(props.name, colorResult?.hex);
+      props.formik.setFieldValue(
+        props.name,
+        colorResult?.hex || e.target.value
+      );
     }
     if (props.onChange) {
       props.onChange(e, colorResult);

@@ -61,6 +61,7 @@ export interface IModelForm {
   quantityField?: IFieldReadDto;
   priceField?: IFieldReadDto;
   imageField?: IFieldReadDto;
+  showInSideMenu: boolean;
   isForOrders: boolean;
   orderAssociationConfig?: IModelOrderAssociationConfig;
   language: string;
@@ -95,6 +96,7 @@ const ModelEditor = (props: IModelEditorProps) => {
       modelEvents: [],
       states: [],
       subStates: [],
+      showInSideMenu: true,
       isForSale: false,
       isForOrders: false,
     },
@@ -163,6 +165,7 @@ const ModelEditor = (props: IModelEditorProps) => {
 
           isForOrders: Boolean(values.isForOrders),
           orderAssociationConfig: values.orderAssociationConfig,
+          showInSideMenu: values.showInSideMenu,
 
           language: values.language,
         };
@@ -219,6 +222,7 @@ const ModelEditor = (props: IModelEditorProps) => {
 
           isForOrders: Boolean(values.isForOrders),
           orderAssociationConfig: values.orderAssociationConfig,
+          showInSideMenu: values.showInSideMenu,
 
           language: values.language,
         };
@@ -299,6 +303,7 @@ const ModelEditor = (props: IModelEditorProps) => {
         imageField: props.model?.imageField as IFieldReadDto,
         quantityField: props.model?.quantityField as IFieldReadDto,
 
+        showInSideMenu: Boolean(props.model?.showInSideMenu),
         isForOrders: Boolean(props.model?.isForOrders),
         orderAssociationConfig:
           props.model?.orderAssociationConfig || undefined,
@@ -350,6 +355,13 @@ const ModelEditor = (props: IModelEditorProps) => {
             placeholder: getTranslatedText(staticText?.namePlaceholder),
           }}
           inputDataCy="modelNameInput"
+        />
+
+        <FormikCheckbox
+          formik={formik}
+          name="showInSideMenu"
+          theme={theme}
+          label={getTranslatedText(staticText?.showInSideMenu)}
         />
 
         <FormikCheckbox

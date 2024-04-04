@@ -36,7 +36,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     extend: "labelAndInputContainer",
 
     "& input": {
-      backgroundColor: theme.secondary,
+      backgroundColor: theme.disabledColor,
     },
   },
   label: {

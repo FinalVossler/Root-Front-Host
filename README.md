@@ -5,6 +5,15 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
+- Replace all toObject with lean
+- Add a disabled input field color
+- Add a space between the dollar and the price in the cart
+- Make the price field smaller in the side cart
+- Fix the list of group chat members
+- Fix group chat search functionality colors
+- Fix the home page when it's in the side menu
+- Add the "show in side menu" option for a model
+- Get orders and associated entities in one go in the orders' page.
 - Add a magic button in the models page that shows a modal that's automatically filled with product model fields (in order to simplify the creation process of a custom product for the seller)
 - Incomplete addresses permissions: implement own address deletion, update and read permissions (back and front)
 - Add a field of type state tracking (Can be used for a product order status or the order status)
@@ -38,7 +47,6 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 - Add the search entity in the header and the ability to configure it by model
 - Support price conversion from dollar to euro depending on the selected language
 - Rename FileInptus to inputFiles for consistency with InputSelect
-- Add the "show in side menu" option for a model
 - Translate the date in the order title
 - Add backend verifications for when a shipping method is about to be deleted. Block the deletion when it's used for an existing order
 - Fix the field copy function. It can be simpler

@@ -61,11 +61,11 @@ const useStyles = createUseStyles((theme: ITheme) => ({
       },
     },
   },
-  dislabedSelect: {
+  disabledSelect: {
     extend: "select",
 
     "& .react-select__control": {
-      backgroundColor: theme.secondary + "!important",
+      backgroundColor: theme.disabledColor + "!important",
     },
   },
 
