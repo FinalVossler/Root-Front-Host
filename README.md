@@ -5,14 +5,11 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
-- Replace all toObject with lean
-- Add a disabled input field color
 - Add a space between the dollar and the price in the cart
 - Make the price field smaller in the side cart
 - Fix the list of group chat members
 - Fix group chat search functionality colors
 - Fix the home page when it's in the side menu
-- Add the "show in side menu" option for a model
 - Get orders and associated entities in one go in the orders' page.
 - Add a magic button in the models page that shows a modal that's automatically filled with product model fields (in order to simplify the creation process of a custom product for the seller)
 - Incomplete addresses permissions: implement own address deletion, update and read permissions (back and front)
@@ -25,6 +22,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 - Add the nothing to show in the orders' page when the user has no orders
 - Build the nothing to show component for the cart: import { GiIsland } from "react-icons/gi";
 
+- In integration tests, set the return of each call to the ReturnType of the corresponding controller method (to avoid silent failing tests when the controller contract is changed)
 - Write an integration test for when we delete a parent entity and have a random child entity assigned as the new parent.
 - Write an integration test for generating variations
 - Write an integration test for updating an entity by (1) someone who isn't an owner and then someone who is an owner (2)
