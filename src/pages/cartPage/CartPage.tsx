@@ -25,9 +25,6 @@ const CartPage: React.FunctionComponent<ICartPageProps> = (
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.entities
   );
-  const checkoutStaticText = useAppSelector(
-    (state) => state.websiteConfiguration.staticText?.checkout
-  );
   const cart: ICartReadDto | undefined = useAppSelector(
     (state) => state.cart.cart
   );
@@ -172,7 +169,7 @@ const CartSideSubtotal = () => {
           ):
         </span>
         <span className={styles.subTotal}>
-          {formatCentsToDollars(getCartProductsTotal(cart))}
+          {formatCentsToDollars(getCartProductsTotal(cart)) + " "}
           {getTranslatedText(checkoutStaticText?.moneyUnit)}
         </span>
       </div>

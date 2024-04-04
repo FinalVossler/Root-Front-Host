@@ -24,7 +24,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   },
   subTotal: {
     color: theme.errorColor,
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: "bold",
   },
   subTotalTitle: { marginBottom: 5 },

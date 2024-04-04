@@ -89,6 +89,7 @@ const SearchInput: React.FunctionComponent<ISearchInputProps> = (
     el: any
   ) => {
     e.preventDefault();
+    e.stopPropagation();
     if (props.onElementClick) {
       props.onElementClick(el);
       setShowSearchResult(false);

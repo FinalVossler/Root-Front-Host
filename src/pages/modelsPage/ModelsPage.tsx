@@ -69,7 +69,11 @@ const ModelsPage: React.FunctionComponent<IModelsPageProps> = (
 
   if (!isLoggedIn) return null;
 
-  if (!hasPermission(PermissionEnum.ReadModel)) return null;
+  if (
+    !hasPermission(PermissionEnum.ReadModel) &&
+    !hasPermission(PermissionEnum.ReadOwnModel)
+  )
+    return null;
 
   return (
     <div className={styles.modelsPageContainer} data-cy="modelsPage">

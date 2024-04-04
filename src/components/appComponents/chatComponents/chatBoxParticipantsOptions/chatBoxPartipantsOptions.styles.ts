@@ -10,6 +10,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     boxShadow: theme.boxShadow,
     color: theme.primary,
     zIndex: 100,
+    border: "1px solid " + theme.primary,
 
     position: "absolute",
     left: 20,

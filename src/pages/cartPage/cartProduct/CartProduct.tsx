@@ -109,7 +109,7 @@ const CartProduct: React.FunctionComponent<ICartProductProps> = (
                   (efv.field as IFieldReadDto)._id.toString() === priceFieldId
               )?.value
             )
-          )}
+          ) + " "}
           {getTranslatedText(checkoutStaticText?.moneyUnit)}
         </span>
       </div>

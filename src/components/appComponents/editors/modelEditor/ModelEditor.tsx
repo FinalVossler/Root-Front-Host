@@ -303,7 +303,10 @@ const ModelEditor = (props: IModelEditorProps) => {
         imageField: props.model?.imageField as IFieldReadDto,
         quantityField: props.model?.quantityField as IFieldReadDto,
 
-        showInSideMenu: Boolean(props.model?.showInSideMenu),
+        showInSideMenu:
+          props.model?.showInSideMenu !== undefined
+            ? Boolean(props.model?.showInSideMenu)
+            : true,
         isForOrders: Boolean(props.model?.isForOrders),
         orderAssociationConfig:
           props.model?.orderAssociationConfig || undefined,

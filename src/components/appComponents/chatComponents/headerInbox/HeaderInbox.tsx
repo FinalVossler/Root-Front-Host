@@ -1,5 +1,6 @@
 import React from "react";
 import { BsChatDots } from "react-icons/bs";
+import { createPortal } from "react-dom";
 
 import useOnClickOutside from "../../../../hooks/useOnClickOutside";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
@@ -47,8 +48,11 @@ const HeaderInbox: React.FunctionComponent<IHeaderInboxProps> = (
     getUserTotalUnreadMessages();
   }, []);
 
-  const handleOpenInbox = () => {
-    setInboxOpen(true);
+  const handleOpenInbox = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === inboxRef.current) {
+      setInboxOpen(true);
+    }
+    e.stopPropagation();
   };
 
   const handleSelectConversation = (conversationId: string) => {
@@ -77,7 +81,7 @@ const HeaderInbox: React.FunctionComponent<IHeaderInboxProps> = (
         </div>
       )}
 
-      {pathname != "/chat" && <ChatBoxes />}
+      {pathname != "/chat" && createPortal(<ChatBoxes />, document.body)}
     </div>
   );
 };

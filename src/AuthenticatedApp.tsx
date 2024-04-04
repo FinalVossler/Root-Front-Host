@@ -106,6 +106,11 @@ function AuthenticatedApp() {
           path="/dynamicPage/:pageSlug"
           element={<DynamicPageForLoggedIn />}
         ></Route>
+
+        <Route
+          path="/dynamicPage/"
+          element={<DynamicPageForLoggedIn />}
+        ></Route>
         <Route path="/profile/:userId" element={<ProfilePage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/chat" element={<ChatPage />} />

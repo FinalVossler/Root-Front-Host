@@ -4,7 +4,7 @@ import { ITheme } from "roottypes";
 const useStyles = createUseStyles((theme: ITheme) => ({
   chatBoxParticipantsContainer: {
     display: "flex",
-    flexWrap: "wrap",
+    // flexWrap: "wrap",
     maxWidth: "80%",
     flexDirection: "row",
     alignItems: "center",

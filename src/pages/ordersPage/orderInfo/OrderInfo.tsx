@@ -115,7 +115,8 @@ const OrderInfo: React.FunctionComponent<IOrderInfoProps> = (
           <div className={styles.orderTotal}>
             {getTranslatedText(staticText?.total) +
               ": " +
-              formatCentsToDollars(props.order.total)}
+              formatCentsToDollars(props.order.total) +
+              " "}
             {getTranslatedText(orderStaticText?.moneyUnit)}
           </div>
         </div>

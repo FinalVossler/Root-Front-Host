@@ -31,6 +31,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     backgroundColor: theme.darkerPrimary,
     padding: 10,
     borderRadius: 5,
+    color: theme.lightTextColor,
   },
   "@media (max-width: 800px)": {},
 }));

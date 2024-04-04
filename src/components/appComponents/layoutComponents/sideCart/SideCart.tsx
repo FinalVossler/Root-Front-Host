@@ -98,7 +98,7 @@ const SideCart: React.FunctionComponent<ISideCartProps> = (
             {getTranslatedText(staticText?.subTotal)}
           </span>
           <span className={styles.subTotal}>
-            {formatCentsToDollars(getCartProductsTotal(cart))}
+            {formatCentsToDollars(getCartProductsTotal(cart)) + " "}
             {getTranslatedText(checkoutStaticText?.moneyUnit)}
           </span>
         </div>

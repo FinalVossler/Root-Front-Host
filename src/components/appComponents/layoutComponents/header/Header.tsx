@@ -132,11 +132,12 @@ const Header: React.FunctionComponent<IHeaderProps> = (props: IHeaderProps) => {
             selectorClassName="mainLanguageSelector"
           />
 
-          {pages.map((page) => {
+          {pages.map((page, i) => {
             if (page.showInHeader === false) return null;
             if (getTranslatedText(page.title) === "") return null;
             return (
               <NavLink
+                key={i}
                 className={styles.optionATag}
                 to={"/dynamicPage/" + page.slug}
               >

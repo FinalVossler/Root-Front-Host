@@ -123,6 +123,7 @@ const LastConversationsLastMessages: React.FunctionComponent<
         )}
 
       <Pagination
+        theme={theme}
         total={total}
         page={page}
         onPageChange={handlePageChange}

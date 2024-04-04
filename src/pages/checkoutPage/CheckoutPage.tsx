@@ -215,7 +215,7 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
             <span className={styles.productsTotalContainer}>
               <span>{getTranslatedText(staticText?.productsTotal)}: </span>
               <span>
-                {formatCentsToDollars(getCartProductsTotal(cart))}
+                {formatCentsToDollars(getCartProductsTotal(cart)) + " "}
                 {getTranslatedText(staticText?.moneyUnit)}
               </span>
             </span>
@@ -242,7 +242,7 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
                       };
                     }),
                   })
-                )}
+                ) + " "}
                 {getTranslatedText(staticText?.moneyUnit)}
               </span>
             </div>
@@ -255,7 +255,7 @@ const CheckoutPage: React.FunctionComponent<ICheckoutPageProps> = (
                     formik.values.productSelectedShippingMethods,
                     shippingMethods
                   )
-                )}
+                ) + " "}
                 {getTranslatedText(staticText?.moneyUnit)}
               </span>
             </span>

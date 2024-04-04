@@ -5,11 +5,6 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
-- Add a space between the dollar and the price in the cart
-- Make the price field smaller in the side cart
-- Fix the list of group chat members
-- Fix group chat search functionality colors
-- Fix the home page when it's in the side menu
 - Get orders and associated entities in one go in the orders' page.
 - Add a magic button in the models page that shows a modal that's automatically filled with product model fields (in order to simplify the creation process of a custom product for the seller)
 - Incomplete addresses permissions: implement own address deletion, update and read permissions (back and front)
