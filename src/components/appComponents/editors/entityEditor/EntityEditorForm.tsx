@@ -370,12 +370,17 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
               }
             }
           });
+
+        // Empty form after submission. In order comments (order concerned entities, we have a reinitialization problem)
+        if (!props.entity) {
+          resetForm();
+        }
       },
     });
 
   //#region Effects
   // Resetting form
-  React.useEffect(() => {
+  const resetForm = () => {
     formik.resetForm({
       values: {
         entityFieldValues:
@@ -430,6 +435,9 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
         language: formik.values.language,
       },
     });
+  };
+  React.useEffect(() => {
+    resetForm();
   }, [props.entity, formik.values.language, model]);
 
   // Loading automatically assigned users
