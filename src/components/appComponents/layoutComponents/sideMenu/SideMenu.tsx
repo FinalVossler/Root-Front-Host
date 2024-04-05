@@ -94,13 +94,8 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
       models
         .filter(
           (m) =>
-            // the super adming has access to everything
+            // the super admin has access to everything
             (currentUser.superRole === SuperRoleEnum.SuperAdmin ||
-              // If the user has read access to all models
-              (currentUser.role &&
-                (currentUser.role as IRoleReadDto).permissions.indexOf(
-                  PermissionEnum.ReadModel
-                ) !== -1) ||
               // The owner of a said model has access to his own model if he has ReadOwnModel permission
               (currentUser.role &&
                 (currentUser.role as IRoleReadDto).permissions.indexOf(
