@@ -2,9 +2,9 @@ import { AxiosResponse } from "axios";
 import React from "react";
 
 import { useAppDispatch } from "../../store/hooks";
-import { modelSlice, IModelReadDto } from "../../store/slices/modelSlice";
+import { modelSlice } from "../../store/slices/modelSlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
-import { IModelCreateCommand } from "roottypes";
+import { IModelCreateCommand, IModelReadDto } from "roottypes";
 
 const useCreateModel = () => {
   const [loading, setLoading] = React.useState(false);
