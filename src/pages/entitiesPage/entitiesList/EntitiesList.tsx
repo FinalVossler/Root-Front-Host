@@ -27,6 +27,7 @@ import {
   IPaginationResponse,
   ITheme,
   EntityStaticPermissionEnum,
+  IUserReadDto,
 } from "roottypes";
 import { EditorTypeEnum, editorSlice } from "../../../store/slices/editorSlice";
 import useCopyEntities from "../../../hooks/apiHooks/useCopyEntities";
@@ -146,6 +147,18 @@ const EntitiesList: React.FunctionComponent<IEntitiesListProps> = (
         stick: Boolean(modelField.stickInTable),
       };
     }) || [];
+
+  columns.push({
+    label: getTranslatedText(staticText?.owner),
+    name: "owner",
+    render: (entity: IEntityReadDto) => {
+      return entity.owner
+        ? (entity.owner as IUserReadDto).firstName +
+            " " +
+            (entity.owner as IUserReadDto).lastName
+        : "";
+    },
+  });
 
   // Additional columns
   columns.push({

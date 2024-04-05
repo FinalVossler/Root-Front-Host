@@ -762,6 +762,10 @@ const staticText = {
       { language: "en", text: "Create a Model" },
       { language: "fr", text: "Créer un Modèle" },
     ],
+    owner: [
+      { language: "en", text: "Owner" },
+      { language: "fr", text: "Propriétaire" },
+    ],
     updateModel: [
       { language: "en", text: "Update Model" },
       { language: "fr", text: "Modifier un Modèle" },
@@ -1352,8 +1356,8 @@ const staticText = {
       { language: "fr", text: "Méthode de livraison disponible(s)" },
     ],
     owner: [
-      { language: "en", text: "Created by" },
-      { language: "fr", text: "Créé par" },
+      { language: "en", text: "Owner" },
+      { language: "fr", text: "Propriétaire" },
     ],
   },
   contact: {

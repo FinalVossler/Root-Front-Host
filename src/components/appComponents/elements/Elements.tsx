@@ -279,14 +279,21 @@ const Elements: React.FunctionComponent<IElementsProps> = (
 
           {selectedElementsIds.length > 0 && (
             <React.Fragment>
-              {props.canDelete && (
-                <AiFillDelete
-                  onClick={() => setDeleteModalOpen(true)}
-                  color={theme.primary}
-                  className={styles.deleteIcon}
-                  id="deleteButton"
-                />
-              )}
+              {props.canDelete &&
+                (!props.canDeleteElements ||
+                  (props.canDeleteElements(
+                    props.elements.filter(
+                      (el) =>
+                        selectedElementsIds.indexOf(el._id.toString()) !== -1
+                    )
+                  ) && (
+                    <AiFillDelete
+                      onClick={() => setDeleteModalOpen(true)}
+                      color={theme.primary}
+                      className={styles.deleteIcon}
+                      id="deleteButton"
+                    />
+                  )))}
 
               {createPortal(
                 <ConfirmationModal

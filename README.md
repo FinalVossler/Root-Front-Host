@@ -5,6 +5,9 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
+- Add the ability to copy a model (help the seller quickly create his own models)
+- Hide the delete button in tables if the user is trying to delete unowned elements and when he doesn't have global delete permission
+- Add more explicit error messages to permission denied messages (for the user to know which elements he doesn't have access to and that's causing the error)
 - Get orders and associated entities in one go in the orders' page.
 - Add a magic button in the models page that shows a modal that's automatically filled with product model fields (in order to simplify the creation process of a custom product for the seller)
 - Incomplete addresses permissions: implement own address deletion, update and read permissions (back and front)
@@ -18,6 +21,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 - Build the nothing to show component for the cart: import { GiIsland } from "react-icons/gi";
 
 - In integration tests, set the return of each call to the ReturnType of the corresponding controller method (to avoid silent failing tests when the controller contract is changed)
+- Write an integration test for copying a model
 - Write an integration test for when we delete a parent entity and have a random child entity assigned as the new parent.
 - Write an integration test for generating variations
 - Write an integration test for updating an entity by (1) someone who isn't an owner and then someone who is an owner (2)

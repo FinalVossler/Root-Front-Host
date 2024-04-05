@@ -17,9 +17,11 @@ import {
   IModelReadDto,
   IPaginationResponse,
   ITheme,
+  IUserReadDto,
   PermissionEnum,
 } from "roottypes";
 import { EditorTypeEnum, editorSlice } from "../../store/slices/editorSlice";
+import useCopyModels from "../../hooks/apiHooks/useCopyModels";
 
 interface IModelsPageProps {}
 
@@ -46,6 +48,7 @@ const ModelsPage: React.FunctionComponent<IModelsPageProps> = (
   const { deleteModels, loading: deleteLoading } = useDeleteModels();
   const { handleSearchModelsPromise } = useSearchModels();
   const { hasPermission } = useHasPermission();
+  const { copyModels, loading: copyLoading } = useCopyModels();
 
   React.useEffect(() => {
     getModels({
@@ -66,6 +69,23 @@ const ModelsPage: React.FunctionComponent<IModelsPageProps> = (
     },
     []
   );
+
+  const handleFetchElements = () => {
+    getModels({
+      paginationCommand: {
+        limit,
+        page,
+      },
+    });
+  };
+
+  const handleCopyFinished = () => {
+    if (page === 1) {
+      handleFetchElements();
+    } else {
+      setPage(1);
+    }
+  };
 
   if (!isLoggedIn) return null;
 
@@ -102,6 +122,17 @@ const ModelsPage: React.FunctionComponent<IModelsPageProps> = (
                 .join(", ");
             },
           },
+          {
+            label: getTranslatedText(staticText?.owner),
+            name: "owner",
+            render: (model: IModelReadDto) => {
+              return model.owner
+                ? (model.owner as IUserReadDto).firstName +
+                    " " +
+                    (model.owner as IUserReadDto).lastName
+                : "";
+            },
+          },
         ]}
         elements={models}
         total={total}
@@ -110,6 +141,9 @@ const ModelsPage: React.FunctionComponent<IModelsPageProps> = (
         loading={loading}
         deletePromise={deleteModels}
         deleteLoading={deleteLoading}
+        copyPromise={copyModels}
+        copyLoading={copyLoading}
+        onCopyFinished={handleCopyFinished}
         getElementName={(model: any) => getTranslatedText(model.name)}
         onPageChange={handlePageChange}
         searchPromise={handleSearchModelsPromise}
