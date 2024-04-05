@@ -11,14 +11,14 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     display: "flex",
     flexDirection: "column",
     marginBottom: 20,
-    border: "1px solid " + theme.primary,
+    border: "1px solid " + theme.borderColor,
     padding: 10,
     boxSizing: "border-box",
     borderRadius: 5,
   },
   disabledAddFilesContainer: {
     extend: "addFilesContainer",
-    backgroundColor: theme.contentBackgroundColor,
+    backgroundColor: theme.disabledColor,
   },
   filesButtonsContainer: {
     display: "flex",

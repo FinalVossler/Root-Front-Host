@@ -5,6 +5,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
+- Automatically add read permissions to all existing roles in relation to a newly created model (for a client to immediately be able to read another client's products without need the super admin role configuration)
 - Make the field name unique (add backend validations, etc...)
 - Add more explicit error messages to permission denied messages (for the user to know which elements he doesn't have access to and that's causing the error)
 - Get orders and associated entities in one go in the orders' page.

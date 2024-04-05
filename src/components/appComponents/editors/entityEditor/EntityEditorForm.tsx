@@ -865,7 +865,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
         }
       })}
 
-      {!props.withoutLanguage && (
+      {!props.withoutLanguage && !props.readOnly && (
         <FormikInputSelect
           theme={theme}
           label={getTranslatedText(staticText?.language)}
