@@ -10,6 +10,7 @@ import { MdTextFields } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { SiElement } from "react-icons/si";
 import { FaLuggageCart } from "react-icons/fa";
+import { BiTask } from "react-icons/bi";
 
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
@@ -21,7 +22,6 @@ import useIsLoggedIn from "../../../../hooks/useIsLoggedIn";
 import { FaPager } from "react-icons/fa";
 import { RiPagesLine, RiUserStarFill } from "react-icons/ri";
 import useHasPermission from "../../../../hooks/useHasPermission";
-import { BiTask } from "react-icons/bi";
 import {
   IEntityPermissionReadDto,
   IFileReadDto,
@@ -69,7 +69,7 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
   const sideMenuExtendedUserRoles: boolean = useAppSelector(
     (state) => state.userPreferences.sideMenuExtendedUserRoles
   );
-  const user: IUserReadDto = useAppSelector((state) => state.user.user);
+  const currentUser: IUserReadDto = useAppSelector((state) => state.user.user);
   const pages: IPageReadDto[] = useAppSelector((state) => state.page.pages);
   const roles: IRoleReadDto[] = useAppSelector((state) => state.role.roles);
   const withEcommerce = useAppSelector(
@@ -94,9 +94,19 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
       models
         .filter(
           (m) =>
-            (user.superRole === SuperRoleEnum.SuperAdmin ||
+            // the super adming has access to everything
+            (currentUser.superRole === SuperRoleEnum.SuperAdmin ||
+              // The owner of a said model has access to his own model if he has ReadOwnModel permission
+              (currentUser.role &&
+                (currentUser.role as IRoleReadDto).permissions.indexOf(
+                  PermissionEnum.ReadOwnModel
+                ) !== -1 &&
+                m.owner &&
+                (m.owner as IUserReadDto)._id.toString() ===
+                  currentUser._id.toString()) ||
+              // If somebody has an entity permission with READ Static permission on the mdel, then he has access to the model
               (
-                (user.role as IRoleReadDto)?.entityPermissions as
+                (currentUser.role as IRoleReadDto)?.entityPermissions as
                   | IEntityPermissionReadDto[]
                   | undefined
               )
@@ -121,7 +131,11 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
           },
           dataCy: "sideMenuEntityOptionForModel" + model._id,
         })),
-    [user.superRole, (user.role as IRoleReadDto)?.entityPermissions, models]
+    [
+      currentUser.superRole,
+      (currentUser.role as IRoleReadDto)?.entityPermissions,
+      models,
+    ]
   );
 
   return (
@@ -168,7 +182,7 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
           <SideMenuOption
             Icon={CgProfile}
             title={getTranslatedText(staticText?.profile)}
-            link={"/profile/" + user._id}
+            link={"/profile/" + currentUser._id}
           />
           {withTaskManagement && (
             <SideMenuOption
@@ -210,7 +224,7 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
           {!hasPermission(PermissionEnum.ReadModel) &&
             !hasPermission(PermissionEnum.ReadOwnModel) &&
             (
-              (user.role as IRoleReadDto)?.entityPermissions as
+              (currentUser.role as IRoleReadDto)?.entityPermissions as
                 | IEntityPermissionReadDto[]
                 | undefined
             )?.map((entityPermission, entityPermissionIndex) => {
@@ -251,8 +265,8 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
                 dispatch(userPreferenceSlice.actions.triggerExtendedUserRoles())
               }
               subOptions={
-                user.superRole === SuperRoleEnum.SuperAdmin ||
-                (user.role as IRoleReadDto)?.permissions.indexOf(
+                currentUser.superRole === SuperRoleEnum.SuperAdmin ||
+                (currentUser.role as IRoleReadDto)?.permissions.indexOf(
                   PermissionEnum.ReadRole
                 ) !== -1
                   ? roles.map((role) => {
@@ -280,14 +294,14 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
             <SideMenuOption
               Icon={FaLuggageCart}
               title={getTranslatedText(staticText?.myOrders)}
-              link={"/orders/" + user._id.toString()}
+              link={"/orders/" + currentUser._id.toString()}
             />
           )}
           {withEcommerce && (
             <SideMenuOption
               Icon={FaLuggageCart}
               title={getTranslatedText(staticText?.mySales)}
-              link={"/sales/" + user._id.toString()}
+              link={"/sales/" + currentUser._id.toString()}
             />
           )}
           {hasPermission(PermissionEnum.ReadPaymentMethod) && withEcommerce && (

@@ -17,6 +17,7 @@ import {
   IFieldReadDto,
   IPaginationResponse,
   ITheme,
+  IUserReadDto,
   PermissionEnum,
 } from "roottypes";
 import { EditorTypeEnum, editorSlice } from "../../store/slices/editorSlice";
@@ -117,6 +118,17 @@ const FieldsPage: React.FunctionComponent<IFieldsPageProps> = (
                   .map((option) => getTranslatedText(option.label))
                   .join(", ");
               } else return "";
+            },
+          },
+          {
+            label: getTranslatedText(staticText?.owner),
+            name: "owner",
+            render: (field: IFieldReadDto) => {
+              return field.owner
+                ? (field.owner as IUserReadDto).firstName +
+                    " " +
+                    (field.owner as IUserReadDto).lastName
+                : "";
             },
           },
         ]}

@@ -5,6 +5,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
+- Make the field name unique (add backend validations, etc...)
 - Add the ability to copy a model (help the seller quickly create his own models)
 - Hide the delete button in tables if the user is trying to delete unowned elements and when he doesn't have global delete permission
 - Add more explicit error messages to permission denied messages (for the user to know which elements he doesn't have access to and that's causing the error)

@@ -424,6 +424,10 @@ const staticText = {
       { language: "en", text: "Options" },
       { language: "fr", text: "Options" },
     ],
+    owner: [
+      { language: "en", text: "Owner" },
+      { language: "fr", text: "Propriétaire" },
+    ],
     addOption: [
       { language: "en", text: "Add option" },
       { language: "fr", text: "Ajouter une option" },
