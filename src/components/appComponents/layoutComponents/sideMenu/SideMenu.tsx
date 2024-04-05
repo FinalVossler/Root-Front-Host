@@ -96,6 +96,11 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
           (m) =>
             // the super adming has access to everything
             (currentUser.superRole === SuperRoleEnum.SuperAdmin ||
+              // If the user has read access to all models
+              (currentUser.role &&
+                (currentUser.role as IRoleReadDto).permissions.indexOf(
+                  PermissionEnum.ReadModel
+                ) !== -1) ||
               // The owner of a said model has access to his own model if he has ReadOwnModel permission
               (currentUser.role &&
                 (currentUser.role as IRoleReadDto).permissions.indexOf(
@@ -104,7 +109,7 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
                 m.owner &&
                 (m.owner as IUserReadDto)._id.toString() ===
                   currentUser._id.toString()) ||
-              // If somebody has an entity permission with READ Static permission on the mdel, then he has access to the model
+              // If somebody has an entity permission with READ Static permission on the model, then he has access to the model
               (
                 (currentUser.role as IRoleReadDto)?.entityPermissions as
                   | IEntityPermissionReadDto[]
