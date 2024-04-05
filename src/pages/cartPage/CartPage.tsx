@@ -13,6 +13,7 @@ import CartProduct from "./cartProduct/CartProduct";
 import useStyles from "./cartPage.styles";
 import getCartTotalProducts from "../../utils/getCartTotalProducts";
 import formatCentsToDollars from "../../utils/formatCentsToDollars";
+import NothingToShow from "../../components/fundamentalComponents/nothingToShow";
 
 interface ICartPageProps {}
 
@@ -49,6 +50,10 @@ const CartPage: React.FunctionComponent<ICartPageProps> = (
           <span className={styles.priceTitle}>
             {getTranslatedText(staticText?.price)}
           </span>
+          {!cart.products ||
+            (cart.products.length === 0 && (
+              <NothingToShow theme={theme}></NothingToShow>
+            ))}
           {cart.products
             .filter((p) => !p.sided)
             .map((productInfo, i) => {

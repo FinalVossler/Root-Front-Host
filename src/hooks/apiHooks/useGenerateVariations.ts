@@ -5,6 +5,7 @@ import { useAppDispatch } from "../../store/hooks";
 import { entitySlice } from "../../store/slices/entitySlice";
 import useAuthorizedAxios from "../useAuthorizedAxios";
 import { IEntityReadDto, IModelReadDto } from "roottypes";
+import { toast } from "react-toastify";
 
 const useGenerateVariations = () => {
   const [loading, setLoading] = React.useState(false);
@@ -32,6 +33,7 @@ const useGenerateVariations = () => {
               })
             );
           });
+          toast.success("👌");
           resolve();
         })
         .finally(() => setLoading(false))

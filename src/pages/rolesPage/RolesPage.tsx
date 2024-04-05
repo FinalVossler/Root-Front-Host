@@ -47,14 +47,15 @@ const RolesPage: React.FunctionComponent<IRolesPageProps> = (
   const { handleSearchRolesPromise } = useSearchRoles();
   const { hasPermission } = useHasPermission();
 
-  React.useEffect(() => {
-    getRoles({
-      paginationCommand: {
-        limit,
-        page,
-      },
-    });
-  }, [page]);
+  // React.useEffect(() => {
+  //   We are already getting the roles at the page loading
+  //   getRoles({
+  //     paginationCommand: {
+  //       limit,
+  //       page,
+  //     },
+  //   });
+  // }, [page]);
 
   const handlePageChange = (page: number) => {
     setPage(page);

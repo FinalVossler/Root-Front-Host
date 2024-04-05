@@ -51,12 +51,13 @@ const ModelsPage: React.FunctionComponent<IModelsPageProps> = (
   const { copyModels, loading: copyLoading } = useCopyModels();
 
   React.useEffect(() => {
-    getModels({
-      paginationCommand: {
-        limit,
-        page,
-      },
-    });
+    // We are already getting the models at the page loading
+    // getModels({
+    //   paginationCommand: {
+    //     limit,
+    //     page,
+    //   },
+    // });
   }, []);
 
   const handlePageChange = (page: number) => {

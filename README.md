@@ -6,8 +6,6 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 # Todos:
 
 - Make the field name unique (add backend validations, etc...)
-- Add the ability to copy a model (help the seller quickly create his own models)
-- Hide the delete button in tables if the user is trying to delete unowned elements and when he doesn't have global delete permission
 - Add more explicit error messages to permission denied messages (for the user to know which elements he doesn't have access to and that's causing the error)
 - Get orders and associated entities in one go in the orders' page.
 - Add a magic button in the models page that shows a modal that's automatically filled with product model fields (in order to simplify the creation process of a custom product for the seller)
@@ -48,6 +46,8 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 - Translate the date in the order title
 - Add backend verifications for when a shipping method is about to be deleted. Block the deletion when it's used for an existing order
 - Fix the field copy function. It can be simpler
+- One of the strategies to improve performance is to convey the loading to the startup of the entire application.
+  Load all elements with limited numbers at the beginning (like roles and models), and load the first page for each element for the rest
 
 - 2 Mains problems: (1) Data redondancy between objects (would be good to have a frontend database like meteor or apollo client), and (2) cascade deleting and optional foreign keys (objects)
 - Test performance when there is a thousand of products in the db
