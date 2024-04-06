@@ -18,6 +18,9 @@ import {
   IModelUpdateCommand,
   ITheme,
   ModelStateTypeEnum,
+  IModelSection,
+  ModelSectionDirectionEnum,
+  ModelViewTypeEnum,
 } from "roottypes";
 
 import useStyles from "./modelEditor.styles";
@@ -65,7 +68,8 @@ export interface IModelForm {
   showInSideMenu: boolean;
   isForOrders: boolean;
   orderAssociationConfig?: IModelOrderAssociationConfig;
-  fieldSections: ISection<{ fieldId: string }>[];
+  viewType: ModelViewTypeEnum;
+  sections: IModelSection[];
   language: string;
 }
 
@@ -101,7 +105,8 @@ const ModelEditor = (props: IModelEditorProps) => {
       showInSideMenu: true,
       isForSale: false,
       isForOrders: false,
-      fieldSections: [],
+      viewType: ModelViewTypeEnum.LinearView,
+      sections: [],
     },
     validationSchema: Yup.object().shape({
       name: Yup.string().required(
@@ -170,6 +175,9 @@ const ModelEditor = (props: IModelEditorProps) => {
           orderAssociationConfig: values.orderAssociationConfig,
           showInSideMenu: values.showInSideMenu,
 
+          viewType: values.viewType,
+          sections: values.sections,
+
           language: values.language,
         };
 
@@ -226,6 +234,9 @@ const ModelEditor = (props: IModelEditorProps) => {
           isForOrders: Boolean(values.isForOrders),
           orderAssociationConfig: values.orderAssociationConfig,
           showInSideMenu: values.showInSideMenu,
+
+          viewType: values.viewType,
+          sections: values.sections,
 
           language: values.language,
         };
@@ -314,7 +325,8 @@ const ModelEditor = (props: IModelEditorProps) => {
         isForOrders: Boolean(props.model?.isForOrders),
         orderAssociationConfig:
           props.model?.orderAssociationConfig || undefined,
-        fieldSections: [],
+        viewType: props.model?.viewType || ModelViewTypeEnum.LinearView,
+        sections: props.model?.sections || [],
         language: formik.values.language,
       },
     });

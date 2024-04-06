@@ -13,11 +13,18 @@ import SortableModelField from "./sortableModelField";
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import { FormikProps } from "formik";
 import { IModelForm } from "../ModelEditor";
-import { IFieldReadDto, IModelReadDto, ITheme } from "roottypes";
+import {
+  IFieldReadDto,
+  IModelReadDto,
+  IModelSection,
+  ITheme,
+  ModelSectionDirectionEnum,
+} from "roottypes";
 import SectionsCreator from "../../../../fundamentalComponents/sectionsCreator";
 import {
   ISection,
   ISectionsCreatorProps,
+  SectionDirectionEnum,
 } from "../../../../fundamentalComponents/sectionsCreator/SectionsCreator";
 import { toast } from "react-toastify";
 import { ISearchInputProps } from "../../../../fundamentalComponents/inputs/searchInput/SearchInput";
@@ -125,10 +132,46 @@ const ModelFieldsEditor: React.FunctionComponent<IFieldsEditorProps> = (
               handleSelectField,
               searchPromise: handleSearchFieldsPromise,
             }}
-            sections={props.formik.values.fieldSections}
-            setSections={(sections) =>
-              props.formik.setFieldValue("fieldSections", sections)
-            }
+            sections={props.formik.values.sections.map((el) => {
+              function toComponentSection(
+                modelSection: IModelSection
+              ): ISection<{ fieldId: string }> {
+                const section: ISection<{ fieldId: string }> = {
+                  direction:
+                    modelSection.direction as unknown as SectionDirectionEnum,
+                  uuid: modelSection.uuid,
+                  customData: modelSection.customData,
+                  children: modelSection.children.map((childSection) =>
+                    toComponentSection(childSection)
+                  ),
+                };
+
+                return section;
+              }
+
+              return toComponentSection(el);
+            })}
+            setSections={(sections) => {
+              function toModelSection(
+                componentSection: ISection<{ fieldId: string }>
+              ): IModelSection {
+                const section: IModelSection = {
+                  direction:
+                    componentSection.direction as unknown as ModelSectionDirectionEnum,
+                  uuid: componentSection.uuid,
+                  customData: componentSection.customData,
+                  children: componentSection.children.map((childSection) =>
+                    toModelSection(childSection)
+                  ),
+                };
+
+                return section;
+              }
+              props.formik.setFieldValue(
+                "sections",
+                sections.map((section) => toModelSection(section))
+              );
+            }}
           />
 
           <DndContext onDragEnd={handleDragEnd}>

@@ -4,14 +4,14 @@ import { ITheme } from "roottypes";
 import { MdDeleteOutline } from "react-icons/md";
 import { CSS } from "@dnd-kit/utilities";
 import { BsHandIndexFill } from "react-icons/bs";
-
-import useStyles from "./sectionsCreator.styles";
-import Button from "../button";
 import _ from "lodash";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 
-enum SectionDirectionEnum {
+import Button from "../button";
+import useStyles from "./sectionsCreator.styles";
+
+export enum SectionDirectionEnum {
   Horizontal = "Horizontal",
   Vertical = "Vertical",
 }
