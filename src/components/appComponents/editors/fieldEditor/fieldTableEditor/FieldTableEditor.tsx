@@ -109,6 +109,7 @@ const FieldTableEditor: React.FunctionComponent<IFieldTableEditorProps> = (
   return (
     <div className={styles.fieldTableEditorContainer}>
       <Checkbox
+        theme={theme}
         label={getTranslatedText(staticText?.yearTable)}
         checked={props.formik.values.tableOptions.yearTable}
         onChange={handleYearTableChange}

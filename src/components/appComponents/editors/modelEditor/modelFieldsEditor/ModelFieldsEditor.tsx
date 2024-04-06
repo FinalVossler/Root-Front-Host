@@ -14,6 +14,13 @@ import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs";
 import { FormikProps } from "formik";
 import { IModelForm } from "../ModelEditor";
 import { IFieldReadDto, IModelReadDto, ITheme } from "roottypes";
+import SectionsCreator from "../../../../fundamentalComponents/sectionsCreator";
+import {
+  ISection,
+  ISectionsCreatorProps,
+} from "../../../../fundamentalComponents/sectionsCreator/SectionsCreator";
+import { toast } from "react-toastify";
+import { ISearchInputProps } from "../../../../fundamentalComponents/inputs/searchInput/SearchInput";
 
 interface IFieldsEditorProps {
   setSelectedModelFields: (modelFields: IModelField[]) => any;
@@ -108,6 +115,22 @@ const ModelFieldsEditor: React.FunctionComponent<IFieldsEditorProps> = (
 
       {openFields && (
         <div className={styles.fieldsContainer} data-cy="modelFieldsContainer">
+          <SectionsCreator
+            theme={theme}
+            SectionContent={ModelFieldSectionContent}
+            contentProps={{
+              model: props.model,
+              placeholder: props.placeholder,
+              formModelFields: props.formik.values.modelFields,
+              handleSelectField,
+              searchPromise: handleSearchFieldsPromise,
+            }}
+            sections={props.formik.values.fieldSections}
+            setSections={(sections) =>
+              props.formik.setFieldValue("fieldSections", sections)
+            }
+          />
+
           <DndContext onDragEnd={handleDragEnd}>
             <SortableContext
               // @ts-ignore
@@ -133,6 +156,73 @@ const ModelFieldsEditor: React.FunctionComponent<IFieldsEditorProps> = (
           </DndContext>
         </div>
       )}
+    </div>
+  );
+};
+
+interface IModelFieldSectionContentProps {
+  section: ISection<{ fieldId: string }>;
+  handleSetSectionCustomData: (customData: { fieldId: string }) => void;
+  contentProps: {
+    model?: IModelReadDto;
+    placeholder?: string;
+    formModelFields: IModelForm["modelFields"];
+    searchPromise: ISearchInputProps["searchPromise"];
+    handleSelectField: ReturnType<typeof useSearchFields>["handleSelectField"];
+  };
+}
+const ModelFieldSectionContent: React.FunctionComponent<
+  IModelFieldSectionContentProps
+> = (props: IModelFieldSectionContentProps) => {
+  const theme: ITheme = useAppSelector(
+    (state) => state.websiteConfiguration.theme
+  );
+  const staticText = useAppSelector(
+    (state) => state.websiteConfiguration.staticText?.fields
+  );
+
+  const styles = useStyles({ theme });
+  const getTranslatedText = useGetTranslatedText();
+
+  const handleSelectField = (field: IFieldReadDto) => {
+    if (
+      !props.contentProps.formModelFields.some(
+        (modelField) => (modelField.field as IFieldReadDto)._id === field._id
+      )
+    ) {
+      props.contentProps.handleSelectField(field);
+    }
+
+    props.handleSetSectionCustomData({ fieldId: field._id.toString() });
+  };
+
+  const field = props.contentProps.formModelFields.find(
+    (modelField) =>
+      (modelField.field as IFieldReadDto)._id.toString() ===
+      props.section.customData?.fieldId.toString()
+  )?.field as IFieldReadDto | undefined;
+
+  return (
+    <div>
+      <SearchInput
+        theme={theme}
+        inputProps={{
+          placeholder:
+            props.contentProps.placeholder ||
+            getTranslatedText(staticText?.searchFields),
+        }}
+        searchPromise={props.contentProps.searchPromise}
+        getElementTitle={(field: IFieldReadDto) =>
+          getTranslatedText(field.name)
+        }
+        onElementClick={handleSelectField}
+        inputDataCy="modelFieldsSearchFieldInput"
+      />
+
+      {field &&
+        getTranslatedText(staticText?.field) +
+          " " +
+          getTranslatedText(field?.name)}
     </div>
   );
 };

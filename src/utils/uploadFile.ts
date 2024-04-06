@@ -1,7 +1,7 @@
 import { UploadcareFile, UploadClient } from "@uploadcare/upload-client";
-import IFile from "../globalTypes/IFile";
+import { IFileReadDto } from "roottypes";
 
-const uploadFile = async (file: File): Promise<IFile | undefined> => {
+const uploadFile = async (file: File): Promise<IFileReadDto | undefined> => {
   const client = new UploadClient({
     //@ts-ignore
     publicKey: process.env.REACT_APP_UPLOAD_CARE_PUBLIC_KEY,

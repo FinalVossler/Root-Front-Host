@@ -5,6 +5,11 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
+- Complete the model field Sections creator API integration
+- Transalte the text inside SectionsCreator
+- Add the boolean field to make the configurer decide between a sections view or a basic view
+- Showcase an entity based on its section configuration if the model is using a sections view
+
 - When a price field is removed, and the model is saved as such, the new "undefined" value for the price field isn't
   being taken into consideration (update the ModelUpdateCommand to accept null in price and quantity and image fields)
 - If a model is sellable, in the model editor, force the price and quantity fields to be required fields

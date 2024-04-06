@@ -39,6 +39,7 @@ import FormikInput from "../../../fundamentalComponents/formikInputs/formikInput
 import FormikInputSelect from "../../../fundamentalComponents/formikInputs/formikInputSelect";
 import FormikCheckbox from "../../../fundamentalComponents/formikInputs/formikCheckbox";
 import ModelEcommerceFields from "./modelEcommerceFields";
+import { ISection } from "../../../fundamentalComponents/sectionsCreator/SectionsCreator";
 
 export type ModelFormState = {
   _id?: string;
@@ -64,6 +65,7 @@ export interface IModelForm {
   showInSideMenu: boolean;
   isForOrders: boolean;
   orderAssociationConfig?: IModelOrderAssociationConfig;
+  fieldSections: ISection<{ fieldId: string }>[];
   language: string;
 }
 
@@ -99,6 +101,7 @@ const ModelEditor = (props: IModelEditorProps) => {
       showInSideMenu: true,
       isForSale: false,
       isForOrders: false,
+      fieldSections: [],
     },
     validationSchema: Yup.object().shape({
       name: Yup.string().required(
@@ -230,6 +233,7 @@ const ModelEditor = (props: IModelEditorProps) => {
         await createModel(command);
       }
 
+      console.log("values", values);
       dispatch(editorSlice.actions.removeEditor(props.id));
     },
   });
@@ -310,6 +314,7 @@ const ModelEditor = (props: IModelEditorProps) => {
         isForOrders: Boolean(props.model?.isForOrders),
         orderAssociationConfig:
           props.model?.orderAssociationConfig || undefined,
+        fieldSections: [],
         language: formik.values.language,
       },
     });

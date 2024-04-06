@@ -8,7 +8,7 @@ import Pagination from "../../pagination";
 
 import useStyles from "./searchInput.styles";
 
-interface ISearchInputProps {
+export interface ISearchInputProps {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
   searchPromise: (
     searchText: string,
