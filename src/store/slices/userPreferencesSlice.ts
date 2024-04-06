@@ -9,7 +9,7 @@ interface IUserPreferencesState {
 
 const initialState: IUserPreferencesState = {
   language: "en",
-  isSideMenuOpen: true,
+  isSideMenuOpen: false,
   sideMenuExtendedModels: false,
   sideMenuExtendedUserRoles: false,
 };
@@ -29,6 +29,13 @@ export const userPreferenceSlice = createSlice({
       action: PayloadAction<void>
     ) => {
       state.isSideMenuOpen = !state.isSideMenuOpen;
+    },
+
+    setIsSideMenuOpen: (
+      state: IUserPreferencesState,
+      action: PayloadAction<boolean>
+    ) => {
+      state.isSideMenuOpen = action.payload;
     },
     triggerExtendModels: (
       state: IUserPreferencesState,

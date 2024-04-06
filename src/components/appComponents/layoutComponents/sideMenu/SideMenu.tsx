@@ -59,6 +59,9 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
   const staticText = useAppSelector(
     (state) => state.websiteConfiguration.staticText?.sideMenu
   );
+  const isSideMenuOpenByDefault = useAppSelector(
+    (state) => state.websiteConfiguration.isSideMenuOpenByDefault
+  );
   const isSideMenuOpen: boolean = useAppSelector(
     (state) => state.userPreferences.isSideMenuOpen
   );
@@ -86,6 +89,14 @@ const SideMenu: React.FunctionComponent<ISideMenuProps> = (
   const handleToggleMenuOpen = () =>
     dispatch(userPreferenceSlice.actions.toggleSideMenu());
   //#endregion Event listeners
+
+  React.useEffect(() => {
+    dispatch(
+      userPreferenceSlice.actions.setIsSideMenuOpen(
+        Boolean(isSideMenuOpenByDefault)
+      )
+    );
+  }, [isSideMenuOpenByDefault]);
 
   if (!isLoggedIn) return null;
 

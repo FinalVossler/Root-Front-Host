@@ -5,15 +5,16 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
-- Automatically add read permissions to all existing roles in relation to a newly created model (for a client to immediately be able to read another client's products without need the super admin role configuration)
-- Make the field name unique (add backend validations, etc...)
+- When a price field is removed, and the model is saved as such, the new "undefined" value for the price field isn't
+  being taken into consideration (update the ModelUpdateCommand to accept null in price and quantity and image fields)
+- If a model is sellable, in the model editor, force the price and quantity fields to be required fields
+- Make the field name unique (add backend validators, etc...)
 - Add more explicit error messages to permission denied messages (for the user to know which elements he doesn't have access to and that's causing the error)
 - Get orders and associated entities in one go in the orders' page.
 - Add a magic button in the models page that shows a modal that's automatically filled with product model fields (in order to simplify the creation process of a custom product for the seller)
 - Incomplete addresses permissions: implement own address deletion, update and read permissions (back and front)
 - Add a field of type state tracking (Can be used for a product order status or the order status)
 
-- Show the redirection button to an order or a product in an entity's page. (if the entity has this information)
 - Inside an entity, show the list of all the entities that have the concerned entity as a productId inside its orderAssociationConfig (like showing the comments of an entity)
 
 - Add an additional backend verification for the shipping method for each product based on its available shipping methods

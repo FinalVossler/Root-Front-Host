@@ -46,6 +46,7 @@ export interface IWebsiteConfigurationForm extends ITheme {
   withRegistration?: boolean;
   withTaskManagement?: boolean;
   withEcommerce?: boolean;
+  isSideMenuOpenByDefault?: boolean;
   tabIcon?: IFileReadDto | string;
   logo1?: IFileReadDto | string;
   logo2?: IFileReadDto | string;
@@ -116,6 +117,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
         withRegistration: websiteConfiguration.withRegistration,
         withTaskManagement: websiteConfiguration.withTaskManagement,
         withEcommerce: websiteConfiguration.withEcommerce,
+        isSideMenuOpenByDefault: websiteConfiguration.isSideMenuOpenByDefault,
 
         darkTextColor: websiteConfiguration.theme.darkTextColor,
         lightTextColor: websiteConfiguration.theme.lightTextColor,
@@ -169,6 +171,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
         withRegistration: Yup.boolean(),
         withTaskManagement: Yup.boolean(),
         withEcommerce: Yup.boolean(),
+        isSideMenuOpenByDefault: Yup.boolean(),
       }),
       onSubmit: async (values: IWebsiteConfigurationForm) => {
         const filesUploadPromises: Promise<
@@ -233,6 +236,7 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           withRegistration: values.withRegistration || false,
           withTaskManagement: values.withTaskManagement || false,
           withEcommerce: values.withEcommerce || false,
+          isSideMenuOpenByDefault: values.isSideMenuOpenByDefault || false,
           tabIcon: tabIcon as IFileReadDto,
           logo1: logo1 as IFileReadDto,
           logo2: logo2 as IFileReadDto,
@@ -461,6 +465,16 @@ const WebsiteConfigurationEditor: React.FunctionComponent<
           name="withEcommerce"
           formik={formik}
           label={getTranslatedText(staticText?.withEcommerce)}
+          inputProps={{
+            disabled: actualLoading,
+          }}
+        />
+
+        <FormikCheckbox
+          theme={theme}
+          name="isSideMenuOpenByDefault"
+          formik={formik}
+          label={getTranslatedText(staticText?.isSideMenuOpenByDefault)}
           inputProps={{
             disabled: actualLoading,
           }}

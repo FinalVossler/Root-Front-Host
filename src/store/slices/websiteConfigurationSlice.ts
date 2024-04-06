@@ -21,6 +21,7 @@ export interface IWebsiteConfigurationState {
   withRegistration?: boolean;
   withTaskManagement?: boolean;
   withEcommerce?: boolean;
+  isSideMenuOpenByDefault?: boolean;
   theme: ITheme;
   tabIcon?: IWebsiteConfigurationReadDto["tabIcon"];
   logo1?: IWebsiteConfigurationReadDto["logo1"];
@@ -1515,6 +1516,13 @@ const staticText = {
         language: "fr",
       },
     ],
+    isSideMenuOpenByDefault: [
+      { text: "Is side menu open by default", language: "en" },
+      {
+        text: "Le menu latéral est ouvert par défault",
+        language: "fr",
+      },
+    ],
     darkTextColor: [
       { text: "Dark text color", language: "en" },
       { text: "Couleur du texte sombre", language: "fr" },
@@ -2372,6 +2380,7 @@ const initialState: IWebsiteConfigurationState = {
   withRegistration: false,
   withTaskManagement: false,
   withEcommerce: false,
+  isSideMenuOpenByDefault: true,
   theme,
   tabIcon: undefined,
   logo1: undefined,
@@ -2399,6 +2408,7 @@ export const websiteConfigurationSlice = createSlice({
       state.withRegistration = action.payload.withRegistration;
       state.withTaskManagement = action.payload.withTaskManagement;
       state.withEcommerce = action.payload.withEcommerce;
+      state.isSideMenuOpenByDefault = action.payload.isSideMenuOpenByDefault;
       state.theme = action.payload.theme;
       state.tabIcon = action.payload.tabIcon;
       state.logo1 = action.payload.logo1;
