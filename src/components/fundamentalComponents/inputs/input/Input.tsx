@@ -64,7 +64,7 @@ const Input: React.FunctionComponent<PropsWithChildren<IInputProps>> = (
     ? { color: props.iconColor }
     : {
         color: props.inputProps?.disabled
-          ? props.theme.lightTextColor
+          ? props.theme.darkTextColor
           : props.theme.primary,
       };
   return (
