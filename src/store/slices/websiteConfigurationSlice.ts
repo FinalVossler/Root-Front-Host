@@ -521,6 +521,38 @@ const staticText = {
         text: "Champ",
       },
     ],
+    viewType: [
+      {
+        language: "en",
+        text: "View type",
+      },
+      {
+        language: "fr",
+        text: "Type de vue",
+      },
+    ],
+
+    sections: [
+      {
+        language: "en",
+        text: "Sections",
+      },
+      {
+        language: "fr",
+        text: "Se",
+      },
+    ],
+
+    linear: [
+      {
+        language: "en",
+        text: "Linear",
+      },
+      {
+        language: "fr",
+        text: "Linéaire",
+      },
+    ],
     conditionType: [
       {
         language: "en",

@@ -4,9 +4,12 @@ import { ITheme } from "roottypes";
 const useStyles = createUseStyles((theme: ITheme) => ({
   textereaContainer: {
     display: "flex",
+    flex: 1,
+
     flexDirection: "column",
     position: "relative",
     marginBottom: 10,
+    boxSizing: "border-box",
 
     "& svg": {
       color: theme.primary,

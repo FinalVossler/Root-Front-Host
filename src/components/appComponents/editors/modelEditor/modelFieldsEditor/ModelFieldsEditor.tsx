@@ -19,6 +19,7 @@ import {
   IModelSection,
   ITheme,
   ModelSectionDirectionEnum,
+  ModelViewTypeEnum,
 } from "roottypes";
 import SectionsCreator from "../../../../fundamentalComponents/sectionsCreator";
 import {
@@ -28,6 +29,8 @@ import {
 } from "../../../../fundamentalComponents/sectionsCreator/SectionsCreator";
 import { toast } from "react-toastify";
 import { ISearchInputProps } from "../../../../fundamentalComponents/inputs/searchInput/SearchInput";
+import FormikInputSelect from "../../../../fundamentalComponents/formikInputs/formikInputSelect";
+import InputSelect from "../../../../fundamentalComponents/inputs/inputSelect";
 
 interface IFieldsEditorProps {
   setSelectedModelFields: (modelFields: IModelField[]) => any;
@@ -89,6 +92,17 @@ const ModelFieldsEditor: React.FunctionComponent<IFieldsEditorProps> = (
   };
   //#endregion Event listeners
 
+  const fieldsViewOptions = [
+    {
+      label: getTranslatedText(staticText?.linear),
+      value: ModelViewTypeEnum.LinearView,
+    },
+    {
+      label: getTranslatedText(staticText?.sections),
+      value: ModelViewTypeEnum.SectionView,
+    },
+  ];
+
   return (
     <div className={styles.fieldsEditorContainer}>
       <span
@@ -122,57 +136,74 @@ const ModelFieldsEditor: React.FunctionComponent<IFieldsEditorProps> = (
 
       {openFields && (
         <div className={styles.fieldsContainer} data-cy="modelFieldsContainer">
-          <SectionsCreator
+          <InputSelect
             theme={theme}
-            SectionContent={ModelFieldSectionContent}
-            contentProps={{
-              model: props.model,
-              placeholder: props.placeholder,
-              formModelFields: props.formik.values.modelFields,
-              handleSelectField,
-              searchPromise: handleSearchFieldsPromise,
-            }}
-            sections={props.formik.values.sections.map((el) => {
-              function toComponentSection(
-                modelSection: IModelSection
-              ): ISection<{ fieldId: string }> {
-                const section: ISection<{ fieldId: string }> = {
-                  direction:
-                    modelSection.direction as unknown as SectionDirectionEnum,
-                  uuid: modelSection.uuid,
-                  customData: modelSection.customData,
-                  children: modelSection.children.map((childSection) =>
-                    toComponentSection(childSection)
-                  ),
-                };
-
-                return section;
-              }
-
-              return toComponentSection(el);
-            })}
-            setSections={(sections) => {
-              function toModelSection(
-                componentSection: ISection<{ fieldId: string }>
-              ): IModelSection {
-                const section: IModelSection = {
-                  direction:
-                    componentSection.direction as unknown as ModelSectionDirectionEnum,
-                  uuid: componentSection.uuid,
-                  customData: componentSection.customData,
-                  children: componentSection.children.map((childSection) =>
-                    toModelSection(childSection)
-                  ),
-                };
-
-                return section;
-              }
-              props.formik.setFieldValue(
-                "sections",
-                sections.map((section) => toModelSection(section))
-              );
-            }}
+            label={getTranslatedText(staticText?.viewType)}
+            name="view"
+            options={fieldsViewOptions}
+            onChange={(viewOption) =>
+              props.formik.setFieldValue("viewType", viewOption.value)
+            }
+            style={{ width: "100%" }}
+            value={
+              fieldsViewOptions.find(
+                (el) => el.value === props.formik.values.viewType
+              ) || fieldsViewOptions[0]
+            }
           />
+          {props.formik.values.viewType === ModelViewTypeEnum.SectionView && (
+            <SectionsCreator
+              theme={theme}
+              SectionContent={ModelFieldSectionContent}
+              contentProps={{
+                model: props.model,
+                placeholder: props.placeholder,
+                formModelFields: props.formik.values.modelFields,
+                handleSelectField,
+                searchPromise: handleSearchFieldsPromise,
+              }}
+              sections={props.formik.values.sections.map((el) => {
+                function toComponentSection(
+                  modelSection: IModelSection
+                ): ISection<{ fieldId: string }> {
+                  const section: ISection<{ fieldId: string }> = {
+                    direction:
+                      modelSection.direction as unknown as SectionDirectionEnum,
+                    uuid: modelSection.uuid,
+                    customData: modelSection.customData,
+                    children: modelSection.children.map((childSection) =>
+                      toComponentSection(childSection)
+                    ),
+                  };
+
+                  return section;
+                }
+
+                return toComponentSection(el);
+              })}
+              setSections={(sections) => {
+                function toModelSection(
+                  componentSection: ISection<{ fieldId: string }>
+                ): IModelSection {
+                  const section: IModelSection = {
+                    direction:
+                      componentSection.direction as unknown as ModelSectionDirectionEnum,
+                    uuid: componentSection.uuid,
+                    customData: componentSection.customData,
+                    children: componentSection.children.map((childSection) =>
+                      toModelSection(childSection)
+                    ),
+                  };
+
+                  return section;
+                }
+                props.formik.setFieldValue(
+                  "sections",
+                  sections.map((section) => toModelSection(section))
+                );
+              }}
+            />
+          )}
 
           <DndContext onDragEnd={handleDragEnd}>
             <SortableContext

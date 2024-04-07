@@ -244,7 +244,6 @@ const ModelEditor = (props: IModelEditorProps) => {
         await createModel(command);
       }
 
-      console.log("values", values);
       dispatch(editorSlice.actions.removeEditor(props.id));
     },
   });

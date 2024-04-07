@@ -8,6 +8,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     marginTop: 10,
     gap: 10,
     marginBottom: 10,
+    width: "100%",
   },
   sectionContainer: {
     display: "flex",
@@ -15,6 +16,8 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     border: "1px solid " + theme.borderColor,
     gap: 10,
     padding: 10,
+    flex: 1,
+    boxSizing: "border-box",
   },
   sectionConfiguration: {
     display: "flex",

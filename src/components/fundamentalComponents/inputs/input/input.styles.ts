@@ -1,5 +1,6 @@
 import { createUseStyles } from "react-jss";
 import { ITheme } from "roottypes";
+import { inputLabelWidth } from "../../../../config/theme";
 
 const useStyles = createUseStyles((theme: ITheme) => ({
   inputContainer: {
@@ -43,7 +44,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     color: theme.darkTextColor,
     marginRight: 10,
     textAlign: "start",
-    width: 170,
+    width: inputLabelWidth,
     wordBreak: "break-word",
   },
   input: {
@@ -68,7 +69,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   },
   inputWithLabel: {
     extend: "input",
-    width: "calc(100% - 170px)",
+    width: "calc(100% - " + inputLabelWidth + "px)",
   },
   inputIcon: {
     position: "absolute",
@@ -79,7 +80,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   },
   inputIconWithLabel: {
     extend: "inputIcon",
-    left: 185,
+    left: inputLabelWidth + 15,
   },
   inputError: {
     color: theme.errorColor,

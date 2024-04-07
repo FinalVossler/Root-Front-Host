@@ -20,4 +20,6 @@ const theme: ITheme = {
   boxShadow: "0px 1px 4px rgb(165 165 165 / 25%)",
 };
 
+export const inputLabelWidth = 120;
+
 export default theme;

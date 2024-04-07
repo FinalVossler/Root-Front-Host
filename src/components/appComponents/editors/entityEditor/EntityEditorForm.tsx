@@ -2,7 +2,7 @@ import React from "react";
 import "suneditor/dist/css/suneditor.min.css";
 import ReactLoading from "react-loading";
 import * as Yup from "yup";
-import { MdDelete, MdTextFields } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
 
@@ -11,27 +11,21 @@ import { useAppSelector } from "../../../../store/hooks";
 import { ImCross } from "react-icons/im";
 import { FormikProps, useFormik } from "formik";
 import useGetTranslatedText from "../../../../hooks/useGetTranslatedText";
-import InputSelect from "../../../fundamentalComponents/inputs/inputSelect";
 import getLanguages from "../../../../utils/getLanguages";
 import useUpdateEntity from "../../../../hooks/apiHooks/useUpdateEntity";
 import useCreateEntity from "../../../../hooks/apiHooks/useCreateEntity";
 import { IModelField } from "../../../../store/slices/modelSlice";
-import EntityFieldFiles from "./entityFieldFiles";
 import uploadFiles from "../../../../utils/uploadFiles";
-import { IInputSelectOption } from "../../../fundamentalComponents/inputs/inputSelect/InputSelect";
 import useAxios from "../../../../hooks/useAxios";
-import areEntityFieldConditionsMet from "../../../../utils/areEntityFieldConditionsMet";
 
 import useStyles from "./entityEditor.styles";
 import sendEventApiCall from "../../../../utils/sendEventApiCall";
-import useGetRoles from "../../../../hooks/apiHooks/useGetRoles";
 import SearchInput from "../../../fundamentalComponents/inputs/searchInput";
 import useSearchUsersByRole from "../../../../hooks/apiHooks/useSearchUsersByRole";
 import UserProfilePicture, {
   SizeEnum,
 } from "../../../fundamentalComponents/userProfilePicture/UserProfilePicture";
 import EntityEditorStates from "./entityEditorStates/EntityEditorStates";
-import EntityEditorTableField from "./entityEditorTableField";
 import isValidUrl from "../../../../utils/isValidUrl";
 import {
   FieldTypeEnum,
@@ -50,22 +44,19 @@ import {
   IEntityUpdateCommand,
   IMicroFrontendComponentReadDto,
   IFieldTableElementReadDto,
-  IRolesGetCommand,
-  EntityStaticPermissionEnum,
   EventTriggerEnum,
   EventTypeEnum,
-  IEventReadDto,
   IMicroFrontendReadDto,
   ITheme,
   IShippingMethodReadDto,
+  ModelViewTypeEnum,
 } from "roottypes";
 import FormikInputSelect from "../../../fundamentalComponents/formikInputs/formikInputSelect";
-import Input from "../../../fundamentalComponents/inputs/input";
-import Textarea from "../../../fundamentalComponents/inputs/textarea/Textarea";
 import EntityEditorEcommerceAddons from "./entityEditorEcommerceAddons";
-import useGetUsersByIds from "../../../../hooks/apiHooks/useGetUsersByIds";
 import ConfirmationModal from "../../../fundamentalComponents/confirmationModal";
 import useGenerateVariations from "../../../../hooks/apiHooks/useGenerateVariations";
+import EntityEditorField from "./entityEditorField";
+import EntityEditorSections from "./entityEditorSections";
 
 export interface IEntityFieldValueForm {
   fieldId: string;
@@ -546,324 +537,33 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
           )}
         </div>
       )}
-
-      {model?.modelFields.map((modelField, modelFieldIndex) => {
-        // Check if we can show the field based on role field permissions first:
-        const foundFieldPermissions = (
-          (user.role as IRoleReadDto)?.entityPermissions as
-            | IEntityPermissionReadDto[]
-            | undefined
-        )
-          ?.find(
-            (entityPermission) =>
-              (entityPermission.model as IModelReadDto)._id === props.modelId
-          )
-          ?.entityFieldPermissions.find(
-            (entityFieldPermission) =>
-              (entityFieldPermission.field as IFieldReadDto)._id ===
-              (modelField.field as IFieldReadDto)._id
-          );
-
-        if (
-          // By default, if we don't find the field permission in the db for the role, then all the permissions should apply
-          foundFieldPermissions &&
-          foundFieldPermissions.permissions.indexOf(
-            EntityStaticPermissionEnum.Read
-          ) === -1 &&
-          user.superRole !== SuperRoleEnum.SuperAdmin
-        ) {
-          return null;
-        }
-
-        // Check if we can edit
-        const canEdit =
-          !props.readOnly &&
-          (foundFieldPermissions === undefined ||
-            foundFieldPermissions?.permissions.indexOf(
-              EntityStaticPermissionEnum.Update
-            ) !== -1 ||
-            user.superRole === SuperRoleEnum.SuperAdmin);
-
-        // Check if we can show the field based on conditions second
-        const conditionsMet: boolean = areEntityFieldConditionsMet({
-          modelField,
-          entityFieldValuesFromForm: formik.values.entityFieldValues,
-          model,
-          getTranslatedText: getTranslatedText,
-          entity: props.entity,
-        });
-
-        if (!conditionsMet) return null;
-
-        const entityFieldValue: IEntityFieldValueForm | undefined =
-          formik.values.entityFieldValues.find(
-            (el) => el.fieldId === (modelField.field as IFieldReadDto)._id
-          );
-
-        const value = entityFieldValue?.value;
-
-        const handleOnChange = (
-          e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-        ) => {
-          formik.setFieldValue(
-            "entityFieldValues",
-            formik.values.entityFieldValues.map((entityFieldValue) => {
-              if (
-                entityFieldValue.fieldId ===
-                (modelField.field as IFieldReadDto)._id
-              ) {
-                return {
-                  ...entityFieldValue,
-                  value: e.target.value.toString(),
-                };
-              } else {
-                return entityFieldValue;
-              }
-            }) || []
-          );
-        };
-
-        if (
-          (modelField.field as IFieldReadDto).type === FieldTypeEnum.Text ||
-          (modelField.field as IFieldReadDto).type === FieldTypeEnum.Number ||
-          (modelField.field as IFieldReadDto).type === FieldTypeEnum.IFrame
-        ) {
+      {(model?.viewType === undefined ||
+        model?.viewType === ModelViewTypeEnum.LinearView) &&
+        model?.modelFields.map((modelField, modelFieldIndex) => {
           return (
-            <React.Fragment key={modelFieldIndex}>
-              <Input
-                theme={theme}
-                Icon={MdTextFields}
-                name="entityFieldValues"
-                value={value}
-                label={getTranslatedText(
-                  (modelField.field as IFieldReadDto).name
-                )}
-                onChange={handleOnChange}
-                inputProps={{
-                  disabled: !canEdit,
-                  placeholder: getTranslatedText(
-                    (modelField.field as IFieldReadDto).name
-                  ),
-                  type:
-                    (modelField.field as IFieldReadDto).type ===
-                    FieldTypeEnum.Number
-                      ? "number"
-                      : "text",
-                }}
-                error={
-                  (Boolean(formik.touched.entityFieldValues) &&
-                    erroredFields.find(
-                      (erroredField) =>
-                        (erroredField.modelField.field as IFieldReadDto)._id ===
-                        (modelField.field as IFieldReadDto)._id
-                    )?.errorText) ||
-                  ""
-                }
-                inputDataCy={
-                  "entityFieldInputForField" +
-                  (modelField.field as IFieldReadDto)._id.toString()
-                }
-                inputErrorDataCy={
-                  "entityFieldInputErrorForField" +
-                  (modelField.field as IFieldReadDto)._id.toString()
-                }
-              />
-              {(modelField.field as IFieldReadDto).type ===
-                FieldTypeEnum.IFrame &&
-                isValidUrl(value) && (
-                  <iframe
-                    src={value + "&output=embed"}
-                    className={styles.fieldIframe}
-                  ></iframe>
-                )}
-            </React.Fragment>
-          );
-        }
-
-        if (
-          (modelField.field as IFieldReadDto).type === FieldTypeEnum.Paragraph
-        ) {
-          return (
-            <Textarea
-              theme={theme}
+            <EntityEditorField
               key={modelFieldIndex}
-              value={value}
-              label={getTranslatedText(
-                (modelField.field as IFieldReadDto).name
-              )}
-              onChange={handleOnChange}
-              textareaProps={{
-                disabled: !canEdit,
-                placeholder: getTranslatedText(
-                  (modelField.field as IFieldReadDto).name
-                ),
-              }}
-            />
-          );
-        }
-
-        if ((modelField.field as IFieldReadDto).type === FieldTypeEnum.File) {
-          return (
-            <EntityFieldFiles
-              key={modelFieldIndex}
-              entityFieldValue={entityFieldValue}
               formik={formik}
               modelField={modelField}
-              disabled={!canEdit}
-            />
-          );
-        }
-
-        if (
-          (modelField.field as IFieldReadDto).type === FieldTypeEnum.Selector
-        ) {
-          const options =
-            (modelField.field as IFieldReadDto).options?.map((op) => ({
-              label: getTranslatedText(op.label),
-              value: op.value,
-            })) || [];
-          return (
-            <InputSelect
-              theme={theme}
-              key={modelFieldIndex}
-              label={getTranslatedText(
-                (modelField.field as IFieldReadDto).name
-              )}
-              options={
-                (modelField.field as IFieldReadDto).options?.map((op) => ({
-                  label: getTranslatedText(op.label),
-                  value: op.value,
-                })) || []
-              }
-              value={
-                options.find((op) => op.value === value) || {
-                  label: "",
-                  value: "",
-                }
-              }
-              placeholder={getTranslatedText(
-                (modelField.field as IFieldReadDto).name
-              )}
-              disabled={!canEdit}
-              onChange={(option: IInputSelectOption) => {
-                formik.setFieldValue(
-                  "entityFieldValues",
-                  formik.values.entityFieldValues.map((entityFieldValue) => {
-                    if (
-                      entityFieldValue.fieldId ===
-                      (modelField.field as IFieldReadDto)._id
-                    ) {
-                      return {
-                        ...entityFieldValue,
-                        value: option.value,
-                      };
-                    } else {
-                      return entityFieldValue;
-                    }
-                  }) || []
-                );
-              }}
-              error={
-                (Boolean(formik.touched.entityFieldValues) &&
-                  erroredFields.find(
-                    (erroredField) =>
-                      (erroredField.modelField.field as IFieldReadDto)._id ===
-                      (modelField.field as IFieldReadDto)._id
-                  )?.errorText) ||
-                ""
-              }
-            />
-          );
-        }
-        if ((modelField.field as IFieldReadDto).type === FieldTypeEnum.Table) {
-          return (
-            <EntityEditorTableField
-              key={modelFieldIndex}
-              canEdit={canEdit}
-              entityFieldValue={entityFieldValue}
-              modelField={modelField}
-              formik={formik}
+              entity={props.entity}
+              handleCloseEditor={props.handleCloseEditor}
               modelId={props.modelId}
+              readOnly={props.readOnly}
+              erroredFields={erroredFields}
             />
           );
-        }
-        if ((modelField.field as IFieldReadDto).type === FieldTypeEnum.Button) {
-          return (
-            <Button
-              theme={theme}
-              key={modelFieldIndex}
-              style={{
-                width: 300,
-                margin: "auto",
-                marginBottom: 20,
-                height: 100,
-                paddingTop: 25,
-                paddingBottom: 25,
-              }}
-              onClick={async (
-                e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-              ) => {
-                e.preventDefault();
-                (modelField.field as IFieldReadDto).fieldEvents
-                  .filter(
-                    (fieldEvent) =>
-                      fieldEvent.eventTrigger === EventTriggerEnum.OnClick
-                  )
-                  .forEach(async (fieldEvent: IEventReadDto) => {
-                    switch (fieldEvent.eventType) {
-                      case EventTypeEnum.Redirection: {
-                        window.location.href = fieldEvent.redirectionUrl;
-                        break;
-                      }
-                      case EventTypeEnum.ApiCall: {
-                        await sendEventApiCall({
-                          event: fieldEvent,
-                          createdOrUpdateEntity: null,
-                          axios,
-                        });
-                        break;
-                      }
-                      case EventTypeEnum.MicroFrontendRedirection: {
-                        if (
-                          (fieldEvent.microFrontend as IMicroFrontendReadDto)
-                            ?._id &&
-                          props.entity
-                        ) {
-                          navigate(
-                            "/microFrontend/" +
-                              (
-                                fieldEvent.microFrontend as IMicroFrontendReadDto
-                              )?._id +
-                              "/" +
-                              props.entity._id +
-                              "/" +
-                              (
-                                (
-                                  fieldEvent.microFrontend as IMicroFrontendReadDto
-                                ).components as IMicroFrontendComponentReadDto[]
-                              ).find(
-                                (el) =>
-                                  el._id.toString() ===
-                                  fieldEvent.microFrontendComponentId
-                              )?.name +
-                              "/" +
-                              (modelField.field as IFieldReadDto)._id.toString()
-                          );
+        })}
 
-                          if (props.handleCloseEditor) {
-                            props.handleCloseEditor();
-                          }
-                        }
-                      }
-                    }
-                  });
-              }}
-            >
-              {getTranslatedText((modelField.field as IFieldReadDto).name)}
-            </Button>
-          );
-        }
-      })}
+      {model?.viewType === ModelViewTypeEnum.SectionView && (
+        <EntityEditorSections
+          formik={formik}
+          entity={props.entity}
+          handleCloseEditor={props.handleCloseEditor}
+          modelId={props.modelId}
+          readOnly={props.readOnly}
+          erroredFields={erroredFields}
+        />
+      )}
 
       {!props.withoutLanguage && !props.readOnly && (
         <FormikInputSelect

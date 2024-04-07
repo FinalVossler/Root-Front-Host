@@ -15,6 +15,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     padding: 10,
     boxSizing: "border-box",
     borderRadius: 5,
+    width: "100%",
   },
   disabledAddFilesContainer: {
     extend: "addFilesContainer",

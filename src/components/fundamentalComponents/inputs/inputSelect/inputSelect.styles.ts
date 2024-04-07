@@ -1,9 +1,11 @@
 import { createUseStyles } from "react-jss";
 import { ITheme } from "roottypes";
+import { inputLabelWidth } from "../../../../config/theme";
 
 const useStyles = createUseStyles((theme: ITheme) => ({
   inputSelectContainer: {
     display: "flex",
+    flex: 1,
     flexDirection: "column",
     position: "relative",
     marginBottom: 10,
@@ -12,7 +14,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
   selectLabel: {
     color: theme.darkTextColor,
     marginRight: 7,
-    width: 170,
+    width: inputLabelWidth,
 
     textAlign: "start",
   },

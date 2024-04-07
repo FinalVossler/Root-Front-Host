@@ -3,6 +3,7 @@ import { useAppSelector } from "../../../../store/hooks";
 import shortenString from "../../../../utils/shortenString";
 
 import useStyles from "./rotatingCard.styles";
+import { inputLabelWidth } from "../../../../config/theme";
 
 interface IRotatingCardProps {
   imageUrl?: string;
@@ -30,7 +31,7 @@ const RotatingCard: React.FunctionComponent<IRotatingCardProps> = (
       <div className={styles.trait}></div>
 
       <p className={styles.description}>
-        {shortenString(props.description || "", 170)}
+        {shortenString(props.description || "", inputLabelWidth)}
       </p>
     </div>
   );
