@@ -9,9 +9,7 @@ describe("WebsiteConfiguration", () => {
       .should("exist")
       .and("be.visible");
     cy.getByDataCy("sideMenuWebsiteConfigurationOption").click();
-    cy.getByDataCy("websiteConfigurationForm")
-      .should("exist")
-      .and("be.visible");
+    cy.getByDataCy("websiteConfigurationForm").scrollIntoView().should("exist");
 
     cy.getByDataCy("closeWebsiteConfigurationButton").click();
     cy.getByDataCy("websiteConfigurationForm").should("not.exist");

@@ -12,8 +12,8 @@ describe("Auth", () => {
     cy.getByDataCy("loginButton").click();
     cy.getByDataCy("loginForm").should("exist").should("be.visible");
 
-    cy.getByDataCy("loginFormEmailInputError").should("be.empty");
-    cy.getByDataCy("loginFormPasswordInputError").should("be.empty");
+    cy.getByDataCy("loginFormEmailInputError").should("not.exist");
+    cy.getByDataCy("loginFormPasswordInputError").should("not.exist");
 
     cy.getByDataCy("loginFormEmailInput").type("invalidEmail@gmail");
     cy.getByDataCy("loginFormPasswordInput").type("fff");
@@ -38,12 +38,12 @@ describe("Auth", () => {
   it("should register", () => {
     cy.getByDataCy("registrationForm").should("be.visible");
 
-    cy.getByDataCy("registrationFormFirstNameInputError").should("be.empty");
-    cy.getByDataCy("registrationFormLastNameInputError").should("be.empty");
-    cy.getByDataCy("registrationFormEmailInputError").should("be.empty");
-    cy.getByDataCy("registrationFormPasswordInputError").should("be.empty");
+    cy.getByDataCy("registrationFormFirstNameInputError").should("not.exist");
+    cy.getByDataCy("registrationFormLastNameInputError").should("not.exist");
+    cy.getByDataCy("registrationFormEmailInputError").should("not.exist");
+    cy.getByDataCy("registrationFormPasswordInputError").should("not.exist");
     cy.getByDataCy("registrationFormConfirmPasswordInputError").should(
-      "be.empty"
+      "not.exist"
     );
 
     cy.getByDataCy("registrationFormSubmitButton").click();
@@ -68,10 +68,10 @@ describe("Auth", () => {
       "differentPasswordConfirmation"
     );
 
-    cy.getByDataCy("registrationFormFirstNameInputError").should("be.empty");
-    cy.getByDataCy("registrationFormLastNameInputError").should("be.empty");
-    cy.getByDataCy("registrationFormEmailInputError").should("be.empty");
-    cy.getByDataCy("registrationFormPasswordInputError").should("be.empty");
+    cy.getByDataCy("registrationFormFirstNameInputError").should("not.exist");
+    cy.getByDataCy("registrationFormLastNameInputError").should("not.exist");
+    cy.getByDataCy("registrationFormEmailInputError").should("not.exist");
+    cy.getByDataCy("registrationFormPasswordInputError").should("not.exist");
     cy.getByDataCy("registrationFormConfirmPasswordInputError").should(
       "not.be.empty"
     );

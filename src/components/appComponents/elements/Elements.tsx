@@ -2,6 +2,7 @@ import React from "react";
 import { createPortal } from "react-dom";
 import { BiCopy } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 import useGetTranslatedText from "../../../hooks/useGetTranslatedText";
 import { useAppSelector } from "../../../store/hooks";
@@ -25,7 +26,6 @@ import ElementsTable from "./elementsTable";
 import { IElement } from "../../../store/slices/editorSlice";
 import ElementsStatusTracking from "./elementsStatusTracking";
 import { IViewTabType } from "../../fundamentalComponents/viewTabs/ViewTabs";
-import { toast } from "react-toastify";
 
 export type Column = {
   label: string;
@@ -99,6 +99,7 @@ const Elements: React.FunctionComponent<IElementsProps> = (
     {
       name: EntitiesViewTabTypeEnum.Table,
       title: getTranslatedText(staticText?.table),
+      dataCy: "elementsTableViewButton",
     },
   ];
   if (model && model.states && model.states.length > 0) {
@@ -277,23 +278,35 @@ const Elements: React.FunctionComponent<IElementsProps> = (
               </React.Fragment>
             )}
 
+          {console.log("selectedElementsIds", selectedElementsIds)}
+          {console.log(
+            "can delete here",
+            props.canDelete &&
+              (!props.canDeleteElements ||
+                props.canDeleteElements(
+                  props.elements.filter(
+                    (el) =>
+                      selectedElementsIds.indexOf(el._id.toString()) !== -1
+                  )
+                ))
+          )}
           {selectedElementsIds.length > 0 && (
             <React.Fragment>
               {props.canDelete &&
-                (!props.canDeleteElements ||
-                  (props.canDeleteElements(
+                (props.canDeleteElements === undefined ||
+                  props.canDeleteElements(
                     props.elements.filter(
                       (el) =>
                         selectedElementsIds.indexOf(el._id.toString()) !== -1
                     )
-                  ) && (
-                    <AiFillDelete
-                      onClick={() => setDeleteModalOpen(true)}
-                      color={theme.primary}
-                      className={styles.deleteIcon}
-                      id="deleteButton"
-                    />
-                  )))}
+                  )) && (
+                  <AiFillDelete
+                    onClick={() => setDeleteModalOpen(true)}
+                    color={theme.primary}
+                    className={styles.deleteIcon}
+                    id="deleteButton"
+                  />
+                )}
 
               {createPortal(
                 <ConfirmationModal

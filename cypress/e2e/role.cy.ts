@@ -160,7 +160,7 @@ describe("Roles", () => {
     cy.getByDataCy("addElementButton").click();
     cy.getByDataCy("roleForm").should("exist").and("be.visible");
 
-    cy.getByDataCy("roleNameInputError").should("be.empty");
+    cy.getByDataCy("roleNameInputError").should("not.exist");
     cy.getByDataCy("submitRoleButton").click();
 
     cy.getByDataCy("roleNameInputError").should("not.be.empty");

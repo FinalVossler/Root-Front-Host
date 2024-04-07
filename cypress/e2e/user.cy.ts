@@ -89,11 +89,11 @@ describe("User", () => {
 
     cy.getByDataCy("userForm").should("be.visible");
 
-    cy.getByDataCy("firstNameInputError").should("be.empty");
-    cy.getByDataCy("lastNameInputError").should("be.empty");
-    cy.getByDataCy("emailInputError").should("be.empty");
-    cy.getByDataCy("passwordInputError").should("be.empty");
-    cy.getByDataCy("confirmPasswordInputError").should("be.empty");
+    cy.getByDataCy("firstNameInputError").should("not.exist");
+    cy.getByDataCy("lastNameInputError").should("not.exist");
+    cy.getByDataCy("emailInputError").should("not.exist");
+    cy.getByDataCy("passwordInputError").should("not.exist");
+    cy.getByDataCy("confirmPasswordInputError").should("not.exist");
 
     cy.getByDataCy("userFormSubmitButton").click();
 
@@ -110,10 +110,10 @@ describe("User", () => {
 
     cy.getByDataCy("userFormSubmitButton").click();
 
-    cy.getByDataCy("firstNameInputError").should("be.empty");
-    cy.getByDataCy("lastNameInputError").should("be.empty");
-    cy.getByDataCy("emailInputError").should("be.empty");
-    cy.getByDataCy("passwordInputError").should("be.empty");
+    cy.getByDataCy("firstNameInputError").should("not.exist");
+    cy.getByDataCy("lastNameInputError").should("not.exist");
+    cy.getByDataCy("emailInputError").should("not.exist");
+    cy.getByDataCy("passwordInputError").should("not.exist");
     cy.getByDataCy("confirmPasswordInputError").should("not.be.empty");
 
     cy.getByDataCy("confirmPasswordInput")

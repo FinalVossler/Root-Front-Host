@@ -7,6 +7,7 @@ import doNothing from "../../../utils/doNothing";
 export interface IViewTabType {
   title: string;
   name: string;
+  dataCy?: string;
 }
 
 interface IViewTypesProps {
@@ -39,6 +40,7 @@ const Elements: React.FunctionComponent<IViewTypesProps> = (
                 : styles.viewTab
             }
             onClick={handleViewTypeChange(viewTabType)}
+            {...(viewTabType.dataCy ? { ["data-cy"]: viewTabType.dataCy } : {})}
           >
             {viewTabType.title}
           </span>

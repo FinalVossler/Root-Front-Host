@@ -309,7 +309,7 @@ describe("Entity", () => {
 
     cy.getByDataCy(
       "entityFieldInputErrorForField" + modelField2?._id.toString()
-    ).should("be.empty");
+    ).should("not.exist");
     cy.getByDataCy("entityFormSubmitButton").click();
     cy.getByDataCy(
       "entityFieldInputErrorForField" + modelField2?._id.toString()
@@ -322,7 +322,7 @@ describe("Entity", () => {
     cy.getByDataCy("entityFormSubmitButton").click();
     cy.getByDataCy(
       "entityFieldInputErrorForField" + modelField2?._id.toString()
-    ).should("be.empty");
+    ).should("not.exist");
 
     cy.getByDataCy("elementsTableViewButton").click();
 

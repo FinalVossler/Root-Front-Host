@@ -2440,7 +2440,10 @@ export const websiteConfigurationSlice = createSlice({
       state.withRegistration = action.payload.withRegistration;
       state.withTaskManagement = action.payload.withTaskManagement;
       state.withEcommerce = action.payload.withEcommerce;
-      state.isSideMenuOpenByDefault = action.payload.isSideMenuOpenByDefault;
+      state.isSideMenuOpenByDefault =
+        action.payload.isSideMenuOpenByDefault !== undefined
+          ? action.payload.isSideMenuOpenByDefault
+          : true;
       state.theme = action.payload.theme;
       state.tabIcon = action.payload.tabIcon;
       state.logo1 = action.payload.logo1;
