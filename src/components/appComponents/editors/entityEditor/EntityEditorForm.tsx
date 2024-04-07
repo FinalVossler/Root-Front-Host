@@ -76,6 +76,7 @@ export interface IEntityEditorFormFormik {
   entityFieldValues: IEntityFieldValueForm[];
   assignedUsers: IUserReadDto[];
   availableShippingMethodsIds: string[];
+  quantity: number;
   language: string;
 }
 
@@ -147,6 +148,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
         language,
         assignedUsers: [],
         availableShippingMethodsIds: [],
+        quantity: 1,
       },
       validationSchema: Yup.object().shape({
         entityFieldValues: Yup.mixed().test(
@@ -423,6 +425,7 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
               | IShippingMethodReadDto[]
               | undefined
           )?.map((s) => s._id) || [],
+        quantity: 1,
         language: formik.values.language,
       },
     });
@@ -672,14 +675,16 @@ const EntityEditorForm: React.FunctionComponent<IEntityEditorFormProps> = (
         <EntityEditorStates entity={props.entity} modelId={props.modelId} />
       )}
 
-      {model?.isForSale && props.entity && (
-        <EntityEditorEcommerceAddons
-          entity={props.entity}
-          model={model}
-          formik={formik}
-          readOnly={Boolean(props.readOnly)}
-        />
-      )}
+      {model?.isForSale &&
+        props.entity &&
+        model.viewType !== ModelViewTypeEnum.SectionView && (
+          <EntityEditorEcommerceAddons
+            entity={props.entity}
+            model={model}
+            formik={formik}
+            readOnly={Boolean(props.readOnly)}
+          />
+        )}
 
       {/* Errored fields error text */}
       {formik.touched.entityFieldValues && erroredFields.length > 0 && (

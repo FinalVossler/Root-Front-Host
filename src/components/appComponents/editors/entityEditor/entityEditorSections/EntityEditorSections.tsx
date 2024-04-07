@@ -2,7 +2,7 @@ import React from "react";
 import "suneditor/dist/css/suneditor.min.css";
 import { MdTextFields } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { FormikProps } from "formik";
+import { Formik, FormikProps } from "formik";
 import {
   FieldTypeEnum,
   IEntityReadDto,
@@ -22,6 +22,7 @@ import {
   IModelFieldReadDto,
   IModelSection,
   ModelSectionDirectionEnum,
+  SectionSpecialFieldEnum,
 } from "roottypes";
 
 import Button from "../../../../fundamentalComponents/button";
@@ -47,6 +48,9 @@ import { IInputSelectOption } from "../../../../fundamentalComponents/inputs/inp
 
 import useStyles from "./entityEditorSections.styles";
 import EntityEditorField from "../entityEditorField";
+import EcommerceAddToCartButton from "../entityEditorEcommerceAddons/EcommerceAddToCartButton";
+import EcommerceShippingMethodsField from "../entityEditorEcommerceAddons/EcommerceShippingMethodsField";
+import EcommerceQuantityField from "../entityEditorEcommerceAddons/EcommerceQuantityField";
 
 export interface IEntityEditorSectionsProps {
   formik: FormikProps<IEntityEditorFormFormik>;
@@ -138,7 +142,11 @@ const EntityEditorSection: React.FunctionComponent<
       props.section.customData?.fieldId
   );
 
-  const fieldedSection = props.section.children.length === 0 && modelField;
+  const forSpecialField =
+    props.section.customData?.specialField &&
+    props.section.customData?.specialField !== SectionSpecialFieldEnum.None;
+  const fieldedSection =
+    (props.section.children.length === 0 && modelField) || forSpecialField;
   const childrenedSection = props.section.children.length > 0;
 
   return (
@@ -162,7 +170,7 @@ const EntityEditorSection: React.FunctionComponent<
           );
         })}
 
-      {fieldedSection && (
+      {fieldedSection && modelField && !forSpecialField && (
         <EntityEditorField
           erroredFields={props.erroredFields}
           formik={props.formik}
@@ -173,6 +181,38 @@ const EntityEditorSection: React.FunctionComponent<
           readOnly={props.readOnly}
         />
       )}
+
+      {fieldedSection &&
+        forSpecialField &&
+        props.section.customData?.specialField ===
+          SectionSpecialFieldEnum.AddToCart && (
+          <EcommerceAddToCartButton
+            entity={props.entity}
+            quantity={props.formik.values.quantity}
+          />
+        )}
+
+      {fieldedSection &&
+        forSpecialField &&
+        props.section.customData?.specialField ===
+          SectionSpecialFieldEnum.ShippingMethod && (
+          <EcommerceShippingMethodsField
+            formik={props.formik}
+            readOnly={Boolean(props.readOnly)}
+          />
+        )}
+
+      {fieldedSection &&
+        forSpecialField &&
+        props.section.customData?.specialField ===
+          SectionSpecialFieldEnum.Quantity && (
+          <EcommerceQuantityField
+            quantity={props.formik.values.quantity}
+            setQuantity={(quantity) =>
+              props.formik.setFieldValue("quantity", quantity)
+            }
+          />
+        )}
     </div>
   );
 };

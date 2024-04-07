@@ -20,6 +20,7 @@ import {
   ITheme,
   ModelSectionDirectionEnum,
   ModelViewTypeEnum,
+  SectionSpecialFieldEnum,
 } from "roottypes";
 import SectionsCreator from "../../../../fundamentalComponents/sectionsCreator";
 import {
@@ -31,10 +32,10 @@ import { toast } from "react-toastify";
 import { ISearchInputProps } from "../../../../fundamentalComponents/inputs/searchInput/SearchInput";
 import FormikInputSelect from "../../../../fundamentalComponents/formikInputs/formikInputSelect";
 import InputSelect from "../../../../fundamentalComponents/inputs/inputSelect";
+import { IInputSelectOption } from "../../../../fundamentalComponents/inputs/inputSelect/InputSelect";
 
 interface IFieldsEditorProps {
   setSelectedModelFields: (modelFields: IModelField[]) => any;
-  placeholder?: string;
   model?: IModelReadDto;
   language?: string;
   formik: FormikProps<IModelForm>;
@@ -122,8 +123,7 @@ const ModelFieldsEditor: React.FunctionComponent<IFieldsEditorProps> = (
         <SearchInput
           theme={theme}
           inputProps={{
-            placeholder:
-              props.placeholder || getTranslatedText(staticText?.searchFields),
+            placeholder: getTranslatedText(staticText?.searchFields),
           }}
           searchPromise={handleSearchFieldsPromise}
           getElementTitle={(field: IFieldReadDto) =>
@@ -157,7 +157,6 @@ const ModelFieldsEditor: React.FunctionComponent<IFieldsEditorProps> = (
               SectionContent={ModelFieldSectionContent}
               contentProps={{
                 model: props.model,
-                placeholder: props.placeholder,
                 formModelFields: props.formik.values.modelFields,
                 handleSelectField,
                 searchPromise: handleSearchFieldsPromise,
@@ -165,8 +164,14 @@ const ModelFieldsEditor: React.FunctionComponent<IFieldsEditorProps> = (
               sections={props.formik.values.sections.map((el) => {
                 function toComponentSection(
                   modelSection: IModelSection
-                ): ISection<{ fieldId: string }> {
-                  const section: ISection<{ fieldId: string }> = {
+                ): ISection<{
+                  fieldId: string;
+                  specialField?: SectionSpecialFieldEnum;
+                }> {
+                  const section: ISection<{
+                    fieldId: string;
+                    specialField?: SectionSpecialFieldEnum;
+                  }> = {
                     direction:
                       modelSection.direction as unknown as SectionDirectionEnum,
                     uuid: modelSection.uuid,
@@ -183,7 +188,10 @@ const ModelFieldsEditor: React.FunctionComponent<IFieldsEditorProps> = (
               })}
               setSections={(sections) => {
                 function toModelSection(
-                  componentSection: ISection<{ fieldId: string }>
+                  componentSection: ISection<{
+                    fieldId: string;
+                    specialField?: SectionSpecialFieldEnum;
+                  }>
                 ): IModelSection {
                   const section: IModelSection = {
                     direction:
@@ -235,11 +243,16 @@ const ModelFieldsEditor: React.FunctionComponent<IFieldsEditorProps> = (
 };
 
 interface IModelFieldSectionContentProps {
-  section: ISection<{ fieldId: string }>;
-  handleSetSectionCustomData: (customData: { fieldId: string }) => void;
+  section: ISection<{
+    fieldId: string;
+    specialField?: SectionSpecialFieldEnum;
+  }>;
+  handleSetSectionCustomData: (customData: {
+    fieldId: string;
+    specialField?: SectionSpecialFieldEnum;
+  }) => void;
   contentProps: {
     model?: IModelReadDto;
-    placeholder?: string;
     formModelFields: IModelForm["modelFields"];
     searchPromise: ISearchInputProps["searchPromise"];
     handleSelectField: ReturnType<typeof useSearchFields>["handleSelectField"];
@@ -270,20 +283,86 @@ const ModelFieldSectionContent: React.FunctionComponent<
     props.handleSetSectionCustomData({ fieldId: field._id.toString() });
   };
 
+  const handleSelectorFieldChange = (fieldOption: IInputSelectOption) => {
+    const field = props.contentProps.model?.modelFields.find(
+      (modelField) =>
+        (modelField.field as IFieldReadDto)._id.toString() === fieldOption.value
+    )?.field;
+    if (field) {
+      handleSelectField(field as IFieldReadDto);
+    }
+  };
+
+  const handleSpecialFieldChange = (specialFieldOption: IInputSelectOption) => {
+    props.handleSetSectionCustomData({
+      fieldId: field?._id || "",
+      specialField: specialFieldOption.value as SectionSpecialFieldEnum,
+    });
+  };
+
   const field = props.contentProps.formModelFields.find(
     (modelField) =>
       (modelField.field as IFieldReadDto)._id.toString() ===
       props.section.customData?.fieldId.toString()
   )?.field as IFieldReadDto | undefined;
 
+  const fieldsOptions: IInputSelectOption[] =
+    props.contentProps.model?.modelFields.map((modelField) => {
+      const field: IFieldReadDto = modelField.field as IFieldReadDto;
+
+      return {
+        label: getTranslatedText(field.name),
+        value: field._id.toString(),
+      };
+    }) || [];
+
+  const specialFieldOptions: IInputSelectOption[] = [
+    {
+      label: getTranslatedText(staticText?.none),
+      value: SectionSpecialFieldEnum.None,
+    },
+    {
+      label: getTranslatedText(staticText?.shippingMethodField),
+      value: SectionSpecialFieldEnum.ShippingMethod,
+    },
+    {
+      label: getTranslatedText(staticText?.quantity),
+      value: SectionSpecialFieldEnum.Quantity,
+    },
+    {
+      label: getTranslatedText(staticText?.addToCartButton),
+      value: SectionSpecialFieldEnum.AddToCart,
+    },
+  ];
+
   return (
     <div>
+      <InputSelect
+        theme={theme}
+        options={specialFieldOptions}
+        label={getTranslatedText(staticText?.specialFields)}
+        onChange={handleSpecialFieldChange}
+        value={
+          specialFieldOptions.find(
+            (fieldOption) =>
+              fieldOption.value.toString() ===
+              props.section.customData?.specialField?.toString()
+          ) || specialFieldOptions[0]
+        }
+      />
+      <InputSelect
+        theme={theme}
+        options={fieldsOptions}
+        label={getTranslatedText(staticText?.chooseFromExistingFields)}
+        onChange={handleSelectorFieldChange}
+        value={fieldsOptions.find(
+          (fieldOption) => fieldOption.value === field?._id
+        )}
+      />
       <SearchInput
         theme={theme}
         inputProps={{
-          placeholder:
-            props.contentProps.placeholder ||
-            getTranslatedText(staticText?.searchFields),
+          placeholder: getTranslatedText(staticText?.searchFields),
         }}
         searchPromise={props.contentProps.searchPromise}
         getElementTitle={(field: IFieldReadDto) =>

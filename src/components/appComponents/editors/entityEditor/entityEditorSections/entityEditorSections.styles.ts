@@ -12,7 +12,7 @@ const useStyles = createUseStyles((theme: ITheme) => ({
     boxSizing: "border-box",
     gap: 15,
     display: "flex",
-    flex: 1,
+    width: "100%",
   },
   "@media (max-width: 850px)": {},
 }));

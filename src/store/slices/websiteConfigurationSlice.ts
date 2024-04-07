@@ -409,6 +409,31 @@ const staticText = {
         text: "On peut choisir à partir d'un fichier existant",
       },
     ],
+    chooseFromExistingFields: [
+      { language: "en", text: "Choose from existing fields" },
+      { language: "fr", text: "Choisir à partir des champs sélectionnés" },
+    ],
+
+    none: [
+      { language: "en", text: "None" },
+      { language: "fr", text: "Aucun" },
+    ],
+    specialFields: [
+      { language: "en", text: "Special fields" },
+      { language: "fr", text: "Champs spéciaux" },
+    ],
+    quantity: [
+      { language: "en", text: "Quantity" },
+      { language: "fr", text: "Quantité" },
+    ],
+    shippingMethodField: [
+      { language: "en", text: "Shipping method field" },
+      { language: "fr", text: "La méthode de livraison" },
+    ],
+    addToCartButton: [
+      { language: "en", text: "Add to cart button" },
+      { language: "fr", text: "Le bouton ajouter au panier" },
+    ],
     submit: [
       { language: "en", text: "Submit" },
       { language: "fr", text: "Soumettre" },
