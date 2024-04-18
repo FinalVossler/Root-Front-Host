@@ -154,7 +154,6 @@ const ElementsTable: React.FunctionComponent<IElementsTableProps> = (
                 minWidth={0}
               />
             )}
-            {props.canDelete && (
               <th className={styles.tableHeaderColumn}>
                 <div className={styles.actions}>
                   {getTranslatedText(staticText?.actions)}
@@ -177,7 +176,6 @@ const ElementsTable: React.FunctionComponent<IElementsTableProps> = (
                   />
                 </div>
               </th>
-            )}
           </tr>
         </thead>
 
@@ -236,7 +234,6 @@ const ElementsTable: React.FunctionComponent<IElementsTableProps> = (
                     />
                   )}
 
-                  {props.canDelete && (
                     <td className={styles.actionColumn}>
                       <input
                         className={styles.checkbox}
@@ -252,8 +249,6 @@ const ElementsTable: React.FunctionComponent<IElementsTableProps> = (
                         }
                       />
                     </td>
-                  )}
-                  {props.canDelete && (
                     <ColumnResizer
                       disabled={false}
                       maxWidth={null}
@@ -263,7 +258,6 @@ const ElementsTable: React.FunctionComponent<IElementsTableProps> = (
                       className={styles.columnResizer}
                       minWidth={0}
                     />
-                  )}
                 </tr>
               );
             })}

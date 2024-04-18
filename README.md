@@ -5,6 +5,7 @@ https://app.uploadcare.com/projects/8defbd46d51016dbca37/files/3148d1e2-22b0-49f
 
 # Todos:
 
+- When copying a model, permissions didn't get automatically added
 - Payment status "pending" and "paid" in the orders page isn't translated
 - Complete the model field Sections creator API integration
 - Transalte the text inside SectionsCreator

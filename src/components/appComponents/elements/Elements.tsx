@@ -278,18 +278,6 @@ const Elements: React.FunctionComponent<IElementsProps> = (
               </React.Fragment>
             )}
 
-          {console.log("selectedElementsIds", selectedElementsIds)}
-          {console.log(
-            "can delete here",
-            props.canDelete &&
-              (!props.canDeleteElements ||
-                props.canDeleteElements(
-                  props.elements.filter(
-                    (el) =>
-                      selectedElementsIds.indexOf(el._id.toString()) !== -1
-                  )
-                ))
-          )}
           {selectedElementsIds.length > 0 && (
             <React.Fragment>
               {props.canDelete &&
